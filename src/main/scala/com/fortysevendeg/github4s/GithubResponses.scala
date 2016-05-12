@@ -33,18 +33,21 @@ object GithubResponses {
   case class UnexpectedException(msg : String) extends GHException(msg)
 
 
-  def toEntity[A](response: HttpResponse[String], d: Decoder[A]): GHResponse[A] = response match {
-    case r if r.isSuccess => {
-      implicit val D: Decoder[A] = d
-      decode[A](r.body).fold(e => JsonParsingException(e.getMessage).left[GHResult[A]], (result) => {
-        result match {
-          case Nil => Xor.Right(GHListResult(result, r.code, toLowerCase(r.headers), d))
-          case _ :: _ => Xor.Right(GHListResult(result, r.code, toLowerCase(r.headers), d))
-          case _ => Xor.Right(GHItemResult(result, r.code, toLowerCase(r.headers)))
-        }
-      })
+  def toEntity[A](response: HttpResponse[String], d: Decoder[A]): GHResponse[A] = {
+
+    response match {
+      case r if r.isSuccess => {
+        implicit val D: Decoder[A] = d
+        decode[A](r.body).fold(e => JsonParsingException(e.getMessage).left[GHResult[A]], (result) => {
+          result match {
+            case Nil => Xor.Right(GHListResult(result, r.code, toLowerCase(r.headers), d))
+            case _ :: _ => Xor.Right(GHListResult(result, r.code, toLowerCase(r.headers), d))
+            case _ => Xor.Right(GHItemResult(result, r.code, toLowerCase(r.headers)))
+          }
+        })
+      }
+      case r => UnexpectedException(s"Failed invoking get with status : ${r.code}, body : \n ${r.body}").left[GHResult[A]]
     }
-    case r => UnexpectedException(s"Failed invoking get with status : ${r.code}, body : \n ${r.body}").left[GHResult[A]]
   }
 
   def toEmpty(response: HttpResponse[String]): GHResponse[Unit] = response match {

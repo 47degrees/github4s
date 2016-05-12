@@ -3,3 +3,5 @@ scala:
   - 2.11.8
 jdk:
   - oraclejdk8
+script:
+  - sbt -Dtoken=$GITHUB4S_ACCESS_TOKEN test

@@ -14,5 +14,6 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-generic" % "0.3.0",
   "io.circe" %% "circe-parser" % "0.3.0",
   "org.scalatest" %% "scalatest" % "2.2.6" % "test",
-  "com.ironcorelabs" %% "cats-scalatest" % "1.1.2" % "test"
+  "com.ironcorelabs" %% "cats-scalatest" % "1.1.2" % "test",
+  "org.mockito" % "mockito-all" % "1.8.4"
 )
