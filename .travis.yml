@@ -6,4 +6,4 @@ jdk:
 script:
   - sbt -Dtoken=$GITHUB4S_ACCESS_TOKEN clean coverage test
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - sbt coverageReport coveralls
