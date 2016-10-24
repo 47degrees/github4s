@@ -60,7 +60,7 @@ lazy val docsDependencies = libraryDependencies ++= Seq(
 
 lazy val scalazDependencies = addLibs(vAll, "scalaz-concurrent")
 
-lazy val github4s = (project in file("."))
+lazy val github4s = (project in file("github4s"))
   .settings(moduleName := "github4s")
   .settings(buildSettings: _*)
   .settings(dependencies: _*)
@@ -81,3 +81,6 @@ lazy val scalaz = (project in file("scalaz"))
   .settings(scalazDependencies: _*)
   .dependsOn(github4s)
   .enablePlugins(AutomateHeaderPlugin)
+
+lazy val root =
+  (project in file(".")).aggregate(github4s, scalaz, docs).settings(buildSettings: _*)

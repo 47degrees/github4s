@@ -1,19 +1,40 @@
+/*
+ * Copyright (c) 2016 47 Degrees, LLC. <http://www.47deg.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package github4s.unit
 
-import github4s.api.{ Auth, Gists, Repos, Users }
+import github4s.api.{Auth, Gists, Repos, Users}
 import github4s.free.domain.Pagination
-import github4s.utils.{ DummyGithubUrls, MockGithubApiServer, TestUtils }
+import github4s.utils.{DummyGithubUrls, MockGithubApiServer, TestUtils}
 import org.scalatest._
 import cats.implicits._
 
 class ApiSpec
-  extends FlatSpec
-  with Matchers
-  with TestUtils
-  with MockGithubApiServer
-  with DummyGithubUrls {
+    extends FlatSpec
+    with Matchers
+    with TestUtils
+    with MockGithubApiServer
+    with DummyGithubUrls {
 
-  val auth = new Auth
+  val auth  = new Auth
   val repos = new Repos
   val users = new Users
   val gists = new Gists
@@ -29,7 +50,8 @@ class ApiSpec
   }
 
   it should "return error on Left when invalid credential is provided" in {
-    val response = auth.newAuth(validUsername, invalidPassword, validScopes, validNote, validClientId, "")
+    val response =
+      auth.newAuth(validUsername, invalidPassword, validScopes, validNote, validClientId, "")
     response should be('left)
   }
 
@@ -79,9 +101,9 @@ class ApiSpec
   "Repos >> ListCommits" should "return the expected list of commits for valid data" in {
     val response = repos.listCommits(
       accessToken = accessToken,
-      owner       = validRepoOwner,
-      repo        = validRepoName,
-      pagination  = Option(Pagination(validPage, validPerPage))
+      owner = validRepoOwner,
+      repo = validRepoName,
+      pagination = Option(Pagination(validPage, validPerPage))
     )
     response should be('right)
 
@@ -94,9 +116,9 @@ class ApiSpec
   it should "return an empty list of commits for invalid page parameter" in {
     val response = repos.listCommits(
       accessToken = accessToken,
-      owner       = validRepoOwner,
-      repo        = validRepoName,
-      pagination  = Option(Pagination(invalidPage, validPerPage))
+      owner = validRepoOwner,
+      repo = validRepoName,
+      pagination = Option(Pagination(invalidPage, validPerPage))
     )
 
     response should be('right)
@@ -116,8 +138,8 @@ class ApiSpec
   "Repos >> ListContributors" should "return the expected list of contributors for valid data" in {
     val response = repos.listContributors(
       accessToken = accessToken,
-      owner       = validRepoOwner,
-      repo        = validRepoName
+      owner = validRepoOwner,
+      repo = validRepoName
     )
 
     response should be('right)
@@ -132,9 +154,9 @@ class ApiSpec
   it should "return the expected list of contributors for valid data, including a valid anon parameter" in {
     val response = repos.listContributors(
       accessToken = accessToken,
-      owner       = validRepoOwner,
-      repo        = validRepoName,
-      anon        = Option(validAnonParameter)
+      owner = validRepoOwner,
+      repo = validRepoName,
+      anon = Option(validAnonParameter)
     )
 
     response should be('right)
@@ -148,9 +170,9 @@ class ApiSpec
   it should "return an empty list of contributors for invalid anon parameter" in {
     val response = repos.listContributors(
       accessToken = accessToken,
-      owner       = validRepoOwner,
-      repo        = validRepoName,
-      anon        = Some(invalidAnonParameter)
+      owner = validRepoOwner,
+      repo = validRepoName,
+      anon = Some(invalidAnonParameter)
     )
 
     response should be('right)
@@ -222,7 +244,8 @@ class ApiSpec
   }
 
   "Gists >> PostGist" should "return the provided gist for a valid request" in {
-    val response = gists.newGist(validGistDescription, validGistPublic, validGistFiles, accessToken)
+    val response =
+      gists.newGist(validGistDescription, validGistPublic, validGistFiles, accessToken)
     response should be('right)
 
     response.toOption map { r ⇒
