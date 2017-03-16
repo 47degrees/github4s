@@ -1,6 +1,18 @@
 Changelog
 =============
 
+## 2017/03/16 - Version 0.11.0
+
+This release brings:
+
+* Migrates to new group id `com.47deg`, so now you can use `github4s` in this way:
+
+```
+libraryDependencies += "com.47deg" %% "github4s" % "0.11.0"
+```
+
+* This new version also upgrades some of the used libraries, such as `cats`, `circe` and `scalaz`.
+
 ## 2017/01/09 - Version 0.10.0
 
 This release adds two main changes:
