@@ -5,8 +5,11 @@ scala:
 jdk:
   - oraclejdk8
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION -Dtoken=$GITHUB4S_ACCESS_TOKEN clean coverage test
-  - sbt ++$TRAVIS_SCALA_VERSION -Dtoken=$GITHUB4S_ACCESS_TOKEN 'docs/tut'
+  - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
+  - sbt ++$TRAVIS_SCALA_VERSION 'docs/tut'
 after_success:
-  - sbt ++$TRAVIS_SCALA_VERSION coverageReport
-  - bash <(curl -s https://codecov.io/bash) -t 744f05ba-f905-4468-aef1-f5016fc2909d
+- sbt ++$TRAVIS_SCALA_VERSION coverageReport
+- bash <(curl -s https://codecov.io/bash) -t 744f05ba-f905-4468-aef1-f5016fc2909d
+- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+    sbt ++$TRAVIS_SCALA_VERSION publishSigned;
+  fi

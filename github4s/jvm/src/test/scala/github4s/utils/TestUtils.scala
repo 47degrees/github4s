@@ -26,16 +26,17 @@ import github4s.free.domain._
 
 trait TestUtils {
 
-  val accessToken     = sys.props.get("token")
-  def tokenHeader     = "token " + accessToken.getOrElse("")
-  val headerUserAgent = Map("user-agent" -> "github4s")
+  val accessToken: Option[String] = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+  def tokenHeader: String         = "token " + accessToken.getOrElse("")
+  val headerUserAgent             = Map("user-agent" -> "github4s")
 
   val validUsername   = "rafaparadela"
   val invalidUsername = "GHInvalidaUserName"
   val invalidPassword = "invalidPassword"
 
-  def validBasicAuth   = s"Basic ${s"$validUsername:".getBytes.toBase64}"
-  def invalidBasicAuth = s"Basic ${s"$validUsername:$invalidPassword".getBytes.toBase64}"
+  def validBasicAuth = s"Basic ${s"$validUsername:".getBytes.toBase64}"
+  def invalidBasicAuth =
+    s"Basic ${s"$validUsername:$invalidPassword".getBytes.toBase64}"
 
   val validScopes         = List("public_repo")
   val validNote           = "New access token"
