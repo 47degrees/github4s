@@ -22,7 +22,7 @@ import github4s.jvm.Implicits._
 ```
 
 ```tut:invisible
-val accessToken = sys.props.get("token")
+val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
 WIP: Every Github4s api returns a `Free[GHResponse[A], A]` where `GHResponse[A]` is a type alias for `Either[GHException, GHResult[A]]`. GHResult contains the result `[A]` given by GitHub, but also the status code of the response and headers:
@@ -116,7 +116,7 @@ import github4s.Github._
 import github4s.jvm.Implicits._
 import scalaj.http._
 
-val accessToken = sys.props.get("token")
+val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
 ```tut:book
