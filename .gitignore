@@ -6,4 +6,4 @@ docs/src/jekyll/*.md
 .DS_Store
 
 # PGP keys
-*.gpg
+secring.gpg

@@ -4,6 +4,10 @@ scala:
   - 2.11.8
 jdk:
   - oraclejdk8
+before_install:
+  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+      openssl aes-256-cbc -K $encrypted_88322e86f6b6_key -iv $encrypted_88322e86f6b6_iv -in secring.gpg.enc -out secring.gpg -d;
+    fi
 script:
   - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
   - sbt ++$TRAVIS_SCALA_VERSION 'docs/tut'
