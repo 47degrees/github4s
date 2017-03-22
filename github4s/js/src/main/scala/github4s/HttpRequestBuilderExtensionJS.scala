@@ -44,8 +44,9 @@ import monix.reactive.Observable
 import scala.util.{Failure, Success}
 
 case class CirceJSONBody(value: String) extends BulkBodyPart {
-  override def contentType: String     = s"application/json; charset=utf-8"
-  override def contentData: ByteBuffer = ByteBuffer.wrap(value.getBytes("utf-8"))
+  override def contentType: String = s"application/json; charset=utf-8"
+  override def contentData: ByteBuffer =
+    ByteBuffer.wrap(value.getBytes("utf-8"))
 }
 
 trait HttpRequestBuilderExtensionJS {
@@ -79,7 +80,8 @@ trait HttpRequestBuilderExtensionJS {
           .getOrElse(request.send())
           .map(toEntity[A])
           .recoverWith {
-            case e => Future.successful(Either.left(UnexpectedException(e.getMessage)))
+            case e =>
+              Future.successful(Either.left(UnexpectedException(e.getMessage)))
           }
       }
     }

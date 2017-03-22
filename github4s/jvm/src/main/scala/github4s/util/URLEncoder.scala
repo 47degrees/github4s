@@ -23,6 +23,7 @@ package github4s.util
 
 object URLEncoder {
 
-  def encode(string: String): String = java.net.URLEncoder.encode(string, "utf-8")
+  def encode(string: String): String =
+    java.net.URLEncoder.encode(string, "utf-8")
 
 }

@@ -39,12 +39,23 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
 
   //Users >> auth
   mockServer
-    .when(request.withMethod("GET").withPath(s"/user").withHeader("Authorization", tokenHeader))
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/user")
+        .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(okStatusCode).withBody(getUserValidResponse))
 
   mockServer
-    .when(request.withMethod("GET").withPath(s"/user").withHeader(not("Authorization")))
-    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedReponse))
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/user")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedReponse))
 
   //Users >> get users
   mockServer
@@ -78,7 +89,10 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withMethod("POST")
         .withPath(s"/authorizations")
         .withHeader("Authorization", invalidBasicAuth))
-    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(badCredentialsResponse))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(badCredentialsResponse))
 
   //Auth >> get access token
   mockServer
@@ -88,7 +102,10 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/login/oauth/access_token")
         .withBody(
           json(s"{client_id:'',client_secret:'',code:'$validCode',redirect_uri:'',state:''}")))
-    .respond(response.withStatusCode(okStatusCode).withBody(getAccessTokenValidResponse))
+    .respond(
+      response
+        .withStatusCode(okStatusCode)
+        .withBody(getAccessTokenValidResponse))
 
   mockServer
     .when(
@@ -101,11 +118,17 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
 
   //Repos >> get repo
   mockServer
-    .when(request.withMethod("GET").withPath(s"/repos/$validRepoOwner/$validRepoName"))
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName"))
     .respond(response.withStatusCode(okStatusCode).withBody(getRepoResponse))
 
   mockServer
-    .when(request.withMethod("GET").withPath(s"/repos/$validRepoOwner/$invalidRepoName"))
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
   //Repos >> list commits
@@ -126,7 +149,10 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
 
   mockServer
-    .when(request.withMethod("GET").withPath(s"/repos/$validRepoOwner/$invalidRepoName/commits"))
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/commits"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
   //Repos >> list contributors
@@ -145,26 +171,50 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withMethod("GET")
         .withPath(s"/repos/$validRepoOwner/$validRepoName/contributors")
         .withQueryStringParameter("anon", validAnonParameter.toString))
-    .respond(response.withStatusCode(okStatusCode).withBody(listContributorsValidResponse))
+    .respond(
+      response
+        .withStatusCode(okStatusCode)
+        .withBody(listContributorsValidResponse))
 
   mockServer
     .when(
-      request.withMethod("GET").withPath(s"/repos/$validRepoOwner/$validRepoName/contributors"))
-    .respond(response.withStatusCode(okStatusCode).withBody(listContributorsValidResponse))
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/contributors"))
+    .respond(
+      response
+        .withStatusCode(okStatusCode)
+        .withBody(listContributorsValidResponse))
 
   mockServer
     .when(
-      request.withMethod("GET").withPath(s"/repos/$validRepoOwner/$invalidRepoName/contributors"))
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/contributors"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
   //Gists >> post new gist
 
   mockServer
-    .when(request.withMethod("POST").withPath(s"/gists").withHeader("Authorization", tokenHeader))
-    .respond(response.withStatusCode(createdStatusCode).withBody(newGistValidResponse))
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/gists")
+        .withHeader("Authorization", tokenHeader))
+    .respond(
+      response
+        .withStatusCode(createdStatusCode)
+        .withBody(newGistValidResponse))
 
   mockServer
-    .when(request.withMethod("POST").withPath(s"/gists").withHeader(not("Authorization")))
-    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedReponse))
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/gists")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedReponse))
 
 }

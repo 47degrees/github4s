@@ -60,8 +60,12 @@ trait HttpRequestBuilderExtensionJVM {
         rb.data match {
           case Some(d) ⇒
             C.capture(
-              toEntity[A](request.postData(d).header("content-type", "application/json").asString,
-                          request.url))
+              toEntity[A](
+                request
+                  .postData(d)
+                  .header("content-type", "application/json")
+                  .asString,
+                request.url))
           case _ ⇒ C.capture(toEntity[A](request.asString, request.url))
         }
       }

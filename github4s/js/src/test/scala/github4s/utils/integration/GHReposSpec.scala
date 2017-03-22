@@ -33,12 +33,15 @@ import scala.concurrent.Future
 
 class GHReposSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext = scala.concurrent.ExecutionContext.Implicits.global
+  override implicit val executionContext =
+    scala.concurrent.ExecutionContext.Implicits.global
 
   "Repos >> Get" should "return the expected name when valid repo is provided" in {
 
     val response =
-      Github(accessToken).repos.get(validRepoOwner, validRepoName).execFuture(headerUserAgent)
+      Github(accessToken).repos
+        .get(validRepoOwner, validRepoName)
+        .execFuture(headerUserAgent)
 
     testFutureIsRight[Repository](response, { r =>
       r.result.name shouldBe validRepoName
@@ -48,7 +51,9 @@ class GHReposSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
   it should "return error when an invalid repo name is passed" in {
     val response =
-      Github(accessToken).repos.get(validRepoOwner, invalidRepoName).execFuture(headerUserAgent)
+      Github(accessToken).repos
+        .get(validRepoOwner, invalidRepoName)
+        .execFuture(headerUserAgent)
 
     testFutureIsLeft(response)
   }

@@ -32,17 +32,19 @@ import scala.concurrent.Future
 
 class GHAuthSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext = scala.concurrent.ExecutionContext.Implicits.global
+  override implicit val executionContext =
+    scala.concurrent.ExecutionContext.Implicits.global
 
   "Auth >> NewAuth" should "return error on Left when invalid credential is provided" in {
 
     val response = Github().auth
-      .newAuth(validUsername,
-               invalidPassword,
-               validScopes,
-               validNote,
-               validClientId,
-               invalidClientSecret)
+      .newAuth(
+        validUsername,
+        invalidPassword,
+        validScopes,
+        validNote,
+        validClientId,
+        invalidClientSecret)
       .execFuture(headerUserAgent)
 
     testFutureIsLeft(response)

@@ -1,5 +1,2 @@
-addSbtPlugin("com.fortysevendeg" % "sbt-catalysts-extras" % "0.1.2")
-addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "0.4.7")
-addSbtPlugin("com.fortysevendeg" % "sbt-microsites" % "0.2.6")
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.4.0")
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.14")
+resolvers += Resolver.sonatypeRepo("snapshots")
+addSbtPlugin("com.47deg" % "sbt-org-policies" % "0.2.2-SNAPSHOT")

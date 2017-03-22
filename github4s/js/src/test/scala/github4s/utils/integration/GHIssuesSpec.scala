@@ -30,7 +30,8 @@ import org.scalatest._
 
 class GHIssuesSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext = scala.concurrent.ExecutionContext.Implicits.global
+  override implicit val executionContext =
+    scala.concurrent.ExecutionContext.Implicits.global
 
   "Issues >> List" should "return a list of issues" in {
     val response = Github(accessToken).issues
@@ -69,15 +70,16 @@ class GHIssuesSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
   "Issues >> Edit" should "edit the specified issue" in {
     val response = Github(accessToken).issues
-      .editIssue(validRepoOwner,
-                 validRepoName,
-                 validIssue,
-                 validIssueState,
-                 validIssueTitle,
-                 validIssueBody,
-                 None,
-                 validIssueLabel,
-                 validAssignees)
+      .editIssue(
+        validRepoOwner,
+        validRepoName,
+        validIssue,
+        validIssueState,
+        validIssueTitle,
+        validIssueBody,
+        None,
+        validIssueLabel,
+        validAssignees)
       .execFuture(headerUserAgent)
 
     testFutureIsRight[Issue](response, { r =>

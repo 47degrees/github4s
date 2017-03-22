@@ -1,6 +1,25 @@
 Changelog
 =============
 
+## 2017/03/22 - Version 0.12.0
+
+This release:
+
+* Makes the library compatible with Scala 2.12.
+* It also integrates `sbt-org-policies` plugin to make easier its maintainability.
+* Upgrades the dependencies (through sbt-org-policies plugin).
+
+## 2017/03/22 - Version 0.11.1
+
+Adds these new fields to the User model:
+
+* `company`: Option[String]
+* `blog`: Option[String]
+* `location`: Option[String]
+* `bio`: Option[String]
+
+Thanks @fedefernandez for your time!
+
 ## 2017/03/16 - Version 0.11.0
 
 This release brings:

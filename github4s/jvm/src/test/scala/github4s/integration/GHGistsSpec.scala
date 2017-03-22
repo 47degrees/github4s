@@ -35,9 +35,10 @@ import scalaj.http.HttpResponse
 class GHGistsSpec extends FlatSpec with Matchers with TestUtils {
   "Gists >> Post" should "return the provided gist" in {
     val response = Github(accessToken).gists
-      .newGist(validGistDescription,
-               validGistPublic,
-               Map(validGistFilename -> GistFile(validGistFileContent)))
+      .newGist(
+        validGistDescription,
+        validGistPublic,
+        Map(validGistFilename -> GistFile(validGistFileContent)))
       .exec[Id, HttpResponse[String]](headerUserAgent)
 
     response should be('right)

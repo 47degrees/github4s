@@ -73,15 +73,16 @@ class GHIssuesSpec extends FlatSpec with Matchers with TestUtils {
 
   "Issues >> Edit" should "edit the specified issue" in {
     val response = Github(accessToken).issues
-      .editIssue(validRepoOwner,
-                 validRepoName,
-                 validIssue,
-                 validIssueState,
-                 validIssueTitle,
-                 validIssueBody,
-                 None,
-                 validIssueLabel,
-                 validAssignees)
+      .editIssue(
+        validRepoOwner,
+        validRepoName,
+        validIssue,
+        validIssueState,
+        validIssueTitle,
+        validIssueBody,
+        None,
+        validIssueLabel,
+        validAssignees)
       .exec[Id, HttpResponse[String]](headerUserAgent)
 
     response should be('right)

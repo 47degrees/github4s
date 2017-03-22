@@ -34,12 +34,13 @@ class GHAuthSpec extends FlatSpec with Matchers with TestUtils {
 
   "Auth >> NewAuth" should "return error on Left when invalid credential is provided" in {
     val response = Github().auth
-      .newAuth(validUsername,
-               invalidPassword,
-               validScopes,
-               validNote,
-               validClientId,
-               invalidClientSecret)
+      .newAuth(
+        validUsername,
+        invalidPassword,
+        validScopes,
+        validNote,
+        validClientId,
+        invalidClientSecret)
       .exec[Id, HttpResponse[String]](headerUserAgent)
 
     response should be('left)

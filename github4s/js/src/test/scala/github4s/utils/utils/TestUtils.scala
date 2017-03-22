@@ -60,8 +60,9 @@ trait TestUtils extends Matchers {
   val invalidUsername = "GHInvalidaUserName"
   val invalidPassword = "invalidPassword"
 
-  def validBasicAuth   = s"Basic ${s"$validUsername:".getBytes.toBase64}"
-  def invalidBasicAuth = s"Basic ${s"$validUsername:$invalidPassword".getBytes.toBase64}"
+  def validBasicAuth = s"Basic ${s"$validUsername:".getBytes.toBase64}"
+  def invalidBasicAuth =
+    s"Basic ${s"$validUsername:$invalidPassword".getBytes.toBase64}"
 
   val validScopes         = List("public_repo")
   val validNote           = "New access token"

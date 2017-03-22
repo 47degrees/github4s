@@ -31,6 +31,7 @@ import scala.concurrent.Future
 
 trait ImplicitsJS extends FutureInstances with HttpRequestBuilderExtensionJS {
 
-  implicit val intInstanceFutureRosHttp = new Interpreters[Future, SimpleHttpResponse]
+  implicit val intInstanceFutureRosHttp =
+    new Interpreters[Future, SimpleHttpResponse]
 
 }

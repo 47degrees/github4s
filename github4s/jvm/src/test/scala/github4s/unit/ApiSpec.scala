@@ -45,13 +45,14 @@ class ApiSpec
   val gists = new Gists[HttpResponse[String], Id]
 
   "Auth >> NewAuth" should "return a valid token when valid credential is provided" in {
-    val response = auth.newAuth(validUsername,
-                                "",
-                                validScopes,
-                                validNote,
-                                validClientId,
-                                "",
-                                headers = headerUserAgent)
+    val response = auth.newAuth(
+      validUsername,
+      "",
+      validScopes,
+      validNote,
+      validClientId,
+      "",
+      headers = headerUserAgent)
     response should be('right)
 
     response.toOption map { r ⇒
@@ -62,18 +63,20 @@ class ApiSpec
 
   it should "return error on Left when invalid credential is provided" in {
     val response =
-      auth.newAuth(validUsername,
-                   invalidPassword,
-                   validScopes,
-                   validNote,
-                   validClientId,
-                   "",
-                   headers = headerUserAgent)
+      auth.newAuth(
+        validUsername,
+        invalidPassword,
+        validScopes,
+        validNote,
+        validClientId,
+        "",
+        headers = headerUserAgent)
     response should be('left)
   }
 
   "Auth >> AuthorizeUrl" should "return the expected URL for valid username" in {
-    val response = auth.authorizeUrl(validClientId, validRedirectUri, validScopes)
+    val response =
+      auth.authorizeUrl(validClientId, validRedirectUri, validScopes)
     response should be('right)
 
     response.toOption map { r ⇒
@@ -83,7 +86,8 @@ class ApiSpec
   }
 
   "Auth >> GetAccessToken" should "return a valid access_token when a valid code is provided" in {
-    val response = auth.getAccessToken("", "", validCode, "", "", headers = headerUserAgent)
+    val response =
+      auth.getAccessToken("", "", validCode, "", "", headers = headerUserAgent)
     response should be('right)
 
     response.toOption map { r ⇒
@@ -100,7 +104,8 @@ class ApiSpec
 
   "Repos >> Get" should "return the expected name when valid repo is provided" in {
 
-    val response = repos.get(accessToken, headerUserAgent, validRepoOwner, validRepoName)
+    val response =
+      repos.get(accessToken, headerUserAgent, validRepoOwner, validRepoName)
     response should be('right)
 
     response.toOption map { r ⇒
@@ -111,7 +116,8 @@ class ApiSpec
   }
 
   it should "return error when an invalid repo name is passed" in {
-    val response = repos.get(accessToken, headerUserAgent, validRepoOwner, invalidRepoName)
+    val response =
+      repos.get(accessToken, headerUserAgent, validRepoOwner, invalidRepoName)
     response should be('left)
   }
 
@@ -256,7 +262,8 @@ class ApiSpec
   }
 
   it should "return an empty list when a invalid since value is provided" in {
-    val response = users.getUsers(accessToken, headerUserAgent, invalidSinceInt)
+    val response =
+      users.getUsers(accessToken, headerUserAgent, invalidSinceInt)
     response should be('right)
 
     response.toOption map { r ⇒
@@ -268,11 +275,12 @@ class ApiSpec
 
   "Gists >> PostGist" should "return the provided gist for a valid request" in {
     val response =
-      gists.newGist(validGistDescription,
-                    validGistPublic,
-                    Map(validGistFilename -> GistFile(validGistFileContent)),
-                    headerUserAgent,
-                    accessToken)
+      gists.newGist(
+        validGistDescription,
+        validGistPublic,
+        Map(validGistFilename -> GistFile(validGistFileContent)),
+        headerUserAgent,
+        accessToken)
     response should be('right)
 
     response.toOption map { r ⇒

@@ -35,7 +35,9 @@ class GHUsersSpec extends FlatSpec with Matchers with TestUtils {
 
   "Users >> Get" should "return the expected login for a valid username" in {
     val response =
-      Github(accessToken).users.get(validUsername).exec[Id, HttpResponse[String]](headerUserAgent)
+      Github(accessToken).users
+        .get(validUsername)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
 
     response should be('right)
     response.toOption map { r ⇒
@@ -53,7 +55,8 @@ class GHUsersSpec extends FlatSpec with Matchers with TestUtils {
   }
 
   "Users >> GetAuth" should "return error on Left when no accessToken is provided" in {
-    val response = Github().users.getAuth.exec[Id, HttpResponse[String]](headerUserAgent)
+    val response =
+      Github().users.getAuth.exec[Id, HttpResponse[String]](headerUserAgent)
     response should be('left)
   }
 
