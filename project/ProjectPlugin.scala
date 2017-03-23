@@ -83,6 +83,8 @@ object ProjectPlugin extends AutoPlugin {
       headers := Map(
         "scala" -> MIT("2016", "47 Degrees, LLC. <http://www.47deg.com>")
       ),
+      // This is necessary to prevent packaging the BuildInfo with
+      // sensible information like the Github token. Do not remove.
       mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>
         ms filter {
           case (_, toPath) =>
