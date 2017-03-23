@@ -70,9 +70,9 @@ object ProjectPlugin extends AutoPlugin {
         organizationName = "47 Degrees",
         groupId = "com.47deg",
         organizationHomePage = url("http://47deg.com"),
-        organizationEmail = "hello@47deg.com",
-        license = sbtorgpolicies.model.MITLicense
+        organizationEmail = "hello@47deg.com"
       ),
+      orgLicense := sbtorgpolicies.model.MITLicense,
       scalaVersion := scalac.`2.12`,
       crossScalaVersions := "2.10.6" :: scalac.crossScalaVersions,
       scalaOrganization := "org.scala-lang",
@@ -82,6 +82,12 @@ object ProjectPlugin extends AutoPlugin {
       }),
       headers := Map(
         "scala" -> MIT("2016", "47 Degrees, LLC. <http://www.47deg.com>")
-      )
+      ),
+      mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>
+        ms filter {
+          case (_, toPath) =>
+            !toPath.startsWith("github4s/BuildInfo")
+        }
+      }
     ) ++ shellPromptSettings
 }
