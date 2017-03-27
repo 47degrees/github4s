@@ -27,7 +27,7 @@ import cats.{ApplicativeError, Eval, MonadError, ~>}
 import github4s.GithubDefaultUrls._
 import github4s.HttpRequestBuilderExtension
 import github4s.api._
-import github4s.app.{COGH01, COGH02, COGH03, GitHub4s}
+import github4s.app._
 import github4s.free.algebra._
 import io.circe.Decoder
 import simulacrum.typeclass
@@ -37,9 +37,10 @@ trait Capture[M[_]] {
   def capture[A](a: ⇒ A): M[A]
 }
 
-class Interpreters[M[_], C](implicit A: ApplicativeError[M, Throwable],
-                            C: Capture[M],
-                            httpClientImpl: HttpRequestBuilderExtension[C, M]) {
+class Interpreters[M[_], C](
+    implicit A: ApplicativeError[M, Throwable],
+    C: Capture[M],
+    httpClientImpl: HttpRequestBuilderExtension[C, M]) {
 
   type K[A] = Kleisli[M, Map[String, String], A]
 
@@ -49,13 +50,14 @@ class Interpreters[M[_], C](implicit A: ApplicativeError[M, Throwable],
     val c01interpreter: COGH01 ~> K = repositoryOpsInterpreter or userOpsInterpreter
     val c02interpreter: COGH02 ~> K = gistOpsInterpreter or c01interpreter
     val c03interpreter: COGH03 ~> K = issueOpsInterpreter or c02interpreter
-    val all: GitHub4s ~> K          = authOpsInterpreter or c03interpreter
+    val c04interpreter: COGH04 ~> K = authOpsInterpreter or c03interpreter
+    val all: GitHub4s ~> K          = gitOpsInterpreter or c04interpreter
     all
   }
 
   /**
-    * Lifts Repository Ops to an effect capturing Monad such as Task via natural transformations
-    */
+   * Lifts Repository Ops to an effect capturing Monad such as Task via natural transformations
+   */
   def repositoryOpsInterpreter: RepositoryOp ~> K = new (RepositoryOp ~> K) {
 
     val repos = new Repos()
@@ -64,16 +66,17 @@ class Interpreters[M[_], C](implicit A: ApplicativeError[M, Throwable],
       fa match {
         case GetRepo(owner, repo, accessToken) ⇒ repos.get(accessToken, headers, owner, repo)
         case ListCommits(owner, repo, sha, path, author, since, until, pagination, accessToken) ⇒
-          repos.listCommits(accessToken,
-                            headers,
-                            owner,
-                            repo,
-                            sha,
-                            path,
-                            author,
-                            since,
-                            until,
-                            pagination)
+          repos.listCommits(
+            accessToken,
+            headers,
+            owner,
+            repo,
+            sha,
+            path,
+            author,
+            since,
+            until,
+            pagination)
         case ListContributors(owner, repo, anon, accessToken) ⇒
           repos.listContributors(accessToken, headers, owner, repo, anon)
       }
@@ -81,8 +84,8 @@ class Interpreters[M[_], C](implicit A: ApplicativeError[M, Throwable],
   }
 
   /**
-    * Lifts User Ops to an effect capturing Monad such as Task via natural transformations
-    */
+   * Lifts User Ops to an effect capturing Monad such as Task via natural transformations
+   */
   def userOpsInterpreter: UserOp ~> K =
     new (UserOp ~> K) {
 
@@ -99,8 +102,8 @@ class Interpreters[M[_], C](implicit A: ApplicativeError[M, Throwable],
     }
 
   /**
-    * Lifts Auth Ops to an effect capturing Monad such as Task via natural transformations
-    */
+   * Lifts Auth Ops to an effect capturing Monad such as Task via natural transformations
+   */
   def authOpsInterpreter: AuthOp ~> K =
     new (AuthOp ~> K) {
 
@@ -119,8 +122,8 @@ class Interpreters[M[_], C](implicit A: ApplicativeError[M, Throwable],
     }
 
   /**
-    * Lifts Gist Ops to an effect capturing Monad such as Task via natural transformations
-    */
+   * Lifts Gist Ops to an effect capturing Monad such as Task via natural transformations
+   */
   def gistOpsInterpreter: GistOp ~> K =
     new (GistOp ~> K) {
 
@@ -135,8 +138,8 @@ class Interpreters[M[_], C](implicit A: ApplicativeError[M, Throwable],
     }
 
   /**
-    * Lifts Issue Ops to an effect capturing Monad such as Task via natural transformations
-    */
+   * Lifts Issue Ops to an effect capturing Monad such as Task via natural transformations
+   */
   def issueOpsInterpreter: IssueOp ~> K =
     new (IssueOp ~> K) {
 
@@ -151,27 +154,55 @@ class Interpreters[M[_], C](implicit A: ApplicativeError[M, Throwable],
           case CreateIssue(owner, repo, title, body, milestone, labels, assignees, accessToken) ⇒
             issues
               .create(accessToken, headers, owner, repo, title, body, milestone, labels, assignees)
-          case EditIssue(owner,
-                         repo,
-                         issue,
-                         state,
-                         title,
-                         body,
-                         milestone,
-                         labels,
-                         assignees,
-                         accessToken) ⇒
-            issues.edit(accessToken,
-                        headers,
-                        owner,
-                        repo,
-                        issue,
-                        state,
-                        title,
-                        body,
-                        milestone,
-                        labels,
-                        assignees)
+          case EditIssue(
+              owner,
+              repo,
+              issue,
+              state,
+              title,
+              body,
+              milestone,
+              labels,
+              assignees,
+              accessToken) ⇒
+            issues.edit(
+              accessToken,
+              headers,
+              owner,
+              repo,
+              issue,
+              state,
+              title,
+              body,
+              milestone,
+              labels,
+              assignees)
+        }
+      }
+    }
+
+  /**
+   * Lifts Git Ops to an effect capturing Monad such as Task via natural transformations
+   */
+  def gitOpsInterpreter: GitOp ~> K =
+    new (GitOp ~> K) {
+
+      val gits = new Gits()
+
+      def apply[A](fa: GitOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
+        fa match {
+          case GetReference(owner, repo, ref, accessToken) ⇒
+            gits.reference(accessToken, headers, owner, repo, ref)
+          case UpdateReference(owner, repo, ref, sha, force, accessToken) ⇒
+            gits.updateReference(accessToken, headers, owner, repo, ref, sha, force)
+          case GetCommit(owner, repo, sha, accessToken) ⇒
+            gits.commit(accessToken, headers, owner, repo, sha)
+          case CreateCommit(owner, repo, message, author, parents, tree, accessToken) ⇒
+            gits.createCommit(accessToken, headers, owner, repo, message, tree, parents, author)
+          case CreateBlob(owner, repo, content, encoding, accessToken) ⇒
+            gits.createBlob(accessToken, headers, owner, repo, content, encoding)
+          case CreateTree(owner, repo, baseTree, treeDataList, accessToken) ⇒
+            gits.createTree(accessToken, headers, owner, repo, baseTree, treeDataList)
         }
       }
     }

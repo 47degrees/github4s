@@ -21,13 +21,17 @@
 
 package github4s
 
-import cats.data.Coproduct
-import github4s.free.algebra._
+import github4s.free.domain._
+import io.circe._
+import io.circe.generic.auto._
 
-object app {
-  type COGH01[A]   = Coproduct[RepositoryOp, UserOp, A]
-  type COGH02[A]   = Coproduct[GistOp, COGH01, A]
-  type COGH03[A]   = Coproduct[IssueOp, COGH02, A]
-  type COGH04[A]   = Coproduct[AuthOp, COGH03, A]
-  type GitHub4s[A] = Coproduct[GitOp, COGH04, A]
+object Encoders {
+
+  implicit def encodeTreeData(
+      implicit shaEncoder: Encoder[TreeDataSha],
+      blobEncoder: Encoder[TreeDataBlob]): Encoder[TreeData] = Encoder.instance {
+    case d: TreeDataSha => shaEncoder(d)
+    case d: TreeDataBlob => blobEncoder(d)
+  }
+
 }

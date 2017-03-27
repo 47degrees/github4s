@@ -31,9 +31,9 @@ import github4s.free.interpreters.Interpreters
 import scala.concurrent.Future
 
 /**
-  * Represent the Github API wrapper
-  * @param accessToken to identify the authenticated user
-  */
+ * Represent the Github API wrapper
+ * @param accessToken to identify the authenticated user
+ */
 class Github(accessToken: Option[String] = None) {
 
   lazy val users  = new GHUsers(accessToken)
@@ -41,6 +41,7 @@ class Github(accessToken: Option[String] = None) {
   lazy val auth   = new GHAuth(accessToken)
   lazy val gists  = new GHGists(accessToken)
   lazy val issues = new GHIssues(accessToken)
+  lazy val gits   = new GHGits(accessToken)
 
 }
 
