@@ -543,4 +543,130 @@ trait FakeResponses {
       |  ]
       |}
     """.stripMargin
+
+  val singleReference =
+    """
+      |{
+      |  "ref": "refs/heads/featureA",
+      |  "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featureA",
+      |  "object": {
+      |    "type": "commit",
+      |    "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+      |    "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd"
+      |  }
+      |}
+    """.stripMargin
+
+  val multipleReference =
+    """
+      |[
+      |  {
+      |    "ref": "refs/heads/feature-a",
+      |    "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature-a",
+      |    "object": {
+      |      "type": "commit",
+      |      "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+      |      "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd"
+      |    }
+      |  },
+      |  {
+      |    "ref": "refs/heads/feature-b",
+      |    "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature-b",
+      |    "object": {
+      |      "type": "commit",
+      |      "sha": "612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac",
+      |      "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac"
+      |    }
+      |  }
+      |]
+    """.stripMargin
+
+  val commitResult =
+    """
+      |{
+      |  "sha": "7638417db6d59f3c431d3e1f261cc637155684cd",
+      |  "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd",
+      |  "author": {
+      |    "date": "2014-11-07T22:01:45Z",
+      |    "name": "Scott Chacon",
+      |    "email": "schacon@gmail.com"
+      |  },
+      |  "committer": {
+      |    "date": "2014-11-07T22:01:45Z",
+      |    "name": "Scott Chacon",
+      |    "email": "schacon@gmail.com"
+      |  },
+      |  "message": "added readme, because im a good github citizen",
+      |  "tree": {
+      |    "url": "https://api.github.com/repos/octocat/Hello-World/git/trees/691272480426f78a0138979dd3ce63b77f706feb",
+      |    "sha": "691272480426f78a0138979dd3ce63b77f706feb"
+      |  },
+      |  "parents": [
+      |    {
+      |      "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/1acc419d4d6a9ce985db7be48c6349a0475975b5",
+      |      "sha": "1acc419d4d6a9ce985db7be48c6349a0475975b5"
+      |    }
+      |  ]
+      |}
+    """.stripMargin
+
+  val blobResult =
+    """
+      |{
+      |  "url": "https://api.github.com/repos/octocat/example/git/blobs/3a0f86fb8db8eea7ccbb9a95f325ddbedfb25e15",
+      |  "sha": "3a0f86fb8db8eea7ccbb9a95f325ddbedfb25e15"
+      |}
+    """.stripMargin
+
+  val treeResult =
+    """
+      |{
+      |  "sha": "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+      |  "url": "https://api.github.com/repos/octocat/Hello-World/trees/9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+      |  "tree": [
+      |    {
+      |      "path": "file.rb",
+      |      "mode": "100644",
+      |      "type": "blob",
+      |      "size": 30,
+      |      "sha": "44b4fc6d56897b048c772eb4087f854f46256132",
+      |      "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/44b4fc6d56897b048c772eb4087f854f46256132"
+      |    },
+      |    {
+      |      "path": "subdir",
+      |      "mode": "040000",
+      |      "type": "tree",
+      |      "sha": "f484d249c660418515fb01c2b9662073663c242e",
+      |      "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/f484d249c660418515fb01c2b9662073663c242e"
+      |    },
+      |    {
+      |      "path": "exec_file",
+      |      "mode": "100755",
+      |      "type": "blob",
+      |      "size": 75,
+      |      "sha": "45b983be36b73c0788dc9cbcb76cbb80fc7bb057",
+      |      "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/45b983be36b73c0788dc9cbcb76cbb80fc7bb057"
+      |    }
+      |  ],
+      |  "truncated": false
+      |}
+    """.stripMargin
+
+  val createTreeResult =
+    """
+      |{
+      |  "sha": "cd8274d15fa3ae2ab983129fb037999f264ba9a7",
+      |  "url": "https://api.github.com/repos/octocat/Hello-World/trees/cd8274d15fa3ae2ab983129fb037999f264ba9a7",
+      |  "tree": [
+      |    {
+      |      "path": "file.rb",
+      |      "mode": "100644",
+      |      "type": "blob",
+      |      "size": 132,
+      |      "sha": "7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b",
+      |      "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b"
+      |    }
+      |  ]
+      |}
+    """.stripMargin
 }

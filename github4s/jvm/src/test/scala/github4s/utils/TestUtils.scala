@@ -83,4 +83,17 @@ trait TestUtils {
   val validIssueState = "closed"
   val validIssueLabel = List("bug", "code review")
   val validAssignees  = List(validUsername)
+
+  val validRefSingle   = "heads/master"
+  val validRefMultiple = "heads/feature"
+  val invalidRef       = "heads/feature-branch-that-no-longer-exists"
+
+  val validCommitSha   = "d3b048c1f500ee5450e5d7b3d1921ed3e7645891"
+  val validCommitMsg   = "Add SBT project settings"
+  val invalidCommitSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+  val validTreeSha   = "827efc6d56897b048c772eb4087f854f46256132"
+  val invalidTreeSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  val treeDataList = List(
+    TreeDataSha("path", "100644", "blob", "9fb037999f264ba9a7fc6274d15fa3ae2ab98312"))
 }

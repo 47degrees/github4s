@@ -109,4 +109,9 @@ trait TestUtils extends Matchers {
   val validIssueState = "closed"
   val validIssueLabel = List("bug", "code review")
   val validAssignees  = List(validUsername)
+
+  val validRefSingle = "heads/master"
+
+  val validCommitSha = "d3b048c1f500ee5450e5d7b3d1921ed3e7645891"
+  val validCommitMsg = "Add SBT project settings"
 }

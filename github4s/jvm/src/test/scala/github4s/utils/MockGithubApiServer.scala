@@ -217,4 +217,144 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withStatusCode(unauthorizedStatusCode)
         .withBody(unauthorizedReponse))
 
+  // Git >> References
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/refs/$validRefSingle"))
+    .respond(
+      response
+        .withStatusCode(okStatusCode)
+        .withBody(singleReference))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/refs/$validRefMultiple"))
+    .respond(
+      response
+        .withStatusCode(okStatusCode)
+        .withBody(multipleReference))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/refs/$invalidRef"))
+    .respond(
+      response
+        .withStatusCode(notFoundStatusCode)
+        .withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/refs/$validRefSingle")
+        .withHeader("Authorization", tokenHeader))
+    .respond(
+      response
+        .withStatusCode(okStatusCode)
+        .withBody(singleReference))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/refs/$validRefSingle")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedReponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/commits/$validCommitSha"))
+    .respond(
+      response
+        .withStatusCode(okStatusCode)
+        .withBody(commitResult))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/commits/$invalidCommitSha"))
+    .respond(
+      response
+        .withStatusCode(notFoundStatusCode)
+        .withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/commits")
+        .withHeader("Authorization", tokenHeader))
+    .respond(
+      response
+        .withStatusCode(createdStatusCode)
+        .withBody(commitResult))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/commits")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedReponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/blobs")
+        .withHeader("Authorization", tokenHeader))
+    .respond(
+      response
+        .withStatusCode(createdStatusCode)
+        .withBody(blobResult))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/blobs")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedReponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/trees")
+        .withHeader("Authorization", tokenHeader))
+    .respond(
+      response
+        .withStatusCode(createdStatusCode)
+        .withBody(createTreeResult))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/trees")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedReponse))
+
 }
