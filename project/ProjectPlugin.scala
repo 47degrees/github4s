@@ -64,15 +64,7 @@ object ProjectPlugin extends AutoPlugin {
       description := "Github API wrapper written in Scala",
       startYear := Option(2016),
       resolvers += Resolver.sonatypeRepo("snapshots"),
-      orgGithubSettings := GitHubSettings(
-        organization = "47deg",
-        project = name.value,
-        organizationName = "47 Degrees",
-        groupId = "com.47deg",
-        organizationHomePage = url("http://47deg.com"),
-        organizationEmail = "hello@47deg.com"
-      ),
-      orgLicense := sbtorgpolicies.model.MITLicense,
+      orgLicenseSetting := sbtorgpolicies.model.MITLicense,
       scalaVersion := scalac.`2.12`,
       crossScalaVersions := "2.10.6" :: scalac.crossScalaVersions,
       scalaOrganization := "org.scala-lang",
