@@ -33,7 +33,7 @@ import io.circe.generic.auto._
 /**
  * Factory that encapsulates all the Git Database API calls
  */
-class Gits[C, M[_]](
+class GitData[C, M[_]](
     implicit urls: GithubApiUrls,
     C: Capture[M],
     httpClientImpl: HttpRequestBuilderExtension[C, M]) {
@@ -128,6 +128,7 @@ class Gits[C, M[_]](
    * @param parents the SHAs of the commits that were the parents of this commit. If omitted or empty,
    * the commit will be written as a root commit. For a single parent, an array of one SHA should be provided;
    * for a merge commit, an array of more than one should be provided.
+   * @param author object containing information about the author.
    * @return a GHResponse with RefCommit
    */
   def createCommit(
@@ -137,13 +138,13 @@ class Gits[C, M[_]](
       repo: String,
       message: String,
       tree: String,
-      parents: List[String],
+      parents: List[String] = Nil,
       author: Option[RefCommitAuthor] = None): M[GHResponse[RefCommit]] =
     httpClient.post[RefCommit](
       accessToken,
       s"repos/$owner/$repo/git/commits",
       headers,
-      dropNullPrint(NewCommitRequest(message, author, parents, tree).asJson))
+      dropNullPrint(NewCommitRequest(message, tree, parents, author).asJson))
 
   /**
    * Create a new Blob

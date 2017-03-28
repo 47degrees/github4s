@@ -29,14 +29,14 @@ import github4s.free.domain._
 /**
  * Git ops ADT
  */
-sealed trait GitOp[A]
+sealed trait GitDataOp[A]
 
 final case class GetReference(
     owner: String,
     repo: String,
     ref: String,
     accessToken: Option[String] = None
-) extends GitOp[GHResponse[NonEmptyList[Ref]]]
+) extends GitDataOp[GHResponse[NonEmptyList[Ref]]]
 
 final case class UpdateReference(
   owner: String,
@@ -45,24 +45,24 @@ final case class UpdateReference(
   sha: String,
   force: Option[Boolean],
   accessToken: Option[String]
-) extends GitOp[GHResponse[Ref]]
+) extends GitDataOp[GHResponse[Ref]]
 
 final case class GetCommit(
     owner: String,
     repo: String,
     sha: String,
     accessToken: Option[String] = None
-) extends GitOp[GHResponse[RefCommit]]
+) extends GitDataOp[GHResponse[RefCommit]]
 
 final case class CreateCommit(
     owner: String,
     repo: String,
     message: String,
-    author: Option[RefCommitAuthor],
-    parents: List[String],
     tree: String,
+    parents: List[String],
+    author: Option[RefCommitAuthor],
     accessToken: Option[String]
-) extends GitOp[GHResponse[RefCommit]]
+) extends GitDataOp[GHResponse[RefCommit]]
 
 final case class CreateBlob(
     owner: String,
@@ -70,7 +70,7 @@ final case class CreateBlob(
     content: String,
     encoding: Option[String],
     accessToken: Option[String] = None
-) extends GitOp[GHResponse[RefInfo]]
+) extends GitDataOp[GHResponse[RefInfo]]
 
 final case class CreateTree(
     owner: String,
@@ -78,13 +78,13 @@ final case class CreateTree(
     baseTree: Option[String],
     treeDataList: List[TreeData],
     accessToken: Option[String] = None
-) extends GitOp[GHResponse[TreeResult]]
+) extends GitDataOp[GHResponse[TreeResult]]
 
 /**
- * Exposes Gits operations as a Free monadic algebra that may be combined with other Algebras via
+ * Exposes Git Data operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
  */
-class GitOps[F[_]](implicit I: Inject[GitOp, F]) {
+class GitDataOps[F[_]](implicit I: Inject[GitDataOp, F]) {
 
   def getReference(
       owner: String,
@@ -92,7 +92,7 @@ class GitOps[F[_]](implicit I: Inject[GitOp, F]) {
       ref: String,
       accessToken: Option[String] = None
   ): Free[F, GHResponse[NonEmptyList[Ref]]] =
-    Free.inject[GitOp, F](GetReference(owner, repo, ref, accessToken))
+    Free.inject[GitDataOp, F](GetReference(owner, repo, ref, accessToken))
 
   def updateReference(
       owner: String,
@@ -102,7 +102,7 @@ class GitOps[F[_]](implicit I: Inject[GitOp, F]) {
     force: Option[Boolean],
       accessToken: Option[String] = None
   ): Free[F, GHResponse[Ref]] =
-    Free.inject[GitOp, F](UpdateReference(owner, repo, ref, sha, force, accessToken))
+    Free.inject[GitDataOp, F](UpdateReference(owner, repo, ref, sha, force, accessToken))
 
   def getCommit(
       owner: String,
@@ -110,18 +110,18 @@ class GitOps[F[_]](implicit I: Inject[GitOp, F]) {
       sha: String,
       accessToken: Option[String] = None
   ): Free[F, GHResponse[RefCommit]] =
-    Free.inject[GitOp, F](GetCommit(owner, repo, sha, accessToken))
+    Free.inject[GitDataOp, F](GetCommit(owner, repo, sha, accessToken))
 
   def createCommit(
       owner: String,
       repo: String,
       message: String,
-      author: Option[RefCommitAuthor],
-      parents: List[String],
       tree: String,
+      parents: List[String],
+      author: Option[RefCommitAuthor],
       accessToken: Option[String] = None
   ): Free[F, GHResponse[RefCommit]] =
-    Free.inject[GitOp, F](CreateCommit(owner, repo, message, author, parents, tree, accessToken))
+    Free.inject[GitDataOp, F](CreateCommit(owner, repo, message, tree, parents, author, accessToken))
 
   def createBlob(
       owner: String,
@@ -130,7 +130,7 @@ class GitOps[F[_]](implicit I: Inject[GitOp, F]) {
       encoding: Option[String],
       accessToken: Option[String] = None
   ): Free[F, GHResponse[RefInfo]] =
-    Free.inject[GitOp, F](CreateBlob(owner, repo, content, encoding, accessToken))
+    Free.inject[GitDataOp, F](CreateBlob(owner, repo, content, encoding, accessToken))
 
   def createTree(
       owner: String,
@@ -139,14 +139,14 @@ class GitOps[F[_]](implicit I: Inject[GitOp, F]) {
       treeDataList: List[TreeData],
       accessToken: Option[String] = None
   ): Free[F, GHResponse[TreeResult]] =
-    Free.inject[GitOp, F](CreateTree(owner, repo, baseTree, treeDataList, accessToken))
+    Free.inject[GitDataOp, F](CreateTree(owner, repo, baseTree, treeDataList, accessToken))
 }
 
 /**
  * Default implicit based DI factory from which instances of the GitOps may be obtained
  */
-object GitOps {
+object GitDataOps {
 
-  implicit def instance[F[_]](implicit I: Inject[GitOp, F]): GitOps[F] = new GitOps[F]
+  implicit def instance[F[_]](implicit I: Inject[GitDataOp, F]): GitDataOps[F] = new GitDataOps[F]
 
 }

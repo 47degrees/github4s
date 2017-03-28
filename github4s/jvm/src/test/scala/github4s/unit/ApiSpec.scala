@@ -39,11 +39,11 @@ class ApiSpec
     with DummyGithubUrls
     with ImplicitsJVM {
 
-  val auth  = new Auth[HttpResponse[String], Id]
-  val repos = new Repos[HttpResponse[String], Id]
-  val users = new Users[HttpResponse[String], Id]
-  val gists = new Gists[HttpResponse[String], Id]
-  val gits  = new Gits[HttpResponse[String], Id]
+  val auth    = new Auth[HttpResponse[String], Id]
+  val repos   = new Repos[HttpResponse[String], Id]
+  val users   = new Users[HttpResponse[String], Id]
+  val gists   = new Gists[HttpResponse[String], Id]
+  val gitData = new GitData[HttpResponse[String], Id]
 
   "Auth >> NewAuth" should "return a valid token when valid credential is provided" in {
     val response = auth.newAuth(
@@ -290,9 +290,14 @@ class ApiSpec
 
   }
 
-  "Gits >> GetReference" should "return the single reference" in {
+  "GitData >> GetReference" should "return the single reference" in {
     val response =
-      gits.reference(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+      gitData.reference(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validRefSingle)
     response should be('right)
 
     response.toOption map { r =>
@@ -300,9 +305,14 @@ class ApiSpec
     }
   }
 
-  it should "return the multiple reference" in {
+  it should "return multiple references" in {
     val response =
-      gits.reference(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefMultiple)
+      gitData.reference(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validRefMultiple)
     response should be('right)
 
     response.toOption map { r =>
@@ -312,13 +322,13 @@ class ApiSpec
 
   it should "return error Left for non existent reference" in {
     val response =
-      gits.reference(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
+      gitData.reference(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
     response should be('left)
   }
 
-  "Gits >> UpdateReference" should "return the single reference" in {
+  "GitData >> UpdateReference" should "return the single reference" in {
     val response =
-      gits.updateReference(
+      gitData.updateReference(
         accessToken,
         headerUserAgent,
         validRepoOwner,
@@ -334,7 +344,7 @@ class ApiSpec
 
   it should "return error Left for non authenticated request" in {
     val response =
-      gits.updateReference(
+      gitData.updateReference(
         None,
         headerUserAgent,
         validRepoOwner,
@@ -344,9 +354,9 @@ class ApiSpec
     response should be('left)
   }
 
-  "Gits >> GetCommit" should "return the single commit" in {
+  "GitData >> GetCommit" should "return the single commit" in {
     val response =
-      gits.commit(accessToken, headerUserAgent, validRepoOwner, validRepoName, validCommitSha)
+      gitData.commit(accessToken, headerUserAgent, validRepoOwner, validRepoName, validCommitSha)
     response should be('right)
 
     response.toOption map { r =>
@@ -356,13 +366,13 @@ class ApiSpec
 
   it should "return error Left for non existent commit" in {
     val response =
-      gits.commit(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidCommitSha)
+      gitData.commit(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidCommitSha)
     response should be('left)
   }
 
-  "Gits >> CreateCommit" should "return the single commit" in {
+  "GitData >> CreateCommit" should "return the single commit" in {
     val response =
-      gits.createCommit(
+      gitData.createCommit(
         accessToken,
         headerUserAgent,
         validRepoOwner,
@@ -379,7 +389,7 @@ class ApiSpec
 
   it should "return error Left for non authenticated request" in {
     val response =
-      gits.createCommit(
+      gitData.createCommit(
         None,
         headerUserAgent,
         validRepoOwner,
@@ -390,9 +400,9 @@ class ApiSpec
     response should be('left)
   }
 
-  "Gits >> CreateBlob" should "return the created blob" in {
+  "GitData >> CreateBlob" should "return the created blob" in {
     val response =
-      gits.createBlob(accessToken, headerUserAgent, validRepoOwner, validRepoName, validNote)
+      gitData.createBlob(accessToken, headerUserAgent, validRepoOwner, validRepoName, validNote)
     response should be('right)
 
     response.toOption map { r =>
@@ -402,13 +412,13 @@ class ApiSpec
 
   it should "return error Left for non authenticated request" in {
     val response =
-      gits.createBlob(None, headerUserAgent, validRepoOwner, validRepoName, validNote)
+      gitData.createBlob(None, headerUserAgent, validRepoOwner, validRepoName, validNote)
     response should be('left)
   }
 
-  "Gits >> CreateTree" should "return the created tree" in {
+  "GitData >> CreateTree" should "return the created tree" in {
     val response =
-      gits.createTree(
+      gitData.createTree(
         accessToken,
         headerUserAgent,
         validRepoOwner,
@@ -424,7 +434,7 @@ class ApiSpec
 
   it should "return error Left for non authenticated request" in {
     val response =
-      gits.createTree(
+      gitData.createTree(
         None,
         headerUserAgent,
         validRepoOwner,

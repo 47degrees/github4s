@@ -164,14 +164,11 @@ object Decoders {
 
   implicit def decodeListRef(implicit D: Decoder[Ref]): Decoder[NonEmptyList[Ref]] = {
 
-    def decodeCursor(partialList: Option[NonEmptyList[Ref]], cursor: HCursor): Decoder.Result[NonEmptyList[Ref]] =
-      cursor.as[Ref] match {
-        case Left(e)  => Left(e)
-        case Right(r) =>
-          Right {
-            val nel = NonEmptyList(r, Nil)
-            partialList map (_.concat(nel)) getOrElse nel
-          }
+    def decodeCursor(
+        partialList: Option[NonEmptyList[Ref]],
+        cursor: HCursor): Decoder.Result[NonEmptyList[Ref]] =
+      cursor.as[Ref] map { r ⇒
+        partialList map (_.concat(NonEmptyList(r, Nil))) getOrElse NonEmptyList(r, Nil)
       }
 
     def decodeCursors(cursors: List[HCursor]): Result[NonEmptyList[Ref]] =

@@ -23,15 +23,14 @@ package github4s
 
 import github4s.free.domain._
 import io.circe._
+import io.circe.syntax._
 import io.circe.generic.auto._
 
 object Encoders {
 
-  implicit def encodeTreeData(
-      implicit shaEncoder: Encoder[TreeDataSha],
-      blobEncoder: Encoder[TreeDataBlob]): Encoder[TreeData] = Encoder.instance {
-    case d: TreeDataSha => shaEncoder(d)
-    case d: TreeDataBlob => blobEncoder(d)
+  implicit val encodeTreeData: Encoder[TreeData] = Encoder.instance {
+    case d: TreeDataSha => d.asJson
+    case d: TreeDataBlob => d.asJson
   }
 
 }

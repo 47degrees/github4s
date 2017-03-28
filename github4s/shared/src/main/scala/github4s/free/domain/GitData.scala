@@ -65,7 +65,7 @@ case class TreeDataResult(
     sha: String,
     url: String)
 
-case class NewCommitRequest(message: String, author: Option[RefCommitAuthor], parents: List[String], tree: String)
+case class NewCommitRequest(message: String, tree: String, parents: List[String], author: Option[RefCommitAuthor])
 
 case class NewBlobRequest(content: String, encoding: Option[String])
 

@@ -23,8 +23,14 @@ package github4s.utils
 
 import com.github.marklister.base64.Base64.Encoder
 import github4s.free.domain._
+import io.circe.parser.parse
+import org.mockito.ArgumentMatcher
 
 trait TestUtils {
+
+  case class JsonArgMatcher(json: String) extends ArgumentMatcher[String] {
+    override def matches(argument: String): Boolean = parse(json) == parse(argument)
+  }
 
   val accessToken: Option[String] = sys.env.get("GITHUB4S_ACCESS_TOKEN")
   def tokenHeader: String         = "token " + accessToken.getOrElse("")
@@ -84,6 +90,9 @@ trait TestUtils {
   val validIssueLabel = List("bug", "code review")
   val validAssignees  = List(validUsername)
 
+  val githubApiUrl = "http://api.github.com"
+  val encoding     = Some("utf-8")
+
   val validRefSingle   = "heads/master"
   val validRefMultiple = "heads/feature"
   val invalidRef       = "heads/feature-branch-that-no-longer-exists"
@@ -94,6 +103,27 @@ trait TestUtils {
 
   val validTreeSha   = "827efc6d56897b048c772eb4087f854f46256132"
   val invalidTreeSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-  val treeDataList = List(
+  val treeDataList: List[TreeData] = List(
     TreeDataSha("path", "100644", "blob", "9fb037999f264ba9a7fc6274d15fa3ae2ab98312"))
+  val treeDataResult = List(
+    TreeDataResult(
+      "path",
+      "100644",
+      "blob",
+      Some(100),
+      "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+      githubApiUrl))
+
+  val ref = Ref("XXXX", githubApiUrl, RefObject("commit", "XXXX", githubApiUrl))
+  val refCommitAuthor =
+    RefCommitAuthor("2014-11-07T22:01:45Z", validUsername, "developer@47deg.com")
+  val refInfo = new RefInfo(validTreeSha, githubApiUrl)
+  val refCommit = RefCommit(
+    validCommitSha,
+    githubApiUrl,
+    refCommitAuthor,
+    refCommitAuthor,
+    validNote,
+    refInfo,
+    List(refInfo))
 }

@@ -51,7 +51,7 @@ class Interpreters[M[_], C](
     val c02interpreter: COGH02 ~> K = gistOpsInterpreter or c01interpreter
     val c03interpreter: COGH03 ~> K = issueOpsInterpreter or c02interpreter
     val c04interpreter: COGH04 ~> K = authOpsInterpreter or c03interpreter
-    val all: GitHub4s ~> K          = gitOpsInterpreter or c04interpreter
+    val all: GitHub4s ~> K          = gitDataOpsInterpreter or c04interpreter
     all
   }
 
@@ -184,25 +184,25 @@ class Interpreters[M[_], C](
   /**
    * Lifts Git Ops to an effect capturing Monad such as Task via natural transformations
    */
-  def gitOpsInterpreter: GitOp ~> K =
-    new (GitOp ~> K) {
+  def gitDataOpsInterpreter: GitDataOp ~> K =
+    new (GitDataOp ~> K) {
 
-      val gits = new Gits()
+      val gitData = new GitData()
 
-      def apply[A](fa: GitOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
+      def apply[A](fa: GitDataOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
           case GetReference(owner, repo, ref, accessToken) ⇒
-            gits.reference(accessToken, headers, owner, repo, ref)
+            gitData.reference(accessToken, headers, owner, repo, ref)
           case UpdateReference(owner, repo, ref, sha, force, accessToken) ⇒
-            gits.updateReference(accessToken, headers, owner, repo, ref, sha, force)
+            gitData.updateReference(accessToken, headers, owner, repo, ref, sha, force)
           case GetCommit(owner, repo, sha, accessToken) ⇒
-            gits.commit(accessToken, headers, owner, repo, sha)
-          case CreateCommit(owner, repo, message, author, parents, tree, accessToken) ⇒
-            gits.createCommit(accessToken, headers, owner, repo, message, tree, parents, author)
+            gitData.commit(accessToken, headers, owner, repo, sha)
+          case CreateCommit(owner, repo, message, tree, parents, author, accessToken) ⇒
+            gitData.createCommit(accessToken, headers, owner, repo, message, tree, parents, author)
           case CreateBlob(owner, repo, content, encoding, accessToken) ⇒
-            gits.createBlob(accessToken, headers, owner, repo, content, encoding)
+            gitData.createBlob(accessToken, headers, owner, repo, content, encoding)
           case CreateTree(owner, repo, baseTree, treeDataList, accessToken) ⇒
-            gits.createTree(accessToken, headers, owner, repo, baseTree, treeDataList)
+            gitData.createTree(accessToken, headers, owner, repo, baseTree, treeDataList)
         }
       }
     }

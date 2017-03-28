@@ -141,7 +141,7 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
     O.editIssue(owner, repo, issue, state, title, body, milestone, labels, assignees, accessToken)
 }
 
-class GHGits(accessToken: Option[String] = None)(implicit O: GitOps[GitHub4s]) {
+class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHub4s]) {
 
   def getReference(
       owner: String,
@@ -150,12 +150,31 @@ class GHGits(accessToken: Option[String] = None)(implicit O: GitOps[GitHub4s]) {
   ): GHIO[GHResponse[NonEmptyList[Ref]]] =
     O.getReference(owner, repo, ref, accessToken)
 
+  def updateReference(
+      owner: String,
+      repo: String,
+      ref: String,
+      sha: String,
+      force: Option[Boolean] = None
+  ): GHIO[GHResponse[Ref]] =
+    O.updateReference(owner, repo, ref, sha, force, accessToken)
+
   def getCommit(
       owner: String,
       repo: String,
       sha: String
   ): GHIO[GHResponse[RefCommit]] =
     O.getCommit(owner, repo, sha, accessToken)
+
+  def createCommit(
+      owner: String,
+      repo: String,
+      message: String,
+      tree: String,
+      parents: List[String] = Nil,
+      author: Option[RefCommitAuthor] = None
+  ): GHIO[GHResponse[RefCommit]] =
+    O.createCommit(owner, repo, message, tree, parents, author, accessToken)
 
   def createBlob(
       owner: String,

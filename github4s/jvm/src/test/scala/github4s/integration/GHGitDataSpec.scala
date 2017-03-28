@@ -19,51 +19,53 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package github4s.utils.integration
+package github4s.integration
 
-import cats.data.NonEmptyList
+import cats.Id
+import cats.implicits._
 import github4s.Github
 import github4s.Github._
-import github4s.free.domain.{Ref, RefCommit}
-import github4s.js.Implicits._
+import github4s.jvm.Implicits._
 import github4s.utils.TestUtils
 import org.scalatest._
 
-class GHGitsSpec extends AsyncFlatSpec with Matchers with TestUtils {
+import scalaj.http.HttpResponse
 
-  override implicit val executionContext =
-    scala.concurrent.ExecutionContext.Implicits.global
+class GHGitDataSpec extends FlatSpec with Matchers with TestUtils {
 
-  "Gits >> GetReference" should "return a list of references" in {
-    val response = Github(accessToken).gits
+  "GitData >> GetReference" should "return a list of references" in {
+    val response = Github(accessToken).gitData
       .getReference(validRepoOwner, validRepoName, "heads")
-      .execFuture(headerUserAgent)
+      .exec[Id, HttpResponse[String]](headerUserAgent)
 
-    testFutureIsRight[NonEmptyList[Ref]](response, { r =>
+    response should be('right)
+    response.toOption map { r ⇒
       r.result.tail.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
-    })
+    }
   }
 
   it should "return at least one reference" in {
-    val response = Github(accessToken).gits
+    val response = Github(accessToken).gitData
       .getReference(validRepoOwner, validRepoName, validRefSingle)
-      .execFuture(headerUserAgent)
+      .exec[Id, HttpResponse[String]](headerUserAgent)
 
-    testFutureIsRight[NonEmptyList[Ref]](response, { r =>
+    response should be('right)
+    response.toOption map { r ⇒
       r.result.head.ref.contains(validRefSingle) shouldBe true
       r.statusCode shouldBe okStatusCode
-    })
+    }
   }
 
-  "Gits >> GetCommit" should "return one commit" in {
-    val response = Github(accessToken).gits
+  "GitData >> GetCommit" should "return one commit" in {
+    val response = Github(accessToken).gitData
       .getCommit(validRepoOwner, validRepoName, validCommitSha)
-      .execFuture(headerUserAgent)
+      .exec[Id, HttpResponse[String]](headerUserAgent)
 
-    testFutureIsRight[RefCommit](response, { r =>
+    response should be('right)
+    response.toOption map { r ⇒
       r.result.message shouldBe validCommitMsg
       r.statusCode shouldBe okStatusCode
-    })
+    }
   }
 }
