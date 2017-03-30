@@ -126,4 +126,21 @@ trait TestUtils {
     validNote,
     refInfo,
     List(refInfo))
+
+  val pullRequest = PullRequest(
+    id = 1,
+    number = 1,
+    state = "open",
+    title = "Title",
+    body = "Body",
+    locked = false,
+    html_url = githubApiUrl,
+    created_at = "2011-04-10T20:09:31Z",
+    updated_at = None,
+    closed_at = None,
+    merged_at = None,
+    base = None,
+    user = None,
+    assignee = None
+  )
 }

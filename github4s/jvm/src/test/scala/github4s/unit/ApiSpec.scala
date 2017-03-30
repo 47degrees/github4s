@@ -39,11 +39,12 @@ class ApiSpec
     with DummyGithubUrls
     with ImplicitsJVM {
 
-  val auth    = new Auth[HttpResponse[String], Id]
-  val repos   = new Repos[HttpResponse[String], Id]
-  val users   = new Users[HttpResponse[String], Id]
-  val gists   = new Gists[HttpResponse[String], Id]
-  val gitData = new GitData[HttpResponse[String], Id]
+  val auth         = new Auth[HttpResponse[String], Id]
+  val repos        = new Repos[HttpResponse[String], Id]
+  val users        = new Users[HttpResponse[String], Id]
+  val gists        = new Gists[HttpResponse[String], Id]
+  val gitData      = new GitData[HttpResponse[String], Id]
+  val pullRequests = new PullRequests[HttpResponse[String], Id]
 
   "Auth >> NewAuth" should "return a valid token when valid credential is provided" in {
     val response = auth.newAuth(
@@ -441,6 +442,25 @@ class ApiSpec
         validRepoName,
         Some(validTreeSha),
         treeDataList)
+    response should be('left)
+  }
+
+  "PullRequests >> List" should "return the expected pull request list when valid repo is provided" in {
+
+    val response =
+      pullRequests.list(accessToken, headerUserAgent, validRepoOwner, validRepoName)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+
+  }
+
+  it should "return error when an invalid repo name is passed" in {
+    val response =
+      repos.get(accessToken, headerUserAgent, validRepoOwner, invalidRepoName)
     response should be('left)
   }
 
