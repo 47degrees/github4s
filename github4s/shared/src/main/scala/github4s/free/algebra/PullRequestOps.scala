@@ -19,16 +19,45 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package github4s
+package github4s.free.algebra
 
-import cats.data.Coproduct
-import github4s.free.algebra._
+import cats.free.{Free, Inject}
+import github4s.GithubResponses._
+import github4s.free.domain._
 
-object app {
-  type COGH01[A]   = Coproduct[RepositoryOp, UserOp, A]
-  type COGH02[A]   = Coproduct[GistOp, COGH01, A]
-  type COGH03[A]   = Coproduct[IssueOp, COGH02, A]
-  type COGH04[A]   = Coproduct[AuthOp, COGH03, A]
-  type COGH05[A]   = Coproduct[GitDataOp, COGH04, A]
-  type GitHub4s[A] = Coproduct[PullRequestOp, COGH05, A]
+/**
+ * PullRequests ops ADT
+ */
+sealed trait PullRequestOp[A]
+
+final case class ListPullRequests(
+    owner: String,
+    repo: String,
+    filters: List[PRFilter] = Nil,
+    accessToken: Option[String] = None
+) extends PullRequestOp[GHResponse[List[PullRequest]]]
+
+/**
+ * Exposes Pull Request operations as a Free monadic algebra that may be combined with other Algebras via
+ * Coproduct
+ */
+class PullRequestOps[F[_]](implicit I: Inject[PullRequestOp, F]) {
+
+  def listPullRequests(
+      owner: String,
+      repo: String,
+      filters: List[PRFilter] = Nil,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[PullRequest]]] =
+    Free.inject[PullRequestOp, F](ListPullRequests(owner, repo, filters, accessToken))
+}
+
+/**
+ * Default implicit based DI factory from which instances of the PullRequestOps may be obtained
+ */
+object PullRequestOps {
+
+  implicit def instance[F[_]](implicit I: Inject[PullRequestOp, F]): PullRequestOps[F] =
+    new PullRequestOps[F]
+
 }

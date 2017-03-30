@@ -23,7 +23,7 @@ package github4s.free.interpreters
 
 import cats.data.Kleisli
 import cats.implicits._
-import cats.{ApplicativeError, Eval, MonadError, ~>}
+import cats.{~>, ApplicativeError, Eval, MonadError}
 import github4s.GithubDefaultUrls._
 import github4s.HttpRequestBuilderExtension
 import github4s.api._
@@ -51,7 +51,8 @@ class Interpreters[M[_], C](
     val c02interpreter: COGH02 ~> K = gistOpsInterpreter or c01interpreter
     val c03interpreter: COGH03 ~> K = issueOpsInterpreter or c02interpreter
     val c04interpreter: COGH04 ~> K = authOpsInterpreter or c03interpreter
-    val all: GitHub4s ~> K          = gitDataOpsInterpreter or c04interpreter
+    val c05interpreter: COGH05 ~> K = gitDataOpsInterpreter or c04interpreter
+    val all: GitHub4s ~> K          = pullRequestOpsInterpreter or c05interpreter
     all
   }
 
@@ -203,6 +204,22 @@ class Interpreters[M[_], C](
             gitData.createBlob(accessToken, headers, owner, repo, content, encoding)
           case CreateTree(owner, repo, baseTree, treeDataList, accessToken) ⇒
             gitData.createTree(accessToken, headers, owner, repo, baseTree, treeDataList)
+        }
+      }
+    }
+
+  /**
+   * Lifts PullRequest Ops to an effect capturing Monad such as Task via natural transformations
+   */
+  def pullRequestOpsInterpreter: PullRequestOp ~> K =
+    new (PullRequestOp ~> K) {
+
+      val pullRequests = new PullRequests()
+
+      def apply[A](fa: PullRequestOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
+        fa match {
+          case ListPullRequests(owner, repo, filters, accessToken) ⇒
+            pullRequests.list(accessToken, headers, owner, repo, filters)
         }
       }
     }

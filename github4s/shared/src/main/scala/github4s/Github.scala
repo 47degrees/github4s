@@ -36,12 +36,13 @@ import scala.concurrent.Future
  */
 class Github(accessToken: Option[String] = None) {
 
-  lazy val users  = new GHUsers(accessToken)
-  lazy val repos  = new GHRepos(accessToken)
-  lazy val auth   = new GHAuth(accessToken)
-  lazy val gists  = new GHGists(accessToken)
-  lazy val issues = new GHIssues(accessToken)
-  lazy val gitData   = new GHGitData(accessToken)
+  lazy val users        = new GHUsers(accessToken)
+  lazy val repos        = new GHRepos(accessToken)
+  lazy val auth         = new GHAuth(accessToken)
+  lazy val gists        = new GHGists(accessToken)
+  lazy val issues       = new GHIssues(accessToken)
+  lazy val gitData      = new GHGitData(accessToken)
+  lazy val pullRequests = new GHPullRequests(accessToken)
 
 }
 

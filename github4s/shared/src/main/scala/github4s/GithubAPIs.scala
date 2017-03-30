@@ -192,3 +192,12 @@ class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHu
   ): GHIO[GHResponse[TreeResult]] =
     O.createTree(owner, repo, baseTree, treeDataList, accessToken)
 }
+
+class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequestOps[GitHub4s]) {
+  def list(
+    owner: String,
+    repo: String,
+    filters: List[PRFilter] = Nil
+  ): GHIO[GHResponse[List[PullRequest]]] =
+    O.listPullRequests(owner, repo, filters, accessToken)
+}
