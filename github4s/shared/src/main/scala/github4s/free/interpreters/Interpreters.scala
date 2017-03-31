@@ -194,6 +194,8 @@ class Interpreters[M[_], C](
         fa match {
           case GetReference(owner, repo, ref, accessToken) ⇒
             gitData.reference(accessToken, headers, owner, repo, ref)
+          case CreateReference(owner, repo, ref, sha, accessToken) ⇒
+            gitData.createReference(accessToken, headers, owner, repo, ref, sha)
           case UpdateReference(owner, repo, ref, sha, force, accessToken) ⇒
             gitData.updateReference(accessToken, headers, owner, repo, ref, sha, force)
           case GetCommit(owner, repo, sha, accessToken) ⇒

@@ -38,6 +38,14 @@ final case class GetReference(
     accessToken: Option[String] = None
 ) extends GitDataOp[GHResponse[NonEmptyList[Ref]]]
 
+final case class CreateReference(
+  owner: String,
+  repo: String,
+  ref: String,
+  sha: String,
+  accessToken: Option[String]
+) extends GitDataOp[GHResponse[Ref]]
+
 final case class UpdateReference(
   owner: String,
   repo: String,
@@ -94,12 +102,21 @@ class GitDataOps[F[_]](implicit I: Inject[GitDataOp, F]) {
   ): Free[F, GHResponse[NonEmptyList[Ref]]] =
     Free.inject[GitDataOp, F](GetReference(owner, repo, ref, accessToken))
 
+  def createReference(
+      owner: String,
+      repo: String,
+      ref: String,
+      sha: String,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[Ref]] =
+    Free.inject[GitDataOp, F](CreateReference(owner, repo, ref, sha, accessToken))
+
   def updateReference(
       owner: String,
       repo: String,
       ref: String,
       sha: String,
-    force: Option[Boolean],
+      force: Option[Boolean],
       accessToken: Option[String] = None
   ): Free[F, GHResponse[Ref]] =
     Free.inject[GitDataOp, F](UpdateReference(owner, repo, ref, sha, force, accessToken))

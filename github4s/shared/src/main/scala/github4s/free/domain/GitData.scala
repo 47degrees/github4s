@@ -71,4 +71,6 @@ case class NewBlobRequest(content: String, encoding: Option[String])
 
 case class NewTreeRequest(base_tree: Option[String], tree: List[TreeData])
 
+case class CreateReferenceRequest(ref: String, sha: String)
+
 case class UpdateReferenceRequest(sha: String, force: Option[Boolean])

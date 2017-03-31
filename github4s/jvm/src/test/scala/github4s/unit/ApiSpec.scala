@@ -327,6 +327,34 @@ class ApiSpec
     response should be('left)
   }
 
+  "GitData >> CreateReference" should "return the single reference" in {
+    val response =
+      gitData.createReference(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        s"refs/$validRefSingle",
+        validCommitSha)
+    response should be('right)
+
+    response.toOption map { r =>
+      r.statusCode shouldBe createdStatusCode
+    }
+  }
+
+  it should "return error Left for non authenticated request" in {
+    val response =
+      gitData.updateReference(
+        None,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        s"refs/$validRefSingle",
+        validCommitSha)
+    response should be('left)
+  }
+
   "GitData >> UpdateReference" should "return the single reference" in {
     val response =
       gitData.updateReference(

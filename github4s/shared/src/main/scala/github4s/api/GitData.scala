@@ -69,10 +69,35 @@ class GitData[C, M[_]](
     httpClient.get[NonEmptyList[Ref]](accessToken, s"repos/$owner/$repo/git/refs/$ref", headers)
 
   /**
-   * Update a Reference
+   * Create a Reference
    *
    * The ref in the URL must be formatted as `heads/branch`, not just branch.
    * For example, the call to get the data for `master` branch will be `heads/master`.
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param ref The name of the fully qualified reference (ie: refs/heads/master).
+   * If it doesn't start with 'refs' and have at least two slashes, it will be rejected.
+   * @param sha the SHA1 value to set this reference to
+   * @return a GHResponse with the Ref
+   */
+  def createReference(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      ref: String,
+      sha: String): M[GHResponse[Ref]] =
+    httpClient.post[Ref](
+      accessToken,
+      s"repos/$owner/$repo/git/refs",
+      headers,
+      dropNullPrint(CreateReferenceRequest(ref, sha).asJson))
+
+  /**
+   * Update a Reference
    *
    * @param accessToken to identify the authenticated user
    * @param headers optional user headers to include in the request

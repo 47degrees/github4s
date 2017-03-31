@@ -52,6 +52,29 @@ class GHGitDataSpec extends FlatSpec with Matchers with TestUtils {
     verify(gitDataOps).getReference(validRepoOwner, validRepoName, validRefSingle, token)
   }
 
+  "GHGitData.createReference" should "call to GitDataOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Ref]] =
+      Free.pure(Right(GHResult(ref, okStatusCode, Map.empty)))
+
+    val gitDataOps = mock[GitDataOps[GitHub4s]]
+    when(
+      gitDataOps
+        .createReference(any[String], any[String], any[String], any[String], any[Option[String]]))
+      .thenReturn(response)
+
+    val token     = Some("token")
+    val ghGitData = new GHGitData(token)(gitDataOps)
+    ghGitData.createReference(validRepoOwner, validRepoName, validRefSingle, validCommitSha)
+
+    verify(gitDataOps).createReference(
+      validRepoOwner,
+      validRepoName,
+      validRefSingle,
+      validCommitSha,
+      token)
+  }
+
   "GHGitData.updateReference" should "call to GitDataOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Ref]] =

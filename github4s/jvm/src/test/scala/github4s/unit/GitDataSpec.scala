@@ -76,6 +76,46 @@ class GitDataSpec
     )(any[Decoder[NonEmptyList[Ref]]])
   }
 
+  "GHGitData.createReference" should "call to httpClient.post with the right parameters" in {
+
+    val response: GHResponse[Ref] =
+      Right(GHResult(ref, okStatusCode, Map.empty))
+
+    val httpClientMock = mock[HttpClient[HttpResponse[String], Id]]
+    when(
+      httpClientMock
+        .post[Ref](any[Option[String]], any[String], any[Map[String, String]], any[String])(
+          any[Decoder[Ref]]))
+      .thenReturn(response)
+
+    val token = Some("token")
+    val gitData = new GitData[HttpResponse[String], Id] {
+      override val httpClient: HttpClient[HttpResponse[String], Id] = httpClientMock
+    }
+    gitData.createReference(
+      token,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      s"refs/$validRefSingle",
+      validCommitSha)
+
+    val request =
+      s"""
+         |{
+         |  "ref": "refs/$validRefSingle",
+         |  "sha": "$validCommitSha"
+         |}
+       """.stripMargin
+
+    verify(httpClientMock).post[Ref](
+      argEq(token),
+      argEq(s"repos/$validRepoOwner/$validRepoName/git/refs"),
+      argEq(headerUserAgent),
+      argThat(JsonArgMatcher(request))
+    )(any[Decoder[Ref]])
+  }
+
   "GHGitData.updateReference" should "call to httpClient.patch with the right parameters" in {
 
     val response: GHResponse[Ref] =

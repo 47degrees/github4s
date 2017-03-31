@@ -25,7 +25,7 @@ import cats.Id
 import cats.implicits._
 import github4s.Github
 import github4s.Github._
-import github4s.free.domain.{PRFilterAll, PRFilterOrderAsc, PRFilterSortCreated}
+import github4s.free.domain.{PRFilterAll, PRFilterBase, PRFilterOrderAsc, PRFilterSortCreated}
 import github4s.jvm.Implicits._
 import github4s.utils.TestUtils
 import org.scalatest.{FlatSpec, Matchers}
@@ -34,7 +34,7 @@ import scalaj.http.HttpResponse
 
 class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
 
-  "PullRequests >> List" should "return a non empty list when valid repo is provided" in {
+  "PullRequests >> List" should "return a right response when valid repo is provided" in {
 
     val response =
       Github(accessToken).pullRequests
@@ -42,7 +42,6 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
         .exec[Id, HttpResponse[String]](headerUserAgent)
     response should be('right)
     response.toOption map { r ⇒
-      r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
   }
@@ -54,7 +53,7 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
         .list(
           validRepoOwner,
           validRepoName,
-          List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc))
+          List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc, PRFilterBase("master")))
         .exec[Id, HttpResponse[String]](headerUserAgent)
     response should be('right)
     response.toOption map { r ⇒

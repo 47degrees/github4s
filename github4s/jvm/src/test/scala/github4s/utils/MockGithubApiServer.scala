@@ -253,6 +253,28 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .when(
       request
         .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/refs")
+        .withHeader("Authorization", tokenHeader))
+    .respond(
+      response
+        .withStatusCode(createdStatusCode)
+        .withBody(singleReference))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/git/refs")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedReponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
         .withPath(s"/repos/$validRepoOwner/$validRepoName/git/refs/$validRefSingle")
         .withHeader("Authorization", tokenHeader))
     .respond(

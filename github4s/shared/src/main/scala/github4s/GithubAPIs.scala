@@ -150,6 +150,14 @@ class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHu
   ): GHIO[GHResponse[NonEmptyList[Ref]]] =
     O.getReference(owner, repo, ref, accessToken)
 
+  def createReference(
+      owner: String,
+      repo: String,
+      ref: String,
+      sha: String
+  ): GHIO[GHResponse[Ref]] =
+    O.createReference(owner, repo, ref, sha, accessToken)
+
   def updateReference(
       owner: String,
       repo: String,

@@ -60,12 +60,12 @@ case class PRFilterHead(override val value: String) extends PRFilter("head", val
 case class PRFilterBase(override val value: String) extends PRFilter("base", value)
 
 sealed abstract class PRFilterSort(override val value: String) extends PRFilter("sort", value)
-case object PRFilterSortCreated                                    extends PRFilterState("created")
-case object PRFilterSortUpdated                                    extends PRFilterState("updated")
-case object PRFilterSortPopularity                                 extends PRFilterState("popularity")
-case object PRFilterSortLongRunning                                extends PRFilterState("long-running")
+case object PRFilterSortCreated                                    extends PRFilterSort("created")
+case object PRFilterSortUpdated                                    extends PRFilterSort("updated")
+case object PRFilterSortPopularity                                 extends PRFilterSort("popularity")
+case object PRFilterSortLongRunning                                extends PRFilterSort("long-running")
 
 sealed abstract class PRFilterDirection(override val value: String)
     extends PRFilter("direction", value)
-case object PRFilterOrderAsc  extends PRFilterState("asc")
-case object PRFilterOrderDesc extends PRFilterState("desc")
+case object PRFilterOrderAsc  extends PRFilterDirection("asc")
+case object PRFilterOrderDesc extends PRFilterDirection("desc")
