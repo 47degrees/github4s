@@ -34,7 +34,7 @@ import scalaj.http.HttpResponse
 
 class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
 
-  "Repos >> List" should "return a non empty list when valid repo is provided" in {
+  "PullRequests >> List" should "return a non empty list when valid repo is provided" in {
 
     val response =
       Github(accessToken).pullRequests
