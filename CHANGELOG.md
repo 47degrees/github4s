@@ -1,6 +1,32 @@
 Changelog
 =============
 
+## 2017/03/31 - Version 0.13.0
+
+This release:
+
+* Adds the git ops for listing pull requests (#70)
+* Includes the ops for creating tags and references (#71)
+* Changes the `RepoStatus` model, making optional these fields:
+
+```diff
+--    open_issues: Int,
+--    watchers: Int,
+--    network_count: Int,
+--    subscribers_count: Int,
+++    open_issues: Option[Int],
+++    watchers: Option[Int],
+++    network_count: Option[Int],
+++    subscribers_count: Option[Int],
+```
+
+## 2017/03/28 - Version 0.12.1
+
+This release adds some git methods (#67)
+
+* Adds the git ops for fetching and creating commits
+* Disables the minimum test coverage for `scalaz` and `github4sjs` modules
+
 ## 2017/03/22 - Version 0.12.0
 
 This release:
