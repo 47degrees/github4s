@@ -332,4 +332,53 @@ class GitDataSpec
     )(any[Decoder[TreeResult]])
   }
 
+  "GHGitData.createTag" should "call to httpClient.post with the right parameters" in {
+
+    val response: GHResponse[Tag] = Right(GHResult(tag, okStatusCode, Map.empty))
+
+    val httpClientMock = mock[HttpClient[HttpResponse[String], Id]]
+    when(
+      httpClientMock
+        .post[Tag](any[Option[String]], any[String], any[Map[String, String]], any[String])(
+          any[Decoder[Tag]]))
+      .thenReturn(response)
+
+    val token = Some("token")
+    val gitData = new GitData[HttpResponse[String], Id] {
+      override val httpClient: HttpClient[HttpResponse[String], Id] = httpClientMock
+    }
+    gitData.createTag(
+      token,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validTagTitle,
+      validNote,
+      validCommitSha,
+      commitType,
+      Some(refCommitAuthor))
+
+    val request =
+      s"""
+         |{
+         |  "tag": "$validTagTitle",
+         |  "message": "$validNote",
+         |  "object": "$validCommitSha",
+         |  "type": "$commitType",
+         |  "tagger": {
+         |    "name": "${refCommitAuthor.name}",
+         |    "email": "${refCommitAuthor.email}",
+         |    "date": "${refCommitAuthor.date}"
+         |  }
+         |}
+       """.stripMargin
+
+    verify(httpClientMock).post[Tag](
+      argEq(token),
+      argEq(s"repos/$validRepoOwner/$validRepoName/git/tags"),
+      argEq(headerUserAgent),
+      argThat(JsonArgMatcher(request))
+    )(any[Decoder[Tag]])
+  }
+
 }

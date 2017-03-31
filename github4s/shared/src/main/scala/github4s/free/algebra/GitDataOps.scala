@@ -68,7 +68,7 @@ final case class CreateCommit(
     message: String,
     tree: String,
     parents: List[String],
-    author: Option[RefCommitAuthor],
+    author: Option[RefAuthor],
     accessToken: Option[String]
 ) extends GitDataOp[GHResponse[RefCommit]]
 
@@ -87,6 +87,17 @@ final case class CreateTree(
     treeDataList: List[TreeData],
     accessToken: Option[String] = None
 ) extends GitDataOp[GHResponse[TreeResult]]
+
+final case class CreateTag(
+  owner: String,
+  repo: String,
+  tag: String,
+  message: String,
+  objectSha: String,
+  objectType: String,
+  author: Option[RefAuthor],
+  accessToken: Option[String]
+) extends GitDataOp[GHResponse[Tag]]
 
 /**
  * Exposes Git Data operations as a Free monadic algebra that may be combined with other Algebras via
@@ -135,7 +146,7 @@ class GitDataOps[F[_]](implicit I: Inject[GitDataOp, F]) {
       message: String,
       tree: String,
       parents: List[String],
-      author: Option[RefCommitAuthor],
+      author: Option[RefAuthor],
       accessToken: Option[String] = None
   ): Free[F, GHResponse[RefCommit]] =
     Free.inject[GitDataOp, F](CreateCommit(owner, repo, message, tree, parents, author, accessToken))
@@ -157,6 +168,18 @@ class GitDataOps[F[_]](implicit I: Inject[GitDataOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[TreeResult]] =
     Free.inject[GitDataOp, F](CreateTree(owner, repo, baseTree, treeDataList, accessToken))
+
+  def createTag(
+    owner: String,
+    repo: String,
+    tag: String,
+    message: String,
+    objectSha: String,
+    objectType: String,
+    author: Option[RefAuthor],
+    accessToken: Option[String] = None
+  ): Free[F, GHResponse[Tag]] =
+    Free.inject[GitDataOp, F](CreateTag(owner, repo, tag, message, objectSha, objectType, author, accessToken))
 }
 
 /**

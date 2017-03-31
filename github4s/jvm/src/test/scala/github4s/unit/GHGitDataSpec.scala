@@ -138,7 +138,7 @@ class GHGitDataSpec extends FlatSpec with Matchers with TestUtils {
         any[String],
         any[String],
         any[List[String]],
-        any[Option[RefCommitAuthor]],
+        any[Option[RefAuthor]],
         any[Option[String]]))
       .thenReturn(response)
 
@@ -209,6 +209,46 @@ class GHGitDataSpec extends FlatSpec with Matchers with TestUtils {
       validRepoName,
       Some(validTreeSha),
       treeDataList,
+      token)
+  }
+
+  "GHGitData.createTag" should "call to GitDataOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Tag]] =
+      Free.pure(Right(GHResult(tag, okStatusCode, Map.empty)))
+
+    val gitDataOps = mock[GitDataOps[GitHub4s]]
+    when(
+      gitDataOps.createTag(
+        any[String],
+        any[String],
+        any[String],
+        any[String],
+        any[String],
+        any[String],
+        any[Option[RefAuthor]],
+        any[Option[String]]))
+      .thenReturn(response)
+
+    val token     = Some("token")
+    val ghGitData = new GHGitData(token)(gitDataOps)
+    ghGitData.createTag(
+      validRepoOwner,
+      validRepoName,
+      validTagTitle,
+      validNote,
+      validCommitSha,
+      commitType,
+      Some(refCommitAuthor))
+
+    verify(gitDataOps).createTag(
+      validRepoOwner,
+      validRepoName,
+      validTagTitle,
+      validNote,
+      validCommitSha,
+      commitType,
+      Some(refCommitAuthor),
       token)
   }
 

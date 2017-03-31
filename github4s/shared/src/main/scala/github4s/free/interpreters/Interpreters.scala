@@ -206,6 +206,8 @@ class Interpreters[M[_], C](
             gitData.createBlob(accessToken, headers, owner, repo, content, encoding)
           case CreateTree(owner, repo, baseTree, treeDataList, accessToken) ⇒
             gitData.createTree(accessToken, headers, owner, repo, baseTree, treeDataList)
+          case CreateTag(owner, repo, tag, message, objectSha, objectType, author, accessToken) ⇒
+            gitData.createTag(accessToken, headers, owner, repo, tag, message, objectSha, objectType, author)
         }
       }
     }

@@ -99,33 +99,41 @@ trait TestUtils {
 
   val validCommitSha   = "d3b048c1f500ee5450e5d7b3d1921ed3e7645891"
   val validCommitMsg   = "Add SBT project settings"
+  val commitType       = "commit"
   val invalidCommitSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
   val validTreeSha   = "827efc6d56897b048c772eb4087f854f46256132"
   val invalidTreeSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-  val treeDataList: List[TreeData] = List(
-    TreeDataSha("path", "100644", "blob", "9fb037999f264ba9a7fc6274d15fa3ae2ab98312"))
+
+  val validTagTitle = "v0.1.1"
+  val validTagSha   = "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c"
+
+  val validPath = "project/plugins.sbt"
+
+  val treeDataList: List[TreeData] = List(TreeDataSha(validPath, "100644", "blob", validTreeSha))
   val treeDataResult = List(
     TreeDataResult(
-      "path",
-      "100644",
-      "blob",
-      Some(100),
-      "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
-      githubApiUrl))
+      path = validPath,
+      mode = "100644",
+      `type` = "blob",
+      size = Some(100),
+      sha = validTreeSha,
+      url = githubApiUrl))
 
-  val ref = Ref("XXXX", githubApiUrl, RefObject("commit", "XXXX", githubApiUrl))
+  val refObject = RefObject(commitType, validCommitSha, githubApiUrl)
+  val ref       = Ref("XXXX", githubApiUrl, refObject)
+
   val refCommitAuthor =
-    RefCommitAuthor("2014-11-07T22:01:45Z", validUsername, "developer@47deg.com")
+    RefAuthor("2014-11-07T22:01:45Z", validUsername, "developer@47deg.com")
   val refInfo = new RefInfo(validTreeSha, githubApiUrl)
   val refCommit = RefCommit(
-    validCommitSha,
-    githubApiUrl,
-    refCommitAuthor,
-    refCommitAuthor,
-    validNote,
-    refInfo,
-    List(refInfo))
+    sha = validCommitSha,
+    url = githubApiUrl,
+    author = refCommitAuthor,
+    committer = refCommitAuthor,
+    message = validNote,
+    tree = refInfo,
+    parents = List(refInfo))
 
   val pullRequest = PullRequest(
     id = 1,
@@ -142,5 +150,14 @@ trait TestUtils {
     base = None,
     user = None,
     assignee = None
+  )
+
+  val tag = Tag(
+    tag = validTagTitle,
+    sha = validTagSha,
+    url = githubApiUrl,
+    message = validNote,
+    tagger = refCommitAuthor,
+    `object` = RefObject(commitType, validCommitSha, githubApiUrl)
   )
 }

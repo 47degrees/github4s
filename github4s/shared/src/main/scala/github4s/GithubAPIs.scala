@@ -180,7 +180,7 @@ class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHu
       message: String,
       tree: String,
       parents: List[String] = Nil,
-      author: Option[RefCommitAuthor] = None
+      author: Option[RefAuthor] = None
   ): GHIO[GHResponse[RefCommit]] =
     O.createCommit(owner, repo, message, tree, parents, author, accessToken)
 
@@ -199,6 +199,17 @@ class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHu
       treeDataList: List[TreeData]
   ): GHIO[GHResponse[TreeResult]] =
     O.createTree(owner, repo, baseTree, treeDataList, accessToken)
+
+  def createTag(
+    owner: String,
+    repo: String,
+    tag: String,
+    message: String,
+    objectSha: String,
+    objectType: String,
+    author: Option[RefAuthor] = None
+  ): GHIO[GHResponse[Tag]] =
+    O.createTag(owner, repo, tag, message, objectSha, objectType, author, accessToken)
 }
 
 class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequestOps[GitHub4s]) {

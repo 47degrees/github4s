@@ -164,7 +164,7 @@ class GitData[C, M[_]](
       message: String,
       tree: String,
       parents: List[String] = Nil,
-      author: Option[RefCommitAuthor] = None): M[GHResponse[RefCommit]] =
+      author: Option[RefAuthor] = None): M[GHResponse[RefCommit]] =
     httpClient.post[RefCommit](
       accessToken,
       s"repos/$owner/$repo/git/commits",
@@ -236,5 +236,36 @@ class GitData[C, M[_]](
 
   private[this] def dropNullPrint(json: Json): String =
     Printer.noSpaces.copy(dropNullKeys = true).pretty(json)
+
+  /**
+    * Create a Tag
+    *
+    * @param accessToken to identify the authenticated user
+    * @param headers optional user headers to include in the request
+    * @param owner of the repo
+    * @param repo name of the repo
+    * @param tag the tag.
+    * @param message the new tag message.
+    * @param objectSha the SHA of the git object this is tagging
+    * @param objectType the type of the object we're tagging.
+    * Normally this is a `commit` but it can also be a `tree` or a `blob`.
+    * @param tagger object containing information about the individual creating the tag..
+    * @return a GHResponse with RefCommit
+    */
+  def createTag(
+    accessToken: Option[String] = None,
+    headers: Map[String, String] = Map(),
+    owner: String,
+    repo: String,
+    tag: String,
+    message: String,
+    objectSha: String,
+    objectType: String,
+    tagger: Option[RefAuthor] = None): M[GHResponse[Tag]] =
+    httpClient.post[Tag](
+      accessToken,
+      s"repos/$owner/$repo/git/tags",
+      headers,
+      dropNullPrint(NewTagRequest(tag, message, objectSha, objectType, tagger).asJson))
 
 }
