@@ -5,7 +5,6 @@ Changelog
 
 This release:
 
-This release:
 * Changes the description field in `Repository` to `Option[String]`
 * Adds the operation for creating releases
 
