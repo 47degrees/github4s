@@ -155,4 +155,23 @@ trait TestUtils {
     tagger = refCommitAuthor,
     `object` = RefObject(commitType, validCommitSha, githubApiUrl)
   )
+
+  val release = Release(
+    id = 1,
+    tag_name = validTagTitle,
+    target_commitish = "master",
+    name = validTagTitle,
+    body = validNote,
+    draft = false,
+    prerelease = false,
+    created_at = "2011-04-10T20:09:31Z",
+    published_at = "2011-04-10T20:09:31Z",
+    author = User(1, validUsername, githubApiUrl, githubApiUrl),
+    url = githubApiUrl,
+    html_url = githubApiUrl,
+    assets_url = githubApiUrl,
+    upload_url = githubApiUrl,
+    tarball_url = githubApiUrl,
+    zipball_url = githubApiUrl
+  )
 }

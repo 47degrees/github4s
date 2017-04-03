@@ -229,9 +229,6 @@ class GitData[C, M[_]](
       headers,
       dropNullPrint(NewTreeRequest(baseTree, treeDataList).asJson))
 
-  private[this] def dropNullPrint(json: Json): String =
-    Printer.noSpaces.copy(dropNullKeys = true).pretty(json)
-
   /**
     * Create a Tag
     *
@@ -244,8 +241,8 @@ class GitData[C, M[_]](
     * @param objectSha the SHA of the git object this is tagging
     * @param objectType the type of the object we're tagging.
     * Normally this is a `commit` but it can also be a `tree` or a `blob`.
-    * @param tagger object containing information about the individual creating the tag..
-    * @return a GHResponse with RefCommit
+    * @param tagger object containing information about the individual creating the tag.
+    * @return a GHResponse with Tag
     */
   def createTag(
     accessToken: Option[String] = None,

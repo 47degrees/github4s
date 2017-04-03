@@ -18,11 +18,11 @@ package github4s.free.algebra
 
 import cats.free.{Free, Inject}
 import github4s.GithubResponses.GHResponse
-import github4s.free.domain.{Commit, Pagination, Repository, User}
+import github4s.free.domain._
 
 /**
-  * Repositories ops ADT
-  */
+ * Repositories ops ADT
+ */
 sealed trait RepositoryOp[A]
 final case class GetRepo(
     owner: String,
@@ -49,10 +49,22 @@ final case class ListContributors(
     accessToken: Option[String] = None
 ) extends RepositoryOp[GHResponse[List[User]]]
 
+final case class CreateRelease(
+    owner: String,
+    repo: String,
+    tagName: String,
+    name: String,
+    body: String,
+    targetCommitish: Option[String] = None,
+    draft: Option[Boolean] = None,
+    prerelease: Option[Boolean] = None,
+    accessToken: Option[String] = None
+) extends RepositoryOp[GHResponse[Release]]
+
 /**
-  * Exposes Repositories operations as a Free monadic algebra that may be combined with other Algebras via
-  * Coproduct
-  */
+ * Exposes Repositories operations as a Free monadic algebra that may be combined with other Algebras via
+ * Coproduct
+ */
 class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
 
   def getRepo(
@@ -84,11 +96,34 @@ class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
   ): Free[F, GHResponse[List[User]]] =
     Free.inject[RepositoryOp, F](ListContributors(owner, repo, anon, accessToken))
 
+  def createRelease(
+      owner: String,
+      repo: String,
+      tagName: String,
+      name: String,
+      body: String,
+      targetCommitish: Option[String] = None,
+      draft: Option[Boolean] = None,
+      prerelease: Option[Boolean] = None,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[Release]] =
+    Free.inject[RepositoryOp, F](
+      CreateRelease(
+        owner,
+        repo,
+        tagName,
+        name,
+        body,
+        targetCommitish,
+        draft,
+        prerelease,
+        accessToken))
+
 }
 
 /**
-  * Default implicit based DI factory from which instances of the RepositoryOps may be obtained
-  */
+ * Default implicit based DI factory from which instances of the RepositoryOps may be obtained
+ */
 object RepositoryOps {
 
   implicit def instance[F[_]](implicit I: Inject[RepositoryOp, F]): RepositoryOps[F] =

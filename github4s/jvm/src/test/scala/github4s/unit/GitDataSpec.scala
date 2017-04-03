@@ -71,7 +71,7 @@ class GitDataSpec
     )(any[Decoder[NonEmptyList[Ref]]])
   }
 
-  "GHGitData.createReference" should "call to httpClient.post with the right parameters" in {
+  "GitData.createReference" should "call to httpClient.post with the right parameters" in {
 
     val response: GHResponse[Ref] =
       Right(GHResult(ref, okStatusCode, Map.empty))
@@ -111,7 +111,7 @@ class GitDataSpec
     )(any[Decoder[Ref]])
   }
 
-  "GHGitData.updateReference" should "call to httpClient.patch with the right parameters" in {
+  "GitData.updateReference" should "call to httpClient.patch with the right parameters" in {
 
     val response: GHResponse[Ref] =
       Right(GHResult(ref, okStatusCode, Map.empty))
@@ -153,7 +153,7 @@ class GitDataSpec
     )(any[Decoder[Ref]])
   }
 
-  "GHGitData.getCommit" should "call to httpClient.get with the right parameters" in {
+  "GitData.getCommit" should "call to httpClient.get with the right parameters" in {
 
     val response: GHResponse[RefCommit] =
       Right(GHResult(refCommit, okStatusCode, Map.empty))
@@ -184,7 +184,7 @@ class GitDataSpec
     )(any[Decoder[RefCommit]])
   }
 
-  "GHGitData.createCommit" should "call to httpClient.post with the right parameters" in {
+  "GitData.createCommit" should "call to httpClient.post with the right parameters" in {
 
     val response: GHResponse[RefCommit] =
       Right(GHResult(refCommit, okStatusCode, Map.empty))
@@ -232,7 +232,7 @@ class GitDataSpec
     )(any[Decoder[RefCommit]])
   }
 
-  "GHGitData.createBlob" should "call to httpClient.post with the right parameters" in {
+  "GitData.createBlob" should "call to httpClient.post with the right parameters" in {
 
     val response: GHResponse[RefInfo] =
       Right(GHResult(new RefInfo(validCommitSha, githubApiUrl), okStatusCode, Map.empty))
@@ -266,7 +266,7 @@ class GitDataSpec
     )(any[Decoder[RefInfo]])
   }
 
-  "GHGitData.createTree" should "call to httpClient.post with the right parameters" in {
+  "GitData.createTree" should "call to httpClient.post with the right parameters" in {
 
     val response: GHResponse[TreeResult] =
       Right(
@@ -327,7 +327,7 @@ class GitDataSpec
     )(any[Decoder[TreeResult]])
   }
 
-  "GHGitData.createTag" should "call to httpClient.post with the right parameters" in {
+  "GitData.createTag" should "call to httpClient.post with the right parameters" in {
 
     val response: GHResponse[Tag] = Right(GHResult(tag, okStatusCode, Map.empty))
 

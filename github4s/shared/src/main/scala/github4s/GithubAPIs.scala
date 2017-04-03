@@ -57,6 +57,18 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
   ): GHIO[GHResponse[List[User]]] =
     O.listContributors(owner, repo, anon, accessToken)
 
+  def createRelease(
+      owner: String,
+      repo: String,
+      tagName: String,
+      name: String,
+      body: String,
+      targetCommitish: Option[String] = None,
+      draft: Option[Boolean] = None,
+      prerelease: Option[Boolean] = None
+  ): GHIO[GHResponse[Release]] =
+    O.createRelease(owner, repo, tagName, name, body, targetCommitish, draft, prerelease, accessToken)
+
 }
 
 class GHAuth(accessToken: Option[String] = None)(implicit O: AuthOps[GitHub4s]) {
@@ -196,22 +208,22 @@ class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHu
     O.createTree(owner, repo, baseTree, treeDataList, accessToken)
 
   def createTag(
-    owner: String,
-    repo: String,
-    tag: String,
-    message: String,
-    objectSha: String,
-    objectType: String,
-    author: Option[RefAuthor] = None
+      owner: String,
+      repo: String,
+      tag: String,
+      message: String,
+      objectSha: String,
+      objectType: String,
+      author: Option[RefAuthor] = None
   ): GHIO[GHResponse[Tag]] =
     O.createTag(owner, repo, tag, message, objectSha, objectType, author, accessToken)
 }
 
 class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequestOps[GitHub4s]) {
   def list(
-    owner: String,
-    repo: String,
-    filters: List[PRFilter] = Nil
+      owner: String,
+      repo: String,
+      filters: List[PRFilter] = Nil
   ): GHIO[GHResponse[List[PullRequest]]] =
     O.listPullRequests(owner, repo, filters, accessToken)
 }

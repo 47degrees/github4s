@@ -214,6 +214,36 @@ class ApiSpec
     response should be('left)
   }
 
+  "Repos >> CreateRelease" should "return the created release" in {
+    val response =
+      repos.createRelease(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validTagTitle,
+        validTagTitle,
+        validNote)
+    response should be('right)
+
+    response.toOption map { r =>
+      r.statusCode shouldBe createdStatusCode
+    }
+  }
+
+  it should "return error Left for non authenticated request" in {
+    val response =
+      repos.createRelease(
+        None,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validTagTitle,
+        validTagTitle,
+        validNote)
+    response should be('left)
+  }
+
   "Users >> Get" should "return the expected login for a valid username" in {
 
     val response = users.get(accessToken, headerUserAgent, validUsername)

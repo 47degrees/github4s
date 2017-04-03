@@ -67,7 +67,7 @@ object Decoders {
         full_name         ← c.downField("full_name").as[String]
         owner             ← c.downField("owner").as[User]
         priv              ← c.downField("private").as[Boolean]
-        description       ← c.downField("description").as[String]
+        description       ← c.downField("description").as[Option[String]]
         fork              ← c.downField("fork").as[Boolean]
         created_at        ← c.downField("created_at").as[String]
         updated_at        ← c.downField("updated_at").as[String]

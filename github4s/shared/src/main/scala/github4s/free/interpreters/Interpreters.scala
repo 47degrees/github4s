@@ -75,6 +75,27 @@ class Interpreters[M[_], C](
             pagination)
         case ListContributors(owner, repo, anon, accessToken) ⇒
           repos.listContributors(accessToken, headers, owner, repo, anon)
+        case CreateRelease(
+            owner,
+            repo,
+            tagName,
+            name,
+            body,
+            targetCommitish,
+            draft,
+            prerelease,
+            accessToken) =>
+          repos.createRelease(
+            accessToken,
+            headers,
+            owner,
+            repo,
+            tagName,
+            name,
+            body,
+            targetCommitish,
+            draft,
+            prerelease)
       }
     }
   }
@@ -202,7 +223,16 @@ class Interpreters[M[_], C](
           case CreateTree(owner, repo, baseTree, treeDataList, accessToken) ⇒
             gitData.createTree(accessToken, headers, owner, repo, baseTree, treeDataList)
           case CreateTag(owner, repo, tag, message, objectSha, objectType, author, accessToken) ⇒
-            gitData.createTag(accessToken, headers, owner, repo, tag, message, objectSha, objectType, author)
+            gitData.createTag(
+              accessToken,
+              headers,
+              owner,
+              repo,
+              tag,
+              message,
+              objectSha,
+              objectType,
+              author)
         }
       }
     }
