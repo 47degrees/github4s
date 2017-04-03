@@ -11,5 +11,5 @@ Github4s
 To get started with SBT, simply add the following to your build.sbt file:
 
 ```
-libraryDependencies += "com.47deg" %% "github4s" % "0.12.1"
+libraryDependencies += "com.47deg" %% "github4s" % "0.14.0"
 ```

@@ -1,6 +1,14 @@
 Changelog
 =============
 
+## 2017/04/03 - Version 0.14.0
+
+This release:
+
+This release:
+* Changes the description field in `Repository` to `Option[String]`
+* Adds the operation for creating releases
+
 ## 2017/03/31 - Version 0.13.0
 
 This release:
