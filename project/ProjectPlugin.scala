@@ -71,6 +71,7 @@ object ProjectPlugin extends AutoPlugin {
         case "2.10" => Seq("-Xdivergence211")
         case _      => Nil
       }),
+      orgGithubTokenSetting := getEnvVar("GITHUB4S_ACCESS_TOKEN"),
       // This is necessary to prevent packaging the BuildInfo with
       // sensible information like the Github token. Do not remove.
       mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>
