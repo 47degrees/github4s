@@ -16,6 +16,7 @@
 
 package github4s.unit
 
+import cats.data.NonEmptyList
 import cats.free.Free
 import github4s.GHRepos
 import github4s.GithubResponses.{GHResponse, GHResult}
@@ -29,6 +30,33 @@ import org.scalatest.mockito.MockitoSugar.mock
 import org.scalatest.{FlatSpec, Matchers}
 
 class GHReposSpec extends FlatSpec with Matchers with TestUtils {
+
+  "GHRepos.contents" should "call to RepositoryOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[NonEmptyList[Content]]] =
+      Free.pure(Right(GHResult(NonEmptyList(content, Nil), okStatusCode, Map.empty)))
+
+    val repoOps = mock[RepositoryOps[GitHub4s]]
+    when(
+      repoOps.getContents(
+        any[String],
+        any[String],
+        any[String],
+        any[Option[String]],
+        any[Option[String]]))
+      .thenReturn(response)
+
+    val token       = Some("token")
+    val ghReposData = new GHRepos(token)(repoOps)
+    ghReposData.getContents(validRepoOwner, validRepoName, validFilePath, Some("master"))
+
+    verify(repoOps).getContents(
+      validRepoOwner,
+      validRepoName,
+      validFilePath,
+      Some("master"),
+      token)
+  }
 
   "GHRepos.createRelease" should "call to RepositoryOps with the right parameters" in {
 

@@ -157,27 +157,26 @@ object Decoders {
 
   val emptyListDecodingFailure = DecodingFailure("Empty Response", Nil)
 
-  implicit def decodeListRef(implicit D: Decoder[Ref]): Decoder[NonEmptyList[Ref]] = {
+  implicit def decodeNonEmptyList[T](implicit D: Decoder[T]): Decoder[NonEmptyList[T]] = {
 
     def decodeCursor(
-        partialList: Option[NonEmptyList[Ref]],
-        cursor: HCursor): Decoder.Result[NonEmptyList[Ref]] =
-      cursor.as[Ref] map { r ⇒
+        partialList: Option[NonEmptyList[T]],
+        cursor: HCursor): Decoder.Result[NonEmptyList[T]] =
+      cursor.as[T] map { r ⇒
         partialList map (_.concat(NonEmptyList(r, Nil))) getOrElse NonEmptyList(r, Nil)
       }
 
-    def decodeCursors(cursors: List[HCursor]): Result[NonEmptyList[Ref]] =
-      cursors.foldLeft[Decoder.Result[NonEmptyList[Ref]]](Left(emptyListDecodingFailure)) {
+    def decodeCursors(cursors: List[HCursor]): Result[NonEmptyList[T]] =
+      cursors.foldLeft[Decoder.Result[NonEmptyList[T]]](Left(emptyListDecodingFailure)) {
         case (Right(list), cursor)                      => decodeCursor(Some(list), cursor)
         case (Left(`emptyListDecodingFailure`), cursor) => decodeCursor(None, cursor)
         case (Left(e), _)                               => Left(e)
       }
 
     Decoder.instance { c ⇒
-      c.as[Ref] match {
+      c.as[T] match {
         case Right(r) => Right(NonEmptyList(r, Nil))
-        case Left(e) =>
-          c.as[List[HCursor]] flatMap decodeCursors
+        case Left(_)  => c.as[List[HCursor]] flatMap decodeCursors
       }
     }
   }

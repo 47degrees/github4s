@@ -61,6 +61,8 @@ class Interpreters[M[_], C](
     def apply[A](fa: RepositoryOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
       fa match {
         case GetRepo(owner, repo, accessToken) ⇒ repos.get(accessToken, headers, owner, repo)
+        case GetContents(owner, repo, path, ref, accessToken) ⇒
+          repos.getContents(accessToken, headers, owner, repo, path, ref)
         case ListCommits(owner, repo, sha, path, author, since, until, pagination, accessToken) ⇒
           repos.listCommits(
             accessToken,

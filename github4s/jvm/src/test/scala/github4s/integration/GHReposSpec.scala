@@ -19,7 +19,6 @@ package github4s.integration
 import cats.Id
 import cats.implicits._
 import github4s.Github._
-import github4s.GithubResponses._
 import github4s.Github
 import github4s.jvm.Implicits._
 import github4s.utils.TestUtils
@@ -29,7 +28,7 @@ import scalaj.http.HttpResponse
 
 class GHReposSpec extends FlatSpec with Matchers with TestUtils {
 
-  "Repos >> Get" should "return the expected name when valid repo is provided" in {
+  "Repos >> Get" should "return the expected name when a valid repo is provided" in {
 
     val response =
       Github(accessToken).repos
@@ -46,6 +45,27 @@ class GHReposSpec extends FlatSpec with Matchers with TestUtils {
     val response =
       Github(accessToken).repos
         .get(validRepoOwner, invalidRepoName)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
+    response should be('left)
+  }
+
+  "Repos >> GetContents" should "return the expected contents when valid path is provided" in {
+
+    val response =
+      Github(accessToken).repos
+        .getContents(validRepoOwner, validRepoName, validFilePath)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
+    response should be('right)
+    response.toOption map { r ⇒
+      r.result.head.path shouldBe validFilePath
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return error when an invalid path is passed" in {
+    val response =
+      Github(accessToken).repos
+        .getContents(validRepoOwner, validRepoName, invalidFilePath)
         .exec[Id, HttpResponse[String]](headerUserAgent)
     response should be('left)
   }

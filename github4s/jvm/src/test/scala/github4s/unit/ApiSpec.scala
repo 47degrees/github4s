@@ -118,6 +118,78 @@ class ApiSpec
     response should be('left)
   }
 
+  "Repos >> GetContents" should "return the expected contents when valid repo and a valid file path is provided" in {
+
+    val response =
+      repos.getContents(accessToken, headerUserAgent, validRepoOwner, validRepoName, validFilePath)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.head.path shouldBe validFilePath
+      r.result.tail.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+
+  }
+
+  it should "return the expected contents when valid repo and a valid dir path is provided" in {
+
+    val response =
+      repos.getContents(accessToken, headerUserAgent, validRepoOwner, validRepoName, validDirPath)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.head.path.startsWith(validDirPath) shouldBe true
+      r.result.tail.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+
+  }
+
+  it should "return the expected contents when valid repo and a valid symlink path is provided" in {
+
+    val response =
+      repos.getContents(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validSymlinkPath)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.head.path shouldBe validSymlinkPath
+      r.result.tail.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+
+  }
+
+  it should "return the expected contents when valid repo and a valid submodule path is provided" in {
+
+    val response =
+      repos.getContents(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validSubmodulePath)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.head.path shouldBe validSubmodulePath
+      r.result.tail.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+
+  }
+
+  it should "return error when an invalid repo name is passed" in {
+    val response =
+      repos.get(accessToken, headerUserAgent, validRepoOwner, invalidRepoName)
+    response should be('left)
+  }
+
   "Repos >> ListCommits" should "return the expected list of commits for valid data" in {
     val response = repos.listCommits(
       accessToken = accessToken,

@@ -16,6 +16,7 @@
 
 package github4s.api
 
+import cats.data.NonEmptyList
 import github4s.GithubResponses.GHResponse
 import github4s.free.domain._
 import github4s.free.interpreters.Capture
@@ -48,6 +49,47 @@ class Repos[C, M[_]](
       owner: String,
       repo: String): M[GHResponse[Repository]] =
     httpClient.get[Repository](accessToken, s"repos/$owner/$repo", headers)
+
+  /**
+   * Get the contents of a file or directory in a repository.
+   *
+   * The response could be a:
+   *  - file
+   *  - directory
+   *   The response will be an array of objects, one object for each item in the directory.
+   *   When listing the contents of a directory, submodules have their "type" specified as "file".
+   *  - symlink
+   *   If the requested :path points to a symlink, and the symlink's target is a normal file in the repository,
+   *   then the API responds with the content of the file.
+   *   Otherwise, the API responds with an object describing the symlink itself.
+   *  - submodule
+   *   The submodule_git_url identifies the location of the submodule repository,
+   *   and the sha identifies a specific commit within the submodule repository.
+   *   Git uses the given URL when cloning the submodule repository,
+   *   and checks out the submodule at that specific commit.
+   *   If the submodule repository is not hosted on github.com, the Git URLs (git_url and _links["git"])
+   *   and the github.com URLs (html_url and _links["html"]) will have null values
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param path the content path
+   * @param ref the name of the commit/branch/tag. Default: the repository’s default branch (usually `master`)
+   * @return GHResponse with the content defails
+   */
+  def getContents(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      path: String,
+      ref: Option[String] = None): M[GHResponse[NonEmptyList[Content]]] =
+    httpClient.get[NonEmptyList[Content]](
+      accessToken,
+      s"repos/$owner/$repo/contents/$path",
+      headers,
+      params = ref map (r => Map("ref" -> r)) getOrElse Map.empty)
 
   /**
    * Retrieve the list of commits for a particular repo

@@ -38,6 +38,13 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
   def get(owner: String, repo: String): GHIO[GHResponse[Repository]] =
     O.getRepo(owner, repo, accessToken)
 
+  def getContents(
+      owner: String,
+      repo: String,
+      path: String,
+      ref: Option[String] = None): GHIO[GHResponse[NonEmptyList[Content]]] =
+    O.getContents(owner, repo, path, ref, accessToken)
+
   def listCommits(
       owner: String,
       repo: String,
@@ -67,7 +74,16 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
       draft: Option[Boolean] = None,
       prerelease: Option[Boolean] = None
   ): GHIO[GHResponse[Release]] =
-    O.createRelease(owner, repo, tagName, name, body, targetCommitish, draft, prerelease, accessToken)
+    O.createRelease(
+      owner,
+      repo,
+      tagName,
+      name,
+      body,
+      targetCommitish,
+      draft,
+      prerelease,
+      accessToken)
 
 }
 

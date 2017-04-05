@@ -16,6 +16,7 @@
 
 package github4s.free.algebra
 
+import cats.data.NonEmptyList
 import cats.free.{Free, Inject}
 import github4s.GithubResponses.GHResponse
 import github4s.free.domain._
@@ -24,11 +25,20 @@ import github4s.free.domain._
  * Repositories ops ADT
  */
 sealed trait RepositoryOp[A]
+
 final case class GetRepo(
     owner: String,
     repo: String,
     accessToken: Option[String] = None
 ) extends RepositoryOp[GHResponse[Repository]]
+
+final case class GetContents(
+    owner: String,
+    repo: String,
+    path: String,
+    ref: Option[String] = None,
+    accessToken: Option[String] = None
+) extends RepositoryOp[GHResponse[NonEmptyList[Content]]]
 
 final case class ListCommits(
     owner: String,
@@ -73,6 +83,15 @@ class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[Repository]] =
     Free.inject[RepositoryOp, F](GetRepo(owner, repo, accessToken))
+
+  def getContents(
+      owner: String,
+      repo: String,
+      path: String,
+      ref: Option[String] = None,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[NonEmptyList[Content]]] =
+    Free.inject[RepositoryOp, F](GetContents(owner, repo, path, ref, accessToken))
 
   def listCommits(
       owner: String,

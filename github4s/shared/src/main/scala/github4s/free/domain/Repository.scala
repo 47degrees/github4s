@@ -78,6 +78,21 @@ case class Release(
     tarball_url: String,
     zipball_url: String)
 
+case class Content(
+    `type`: String,
+    encoding: Option[String],
+    target: Option[String],
+    submodule_git_url: Option[String],
+    size: Int,
+    name: String,
+    path: String,
+    content: Option[String],
+    sha: String,
+    url: String,
+    git_url: String,
+    html_url: String,
+    download_url: Option[String])
+
 case class NewReleaseRequest(
     tag_name: String,
     name: String,

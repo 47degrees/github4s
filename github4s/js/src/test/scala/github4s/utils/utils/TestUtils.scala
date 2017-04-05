@@ -68,6 +68,8 @@ trait TestUtils extends Matchers {
 
   val validRepoOwner   = "47deg"
   val validRepoName    = "github4s"
+  val validFilePath    = "README.md"
+  val invalidFilePath  = "NON_EXISTENT_FILE_IN_REPOSITORY"
   val invalidRepoName  = "GHInvalidRepoName"
   val validRedirectUri = "http://localhost:9000/_oauth-callback"
   val validPage        = 1

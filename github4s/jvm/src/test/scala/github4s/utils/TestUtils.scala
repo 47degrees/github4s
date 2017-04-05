@@ -46,13 +46,18 @@ trait TestUtils {
   val validCode           = "code"
   val invalidCode         = "invalid-code"
 
-  val validRepoOwner   = "47deg"
-  val validRepoName    = "github4s"
-  val invalidRepoName  = "GHInvalidRepoName"
-  val validRedirectUri = "http://localhost:9000/_oauth-callback"
-  val validPage        = 1
-  val invalidPage      = 999
-  val validPerPage     = 100
+  val validRepoOwner     = "47deg"
+  val validRepoName      = "github4s"
+  val invalidRepoName    = "GHInvalidRepoName"
+  val validRedirectUri   = "http://localhost:9000/_oauth-callback"
+  val validPage          = 1
+  val invalidPage        = 999
+  val validPerPage       = 100
+  val validFilePath      = "README.md"
+  val invalidFilePath    = "NON_EXISTENT_FILE_IN_REPOSITORY"
+  val validDirPath       = "lib"
+  val validSymlinkPath   = "bin/some-symlink"
+  val validSubmodulePath = "test/qunit"
 
   val validSinceInt   = 100
   val invalidSinceInt = 999999999
@@ -173,5 +178,21 @@ trait TestUtils {
     upload_url = githubApiUrl,
     tarball_url = githubApiUrl,
     zipball_url = githubApiUrl
+  )
+
+  val content = Content(
+    `type` = "file",
+    encoding = Some("base64"),
+    target = None,
+    submodule_git_url = None,
+    size = validSinceInt,
+    name = validFilePath,
+    path = validFilePath,
+    content = Some(validGistFileContent.getBytes.toBase64),
+    sha = invalidCommitSha,
+    url = githubApiUrl,
+    git_url = githubApiUrl,
+    html_url = githubApiUrl,
+    download_url = Some(githubApiUrl)
   )
 }

@@ -16,22 +16,22 @@
 
 package github4s.integration
 
+import cats.data.NonEmptyList
 import github4s.Github._
-import github4s.GithubResponses._
 import github4s.Github
 import github4s.utils.TestUtils
-import org.scalatest.{AsyncFlatSpec, FlatSpec, Matchers}
-import fr.hmil.roshttp.response.SimpleHttpResponse
-import github4s.free.domain.{Commit, Repository, User}
+import org.scalatest.{AsyncFlatSpec, Matchers}
+import github4s.free.domain.{Commit, Content, Repository, User}
 import github4s.js.Implicits._
-import scala.concurrent.Future
+
+import scala.concurrent.ExecutionContext
 
 class GHReposSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext =
+  override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  "Repos >> Get" should "return the expected name when valid repo is provided" in {
+  "Repos >> Get" should "return the expected name when a valid repo is provided" in {
 
     val response =
       Github(accessToken).repos
@@ -48,6 +48,28 @@ class GHReposSpec extends AsyncFlatSpec with Matchers with TestUtils {
     val response =
       Github(accessToken).repos
         .get(validRepoOwner, invalidRepoName)
+        .execFuture(headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
+  "Repos >> GetContents" should "return the expected contents when valid path is provided" in {
+
+    val response =
+      Github(accessToken).repos
+        .getContents(validRepoOwner, validRepoName, validFilePath)
+        .execFuture(headerUserAgent)
+
+    testFutureIsRight[NonEmptyList[Content]](response, { r =>
+      r.result.head.path shouldBe validFilePath
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error when an invalid path is passed" in {
+    val response =
+      Github(accessToken).repos
+        .getContents(validRepoOwner, validRepoName, validFilePath)
         .execFuture(headerUserAgent)
 
     testFutureIsLeft(response)

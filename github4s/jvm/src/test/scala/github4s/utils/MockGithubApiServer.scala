@@ -126,6 +126,42 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/repos/$validRepoOwner/$invalidRepoName"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
+  //Repos >> get contents
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/contents/$validFilePath"))
+    .respond(response.withStatusCode(okStatusCode).withBody(validRepoFileContents))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/contents/$validDirPath"))
+    .respond(response.withStatusCode(okStatusCode).withBody(validRepoDirContents))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/contents/$validSymlinkPath"))
+    .respond(response.withStatusCode(okStatusCode).withBody(validRepoSymlinkContents))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/contents/$validSubmodulePath"))
+    .respond(response.withStatusCode(okStatusCode).withBody(validRepoSubmoduleContents))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/contents/$validFilePath"))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
   //Repos >> list commits
   mockServer
     .when(

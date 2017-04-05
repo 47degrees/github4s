@@ -17,6 +17,7 @@
 package github4s.unit
 
 import cats.Id
+import cats.data.NonEmptyList
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.api.Repos
 import github4s.free.domain._
@@ -37,6 +38,44 @@ class ReposSpec
     with DummyGithubUrls
     with IdInstances
     with HttpRequestBuilderExtensionJVM {
+
+  "Repos.getContents" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[NonEmptyList[Content]] =
+      Right(GHResult(NonEmptyList(content, Nil), okStatusCode, Map.empty))
+
+    val httpClientMock = mock[HttpClient[HttpResponse[String], Id]]
+    when(
+      httpClientMock
+        .get[NonEmptyList[Content]](
+          any[Option[String]],
+          any[String],
+          any[Map[String, String]],
+          any[Map[String, String]],
+          any[Option[Pagination]])(any[Decoder[NonEmptyList[Content]]]))
+      .thenReturn(response)
+
+    val token = Some("token")
+    val repos = new Repos[HttpResponse[String], Id] {
+      override val httpClient: HttpClient[HttpResponse[String], Id] = httpClientMock
+    }
+    repos.getContents(
+      accessToken = token,
+      headers = headerUserAgent,
+      owner = validRepoOwner,
+      repo = validRepoName,
+      path = validFilePath,
+      ref = Some("master")
+    )
+
+    verify(httpClientMock).get[NonEmptyList[Content]](
+      argEq(token),
+      argEq(s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath"),
+      argEq(headerUserAgent),
+      argEq(Map("ref" -> "master")),
+      any[Option[Pagination]]
+    )(any[Decoder[NonEmptyList[Content]]])
+  }
 
   "Repos.createRelease" should "call to httpClient.post with the right parameters" in {
 
