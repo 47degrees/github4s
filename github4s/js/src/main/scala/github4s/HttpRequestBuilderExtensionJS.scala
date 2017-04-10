@@ -16,27 +16,19 @@
 
 package github4s
 
-import scala.concurrent.Future
-import fr.hmil.roshttp._
-import fr.hmil.roshttp.body.{BodyPart, BulkBodyPart}
 import java.nio.ByteBuffer
 
 import cats.implicits._
+import fr.hmil.roshttp._
+import fr.hmil.roshttp.body.BulkBodyPart
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import fr.hmil.roshttp.util.HeaderMap
-import fr.hmil.roshttp.body.Implicits._
-import fr.hmil.roshttp.exceptions.HttpException
-
-import scala.concurrent.ExecutionContext.Implicits.global
 import github4s.GithubResponses.{GHResponse, GHResult, JsonParsingException, UnexpectedException}
-import github4s.GithubDefaultUrls._
-import github4s.Decoders._
 import github4s.HttpClient.HttpCode400
 import io.circe.Decoder
 import io.circe.parser._
-import monix.reactive.Observable
 
-import scala.util.{Failure, Success}
+import scala.concurrent.Future
 
 case class CirceJSONBody(value: String) extends BulkBodyPart {
   override def contentType: String = s"application/json; charset=utf-8"
@@ -47,12 +39,6 @@ case class CirceJSONBody(value: String) extends BulkBodyPart {
 trait HttpRequestBuilderExtensionJS {
 
   import monix.execution.Scheduler.Implicits.global
-
-  val userAgent = {
-    val name    = github4s.BuildInfo.name
-    val version = github4s.BuildInfo.version
-    s"$name/$version"
-  }
 
   implicit def extensionJS: HttpRequestBuilderExtension[SimpleHttpResponse, Future] =
     new HttpRequestBuilderExtension[SimpleHttpResponse, Future] {
