@@ -47,7 +47,8 @@ class Interpreters[M[_], C](
     val c03interpreter: COGH03 ~> K = issueOpsInterpreter or c02interpreter
     val c04interpreter: COGH04 ~> K = authOpsInterpreter or c03interpreter
     val c05interpreter: COGH05 ~> K = gitDataOpsInterpreter or c04interpreter
-    val all: GitHub4s ~> K          = pullRequestOpsInterpreter or c05interpreter
+    val c06interpreter: COGH06 ~> K = pullRequestOpsInterpreter or c05interpreter
+    val all: GitHub4s ~> K          = statusOpsInterpreter or c06interpreter
     all
   }
 
@@ -255,4 +256,17 @@ class Interpreters[M[_], C](
       }
     }
 
+  /** Lifts Status Ops to an effect capturing Monad such as Task via natural transformations */
+  def statusOpsInterpreter: StatusOp ~> K =
+    new (StatusOp ~> K) {
+
+      val statuses = new Statuses()
+
+      def apply[A](fa: StatusOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
+        fa match {
+          case ListStatuses(owner, repo, ref, accessToken) ⇒
+            statuses.list(accessToken, headers, owner, repo, ref)
+        }
+      }
+    }
 }
