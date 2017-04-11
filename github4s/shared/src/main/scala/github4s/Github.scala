@@ -38,6 +38,7 @@ class Github(accessToken: Option[String] = None) {
   lazy val issues       = new GHIssues(accessToken)
   lazy val gitData      = new GHGitData(accessToken)
   lazy val pullRequests = new GHPullRequests(accessToken)
+  lazy val statuses     = new GHStatuses(accessToken)
 
 }
 

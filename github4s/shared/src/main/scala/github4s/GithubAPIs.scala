@@ -243,3 +243,12 @@ class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequest
   ): GHIO[GHResponse[List[PullRequest]]] =
     O.listPullRequests(owner, repo, filters, accessToken)
 }
+
+class GHStatuses(accessToken: Option[String] = None)(implicit O: StatusOps[GitHub4s]) {
+  def listStatuses(
+      owner: String,
+      repo: String,
+      ref: String
+  ): GHIO[GHResponse[List[Status]]] =
+    O.listStatuses(owner, repo, ref, accessToken)
+}
