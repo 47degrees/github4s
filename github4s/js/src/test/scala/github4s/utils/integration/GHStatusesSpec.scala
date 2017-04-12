@@ -14,39 +14,38 @@
  * limitations under the License.
  */
 
-package github4s.integration
+package github4s.utils.integration
 
-import cats.Id
-import cats.implicits._
 import github4s.Github
 import github4s.Github._
-import github4s.jvm.Implicits._
+import github4s.free.domain.Status
+import github4s.js.Implicits._
 import github4s.utils.TestUtils
-import org.scalatest._
+import org.scalatest.{AsyncFlatSpec, Matchers}
 
-import scalaj.http.HttpResponse
+class GHStatusesSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-class GHStatusesSpec extends FlatSpec with Matchers with TestUtils {
-  "Statuses >> List" should "return a list of statuses" in {
+  override implicit val executionContext = scala.concurrent.ExecutionContext.Implicits.global
+
+  "Statuses >> List" should "return a non empty list when a valid ref is provided" in {
     val response = Github(accessToken).statuses
       .listStatuses(validRepoOwner, validRepoName, validRefSingle)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
+      .execFuture(headerUserAgent)
 
-    response should be('right)
-    response.toOption map { r =>
+    testFutureIsRight[List[Status]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
-  it should "return an empty list when an invalid ref is passed" in {
+  it should "return an empty list when an invalid ref is provided" in {
     val response = Github(accessToken).statuses
       .listStatuses(validRepoOwner, validRepoName, invalidRef)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('right)
-    response.toOption map { r =>
+      .execFuture(headerUserAgent)
+
+    testFutureIsRight[List[Status]](response, { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 }
