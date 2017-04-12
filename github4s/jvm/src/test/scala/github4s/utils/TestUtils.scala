@@ -195,4 +195,16 @@ trait TestUtils {
     html_url = githubApiUrl,
     download_url = Some(githubApiUrl)
   )
+
+  val status = Status(
+    id = 1,
+    url = githubApiUrl,
+    target_url = githubApiUrl,
+    description = "desc",
+    state = "pending",
+    context = "context",
+    creator = User(1, validUsername, githubApiUrl, githubApiUrl),
+    created_at = "2011-04-10T20:09:31Z",
+    updated_at = "2011-04-10T20:09:31Z"
+  )
 }

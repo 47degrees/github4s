@@ -18,19 +18,19 @@ package github4s.unit
 
 import cats.Id
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.api.PullRequests
+import github4s.api.Statuses
 import github4s.free.domain._
 import github4s.utils.{DummyGithubUrls, TestUtils}
 import github4s.{HttpClient, HttpRequestBuilderExtensionJVM, IdInstances}
 import io.circe.Decoder
 import org.mockito.ArgumentMatchers.{any, eq => argEq}
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar.mock
 import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.mockito.MockitoSugar.mock
 
 import scalaj.http.HttpResponse
 
-class PullRequestsSpec
+class StatusesSpec
     extends FlatSpec
     with Matchers
     with TestUtils
@@ -38,34 +38,32 @@ class PullRequestsSpec
     with IdInstances
     with HttpRequestBuilderExtensionJVM {
 
-  "PullRequests.list" should "call to httpClient.get with the right parameters" in {
-
-    val response: GHResponse[List[PullRequest]] =
-      Right(GHResult(List(pullRequest), okStatusCode, Map.empty))
+  "Statuses.list" should "call htppClient.get with the right parameters" in {
+    val response: GHResponse[List[Status]] =
+      Right(GHResult(List(status), okStatusCode, Map.empty))
 
     val httpClientMock = mock[HttpClient[HttpResponse[String], Id]]
     when(
-      httpClientMock.get[List[PullRequest]](
+      httpClientMock.get[List[Status]](
         any[Option[String]],
         any[String],
         any[Map[String, String]],
         any[Map[String, String]],
-        any[Option[Pagination]])(any[Decoder[List[PullRequest]]]))
+        any[Option[Pagination]])(any[Decoder[List[Status]]]))
       .thenReturn(response)
 
     val token = Some("token")
-    val pullRequests = new PullRequests[HttpResponse[String], Id] {
+    val statuses = new Statuses[HttpResponse[String], Id] {
       override val httpClient: HttpClient[HttpResponse[String], Id] = httpClientMock
     }
-    pullRequests.list(token, headerUserAgent, validRepoOwner, validRepoName, Nil)
+    statuses.list(token, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
 
-    verify(httpClientMock).get[List[PullRequest]](
+    verify(httpClientMock).get[List[Status]](
       argEq(token),
-      argEq(s"repos/$validRepoOwner/$validRepoName/pulls"),
+      argEq(s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses"),
       argEq(headerUserAgent),
       any[Map[String, String]],
       any[Option[Pagination]]
-    )(any[Decoder[List[PullRequest]]])
+    )(any[Decoder[List[Status]]])
   }
-
 }

@@ -18,10 +18,10 @@ package github4s.api
 
 import github4s.GithubResponses.GHResponse
 import github4s.{GithubApiUrls, HttpClient, HttpRequestBuilderExtension}
-import github4s.free.domain._
+import github4s.free.domain.Status
 import github4s.free.interpreters.Capture
-import io.circe.syntax._
 import io.circe.generic.auto._
+import io.circe.syntax._
 
 /** Factory to encapsulate calls related to Statuses operations */
 class Statuses[C, M[_]](implicit urls: GithubApiUrls,
