@@ -40,6 +40,7 @@ class ApiSpec
   val gists        = new Gists[HttpResponse[String], Id]
   val gitData      = new GitData[HttpResponse[String], Id]
   val pullRequests = new PullRequests[HttpResponse[String], Id]
+  val statuses     = new Statuses[HttpResponse[String], Id]
 
   "Auth >> NewAuth" should "return a valid token when valid credential is provided" in {
     val response = auth.newAuth(
@@ -571,7 +572,6 @@ class ApiSpec
   }
 
   "PullRequests >> List" should "return the expected pull request list when valid repo is provided" in {
-
     val response =
       pullRequests.list(accessToken, headerUserAgent, validRepoOwner, validRepoName)
     response should be('right)
@@ -580,13 +580,28 @@ class ApiSpec
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
-
   }
 
   it should "return error when an invalid repo name is passed" in {
     val response =
-      repos.get(accessToken, headerUserAgent, validRepoOwner, invalidRepoName)
+      pullRequests.list(accessToken, headerUserAgent, validRepoOwner, invalidRepoName)
     response should be('left)
   }
 
+  "Statuses >> List" should "return the expected statuses when a valid ref is provided" in {
+    val response =
+      statuses.list(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an error when an invalid ref is passed" in {
+    val response =
+      statuses.list(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
+    response should be('left)
+  }
 }

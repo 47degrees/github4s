@@ -1178,4 +1178,39 @@ trait FakeResponses {
       |  ]
       |}
     """.stripMargin
+
+  val listStatusesValidResponse =
+    """
+    [
+      {
+        "url": "https://api.github.com/repos/47deg/github4s/statuses/e20eab90fef0fc02abc96868713a57ac8e5eaf50",
+        "id": 1142893616,
+        "state": "pending",
+        "description": "The Travis CI build is in progress",
+        "target_url": "https://travis-ci.org/47deg/github4s/builds/220706044",
+        "context": "continuous-integration/travis-ci/push",
+        "created_at": "2017-04-10T20:18:21Z",
+        "updated_at": "2017-04-10T20:18:21Z",
+        "creator": {
+          "login": "raulraja",
+          "id": 456796,
+          "avatar_url": "https://avatars0.githubusercontent.com/u/456796?v=3",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/raulraja",
+          "html_url": "https://github.com/raulraja",
+          "followers_url": "https://api.github.com/users/raulraja/followers",
+          "following_url": "https://api.github.com/users/raulraja/following{/other_user}",
+          "gists_url": "https://api.github.com/users/raulraja/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/raulraja/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/raulraja/subscriptions",
+          "organizations_url": "https://api.github.com/users/raulraja/orgs",
+          "repos_url": "https://api.github.com/users/raulraja/repos",
+          "events_url": "https://api.github.com/users/raulraja/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/raulraja/received_events",
+          "type": "User",
+          "site_admin": false
+        }
+      }
+    ]
+    """
 }

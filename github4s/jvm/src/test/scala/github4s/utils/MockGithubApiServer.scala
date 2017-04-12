@@ -447,4 +447,11 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withStatusCode(unauthorizedStatusCode)
         .withBody(unauthorizedReponse))
 
+  //Statuses >> list
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses"))
+    .respond(response.withStatusCode(okStatusCode).withBody(listStatusesValidResponse))
 }
