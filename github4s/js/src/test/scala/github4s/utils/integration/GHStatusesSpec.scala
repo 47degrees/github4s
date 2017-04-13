@@ -16,9 +16,10 @@
 
 package github4s.utils.integration
 
+import github4s.Decoders._
 import github4s.Github
 import github4s.Github._
-import github4s.free.domain.Status
+import github4s.free.domain.{CombinedStatus, Status}
 import github4s.js.Implicits._
 import github4s.utils.TestUtils
 import org.scalatest.{AsyncFlatSpec, Matchers}
@@ -26,6 +27,24 @@ import org.scalatest.{AsyncFlatSpec, Matchers}
 class GHStatusesSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
   override implicit val executionContext = scala.concurrent.ExecutionContext.Implicits.global
+
+  "Statuses >> Get" should "return a combined status" in {
+    val response = Github(accessToken).statuses
+      .getCombinedStatus(validRepoOwner, validRepoName, validRefSingle)
+      .execFuture(headerUserAgent)
+
+    testFutureIsRight[CombinedStatus](response, { r =>
+      r.result.repository.full_name shouldBe s"$validRepoOwner/$validRepoName"
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return an error when an invalid ref is passed" in {
+    val response = Github(accessToken).statuses
+      .getCombinedStatus(validRepoOwner, validRepoName, invalidRef)
+      .execFuture(headerUserAgent)
+    response should be('left)
+  }
 
   "Statuses >> List" should "return a non empty list when a valid ref is provided" in {
     val response = Github(accessToken).statuses

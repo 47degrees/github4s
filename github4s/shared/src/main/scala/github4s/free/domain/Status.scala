@@ -23,7 +23,7 @@ case class Status(
   target_url: Option[String],
   description: Option[String],
   context: Option[String],
-  creator: User,
+  creator: Option[User],
   created_at: String,
   updated_at: String
 )
@@ -33,4 +33,25 @@ case class NewStatusRequest(
   target_url: Option[String],
   description: Option[String],
   context: Option[String]
+)
+
+case class StatusRepository(
+  id: Int,
+  name: String,
+  full_name: String,
+  owner: User,
+  `private`: Boolean,
+  description: Option[String],
+  fork: Boolean,
+  urls: Map[String, String]
+)
+
+case class CombinedStatus(
+  url: String,
+  state: String,
+  commit_url: String,
+  sha: String,
+  total_count: Int,
+  statuses: List[Status],
+  repository: StatusRepository
 )

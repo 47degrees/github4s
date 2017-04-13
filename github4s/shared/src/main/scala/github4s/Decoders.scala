@@ -46,19 +46,45 @@ object Decoders {
       )
   }
 
-  implicit val decodeRepository: Decoder[Repository] = {
-
-    def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] = {
-      RepoUrlKeys.allFields.foldLeft(
-        Either.right[DecodingFailure, List[Option[String]]](List.empty)) {
-        case (Left(e), name) => Left(e)
-        case (Right(list), name) =>
-          c.downField(name).as[Option[String]] match {
-            case Left(e)         => Left(e)
-            case Right(maybeUrl) => Right(list :+ maybeUrl)
-          }
-      }
+  def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] = {
+    RepoUrlKeys.allFields.foldLeft(
+      Either.right[DecodingFailure, List[Option[String]]](List.empty)) {
+      case (Left(e), name) => Left(e)
+      case (Right(list), name) =>
+        c.downField(name).as[Option[String]] match {
+          case Left(e)         => Left(e)
+          case Right(maybeUrl) => Right(list :+ maybeUrl)
+        }
     }
+  }
+
+  implicit val decodeStatusRepository: Decoder[StatusRepository] = {
+    Decoder.instance { c ⇒
+      for {
+        id          ← c.downField("id").as[Int]
+        name        ← c.downField("name").as[String]
+        full_name   ← c.downField("full_name").as[String]
+        owner       ← c.downField("owner").as[User]
+        priv        ← c.downField("private").as[Boolean]
+        description ← c.downField("description").as[Option[String]]
+        fork        ← c.downField("fork").as[Boolean]
+        repoUrls    ← readRepoUrls(c)
+      } yield StatusRepository(
+        id = id,
+        name = name,
+        full_name = full_name,
+        owner = owner,
+        `private` = priv,
+        description = description,
+        fork = fork,
+        urls = (RepoUrlKeys.allFields zip repoUrls.flatten map {
+          case (urlName, value) => urlName -> value
+        }).toMap
+      )
+    }
+  }
+
+  implicit val decodeRepository: Decoder[Repository] = {
 
     Decoder.instance { c ⇒
       for {

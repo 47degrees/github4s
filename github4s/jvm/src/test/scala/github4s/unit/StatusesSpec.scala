@@ -17,6 +17,7 @@
 package github4s.unit
 
 import cats.Id
+import github4s.Decoders._
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.api.Statuses
 import github4s.free.domain._
@@ -37,6 +38,35 @@ class StatusesSpec
     with DummyGithubUrls
     with IdInstances
     with HttpRequestBuilderExtensionJVM {
+
+  "Statuses.get" should "call httpClient.get with the right parameters" in {
+    val response: GHResponse[CombinedStatus] =
+      Right(GHResult(combinedStatus, okStatusCode, Map.empty))
+
+    val httpClientMock = mock[HttpClient[HttpResponse[String], Id]]
+    when(
+      httpClientMock.get[CombinedStatus](
+        any[Option[String]],
+        any[String],
+        any[Map[String, String]],
+        any[Map[String, String]],
+        any[Option[Pagination]])(any[Decoder[CombinedStatus]]))
+      .thenReturn(response)
+
+    val token = Some("token")
+    val statuses = new Statuses[HttpResponse[String], Id] {
+      override val httpClient: HttpClient[HttpResponse[String], Id] = httpClientMock
+    }
+    statuses.get(token, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+
+    verify(httpClientMock).get[CombinedStatus](
+      argEq(token),
+      argEq(s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status"),
+      argEq(headerUserAgent),
+      any[Map[String, String]],
+      any[Option[Pagination]]
+    )(any[Decoder[CombinedStatus]])
+  }
 
   "Statuses.list" should "call htppClient.get with the right parameters" in {
     val response: GHResponse[List[Status]] = Right(GHResult(List(status), okStatusCode, Map.empty))

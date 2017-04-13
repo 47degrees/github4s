@@ -245,6 +245,13 @@ class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequest
 }
 
 class GHStatuses(accessToken: Option[String] = None)(implicit O: StatusOps[GitHub4s]) {
+  def getCombinedStatus(
+      owner: String,
+      repo: String,
+      ref: String
+  ): GHIO[GHResponse[CombinedStatus]] =
+    O.getCombinedStatus(owner, repo, ref, accessToken)
+
   def listStatuses(
       owner: String,
       repo: String,

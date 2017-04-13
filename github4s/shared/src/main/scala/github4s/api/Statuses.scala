@@ -19,7 +19,7 @@ package github4s.api
 import github4s._
 import github4s.GithubResponses.GHResponse
 import github4s.{GithubApiUrls, HttpClient, HttpRequestBuilderExtension}
-import github4s.free.domain.{NewStatusRequest, Status}
+import github4s.free.domain.{CombinedStatus, NewStatusRequest, Status}
 import github4s.free.interpreters.Capture
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -29,7 +29,26 @@ class Statuses[C, M[_]](implicit urls: GithubApiUrls,
                         C: Capture[M],
                         httpClientImpl: HttpRequestBuilderExtension[C, M]) {
 
+  import Decoders._
+
   val httpClient = new HttpClient[C, M]
+
+  /**
+    * Get the combined status for a specific ref
+    *
+    * @param accessToken to identify the authenticated user
+    * @param headers optional user headers to include in the request
+    * @param owner of the repo
+    * @param repo name of the commit
+    * @param ref commit SHA, branch name or tag name
+    * @return a GHResponse with the combined status
+    */
+  def get(accessToken: Option[String] = None,
+          headers: Map[String, String] = Map(),
+          owner: String,
+          repo: String,
+          ref: String): M[GHResponse[CombinedStatus]] =
+    httpClient.get[CombinedStatus](accessToken, s"repos/$owner/$repo/commits/$ref/status", headers)
 
   /**
     * List statuses for a commit
@@ -38,8 +57,8 @@ class Statuses[C, M[_]](implicit urls: GithubApiUrls,
     * @param headers optional user headers to include in the request
     * @param owner of the repo
     * @param repo name of the repo
-    * @param ref commit reference
-    * @return a GHResponse with the status list.
+    * @param ref commit SHA, branch name or tag name
+    * @return a GHResponse with the status list
     */
   def list(accessToken: Option[String] = None,
            headers: Map[String, String] = Map(),
@@ -59,7 +78,8 @@ class Statuses[C, M[_]](implicit urls: GithubApiUrls,
     * @param target_url url to associate with the status, will appear in the GitHub UI
     * @param state of the status: pending, success, error, or failure
     * @param description of the status
-    * @para context identifier of the status maker
+    * @param context identifier of the status maker
+    * @return a GHResopnse with the created Status
     */
   def create(accessToken: Option[String] = None,
              headers: Map[String, String] = Map(),

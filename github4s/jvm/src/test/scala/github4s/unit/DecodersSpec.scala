@@ -16,10 +16,11 @@
 
 package github4s.unit
 
-import github4s.free.domain.{Commit, Repository}
+import github4s.free.domain.{CombinedStatus, Commit, Repository}
 import github4s.utils.FakeResponses
 import github4s.Decoders._
 import org.scalatest._
+import io.circe.generic.auto._
 import io.circe.parser._
 import cats.implicits._
 
@@ -37,8 +38,16 @@ class DecodersSpec extends FlatSpec with Matchers with FakeResponses {
     decode[Repository](getRepoResponse) should be('right)
   }
 
-  it should "return error for an empty JSON" in {
+  it should "return an error for an empty JSON" in {
     decode[Repository](emptyListResponse) should be('left)
+  }
+
+  "StatusRepository decoder" should "return a valid repo for a valid JSON" in {
+    decode[CombinedStatus](getCombinedStatusValidResponse) should be('right)
+  }
+
+  it should "return an error for an empty JSON" in {
+    decode[CombinedStatus](emptyListResponse) should be('left)
   }
 
 }

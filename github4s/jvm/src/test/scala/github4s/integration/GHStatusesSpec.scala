@@ -27,6 +27,25 @@ import org.scalatest._
 import scalaj.http.HttpResponse
 
 class GHStatusesSpec extends FlatSpec with Matchers with TestUtils {
+  "Statuses >> Get" should "return a combined status" in {
+    val response = Github(accessToken).statuses
+      .getCombinedStatus(validRepoOwner, validRepoName, validRefSingle)
+      .exec[Id, HttpResponse[String]](headerUserAgent)
+
+    response should be('right)
+    response.toOption map { r =>
+      r.result.repository.full_name shouldBe s"$validRepoOwner/$validRepoName"
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an error when an invalid ref is passed" in {
+    val response = Github(accessToken).statuses
+      .getCombinedStatus(validRepoOwner, validRepoName, invalidRef)
+      .exec[Id, HttpResponse[String]](headerUserAgent)
+    response should be('left)
+  }
+
   "Statuses >> List" should "return a list of statuses" in {
     val response = Github(accessToken).statuses
       .listStatuses(validRepoOwner, validRepoName, validRefSingle)

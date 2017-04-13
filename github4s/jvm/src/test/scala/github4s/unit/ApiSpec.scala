@@ -588,6 +588,28 @@ class ApiSpec
     response should be('left)
   }
 
+  "Statuses >> Get" should "return the expected combined status when a valid ref is provided" in {
+    val response =
+      statuses.get(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an error if no tokens are provided" in {
+    val response =
+      statuses.get(None, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+    response should be('left)
+  }
+
+  it should "return an error if an invalid ref is passed" in {
+    val response =
+      statuses.get(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
+    response should be('left)
+  }
+
   "Statuses >> List" should "return the expected statuses when a valid ref is provided" in {
     val response =
       statuses.list(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
@@ -597,6 +619,12 @@ class ApiSpec
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
+  }
+
+  it should "return an error if no tokens are provided" in {
+    val response =
+      statuses.list(None, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+    response should be('left)
   }
 
   it should "return an empty list when an invalid ref is passed" in {

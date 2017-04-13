@@ -18,10 +18,17 @@ package github4s.free.algebra
 
 import cats.free.{Free, Inject}
 import github4s.GithubResponses.GHResponse
-import github4s.free.domain.Status
+import github4s.free.domain.{CombinedStatus, Status}
 
 /** Statuses ops ADT */
 sealed trait StatusOp[A]
+
+final case class GetCombinedStatus(
+  owner: String,
+  repo: String,
+  ref: String,
+  accessToken: Option[String] = None
+) extends StatusOp[GHResponse[CombinedStatus]]
 
 final case class ListStatuses(
   owner: String,
@@ -45,6 +52,14 @@ final case class CreateStatus(
   * Exposes Status operations as a Free monadic algebra that may be combined with other Coproducts
   */
 class StatusOps[F[_]](implicit I: Inject[StatusOp, F]) {
+  def getCombinedStatus(
+    owner: String,
+    repo: String,
+    ref: String,
+    accessToken: Option[String] = None
+  ): Free[F, GHResponse[CombinedStatus]] =
+    Free.inject[StatusOp, F](GetCombinedStatus(owner, repo, ref, accessToken))
+
   def listStatuses(
     owner: String,
     repo: String,

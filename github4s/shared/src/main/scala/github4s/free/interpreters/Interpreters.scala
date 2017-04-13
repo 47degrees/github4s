@@ -264,6 +264,8 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: StatusOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
+          case GetCombinedStatus(owner, repo, ref, accessToken) ⇒
+            statuses.get(accessToken, headers, owner, repo, ref)
           case ListStatuses(owner, repo, ref, accessToken) ⇒
             statuses.list(accessToken, headers, owner, repo, ref)
           case

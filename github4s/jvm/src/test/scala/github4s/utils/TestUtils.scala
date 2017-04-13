@@ -205,8 +205,27 @@ trait TestUtils {
     target_url = None,
     description = None,
     context = None,
-    creator = User(1, validUsername, githubApiUrl, githubApiUrl),
+    creator = Some(User(1, validUsername, githubApiUrl, githubApiUrl)),
     created_at = "2011-04-10T20:09:31Z",
     updated_at = "2011-04-10T20:09:31Z"
+  )
+
+  val combinedStatus = CombinedStatus(
+    url = githubApiUrl,
+    state = validStatusState,
+    commit_url = githubApiUrl,
+    sha = validCommitSha,
+    total_count = 1,
+    statuses = List(status),
+    repository = StatusRepository(
+      id = 1,
+      name = validRepoName,
+      full_name = s"$validRepoOwner/$validRepoName",
+      owner = User(1, validUsername, githubApiUrl, githubApiUrl),
+      `private` = false,
+      description = None,
+      fork = false,
+      urls = Map()
+    )
   )
 }

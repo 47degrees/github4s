@@ -447,19 +447,54 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withStatusCode(unauthorizedStatusCode)
         .withBody(unauthorizedResponse))
 
+  //Statuses >> get
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(okStatusCode).withBody(getCombinedStatusValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/status")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
   //Statuses >> list
   mockServer
     .when(
       request
         .withMethod("GET")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses"))
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses")
+        .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(okStatusCode).withBody(listStatusesValidResponse))
 
   mockServer
     .when(
       request
         .withMethod("GET")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/statuses"))
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/statuses")
+        .withHeader(not("Authorization")))
     .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
 
   //Statuses >> create
