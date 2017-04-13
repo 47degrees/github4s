@@ -251,4 +251,15 @@ class GHStatuses(accessToken: Option[String] = None)(implicit O: StatusOps[GitHu
       ref: String
   ): GHIO[GHResponse[List[Status]]] =
     O.listStatuses(owner, repo, ref, accessToken)
+
+  def createStatus(
+      owner: String,
+      repo: String,
+      sha: String,
+      state: String,
+      target_url: Option[String] = None,
+      description: Option[String] = None,
+      context: Option[String] = None
+  ): GHIO[GHResponse[Status]] =
+    O.createStatus(owner, repo, sha, state, target_url, description, context, accessToken)
 }

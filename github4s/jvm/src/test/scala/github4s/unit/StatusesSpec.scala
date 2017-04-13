@@ -23,7 +23,7 @@ import github4s.free.domain._
 import github4s.utils.{DummyGithubUrls, TestUtils}
 import github4s.{HttpClient, HttpRequestBuilderExtensionJVM, IdInstances}
 import io.circe.Decoder
-import org.mockito.ArgumentMatchers.{any, eq => argEq}
+import org.mockito.ArgumentMatchers.{any, argThat, eq => argEq}
 import org.mockito.Mockito._
 import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.mockito.MockitoSugar.mock
@@ -39,8 +39,7 @@ class StatusesSpec
     with HttpRequestBuilderExtensionJVM {
 
   "Statuses.list" should "call htppClient.get with the right parameters" in {
-    val response: GHResponse[List[Status]] =
-      Right(GHResult(List(status), okStatusCode, Map.empty))
+    val response: GHResponse[List[Status]] = Right(GHResult(List(status), okStatusCode, Map.empty))
 
     val httpClientMock = mock[HttpClient[HttpResponse[String], Id]]
     when(
@@ -65,5 +64,40 @@ class StatusesSpec
       any[Map[String, String]],
       any[Option[Pagination]]
     )(any[Decoder[List[Status]]])
+  }
+
+  "Statuses.create" should "call httpClient.post with the right parameters" in {
+    val response: GHResponse[Status] = Right(GHResult(status, createdStatusCode, Map.empty))
+
+    val httpClientMock = mock[HttpClient[HttpResponse[String], Id]]
+    when(
+      httpClientMock
+        .post[Status](any[Option[String]], any[String], any[Map[String, String]], any[String])(
+          any[Decoder[Status]]))
+      .thenReturn(response)
+
+    val token = Some("token")
+    val statuses = new Statuses[HttpResponse[String], Id] {
+      override val httpClient: HttpClient[HttpResponse[String], Id] = httpClientMock
+    }
+    statuses.create(
+      token,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validCommitSha,
+      validStatusState,
+      None,
+      None,
+      None)
+
+    val request = s"""{"state":"$validStatusState"}"""
+
+    verify(httpClientMock).post[Status](
+      argEq(token),
+      argEq(s"repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha"),
+      argEq(headerUserAgent),
+      argThat(JsonArgMatcher(request))
+    )(any[Decoder[Status]])
   }
 }

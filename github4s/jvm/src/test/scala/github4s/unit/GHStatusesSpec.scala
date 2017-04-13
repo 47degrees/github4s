@@ -43,4 +43,44 @@ class GHStatusesSpec extends FlatSpec with Matchers with TestUtils {
 
     verify(statusesOps).listStatuses(validRepoOwner, validRepoName, validRefSingle, token)
   }
+
+  "GHStatuses.create" should "call to StatusesOps with the right parameters" in {
+    val response: Free[GitHub4s, GHResponse[Status]] =
+      Free.pure(Right(GHResult(status, createdStatusCode, Map.empty)))
+
+    val statusesOps = mock[StatusOps[GitHub4s]]
+    when(
+      statusesOps.createStatus(
+        any[String],
+        any[String],
+        any[String],
+        any[String],
+        any[Option[String]],
+        any[Option[String]],
+        any[Option[String]],
+        any[Option[String]]))
+      .thenReturn(response)
+
+    val token      = Some("token")
+    val ghStatuses = new GHStatuses(token)(statusesOps)
+    ghStatuses
+      .createStatus(
+        validRepoOwner,
+        validRepoName,
+        validCommitSha,
+        validStatusState,
+        None,
+        None,
+        None)
+
+    verify(statusesOps).createStatus(
+      validRepoOwner,
+      validRepoName,
+      validCommitSha,
+      validStatusState,
+      None,
+      None,
+      None,
+      token)
+  }
 }

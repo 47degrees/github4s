@@ -110,6 +110,8 @@ trait TestUtils {
 
   val validPath = "project/plugins.sbt"
 
+  val validStatusState = "success"
+
   val treeDataList: List[TreeData] = List(TreeDataSha(validPath, "100644", "blob", validTreeSha))
   val treeDataResult = List(
     TreeDataResult(
@@ -199,10 +201,10 @@ trait TestUtils {
   val status = Status(
     id = 1,
     url = githubApiUrl,
-    target_url = githubApiUrl,
-    description = "desc",
-    state = "pending",
-    context = "context",
+    state = validStatusState,
+    target_url = None,
+    description = None,
+    context = None,
     creator = User(1, validUsername, githubApiUrl, githubApiUrl),
     created_at = "2011-04-10T20:09:31Z",
     updated_at = "2011-04-10T20:09:31Z"

@@ -19,11 +19,18 @@ package github4s.free.domain
 case class Status(
   id: Int,
   url: String,
-  target_url: String,
-  description: String,
   state: String,
-  context: String,
+  target_url: Option[String],
+  description: Option[String],
+  context: Option[String],
   creator: User,
   created_at: String,
   updated_at: String
+)
+
+case class NewStatusRequest(
+  state: String,
+  target_url: Option[String],
+  description: Option[String],
+  context: Option[String]
 )

@@ -16,9 +16,10 @@
 
 package github4s.api
 
+import github4s._
 import github4s.GithubResponses.GHResponse
 import github4s.{GithubApiUrls, HttpClient, HttpRequestBuilderExtension}
-import github4s.free.domain.Status
+import github4s.free.domain.{NewStatusRequest, Status}
 import github4s.free.interpreters.Capture
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -34,7 +35,7 @@ class Statuses[C, M[_]](implicit urls: GithubApiUrls,
     * List statuses for a commit
     *
     * @param accessToken to identify the authenticated user
-    * @param headers optional user heads to include in the request
+    * @param headers optional user headers to include in the request
     * @param owner of the repo
     * @param repo name of the repo
     * @param ref commit reference
@@ -46,4 +47,32 @@ class Statuses[C, M[_]](implicit urls: GithubApiUrls,
            repo: String,
            ref: String): M[GHResponse[List[Status]]] =
     httpClient.get[List[Status]](accessToken, s"repos/$owner/$repo/commits/$ref/statuses", headers)
+
+  /**
+    * Create a status
+    *
+    * @param accessToken to identify the authenticated user
+    * @param headers optional user headers to include in the request
+    * @param owner of the repo
+    * @param repo name of the repo
+    * @param sha commit sha to create the status on
+    * @param target_url url to associate with the status, will appear in the GitHub UI
+    * @param state of the status: pending, success, error, or failure
+    * @param description of the status
+    * @para context identifier of the status maker
+    */
+  def create(accessToken: Option[String] = None,
+             headers: Map[String, String] = Map(),
+             owner: String,
+             repo: String,
+             sha: String,
+             state: String,
+             target_url: Option[String],
+             description: Option[String],
+             context: Option[String]): M[GHResponse[Status]] =
+    httpClient.post[Status](
+      accessToken,
+      s"repos/$owner/$repo/statuses/$sha",
+      headers,
+      dropNullPrint(NewStatusRequest(state, target_url, description, context).asJson))
 }

@@ -266,6 +266,10 @@ class Interpreters[M[_], C](
         fa match {
           case ListStatuses(owner, repo, ref, accessToken) ⇒
             statuses.list(accessToken, headers, owner, repo, ref)
+          case
+            CreateStatus(owner, repo, sha, state, target_url, description, context, accessToken) ⇒
+            statuses.create(
+              accessToken, headers, owner, repo, sha, state, target_url, description, context)
         }
       }
     }

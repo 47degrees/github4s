@@ -30,6 +30,17 @@ final case class ListStatuses(
   accessToken: Option[String] = None
 ) extends StatusOp[GHResponse[List[Status]]]
 
+final case class CreateStatus(
+  owner: String,
+  repo: String,
+  sha: String,
+  state: String,
+  target_url: Option[String],
+  description: Option[String],
+  context: Option[String],
+  accessToken: Option[String] = None
+) extends StatusOp[GHResponse[Status]]
+
 /**
   * Exposes Status operations as a Free monadic algebra that may be combined with other Coproducts
   */
@@ -41,6 +52,19 @@ class StatusOps[F[_]](implicit I: Inject[StatusOp, F]) {
     accessToken: Option[String] = None
   ): Free[F, GHResponse[List[Status]]] =
     Free.inject[StatusOp, F](ListStatuses(owner, repo, ref, accessToken))
+
+  def createStatus(
+    owner: String,
+    repo: String,
+    sha: String,
+    state: String,
+    target_url: Option[String],
+    description: Option[String],
+    context: Option[String],
+    accessToken: Option[String] = None
+  ): Free[F, GHResponse[Status]] =
+    Free.inject[StatusOp, F](
+      CreateStatus(owner, repo, sha, state, target_url, description, context, accessToken))
 }
 
 /** Default implicit based DI factory from which instances of the StatusOps may be obtained */

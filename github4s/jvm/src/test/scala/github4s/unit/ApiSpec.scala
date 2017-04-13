@@ -599,9 +599,60 @@ class ApiSpec
     }
   }
 
-  it should "return an error when an invalid ref is passed" in {
+  it should "return an empty list when an invalid ref is passed" in {
     val response =
       statuses.list(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  "Statuses >> Create" should "return the create status if a valid sha is provided" in {
+    val response = statuses.create(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validCommitSha,
+      validStatusState,
+      None,
+      None,
+      None)
+    response should be('right)
+
+    response.toOption map { r =>
+      r.statusCode shouldBe createdStatusCode
+    }
+  }
+
+  it should "return an error if no tokens are provided" in {
+    val response = statuses.create(
+      None,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validCommitSha,
+      validStatusState,
+      None,
+      None,
+      None)
+    response should be('left)
+  }
+
+  it should "return an error when an invalid sha is passed" in {
+    val response = statuses.create(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      invalidCommitSha,
+      validStatusState,
+      None,
+      None,
+      None)
     response should be('left)
   }
 }

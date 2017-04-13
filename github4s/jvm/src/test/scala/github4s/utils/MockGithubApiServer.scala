@@ -50,7 +50,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(
       response
         .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedReponse))
+        .withBody(unauthorizedResponse))
 
   //Users >> get users
   mockServer
@@ -246,7 +246,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(
       response
         .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedReponse))
+        .withBody(unauthorizedResponse))
 
   // Git >> References
 
@@ -300,7 +300,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(
       response
         .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedReponse))
+        .withBody(unauthorizedResponse))
 
   mockServer
     .when(
@@ -322,7 +322,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(
       response
         .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedReponse))
+        .withBody(unauthorizedResponse))
 
   mockServer
     .when(
@@ -364,7 +364,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(
       response
         .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedReponse))
+        .withBody(unauthorizedResponse))
 
   mockServer
     .when(
@@ -386,7 +386,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(
       response
         .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedReponse))
+        .withBody(unauthorizedResponse))
 
   mockServer
     .when(
@@ -408,7 +408,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(
       response
         .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedReponse))
+        .withBody(unauthorizedResponse))
 
   //PullRequests >> list
   mockServer
@@ -445,7 +445,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(
       response
         .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedReponse))
+        .withBody(unauthorizedResponse))
 
   //Statuses >> list
   mockServer
@@ -454,4 +454,36 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withMethod("GET")
         .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses"))
     .respond(response.withStatusCode(okStatusCode).withBody(listStatusesValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/statuses"))
+    .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
+
+  //Statuses >> create
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(createdStatusCode).withBody(createStatusValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$invalidCommitSha")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 }

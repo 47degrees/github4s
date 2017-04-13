@@ -49,4 +49,37 @@ class GHStatusesSpec extends FlatSpec with Matchers with TestUtils {
       r.statusCode shouldBe okStatusCode
     }
   }
+
+  "Statuses >> Create" should "create a status" in {
+    val response = Github(accessToken).statuses
+      .createStatus(
+        validRepoOwner,
+        validRepoName,
+        validCommitSha,
+        validStatusState,
+        None,
+        None,
+        None)
+      .exec[Id, HttpResponse[String]](headerUserAgent)
+
+    response should be('right)
+    response.toOption map { r ⇒
+      r.result.state shouldBe validStatusState
+      r.statusCode shouldBe createdStatusCode
+    }
+  }
+
+  it should "return an error when an invalid sha is passed" in {
+    val response = Github(accessToken).statuses
+      .createStatus(
+        validRepoOwner,
+        validRepoName,
+        invalidCommitSha,
+        validStatusState,
+        None,
+        None,
+        None)
+      .exec[Id, HttpResponse[String]](headerUserAgent)
+    response should be('left)
+  }
 }
