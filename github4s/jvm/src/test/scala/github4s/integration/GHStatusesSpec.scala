@@ -48,7 +48,7 @@ class GHStatusesSpec extends FlatSpec with Matchers with TestUtils {
 
   "Statuses >> List" should "return a list of statuses" in {
     val response = Github(accessToken).statuses
-      .listStatuses(validRepoOwner, validRepoName, validRefSingle)
+      .listStatuses(validRepoOwner, validRepoName, validCommitSha)
       .exec[Id, HttpResponse[String]](headerUserAgent)
 
     response should be('right)

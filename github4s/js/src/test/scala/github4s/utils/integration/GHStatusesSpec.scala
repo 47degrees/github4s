@@ -48,7 +48,7 @@ class GHStatusesSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
   "Statuses >> List" should "return a non empty list when a valid ref is provided" in {
     val response = Github(accessToken).statuses
-      .listStatuses(validRepoOwner, validRepoName, validRefSingle)
+      .listStatuses(validRepoOwner, validRepoName, validCommitSha)
       .execFuture(headerUserAgent)
 
     testFutureIsRight[List[Status]](response, { r =>
