@@ -36,7 +36,6 @@ object ProjectPlugin extends AutoPlugin {
           %%("circe-generic"),
           %%("circe-parser"),
           %%("base64"),
-          %%("circe-parser"),
           %%("scalatest")   % "test",
           %("mockito-core") % "test",
           compilerPlugin(%%("paradise") cross CrossVersion.full)
