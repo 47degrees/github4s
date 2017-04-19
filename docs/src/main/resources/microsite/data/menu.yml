@@ -1,0 +1,6 @@
+options:
+  - title: Getting Started
+    url: docs.html
+
+  - title: Status API
+    url: status.html
