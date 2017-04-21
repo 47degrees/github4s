@@ -150,6 +150,7 @@ trait TestUtils {
     closed_at = None,
     merged_at = None,
     base = None,
+    head = None,
     user = None,
     assignee = None
   )

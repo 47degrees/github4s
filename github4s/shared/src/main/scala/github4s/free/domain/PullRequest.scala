@@ -29,6 +29,7 @@ case class PullRequest(
     closed_at: Option[String],
     merged_at: Option[String],
     base: Option[PullRequestBase],
+    head: Option[PullRequestBase],
     user: Option[User],
     assignee: Option[User])
 
