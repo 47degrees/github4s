@@ -1,10 +1,16 @@
 import com.typesafe.sbt.site.jekyll.JekyllPlugin.autoImport._
 import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
-import sbt.{Def, _}
-import sbtorgpolicies.OrgPoliciesPlugin.autoImport._
-import sbtorgpolicies._
+import sbt._
 import sbtorgpolicies.model._
+import sbtorgpolicies.OrgPoliciesKeys.orgBadgeListSetting
+import sbtorgpolicies.OrgPoliciesPlugin
+import sbtorgpolicies.OrgPoliciesPlugin.autoImport._
+import sbtorgpolicies.templates.badges._
+import sbtorgpolicies.runnable.syntax._
+import scoverage.ScoverageKeys
+import scoverage.ScoverageKeys._
+import tut.Plugin._
 
 object ProjectPlugin extends AutoPlugin {
 
@@ -28,18 +34,21 @@ object ProjectPlugin extends AutoPlugin {
       fork in Test := false
     )
 
-    lazy val commonDeps =
-      Seq(
-        libraryDependencies ++= Seq(
-          %%("cats"),
-          %%("circe-core"),
-          %%("circe-generic"),
-          %%("circe-parser"),
-          %%("base64"),
-          %%("scalatest")   % "test",
-          %("mockito-core") % "test",
-          compilerPlugin(%%("paradise") cross CrossVersion.full)
-        ))
+    lazy val commonCrossDeps = Seq(
+      %%("cats"),
+      %%("circe-core"),
+      %%("circe-generic"),
+      %%("circe-parser"),
+      %%("base64"),
+      %%("scalatest") % "test"
+    )
+
+    lazy val standardCommonDeps = Seq(
+      libraryDependencies ++= Seq(
+        %("mockito-core") % "test",
+        compilerPlugin(%%("paradise") cross CrossVersion.full)
+      )
+    )
 
     lazy val jvmDeps = Seq(
       libraryDependencies ++= Seq(
@@ -49,7 +58,7 @@ object ProjectPlugin extends AutoPlugin {
       )
     )
 
-    lazy val jsDeps: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%("roshttp")
+    lazy val jsDeps: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%%("roshttp")
 
     lazy val docsDependencies: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%("scalatest")
 
@@ -60,17 +69,34 @@ object ProjectPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
       name := "github4s",
+      orgProjectName := "Github4s",
       description := "Github API wrapper written in Scala",
       startYear := Option(2016),
       resolvers += Resolver.sonatypeRepo("snapshots"),
       scalaVersion := scalac.`2.12`,
       crossScalaVersions := "2.10.6" :: scalac.crossScalaVersions,
-      scalaOrganization := "org.scala-lang",
       scalacOptions ++= (scalaBinaryVersion.value match {
         case "2.10" => Seq("-Xdivergence211")
         case _      => Nil
       }),
-      orgGithubTokenSetting := getEnvVar("GITHUB4S_ACCESS_TOKEN"),
+      orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
+      orgBadgeListSetting := List(
+        TravisBadge.apply(_),
+        GitterBadge.apply(_),
+        CodecovBadge.apply(_),
+        MavenCentralBadge.apply(_),
+        LicenseBadge.apply(_),
+        ScalaLangBadge.apply(_),
+        ScalaJSBadge.apply(_),
+        GitHubIssuesBadge.apply(_)
+      ),
+      orgSupportedScalaJSVersion := Some("0.6.15"),
+      orgScriptTaskListSetting ++= List(
+        (ScoverageKeys.coverageAggregate in Test)
+          .asRunnableItem(allModulesScope = true, crossScalaVersionsScope = true),
+        (tut in ProjectRef(file("."), "docs")).asRunnableItem
+      ),
+      coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
       // This is necessary to prevent packaging the BuildInfo with
       // sensible information like the Github token. Do not remove.
       mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>

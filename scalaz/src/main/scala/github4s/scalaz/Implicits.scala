@@ -16,8 +16,6 @@
 
 package github4s.scalaz
 
-import cats.implicits._
-import github4s.Github._
 import cats.MonadError
 import github4s.HttpRequestBuilderExtensionJVM
 

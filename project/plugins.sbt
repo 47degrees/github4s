@@ -1,1 +1,1 @@
-addSbtPlugin("com.47deg" % "sbt-org-policies" % "0.4.5")
+addSbtPlugin("com.47deg" % "sbt-org-policies" % "0.4.13")

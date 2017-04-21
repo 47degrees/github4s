@@ -20,7 +20,6 @@ import github4s.free.domain.Pagination
 import io.circe.Decoder
 import github4s.GithubResponses.GHResponse
 import github4s.HttpClient._
-import github4s.free.interpreters.Capture
 
 object HttpClient {
   type Headers = Map[String, String]

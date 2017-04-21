@@ -20,10 +20,10 @@ import cats.data.{EitherT, Kleisli}
 import cats.MonadError
 import cats.implicits._
 import github4s.GithubResponses._
-import github4s.app._
 import github4s.free.interpreters.Interpreters
 
 import scala.concurrent.Future
+import scala.language.higherKinds
 
 /**
  * Represent the Github API wrapper

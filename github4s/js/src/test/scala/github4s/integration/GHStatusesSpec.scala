@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package github4s.utils.integration
+package github4s.integration
 
-import github4s.Decoders._
 import github4s.Github
 import github4s.Github._
 import github4s.free.domain.{CombinedStatus, Status}
@@ -24,9 +23,12 @@ import github4s.js.Implicits._
 import github4s.utils.TestUtils
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
+import scala.concurrent.ExecutionContext
+
 class GHStatusesSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext = scala.concurrent.ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext =
+    scala.concurrent.ExecutionContext.Implicits.global
 
   "Statuses >> Get" should "return a combined status" in {
     val response = Github(accessToken).statuses
@@ -43,7 +45,7 @@ class GHStatusesSpec extends AsyncFlatSpec with Matchers with TestUtils {
     val response = Github(accessToken).statuses
       .getCombinedStatus(validRepoOwner, validRepoName, invalidRef)
       .execFuture(headerUserAgent)
-    response should be('left)
+    testFutureIsLeft(response)
   }
 
   "Statuses >> List" should "return a non empty list when a valid ref is provided" in {
@@ -68,7 +70,7 @@ class GHStatusesSpec extends AsyncFlatSpec with Matchers with TestUtils {
     })
   }
 
-  "Status >> Create" should "create a status" in {
+  "Statuses >> Create" should "create a status" in {
     val response = Github(accessToken).statuses
       .createStatus(
         validRepoOwner,

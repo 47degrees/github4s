@@ -21,9 +21,10 @@ import github4s.GithubResponses.GHResponse
 import github4s.{Decoders, Encoders, GithubApiUrls, HttpClient, HttpRequestBuilderExtension}
 import github4s.free.domain._
 import github4s.free.interpreters.Capture
-import io.circe.{Json, Printer}
 import io.circe.syntax._
 import io.circe.generic.auto._
+
+import scala.language.higherKinds
 
 /**
  * Factory that encapsulates all the Git Database API calls
@@ -230,30 +231,30 @@ class GitData[C, M[_]](
       dropNullPrint(NewTreeRequest(baseTree, treeDataList).asJson))
 
   /**
-    * Create a Tag
-    *
-    * @param accessToken to identify the authenticated user
-    * @param headers optional user headers to include in the request
-    * @param owner of the repo
-    * @param repo name of the repo
-    * @param tag the tag.
-    * @param message the new tag message.
-    * @param objectSha the SHA of the git object this is tagging
-    * @param objectType the type of the object we're tagging.
-    * Normally this is a `commit` but it can also be a `tree` or a `blob`.
-    * @param tagger object containing information about the individual creating the tag.
-    * @return a GHResponse with Tag
-    */
+   * Create a Tag
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param tag the tag.
+   * @param message the new tag message.
+   * @param objectSha the SHA of the git object this is tagging
+   * @param objectType the type of the object we're tagging.
+   * Normally this is a `commit` but it can also be a `tree` or a `blob`.
+   * @param tagger object containing information about the individual creating the tag.
+   * @return a GHResponse with Tag
+   */
   def createTag(
-    accessToken: Option[String] = None,
-    headers: Map[String, String] = Map(),
-    owner: String,
-    repo: String,
-    tag: String,
-    message: String,
-    objectSha: String,
-    objectType: String,
-    tagger: Option[RefAuthor] = None): M[GHResponse[Tag]] =
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      tag: String,
+      message: String,
+      objectSha: String,
+      objectType: String,
+      tagger: Option[RefAuthor] = None): M[GHResponse[Tag]] =
     httpClient.post[Tag](
       accessToken,
       s"repos/$owner/$repo/git/tags",

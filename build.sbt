@@ -6,7 +6,6 @@ lazy val root = (project in file("."))
   .dependsOn(github4sJVM, github4sJS, scalaz, docs)
   .aggregate(github4sJVM, github4sJS, scalaz, docs)
   .settings(noPublishSettings: _*)
-  .settings(coverageFailOnMinimum := false)
 
 lazy val github4s = (crossProject in file("github4s"))
   .settings(moduleName := "github4s")
@@ -18,14 +17,15 @@ lazy val github4s = (crossProject in file("github4s"))
       "token" -> sys.env.getOrElse("GITHUB4S_ACCESS_TOKEN", "")),
     buildInfoPackage := "github4s"
   )
-  .settings(commonDeps: _*)
+  .crossDepSettings(commonCrossDeps: _*)
+  .settings(standardCommonDeps: _*)
   .jvmSettings(jvmDeps: _*)
+  .jsSettings(jsDeps: _*)
   .jsSettings(sharedJsSettings: _*)
   .jsSettings(testSettings: _*)
-  .jsSettings(jsDeps: _*)
 
 lazy val github4sJVM = github4s.jvm
-lazy val github4sJS  = github4s.js.settings(coverageFailOnMinimum := false)
+lazy val github4sJS  = github4s.js
 
 lazy val docs = (project in file("docs"))
   .dependsOn(scalaz)
@@ -38,5 +38,4 @@ lazy val docs = (project in file("docs"))
 lazy val scalaz = (project in file("scalaz"))
   .settings(moduleName := "github4s-scalaz")
   .settings(scalazDependencies: _*)
-  .settings(coverageFailOnMinimum := false)
   .dependsOn(github4sJVM)

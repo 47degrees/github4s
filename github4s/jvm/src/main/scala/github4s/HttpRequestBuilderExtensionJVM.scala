@@ -19,12 +19,10 @@ package github4s
 import github4s.GithubResponses.{GHResult, JsonParsingException, UnexpectedException}
 import io.circe.Decoder
 import io.circe.parser._
-import io.circe.generic.auto._
 import github4s.GithubResponses.GHResponse
 
 import scalaj.http._
 import cats.implicits._
-import github4s.GithubDefaultUrls._
 import github4s.free.interpreters.Capture
 
 trait HttpRequestBuilderExtensionJVM {

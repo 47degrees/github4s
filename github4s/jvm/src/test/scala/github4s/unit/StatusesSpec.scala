@@ -17,7 +17,6 @@
 package github4s.unit
 
 import cats.Id
-import github4s.Decoders._
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.api.Statuses
 import github4s.free.domain._

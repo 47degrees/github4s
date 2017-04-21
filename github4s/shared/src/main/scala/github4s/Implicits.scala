@@ -16,11 +16,10 @@
 
 package github4s
 
-import cats.implicits._
 import cats.instances.FutureInstances
-import cats.{Monad, Id, Eval, MonadError, FlatMap}
+import cats.{Eval, FlatMap, Id, Monad, MonadError}
 import github4s.free.interpreters._
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 object implicits
     extends FutureCaptureInstance

@@ -24,9 +24,11 @@ import github4s.js.Implicits._
 import github4s.utils.TestUtils
 import org.scalatest._
 
+import scala.concurrent.ExecutionContext
+
 class GHGitDataSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext =
+  override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
   "GitData >> GetReference" should "return a list of references" in {

@@ -26,14 +26,14 @@ import scala.concurrent.Future
 
 trait TestUtils extends Matchers {
   def testFutureIsLeft[A](response: Future[GHResponse[A]])(
-      implicit ec: scala.concurrent.ExecutionContext) = {
+      implicit ec: scala.concurrent.ExecutionContext): Future[Assertion] = {
     response map { r =>
       r.isLeft should be(true)
     }
   }
 
   def testFutureIsRight[A](response: Future[GHResponse[A]], f: (GHResult[A]) => Assertion)(
-      implicit ec: scala.concurrent.ExecutionContext) = {
+      implicit ec: scala.concurrent.ExecutionContext): Future[Assertion] = {
     response map { r ⇒
       {
         r.isRight should be(true)
@@ -47,9 +47,9 @@ trait TestUtils extends Matchers {
     }
   }
 
-  val accessToken     = Option(github4s.BuildInfo.token)
-  def tokenHeader     = "token " + accessToken.getOrElse("")
-  val headerUserAgent = Map("user-agent" -> "github4s")
+  val accessToken: Option[String]          = Option(github4s.BuildInfo.token)
+  def tokenHeader: String                  = "token " + accessToken.getOrElse("")
+  val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
 
   val validUsername   = "rafaparadela"
   val invalidUsername = "GHInvalidaUserName"

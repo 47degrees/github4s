@@ -59,6 +59,7 @@ class EncodersSpec extends FlatSpec with Matchers {
     val expectedJson = parse(expectedJsonString).right.get
     val actualJson   = treeData.asJson
 
+    actualJson shouldBe expectedJson
   }
 
 }

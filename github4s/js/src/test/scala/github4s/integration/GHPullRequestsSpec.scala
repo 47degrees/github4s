@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package github4s.utils.integration
+package github4s.integration
 
 import github4s.Github
 import github4s.Github._
@@ -23,12 +23,14 @@ import github4s.js.Implicits._
 import github4s.utils.TestUtils
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
+import scala.concurrent.ExecutionContext
+
 class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext =
+  override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  "PullRequests >> List" should "return a non empty list when valid repo is provided" in {
+  "PullRequests >> List" should "return a right response when valid repo is provided" in {
 
     val response =
       Github(accessToken).pullRequests
@@ -36,7 +38,6 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
         .execFuture(headerUserAgent)
 
     testFutureIsRight[List[PullRequest]](response, { r =>
-      r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
   }
@@ -60,7 +61,7 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
   it should "return error when an invalid repo name is passed" in {
     val response =
       Github(accessToken).pullRequests
-        .list(validRepoOwner, validRepoName)
+        .list(validRepoOwner, invalidRepoName)
         .execFuture(headerUserAgent)
 
     testFutureIsLeft(response)

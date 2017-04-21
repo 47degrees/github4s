@@ -20,14 +20,14 @@ import github4s.Github._
 import github4s.Github
 import github4s.utils.TestUtils
 import org.scalatest._
-import fr.hmil.roshttp.response.SimpleHttpResponse
 import github4s.free.domain.{Gist, GistFile}
 import github4s.js.Implicits._
-import scala.concurrent.Future
+
+import scala.concurrent.ExecutionContext
 
 class GHGistsSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext =
+  override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
   "Gists >> Post" should "return the provided gist" in {

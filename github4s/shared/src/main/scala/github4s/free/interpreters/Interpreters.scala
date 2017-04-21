@@ -17,15 +17,15 @@
 package github4s.free.interpreters
 
 import cats.data.Kleisli
-import cats.implicits._
-import cats.{~>, ApplicativeError, Eval, MonadError}
+import cats.{~>, ApplicativeError, MonadError}
 import github4s.GithubDefaultUrls._
 import github4s.HttpRequestBuilderExtension
 import github4s.api._
 import github4s.app._
 import github4s.free.algebra._
-import io.circe.Decoder
 import simulacrum.typeclass
+
+import scala.language.higherKinds
 
 @typeclass
 trait Capture[M[_]] {
@@ -268,10 +268,25 @@ class Interpreters[M[_], C](
             statuses.get(accessToken, headers, owner, repo, ref)
           case ListStatuses(owner, repo, ref, accessToken) ⇒
             statuses.list(accessToken, headers, owner, repo, ref)
-          case
-            CreateStatus(owner, repo, sha, state, target_url, description, context, accessToken) ⇒
+          case CreateStatus(
+              owner,
+              repo,
+              sha,
+              state,
+              target_url,
+              description,
+              context,
+              accessToken) ⇒
             statuses.create(
-              accessToken, headers, owner, repo, sha, state, target_url, description, context)
+              accessToken,
+              headers,
+              owner,
+              repo,
+              sha,
+              state,
+              target_url,
+              description,
+              context)
         }
       }
     }

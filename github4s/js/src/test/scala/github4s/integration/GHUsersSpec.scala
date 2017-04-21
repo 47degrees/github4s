@@ -21,13 +21,14 @@ import github4s.Github
 import github4s.utils.TestUtils
 import org.scalatest._
 import fr.hmil.roshttp.response.SimpleHttpResponse
-import scala.concurrent.Future
+
+import scala.concurrent.{ExecutionContext, Future}
 import github4s.free.domain.User
 import github4s.js.Implicits._
 
 class GHUsersSpec extends AsyncFlatSpec with Matchers with TestUtils {
 
-  override implicit val executionContext =
+  override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
   "Users >> Get" should "return the expected login for a valid username" in {

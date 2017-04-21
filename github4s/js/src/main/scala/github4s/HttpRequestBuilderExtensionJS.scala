@@ -23,7 +23,7 @@ import fr.hmil.roshttp._
 import fr.hmil.roshttp.body.BulkBodyPart
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import fr.hmil.roshttp.util.HeaderMap
-import github4s.GithubResponses.{GHResponse, GHResult, JsonParsingException, UnexpectedException}
+import github4s.GithubResponses._
 import github4s.HttpClient.HttpCode400
 import io.circe.Decoder
 import io.circe.parser._

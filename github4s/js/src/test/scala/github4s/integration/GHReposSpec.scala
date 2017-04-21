@@ -69,9 +69,8 @@ class GHReposSpec extends AsyncFlatSpec with Matchers with TestUtils {
   it should "return error when an invalid path is passed" in {
     val response =
       Github(accessToken).repos
-        .getContents(validRepoOwner, validRepoName, validFilePath)
+        .getContents(validRepoOwner, validRepoName, invalidFilePath)
         .execFuture(headerUserAgent)
-
     testFutureIsLeft(response)
   }
 

@@ -21,7 +21,8 @@ import github4s.free.domain._
 import github4s.free.interpreters.Capture
 import github4s.{Decoders, GithubApiUrls, HttpClient, HttpRequestBuilderExtension}
 import io.circe.generic.auto._
-import io.circe.syntax._
+
+import scala.language.higherKinds
 
 /** Factory to encapsulate calls related to PullRequests operations  */
 class PullRequests[C, M[_]](
@@ -42,13 +43,13 @@ class PullRequests[C, M[_]](
    * @param repo name of the repo
    * @param filters define the filter list. Options are:
    *   - state: Either `open`, `closed`, or `all` to filter by state. Default: `open`
-    *   - head: Filter pulls by head user and branch name in the format of `user:ref-name`.
-    *     Example: `github:new-script-format`.
-    *   - base: Filter pulls by base branch name. Example: `gh-pages`.
-    *   - sort: What to sort results by. Can be either `created`, `updated`, `popularity` (comment count)
-    *     or `long-running` (age, filtering by pulls updated in the last month). Default: `created`
-    *   - direction: The direction of the sort. Can be either `asc` or `desc`.
-    *     Default: `desc` when sort is created or sort is not specified, otherwise `asc`.
+   *   - head: Filter pulls by head user and branch name in the format of `user:ref-name`.
+   *     Example: `github:new-script-format`.
+   *   - base: Filter pulls by base branch name. Example: `gh-pages`.
+   *   - sort: What to sort results by. Can be either `created`, `updated`, `popularity` (comment count)
+   *     or `long-running` (age, filtering by pulls updated in the last month). Default: `created`
+   *   - direction: The direction of the sort. Can be either `asc` or `desc`.
+   *     Default: `desc` when sort is created or sort is not specified, otherwise `asc`.
    * @return a GHResponse with the pull request list.
    */
   def list(
