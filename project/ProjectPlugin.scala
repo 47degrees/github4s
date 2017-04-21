@@ -92,8 +92,7 @@ object ProjectPlugin extends AutoPlugin {
       ),
       orgSupportedScalaJSVersion := Some("0.6.15"),
       orgScriptTaskListSetting ++= List(
-        (ScoverageKeys.coverageAggregate in Test)
-          .asRunnableItem(allModulesScope = true, crossScalaVersionsScope = true),
+        (ScoverageKeys.coverageAggregate in Test).asRunnableItemFull,
         (tut in ProjectRef(file("."), "docs")).asRunnableItem
       ),
       coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
