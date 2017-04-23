@@ -2,5 +2,8 @@ options:
   - title: Getting Started
     url: docs.html
 
+  - title: Issue API
+    url: issue.html
+
   - title: Status API
     url: status.html

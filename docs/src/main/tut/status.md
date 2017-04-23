@@ -27,7 +27,10 @@ val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
 They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will
-do such as `cats.Eval` or `Future` (the only supported option for scala-js).
+do.
+
+Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
+provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 ## Create a status
 
@@ -38,21 +41,22 @@ You can create a status using `createStatus`, it takes as arguments:
 - the state of the status we want to create (can be pending, success, failure or error)
 - other optional parameters: target url, description and context
 
-See [the API doc](https://developer.github.com/v3/repos/statuses/#parameters) for full reference.
-
 To create a status:
 
 ```tut:silent
-val createdStatus =
+val createStatus =
   Github(accessToken).statuses.createStatus("47deg", "github4s", "aaaaaa", "pending")
 
-createdStatus.exec[cats.Id, HttpResponse[String]]() match {
+createStatus.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
 
-The `result` on the right is the created [`Status`][status-scala].
+The `result` on the right is the created [Status][status-scala].
+
+See [the API doc](https://developer.github.com/v3/repos/statuses/#create-a-status) for full
+reference.
 
 ## List statuses
 
@@ -73,7 +77,10 @@ listStatuses.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is the corresponding [`List[Status]`][status-scala].
+The `result` on the right is the corresponding [List[Status]][status-scala].
+
+See [the API doc](https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref)
+for full reference.
 
 ## Get combined status
 
@@ -90,7 +97,7 @@ combinedStatus.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is a [`CombinedStatus`][status-scala].
+The `result` on the right is a [CombinedStatus][status-scala].
 
 Note that the state of the combined status is the product of a heuristic detailed in
 [the API documentation](https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref).
