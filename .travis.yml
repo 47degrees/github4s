@@ -18,6 +18,7 @@ before_install:
   fi
 
 script:
+- sbt ++$TRAVIS_SCALA_VERSION test:fastOptJS
 - sbt ++$TRAVIS_SCALA_VERSION orgScriptCI
 
 after_success:
