@@ -1,5 +1,7 @@
 language: scala
 
+dist: precise
+
 sudo: required
 
 scala:
