@@ -17,7 +17,7 @@ before_install:
 
 script:
 - sbt ++$TRAVIS_SCALA_VERSION test:fastOptJS
-- sbt ++$TRAVIS_SCALA_VERSION orgScriptCI
+- sbt ++$TRAVIS_SCALA_VERSION clean coverage compile test coverageReport coverageAggregate
 
 after_success:
 - bash <(curl -s https://codecov.io/bash) -t 744f05ba-f905-4468-aef1-f5016fc2909d
