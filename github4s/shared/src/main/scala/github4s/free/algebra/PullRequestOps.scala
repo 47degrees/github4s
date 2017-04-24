@@ -32,9 +32,16 @@ final case class ListPullRequests(
     accessToken: Option[String] = None
 ) extends PullRequestOp[GHResponse[List[PullRequest]]]
 
+final case class ListPullRequestFiles(
+    owner: String,
+    repo: String,
+    number: Int,
+    accessToken: Option[String] = None
+) extends PullRequestOp[GHResponse[List[PullRequestFile]]]
+
 /**
- * Exposes Pull Request operations as a Free monadic algebra that may be combined with other Algebras via
- * Coproduct
+ * Exposes Pull Request operations as a Free monadic algebra that may be combined with other
+ * Algebras via Coproduct
  */
 class PullRequestOps[F[_]](implicit I: Inject[PullRequestOp, F]) {
 
@@ -45,6 +52,14 @@ class PullRequestOps[F[_]](implicit I: Inject[PullRequestOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[PullRequest]]] =
     Free.inject[PullRequestOp, F](ListPullRequests(owner, repo, filters, accessToken))
+
+  def listPullRequestFiles(
+      owner: String,
+      repo: String,
+      number: Int,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[PullRequestFile]]] =
+    Free.inject[PullRequestOp, F](ListPullRequestFiles(owner, repo, number, accessToken))
 }
 
 /**

@@ -252,6 +252,8 @@ class Interpreters[M[_], C](
         fa match {
           case ListPullRequests(owner, repo, filters, accessToken) ⇒
             pullRequests.list(accessToken, headers, owner, repo, filters)
+          case ListPullRequestFiles(owner, repo, number, accessToken) ⇒
+            pullRequests.listFiles(accessToken, headers, owner, repo, number)
         }
       }
     }

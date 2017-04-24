@@ -1136,6 +1136,24 @@ trait FakeResponses {
       |]
     """.stripMargin
 
+  val validListPullRequestFilesReponse =
+    """
+      |[
+      |  {
+      |    "sha": "8a8c9c2d17075d3ea643505d1d0e906b6fd7cde3",
+      |    "filename": "README.md",
+      |    "status": "modified",
+      |    "additions": 2,
+      |    "deletions": 1,
+      |    "changes": 3,
+      |    "blob_url": "https://github.com/47deg/github4s/blob/765089ac90b2cb935a45d9ce214d3340e503663c/README.md",
+      |    "raw_url": "https://github.com/47deg/github4s/raw/765089ac90b2cb935a45d9ce214d3340e503663c/README.md",
+      |    "contents_url": "https://api.github.com/repos/47deg/github4s/contents/README.md?ref=765089ac90b2cb935a45d9ce214d3340e503663c",
+      |    "patch": "@@ -1,10 +1,11 @@\n+[![Build Status](https://travis-ci.org/47deg/github4s.svg?branch=master)](https://travis-ci.org/47deg/github4s)\n+\n Github4s\n =============\n \n **Github4s** is a GitHub API wrapper written in Scala.\n \n \n-\n # License\n \n The MIT License (MIT)"
+      |  }
+      |]
+    """.stripMargin
+
   val validNewReleaseResponse =
     """
       |{

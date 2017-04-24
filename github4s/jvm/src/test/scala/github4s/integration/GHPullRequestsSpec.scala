@@ -29,20 +29,19 @@ import scalaj.http.HttpResponse
 
 class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
 
-  "PullRequests >> List" should "return a right response when valid repo is provided" in {
-
+  "PullRequests >> List" should "return a right response when a valid repo is provided" in {
     val response =
       Github(accessToken).pullRequests
         .list(validRepoOwner, validRepoName)
         .exec[Id, HttpResponse[String]](headerUserAgent)
+
     response should be('right)
     response.toOption map { r ⇒
       r.statusCode shouldBe okStatusCode
     }
   }
 
-  it should "return a non empty list when valid repo and some filters are provided" in {
-
+  it should "return a non empty list when a valid repo and some filters are provided" in {
     val response =
       Github(accessToken).pullRequests
         .list(
@@ -50,6 +49,7 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
           validRepoName,
           List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc, PRFilterBase("master")))
         .exec[Id, HttpResponse[String]](headerUserAgent)
+
     response should be('right)
     response.toOption map { r ⇒
       r.result.nonEmpty shouldBe true
@@ -62,6 +62,29 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
       Github(accessToken).pullRequests
         .list(validRepoOwner, invalidRepoName)
         .exec[Id, HttpResponse[String]](headerUserAgent)
+
+    response should be('left)
+  }
+
+  "PullRequests >> ListFiles" should "return a right response when a valid repo is provided" in {
+    val response =
+      Github(accessToken).pullRequests
+        .listFiles(validRepoOwner, validRepoName, validPullRequestNumber)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
+
+    response should be('right)
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return error when an invalid repo name is passed" in {
+    val response =
+      Github(accessToken).pullRequests
+        .listFiles(validRepoOwner, invalidRepoName, validPullRequestNumber)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
+
     response should be('left)
   }
 

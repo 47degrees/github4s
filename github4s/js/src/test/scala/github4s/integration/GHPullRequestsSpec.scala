@@ -31,7 +31,6 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
     scala.concurrent.ExecutionContext.Implicits.global
 
   "PullRequests >> List" should "return a right response when valid repo is provided" in {
-
     val response =
       Github(accessToken).pullRequests
         .list(validRepoOwner, validRepoName)
@@ -43,7 +42,6 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
   }
 
   it should "return a non empty list when valid repo and some filters are provided" in {
-
     val response =
       Github(accessToken).pullRequests
         .list(
@@ -62,6 +60,27 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
     val response =
       Github(accessToken).pullRequests
         .list(validRepoOwner, invalidRepoName)
+        .execFuture(headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
+  "PullRequests >> ListFiles" should "return a right response when a valid repo is provided" in {
+    val response =
+      Github(accessToken).pullRequests
+        .listFiles(validRepoOwner, validRepoName, validPullRequestNumber)
+        .execFuture(headerUserAgent)
+
+    testFutureIsRight[List[PullRequestFile]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error when an invalid repo name is passed" in {
+    val response =
+      Github(accessToken).pullRequests
+        .listFiles(validRepoOwner, invalidRepoName, validPullRequestNumber)
         .execFuture(headerUserAgent)
 
     testFutureIsLeft(response)

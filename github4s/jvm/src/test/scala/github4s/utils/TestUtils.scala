@@ -108,6 +108,9 @@ trait TestUtils {
   val validTagTitle = "v0.1.1"
   val validTagSha   = "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c"
 
+  val validPullRequestFileSha = "f80f79cafbe3f2ba71311b82e1171e73bd37a470"
+  val validPullRequestNumber  = 1
+
   val validPath = "project/plugins.sbt"
 
   val validStatusState = "success"
@@ -139,7 +142,7 @@ trait TestUtils {
 
   val pullRequest = PullRequest(
     id = 1,
-    number = 1,
+    number = validPullRequestNumber,
     state = "open",
     title = "Title",
     body = "Body",
@@ -153,6 +156,20 @@ trait TestUtils {
     head = None,
     user = None,
     assignee = None
+  )
+
+  val pullRequestFile = PullRequestFile(
+    sha = validPullRequestFileSha,
+    filename = validPath,
+    status = "modified",
+    additions = 3,
+    deletions = 1,
+    changes = 4,
+    blob_url = githubApiUrl,
+    raw_url = githubApiUrl,
+    contents_url = githubApiUrl,
+    patch = "",
+    previous_filename = None
   )
 
   val tag = Tag(

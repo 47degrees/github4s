@@ -40,6 +40,19 @@ case class PullRequestBase(
     user: User,
     repo: Repository)
 
+case class PullRequestFile(
+    sha: String,
+    filename: String,
+    status: String,
+    additions: Int,
+    deletions: Int,
+    changes: Int,
+    blob_url: String,
+    raw_url: String,
+    contents_url: String,
+    patch: String,
+    previous_filename: Option[String])
+
 sealed abstract class PRFilter(val name: String, val value: String)
     extends Product
     with Serializable {

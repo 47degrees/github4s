@@ -68,4 +68,35 @@ class PullRequestsSpec
     )(any[Decoder[List[PullRequest]]])
   }
 
+  "PullRequests.listFiles" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[List[PullRequestFile]] =
+      Right(GHResult(List(pullRequestFile), okStatusCode, Map.empty))
+
+    val httpClientMock = mock[HttpClient[HttpResponse[String], Id]]
+    when(
+      httpClientMock.get[List[PullRequestFile]](
+        any[Option[String]],
+        any[String],
+        any[Map[String, String]],
+        any[Map[String, String]],
+        any[Option[Pagination]])(any[Decoder[List[PullRequestFile]]]))
+      .thenReturn(response)
+
+    val token = Some("token")
+    val pullRequests = new PullRequests[HttpResponse[String], Id] {
+      override val httpClient: HttpClient[HttpResponse[String], Id] = httpClientMock
+    }
+    pullRequests
+      .listFiles(token, headerUserAgent, validRepoOwner, validRepoName, validPullRequestNumber)
+
+    verify(httpClientMock).get[List[PullRequestFile]](
+      argEq(token),
+      argEq(s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/files"),
+      argEq(headerUserAgent),
+      any[Map[String, String]],
+      any[Option[Pagination]]
+    )(any[Decoder[List[PullRequestFile]]])
+  }
+
 }

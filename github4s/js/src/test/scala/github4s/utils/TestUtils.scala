@@ -115,4 +115,6 @@ trait TestUtils extends Matchers {
   val validCommitMsg   = "Add SBT project settings"
 
   val validStatusState = "success"
+
+  val validPullRequestNumber = 1
 }

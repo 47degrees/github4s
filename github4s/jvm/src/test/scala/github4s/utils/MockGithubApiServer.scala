@@ -224,6 +224,29 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/repos/$validRepoOwner/$invalidRepoName/contributors"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
+  //Repos >> create release
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/releases")
+        .withHeader("Authorization", tokenHeader))
+    .respond(
+      response
+        .withStatusCode(createdStatusCode)
+        .withBody(validNewReleaseResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/releases")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedResponse))
+
   //Gists >> post new gist
 
   mockServer
@@ -425,27 +448,20 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/repos/$validRepoOwner/$invalidRepoName/pulls"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
+  //PullRequests >> listFiles
   mockServer
     .when(
       request
-        .withMethod("POST")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/releases")
-        .withHeader("Authorization", tokenHeader))
-    .respond(
-      response
-        .withStatusCode(createdStatusCode)
-        .withBody(validNewReleaseResponse))
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/files"))
+    .respond(response.withStatusCode(okStatusCode).withBody(validListPullRequestFilesReponse))
 
   mockServer
     .when(
       request
-        .withMethod("POST")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/releases")
-        .withHeader(not("Authorization")))
-    .respond(
-      response
-        .withStatusCode(unauthorizedStatusCode)
-        .withBody(unauthorizedResponse))
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/pulls/$validPullRequestNumber/files"))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
   //Statuses >> get
   mockServer

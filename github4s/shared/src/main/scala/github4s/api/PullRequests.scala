@@ -64,4 +64,24 @@ class PullRequests[C, M[_]](
       headers,
       filters.map(_.tupled).toMap)
 
+  /**
+   * List files for a specific pull request
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param number of the pull request for which we want to list the files
+   * @return a GHResponse with the list of files affected by the pull request identified by number.
+   */
+  def listFiles(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      number: Int): M[GHResponse[List[PullRequestFile]]] =
+    httpClient.get[List[PullRequestFile]](
+      accessToken,
+      s"repos/$owner/$repo/pulls/$number/files",
+      headers)
 }

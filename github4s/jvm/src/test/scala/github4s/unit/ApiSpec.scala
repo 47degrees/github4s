@@ -588,6 +588,31 @@ class ApiSpec
     response should be('left)
   }
 
+  "PullRequests >> ListFiles" should "return the expected files when a valid repo is provided" in {
+    val response = pullRequests.listFiles(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validPullRequestNumber)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an error when an invalid repo name is passed" in {
+    val response = pullRequests.listFiles(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      invalidRepoName,
+      validPullRequestNumber)
+    response should be('left)
+  }
+
   "Statuses >> Get" should "return the expected combined status when a valid ref is provided" in {
     val response =
       statuses.get(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
