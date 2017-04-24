@@ -44,7 +44,7 @@ if you have push access to the repository
 
 To create an issue:
 
-```tut:silent
+```scala
 val createIssue =
   Github(accessToken).issues.createIssue("47deg", "github4s", "Github4s", "is awesome")
 
@@ -71,7 +71,7 @@ if you have push access to the repository
 
 To edit an issue:
 
-```tut:silent
+```scala
 val editIssue =
   Github(accessToken).issues.editIssue("47deg", "github4s", 1, "open", "Github4s", "is still awesome")
 
