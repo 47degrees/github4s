@@ -22,6 +22,7 @@ import github4s.Decoders._
 import org.scalatest._
 import io.circe.generic.auto._
 import io.circe.parser._
+import cats.implicits._
 
 class DecodersSpec extends FlatSpec with Matchers with FakeResponses {
 
