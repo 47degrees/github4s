@@ -17,7 +17,11 @@
 package github4s
 
 import cats.data.NonEmptyList
+import cats.instances.either._
+import cats.instances.list._
 import cats.syntax.either._
+import cats.syntax.list._
+import cats.syntax.traverse._
 import github4s.free.domain._
 import io.circe.Decoder.Result
 import io.circe._
@@ -46,16 +50,8 @@ object Decoders {
       )
   }
 
-  def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] = {
-    RepoUrlKeys.allFields.foldLeft(Either.right[DecodingFailure, List[Option[String]]](List.empty)) {
-      case (Left(e), _) => Left(e)
-      case (Right(list), name) =>
-        c.downField(name).as[Option[String]] match {
-          case Left(e)         => Left(e)
-          case Right(maybeUrl) => Right(list :+ maybeUrl)
-        }
-    }
-  }
+  def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] =
+    RepoUrlKeys.allFields.traverse { name ⇒ c.downField(name).as[Option[String]] } 
 
   implicit val decodeStatusRepository: Decoder[StatusRepository] = {
     Decoder.instance { c ⇒
@@ -158,9 +154,7 @@ object Decoders {
             ssh_url = ssh_url,
             clone_url = clone_url,
             svn_url = svn_url,
-            otherUrls = (RepoUrlKeys.allFields zip repoUrls.flatten map {
-              case (urlName, value) => urlName -> value
-            }).toMap
+            otherUrls = (RepoUrlKeys.allFields zip repoUrls.flatten).toMap
           )
         )
     }
@@ -181,23 +175,13 @@ object Decoders {
       )
   }
 
-  val emptyListDecodingFailure = DecodingFailure("Empty Response", Nil)
-
   implicit def decodeNonEmptyList[T](implicit D: Decoder[T]): Decoder[NonEmptyList[T]] = {
 
-    def decodeCursor(
-        partialList: Option[NonEmptyList[T]],
-        cursor: HCursor): Decoder.Result[NonEmptyList[T]] =
-      cursor.as[T] map { r ⇒
-        partialList map (_.concat(NonEmptyList(r, Nil))) getOrElse NonEmptyList(r, Nil)
-      }
-
     def decodeCursors(cursors: List[HCursor]): Result[NonEmptyList[T]] =
-      cursors.foldLeft[Decoder.Result[NonEmptyList[T]]](Left(emptyListDecodingFailure)) {
-        case (Right(list), cursor)                      => decodeCursor(Some(list), cursor)
-        case (Left(`emptyListDecodingFailure`), cursor) => decodeCursor(None, cursor)
-        case (Left(e), _)                               => Left(e)
-      }
+      cursors
+        .toNel
+        .toRight(DecodingFailure("Empty Response", Nil))
+        .flatMap(nelCursors => nelCursors.traverse(_.as[T]))
 
     Decoder.instance { c ⇒
       c.as[T] match {

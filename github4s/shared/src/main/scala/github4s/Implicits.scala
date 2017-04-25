@@ -73,7 +73,7 @@ trait IdInstances {
     override def capture[A](a: ⇒ A): Id[A] = idMonad.pure(a)
   }
 
-  implicit def idMonad(implicit I: Monad[Id], FM: FlatMap[Id]): MonadError[Id, Throwable] =
+  implicit def idMonad(implicit I: Monad[Id]): MonadError[Id, Throwable] =
     new MonadError[Id, Throwable] {
 
       override def pure[A](x: A): Id[A] = I.pure(x)
@@ -84,7 +84,7 @@ trait IdInstances {
 
       override def flatMap[A, B](fa: Id[A])(f: A ⇒ Id[B]): Id[B] = I.flatMap(fa)(f)
 
-      override def tailRecM[A, B](a: A)(f: A ⇒ Id[Either[A, B]]): Id[B] = FM.tailRecM(a)(f)
+      override def tailRecM[A, B](a: A)(f: A ⇒ Id[Either[A, B]]): Id[B] = I.tailRecM(a)(f)
 
       override def raiseError[A](e: Throwable): Id[A] = throw e
 
