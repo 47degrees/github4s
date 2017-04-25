@@ -47,9 +47,8 @@ object Decoders {
   }
 
   def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] = {
-    RepoUrlKeys.allFields.foldLeft(
-      Either.right[DecodingFailure, List[Option[String]]](List.empty)) {
-      case (Left(e), name) => Left(e)
+    RepoUrlKeys.allFields.foldLeft(Either.right[DecodingFailure, List[Option[String]]](List.empty)) {
+      case (Left(e), _) => Left(e)
       case (Right(list), name) =>
         c.downField(name).as[Option[String]] match {
           case Left(e)         => Left(e)
@@ -69,18 +68,19 @@ object Decoders {
         description ← c.downField("description").as[Option[String]]
         fork        ← c.downField("fork").as[Boolean]
         repoUrls    ← readRepoUrls(c)
-      } yield StatusRepository(
-        id = id,
-        name = name,
-        full_name = full_name,
-        owner = owner,
-        `private` = priv,
-        description = description,
-        fork = fork,
-        urls = (RepoUrlKeys.allFields zip repoUrls.flatten map {
-          case (urlName, value) => urlName -> value
-        }).toMap
-      )
+      } yield
+        StatusRepository(
+          id = id,
+          name = name,
+          full_name = full_name,
+          owner = owner,
+          `private` = priv,
+          description = description,
+          fork = fork,
+          urls = (RepoUrlKeys.allFields zip repoUrls.flatten map {
+            case (urlName, value) => urlName -> value
+          }).toMap
+        )
     }
   }
 

@@ -17,7 +17,6 @@
 package github4s.integration
 
 import cats.Id
-import cats.implicits._
 import github4s.Github
 import github4s.Github._
 import github4s.free.domain.{PRFilterAll, PRFilterBase, PRFilterOrderAsc, PRFilterSortCreated}

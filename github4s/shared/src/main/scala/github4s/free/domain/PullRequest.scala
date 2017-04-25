@@ -38,7 +38,7 @@ case class PullRequestBase(
     ref: String,
     sha: String,
     user: User,
-    repo: Repository)
+    repo: Option[Repository])
 
 case class PullRequestFile(
     sha: String,
