@@ -51,8 +51,13 @@ class DecodersSpec extends FlatSpec with Matchers with FakeResponses {
     decode[CombinedStatus](emptyListResponse) should be('left)
   }
 
-  "NonEmptyList Decoder" should "return a valid NonEmptyList for a valid JSON" in {
+  "NonEmptyList Decoder" should "return a valid NonEmptyList for a valid JSON list" in {
     decode[NonEmptyList[Int]]("[1,2,3]") should be(Right(NonEmptyList.of(1, 2, 3)))
+  }
+
+  case class Foo(a: Int)
+  it should "return a valid NonEmtpyList for a valid JSON" in {
+    decode[NonEmptyList[Foo]]("""{"a": 1}""") should be(Right(NonEmptyList(Foo(1), Nil)))
   }
 
   it should "return an error for an empty list" in {
