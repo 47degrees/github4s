@@ -5,5 +5,8 @@ options:
   - title: Issue API
     url: issue.html
 
+  - title: Pull Request API
+    url: pull_request.html
+
   - title: Status API
     url: status.html
