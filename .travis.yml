@@ -16,13 +16,21 @@ before_install:
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
     openssl aes-256-cbc -K $encrypted_88322e86f6b6_key -iv $encrypted_88322e86f6b6_iv -in secring.gpg.enc -out secring.gpg -d;
   fi
+- export PATH=${PATH}:./vendor/bundle
+
+install:
+- rvm use 2.2.3 --install --fuzzy
+- gem update --system
+- gem install sass
+- gem install jekyll -v 3.2.1
+- gem install jekyll-redirect-from
 
 script:
 - sbt ++$TRAVIS_SCALA_VERSION test:fastOptJS
 - sbt ++$TRAVIS_SCALA_VERSION orgScriptCI
 
 after_success:
-- bash <(curl -s https://codecov.io/bash) -t 744f05ba-f905-4468-aef1-f5016fc2909d
+- bash <(curl -s https://codecov.io/bash)
 - sbt ++$TRAVIS_SCALA_VERSION orgAfterCISuccess
 
 cache:
