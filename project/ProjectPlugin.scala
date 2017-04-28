@@ -27,7 +27,8 @@ object ProjectPlugin extends AutoPlugin {
       micrositeDocumentationUrl := "/github4s/docs.html",
       micrositeGithubOwner := "47deg",
       micrositeGithubRepo := "github4s",
-      includeFilter in Jekyll := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md"
+      includeFilter in Jekyll := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md",
+      tutScalacOptions ~= (_ filterNot Set("-Ywarn-unused-import", "-Xlint").contains)
     )
 
     lazy val testSettings = Seq(
@@ -79,6 +80,7 @@ object ProjectPlugin extends AutoPlugin {
         case "2.10" => Seq("-Xdivergence211")
         case _      => Nil
       }),
+      scalacOptions ~= (_ filterNot Set("-Xlint").contains),
       orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
       orgBadgeListSetting := List(
         TravisBadge.apply(_),
