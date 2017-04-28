@@ -53,6 +53,19 @@ case class PullRequestFile(
     patch: String,
     previous_filename: Option[String])
 
+case class CreatePullRequestData(
+    title: String,
+    head: String,
+    base: String,
+    body: String,
+    maintainerCanModify: Option[Boolean] = Some(true))
+
+case class CreatePullRequestIssue(
+    issue: Int,
+    head: String,
+    base: String,
+    maintainerCanModify: Option[Boolean] = Some(true))
+
 sealed abstract class PRFilter(val name: String, val value: String)
     extends Product
     with Serializable {
@@ -69,12 +82,16 @@ case class PRFilterHead(override val value: String) extends PRFilter("head", val
 case class PRFilterBase(override val value: String) extends PRFilter("base", value)
 
 sealed abstract class PRFilterSort(override val value: String) extends PRFilter("sort", value)
-case object PRFilterSortCreated                                    extends PRFilterSort("created")
-case object PRFilterSortUpdated                                    extends PRFilterSort("updated")
-case object PRFilterSortPopularity                                 extends PRFilterSort("popularity")
-case object PRFilterSortLongRunning                                extends PRFilterSort("long-running")
+case object PRFilterSortCreated                                extends PRFilterSort("created")
+case object PRFilterSortUpdated                                extends PRFilterSort("updated")
+case object PRFilterSortPopularity                             extends PRFilterSort("popularity")
+case object PRFilterSortLongRunning                            extends PRFilterSort("long-running")
 
 sealed abstract class PRFilterDirection(override val value: String)
     extends PRFilter("direction", value)
 case object PRFilterOrderAsc  extends PRFilterDirection("asc")
 case object PRFilterOrderDesc extends PRFilterDirection("desc")
+
+sealed trait NewPullRequest
+case class NewPullRequestData(title: String, body: String) extends NewPullRequest
+case class NewPullRequestIssue(issue: Int)                 extends NewPullRequest

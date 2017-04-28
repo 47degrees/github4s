@@ -249,6 +249,16 @@ class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequest
       number: Int
   ): GHIO[GHResponse[List[PullRequestFile]]] =
     O.listPullRequestFiles(owner, repo, number, accessToken)
+
+  def create(
+      owner: String,
+      repo: String,
+      newPullRequest: NewPullRequest,
+      head: String,
+      base: String,
+      maintainerCanModify: Option[Boolean] = Some(true)
+  ): GHIO[GHResponse[PullRequest]] =
+    O.createPullRequest(owner, repo, newPullRequest, head, base, maintainerCanModify, accessToken)
 }
 
 class GHStatuses(accessToken: Option[String] = None)(implicit O: StatusOps[GitHub4s]) {

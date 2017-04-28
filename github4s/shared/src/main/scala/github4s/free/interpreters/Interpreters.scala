@@ -254,6 +254,24 @@ class Interpreters[M[_], C](
             pullRequests.list(accessToken, headers, owner, repo, filters)
           case ListPullRequestFiles(owner, repo, number, accessToken) ⇒
             pullRequests.listFiles(accessToken, headers, owner, repo, number)
+          case CreatePullRequest(
+              owner,
+              repo,
+              newPullRequest,
+              head,
+              base,
+              maintainerCanModify,
+              accessToken) ⇒
+            pullRequests
+              .create(
+                accessToken,
+                headers,
+                owner,
+                repo,
+                newPullRequest,
+                head,
+                base,
+                maintainerCanModify)
         }
       }
     }
