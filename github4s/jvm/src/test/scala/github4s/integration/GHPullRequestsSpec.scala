@@ -66,6 +66,13 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
     response should be('left)
   }
 
+  /*TODO
+  owner: String,
+  repo: String,
+  newPullRequest: NewPullRequest,
+  head: String,
+  base: String,
+  maintainerCanModify: Option[Boolean] = Some(true)*/
   "PullRequests >> ListFiles" should "return a right response when a valid repo is provided" in {
     val response =
       Github(accessToken).pullRequests

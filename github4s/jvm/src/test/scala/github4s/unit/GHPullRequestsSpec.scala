@@ -47,7 +47,13 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
 
     verify(pullRequestOps).listPullRequests(validRepoOwner, validRepoName, Nil, token)
   }
-
+  /*TODO
+  owner: String,
+  repo: String,
+  newPullRequest: NewPullRequest,
+  head: String,
+  base: String,
+  maintainerCanModify: Option[Boolean] = Some(true)*/
   "GHPullRequests.listFiles" should "call to PullRequestOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[List[PullRequestFile]]] =

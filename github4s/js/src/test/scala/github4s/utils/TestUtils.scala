@@ -117,4 +117,16 @@ trait TestUtils extends Matchers {
   val validStatusState = "success"
 
   val validPullRequestNumber = 1
+
+  val validHead   = "octocat:new-feature"
+  val invalidHead = ""
+
+  val validBase   = "master"
+  val invalidBase = ""
+
+  val validNewPullRequestData   = NewPullRequestData("Amazing new feature", "Please pull this in!")
+  val invalidNewPullRequestData = NewPullRequestData("", "")
+
+  val validNewPullRequestIssue   = NewPullRequestIssue(26)
+  val invalidNewPullRequestIssue = NewPullRequestIssue(5)
 }

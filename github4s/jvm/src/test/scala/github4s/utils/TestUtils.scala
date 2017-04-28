@@ -246,4 +246,12 @@ trait TestUtils {
       urls = Map()
     )
   )
+
+  /*TODO
+  owner: String,
+  repo: String,
+  newPullRequest: NewPullRequest,
+  head: String,
+  base: String,
+  maintainerCanModify: Option[Boolean] = Some(true)*/
 }
