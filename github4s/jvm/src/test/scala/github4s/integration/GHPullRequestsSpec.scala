@@ -66,13 +66,6 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
     response should be('left)
   }
 
-  /*TODO
-  owner: String,
-  repo: String,
-  newPullRequest: NewPullRequest,
-  head: String,
-  base: String,
-  maintainerCanModify: Option[Boolean] = Some(true)*/
   "PullRequests >> ListFiles" should "return a right response when a valid repo is provided" in {
     val response =
       Github(accessToken).pullRequests
@@ -90,6 +83,48 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
     val response =
       Github(accessToken).pullRequests
         .listFiles(validRepoOwner, invalidRepoName, validPullRequestNumber)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
+
+    response should be('left)
+  }
+
+  "PullRequests >> CreatePullRequestData" should "create a pull request when a valid repo is passed" in {
+    val response =
+      Github(accessToken).pullRequests
+        .create(validRepoOwner, validRepoName, validNewPullRequestData, validHead, validBase)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
+
+    response should be('right)
+    response.toOption map { r ⇒
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return error when an invalid data is passed" in {
+    val response =
+      Github(accessToken).pullRequests
+        .create(validRepoOwner, validRepoName, invalidNewPullRequestData, invalidHead, invalidBase)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
+
+    response should be('left)
+  }
+
+  "PullRequests >> CreatePullRequestIssue" should "create a pull request when a valid repo is passed" in {
+    val response =
+      Github(accessToken).pullRequests
+        .create(validRepoOwner, validRepoName, validNewPullRequestIssue, validHead, validBase)
+        .exec[Id, HttpResponse[String]](headerUserAgent)
+
+    response should be('right)
+    response.toOption map { r ⇒
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return error when an invalid data is passed" in {
+    val response =
+      Github(accessToken).pullRequests
+        .create(validRepoOwner, validRepoName, invalidNewPullRequestData, invalidHead, invalidBase)
         .exec[Id, HttpResponse[String]](headerUserAgent)
 
     response should be('left)

@@ -92,8 +92,7 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
         .create(validRepoOwner, validRepoName, validNewPullRequestData, validHead, validBase)
         .execFuture(headerUserAgent)
 
-    testFutureIsRight[List[PullRequest]](response, { r =>
-      r.result.nonEmpty shouldBe true
+    testFutureIsRight[PullRequest](response, { r =>
       r.statusCode shouldBe okStatusCode
     })
   }
@@ -113,8 +112,7 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
         .create(validRepoOwner, validRepoName, validNewPullRequestIssue, validHead, validBase)
         .execFuture(headerUserAgent)
 
-    testFutureIsRight[List[PullRequest]](response, { r =>
-      r.result.nonEmpty shouldBe true
+    testFutureIsRight[PullRequest](response, { r =>
       r.statusCode shouldBe okStatusCode
     })
   }

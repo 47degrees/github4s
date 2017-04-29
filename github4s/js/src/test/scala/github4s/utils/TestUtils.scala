@@ -20,7 +20,7 @@ import com.github.marklister.base64.Base64._
 import org.scalatest.{Assertion, Matchers}
 import cats.implicits._
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.free.domain.{IssueTypeIssue, OwnerParamInRepository, SearchIn, SearchInTitle}
+import github4s.free.domain._
 
 import scala.concurrent.Future
 
