@@ -74,7 +74,8 @@ trait HttpRequestBuilderExtensionJVM {
       )
     case r ⇒
       Either.left(
-        UnexpectedException(s"Failed invoking get with status : ${r.code}, body : \n ${r.body}"))
+        UnexpectedException(
+          s"Request to $url failed with status : ${r.code}, body : \n ${r.body}"))
   }
 
   private def toLowerCase(

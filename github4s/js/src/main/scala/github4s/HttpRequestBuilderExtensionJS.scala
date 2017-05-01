@@ -59,7 +59,7 @@ trait HttpRequestBuilderExtensionJS {
         rb.data
           .map(d => request.send(CirceJSONBody(d)))
           .getOrElse(request.send())
-          .map(toEntity[A])
+          .map(toEntity[A](_, request.url))
           .recoverWith {
             case e =>
               Future.successful(Either.left(UnexpectedException(e.getMessage)))
@@ -67,21 +67,18 @@ trait HttpRequestBuilderExtensionJS {
       }
     }
 
-  def toEntity[A](response: SimpleHttpResponse)(implicit D: Decoder[A]): GHResponse[A] =
-    response match {
-      case r if r.statusCode < HttpCode400.statusCode ⇒
-        decode[A](r.body).fold(
-          e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
-          result ⇒
-            Either.right(
-              GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
-          )
-        )
-      case r ⇒
-        Either.left(
-          UnexpectedException(
-            s"Failed invoking get with status : ${r.statusCode}, body : \n ${r.body}"))
-    }
+  def toEntity[A](response: SimpleHttpResponse, url: String)(
+      implicit D: Decoder[A]): GHResponse[A] = response match {
+    case r if r.statusCode < HttpCode400.statusCode ⇒
+      decode[A](r.body).fold(
+        e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
+        result ⇒ Either.right(GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers)))
+      )
+    case r ⇒
+      Either.left(
+        UnexpectedException(
+          s"Request to $url failed with status : ${r.statusCode}, body : \n ${r.body}"))
+  }
 
   private def rosHeaderMapToRegularMap(
       headers: HeaderMap[String]): Map[String, IndexedSeq[String]] =
