@@ -67,4 +67,81 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
       .listPullRequestFiles(validRepoOwner, validRepoName, validPullRequestNumber, token)
   }
 
+  "GHPullRequests.createPullRequestData" should "call to PullRequestOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[PullRequest]] =
+      Free.pure(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
+
+    val pullRequestOps = mock[PullRequestOps[GitHub4s]]
+    when(
+      pullRequestOps
+        .createPullRequest(
+          any[String],
+          any[String],
+          any[NewPullRequest],
+          any[String],
+          any[String],
+          any[Option[Boolean]],
+          any[Option[String]]))
+      .thenReturn(response)
+
+    val token          = Some("token")
+    val ghPullRequests = new GHPullRequests(token)(pullRequestOps)
+    ghPullRequests.create(
+      validRepoOwner,
+      validRepoName,
+      validNewPullRequestData,
+      validHead,
+      validBase,
+      Some(true))
+
+    verify(pullRequestOps)
+      .createPullRequest(
+        validRepoOwner,
+        validRepoName,
+        validNewPullRequestData,
+        validHead,
+        validBase,
+        Some(true),
+        token)
+  }
+
+  "GHPullRequests.createPullRequestIssue" should "call to PullRequestOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[PullRequest]] =
+      Free.pure(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
+
+    val pullRequestOps = mock[PullRequestOps[GitHub4s]]
+    when(
+      pullRequestOps
+        .createPullRequest(
+          any[String],
+          any[String],
+          any[NewPullRequest],
+          any[String],
+          any[String],
+          any[Option[Boolean]],
+          any[Option[String]]))
+      .thenReturn(response)
+
+    val token          = Some("token")
+    val ghPullRequests = new GHPullRequests(token)(pullRequestOps)
+    ghPullRequests.create(
+      validRepoOwner,
+      validRepoName,
+      validNewPullRequestIssue,
+      validHead,
+      validBase,
+      Some(true))
+
+    verify(pullRequestOps)
+      .createPullRequest(
+        validRepoOwner,
+        validRepoName,
+        validNewPullRequestIssue,
+        validHead,
+        validBase,
+        Some(true),
+        token)
+  }
 }
