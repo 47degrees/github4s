@@ -55,21 +55,21 @@ case class PullRequestFile(
 sealed trait CreatePullRequest {
   def head: String
   def base: String
-  def maintainerCanModify: Option[Boolean]
+  def maintainer_can_modify: Option[Boolean]
 }
 case class CreatePullRequestData(
     title: String,
     head: String,
     base: String,
     body: String,
-    maintainerCanModify: Option[Boolean] = Some(true))
+    maintainer_can_modify: Option[Boolean] = Some(true))
     extends CreatePullRequest
 
 case class CreatePullRequestIssue(
     issue: Int,
     head: String,
     base: String,
-    maintainerCanModify: Option[Boolean] = Some(true))
+    maintainer_can_modify: Option[Boolean] = Some(true))
     extends CreatePullRequest
 
 sealed abstract class PRFilter(val name: String, val value: String)

@@ -128,13 +128,16 @@ trait TestUtils {
   val validPath = "project/plugins.sbt"
 
   val validStatusState = "success"
+  val validMode        = "100644"
+  val validBlobType    = "blob"
 
-  val treeDataList: List[TreeData] = List(TreeDataSha(validPath, "100644", "blob", validTreeSha))
+  val treeDataList: List[TreeData] = List(
+    TreeDataSha(validPath, validMode, validBlobType, validTreeSha))
   val treeDataResult = List(
     TreeDataResult(
       path = validPath,
-      mode = "100644",
-      `type` = "blob",
+      mode = validMode,
+      `type` = validBlobType,
       size = Some(100),
       sha = validTreeSha,
       url = githubApiUrl))
