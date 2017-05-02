@@ -93,12 +93,12 @@ class PullRequests[C, M[_]](
    * @param headers optional user headers to include in the request
    * @param owner of the repo
    * @param repo name of the repo
-   * @param newPullRequest Required. The title and body parameters or the issue parameter
-   * @param head Required. The name of the branch where your changes are implemented. For cross-repository pull
+   * @param newPullRequest The title and body parameters or the issue parameter
+   * @param head The name of the branch where your changes are implemented. For cross-repository pull
    *             requests in the same network, namespace head with a user like this: username:branch.
-   * @param base Required. The name of the branch you want the changes pulled into. This should be an existing branch
+   * @param base The name of the branch you want the changes pulled into. This should be an existing branch
    *             on the current repository. You cannot submit a pull request to one repository that
-   * @param maintainerCanModify Indicates whether maintainers can modify the pull request.
+   * @param maintainerCanModify Indicates whether maintainers can modify the pull request, Default:Some(true).
    */
   def create(
       accessToken: Option[String] = None,
