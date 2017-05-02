@@ -10,6 +10,7 @@ with github4s, you can:
 
 - [list pull requests](#list-pull-requests)
 - [list the files in a pull request](#list-the-files-in-a-pull-request)
+- [Create a pull request](#create-a-pull-request)
 
 The following examples assume the following imports and token:
 
@@ -84,3 +85,36 @@ request) are missing. As a result, if you'd like to see a feature supported, fee
 create a pull request (not through Github4s though).
 
 [pr-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala
+
+## Create a pull request
+If you want to create a pull request, we teach you how:
+First, we have two ways to create a pull request, On the one hand we pass as parameters to create a new pull request:
+
+ - the repository coordinates (owner and name of the repository)
+ - title (in a NewPullRequestData) Title for the pull request
+ - body (in a NewPullRequestData) Description for the pull request
+ - head The name of the branch where your changes are implemented
+ - base The name of the branch you want the changes pulled into
+ - maintainerCanModify Optional. Indicates whether maintainers can modify the pull request
+
+```
+val createPullRequestData = Github(accessToken).pullRequests.create("47deg", "github4s", NewPullRequestData("title","body"),"my-branch","base-branch",Some(true))
+createPullRequestData.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+ On the other hand we can pass a issue id (in NewPullRequestIssue) instead of title and body to get this parameter of the issue
+
+ NOTE: This option delete the issue
+
+```
+val createPullRequestIssue = Github(accessToken).pullRequests.create("47deg", "github4s", NewPullRequestIssue("105"),"my-branch","base-branch",Some(true))
+createPullRequestIssue.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+See [the API doc](https://developer.github.com/v3/pulls/#create-a-pull-request) for full
+reference.
