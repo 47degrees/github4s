@@ -104,7 +104,7 @@ createPullRequestData.exec[cats.Id, HttpResponse[String]]() match {
   case Right(r) => println(r.result)
 }
 ```
- On the other hand we, can pass a `issue` id (in `NewPullRequestIssue` object) instead of title and body to get this parameter of the issue
+ On the other hand, we can pass a `issue` id (in `NewPullRequestIssue` object) instead of title and body to get this parameter of the issue
 
  NOTE: This option delete the issue
 
