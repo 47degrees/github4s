@@ -118,5 +118,4 @@ createPullRequestIssue.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-See [the API doc](https://developer.github.com/v3/pulls/#create-a-pull-request) for full
-reference.
+See [the API doc](https://developer.github.com/v3/pulls/#create-a-pull-request) for full reference.
