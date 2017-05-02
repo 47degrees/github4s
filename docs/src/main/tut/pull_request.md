@@ -87,7 +87,7 @@ create a pull request (not through Github4s though).
 [pr-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala
 
 ## Create a pull request
-If you want to create a pull request,we have two ways to create a pull request
+If you want to create a pull request,we have two ways to create a pull request.
 On the one hand, we pass as parameters to create a new pull request:
 
  - the repository coordinates (owner and name of the repository)
