@@ -89,10 +89,10 @@ class PullRequests[C, M[_]](
   /**
    * Create a pull request
    *
-   * @param accessToken to identify the authenticated user
-   * @param headers optional user headers to include in the request
-   * @param owner of the repo
-   * @param repo name of the repo
+   * @param accessToken Token to identify the authenticated user
+   * @param headers Optional user headers to include in the request
+   * @param owner Owner of the repo
+   * @param repo Name of the repo
    * @param newPullRequest The title and body parameters or the issue parameter
    * @param head The name of the branch where your changes are implemented. For cross-repository pull
    *             requests in the same network, namespace head with a user like this: username:branch.
