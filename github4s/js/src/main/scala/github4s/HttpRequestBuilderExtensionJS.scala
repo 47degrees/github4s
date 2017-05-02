@@ -24,7 +24,7 @@ import fr.hmil.roshttp.body.BulkBodyPart
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import fr.hmil.roshttp.util.HeaderMap
 import github4s.GithubResponses._
-import github4s.HttpClient.HttpCode400
+import github4s.HttpClient.{HttpCode200, HttpCode299}
 import io.circe.Decoder
 import io.circe.parser._
 
@@ -69,7 +69,7 @@ trait HttpRequestBuilderExtensionJS {
 
   def toEntity[A](response: SimpleHttpResponse)(implicit D: Decoder[A]): GHResponse[A] =
     response match {
-      case r if r.statusCode < HttpCode400.statusCode ⇒
+      case r if r.statusCode <= HttpCode299.statusCode && r.statusCode >= HttpCode200.statusCode ⇒
         decode[A](r.body).fold(
           e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
           result ⇒

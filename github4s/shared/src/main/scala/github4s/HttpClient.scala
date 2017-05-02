@@ -52,8 +52,12 @@ object HttpClient {
     def statusCode: Int
   }
 
-  case object HttpCode400 extends HttpStatus {
-    def statusCode = 400
+  case object HttpCode200 extends HttpStatus {
+    def statusCode = 200
+  }
+
+  case object HttpCode299 extends HttpStatus {
+    def statusCode = 299
   }
 }
 
