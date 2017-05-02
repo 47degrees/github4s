@@ -89,7 +89,7 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
     val ghPullRequests = new GHPullRequests(token)(pullRequestOps)
     ghPullRequests.create(
       validRepoOwner,
-      validRepoName,
+      validPRRepoName,
       validNewPullRequestData,
       validHead,
       validBase,
@@ -98,7 +98,7 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
     verify(pullRequestOps)
       .createPullRequest(
         validRepoOwner,
-        validRepoName,
+        validPRRepoName,
         validNewPullRequestData,
         validHead,
         validBase,
@@ -128,7 +128,7 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
     val ghPullRequests = new GHPullRequests(token)(pullRequestOps)
     ghPullRequests.create(
       validRepoOwner,
-      validRepoName,
+      validPRRepoName,
       validNewPullRequestIssue,
       validHead,
       validBase,
@@ -137,7 +137,7 @@ class GHPullRequestsSpec extends FlatSpec with Matchers with TestUtils {
     verify(pullRequestOps)
       .createPullRequest(
         validRepoOwner,
-        validRepoName,
+        validPRRepoName,
         validNewPullRequestIssue,
         validHead,
         validBase,

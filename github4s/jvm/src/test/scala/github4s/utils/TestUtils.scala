@@ -111,7 +111,9 @@ trait TestUtils {
   val validPullRequestFileSha = "f80f79cafbe3f2ba71311b82e1171e73bd37a470"
   val validPullRequestNumber  = 1
 
-  val validHead   = "pr-test"
+  val validPRRepoName = "sbt-dependencies-test"
+
+  val validHead   = "test-pr-issue"
   val invalidHead = ""
 
   val validBase   = "master"
@@ -120,7 +122,7 @@ trait TestUtils {
   val validNewPullRequestData   = NewPullRequestData("Amazing new feature", "Please pull this in!")
   val invalidNewPullRequestData = NewPullRequestData("", "")
 
-  val validNewPullRequestIssue   = NewPullRequestIssue(26)
+  val validNewPullRequestIssue   = NewPullRequestIssue(31)
   val invalidNewPullRequestIssue = NewPullRequestIssue(5)
 
   val validPath = "project/plugins.sbt"

@@ -463,6 +463,65 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/repos/$validRepoOwner/$invalidRepoName/pulls/$validPullRequestNumber/files"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
+  //PullRequests >> create
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validPRRepoName/pulls")
+        .withBody(json(s"""
+            |{
+            |  "title": "${validNewPullRequestData.title}",
+            |  "head": "$validHead",
+            |  "base": "$validBase",
+            |  "body": "${validNewPullRequestData.body}"
+            |}
+          """.stripMargin)))
+    .respond(response.withStatusCode(createdStatusCode).withBody(validCreatePullRequest))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/pulls")
+        .withBody(json(s"""
+             |{
+             |  "title": "${validNewPullRequestData.title}",
+             |  "body": "${validNewPullRequestData.body}",
+             |  "head": "$validHead",
+             |  "base": "$validBase"
+             |}
+           """.stripMargin)))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validPRRepoName/pulls")
+        .withBody(json(s"""
+            |{
+            |  "issue": ${validNewPullRequestIssue.issue},
+            |  "head": "$validHead",
+            |  "base": "$validBase"
+            |}
+          """.stripMargin)))
+    .respond(response.withStatusCode(createdStatusCode).withBody(validCreatePullRequest))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/pulls")
+        .withBody(json(s"""
+           |{
+           |  "issue": ${invalidNewPullRequestIssue.issue},
+           |  "head": "$invalidHead",
+           |  "base": "$invalidBase"
+           |}
+         """.stripMargin)))
+    .respond(response.withStatusCode(createdStatusCode).withBody(validCreatePullRequest))
+
   //Statuses >> get
   mockServer
     .when(
