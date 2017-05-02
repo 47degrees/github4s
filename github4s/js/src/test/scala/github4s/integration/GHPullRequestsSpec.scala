@@ -86,44 +86,4 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
     testFutureIsLeft(response)
   }
 
-  "PullRequests >> CreatePullRequestData" should "create a pull request when a valid repo is passed" in {
-    val response =
-      Github(accessToken).pullRequests
-        .create(validRepoOwner, validRepoName, validNewPullRequestData, validHead, validBase)
-        .execFuture(headerUserAgent)
-
-    testFutureIsRight[PullRequest](response, { r =>
-      r.statusCode shouldBe okStatusCode
-    })
-  }
-
-  it should "return error when an invalid data is passed" in {
-    val response =
-      Github(accessToken).pullRequests
-        .create(validRepoOwner, validRepoName, invalidNewPullRequestData, invalidHead, invalidBase)
-        .execFuture(headerUserAgent)
-
-    testFutureIsLeft(response)
-  }
-
-  "PullRequests >> CreatePullRequestIssue" should "create a pull request when a valid repo is passed" in {
-    val response =
-      Github(accessToken).pullRequests
-        .create(validRepoOwner, validRepoName, validNewPullRequestIssue, validHead, validBase)
-        .execFuture(headerUserAgent)
-
-    testFutureIsRight[PullRequest](response, { r =>
-      r.statusCode shouldBe okStatusCode
-    })
-  }
-
-  it should "return error when an invalid data is passed" in {
-    val response =
-      Github(accessToken).pullRequests
-        .create(validRepoOwner, validRepoName, invalidNewPullRequestData, invalidHead, invalidBase)
-        .execFuture(headerUserAgent)
-
-    testFutureIsLeft(response)
-  }
-
 }
