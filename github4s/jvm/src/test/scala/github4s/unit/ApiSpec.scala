@@ -608,7 +608,7 @@ class ApiSpec
       accessToken,
       headerUserAgent,
       validRepoOwner,
-      validRepoName,
+      invalidRepoName,
       validPullRequestNumber)
     response should be('left)
   }

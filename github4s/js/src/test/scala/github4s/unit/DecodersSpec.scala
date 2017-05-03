@@ -18,9 +18,9 @@ package github4s.unit
 
 import cats.data.NonEmptyList
 import cats.syntax.either._
+import github4s.Decoders._
 import github4s.free.domain.{CombinedStatus, Commit, Repository}
 import github4s.utils.FakeResponses
-import github4s.Decoders._
 import io.circe.generic.auto._
 import io.circe.parser._
 import org.scalatest._
@@ -28,7 +28,7 @@ import org.scalatest._
 class DecodersSpec extends FlatSpec with Matchers with FakeResponses {
 
   "Commit decoder" should "return a list of commits when the JSON is valid" in {
-    decode[List[Commit]](listCommitsValidResponse) should be('right)
+    decode[List[Commit]](listCommitsValidResponse).isRight shouldBe true
   }
 
   it should "return an empty list for an empty JSON" in {
@@ -36,32 +36,32 @@ class DecodersSpec extends FlatSpec with Matchers with FakeResponses {
   }
 
   "Repository decoder" should "return a valid repo for a valid JSON" in {
-    decode[Repository](getRepoResponse) should be('right)
+    decode[Repository](getRepoResponse).isRight shouldBe true
   }
 
   it should "return an error for an empty JSON" in {
-    decode[Repository](emptyListResponse) should be('left)
+    decode[Repository](emptyListResponse).isLeft shouldBe true
   }
 
-  "StatusRepository decoder" should "return a valid repo for a valid JSON" in {
-    decode[CombinedStatus](getCombinedStatusValidResponse) should be('right)
+  "CombinedStatus decoder" should "return a valid repo for a valid JSON" in {
+    decode[CombinedStatus](getCombinedStatusValidResponse).isRight shouldBe true
   }
 
   it should "return an error for an empty JSON" in {
-    decode[CombinedStatus](emptyListResponse) should be('left)
+    decode[CombinedStatus](emptyListResponse).isLeft shouldBe true
   }
 
   "NonEmptyList Decoder" should "return a valid NonEmptyList for a valid JSON list" in {
-    decode[NonEmptyList[Int]]("[1,2,3]") should be(Right(NonEmptyList.of(1, 2, 3)))
+    decode[NonEmptyList[Int]]("[1,2,3]") shouldBe Right(NonEmptyList.of(1, 2, 3))
   }
 
   case class Foo(a: Int)
   it should "return a valid NonEmtpyList for a valid JSON" in {
-    decode[NonEmptyList[Foo]]("""{"a": 1}""") should be(Right(NonEmptyList(Foo(1), Nil)))
+    decode[NonEmptyList[Foo]]("""{"a": 1}""") shouldBe Right(NonEmptyList(Foo(1), Nil))
   }
 
   it should "return an error for an empty list" in {
-    decode[NonEmptyList[Int]](emptyListResponse) should be('left)
+    decode[NonEmptyList[Int]](emptyListResponse).isLeft shouldBe true
   }
 
 }
