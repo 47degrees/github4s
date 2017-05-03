@@ -18,12 +18,12 @@ package github4s.unit
 
 import github4s.Encoders._
 import github4s.free.domain._
-import github4s.utils.TestUtils
+import github4s.utils.TestData
 import io.circe.parser._
 import io.circe.syntax._
-import org.scalatest._
+import org.scalatest.{FlatSpec, Matchers}
 
-class EncodersSpec extends FlatSpec with Matchers with TestUtils {
+class EncodersSpec extends FlatSpec with Matchers with TestData {
 
   "TreeData encoder" should "encode the TreeDataSha" in {
     val treeData: TreeData = TreeDataSha(validFilePath, validMode, validBlobType, validCommitSha)

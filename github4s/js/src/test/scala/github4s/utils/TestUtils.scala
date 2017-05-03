@@ -16,7 +16,6 @@
 
 package github4s.utils
 
-import com.github.marklister.base64.Base64._
 import org.scalatest.{Assertion, Matchers}
 import cats.implicits._
 import github4s.GithubResponses.{GHResponse, GHResult}
@@ -24,7 +23,8 @@ import github4s.free.domain._
 
 import scala.concurrent.Future
 
-trait TestUtils extends Matchers {
+trait TestUtils extends Matchers with TestData {
+
   def testFutureIsLeft[A](response: Future[GHResponse[A]])(
       implicit ec: scala.concurrent.ExecutionContext): Future[Assertion] = {
     response map { r =>
@@ -47,80 +47,7 @@ trait TestUtils extends Matchers {
     }
   }
 
-  val accessToken: Option[String]          = Option(github4s.BuildInfo.token)
-  def tokenHeader: String                  = "token " + accessToken.getOrElse("")
-  val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
-
-  val validUsername   = "rafaparadela"
-  val invalidUsername = "GHInvalidaUserName"
-  val invalidPassword = "invalidPassword"
-
-  def validBasicAuth = s"Basic ${s"$validUsername:".getBytes.toBase64}"
-  def invalidBasicAuth =
-    s"Basic ${s"$validUsername:$invalidPassword".getBytes.toBase64}"
-
-  val validScopes         = List("public_repo")
-  val validNote           = "New access token"
-  val validClientId       = "e8e39175648c9db8c280"
-  val invalidClientSecret = "1234567890"
-  val validCode           = "code"
-  val invalidCode         = "invalid-code"
-
-  val validRepoOwner   = "47deg"
-  val validRepoName    = "github4s"
-  val validFilePath    = "README.md"
-  val invalidFilePath  = "NON_EXISTENT_FILE_IN_REPOSITORY"
-  val invalidRepoName  = "GHInvalidRepoName"
-  val validRedirectUri = "http://localhost:9000/_oauth-callback"
-  val validPage        = 1
-  val invalidPage      = 999
-  val validPerPage     = 100
-
-  val validSinceInt   = 100
-  val invalidSinceInt = 999999999
-
-  val okStatusCode           = 200
-  val createdStatusCode      = 201
-  val unauthorizedStatusCode = 401
-  val notFoundStatusCode     = 404
-
-  val validAnonParameter   = "true"
-  val invalidAnonParameter = "X"
-
-  val validGistDescription = "A Gist"
-  val validGistPublic      = false
-  val validGistFileContent = "val meaningOfLife = 42"
-  val validGistFilename    = "test.scala"
-
-  val validSearchQuery       = "Scala 2.12"
-  val nonExistentSearchQuery = "nonExistentSearchQueryString"
-  val validSearchParams = List(
-    OwnerParamInRepository(s"$validRepoOwner/$validRepoName"),
-    IssueTypeIssue,
-    SearchIn(Set(SearchInTitle))
-  )
-
-  val validIssue      = 48
-  val validIssueTitle = "Sample Title"
-  val validIssueBody  = "Sample Body"
-  val validIssueState = "closed"
-  val validIssueLabel = List("bug", "code review")
-  val validAssignees  = List(validUsername)
-
-  val validRefSingle = "heads/master"
-  val invalidRef     = "heads/feature-branch-that-no-longer-exists"
-
-  val validCommitSha   = "d3b048c1f500ee5450e5d7b3d1921ed3e7645891"
-  val invalidCommitSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-  val validCommitMsg   = "Add SBT project settings"
-
-  val validStatusState = "success"
-  val validMode        = "100644"
-  val validBlobType    = "blob"
-
-  val validHead = "test-pr-issue"
-  val validBase = "master"
-
-  val validPullRequestNumber = 1
+  val accessToken: Option[String] = Option(github4s.BuildInfo.token)
+  def tokenHeader: String         = "token " + accessToken.getOrElse("")
 
 }
