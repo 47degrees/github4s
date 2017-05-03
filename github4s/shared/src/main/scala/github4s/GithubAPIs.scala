@@ -164,6 +164,15 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
     O.editIssue(owner, repo, issue, state, title, body, milestone, labels, assignees, accessToken)
 }
 
+class GHNotifications(accessToken: Option[String] = None)(implicit O: NotificationOps[GitHub4s]) {
+
+  def setThreadSub(
+      id: Int,
+      subscribed: Boolean,
+      ignored: Boolean): GHIO[GHResponse[Subscription]] =
+    O.setThreadSub(id, subscribed, ignored, accessToken)
+}
+
 class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHub4s]) {
 
   def getReference(

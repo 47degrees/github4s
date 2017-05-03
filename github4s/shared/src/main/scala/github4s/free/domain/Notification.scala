@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-package github4s
+package github4s.free.domain
 
-import cats.data.Coproduct
-import github4s.free.algebra._
-
-object app {
-  type COGH01[A]   = Coproduct[RepositoryOp, UserOp, A]
-  type COGH02[A]   = Coproduct[GistOp, COGH01, A]
-  type COGH03[A]   = Coproduct[IssueOp, COGH02, A]
-  type COGH04[A]   = Coproduct[AuthOp, COGH03, A]
-  type COGH05[A]   = Coproduct[GitDataOp, COGH04, A]
-  type COGH06[A]   = Coproduct[PullRequestOp, COGH05, A]
-  type COGH07[A]   = Coproduct[NotificationOp, COGH06, A]
-  type GitHub4s[A] = Coproduct[StatusOp, COGH07, A]
-}
+case class Subscription(subscribed: Boolean, ignored: Boolean)
