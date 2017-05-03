@@ -111,9 +111,12 @@ class Issues[C, M[_]](implicit urls: GithubApiUrls,
     *
     * @param accessToken to identify the authenticated user
     * @param headers optional user headers to include in the request
+    * @param owner of the repo
+    * @param repo name of the repo
+    * @param issue number
+    * @param state State of the issue. Either open or closed.
     * @param title The title of the issue.
     * @param body The contents of the issue.
-    * @param state State of the issue. Either open or closed.
     * @param milestone The number of the milestone to associate this issue with.
     * @param labels Labels to associate with this issue.
     *               Pass one or more Labels to replace the set of Labels on this Issue.

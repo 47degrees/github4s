@@ -8,10 +8,10 @@ title: Issue API
 Github4s supports the [Issue API](https://developer.github.com/v3/issues/). As a result,
 with github4s, you can:
 
-- [create an issue](#create-an-issue)
-- [edit an issue](#edit-an-issue)
-- [list issues](#list-issues)
-- [search issues](#search-issues)
+- [Create an issue](#create-an-issue)
+- [Edit an issue](#edit-an-issue)
+- [List issues](#list-issues)
+- [Search issues](#search-issues)
 
 The following examples assume the following imports and token:
 
@@ -63,7 +63,7 @@ See [the API doc](https://developer.github.com/v3/issues/#create-an-issue) for f
 You can edit an existing issue using `editIssue`, it takes as arguments:
 
 - the repository coordinates (owner and name of the repository)
-- the issue id
+- the issue number
 - the updated state of the issue (open or closed)
 - the edited content of the issue (title and body)
 - other optional parameters: milestone id, labels and assignees which are only taken into account
