@@ -43,7 +43,7 @@ class DecodersSpec extends FlatSpec with Matchers with FakeResponses {
     decode[Repository](emptyListResponse).isLeft shouldBe true
   }
 
-  "StatusRepository decoder" should "return a valid repo for a valid JSON" in {
+  "CombinedStatus decoder" should "return a valid repo for a valid JSON" in {
     decode[CombinedStatus](getCombinedStatusValidResponse).isRight shouldBe true
   }
 
