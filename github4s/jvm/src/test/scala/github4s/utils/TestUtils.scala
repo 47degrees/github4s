@@ -111,8 +111,6 @@ trait TestUtils {
   val validPullRequestFileSha = "f80f79cafbe3f2ba71311b82e1171e73bd37a470"
   val validPullRequestNumber  = 1
 
-  val validPRRepoName = "sbt-dependencies-test"
-
   val validHead   = "test-pr-issue"
   val invalidHead = ""
 

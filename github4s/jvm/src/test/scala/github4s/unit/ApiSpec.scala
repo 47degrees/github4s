@@ -608,7 +608,7 @@ class ApiSpec
       accessToken,
       headerUserAgent,
       validRepoOwner,
-      validPRRepoName,
+      validRepoName,
       validPullRequestNumber)
     response should be('left)
   }
@@ -618,7 +618,7 @@ class ApiSpec
       accessToken,
       headerUserAgent,
       validRepoOwner,
-      validPRRepoName,
+      validRepoName,
       validNewPullRequestData,
       validHead,
       validBase)
@@ -630,7 +630,7 @@ class ApiSpec
       accessToken,
       headerUserAgent,
       validRepoOwner,
-      validPRRepoName,
+      validRepoName,
       invalidNewPullRequestData,
       invalidHead,
       invalidBase)
@@ -642,7 +642,7 @@ class ApiSpec
       accessToken,
       headerUserAgent,
       validRepoOwner,
-      validPRRepoName,
+      validRepoName,
       validNewPullRequestIssue,
       validHead,
       validBase)
@@ -654,7 +654,7 @@ class ApiSpec
       accessToken,
       headerUserAgent,
       validRepoOwner,
-      validPRRepoName,
+      validRepoName,
       invalidNewPullRequestIssue,
       invalidHead,
       invalidBase)

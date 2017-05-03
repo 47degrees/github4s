@@ -468,7 +468,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .when(
       request
         .withMethod("POST")
-        .withPath(s"/repos/$validRepoOwner/$validPRRepoName/pulls")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/pulls")
         .withBody(json(s"""
             |{
             |  "title": "${validNewPullRequestData.title}",
@@ -498,7 +498,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .when(
       request
         .withMethod("POST")
-        .withPath(s"/repos/$validRepoOwner/$validPRRepoName/pulls")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/pulls")
         .withBody(json(s"""
             |{
             |  "issue": ${validNewPullRequestIssue.issue},
