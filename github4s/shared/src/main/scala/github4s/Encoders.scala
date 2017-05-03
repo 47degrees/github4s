@@ -27,6 +27,7 @@ object Encoders {
     case d: TreeDataSha  => d.asJson
     case d: TreeDataBlob => d.asJson
   }
+
   implicit val encodeNewPullRequest: Encoder[CreatePullRequest] = Encoder.instance {
     case d: CreatePullRequestData  => d.asJson
     case d: CreatePullRequestIssue => d.asJson

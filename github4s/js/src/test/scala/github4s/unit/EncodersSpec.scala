@@ -30,12 +30,12 @@ class EncodersSpec extends FlatSpec with Matchers with TestUtils {
 
     val expectedJsonString =
       s"""
-        | {
-        |   "path": "$validFilePath",
-        |   "mode": "$validMode",
-        |   "type": "$validBlobType",
-        |   "sha": "$validCommitSha"
-        | }
+         | {
+         |   "path": "$validFilePath",
+         |   "mode": "$validMode",
+         |   "type": "$validBlobType",
+         |   "sha": "$validCommitSha"
+         | }
       """.stripMargin
 
     val expectedJson = parse(expectedJsonString).right.get
@@ -69,13 +69,13 @@ class EncodersSpec extends FlatSpec with Matchers with TestUtils {
 
     val expectedJsonString =
       s"""
-        | {
-        |   "title": "$validIssueTitle",
-        |   "head": "$validHead",
-        |   "base": "$validBase",
-        |   "body": "$validCommitMsg",
-        |   "maintainer_can_modify": false
-        | }
+         | {
+         |   "title": "$validIssueTitle",
+         |   "head": "$validHead",
+         |   "base": "$validBase",
+         |   "body": "$validCommitMsg",
+         |   "maintainer_can_modify": false
+         | }
       """.stripMargin
 
     val expectedJson = parse(expectedJsonString).right.get
