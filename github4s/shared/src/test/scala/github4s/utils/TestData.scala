@@ -18,16 +18,11 @@ package github4s.utils
 
 import com.github.marklister.base64.Base64._
 import github4s.free.domain._
-import io.circe.parser.parse
-import org.mockito.ArgumentMatcher
 
-trait TestData {
+trait TestData extends DummyGithubUrls {
 
-  case class JsonArgMatcher(json: String) extends ArgumentMatcher[String] {
-    override def matches(argument: String): Boolean = parse(json) == parse(argument)
-  }
-
-  val headerUserAgent = Map("user-agent" -> "github4s")
+  val sampleToken: Option[String]          = Some("token")
+  val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
 
   val validUsername   = "rafaparadela"
   val invalidUsername = "GHInvalidaUserName"

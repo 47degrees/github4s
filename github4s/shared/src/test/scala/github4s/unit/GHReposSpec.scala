@@ -23,39 +23,22 @@ import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.app.GitHub4s
 import github4s.free.algebra.RepositoryOps
 import github4s.free.domain._
-import github4s.utils.TestUtils
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar.mock
-import org.scalatest.{FlatSpec, Matchers}
+import github4s.utils.BaseSpec
 
-class GHReposSpec extends FlatSpec with Matchers with TestUtils {
+class GHReposSpec extends BaseSpec {
 
   "GHRepos.contents" should "call to RepositoryOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[NonEmptyList[Content]]] =
       Free.pure(Right(GHResult(NonEmptyList(content, Nil), okStatusCode, Map.empty)))
 
-    val repoOps = mock[RepositoryOps[GitHub4s]]
-    when(
-      repoOps.getContents(
-        any[String],
-        any[String],
-        any[String],
-        any[Option[String]],
-        any[Option[String]]))
-      .thenReturn(response)
+    val repoOps = mock[RepositoryOpsTest]
+    (repoOps.getContents _)
+      .expects(validRepoOwner, validRepoName, validFilePath, Some("master"), sampleToken)
+      .returns(response)
 
-    val token       = Some("token")
-    val ghReposData = new GHRepos(token)(repoOps)
+    val ghReposData = new GHRepos(sampleToken)(repoOps)
     ghReposData.getContents(validRepoOwner, validRepoName, validFilePath, Some("master"))
-
-    verify(repoOps).getContents(
-      validRepoOwner,
-      validRepoName,
-      validFilePath,
-      Some("master"),
-      token)
   }
 
   "GHRepos.createRelease" should "call to RepositoryOps with the right parameters" in {
@@ -63,22 +46,21 @@ class GHReposSpec extends FlatSpec with Matchers with TestUtils {
     val response: Free[GitHub4s, GHResponse[Release]] =
       Free.pure(Right(GHResult(release, createdStatusCode, Map.empty)))
 
-    val repoOps = mock[RepositoryOps[GitHub4s]]
-    when(
-      repoOps.createRelease(
-        any[String],
-        any[String],
-        any[String],
-        any[String],
-        any[String],
-        any[Option[String]],
-        any[Option[Boolean]],
-        any[Option[Boolean]],
-        any[Option[String]]))
-      .thenReturn(response)
+    val repoOps = mock[RepositoryOpsTest]
+    (repoOps.createRelease _)
+      .expects(
+        validRepoOwner,
+        validRepoName,
+        validTagTitle,
+        validTagTitle,
+        validNote,
+        Some("master"),
+        Some(false),
+        Some(false),
+        sampleToken)
+      .returns(response)
 
-    val token       = Some("token")
-    val ghReposData = new GHRepos(token)(repoOps)
+    val ghReposData = new GHRepos(sampleToken)(repoOps)
     ghReposData.createRelease(
       validRepoOwner,
       validRepoName,
@@ -88,17 +70,6 @@ class GHReposSpec extends FlatSpec with Matchers with TestUtils {
       Some("master"),
       Some(false),
       Some(false))
-
-    verify(repoOps).createRelease(
-      validRepoOwner,
-      validRepoName,
-      validTagTitle,
-      validTagTitle,
-      validNote,
-      Some("master"),
-      Some(false),
-      Some(false),
-      token)
   }
 
 }

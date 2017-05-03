@@ -41,14 +41,12 @@ object ProjectPlugin extends AutoPlugin {
       %%("circe-generic"),
       %%("circe-parser"),
       %%("base64"),
+      "org.scalamock" %% "scalamock-scalatest-support" % "3.5.0" % Test,
       %%("scalatest") % "test"
     )
 
     lazy val standardCommonDeps = Seq(
-      libraryDependencies ++= Seq(
-        %("mockito-core") % "test",
-        compilerPlugin(%%("paradise") cross CrossVersion.full)
-      )
+      libraryDependencies += compilerPlugin(%%("paradise") cross CrossVersion.full)
     )
 
     lazy val jvmDeps = Seq(
