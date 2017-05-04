@@ -16,9 +16,11 @@
 
 package github4s.utils
 
-trait TestUtils extends TestData {
+import org.scalatest.Matchers
 
-  val accessToken: Option[String] = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+trait TestUtilsJS extends Matchers with TestData {
+
+  val accessToken: Option[String] = Option(github4s.BuildInfo.token)
   def tokenHeader: String         = "token " + accessToken.getOrElse("")
 
 }

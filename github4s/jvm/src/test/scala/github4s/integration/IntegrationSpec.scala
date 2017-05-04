@@ -19,7 +19,7 @@ package github4s.integration
 import github4s.HttpRequestBuilderExtension
 import github4s.free.interpreters.{Capture, Interpreters}
 import github4s.jvm.ImplicitsJVM
-import github4s.utils.{BaseIntegrationSpec, TestUtils}
+import github4s.utils.{BaseIntegrationSpec, TestUtilsJVM}
 
 import scala.concurrent.Future
 import scalaj.http.HttpResponse
@@ -35,7 +35,7 @@ class IntegrationSpec
     with GHStatusesSpec[HttpResponse[String]]
     with GHUsersSpec[HttpResponse[String]]
     with ImplicitsJVM
-    with TestUtils {
+    with TestUtilsJVM {
 
   override implicit def extension(implicit capture: Capture[Future]): HttpRequestBuilderExtension[
     HttpResponse[String],

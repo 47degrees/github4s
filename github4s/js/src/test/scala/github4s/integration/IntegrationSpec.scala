@@ -20,7 +20,7 @@ import fr.hmil.roshttp.response.SimpleHttpResponse
 import github4s.HttpRequestBuilderExtension
 import github4s.free.interpreters.{Capture, Interpreters}
 import github4s.js.ImplicitsJS
-import github4s.utils.{BaseIntegrationSpec, TestUtils}
+import github4s.utils.{BaseIntegrationSpec, TestUtilsJS}
 
 import scala.concurrent.Future
 
@@ -35,7 +35,7 @@ class IntegrationSpec
     with GHStatusesSpec[SimpleHttpResponse]
     with GHUsersSpec[SimpleHttpResponse]
     with ImplicitsJS
-    with TestUtils {
+    with TestUtilsJS {
 
   override implicit def extension(
       implicit capture: Capture[Future]): HttpRequestBuilderExtension[SimpleHttpResponse, Future] =

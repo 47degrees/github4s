@@ -18,7 +18,7 @@ package github4s.unit
 
 import github4s.api._
 import github4s.free.domain.{GistFile, Pagination}
-import github4s.utils.{DummyGithubUrls, MockGithubApiServer, TestUtils}
+import github4s.utils.{DummyGithubUrls, MockGithubApiServer, TestUtilsJVM}
 import org.scalatest._
 import cats.implicits._
 
@@ -29,7 +29,7 @@ import github4s.jvm.ImplicitsJVM
 class ApiSpec
     extends FlatSpec
     with Matchers
-    with TestUtils
+    with TestUtilsJVM
     with MockGithubApiServer
     with DummyGithubUrls
     with ImplicitsJVM {
