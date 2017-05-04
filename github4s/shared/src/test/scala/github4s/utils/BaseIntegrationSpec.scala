@@ -16,6 +16,7 @@
 
 package github4s.utils
 
+import cats.syntax.either._
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.free.interpreters.{Capture, Interpreters}
 import github4s.HttpRequestBuilderExtension

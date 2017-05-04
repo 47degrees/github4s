@@ -17,6 +17,7 @@
 package github4s.unit
 
 import cats.data.NonEmptyList
+import cats.syntax.either._
 import github4s.Decoders._
 import github4s.free.domain.{CombinedStatus, Commit, Repository}
 import github4s.utils.FakeResponses
