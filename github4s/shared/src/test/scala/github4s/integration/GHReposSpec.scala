@@ -16,37 +16,35 @@
 
 package github4s.integration
 
-import cats.Id
-import cats.implicits._
-import github4s.Github._
+import cats.data.NonEmptyList
 import github4s.Github
-import github4s.jvm.Implicits._
-import github4s.utils.TestUtils
-import org.scalatest.{FlatSpec, Matchers}
+import github4s.Github._
+import github4s.free.domain.{Commit, Content, Repository, User}
+import github4s.implicits._
+import github4s.utils.BaseIntegrationSpec
 
-import scalaj.http.HttpResponse
-
-class GHReposSpec extends FlatSpec with Matchers with TestUtils {
+trait GHReposSpec[T] extends BaseIntegrationSpec[T] {
 
   "Repos >> Get" should "return the expected name when a valid repo is provided" in {
 
     val response =
       Github(accessToken).repos
         .get(validRepoOwner, validRepoName)
-        .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('right)
-    response.toOption map { r ⇒
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[Repository](response, { r =>
       r.result.name shouldBe validRepoName
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
   it should "return error when an invalid repo name is passed" in {
     val response =
       Github(accessToken).repos
         .get(validRepoOwner, invalidRepoName)
-        .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('left)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
   }
 
   "Repos >> GetContents" should "return the expected contents when valid path is provided" in {
@@ -54,61 +52,62 @@ class GHReposSpec extends FlatSpec with Matchers with TestUtils {
     val response =
       Github(accessToken).repos
         .getContents(validRepoOwner, validRepoName, validFilePath)
-        .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('right)
-    response.toOption map { r ⇒
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[NonEmptyList[Content]](response, { r =>
       r.result.head.path shouldBe validFilePath
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
   it should "return error when an invalid path is passed" in {
     val response =
       Github(accessToken).repos
         .getContents(validRepoOwner, validRepoName, invalidFilePath)
-        .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('left)
+        .execFuture[T](headerUserAgent)
+    testFutureIsLeft(response)
   }
 
   "Repos >> ListCommits" should "return the expected list of commits for valid data" in {
-    val response = Github(accessToken).repos
-      .listCommits(validRepoOwner, validRepoName)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('right)
+    val response =
+      Github(accessToken).repos
+        .listCommits(validRepoOwner, validRepoName)
+        .execFuture[T](headerUserAgent)
 
-    response.toOption map { r ⇒
+    testFutureIsRight[List[Commit]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
   it should "return error for invalid repo name" in {
-    val response = Github(accessToken).repos
-      .listCommits(invalidRepoName, validRepoName)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('left)
+    val response =
+      Github(accessToken).repos
+        .listCommits(invalidRepoName, validRepoName)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
   }
 
   "Repos >> ListContributors" should "return the expected list of contributors for valid data" in {
     val response =
       Github(accessToken).repos
         .listContributors(validRepoOwner, validRepoName)
-        .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('right)
+        .execFuture[T](headerUserAgent)
 
-    response.toOption map { r ⇒
+    testFutureIsRight[List[User]](response, { r =>
       r.result shouldNot be(empty)
       r.statusCode shouldBe okStatusCode
-    }
-
+    })
   }
 
   it should "return error for invalid repo name" in {
     val response =
       Github(accessToken).repos
         .listContributors(invalidRepoName, validRepoName)
-        .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('left)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
   }
 
 }

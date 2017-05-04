@@ -16,19 +16,13 @@
 
 package github4s.integration
 
-import github4s.Github._
 import github4s.Github
-import github4s.utils.TestUtils
-import org.scalatest._
+import github4s.Github._
 import github4s.free.domain.Authorize
-import github4s.js.Implicits._
+import github4s.implicits._
+import github4s.utils.BaseIntegrationSpec
 
-import scala.concurrent.ExecutionContext
-
-class GHAuthSpec extends AsyncFlatSpec with Matchers with TestUtils {
-
-  override implicit val executionContext: ExecutionContext =
-    scala.concurrent.ExecutionContext.Implicits.global
+trait GHAuthSpec[T] extends BaseIntegrationSpec[T] {
 
   "Auth >> NewAuth" should "return error on Left when invalid credential is provided" in {
 
@@ -40,7 +34,7 @@ class GHAuthSpec extends AsyncFlatSpec with Matchers with TestUtils {
         validNote,
         validClientId,
         invalidClientSecret)
-      .execFuture(headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)
   }
@@ -49,7 +43,7 @@ class GHAuthSpec extends AsyncFlatSpec with Matchers with TestUtils {
     val response =
       Github().auth
         .authorizeUrl(validClientId, validRedirectUri, validScopes)
-        .execFuture(headerUserAgent)
+        .execFuture[T](headerUserAgent)
 
     testFutureIsRight[Authorize](response, { r =>
       r.result.url.contains(validRedirectUri) shouldBe true
@@ -60,7 +54,7 @@ class GHAuthSpec extends AsyncFlatSpec with Matchers with TestUtils {
   "Auth >> GetAccessToken" should "return error on Left for invalid code value" in {
     val response = Github().auth
       .getAccessToken(validClientId, invalidClientSecret, "", validRedirectUri, "")
-      .execFuture(headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)
   }

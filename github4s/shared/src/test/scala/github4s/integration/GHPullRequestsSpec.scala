@@ -19,22 +19,16 @@ package github4s.integration
 import github4s.Github
 import github4s.Github._
 import github4s.free.domain._
-import github4s.js.Implicits._
-import github4s.utils.TestUtils
-import org.scalatest.{AsyncFlatSpec, Matchers}
+import github4s.implicits._
+import github4s.utils.BaseIntegrationSpec
 
-import scala.concurrent.ExecutionContext
-
-class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
-
-  override implicit val executionContext: ExecutionContext =
-    scala.concurrent.ExecutionContext.Implicits.global
+trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
 
   "PullRequests >> List" should "return a right response when valid repo is provided" in {
     val response =
       Github(accessToken).pullRequests
         .list(validRepoOwner, validRepoName)
-        .execFuture(headerUserAgent)
+        .execFuture[T](headerUserAgent)
 
     testFutureIsRight[List[PullRequest]](response, { r =>
       r.statusCode shouldBe okStatusCode
@@ -48,7 +42,7 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
           validRepoOwner,
           validRepoName,
           List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc))
-        .execFuture(headerUserAgent)
+        .execFuture[T](headerUserAgent)
 
     testFutureIsRight[List[PullRequest]](response, { r =>
       r.result.nonEmpty shouldBe true
@@ -60,7 +54,7 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
     val response =
       Github(accessToken).pullRequests
         .list(validRepoOwner, invalidRepoName)
-        .execFuture(headerUserAgent)
+        .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)
   }
@@ -69,7 +63,7 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
     val response =
       Github(accessToken).pullRequests
         .listFiles(validRepoOwner, validRepoName, validPullRequestNumber)
-        .execFuture(headerUserAgent)
+        .execFuture[T](headerUserAgent)
 
     testFutureIsRight[List[PullRequestFile]](response, { r =>
       r.result.nonEmpty shouldBe true
@@ -81,7 +75,7 @@ class GHPullRequestsSpec extends AsyncFlatSpec with Matchers with TestUtils {
     val response =
       Github(accessToken).pullRequests
         .listFiles(validRepoOwner, invalidRepoName, validPullRequestNumber)
-        .execFuture(headerUserAgent)
+        .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)
   }

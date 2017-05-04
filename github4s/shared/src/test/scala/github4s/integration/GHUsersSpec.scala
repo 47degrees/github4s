@@ -16,68 +16,61 @@
 
 package github4s.integration
 
-import cats.Id
-import cats.implicits._
-import github4s.Github._
 import github4s.Github
-import github4s.jvm.Implicits._
-import github4s.utils.TestUtils
-import org.scalatest._
+import github4s.Github._
+import github4s.free.domain.User
+import github4s.implicits._
+import github4s.utils.BaseIntegrationSpec
 
-import scalaj.http.HttpResponse
-
-class GHUsersSpec extends FlatSpec with Matchers with TestUtils {
+trait GHUsersSpec[T] extends BaseIntegrationSpec[T] {
 
   "Users >> Get" should "return the expected login for a valid username" in {
     val response =
-      Github(accessToken).users
-        .get(validUsername)
-        .exec[Id, HttpResponse[String]](headerUserAgent)
+      Github(accessToken).users.get(validUsername).execFuture[T](headerUserAgent)
 
-    response should be('right)
-    response.toOption map { r ⇒
+    testFutureIsRight[User](response, { r =>
       r.result.login shouldBe validUsername
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
   it should "return error on Left for invalid username" in {
     val response = Github(accessToken).users
       .get(invalidUsername)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
-    response should be('left)
+    testFutureIsLeft(response)
   }
 
   "Users >> GetAuth" should "return error on Left when no accessToken is provided" in {
     val response =
-      Github().users.getAuth.exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('left)
+      Github().users.getAuth.execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
   }
 
   "Users >> GetUsers" should "return users for a valid since value" in {
-    val response = Github(accessToken).users
-      .getUsers(validSinceInt)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('right)
+    val response =
+      Github(accessToken).users
+        .getUsers(validSinceInt)
+        .execFuture[T](headerUserAgent)
 
-    response.toOption map { r ⇒
+    testFutureIsRight[List[User]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
   it should "return an empty list when a invalid since value is provided" in {
     val response =
       Github(accessToken).users
         .getUsers(invalidSinceInt)
-        .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('right)
+        .execFuture[T](headerUserAgent)
 
-    response.toOption map { r ⇒
+    testFutureIsRight[List[User]](response, { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
 }

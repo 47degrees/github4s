@@ -16,30 +16,25 @@
 
 package github4s.integration
 
-import cats.Id
-import cats.implicits._
-import github4s.Github._
-import github4s.free.domain.GistFile
 import github4s.Github
-import github4s.utils.TestUtils
-import github4s.jvm.Implicits._
-import org.scalatest._
+import github4s.Github._
+import github4s.free.domain.{Gist, GistFile}
+import github4s.implicits._
+import github4s.utils.BaseIntegrationSpec
 
-import scalaj.http.HttpResponse
+trait GHGistsSpec[T] extends BaseIntegrationSpec[T] {
 
-class GHGistsSpec extends FlatSpec with Matchers with TestUtils {
   "Gists >> Post" should "return the provided gist" in {
     val response = Github(accessToken).gists
       .newGist(
         validGistDescription,
         validGistPublic,
         Map(validGistFilename -> GistFile(validGistFileContent)))
-      .exec[Id, HttpResponse[String]](headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
-    response should be('right)
-    response.toOption map { r ⇒
+    testFutureIsRight[Gist](response, { r =>
       r.result.description shouldBe validGistDescription
       r.statusCode shouldBe createdStatusCode
-    }
+    })
   }
 }
