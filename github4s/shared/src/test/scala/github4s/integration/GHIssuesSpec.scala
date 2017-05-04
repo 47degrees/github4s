@@ -66,7 +66,7 @@ trait GHIssuesSpec[T] extends BaseIntegrationSpec[T] {
       .editIssue(
         validRepoOwner,
         validRepoName,
-        validIssue,
+        validIssueNumber,
         validIssueState,
         validIssueTitle,
         validIssueBody,

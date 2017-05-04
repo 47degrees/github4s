@@ -19,7 +19,7 @@ package github4s.utils
 import cats.Id
 import github4s.GithubResponses.{GHResponse, UnexpectedException}
 import github4s.app.GitHub4s
-import github4s.free.algebra.{GitDataOps, PullRequestOps, RepositoryOps, StatusOps}
+import github4s.free.algebra.{GitDataOps, IssueOps, PullRequestOps, RepositoryOps, StatusOps}
 import github4s.free.domain.Pagination
 import github4s.{HttpClient, HttpRequestBuilder, HttpRequestBuilderExtension, IdInstances}
 import io.circe
@@ -89,5 +89,6 @@ trait BaseSpec extends FlatSpec with Matchers with TestData with IdInstances wit
   class PullRequestOpsTest extends PullRequestOps[GitHub4s]
   class RepositoryOpsTest  extends RepositoryOps[GitHub4s]
   class StatusOpsTest      extends StatusOps[GitHub4s]
+  class IssueOpsTest       extends IssueOps[GitHub4s]
 
 }

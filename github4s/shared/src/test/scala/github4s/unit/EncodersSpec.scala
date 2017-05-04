@@ -86,12 +86,12 @@ class EncodersSpec extends FlatSpec with Matchers with TestData {
 
   it should "encode the CreatePullRequestIssue" in {
     val createPullRequest: CreatePullRequest =
-      CreatePullRequestIssue(validIssue, validHead, validBase, Some(false))
+      CreatePullRequestIssue(validIssueNumber, validHead, validBase, Some(false))
 
     val expectedJsonString =
       s"""
          | {
-         |   "issue": $validIssue,
+         |   "issue": $validIssueNumber,
          |   "head": "$validHead",
          |   "base": "$validBase",
          |   "maintainer_can_modify": false
