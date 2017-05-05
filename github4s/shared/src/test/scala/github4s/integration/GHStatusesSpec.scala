@@ -16,57 +16,52 @@
 
 package github4s.integration
 
-import cats.Id
-import cats.implicits._
 import github4s.Github
 import github4s.Github._
-import github4s.jvm.Implicits._
-import github4s.utils.TestUtils
-import org.scalatest._
+import github4s.free.domain.{CombinedStatus, Status}
+import github4s.implicits._
+import github4s.utils.BaseIntegrationSpec
 
-import scalaj.http.HttpResponse
+trait GHStatusesSpec[T] extends BaseIntegrationSpec[T] {
 
-class GHStatusesSpec extends FlatSpec with Matchers with TestUtils {
   "Statuses >> Get" should "return a combined status" in {
     val response = Github(accessToken).statuses
       .getCombinedStatus(validRepoOwner, validRepoName, validRefSingle)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
-    response should be('right)
-    response.toOption map { r =>
+    testFutureIsRight[CombinedStatus](response, { r =>
       r.result.repository.full_name shouldBe s"$validRepoOwner/$validRepoName"
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
   it should "return an error when an invalid ref is passed" in {
     val response = Github(accessToken).statuses
       .getCombinedStatus(validRepoOwner, validRepoName, invalidRef)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('left)
+      .execFuture[T](headerUserAgent)
+    testFutureIsLeft(response)
   }
 
-  "Statuses >> List" should "return a list of statuses" in {
+  "Statuses >> List" should "return a non empty list when a valid ref is provided" in {
     val response = Github(accessToken).statuses
       .listStatuses(validRepoOwner, validRepoName, validCommitSha)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
-    response should be('right)
-    response.toOption map { r =>
+    testFutureIsRight[List[Status]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
-  it should "return an empty list when an invalid ref is passed" in {
+  it should "return an empty list when an invalid ref is provided" in {
     val response = Github(accessToken).statuses
       .listStatuses(validRepoOwner, validRepoName, invalidRef)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('right)
-    response.toOption map { r =>
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[Status]](response, { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
-    }
+    })
   }
 
   "Statuses >> Create" should "create a status" in {
@@ -79,13 +74,12 @@ class GHStatusesSpec extends FlatSpec with Matchers with TestUtils {
         None,
         None,
         None)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
-    response should be('right)
-    response.toOption map { r ⇒
+    testFutureIsRight[Status](response, { r =>
       r.result.state shouldBe validStatusState
       r.statusCode shouldBe createdStatusCode
-    }
+    })
   }
 
   it should "return an error when an invalid sha is passed" in {
@@ -98,7 +92,8 @@ class GHStatusesSpec extends FlatSpec with Matchers with TestUtils {
         None,
         None,
         None)
-      .exec[Id, HttpResponse[String]](headerUserAgent)
-    response should be('left)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
   }
 }

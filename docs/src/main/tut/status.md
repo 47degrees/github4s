@@ -8,9 +8,9 @@ title: Status API
 Github4s supports the [Status API](https://developer.github.com/v3/repos/statuses/). As a result,
 with github4s, you can:
 
-- [create a status](#create-a-status)
-- [list statuses for a specific git ref](#list-statuses)
-- [get the combined status of a specific git ref](#get-combined-status)
+- [Create a status](#create-a-status)
+- [List statuses for a specific git ref](#list-statuses)
+- [Get the combined status of a specific git ref](#get-combined-status)
 
 The following examples assume the following imports and token:
 

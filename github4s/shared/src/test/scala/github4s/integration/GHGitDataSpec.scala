@@ -14,27 +14,21 @@
  * limitations under the License.
  */
 
-package github4s.utils.integration
+package github4s.integration
 
 import cats.data.NonEmptyList
 import github4s.Github
 import github4s.Github._
 import github4s.free.domain.{Ref, RefCommit}
-import github4s.js.Implicits._
-import github4s.utils.TestUtils
-import org.scalatest._
+import github4s.implicits._
+import github4s.utils.BaseIntegrationSpec
 
-import scala.concurrent.ExecutionContext
-
-class GHGitDataSpec extends AsyncFlatSpec with Matchers with TestUtils {
-
-  override implicit val executionContext: ExecutionContext =
-    scala.concurrent.ExecutionContext.Implicits.global
+trait GHGitDataSpec[T] extends BaseIntegrationSpec[T] {
 
   "GitData >> GetReference" should "return a list of references" in {
     val response = Github(accessToken).gitData
       .getReference(validRepoOwner, validRepoName, "heads")
-      .execFuture(headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
     testFutureIsRight[NonEmptyList[Ref]](response, { r =>
       r.result.tail.nonEmpty shouldBe true
@@ -45,7 +39,7 @@ class GHGitDataSpec extends AsyncFlatSpec with Matchers with TestUtils {
   it should "return at least one reference" in {
     val response = Github(accessToken).gitData
       .getReference(validRepoOwner, validRepoName, validRefSingle)
-      .execFuture(headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
     testFutureIsRight[NonEmptyList[Ref]](response, { r =>
       r.result.head.ref.contains(validRefSingle) shouldBe true
@@ -56,7 +50,7 @@ class GHGitDataSpec extends AsyncFlatSpec with Matchers with TestUtils {
   "GitData >> GetCommit" should "return one commit" in {
     val response = Github(accessToken).gitData
       .getCommit(validRepoOwner, validRepoName, validCommitSha)
-      .execFuture(headerUserAgent)
+      .execFuture[T](headerUserAgent)
 
     testFutureIsRight[RefCommit](response, { r =>
       r.result.message shouldBe validCommitMsg

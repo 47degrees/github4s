@@ -21,7 +21,7 @@ import org.mockserver.model.HttpResponse._
 import org.mockserver.model.JsonBody._
 import org.mockserver.model.NottableString._
 
-trait MockGithubApiServer extends MockServerService with FakeResponses with TestUtils {
+trait MockGithubApiServer extends MockServerService with FakeResponses with TestUtilsJVM {
 
   //Users >> get
   mockServer
