@@ -47,7 +47,7 @@ class IssuesSpec extends BaseSpec {
     val httpClientMock = httpClientMockGet[SearchIssuesResult](
       url = s"search/issues",
       response = response,
-      params = Map("q" -> "+repo:47deg/github4s+type:issue+in:title")
+      params = Map("q" -> s"+${validSearchParams.map(_.value).mkString("+")}")
     )
 
     val issues = new Issues[String, Id] {

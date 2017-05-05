@@ -1745,4 +1745,221 @@ trait FakeResponses {
       }
     }
     """
+
+  val listIssuesValidResponse =
+    """
+    [
+      {
+        "url": "https://api.github.com/repos/47deg/github4s/issues/42",
+        "repository_url": "https://api.github.com/repos/47deg/github4s",
+        "labels_url": "https://api.github.com/repos/47deg/github4s/issues/42/labels{/name}",
+        "comments_url": "https://api.github.com/repos/47deg/github4s/issues/42/comments",
+        "events_url": "https://api.github.com/repos/47deg/github4s/issues/42/events",
+        "html_url": "https://github.com/47deg/github4s/issues/42",
+        "id": 187293124,
+        "number": 42,
+        "title": "Update documentation / microsite",
+        "user": {
+          "login": "jdesiloniz",
+          "id": 2835739,
+          "avatar_url": "https://avatars1.githubusercontent.com/u/2835739?v=3",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/jdesiloniz",
+          "html_url": "https://github.com/jdesiloniz",
+          "followers_url": "https://api.github.com/users/jdesiloniz/followers",
+          "following_url": "https://api.github.com/users/jdesiloniz/following{/other_user}",
+          "gists_url": "https://api.github.com/users/jdesiloniz/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/jdesiloniz/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/jdesiloniz/subscriptions",
+          "organizations_url": "https://api.github.com/users/jdesiloniz/orgs",
+          "repos_url": "https://api.github.com/users/jdesiloniz/repos",
+          "events_url": "https://api.github.com/users/jdesiloniz/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/jdesiloniz/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "labels": [],
+        "state": "open",
+        "locked": false,
+        "assignee": null,
+        "assignees": [
+
+        ],
+        "milestone": null,
+        "comments": 3,
+        "created_at": "2016-11-04T09:57:33Z",
+        "updated_at": "2017-04-21T14:59:29Z",
+        "closed_at": null,
+        "body": "We should take some time to update the docs and the microsite to reflect the changes that have been included in the library, maybe splitting the docs in several sections for the JVM and JS case uses."
+      }
+    ]
+    """
+
+  val createIssueValidResponse =
+    """
+    {
+      "url": "https://api.github.com/repos/47deg/github4s/issues/42",
+      "repository_url": "https://api.github.com/repos/47deg/github4s",
+      "labels_url": "https://api.github.com/repos/47deg/github4s/issues/42/labels{/name}",
+      "comments_url": "https://api.github.com/repos/47deg/github4s/issues/42/comments",
+      "events_url": "https://api.github.com/repos/47deg/github4s/issues/42/events",
+      "html_url": "https://github.com/47deg/github4s/issues/42",
+      "id": 187293124,
+      "number": 42,
+      "title": "Update documentation / microsite",
+      "user": {
+        "login": "jdesiloniz",
+        "id": 2835739,
+        "avatar_url": "https://avatars1.githubusercontent.com/u/2835739?v=3",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jdesiloniz",
+        "html_url": "https://github.com/jdesiloniz",
+        "followers_url": "https://api.github.com/users/jdesiloniz/followers",
+        "following_url": "https://api.github.com/users/jdesiloniz/following{/other_user}",
+        "gists_url": "https://api.github.com/users/jdesiloniz/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/jdesiloniz/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/jdesiloniz/subscriptions",
+        "organizations_url": "https://api.github.com/users/jdesiloniz/orgs",
+        "repos_url": "https://api.github.com/users/jdesiloniz/repos",
+        "events_url": "https://api.github.com/users/jdesiloniz/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/jdesiloniz/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [],
+      "state": "open",
+      "locked": false,
+      "assignee": null,
+      "assignees": [
+
+      ],
+      "milestone": null,
+      "comments": 3,
+      "created_at": "2016-11-04T09:57:33Z",
+      "updated_at": "2017-04-21T14:59:29Z",
+      "closed_at": null,
+      "body": "We should take some time to update the docs and the microsite to reflect the changes that have been included in the library, maybe splitting the docs in several sections for the JVM and JS case uses."
+    }
+    """
+
+  val searchIssuesValidResponse =
+    """
+    {
+      "total_count": 1,
+      "incomplete_results": false,
+      "items": [
+        {
+          "url": "https://api.github.com/repos/47deg/github4s/issues/40",
+          "repository_url": "https://api.github.com/repos/47deg/github4s",
+          "labels_url": "https://api.github.com/repos/47deg/github4s/issues/40/labels{/name}",
+          "comments_url": "https://api.github.com/repos/47deg/github4s/issues/40/comments",
+          "events_url": "https://api.github.com/repos/47deg/github4s/issues/40/events",
+          "html_url": "https://github.com/47deg/github4s/issues/40",
+          "id": 187172114,
+          "number": 40,
+          "title": "Publish version for Scala 2.12",
+          "user": {
+            "login": "raulraja",
+            "id": 456796,
+            "avatar_url": "https://avatars0.githubusercontent.com/u/456796?v=3",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/raulraja",
+            "html_url": "https://github.com/raulraja",
+            "followers_url": "https://api.github.com/users/raulraja/followers",
+            "following_url": "https://api.github.com/users/raulraja/following{/other_user}",
+            "gists_url": "https://api.github.com/users/raulraja/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/raulraja/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/raulraja/subscriptions",
+            "organizations_url": "https://api.github.com/users/raulraja/orgs",
+            "repos_url": "https://api.github.com/users/raulraja/repos",
+            "events_url": "https://api.github.com/users/raulraja/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/raulraja/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+
+          ],
+          "state": "closed",
+          "locked": false,
+          "assignee": {
+            "login": "jdesiloniz",
+            "id": 2835739,
+            "avatar_url": "https://avatars1.githubusercontent.com/u/2835739?v=3",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/jdesiloniz",
+            "html_url": "https://github.com/jdesiloniz",
+            "followers_url": "https://api.github.com/users/jdesiloniz/followers",
+            "following_url": "https://api.github.com/users/jdesiloniz/following{/other_user}",
+            "gists_url": "https://api.github.com/users/jdesiloniz/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/jdesiloniz/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/jdesiloniz/subscriptions",
+            "organizations_url": "https://api.github.com/users/jdesiloniz/orgs",
+            "repos_url": "https://api.github.com/users/jdesiloniz/repos",
+            "events_url": "https://api.github.com/users/jdesiloniz/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/jdesiloniz/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "assignees": [
+            {
+              "login": "jdesiloniz",
+              "id": 2835739,
+              "avatar_url": "https://avatars1.githubusercontent.com/u/2835739?v=3",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/jdesiloniz",
+              "html_url": "https://github.com/jdesiloniz",
+              "followers_url": "https://api.github.com/users/jdesiloniz/followers",
+              "following_url": "https://api.github.com/users/jdesiloniz/following{/other_user}",
+              "gists_url": "https://api.github.com/users/jdesiloniz/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/jdesiloniz/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/jdesiloniz/subscriptions",
+              "organizations_url": "https://api.github.com/users/jdesiloniz/orgs",
+              "repos_url": "https://api.github.com/users/jdesiloniz/repos",
+              "events_url": "https://api.github.com/users/jdesiloniz/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/jdesiloniz/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            {
+              "login": "juanpedromoreno",
+              "id": 4879373,
+              "avatar_url": "https://avatars1.githubusercontent.com/u/4879373?v=3",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/juanpedromoreno",
+              "html_url": "https://github.com/juanpedromoreno",
+              "followers_url": "https://api.github.com/users/juanpedromoreno/followers",
+              "following_url": "https://api.github.com/users/juanpedromoreno/following{/other_user}",
+              "gists_url": "https://api.github.com/users/juanpedromoreno/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/juanpedromoreno/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/juanpedromoreno/subscriptions",
+              "organizations_url": "https://api.github.com/users/juanpedromoreno/orgs",
+              "repos_url": "https://api.github.com/users/juanpedromoreno/repos",
+              "events_url": "https://api.github.com/users/juanpedromoreno/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/juanpedromoreno/received_events",
+              "type": "User",
+              "site_admin": false
+            }
+          ],
+          "milestone": null,
+          "comments": 0,
+          "created_at": "2016-11-03T19:49:56Z",
+          "updated_at": "2017-03-22T18:19:41Z",
+          "closed_at": "2017-03-22T18:19:41Z",
+          "body": "",
+          "score": 4.216856
+        }
+      ]
+    }
+    """
+
+  val searchIssuesEmptyResponse =
+  """
+  {
+    "total_count": 0,
+    "incomplete_results": false,
+    "items": []
+  }
+  """
+
 }
