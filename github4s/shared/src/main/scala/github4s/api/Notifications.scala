@@ -33,12 +33,15 @@ class Notifications[C, M[_]](
   val httpClient = new HttpClient[C, M]
 
   /**
-   * Set a Thread Subscription
-
+   * Set a thread subscription
    *
-   * @param accessToken to identify the authenticated user
+   * @param accessToken Token to identify the authenticated user
+   * @param headers Optional user headers to include in the request
+   * @param id Conversation id for subscribe or unsubscribe
+   * @param subscribed Determines if notifications should be received from this thread
+   * @param ignored Determines if all notifications should be blocked from this thread
    */
-  def setThSub(
+  def setThreadSub(
       accessToken: Option[String] = None,
       headers: Map[String, String] = Map(),
       id: Int,

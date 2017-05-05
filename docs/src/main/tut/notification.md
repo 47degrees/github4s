@@ -30,21 +30,20 @@ do.
 Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
-Set a Thread Subscription
-This lets you subscribe or unsubscribe from a conversation. Unsubscribing from a conversation mutes all future notifications (until you comment or get @mentioned once more).
+## Set a Thread Subscription
+This lets you subscribe or unsubscribe from a conversation.
 
-PUT /notifications/threads/:id/subscription
-Parameters
-Name	Type	Description
-subscribed	boolean	Determines if notifications should be received from this thread
-ignored	boolean	Determines if all notifications should be blocked from this thread
-Response
-Status: 200 OK
-{
-  "subscribed": true,
-  "ignored": false,
-  "reason": null,
-  "created_at": "2012-10-06T21:34:12Z",
-  "url": "https://api.github.com/notifications/threads/1/subscription",
-  "thread_url": "https://api.github.com/notifications/threads/1"
+Unsubscribing from a conversation mutes all future notifications (until you comment or get @mentioned once more).
+
+ - `id`: Thread id from which you subscribe or unsubscribe
+ - `subscribed`: Determines if notifications should be received from this thread
+ - `ignored`: Determines if all notifications should be blocked from this thread
+
+```scala
+val threadSub = Github(accessToken).notifications.setThreadSub(5,true,false)
+threadSub.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Right(r) => println(r.result)
 }
+```
+See [the API doc](https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription) for full reference.

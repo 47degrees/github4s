@@ -213,7 +213,7 @@ class Interpreters[M[_], C](
       def apply[A](fa: NotificationOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
           case SetThreadSub(id, subscribed, ignored, accessToken) ⇒
-            notifications.setThSub(accessToken, headers, id, subscribed, ignored)
+            notifications.setThreadSub(accessToken, headers, id, subscribed, ignored)
         }
       }
     }
