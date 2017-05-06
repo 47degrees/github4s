@@ -254,5 +254,7 @@ trait TestData extends DummyGithubUrls {
       urls = Map()
     )
   )
+  val validThreadId = 105
 
+  val invalidThreadId = 0
 }

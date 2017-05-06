@@ -34,6 +34,7 @@ class IntegrationSpec
     with GHReposSpec[SimpleHttpResponse]
     with GHStatusesSpec[SimpleHttpResponse]
     with GHUsersSpec[SimpleHttpResponse]
+    with GHNotificationSpec[SimpleHttpResponse]
     with ImplicitsJS
     with TestUtilsJS {
 

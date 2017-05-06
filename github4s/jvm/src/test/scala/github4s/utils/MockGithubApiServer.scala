@@ -596,4 +596,29 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$invalidCommitSha")
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+//Notification >>Set a thread subscription
+  mockServer
+    .when(
+      request
+        .withMethod("PUT")
+        .withPath(s"/notifications/threads/$validThreadId/subscription")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(okStatusCode).withBody(setThreadSubscription))
+
+  mockServer
+    .when(
+      request
+        .withMethod("PUT")
+        .withPath(s"/notifications/threads/$validThreadId/subscription")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("PUT")
+        .withPath(s"/notifications/threads/$invalidThreadId/subscription")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 }

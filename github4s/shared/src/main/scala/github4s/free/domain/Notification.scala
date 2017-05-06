@@ -16,4 +16,10 @@
 
 package github4s.free.domain
 
-case class Subscription(subscribed: Boolean, ignored: Boolean)
+case class Subscription(
+    subscribed: Boolean,
+    ignored: Boolean,
+    reason: String,
+    created_at: String,
+    url: String,
+    thread_url: String)

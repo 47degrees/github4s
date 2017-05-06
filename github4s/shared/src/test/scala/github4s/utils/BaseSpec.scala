@@ -84,6 +84,18 @@ trait BaseSpec extends FlatSpec with Matchers with TestData with IdInstances wit
       .returns(response)
     httpClientMock
   }
+  //TODO revisar
+  def httpClientMockPut[T](
+      url: String,
+      json: String,
+      response: GHResponse[T]): HttpClient[String, Id] = {
+    val httpClientMock = mock[HttpClientTest]
+    (httpClientMock
+      .put[T](_: Option[String], _: String, _: Map[String, String], _: String)(_: Decoder[T]))
+      .expects(sampleToken, url, headerUserAgent, JsonMockParameter(json), *)
+      .returns(response)
+    httpClientMock
+  }
 
   class GitDataOpsTest     extends GitDataOps[GitHub4s]
   class PullRequestOpsTest extends PullRequestOps[GitHub4s]
