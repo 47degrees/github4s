@@ -80,12 +80,6 @@ the `result` on the right is the [List[PullRequestFile]][pr-scala].
 See [the API doc](https://developer.github.com/v3/pulls/#list-pull-requests-files) for full
 reference.
 
-As you can see, a few features of the pull request endpoint (such as the ability to create a pull
-request) are missing. As a result, if you'd like to see a feature supported, feel free to
-create a pull request (not through Github4s though).
-
-[pr-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala
-
 ## Create a pull request
 If you want to create a pull request, we have two ways to create a pull request.
 
@@ -119,3 +113,8 @@ createPullRequestIssue.exec[cats.Id, HttpResponse[String]]() match {
 ```
 
 See [the API doc](https://developer.github.com/v3/pulls/#create-a-pull-request) for full reference.
+
+As you can see, a few features of the pull request endpoint are missing. As a result, if you'd like
+to see a feature supported, feel free to create an issue and/or a pull request!
+
+[pr-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala

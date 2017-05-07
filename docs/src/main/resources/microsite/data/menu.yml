@@ -2,6 +2,9 @@ options:
   - title: Getting Started
     url: docs.html
 
+  - title: Gist API
+    url: gist.html
+
   - title: Issue API
     url: issue.html
 
