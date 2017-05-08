@@ -16,28 +16,48 @@
 
 package github4s.unit
 
-import cats.free.Free
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.{GHNotifications, HttpClient}
-import github4s.api.Notifications
-import github4s.app.GitHub4s
+import github4s.HttpClient
+import github4s.api.PullRequests
 import github4s.free.domain._
 import github4s.utils.BaseSpec
 
 class NotificationsSpec extends BaseSpec {
 
-  "Notificacions.SetThreadSubscription" should "call to NotificationOps with the right parameters" in {
+  "PullRequests.list" should "call to httpClient.get with the right parameters" in {
 
-    val response: Free[GitHub4s, GHResponse[Subscription]] =
-      Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
+    val response: GHResponse[List[PullRequest]] =
+      Right(GHResult(List(pullRequest), okStatusCode, Map.empty))
 
-    val notificationOps = mock[NotificationOpsTest]
-    (notificationOps.setThreadSub _)
-      .expects(validThreadId, true, false, sampleToken)
-      .returns(response)
+    val httpClientMock = httpClientMockGet[List[PullRequest]](
+      url = s"repos/$validRepoOwner/$validRepoName/pulls",
+      response = response
+    )
+    val pullRequests = new PullRequests[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    pullRequests.list(sampleToken, headerUserAgent, validRepoOwner, validRepoName, Nil)
+  }
 
-    val ghNotifications = new GHNotifications(sampleToken)(notificationOps)
-    ghNotifications.setThreadSub(validThreadId, true, false)
+  "PullRequests.listFiles" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[List[PullRequestFile]] =
+      Right(GHResult(List(pullRequestFile), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[List[PullRequestFile]](
+      url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/files",
+      response = response
+    )
+    val pullRequests = new PullRequests[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    pullRequests
+      .listFiles(
+        sampleToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validPullRequestNumber)
   }
 
 }
