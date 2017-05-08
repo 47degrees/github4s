@@ -26,5 +26,5 @@ case class Subscription(
 
 case class SubscriptionRequest(
     subscribed: Boolean,
-    ignored: Boolean,
-    )
+    ignored: Boolean
+)
