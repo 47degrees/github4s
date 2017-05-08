@@ -49,7 +49,12 @@ class Interpreters[M[_], C](
     val c05interpreter: COGH05 ~> K = gitDataOpsInterpreter or c04interpreter
     val c06interpreter: COGH06 ~> K = pullRequestOpsInterpreter or c05interpreter
     val c07interpreter: COGH07 ~> K = notificationOpsInterpreter or c06interpreter
+<<<<<<< HEAD
+    val c08interpreter: COGH08 ~> K = commentOpsInterpreter or c07interpreter
+    val all: GitHub4s ~> K          = statusOpsInterpreter or c08interpreter
+=======
     val all: GitHub4s ~> K          = statusOpsInterpreter or c07interpreter
+>>>>>>> 0ecb0317973b8bc9ddc4f740d4de106f3326c1e3
     all
   }
 
@@ -324,6 +329,25 @@ class Interpreters[M[_], C](
               target_url,
               description,
               context)
+        }
+      }
+    }
+
+  /** Lifts Comment Ops to an effect capturing Monad such as Task via natural transformations */
+  def commentOpsInterpreter: CommentOp ~> K =
+    new (CommentOp ~> K) {
+
+      val comments = new Comments()
+
+      def apply[A](fa: CommentOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
+        fa match {
+          case CreateComment(owner, repo, number, body, accessToken) ⇒
+            comments.create(accessToken, headers, owner, repo, number, body)
+          case EditComment(owner, repo, id, body, accessToken) ⇒
+            comments.edit(accessToken, headers, owner, repo, id, body)
+          case DeleteComment(owner, repo, id, accessToken) ⇒
+            comments.delete(accessToken, headers, owner, repo, id)
+
         }
       }
     }

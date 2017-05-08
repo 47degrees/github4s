@@ -296,3 +296,29 @@ class GHStatuses(accessToken: Option[String] = None)(implicit O: StatusOps[GitHu
   ): GHIO[GHResponse[Status]] =
     O.createStatus(owner, repo, sha, state, target_url, description, context, accessToken)
 }
+
+class GHComments(accessToken: Option[String] = None)(implicit O: CommentOps[GitHub4s]) {
+
+  def createComment(
+      owner: String,
+      repo: String,
+      number: Int,
+      body: String
+  ): GHIO[GHResponse[Comment]] =
+    O.createComment(owner, repo, number, body, accessToken)
+  def getCombinedStatus(
+      owner: String,
+      repo: String,
+      id: Int,
+      body: String
+  ): GHIO[GHResponse[Comment]] =
+    O.editComment(owner, repo, id, body, accessToken)
+
+  def listStatuses(
+      owner: String,
+      repo: String,
+      id: Int
+  ): GHIO[GHResponse[Unit]] =
+    O.deleteComment(owner, repo, id, accessToken)
+
+}
