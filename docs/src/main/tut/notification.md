@@ -1,11 +1,11 @@
 ---
 layout: docs
-title: Notification API
+title: Notifications API
 ---
 
-# Notification API
+# Notifications API
 
-Github4s supports the [Notification API](https://developer.github.com/v3/activity/notifications/). As a result,
+Github4s supports the [Notifications API](https://developer.github.com/v3/activity/notifications/). As a result,
 with github4s, you can:
 
 - [Set a thread subscription](#set-a-thread-subscription)
@@ -47,3 +47,7 @@ threadSub.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 See [the API doc](https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription) for full reference.
+
+As you can see, a few features of the pull request endpoint are missing.
+
+As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!

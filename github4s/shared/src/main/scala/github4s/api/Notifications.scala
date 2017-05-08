@@ -24,7 +24,7 @@ import github4s.util.URLEncoder
 import io.circe.syntax._
 import io.circe.generic.auto._
 
-/** Factory to encapsulate calls related to Issues operations  */
+/** Factory to encapsulate calls related to Notifications operations  */
 class Notifications[C, M[_]](
     implicit urls: GithubApiUrls,
     C: Capture[M],
