@@ -905,8 +905,12 @@ class ApiSpec
       notifications.setThreadSub(accessToken, headerUserAgent, validThreadId, true, false)
     response should be('right)
   }
-
-  it should "return an error when an thread id is passed" in {
+  it should "return an error when an valid thread id is passed without authorization" in {
+    val response =
+      notifications.setThreadSub(None, headerUserAgent, validThreadId, true, false)
+    response should be('left)
+  }
+  it should "return an error when an invalid thread id is passed" in {
     val response =
       notifications.setThreadSub(accessToken, headerUserAgent, invalidThreadId, true, false)
     response should be('left)

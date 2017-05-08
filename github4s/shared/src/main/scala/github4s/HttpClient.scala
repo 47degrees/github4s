@@ -141,13 +141,13 @@ class HttpClient[C, M[_]](
 
   def put[A](
       accessToken: Option[String] = None,
-      method: String,
+      url: String,
       headers: Map[String, String] = Map(),
       data: String)(implicit D: Decoder[A]): M[GHResponse[A]] =
     httpRbImpl.run[A](
-      httpRequestBuilder(buildURL(method)).putMethod
+      httpRequestBuilder(buildURL(url)).putMethod
         .withAuth(accessToken)
-        .withHeaders(Map("Content-Length" → "0") ++ headers)
+        .withHeaders(headers)
         .withData(data))
 
   def post[A](

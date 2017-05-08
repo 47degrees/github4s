@@ -16,48 +16,37 @@
 
 package github4s.unit
 
+import cats.Id
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.HttpClient
-import github4s.api.PullRequests
+import github4s.api.Notifications
 import github4s.free.domain._
 import github4s.utils.BaseSpec
 
 class NotificationsSpec extends BaseSpec {
 
-  "PullRequests.list" should "call to httpClient.get with the right parameters" in {
+  "Notification." should "call to httpClient.put with the right parameters" in {
 
-    val response: GHResponse[List[PullRequest]] =
-      Right(GHResult(List(pullRequest), okStatusCode, Map.empty))
+    val response: GHResponse[Subscription] =
+      Right(GHResult(subscription, okStatusCode, Map.empty))
 
-    val httpClientMock = httpClientMockGet[List[PullRequest]](
-      url = s"repos/$validRepoOwner/$validRepoName/pulls",
+    val request =
+      """
+        |{
+        |  "subscribed": true,
+        |  "ignored": false
+        |}""".stripMargin
+
+    val httpClientMock = httpClientMockPut[Subscription](
+      url = s"notifications/threads/$validThreadId/subscription",
+      json = request,
       response = response
     )
-    val pullRequests = new PullRequests[String, Id] {
+
+    val notifications = new Notifications[String, Id] {
       override val httpClient: HttpClient[String, Id] = httpClientMock
     }
-    pullRequests.list(sampleToken, headerUserAgent, validRepoOwner, validRepoName, Nil)
-  }
-
-  "PullRequests.listFiles" should "call to httpClient.get with the right parameters" in {
-
-    val response: GHResponse[List[PullRequestFile]] =
-      Right(GHResult(List(pullRequestFile), okStatusCode, Map.empty))
-
-    val httpClientMock = httpClientMockGet[List[PullRequestFile]](
-      url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/files",
-      response = response
-    )
-    val pullRequests = new PullRequests[String, Id] {
-      override val httpClient: HttpClient[String, Id] = httpClientMock
-    }
-    pullRequests
-      .listFiles(
-        sampleToken,
-        headerUserAgent,
-        validRepoOwner,
-        validRepoName,
-        validPullRequestNumber)
+    notifications.setThreadSub(sampleToken, headerUserAgent, validThreadId, true, false)
   }
 
 }

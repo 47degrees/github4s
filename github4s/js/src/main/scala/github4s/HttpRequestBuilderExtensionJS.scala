@@ -80,7 +80,7 @@ trait HttpRequestBuilderExtensionJS {
       case r ⇒
         Either.left(
           UnexpectedException(
-            s"Failed invoking get with status : ${r.statusCode}, body : \n ${r.body}"))
+            s"Failed invoking with status : ${r.statusCode}, body : \n ${r.body}"))
     }
 
   private def rosHeaderMapToRegularMap(

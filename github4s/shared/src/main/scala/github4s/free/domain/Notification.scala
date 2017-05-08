@@ -19,7 +19,12 @@ package github4s.free.domain
 case class Subscription(
     subscribed: Boolean,
     ignored: Boolean,
-    reason: String,
+    reason: Option[String],
     created_at: String,
     url: String,
     thread_url: String)
+
+case class SubscriptionRequest(
+    subscribed: Boolean,
+    ignored: Boolean,
+    )

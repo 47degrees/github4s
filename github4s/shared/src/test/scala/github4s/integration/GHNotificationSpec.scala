@@ -42,6 +42,6 @@ trait GHNotificationSpec[T] extends BaseIntegrationSpec[T] {
         .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)
-  }
 
+  }
 }

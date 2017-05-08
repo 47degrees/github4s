@@ -49,13 +49,13 @@ trait HttpRequestBuilderExtensionJVM {
           .headers(rb.authHeader)
           .headers(rb.headers)
           .copy(urlBuilder = (req: HttpRequest) => s"${req.url}$params")
-
         rb.data match {
           case Some(d) ⇒
             C.capture(
               toEntity[A](
                 request
                   .postData(d)
+                  .method(rb.httpVerb.verb)
                   .header("content-type", "application/json")
                   .asString,
                 request.url))
@@ -74,7 +74,7 @@ trait HttpRequestBuilderExtensionJVM {
       )
     case r ⇒
       Either.left(
-        UnexpectedException(s"Failed invoking get with status : ${r.code}, body : \n ${r.body}"))
+        UnexpectedException(s"Failed invoking with status : ${r.code} body : \n ${r.body}"))
   }
 
   private def toLowerCase(
