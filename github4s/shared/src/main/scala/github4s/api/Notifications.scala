@@ -47,6 +47,10 @@ class Notifications[C, M[_]](
       id: Int,
       subscribed: Boolean,
       ignored: Boolean): M[GHResponse[Subscription]] =
-    httpClient.put[Subscription](accessToken, headers, s"/notifications/threads/$id/subscription")
+    httpClient.put[Subscription](
+      accessToken,
+      s"/notifications/threads/$id/subscription",
+      headers,
+      data = (subscribed, ignored).asJson.noSpaces)
 
 }

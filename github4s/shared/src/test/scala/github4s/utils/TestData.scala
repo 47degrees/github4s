@@ -254,7 +254,17 @@ trait TestData extends DummyGithubUrls {
       urls = Map()
     )
   )
-  val validThreadId = 105
+  val validThreadId = 1
 
   val invalidThreadId = 0
+
+  val subscription = Subscription(
+    subscribed = true,
+    ignored = false,
+    reason = null,
+    created_at = "2012-10-06T21:34:12Z",
+    url = "https://api.github.com/notifications/threads/1/subscription",
+    thread_url = "https://api.github.com/notifications/threads/1"
+  )
+
 }

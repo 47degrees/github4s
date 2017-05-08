@@ -17,7 +17,9 @@
 package github4s.integration
 
 import github4s.Github
-import github4s.free.domain.{Authorize, PullRequestFile}
+import github4s.Github._
+import github4s.free.domain.Subscription
+import github4s.implicits._
 import github4s.utils.BaseIntegrationSpec
 
 trait GHNotificationSpec[T] extends BaseIntegrationSpec[T] {
@@ -28,11 +30,11 @@ trait GHNotificationSpec[T] extends BaseIntegrationSpec[T] {
         .setThreadSub(validThreadId, true, false)
         .execFuture[T](headerUserAgent)
 
-    testFutureIsRight[List[PullRequestFile]](response, { r =>
-      r.result.nonEmpty shouldBe true
+    testFutureIsRight[Subscription](response, { r =>
       r.statusCode shouldBe okStatusCode
     })
   }
+
   it should "return error when an invalid thread id is passed" in {
     val response =
       Github(accessToken).notifications
