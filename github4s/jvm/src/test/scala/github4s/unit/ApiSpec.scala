@@ -41,6 +41,7 @@ class ApiSpec
   val gitData       = new GitData[HttpResponse[String], Id]
   val pullRequests  = new PullRequests[HttpResponse[String], Id]
   val statuses      = new Statuses[HttpResponse[String], Id]
+  val issues        = new Issues[HttpResponse[String], Id]
   val notifications = new Notifications[HttpResponse[String], Id]
 
   "Auth >> NewAuth" should "return a valid token when valid credential is provided" in {
@@ -449,7 +450,7 @@ class ApiSpec
         headerUserAgent,
         validRepoOwner,
         validRepoName,
-        s"refs/$validRefSingle",
+        validRefSingle,
         validCommitSha)
     response should be('left)
   }
@@ -712,7 +713,7 @@ class ApiSpec
     }
   }
 
-  "Statuses >> Create" should "return the create status if a valid sha is provided" in {
+  "Statuses >> Create" should "return the created status if a valid sha is provided" in {
     val response = statuses.create(
       accessToken,
       headerUserAgent,
@@ -756,6 +757,147 @@ class ApiSpec
       None,
       None)
     response should be('left)
+  }
+
+  "Issues >> List" should "return the expected issues when a valid owner/repo is provided" in {
+    val response =
+      issues.list(accessToken, headerUserAgent, validRepoOwner, validRepoName)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an error if invalid data is provided" in {
+    val response =
+      issues.list(accessToken, headerUserAgent, validRepoOwner, invalidRepoName)
+    response should be('left)
+  }
+
+  it should "return an error if no tokens are provided" in {
+    val response =
+      issues.list(None, headerUserAgent, validRepoOwner, validRepoName)
+    response should be('left)
+  }
+
+  "Issues >> Create" should "return the created issue if valid data is provided" in {
+    val response = issues.create(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validIssueTitle,
+      validIssueBody,
+      None,
+      List.empty,
+      List.empty)
+    response should be('right)
+
+    response.toOption map { r =>
+      r.statusCode shouldBe createdStatusCode
+    }
+  }
+
+  it should "return an error if invalid data is provided" in {
+    val response = issues.create(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      invalidRepoName,
+      validIssueTitle,
+      validIssueBody,
+      None,
+      List.empty,
+      List.empty)
+    response should be('left)
+  }
+
+  it should "return an error if no tokens are provided" in {
+    val response = issues.create(
+      None,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validIssueTitle,
+      validIssueBody,
+      None,
+      List.empty,
+      List.empty)
+    response should be('left)
+  }
+
+  "Issues >> Edit" should "return the edited issue if valid data is provided" in {
+    val response = issues.edit(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validIssueNumber,
+      validIssueState,
+      validIssueTitle,
+      validIssueBody,
+      None,
+      List.empty,
+      List.empty)
+    response should be('right)
+
+    response.toOption map { r =>
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an error if invalid data is provided" in {
+    val response = issues.edit(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      invalidRepoName,
+      validIssueNumber,
+      validIssueState,
+      validIssueTitle,
+      validIssueBody,
+      None,
+      List.empty,
+      List.empty)
+    response should be('left)
+  }
+
+  it should "return an error if no tokens are provided" in {
+    val response = issues.edit(
+      None,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validIssueNumber,
+      validIssueState,
+      validIssueTitle,
+      validIssueBody,
+      None,
+      List.empty,
+      List.empty)
+    response should be('left)
+  }
+
+  "Issues >> Search" should "return the search result if valid data is provided" in {
+    val response = issues.search(accessToken, headerUserAgent, validSearchQuery, List.empty)
+    response should be('right)
+
+    response.toOption map { r =>
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an empty result if a search query matching nothing is provided" in {
+    val response =
+      issues.search(accessToken, headerUserAgent, nonExistentSearchQuery, List.empty)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.items.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
   }
 
   "Notifications >> Set a Thread Subscription" should "return the subscription when a valid thread id is provided" in {

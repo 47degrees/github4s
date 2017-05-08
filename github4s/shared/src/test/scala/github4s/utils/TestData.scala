@@ -76,12 +76,12 @@ trait TestData extends DummyGithubUrls {
     SearchIn(Set(SearchInTitle))
   )
 
-  val validIssue      = 48
-  val validIssueTitle = "Sample Title"
-  val validIssueBody  = "Sample Body"
-  val validIssueState = "closed"
-  val validIssueLabel = List("bug", "code review")
-  val validAssignees  = List(validUsername)
+  val validIssueNumber = 48
+  val validIssueTitle  = "Sample Title"
+  val validIssueBody   = "Sample Body"
+  val validIssueState  = "closed"
+  val validIssueLabel  = List("bug", "code review")
+  val validAssignees   = List(validUsername)
 
   val githubApiUrl = "http://api.github.com"
   val encoding     = Some("utf-8")
@@ -147,6 +147,35 @@ trait TestData extends DummyGithubUrls {
     message = validNote,
     tree = refInfo,
     parents = List(refInfo))
+
+  val issue = Issue(
+    id = 1,
+    title = validIssueTitle,
+    body = validIssueBody,
+    url = githubApiUrl,
+    repository_url = githubApiUrl,
+    labels_url = githubApiUrl,
+    comments_url = githubApiUrl,
+    events_url = githubApiUrl,
+    html_url = githubApiUrl,
+    number = validIssueNumber,
+    state = validIssueState,
+    user = User(1, validUsername, githubApiUrl, githubApiUrl),
+    assignee = None,
+    labels = List.empty,
+    locked = None,
+    comments = 1,
+    pull_request = None,
+    closed_at = None,
+    created_at = "2011-04-10T20:09:31Z",
+    updated_at = "2011-04-10T20:09:31Z"
+  )
+
+  val searchIssuesResult = SearchIssuesResult(
+    total_count = 1,
+    incomplete_results = false,
+    items = List(issue)
+  )
 
   val pullRequest = PullRequest(
     id = 1,

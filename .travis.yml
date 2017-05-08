@@ -2,8 +2,6 @@ language: scala
 
 dist: precise
 
-sudo: required
-
 scala:
 - 2.10.6
 - 2.11.11
@@ -25,6 +23,9 @@ install:
 - gem install jekyll -v 3.2.1
 - gem install jekyll-redirect-from
 
+before_script:
+  - sudo chmod +x /usr/local/bin/sbt
+
 script:
 - sbt ++$TRAVIS_SCALA_VERSION test:fastOptJS
 - sbt ++$TRAVIS_SCALA_VERSION orgScriptCI
@@ -33,6 +34,12 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 - sbt ++$TRAVIS_SCALA_VERSION orgAfterCISuccess
 
+before_cache:
+  - du -h -d 1 $HOME/.ivy2/cache
+  - du -h -d 2 $HOME/.sbt/
+  - find $HOME/.sbt -name "*.lock" -type f -delete
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -type f -delete
+
 cache:
   directories:
   - $HOME/.sbt/0.13/dependency
@@ -40,9 +47,3 @@ cache:
   - $HOME/.sbt/launchers
   - $HOME/.ivy2/cache
   - $HOME/.nvm
-
-before_cache:
-  - du -h -d 1 $HOME/.ivy2/cache
-  - du -h -d 2 $HOME/.sbt/
-  - find $HOME/.sbt -name "*.lock" -type f -delete
-  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -type f -delete
