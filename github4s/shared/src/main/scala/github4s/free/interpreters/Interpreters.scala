@@ -49,12 +49,8 @@ class Interpreters[M[_], C](
     val c05interpreter: COGH05 ~> K = gitDataOpsInterpreter or c04interpreter
     val c06interpreter: COGH06 ~> K = pullRequestOpsInterpreter or c05interpreter
     val c07interpreter: COGH07 ~> K = notificationOpsInterpreter or c06interpreter
-<<<<<<< HEAD
     val c08interpreter: COGH08 ~> K = commentOpsInterpreter or c07interpreter
     val all: GitHub4s ~> K          = statusOpsInterpreter or c08interpreter
-=======
-    val all: GitHub4s ~> K          = statusOpsInterpreter or c07interpreter
->>>>>>> 0ecb0317973b8bc9ddc4f740d4de106f3326c1e3
     all
   }
 
