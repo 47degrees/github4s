@@ -88,7 +88,7 @@ class CommentsSpec extends BaseSpec {
     val response: GHResponse[Unit] =
       Right(GHResult((): Unit, deletedStatusCode, Map.empty))
 
-    val httpClientMock = httpClientMockDelete[Unit](
+    val httpClientMock = httpClientMockDelete(
       url = s"repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId",
       response = response
     )
