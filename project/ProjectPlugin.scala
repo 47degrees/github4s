@@ -41,7 +41,7 @@ object ProjectPlugin extends AutoPlugin {
       %%("circe-generic"),
       %%("circe-parser"),
       %%("base64"),
-      "org.scalamock" %% "scalamock-scalatest-support" % "3.5.0" % Test,
+      %%("scalamockScalatest") % "test",
       %%("scalatest") % "test"
     )
 

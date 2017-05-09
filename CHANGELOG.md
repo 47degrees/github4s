@@ -1,5 +1,25 @@
 # Changelog
 
+## 05/08/2017 - Version 0.14.7
+
+Release changes:
+
+* Replace foldLeft with traverse in Decoders ([#101](https://github.com/47deg/github4s/pull/101))
+* Documentation for the PR API ([#102](https://github.com/47deg/github4s/pull/102))
+* Publish Microsite automatically when merging in master branch ([#103](https://github.com/47deg/github4s/pull/103))
+* Removes annoying compiler warnings reported by -Xlint flag ([#104](https://github.com/47deg/github4s/pull/104))
+* Made request success check consistent between scala and scala js ([#112](https://github.com/47deg/github4s/pull/112))
+* Arf 105 create pull request api ([#109](https://github.com/47deg/github4s/pull/109))
+* Replace issue id by issue number in the doc ([#114](https://github.com/47deg/github4s/pull/114))
+* Unify JVM and JS tests ([#115](https://github.com/47deg/github4s/pull/115))
+* Issues API unit tests ([#116](https://github.com/47deg/github4s/pull/116))
+* Documentation for the gist API ([#121](https://github.com/47deg/github4s/pull/121))
+* Make sure sbt is executable in travis ([#122](https://github.com/47deg/github4s/pull/122))
+* Arf 97 support notifications api ([#123](https://github.com/47deg/github4s/pull/123))
+* Releases 0.14.7 ([#124](https://github.com/47deg/github4s/pull/124))
+* Upgrades sbt org policies plugin ([#125](https://github.com/47deg/github4s/pull/125))
+
+
 ## 04/25/2017 - Version 0.14.6
 
 Release changes:
