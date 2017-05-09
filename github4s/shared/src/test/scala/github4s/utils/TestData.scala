@@ -301,4 +301,14 @@ trait TestData extends DummyGithubUrls {
   val invalidIssueNumber = 0
   val validCommentId     = 1
   val invalidCommentId   = 0
+
+  val comment = Comment(
+    validCommentId,
+    "https://api.github.com/repos/octocat/Hello-World/issues/comments/1",
+    "https: //github.com/octocat/Hello-World/issues/1347#issuecomment-1",
+    validCommentBody,
+    User(1, validUsername, githubApiUrl, githubApiUrl),
+    "2011-04-14T16:00:49Z",
+    "2011-04-14T16:00:49Z"
+  )
 }

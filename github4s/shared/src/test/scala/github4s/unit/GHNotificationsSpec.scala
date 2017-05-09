@@ -26,7 +26,7 @@ import github4s.utils.BaseSpec
 
 class GHNotificationsSpec extends BaseSpec {
 
-  "Notificacions.SetThreadSubscription" should "call to NotificationOps with the right parameters" in {
+  "Notifications.SetThreadSubscription" should "call to NotificationOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Subscription]] =
       Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))

@@ -20,6 +20,7 @@ import cats.Id
 import github4s.GithubResponses.{GHResponse, UnexpectedException}
 import github4s.app.GitHub4s
 import github4s.free.algebra.{
+  CommentOps,
   GitDataOps,
   IssueOps,
   NotificationOps,
@@ -104,11 +105,21 @@ trait BaseSpec extends FlatSpec with Matchers with TestData with IdInstances wit
     httpClientMock
   }
 
+  def httpClientMockDelete[T](url: String, response: GHResponse[T]): HttpClient[String, Id] = {
+    val httpClientMock = mock[HttpClientTest]
+    (httpClientMock
+      .delete[T](_: Option[String], _: String, _: Map[String, String])(_: Decoder[T]))
+      .expects(sampleToken, url, headerUserAgent, *)
+      .returns(response)
+    httpClientMock
+  }
+
   class GitDataOpsTest      extends GitDataOps[GitHub4s]
   class PullRequestOpsTest  extends PullRequestOps[GitHub4s]
   class RepositoryOpsTest   extends RepositoryOps[GitHub4s]
   class StatusOpsTest       extends StatusOps[GitHub4s]
   class IssueOpsTest        extends IssueOps[GitHub4s]
   class NotificationOpsTest extends NotificationOps[GitHub4s]
+  class CommentOpsTest      extends CommentOps[GitHub4s]
 
 }
