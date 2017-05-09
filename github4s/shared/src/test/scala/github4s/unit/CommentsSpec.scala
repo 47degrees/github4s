@@ -79,7 +79,7 @@ class CommentsSpec extends BaseSpec {
       headerUserAgent,
       validRepoOwner,
       validRepoName,
-      validIssueNumber,
+      validCommentId,
       validCommentBody)
   }
 
@@ -96,7 +96,7 @@ class CommentsSpec extends BaseSpec {
     val comments = new Comments[String, Id] {
       override val httpClient: HttpClient[String, Id] = httpClientMock
     }
-    comments.delete(sampleToken, headerUserAgent, validRepoOwner, validRepoName, validIssueNumber)
+    comments.delete(sampleToken, headerUserAgent, validRepoOwner, validRepoName, validCommentId)
   }
 
 }

@@ -180,11 +180,11 @@ class HttpClient[C, M[_]](
         .withHeaders(Map("Accept" → "application/json") ++ headers)
         .withData(data))
 
-  def delete[A](
+  def delete(
       accessToken: Option[String] = None,
       method: String,
-      headers: Map[String, String] = Map.empty)(implicit D: Decoder[A]): M[GHResponse[A]] =
-    httpRbImpl.run[A](
+      headers: Map[String, String] = Map.empty): M[GHResponse[Unit]] =
+    httpRbImpl.runEmpty(
       httpRequestBuilder(buildURL(method)).deleteMethod.withHeaders(headers).withAuth(accessToken))
 
   private def buildURL(method: String) = urls.baseUrl + method

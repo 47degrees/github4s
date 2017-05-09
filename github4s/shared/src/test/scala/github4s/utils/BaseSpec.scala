@@ -105,10 +105,10 @@ trait BaseSpec extends FlatSpec with Matchers with TestData with IdInstances wit
     httpClientMock
   }
 
-  def httpClientMockDelete[T](url: String, response: GHResponse[T]): HttpClient[String, Id] = {
+  def httpClientMockDelete(url: String, response: GHResponse[Unit]): HttpClient[String, Id] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
-      .delete[T](_: Option[String], _: String, _: Map[String, String])(_: Decoder[T]))
+      .delete(_: Option[String], _: String, _: Map[String, String]))
       .expects(sampleToken, url, headerUserAgent, *)
       .returns(response)
     httpClientMock

@@ -984,7 +984,7 @@ class ApiSpec
         validCommentBody)
     response should be('left)
   }
-  "Comments >> Delete a Comment" should "return the deleted comment when a valid comment id is provided" in {
+  "Comments >> Delete a Comment" should "return deleted status when a valid comment id is provided" in {
     val response =
       comments.delete(accessToken, headerUserAgent, validRepoOwner, validRepoName, validCommentId)
     response should be('right)

@@ -100,6 +100,6 @@ class Comments[C, M[_]](
       owner: String,
       repo: String,
       id: Int): M[GHResponse[Unit]] =
-    httpClient.delete[Unit](accessToken, s"repos/$owner/$repo/issues/comments/$id", headers)
+    httpClient.delete(accessToken, s"repos/$owner/$repo/issues/comments/$id", headers)
 
 }

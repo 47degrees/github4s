@@ -16,12 +16,11 @@
 
 package github4s
 
-import github4s.GithubResponses.{GHResult, JsonParsingException, UnexpectedException}
+import github4s.GithubResponses.{GHResponse, GHResult, JsonParsingException, UnexpectedException}
 import io.circe.Decoder
 import io.circe.parser._
-import github4s.GithubResponses.GHResponse
 
-import scalaj.http._
+import scalaj.http.{Http, HttpOptions, HttpRequest, HttpResponse, _}
 import cats.implicits._
 import github4s.free.interpreters.Capture
 
@@ -32,7 +31,14 @@ trait HttpRequestBuilderExtensionJVM {
     new HttpRequestBuilderExtension[HttpResponse[String], M] {
 
       def run[A](rb: HttpRequestBuilder[HttpResponse[String], M])(
-          implicit D: Decoder[A]): M[GHResponse[A]] = {
+          implicit D: Decoder[A]): M[GHResponse[A]] = runMap[A](rb, decodeEntity[A])
+
+      def runEmpty(rb: HttpRequestBuilder[HttpResponse[String], M]): M[GHResponse[Unit]] =
+        runMap[Unit](rb, emptyResponse)
+
+      private[this] def runMap[A](
+          rb: HttpRequestBuilder[HttpResponse[String], M],
+          mapResponse: HttpResponse[String] => GHResponse[A]): M[GHResponse[A]] = {
 
         val connTimeoutMs: Int = 1000
         val readTimeoutMs: Int = 5000
@@ -58,24 +64,33 @@ trait HttpRequestBuilderExtensionJVM {
                   .method(rb.httpVerb.verb)
                   .header("content-type", "application/json")
                   .asString,
-                request.url))
-          case _ ⇒ C.capture(toEntity[A](request.asString, request.url))
+                mapResponse)
+            )
+          case _ ⇒ C.capture(toEntity[A](request.asString, mapResponse))
+
         }
       }
-
     }
 
-  def toEntity[A](response: HttpResponse[String], url: String)(
-      implicit D: Decoder[A]): GHResponse[A] = response match {
-    case r if r.isSuccess ⇒
-      decode[A](r.body).fold(
-        e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
-        result ⇒ Either.right(GHResult(result, r.code, toLowerCase(r.headers)))
-      )
-    case r ⇒
-      Either.left(
-        UnexpectedException(s"Failed invoking with status : ${r.code} body : \n ${r.body}"))
-  }
+  def toEntity[A](
+      response: HttpResponse[String],
+      mapResponse: (HttpResponse[String]) => GHResponse[A]): GHResponse[A] =
+    response match {
+      case r if r.isSuccess ⇒
+        mapResponse(r)
+      case r ⇒
+        Either.left(
+          UnexpectedException(s"Failed invoking with status : ${r.code} body : \n ${r.body}"))
+    }
+
+  def emptyResponse(r: HttpResponse[String]): GHResponse[Unit] =
+    Either.right(GHResult((): Unit, r.code, toLowerCase(r.headers)))
+
+  def decodeEntity[A](r: HttpResponse[String])(implicit D: Decoder[A]): GHResponse[A] =
+    decode[A](r.body).fold(
+      e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
+      result ⇒ Either.right(GHResult(result, r.code, toLowerCase(r.headers)))
+    )
 
   private def toLowerCase(
       headers: Map[String, IndexedSeq[String]]): Map[String, IndexedSeq[String]] =

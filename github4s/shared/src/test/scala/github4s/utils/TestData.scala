@@ -297,7 +297,6 @@ trait TestData extends DummyGithubUrls {
     thread_url = "https://api.github.com/notifications/threads/1"
   )
   val validCommentBody   = "the comment"
-  val validIssueNumber   = 106
   val invalidIssueNumber = 0
   val validCommentId     = 1
   val invalidCommentId   = 0

@@ -35,7 +35,6 @@ class IntegrationSpec
     with GHStatusesSpec[HttpResponse[String]]
     with GHUsersSpec[HttpResponse[String]]
     with GHNotificationsSpec[HttpResponse[String]]
-    with GHComments[HttpResponse[String]]
     with ImplicitsJVM
     with TestUtilsJVM {
 

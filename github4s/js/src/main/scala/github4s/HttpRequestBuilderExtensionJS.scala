@@ -42,8 +42,16 @@ trait HttpRequestBuilderExtensionJS {
 
   implicit def extensionJS: HttpRequestBuilderExtension[SimpleHttpResponse, Future] =
     new HttpRequestBuilderExtension[SimpleHttpResponse, Future] {
+
       def run[A](rb: HttpRequestBuilder[SimpleHttpResponse, Future])(
-          implicit D: Decoder[A]): Future[GHResponse[A]] = {
+          implicit D: Decoder[A]): Future[GHResponse[A]] = runMap[A](rb, decodeEntity[A])
+
+      def runEmpty(rb: HttpRequestBuilder[SimpleHttpResponse, Future]): Future[GHResponse[Unit]] =
+        runMap[Unit](rb, emptyResponse)
+
+      private[this] def runMap[A](
+          rb: HttpRequestBuilder[SimpleHttpResponse, Future],
+          mapResponse: SimpleHttpResponse => GHResponse[A]): Future[GHResponse[A]] = {
 
         val params = rb.params.map {
           case (key, value) => s"$key=$value"
@@ -59,7 +67,7 @@ trait HttpRequestBuilderExtensionJS {
         rb.data
           .map(d => request.send(CirceJSONBody(d)))
           .getOrElse(request.send())
-          .map(toEntity[A])
+          .map(toEntity[A](_, mapResponse))
           .recoverWith {
             case e =>
               Future.successful(Either.left(UnexpectedException(e.getMessage)))
@@ -67,22 +75,29 @@ trait HttpRequestBuilderExtensionJS {
       }
     }
 
-  def toEntity[A](response: SimpleHttpResponse)(implicit D: Decoder[A]): GHResponse[A] =
+  def toEntity[A](
+      response: SimpleHttpResponse,
+      mapResponse: (SimpleHttpResponse) => GHResponse[A]): GHResponse[A] =
     response match {
       case r if r.statusCode <= HttpCode299.statusCode && r.statusCode >= HttpCode200.statusCode ⇒
-        decode[A](r.body).fold(
-          e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
-          result ⇒
-            Either.right(
-              GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
-          )
-        )
+        mapResponse(r)
       case r ⇒
         Either.left(
           UnexpectedException(
             s"Failed invoking with status : ${r.statusCode}, body : \n ${r.body}"))
     }
 
+  def emptyResponse(r: SimpleHttpResponse): GHResponse[Unit] =
+    Either.right(GHResult((): Unit, r.statusCode, rosHeaderMapToRegularMap(r.headers)))
+
+  def decodeEntity[A](r: SimpleHttpResponse)(implicit D: Decoder[A]): GHResponse[A] =
+    decode[A](r.body).fold(
+      e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
+      result ⇒
+        Either.right(
+          GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
+      )
+    )
   private def rosHeaderMapToRegularMap(
       headers: HeaderMap[String]): Map[String, IndexedSeq[String]] =
     headers.flatMap(m => Map(m._1.toLowerCase -> IndexedSeq(m._2)))
