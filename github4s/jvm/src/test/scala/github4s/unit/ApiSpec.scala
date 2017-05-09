@@ -43,6 +43,7 @@ class ApiSpec
   val statuses      = new Statuses[HttpResponse[String], Id]
   val issues        = new Issues[HttpResponse[String], Id]
   val notifications = new Notifications[HttpResponse[String], Id]
+  val comments      = new Comments[HttpResponse[String], Id]
 
   "Auth >> NewAuth" should "return a valid token when valid credential is provided" in {
     val response = auth.newAuth(
@@ -913,6 +914,94 @@ class ApiSpec
   it should "return an error when an invalid thread id is passed" in {
     val response =
       notifications.setThreadSub(accessToken, headerUserAgent, invalidThreadId, true, false)
+    response should be('left)
+  }
+
+  "Comments >> Create a Comment" should "return the comment created when a valid issue number is provided" in {
+    val response =
+      comments.create(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validCommentBody)
+    response should be('right)
+  }
+  it should "return an error when an valid issue number is passed without authorization" in {
+    val response =
+      comments.create(
+        None,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validCommentBody)
+    response should be('left)
+  }
+  it should "return an error when an invalid issue number is passed" in {
+    val response =
+      comments.create(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        invalidIssueNumber,
+        validCommentBody)
+    response should be('left)
+  }
+
+  "Comments >> Edit a Comment" should "return the edited comment when a valid comment id is provided" in {
+    val response =
+      comments.edit(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validCommentId,
+        validCommentBody)
+    response should be('right)
+  }
+  it should "return an error when an valid comment id is passed without authorization" in {
+    val response =
+      comments.edit(
+        None,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validCommentId,
+        validCommentBody)
+    response should be('left)
+  }
+  it should "return an error when an invalid comment id is passed" in {
+    val response =
+      comments.edit(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        invalidCommentId,
+        validCommentBody)
+    response should be('left)
+  }
+  "Comments >> Delete a Comment" should "return the deleted comment when a valid comment id is provided" in {
+    val response =
+      comments.delete(accessToken, headerUserAgent, validRepoOwner, validRepoName, validCommentId)
+    response should be('right)
+  }
+  it should "return an error when an valid comment id is passed without authorization" in {
+    val response =
+      comments.delete(None, headerUserAgent, validRepoOwner, validRepoName, validCommentId)
+    response should be('left)
+  }
+  it should "return an error when an invalid comment id is passed" in {
+    val response =
+      comments.delete(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        invalidCommentId)
     response should be('left)
   }
 }

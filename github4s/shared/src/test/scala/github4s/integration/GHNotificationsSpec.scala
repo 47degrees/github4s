@@ -22,7 +22,7 @@ import github4s.free.domain.Subscription
 import github4s.implicits._
 import github4s.utils.BaseIntegrationSpec
 
-trait GHNotificationSpec[T] extends BaseIntegrationSpec[T] {
+trait GHNotificationsSpec[T] extends BaseIntegrationSpec[T] {
 
   "Notification >> Set a thread subscription" should "return expected response when a valid thread id is provided" in {
     val response =

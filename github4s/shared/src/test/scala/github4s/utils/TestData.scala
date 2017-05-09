@@ -57,6 +57,7 @@ trait TestData extends DummyGithubUrls {
 
   val okStatusCode           = 200
   val createdStatusCode      = 201
+  val deletedStatusCode      = 204
   val unauthorizedStatusCode = 401
   val notFoundStatusCode     = 404
 
@@ -295,5 +296,9 @@ trait TestData extends DummyGithubUrls {
     url = "https://api.github.com/notifications/threads/1/subscription",
     thread_url = "https://api.github.com/notifications/threads/1"
   )
-
+  val validCommentBody   = "the comment"
+  val validIssueNumber   = 106
+  val invalidIssueNumber = 0
+  val validCommentId     = 1
+  val invalidCommentId   = 0
 }

@@ -692,7 +692,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(okStatusCode).withBody(searchIssuesEmptyResponse))
 
-//Notification >>Set a thread subscription
+//Notification >> Set a thread subscription
   mockServer
     .when(
       request
@@ -716,4 +716,80 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/notifications/threads/$invalidThreadId/subscription")
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  //Comments >> Create a comment
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/comments")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(createdStatusCode).withBody(commentResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/comments")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/$invalidIssueNumber/comments")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  //Comments >> Edit a comment
+  mockServer
+    .when(
+      request
+        .withMethod("PATCH")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(okStatusCode).withBody(commentResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("PATCH")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("PATCH")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/comments/$invalidCommentId")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  //Comments >> Delete a comment
+  mockServer
+    .when(
+      request
+        .withMethod("DELETE")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(deletedStatusCode))
+
+  mockServer
+    .when(
+      request
+        .withMethod("DELETE")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("DELETE")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/comments/$invalidCommentId")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
 }
