@@ -5,19 +5,25 @@ title: Getting Started
 
 # Getting started
 
-WIP: Import
+## API token
+
+In order to access the Github API you will need to have [an access token][access-token] with the
+appropriate scopes (i.e. if you want to create gists, your token will need to have the gist scope).
+
+## Github4s
+
+First things first, we'll need to import `github4s.Github` which is the entry point to the Github
+API in Github4s.
 
 ```tut:silent
 import github4s.Github
 ```
 
-In order for github4s to work in both JVM and scala-js environments, you'll need to place different implicits in your scope, depending on your needs:
+In order for Github4s to work in both JVM and scala-js environments, you'll need to place different
+implicits in your scope, depending on your needs:
 
 ```tut:silent
 import github4s.jvm.Implicits._
-```
-
-```tut:silent
 // import github4s.js.Implicits._
 ```
 
@@ -25,115 +31,116 @@ import github4s.jvm.Implicits._
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-WIP: Every Github4s api returns a `Free[GHResponse[A], A]` where `GHResponse[A]` is a type alias for `Either[GHException, GHResult[A]]`. GHResult contains the result `[A]` given by GitHub, but also the status code of the response and headers:
+Every Github4s API call returns a `Free[GHResponse[A], A]` where `GHResponse[A]` is a type alias for
+`Either[GHException, GHResult[A]]`. `GHResult` contains the result `A` given by Github as well as
+the status code and headers of the response:
 
 ```scala
 case class GHResult[A](result: A, statusCode: Int, headers: Map[String, IndexedSeq[String]])
 ```
 
-To get an user
+As an introductory example, we can get a user with the following:
 
 ```tut:silent
 val user1 = Github(accessToken).users.get("rafaparadela")
 ```
 
-user1 in this case `Free[GHException Xor GHResult[User], User]` and we can run (`foldMap`) with `exec[M[_], C]` where `M[_]` represent any type container that implements `MonadError[M, Throwable]`, for instance `cats.Eval`; and C represents a valid implementation of an HttpClient. The previously mentioned implicit classes carry already set up instances for working with `scalaj` (for JVM-compatible apps) and `roshttp` (for scala-js-compatible apps). Take into account that in the latter case, you can only use `Future` in the place of `M[_]`:
+`user1` in this case `Free[GHException Xor GHResult[User], User]` which we can run (`foldMap`) with
+`exec[M[_], C]` where `M[_]` represents any type container that implements
+`MonadError[M, Throwable]` (for instance `cats.Eval`) and `C` represents a valid implementation of
+an [HttpClient][http-client]. The previously mentioned implicit classes carry out of the box
+instances for working with [scalaj][scalaj] (for JVM-compatible apps) and [roshttp][roshttp] (for
+scala-js-compatible apps). Take into account that in the latter case, you can only use `Future` in
+the place of `M[_]`.
+
+A few examples follow with different `MonadError[M, Throwable]`.
+
+### Using `cats.Eval`
 
 ```tut:silent
 import cats.Eval
 import github4s.Github._
-import scalaj.http._
+import scalaj.http.HttpResponse
 
 object ProgramEval {
-    val u1 = user1.exec[Eval, HttpResponse[String]]().value
+  val u1 = user1.exec[Eval, HttpResponse[String]]().value
 }
-
 ```
 
-WIP: As mentioned above `u1` should have an `GHResult[User]` in the right.
+As mentioned above, `u1` should have an `GHResult[User]` in the right.
 
-```tut:invisible
+```tut:silent
 import cats.implicits._
 import github4s.GithubResponses.GHResult
-```
 
-```tut:book
 ProgramEval.u1 match {
   case Right(GHResult(result, status, headers)) => result.login
   case Left(e) => e.getMessage
 }
 ```
 
-WIP:  With `Id`
+### Using `cats.Id`
 
 ```tut:silent
 import cats.Id
-import scalaj.http._
 
 object ProgramId {
-    val u2 = Github(accessToken).users.get("raulraja").exec[Id, HttpResponse[String]]()
+  val u2 = Github(accessToken).users.get("raulraja").exec[Id, HttpResponse[String]]()
 }
 ```
 
-WIP: With `Future`
+### Using `Future`
 
 ```tut:silent
-import cats.Id
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.Await
-import scalaj.http._
 
 object ProgramFuture {
-    // execFuture[C] is a convenience access to exec[Future, C]
-    val u3 = Github(accessToken).users.get("dialelo").execFuture[HttpResponse[String]]()
-    Await.result(u3, 2.seconds)
+  // execFuture[C] is a shortcut for exec[Future, C]
+  val u3 = Github(accessToken).users.get("dialelo").execFuture[HttpResponse[String]]()
+  Await.result(u3, 2.seconds)
 }
 ```
 
-WIP: With `scalaz.Task`
+### Using `scalaz.Task`
 
 ```tut:silent
 import scalaz.concurrent.Task
 import github4s.scalaz.implicits._
-import scalaj.http._
-import github4s.jvm.Implicits._
+import scalaj.http.HttpResponse
 
 object ProgramTask {
-    val u4 = Github(accessToken).users.get("franciscodr").exec[Task, HttpResponse[String]]()
-    u4.unsafePerformSyncAttempt
+  val u4 = Github(accessToken).users.get("franciscodr").exec[Task, HttpResponse[String]]()
+  u4.unsafePerformSyncAttempt
 }
 ```
 
-```tut:invisible
-import org.scalatest._
-import Matchers._
-import cats.Eval
-import cats.implicits._
-import github4s.Github
-import github4s.Github._
-import github4s.jvm.Implicits._
-import scalaj.http._
+Note that you'll need a dependency to the `github4s-scalaz` pacakge to leverage `scalaz.Task`.
 
-val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
-```
+## Specifying custom headers
 
-```tut:book
+The different `exec` methods let users include custom headers for any Github API request:
+
+```tut:silent
 object ProgramEval {
-    // exec methods let users to include optional headers for any GitHub API request:
-    val userHeaders = Map("user-agent" -> "github4s")
-    val user1 = Github(accessToken).users.get("rafaparadela").exec[Eval, HttpResponse[String]](userHeaders).value
+  val userHeaders = Map("user-agent" -> "github4s")
+  val user1 = Github(accessToken).users.get("rafaparadela").exec[Eval, HttpResponse[String]](userHeaders).value
 }
-
-ProgramEval.user1 should matchPattern { case Right(GHResult(_, 200, _)) => }
-ProgramEval.user1.toOption map (_.result.login shouldBe "rafaparadela")
 ```
 
-# Test credentials
+## Test credentials
 
-Note that for github4s to have access to the GitHub API during the test phases, you need to provide a valid access token with the right credentials (i.e.: users + gists scopes), through the sbt configuration variable "token":
+Note that for Github4s to have access to the GitHub API during the test phases, you need to provide
+a valid access token with the right credentials (depending on your usage of the API, you will need
+different permission), through the sbt configuration variable "token":
 
 ```
 sbt -Dtoken=ACCESS_TOKEN_STRING
 ```
+
+[http-client]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/HttpClient.scala
+[scalaj]: https://github.com/scalaj/scalaj-http
+[roshttp]: https://github.com/hmil/RosHTTP
+[access-token]: https://github.com/settings/tokens
