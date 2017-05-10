@@ -31,9 +31,13 @@ import github4s.jvm.Implicits._
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-Every Github4s API call returns a `Free[GHResponse[A], A]` where `GHResponse[A]` is a type alias for
-`Either[GHException, GHResult[A]]`. `GHResult` contains the result `A` given by Github as well as
-the status code and headers of the response:
+Every Github4s API call returns a `GHIO[GHResponse[A]]` which is an alias for
+`Free[Github4s, GHResponse[A]]`.
+
+`GHResponse[A]` is, in turn, a type alias for `Either[GHException, GHResult[A]]`.
+
+`GHResult` contains the result `A` given by Github as well as the status code and headers of the
+response:
 
 ```scala
 case class GHResult[A](result: A, statusCode: Int, headers: Map[String, IndexedSeq[String]])
@@ -45,10 +49,12 @@ As an introductory example, we can get a user with the following:
 val user1 = Github(accessToken).users.get("rafaparadela")
 ```
 
-`user1` in this case `Free[GHException Xor GHResult[User], User]` which we can run (`foldMap`) with
+`user1` in this case is a `GHIO[GHResponse[User]]` which we can run (`foldMap`) with
 `exec[M[_], C]` where `M[_]` represents any type container that implements
 `MonadError[M, Throwable]` (for instance `cats.Eval`) and `C` represents a valid implementation of
-an [HttpClient][http-client]. The previously mentioned implicit classes carry out of the box
+an [HttpClient][http-client].
+
+The previously mentioned implicit classes carry out of the box
 instances for working with [scalaj][scalaj] (for JVM-compatible apps) and [roshttp][roshttp] (for
 scala-js-compatible apps). Take into account that in the latter case, you can only use `Future` in
 the place of `M[_]`.
