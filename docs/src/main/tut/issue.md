@@ -140,6 +140,8 @@ searchIssues.exec[cats.Id, HttpResponse[String]]() match {
 
 The `result` on the right is a [SearchIssuesResult][issue-scala].
 
+See [the API doc](https://developer.github.com/v3/search/#search-issues) for full reference.
+
 ## Create a Comment
 
 You can create a comment for an issue whit the next parameters:
@@ -197,6 +199,5 @@ deleteComment.exec[cats.Id, HttpResponse[String]]() match {
 ```
 
 See [the API doc](https://developer.github.com/v3/issues/comments/) for full reference.
-See [the API doc](https://developer.github.com/v3/search/#search-issues) for full reference.
 
 [issue-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Issue.scala
