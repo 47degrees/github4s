@@ -20,7 +20,7 @@ import github4s.GithubResponses.{GHResponse, GHResult, JsonParsingException, Une
 import io.circe.Decoder
 import io.circe.parser._
 
-import scalaj.http.{Http, HttpOptions, HttpRequest, HttpResponse, _}
+import scalaj.http._
 import cats.implicits._
 import github4s.free.interpreters.Capture
 
@@ -87,9 +87,9 @@ trait HttpRequestBuilderExtensionJVM {
     Either.right(GHResult((): Unit, r.code, toLowerCase(r.headers)))
 
   def decodeEntity[A](r: HttpResponse[String])(implicit D: Decoder[A]): GHResponse[A] =
-    decode[A](r.body).fold(
-      e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
-      result ⇒ Either.right(GHResult(result, r.code, toLowerCase(r.headers)))
+    decode[A](r.body).bimap(
+      e ⇒ JsonParsingException(e.getMessage, r.body),
+      result ⇒ GHResult(result, r.code, toLowerCase(r.headers))
     )
 
   private def toLowerCase(

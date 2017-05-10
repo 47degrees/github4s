@@ -37,7 +37,9 @@ do.
 Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
-## Create an issue
+##Issues
+
+### Create an issue
 
 You can create an issue using `createIssue`, it takes as arguments:
 
@@ -62,7 +64,7 @@ The `result` on the right is the created [Issue][issue-scala].
 
 See [the API doc](https://developer.github.com/v3/issues/#create-an-issue) for full reference.
 
-## Edit an issue
+### Edit an issue
 
 You can edit an existing issue using `editIssue`, it takes as arguments:
 
@@ -89,7 +91,7 @@ the `result` on the right is the edited [Issue][issue-scala].
 
 See [the API doc](https://developer.github.com/v3/issues/#edit-an-issue) for full reference.
 
-## List issues 
+### List issues 
 
 You can also list issues for a repository through `listIssues`, it take as arguments:
 
@@ -112,7 +114,7 @@ contain pull requests as Github considers pull requests as issues.
 See [the API doc](https://developer.github.com/v3/issues/#list-issues-for-a-repository)
 for full reference.
 
-## Search issues
+### Search issues
 
 Lastly, you can also search issues all across Github thanks to `searchIssues`, it takes as
 arguments:
@@ -142,9 +144,11 @@ The `result` on the right is a [SearchIssuesResult][issue-scala].
 
 See [the API doc](https://developer.github.com/v3/search/#search-issues) for full reference.
 
-## Create a Comment
+##Comments
 
-You can create a comment for an issue whit the next parameters:
+### Create a Comment
+
+You can create a comment for an issue whit the following parameters:
 
  - the repository coordinates (owner and name of the repository)
  - `number`: The issue number
@@ -160,10 +164,10 @@ createcomment.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-## Edit a Comment
+### Edit a Comment
 
 
-You can edit a comment from an issue whit the next parameters:
+You can edit a comment from an issue whit the following parameters:
 
  - the repository coordinates (owner and name of the repository)
  - `id`: The comment id
@@ -180,10 +184,10 @@ editComment.exec[cats.Id, HttpResponse[String]]() match {
 ```
 
 
-## Delete a Comment
+### Delete a Comment
 
 
-You can delete a comment from an issue whit the next parameters:
+You can delete a comment from an issue whit the following parameters:
 
  - the repository coordinates (owner and name of the repository)
  - `id`: The comment id

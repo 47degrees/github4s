@@ -91,12 +91,9 @@ trait HttpRequestBuilderExtensionJS {
     Either.right(GHResult((): Unit, r.statusCode, rosHeaderMapToRegularMap(r.headers)))
 
   def decodeEntity[A](r: SimpleHttpResponse)(implicit D: Decoder[A]): GHResponse[A] =
-    decode[A](r.body).fold(
-      e ⇒ Either.left(JsonParsingException(e.getMessage, r.body)),
-      result ⇒
-        Either.right(
-          GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
-      )
+    decode[A](r.body).bimap(
+      e ⇒ JsonParsingException(e.getMessage, r.body),
+      result ⇒ GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
     )
   private def rosHeaderMapToRegularMap(
       headers: HeaderMap[String]): Map[String, IndexedSeq[String]] =
