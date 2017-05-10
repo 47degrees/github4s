@@ -78,7 +78,6 @@ You can delete a comment from an issue whit the next parameters:
 
  - the repository coordinates (owner and name of the repository)
  - `id`: The comment id
- - `body`: The new comment description
 
  To delete a comment:
 

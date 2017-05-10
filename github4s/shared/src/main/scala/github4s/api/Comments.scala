@@ -44,7 +44,7 @@ class Comments[C, M[_]](
    * @param repo name of the repo
    * @param number Issue number
    * @param body Comment body
-   * @return a GHResponse with the created Status
+   * @return a GHResponse with the created Comment
    */
   def create(
       accessToken: Option[String] = None,
@@ -68,7 +68,7 @@ class Comments[C, M[_]](
    * @param repo name of the repo
    * @param id Comment id
    * @param body Comment body
-   * @return a GHResponse with the edit Status
+   * @return a GHResponse with the edited Comment
    */
   def edit(
       accessToken: Option[String] = None,
@@ -92,7 +92,7 @@ class Comments[C, M[_]](
    * @param owner of the repo
    * @param repo name of the repo
    * @param id Comment id
-   * @return a GHResponse with the delete Status
+   * @return a unit GHResponse
    */
   def delete(
       accessToken: Option[String] = None,
