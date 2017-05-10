@@ -5,7 +5,7 @@ title: Comments API
 
 # Comments API
 
-Github4s supports the [Comments API](https://developer.github.com/v3/activity/comments/). As a result,
+Github4s supports the [Comments API](https://developer.github.com/v3/issues/comments/). As a result,
 with github4s, you can:
 
 

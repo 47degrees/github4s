@@ -20,7 +20,7 @@ import cats.Id
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.HttpClient
 import github4s.api.Issues
-import github4s.free.domain.{Issue, SearchIssuesResult}
+import github4s.free.domain.{Comment, Issue, SearchIssuesResult}
 import github4s.utils.BaseSpec
 
 class IssuesSpec extends BaseSpec {
@@ -127,5 +127,84 @@ class IssuesSpec extends BaseSpec {
       None,
       List.empty,
       List.empty)
+  }
+
+  "Issue.CreateComment" should "call to httpClient.post with the right parameters" in {
+
+    val response: GHResponse[Comment] =
+      Right(GHResult(comment, createdStatusCode, Map.empty))
+
+    val request =
+      """
+        |{
+        |  "body": "the comment"
+        |}""".stripMargin
+
+    val httpClientMock = httpClientMockPost[Comment](
+      url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/comments",
+      json = request,
+      response = response
+    )
+
+    val issues = new Issues[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    issues.createComment(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validIssueNumber,
+      validCommentBody)
+  }
+
+  "Issue.EditComment" should "call to httpClient.patch with the right parameters" in {
+
+    val response: GHResponse[Comment] =
+      Right(GHResult(comment, okStatusCode, Map.empty))
+
+    val request =
+      """
+        |{
+        |  "body": "the comment"
+        |}""".stripMargin
+
+    val httpClientMock = httpClientMockPatch[Comment](
+      url = s"repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId",
+      json = request,
+      response = response
+    )
+
+    val issues = new Issues[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    issues.editComment(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validCommentId,
+      validCommentBody)
+  }
+
+  "Issue.DeleteComment" should "call to httpClient.delete with the right parameters" in {
+
+    val response: GHResponse[Unit] =
+      Right(GHResult((): Unit, deletedStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockDelete(
+      url = s"repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId",
+      response = response
+    )
+
+    val issues = new Issues[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    issues.deleteComment(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validCommentId)
   }
 }

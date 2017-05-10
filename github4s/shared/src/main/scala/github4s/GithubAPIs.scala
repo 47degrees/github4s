@@ -162,6 +162,29 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
       assignees: List[String] = List.empty
   ): GHIO[GHResponse[Issue]] =
     O.editIssue(owner, repo, issue, state, title, body, milestone, labels, assignees, accessToken)
+
+  def createComment(
+      owner: String,
+      repo: String,
+      number: Int,
+      body: String
+  ): GHIO[GHResponse[Comment]] =
+    O.createComment(owner, repo, number, body, accessToken)
+  def editComment(
+      owner: String,
+      repo: String,
+      id: Int,
+      body: String
+  ): GHIO[GHResponse[Comment]] =
+    O.editComment(owner, repo, id, body, accessToken)
+
+  def deleteComment(
+      owner: String,
+      repo: String,
+      id: Int
+  ): GHIO[GHResponse[Unit]] =
+    O.deleteComment(owner, repo, id, accessToken)
+
 }
 
 class GHNotifications(accessToken: Option[String] = None)(implicit O: NotificationOps[GitHub4s]) {
@@ -295,30 +318,4 @@ class GHStatuses(accessToken: Option[String] = None)(implicit O: StatusOps[GitHu
       context: Option[String] = None
   ): GHIO[GHResponse[Status]] =
     O.createStatus(owner, repo, sha, state, target_url, description, context, accessToken)
-}
-
-class GHComments(accessToken: Option[String] = None)(implicit O: CommentOps[GitHub4s]) {
-
-  def create(
-      owner: String,
-      repo: String,
-      number: Int,
-      body: String
-  ): GHIO[GHResponse[Comment]] =
-    O.createComment(owner, repo, number, body, accessToken)
-  def edit(
-      owner: String,
-      repo: String,
-      id: Int,
-      body: String
-  ): GHIO[GHResponse[Comment]] =
-    O.editComment(owner, repo, id, body, accessToken)
-
-  def delete(
-      owner: String,
-      repo: String,
-      id: Int
-  ): GHIO[GHResponse[Unit]] =
-    O.deleteComment(owner, repo, id, accessToken)
-
 }

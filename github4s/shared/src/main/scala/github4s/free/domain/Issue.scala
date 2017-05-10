@@ -67,3 +67,14 @@ case class EditIssueRequest(
     milestone: Option[Int],
     labels: List[String],
     assignees: List[String])
+
+case class Comment(
+    id: Int,
+    url: String,
+    html_url: String,
+    body: String,
+    user: User,
+    created_at: String,
+    updated_at: String)
+
+case class CommentData(body: String)

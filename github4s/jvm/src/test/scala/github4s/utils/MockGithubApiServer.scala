@@ -692,32 +692,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(okStatusCode).withBody(searchIssuesEmptyResponse))
 
-//Notification >> Set a thread subscription
-  mockServer
-    .when(
-      request
-        .withMethod("PUT")
-        .withPath(s"/notifications/threads/$validThreadId/subscription")
-        .withHeader("Authorization", tokenHeader))
-    .respond(response.withStatusCode(okStatusCode).withBody(setThreadSubscription))
-
-  mockServer
-    .when(
-      request
-        .withMethod("PUT")
-        .withPath(s"/notifications/threads/$validThreadId/subscription")
-        .withHeader(not("Authorization")))
-    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
-
-  mockServer
-    .when(
-      request
-        .withMethod("PUT")
-        .withPath(s"/notifications/threads/$invalidThreadId/subscription")
-        .withHeader("Authorization", tokenHeader))
-    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
-
-  //Comments >> Create a comment
+  //Issues >> Create a comment
   mockServer
     .when(
       request
@@ -742,7 +717,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
-  //Comments >> Edit a comment
+  //Issues >> Edit a comment
   mockServer
     .when(
       request
@@ -767,7 +742,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
-  //Comments >> Delete a comment
+  //Issues >> Delete a comment
   mockServer
     .when(
       request
@@ -789,6 +764,31 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
       request
         .withMethod("DELETE")
         .withPath(s"/repos/$validRepoOwner/$validRepoName/issues/comments/$invalidCommentId")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  //Notification >> Set a thread subscription
+  mockServer
+    .when(
+      request
+        .withMethod("PUT")
+        .withPath(s"/notifications/threads/$validThreadId/subscription")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(okStatusCode).withBody(setThreadSubscription))
+
+  mockServer
+    .when(
+      request
+        .withMethod("PUT")
+        .withPath(s"/notifications/threads/$validThreadId/subscription")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("PUT")
+        .withPath(s"/notifications/threads/$invalidThreadId/subscription")
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 

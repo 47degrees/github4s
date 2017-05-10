@@ -18,11 +18,11 @@ package github4s.free.algebra
 
 import cats.free.{Free, Inject}
 import github4s.GithubResponses._
-import github4s.free.domain.{Issue, SearchIssuesResult, SearchParam}
+import github4s.free.domain.{Comment, Issue, SearchIssuesResult, SearchParam}
 
 /**
-  * Issues ops ADT
-  */
+ * Issues ops ADT
+ */
 sealed trait IssueOp[A]
 
 final case class ListIssues(
@@ -61,10 +61,33 @@ final case class EditIssue(
     accessToken: Option[String] = None
 ) extends IssueOp[GHResponse[Issue]]
 
+final case class CreateComment(
+    owner: String,
+    repo: String,
+    number: Int,
+    body: String,
+    accessToken: Option[String] = None
+) extends IssueOp[GHResponse[Comment]]
+
+final case class EditComment(
+    owner: String,
+    repo: String,
+    id: Int,
+    body: String,
+    accessToken: Option[String] = None
+) extends IssueOp[GHResponse[Comment]]
+
+final case class DeleteComment(
+    owner: String,
+    repo: String,
+    id: Int,
+    accessToken: Option[String] = None
+) extends IssueOp[GHResponse[Unit]]
+
 /**
-  * Exposes Issue operations as a Free monadic algebra that may be combined with other Algebras via
-  * Coproduct
-  */
+ * Exposes Issue operations as a Free monadic algebra that may be combined with other Algebras via
+ * Coproduct
+ */
 class IssueOps[F[_]](implicit I: Inject[IssueOp, F]) {
 
   def listIssues(
@@ -108,11 +131,38 @@ class IssueOps[F[_]](implicit I: Inject[IssueOp, F]) {
   ): Free[F, GHResponse[Issue]] =
     Free.inject[IssueOp, F](
       EditIssue(owner, repo, issue, state, title, body, milestone, labels, assignees, accessToken))
+
+  def createComment(
+      owner: String,
+      repo: String,
+      number: Int,
+      body: String,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[Comment]] =
+    Free.inject[IssueOp, F](CreateComment(owner, repo, number, body, accessToken))
+
+  def editComment(
+      owner: String,
+      repo: String,
+      id: Int,
+      body: String,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[Comment]] =
+    Free.inject[IssueOp, F](EditComment(owner, repo, id, body, accessToken))
+
+  def deleteComment(
+      owner: String,
+      repo: String,
+      id: Int,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[Unit]] =
+    Free.inject[IssueOp, F](DeleteComment(owner, repo, id, accessToken))
+
 }
 
 /**
-  * Default implicit based DI factory from which instances of the IssueOps may be obtained
-  */
+ * Default implicit based DI factory from which instances of the IssueOps may be obtained
+ */
 object IssueOps {
 
   implicit def instance[F[_]](implicit I: Inject[IssueOp, F]): IssueOps[F] = new IssueOps[F]

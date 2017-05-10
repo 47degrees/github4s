@@ -20,7 +20,7 @@ import cats.free.Free
 import github4s.GHIssues
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.app.GitHub4s
-import github4s.free.domain.{Issue, SearchIssuesResult}
+import github4s.free.domain.{Comment, Issue, SearchIssuesResult}
 import github4s.utils.BaseSpec
 
 class GHIssuesSpec extends BaseSpec {
@@ -108,4 +108,45 @@ class GHIssuesSpec extends BaseSpec {
         List.empty,
         List.empty)
   }
+
+  "Issues.CreateComment" should "call to IssueOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Comment]] =
+      Free.pure(Right(GHResult(comment, createdStatusCode, Map.empty)))
+
+    val commentOps = mock[IssueOpsTest]
+    (commentOps.createComment _)
+      .expects(validRepoOwner, validRepoName, validIssueNumber, validCommentBody, sampleToken)
+      .returns(response)
+
+    val ghIssues = new GHIssues(sampleToken)(commentOps)
+    ghIssues.createComment(validRepoOwner, validRepoName, validIssueNumber, validCommentBody)
+  }
+  "Issues.EditComment" should "call to IssueOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Comment]] =
+      Free.pure(Right(GHResult(comment, okStatusCode, Map.empty)))
+
+    val commentOps = mock[IssueOpsTest]
+    (commentOps.editComment _)
+      .expects(validRepoOwner, validRepoName, validCommentId, validCommentBody, sampleToken)
+      .returns(response)
+
+    val ghIssues = new GHIssues(sampleToken)(commentOps)
+    ghIssues.editComment(validRepoOwner, validRepoName, validCommentId, validCommentBody)
+  }
+  "Issues.DeleteComment" should "call to IssueOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Unit]] =
+      Free.pure(Right(GHResult((): Unit, deletedStatusCode, Map.empty)))
+
+    val commentOps = mock[IssueOpsTest]
+    (commentOps.deleteComment _)
+      .expects(validRepoOwner, validRepoName, validCommentId, sampleToken)
+      .returns(response)
+
+    val ghIssues = new GHIssues(sampleToken)(commentOps)
+    ghIssues.deleteComment(validRepoOwner, validRepoName, validCommentId)
+  }
+
 }
