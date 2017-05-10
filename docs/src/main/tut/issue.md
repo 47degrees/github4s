@@ -37,7 +37,7 @@ do.
 Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
-##Issues
+## Issues
 
 ### Create an issue
 
