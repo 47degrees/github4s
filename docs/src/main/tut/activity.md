@@ -1,11 +1,11 @@
 ---
 layout: docs
-title: Notifications API
+title: Activity API
 ---
 
-# Notifications API
+# Activity API
 
-Github4s supports the [Notifications API](https://developer.github.com/v3/activity/notifications/). As a result,
+Github4s supports the [Activity API](https://developer.github.com/v3/activity/). As a result,
 with github4s, you can:
 
 - [Set a thread subscription](#set-a-thread-subscription)
@@ -30,7 +30,9 @@ do.
 Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
-## Set a Thread Subscription
+## Notifications
+
+### Set a Thread Subscription
 This lets you subscribe or unsubscribe from a conversation.
 
 Unsubscribing from a conversation mutes all future notifications (until you comment or get @mentioned once more).

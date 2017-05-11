@@ -19,13 +19,13 @@ package github4s.unit
 import cats.Id
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.HttpClient
-import github4s.api.Notifications
+import github4s.api.Activities
 import github4s.free.domain._
 import github4s.utils.BaseSpec
 
-class NotificationsSpec extends BaseSpec {
+class ActivitiesSpec extends BaseSpec {
 
-  "Notification." should "call to httpClient.put with the right parameters" in {
+  "Activity.SetThreadSubscription" should "call to httpClient.put with the right parameters" in {
 
     val response: GHResponse[Subscription] =
       Right(GHResult(subscription, okStatusCode, Map.empty))
@@ -43,10 +43,10 @@ class NotificationsSpec extends BaseSpec {
       response = response
     )
 
-    val notifications = new Notifications[String, Id] {
+    val activities = new Activities[String, Id] {
       override val httpClient: HttpClient[String, Id] = httpClientMock
     }
-    notifications.setThreadSub(sampleToken, headerUserAgent, validThreadId, true, false)
+    activities.setThreadSub(sampleToken, headerUserAgent, validThreadId, true, false)
   }
 
 }

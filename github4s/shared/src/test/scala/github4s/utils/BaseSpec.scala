@@ -20,9 +20,9 @@ import cats.Id
 import github4s.GithubResponses.{GHResponse, UnexpectedException}
 import github4s.app.GitHub4s
 import github4s.free.algebra.{
+  ActivityOps,
   GitDataOps,
   IssueOps,
-  NotificationOps,
   PullRequestOps,
   RepositoryOps,
   StatusOps
@@ -116,11 +116,11 @@ trait BaseSpec extends FlatSpec with Matchers with TestData with IdInstances wit
     httpClientMock
   }
 
-  class GitDataOpsTest      extends GitDataOps[GitHub4s]
-  class PullRequestOpsTest  extends PullRequestOps[GitHub4s]
-  class RepositoryOpsTest   extends RepositoryOps[GitHub4s]
-  class StatusOpsTest       extends StatusOps[GitHub4s]
-  class IssueOpsTest        extends IssueOps[GitHub4s]
-  class NotificationOpsTest extends NotificationOps[GitHub4s]
+  class GitDataOpsTest     extends GitDataOps[GitHub4s]
+  class PullRequestOpsTest extends PullRequestOps[GitHub4s]
+  class RepositoryOpsTest  extends RepositoryOps[GitHub4s]
+  class StatusOpsTest      extends StatusOps[GitHub4s]
+  class IssueOpsTest       extends IssueOps[GitHub4s]
+  class ActivityOpsTest    extends ActivityOps[GitHub4s]
 
 }

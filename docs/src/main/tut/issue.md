@@ -144,7 +144,7 @@ The `result` on the right is a [SearchIssuesResult][issue-scala].
 
 See [the API doc](https://developer.github.com/v3/search/#search-issues) for full reference.
 
-##Comments
+## Comments
 
 ### Create a Comment
 

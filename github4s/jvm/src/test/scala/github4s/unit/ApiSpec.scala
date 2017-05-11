@@ -34,15 +34,15 @@ class ApiSpec
     with DummyGithubUrls
     with ImplicitsJVM {
 
-  val auth          = new Auth[HttpResponse[String], Id]
-  val repos         = new Repos[HttpResponse[String], Id]
-  val users         = new Users[HttpResponse[String], Id]
-  val gists         = new Gists[HttpResponse[String], Id]
-  val gitData       = new GitData[HttpResponse[String], Id]
-  val pullRequests  = new PullRequests[HttpResponse[String], Id]
-  val statuses      = new Statuses[HttpResponse[String], Id]
-  val issues        = new Issues[HttpResponse[String], Id]
-  val notifications = new Notifications[HttpResponse[String], Id]
+  val auth         = new Auth[HttpResponse[String], Id]
+  val repos        = new Repos[HttpResponse[String], Id]
+  val users        = new Users[HttpResponse[String], Id]
+  val gists        = new Gists[HttpResponse[String], Id]
+  val gitData      = new GitData[HttpResponse[String], Id]
+  val pullRequests = new PullRequests[HttpResponse[String], Id]
+  val statuses     = new Statuses[HttpResponse[String], Id]
+  val issues       = new Issues[HttpResponse[String], Id]
+  val activities   = new Activities[HttpResponse[String], Id]
 
   "Auth >> NewAuth" should "return a valid token when valid credential is provided" in {
     val response = auth.newAuth(
@@ -993,19 +993,19 @@ class ApiSpec
     response should be('left)
   }
 
-  "Notifications >> Set a Thread Subscription" should "return the subscription when a valid thread id is provided" in {
+  "Activities >> Set a Thread Subscription" should "return the subscription when a valid thread id is provided" in {
     val response =
-      notifications.setThreadSub(accessToken, headerUserAgent, validThreadId, true, false)
+      activities.setThreadSub(accessToken, headerUserAgent, validThreadId, true, false)
     response should be('right)
   }
   it should "return an error when an valid thread id is passed without authorization" in {
     val response =
-      notifications.setThreadSub(None, headerUserAgent, validThreadId, true, false)
+      activities.setThreadSub(None, headerUserAgent, validThreadId, true, false)
     response should be('left)
   }
   it should "return an error when an invalid thread id is passed" in {
     val response =
-      notifications.setThreadSub(accessToken, headerUserAgent, invalidThreadId, true, false)
+      activities.setThreadSub(accessToken, headerUserAgent, invalidThreadId, true, false)
     response should be('left)
   }
 

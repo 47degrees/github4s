@@ -187,7 +187,7 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
 
 }
 
-class GHNotifications(accessToken: Option[String] = None)(implicit O: NotificationOps[GitHub4s]) {
+class GHActivities(accessToken: Option[String] = None)(implicit O: ActivityOps[GitHub4s]) {
 
   def setThreadSub(
       id: Int,

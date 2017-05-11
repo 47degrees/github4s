@@ -22,11 +22,11 @@ import github4s.free.domain.Subscription
 import github4s.implicits._
 import github4s.utils.BaseIntegrationSpec
 
-trait GHNotificationsSpec[T] extends BaseIntegrationSpec[T] {
+trait GHActivitiesSpec[T] extends BaseIntegrationSpec[T] {
 
-  "Notification >> Set a thread subscription" should "return expected response when a valid thread id is provided" in {
+  "Activity >> Set a thread subscription" should "return expected response when a valid thread id is provided" in {
     val response =
-      Github(accessToken).notifications
+      Github(accessToken).activities
         .setThreadSub(validThreadId, true, false)
         .execFuture[T](headerUserAgent)
 
@@ -37,7 +37,7 @@ trait GHNotificationsSpec[T] extends BaseIntegrationSpec[T] {
 
   it should "return error when an invalid thread id is passed" in {
     val response =
-      Github(accessToken).notifications
+      Github(accessToken).activities
         .setThreadSub(invalidThreadId, true, false)
         .execFuture[T](headerUserAgent)
 

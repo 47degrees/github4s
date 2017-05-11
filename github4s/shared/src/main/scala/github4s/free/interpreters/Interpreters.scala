@@ -48,7 +48,7 @@ class Interpreters[M[_], C](
     val c04interpreter: COGH04 ~> K = authOpsInterpreter or c03interpreter
     val c05interpreter: COGH05 ~> K = gitDataOpsInterpreter or c04interpreter
     val c06interpreter: COGH06 ~> K = pullRequestOpsInterpreter or c05interpreter
-    val c07interpreter: COGH07 ~> K = notificationOpsInterpreter or c06interpreter
+    val c07interpreter: COGH07 ~> K = activityOpsInterpreter or c06interpreter
     val all: GitHub4s ~> K          = statusOpsInterpreter or c07interpreter
     all
   }
@@ -211,15 +211,15 @@ class Interpreters[M[_], C](
   /**
    * Lifts Notification Ops to an effect capturing Monad such as Task via natural transformations
    */
-  def notificationOpsInterpreter: NotificationOp ~> K =
-    new (NotificationOp ~> K) {
+  def activityOpsInterpreter: ActivityOp ~> K =
+    new (ActivityOp ~> K) {
 
-      val notifications = new Notifications()
+      val activities = new Activities()
 
-      def apply[A](fa: NotificationOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
+      def apply[A](fa: ActivityOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
           case SetThreadSub(id, subscribed, ignored, accessToken) ⇒
-            notifications.setThreadSub(accessToken, headers, id, subscribed, ignored)
+            activities.setThreadSub(accessToken, headers, id, subscribed, ignored)
         }
       }
     }

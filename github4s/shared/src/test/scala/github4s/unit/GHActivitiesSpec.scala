@@ -18,26 +18,26 @@ package github4s.unit
 
 import cats.free.Free
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.{GHNotifications, HttpClient}
-import github4s.api.Notifications
+import github4s.{GHActivities, HttpClient}
+import github4s.api.Activities
 import github4s.app.GitHub4s
 import github4s.free.domain._
 import github4s.utils.BaseSpec
 
-class GHNotificationsSpec extends BaseSpec {
+class GHActivitiesSpec extends BaseSpec {
 
-  "Notifications.SetThreadSubscription" should "call to NotificationOps with the right parameters" in {
+  "Activities.SetThreadSubscription" should "call to ActivityOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Subscription]] =
       Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
 
-    val notificationOps = mock[NotificationOpsTest]
-    (notificationOps.setThreadSub _)
+    val activityOps = mock[ActivityOpsTest]
+    (activityOps.setThreadSub _)
       .expects(validThreadId, true, false, sampleToken)
       .returns(response)
 
-    val ghNotifications = new GHNotifications(sampleToken)(notificationOps)
-    ghNotifications.setThreadSub(validThreadId, true, false)
+    val ghActivities = new GHActivities(sampleToken)(activityOps)
+      .setThreadSub(validThreadId, true, false)
   }
 
 }

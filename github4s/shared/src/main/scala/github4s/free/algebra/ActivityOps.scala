@@ -21,37 +21,37 @@ import github4s.GithubResponses._
 import github4s.free.domain._
 
 /**
- * Notifications ops ADT
+ * Activities ops ADT
  */
-sealed trait NotificationOp[A]
+sealed trait ActivityOp[A]
 
 final case class SetThreadSub(
     id: Int,
     subscribed: Boolean,
     ignored: Boolean,
     accessToken: Option[String] = None)
-    extends NotificationOp[GHResponse[Subscription]]
+    extends ActivityOp[GHResponse[Subscription]]
 
 /**
  * Exposes Notification operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
  */
-class NotificationOps[F[_]](implicit I: Inject[NotificationOp, F]) {
+class ActivityOps[F[_]](implicit I: Inject[ActivityOp, F]) {
 
   def setThreadSub(
       id: Int,
       subscribed: Boolean,
       ignored: Boolean,
       accessToken: Option[String] = None): Free[F, GHResponse[Subscription]] =
-    Free.inject[NotificationOp, F](SetThreadSub(id, subscribed, ignored, accessToken))
+    Free.inject[ActivityOp, F](SetThreadSub(id, subscribed, ignored, accessToken))
 }
 
 /**
- * Default implicit based DI factory from which instances of the NotificationOps may be obtained
+ * Default implicit based DI factory from which instances of the ActivityOps may be obtained
  */
-object NotificationOps {
+object ActivityOps {
 
-  implicit def instance[F[_]](implicit I: Inject[NotificationOp, F]): NotificationOps[F] =
-    new NotificationOps[F]
+  implicit def instance[F[_]](implicit I: Inject[ActivityOp, F]): ActivityOps[F] =
+    new ActivityOps[F]
 
 }
