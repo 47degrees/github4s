@@ -106,7 +106,14 @@ To list commits:
 
 ```tut:silent
 val listCommits =
-  Github(accessToken).repos.listCommits("47deg", "github4s", xxx)
+  Github(accessToken).repos.listCommits(
+  "47deg",
+  "github4s",
+  Some("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"),
+  Some("README.md"),Some("developer@47deg.com"),
+  Some("2014-11-07T22:01:45Z"),
+  Some("2014-11-07T22:01:45Z"),
+  Some(Pagination(1, 1000)))
 
 listCommits.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -135,7 +142,7 @@ To get contents:
 
 ```tut:silent
 val getContents =
-  Github(accessToken).repos.getContents("47deg", "github4s", xxx)
+  Github(accessToken).repos.getContents("47deg", "github4s", "README.md", Some("heads/master"))
 
 getContents.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -166,7 +173,7 @@ To create a release:
 
 ```tut:silent
 val createRelease =
-  Github(accessToken).repos.createRelease("47deg", "github4s", xxx)
+  Github(accessToken).repos.createRelease("47deg", "github4s", "v0.1.1", "v0.1.1", "New access token", Some("master"), Some(false), Some(false))
 
 createRelease.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")

@@ -93,6 +93,16 @@ case class Content(
     html_url: String,
     download_url: Option[String])
 
+case class Commit(
+    sha: String,
+    message: String,
+    date: String,
+    url: String,
+    login: Option[String],
+    avatar_url: Option[String],
+    author_url: Option[String]
+)
+
 case class NewReleaseRequest(
     tag_name: String,
     name: String,
