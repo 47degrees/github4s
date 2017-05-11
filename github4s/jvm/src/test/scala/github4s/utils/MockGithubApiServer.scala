@@ -248,6 +248,81 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withStatusCode(unauthorizedStatusCode)
         .withBody(unauthorizedResponse))
 
+  //Repos >> getStatus
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(okStatusCode).withBody(getCombinedStatusValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/status")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  //Repos >> listStatus
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(okStatusCode).withBody(listStatusValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/statuses")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
+
+  //Repos >> createStatus
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(createdStatusCode).withBody(createStatusValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha")
+        .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("POST")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$invalidCommitSha")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
   //Gists >> post new gist
 
   mockServer
@@ -523,81 +598,6 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
          """.stripMargin)))
     .respond(response.withStatusCode(createdStatusCode).withBody(validCreatePullRequest))
 
-  //Statuses >> get
-  mockServer
-    .when(
-      request
-        .withMethod("GET")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status")
-        .withHeader("Authorization", tokenHeader))
-    .respond(response.withStatusCode(okStatusCode).withBody(getCombinedStatusValidResponse))
-
-  mockServer
-    .when(
-      request
-        .withMethod("GET")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status")
-        .withHeader(not("Authorization")))
-    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
-
-  mockServer
-    .when(
-      request
-        .withMethod("GET")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/status")
-        .withHeader(not("Authorization")))
-    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
-
-  //Statuses >> list
-  mockServer
-    .when(
-      request
-        .withMethod("GET")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses")
-        .withHeader("Authorization", tokenHeader))
-    .respond(response.withStatusCode(okStatusCode).withBody(listStatusesValidResponse))
-
-  mockServer
-    .when(
-      request
-        .withMethod("GET")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses")
-        .withHeader(not("Authorization")))
-    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
-
-  mockServer
-    .when(
-      request
-        .withMethod("GET")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/statuses")
-        .withHeader(not("Authorization")))
-    .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
-
-  //Statuses >> create
-  mockServer
-    .when(
-      request
-        .withMethod("POST")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha")
-        .withHeader("Authorization", tokenHeader))
-    .respond(response.withStatusCode(createdStatusCode).withBody(createStatusValidResponse))
-
-  mockServer
-    .when(
-      request
-        .withMethod("POST")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha")
-        .withHeader(not("Authorization")))
-    .respond(response.withStatusCode(unauthorizedStatusCode).withBody(unauthorizedResponse))
-
-  mockServer
-    .when(
-      request
-        .withMethod("POST")
-        .withPath(s"/repos/$validRepoOwner/$validRepoName/statuses/$invalidCommitSha")
-        .withHeader("Authorization", tokenHeader))
-    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
-
   //Issues >> list
   mockServer
     .when(
@@ -767,7 +767,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
-  //Notification >> Set a thread subscription
+  //Activity >> Set a thread subscription
   mockServer
     .when(
       request

@@ -9,7 +9,7 @@ Github4s supports the [Status API](https://developer.github.com/v3/repos/statuse
 with github4s, you can:
 
 - [Create a status](#create-a-status)
-- [List statuses for a specific git ref](#list-statuses)
+- [List status for a specific git ref](#list-statuses)
 - [Get the combined status of a specific git ref](#get-combined-status)
 
 The following examples assume the following imports and token:
@@ -58,9 +58,9 @@ The `result` on the right is the created [Status][status-scala].
 See [the API doc](https://developer.github.com/v3/repos/statuses/#create-a-status) for full
 reference.
 
-## List statuses
+## List Status
 
-You can also list statuses through `listStatuses`, it take as arguments:
+You can also list status through `listStatus`, it take as arguments:
 
 - the repository coordinates (owner and name of the repository)
 - a git ref (a SHA, a branch name or a tag name)
@@ -68,10 +68,10 @@ You can also list statuses through `listStatuses`, it take as arguments:
 To list the statuses for a specific ref:
 
 ```tut:silent
-val listStatuses =
-  Github(accessToken).statuses.listStatuses("47deg", "github4s", "heads/master")
+val listStatus =
+  Github(accessToken).statuses.listStatus("47deg", "github4s", "heads/master")
 
-listStatuses.exec[cats.Id, HttpResponse[String]]() match {
+listStatus.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)
 }

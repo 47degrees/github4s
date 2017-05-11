@@ -48,8 +48,7 @@ class Interpreters[M[_], C](
     val c04interpreter: COGH04 ~> K = authOpsInterpreter or c03interpreter
     val c05interpreter: COGH05 ~> K = gitDataOpsInterpreter or c04interpreter
     val c06interpreter: COGH06 ~> K = pullRequestOpsInterpreter or c05interpreter
-    val c07interpreter: COGH07 ~> K = activityOpsInterpreter or c06interpreter
-    val all: GitHub4s ~> K          = statusOpsInterpreter or c07interpreter
+    val all: GitHub4s ~> K          = activityOpsInterpreter or c06interpreter
     all
   }
 
@@ -100,6 +99,21 @@ class Interpreters[M[_], C](
             targetCommitish,
             draft,
             prerelease)
+        case GetCombinedStatus(owner, repo, ref, accessToken) ⇒
+          repos.getStatus(accessToken, headers, owner, repo, ref)
+        case ListStatus(owner, repo, ref, accessToken) ⇒
+          repos.listStatus(accessToken, headers, owner, repo, ref)
+        case CreateStatus(owner, repo, sha, state, target_url, description, context, accessToken) ⇒
+          repos.createStatus(
+            accessToken,
+            headers,
+            owner,
+            repo,
+            sha,
+            state,
+            target_url,
+            description,
+            context)
       }
     }
   }
@@ -295,41 +309,6 @@ class Interpreters[M[_], C](
                 head,
                 base,
                 maintainerCanModify)
-        }
-      }
-    }
-
-  /** Lifts Status Ops to an effect capturing Monad such as Task via natural transformations */
-  def statusOpsInterpreter: StatusOp ~> K =
-    new (StatusOp ~> K) {
-
-      val statuses = new Statuses()
-
-      def apply[A](fa: StatusOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
-        fa match {
-          case GetCombinedStatus(owner, repo, ref, accessToken) ⇒
-            statuses.get(accessToken, headers, owner, repo, ref)
-          case ListStatuses(owner, repo, ref, accessToken) ⇒
-            statuses.list(accessToken, headers, owner, repo, ref)
-          case CreateStatus(
-              owner,
-              repo,
-              sha,
-              state,
-              target_url,
-              description,
-              context,
-              accessToken) ⇒
-            statuses.create(
-              accessToken,
-              headers,
-              owner,
-              repo,
-              sha,
-              state,
-              target_url,
-              description,
-              context)
         }
       }
     }

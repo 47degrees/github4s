@@ -28,9 +28,10 @@ import github4s.free.interpreters.Capture
 import com.github.marklister.base64.Base64.Encoder
 
 /** Factory to encapsulate calls related to Auth operations  */
-class Auth[C, M[_]](implicit urls: GithubApiUrls,
-                    C: Capture[M],
-                    httpClientImpl: HttpRequestBuilderExtension[C, M]) {
+class Auth[C, M[_]](
+    implicit urls: GithubApiUrls,
+    C: Capture[M],
+    httpClientImpl: HttpRequestBuilderExtension[C, M]) {
 
   val httpClient = new HttpClient[C, M]
 
@@ -38,18 +39,18 @@ class Auth[C, M[_]](implicit urls: GithubApiUrls,
   val accessTokenUrl = urls.accessTokenUrl
 
   /**
-    * Call to request a new authorization given a basic authentication, the returned object Authorization includes an
-    * access token
-    *
-    * @param username the username of the user
-    * @param password the password of the user
-    * @param scopes attached to the token
-    * @param note to remind you what the OAuth token is for
-    * @param client_id the 20 character OAuth app client key for which to create the token
-    * @param client_secret the 40 character OAuth app client secret for which to create the token
-    * @param headers optional user headers to include in the request
-    * @return GHResponse[Authorization] new authorization with access_token
-    */
+   * Call to request a new authorization given a basic authentication, the returned object Authorization includes an
+   * access token
+   *
+   * @param username the username of the user
+   * @param password the password of the user
+   * @param scopes attached to the token
+   * @param note to remind you what the OAuth token is for
+   * @param client_id the 20 character OAuth app client key for which to create the token
+   * @param client_secret the 40 character OAuth app client secret for which to create the token
+   * @param headers optional user headers to include in the request
+   * @return GHResponse[Authorization] new authorization with access_token
+   */
   def newAuth(
       username: String,
       password: String,
@@ -66,13 +67,13 @@ class Auth[C, M[_]](implicit urls: GithubApiUrls,
     )
 
   /**
-    * Generates the authorize url with a random state, both are returned within Authorize object
-    *
-    * @param client_id the 20 character OAuth app client key for which to create the token
-    * @param redirect_uri the URL in your app where users will be sent after authorization
-    * @param scopes attached to the token
-    * @return GHResponse[Authorize] new state: first step oAuth
-    */
+   * Generates the authorize url with a random state, both are returned within Authorize object
+   *
+   * @param client_id the 20 character OAuth app client key for which to create the token
+   * @param redirect_uri the URL in your app where users will be sent after authorization
+   * @param scopes attached to the token
+   * @return GHResponse[Authorize] new state: first step oAuth
+   */
   def authorizeUrl(
       client_id: String,
       redirect_uri: String,
@@ -82,9 +83,9 @@ class Auth[C, M[_]](implicit urls: GithubApiUrls,
     C.capture(
       Either.right(
         GHResult(
-          result =
-            Authorize(authorizeUrl.format(client_id, redirect_uri, scopes.mkString(","), state),
-                      state),
+          result = Authorize(
+            authorizeUrl.format(client_id, redirect_uri, scopes.mkString(","), state),
+            state),
           statusCode = 200,
           headers = Map.empty
         )
@@ -93,16 +94,16 @@ class Auth[C, M[_]](implicit urls: GithubApiUrls,
   }
 
   /**
-    * Requests an access token based on the code retrieved in the first step of the oAuth process
-    *
-    * @param client_id the 20 character OAuth app client key for which to create the token
-    * @param client_secret the 40 character OAuth app client secret for which to create the token
-    * @param code the code you received as a response to Step 1
-    * @param redirect_uri the URL in your app where users will be sent after authorization
-    * @param state the unguessable random string you optionally provided in Step 1
-    * @param headers optional user headers to include in the request
-    * @return GHResponse[OAuthToken] new access_token: second step oAuth
-    */
+   * Requests an access token based on the code retrieved in the first step of the oAuth process
+   *
+   * @param client_id the 20 character OAuth app client key for which to create the token
+   * @param client_secret the 40 character OAuth app client secret for which to create the token
+   * @param code the code you received as a response to Step 1
+   * @param redirect_uri the URL in your app where users will be sent after authorization
+   * @param state the unguessable random string you optionally provided in Step 1
+   * @param headers optional user headers to include in the request
+   * @return GHResponse[OAuthToken] new access_token: second step oAuth
+   */
   def getAccessToken(
       client_id: String,
       client_secret: String,

@@ -1677,7 +1677,7 @@ trait FakeResponses {
       |  "url": "https://api.github.com/repos/47deg/github4s/commits/e20eab90fef0fc02abc96868713a57ac8e5eaf50/status"
       |}""".stripMargin
 
-  val listStatusesValidResponse =
+  val listStatusValidResponse =
     """
       |[
       |  {

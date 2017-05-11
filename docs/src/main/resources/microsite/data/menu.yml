@@ -11,8 +11,5 @@ options:
   - title: Pull Request API
     url: pull_request.html
 
-  - title: Status API
-    url: status.html
-
-  - title: Notification API
-    url: notification.html
+  - title: Activity API
+    url: activity.html

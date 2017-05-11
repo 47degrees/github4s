@@ -92,7 +92,7 @@ class Repos[C, M[_]](
       params = ref map (r => Map("ref" -> r)) getOrElse Map.empty)
 
   /**
-   * Retrieve the list of commits for a particular repo
+   * Retrieve the listStatus of commits for a particular repo
    *
    * @param accessToken to identify the authenticated user
    * @param headers optional user headers to include in the request
@@ -135,7 +135,7 @@ class Repos[C, M[_]](
     )
 
   /**
-   * Fetch contributors list for the the specified repository,
+   * Fetch contributors listStatus for the the specified repository,
    * sorted by the number of commits per contributor in descending order.
    *
    * @param accessToken to identify the authenticated user
@@ -175,7 +175,7 @@ class Repos[C, M[_]](
    * @param targetCommitish specifies the commitish value that determines where the Git tag is created from.
    * Can be any branch or commit SHA. Unused if the Git tag already exists.
    * Default: the repository's default branch (usually `master`).
-   * @param draft `true` to create a draft (unpublished) release, `false` to create a published one.
+   * @param draft `true` to createStatus a draft (unpublished) release, `false` to createStatus a published one.
    * Default: `false`
    * @param prerelease `true` to identify the release as a prerelease.
    * `false` to identify the release as a full release.
@@ -199,4 +199,70 @@ class Repos[C, M[_]](
       headers,
       dropNullPrint(
         NewReleaseRequest(tagName, name, body, targetCommitish, draft, prerelease).asJson))
+
+  /**
+   * Get the combined status for a specific ref
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the commit
+   * @param ref commit SHA, branch name or tag name
+   * @return a GHResponse with the combined status
+   */
+  def getStatus(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      ref: String): M[GHResponse[CombinedStatus]] =
+    httpClient.get[CombinedStatus](accessToken, s"repos/$owner/$repo/commits/$ref/status", headers)
+
+  /**
+   * List status for a commit
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param ref commit SHA, branch name or tag name
+   * @return a GHResponse with the status list
+   */
+  def listStatus(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      ref: String): M[GHResponse[List[Status]]] =
+    httpClient.get[List[Status]](accessToken, s"repos/$owner/$repo/commits/$ref/statuses", headers)
+
+  /**
+   * Create a status
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param sha commit sha to create the status on
+   * @param target_url url to associate with the status, will appear in the GitHub UI
+   * @param state of the status: pending, success, error, or failure
+   * @param description of the status
+   * @param context identifier of the status maker
+   * @return a GHResopnse with the created Status
+   */
+  def createStatus(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      sha: String,
+      state: String,
+      target_url: Option[String],
+      description: Option[String],
+      context: Option[String]): M[GHResponse[Status]] =
+    httpClient.post[Status](
+      accessToken,
+      s"repos/$owner/$repo/statuses/$sha",
+      headers,
+      dropNullPrint(NewStatusRequest(state, target_url, description, context).asJson))
 }

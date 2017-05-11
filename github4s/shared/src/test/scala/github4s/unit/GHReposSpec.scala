@@ -72,4 +72,55 @@ class GHReposSpec extends BaseSpec {
       Some(false))
   }
 
+  "GHRepos.getStatus" should "call to RepositoryOps with the right parameters" in {
+    val response: Free[GitHub4s, GHResponse[CombinedStatus]] =
+      Free.pure(Right(GHResult(combinedStatus, okStatusCode, Map.empty)))
+
+    val repoOps = mock[RepositoryOpsTest]
+    (repoOps.getCombinedStatus _)
+      .expects(validRepoOwner, validRepoName, validRefSingle, sampleToken)
+      .returns(response)
+    val ghReposData = new GHRepos(sampleToken)(repoOps)
+    ghReposData.getCombinedStatus(validRepoOwner, validRepoName, validRefSingle)
+  }
+
+  "GHRepos.listStatus" should "call to RepositoryOps with the right parameters" in {
+    val response: Free[GitHub4s, GHResponse[List[Status]]] =
+      Free.pure(Right(GHResult(List(status), okStatusCode, Map.empty)))
+
+    val repoOps = mock[RepositoryOpsTest]
+    (repoOps.listStatus _)
+      .expects(validRepoOwner, validRepoName, validRefSingle, sampleToken)
+      .returns(response)
+    val ghReposData = new GHRepos(sampleToken)(repoOps)
+    ghReposData.listStatus(validRepoOwner, validRepoName, validRefSingle)
+  }
+
+  "GHRepos.createStatus" should "call to RepositoryOps with the right parameters" in {
+    val response: Free[GitHub4s, GHResponse[Status]] =
+      Free.pure(Right(GHResult(status, createdStatusCode, Map.empty)))
+
+    val repoOps = mock[RepositoryOpsTest]
+    (repoOps.createStatus _)
+      .expects(
+        validRepoOwner,
+        validRepoName,
+        validCommitSha,
+        validStatusState,
+        None,
+        None,
+        None,
+        sampleToken)
+      .returns(response)
+    val ghReposData = new GHRepos(sampleToken)(repoOps)
+    ghReposData
+      .createStatus(
+        validRepoOwner,
+        validRepoName,
+        validCommitSha,
+        validStatusState,
+        None,
+        None,
+        None)
+  }
 }

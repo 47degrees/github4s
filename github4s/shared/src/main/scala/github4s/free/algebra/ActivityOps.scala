@@ -33,7 +33,7 @@ final case class SetThreadSub(
     extends ActivityOp[GHResponse[Subscription]]
 
 /**
- * Exposes Notification operations as a Free monadic algebra that may be combined with other Algebras via
+ * Exposes Activity operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
  */
 class ActivityOps[F[_]](implicit I: Inject[ActivityOp, F]) {

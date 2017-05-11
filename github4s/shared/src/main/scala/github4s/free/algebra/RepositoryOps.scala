@@ -71,6 +71,31 @@ final case class CreateRelease(
     accessToken: Option[String] = None
 ) extends RepositoryOp[GHResponse[Release]]
 
+final case class GetCombinedStatus(
+    owner: String,
+    repo: String,
+    ref: String,
+    accessToken: Option[String] = None
+) extends StatusOp[GHResponse[CombinedStatus]]
+
+final case class ListStatus(
+    owner: String,
+    repo: String,
+    ref: String,
+    accessToken: Option[String] = None
+) extends StatusOp[GHResponse[List[Status]]]
+
+final case class CreateStatus(
+    owner: String,
+    repo: String,
+    sha: String,
+    state: String,
+    target_url: Option[String],
+    description: Option[String],
+    context: Option[String],
+    accessToken: Option[String] = None
+) extends StatusOp[GHResponse[Status]]
+
 /**
  * Exposes Repositories operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
@@ -137,7 +162,34 @@ class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
         draft,
         prerelease,
         accessToken))
+  def getCombinedStatus(
+      owner: String,
+      repo: String,
+      ref: String,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[CombinedStatus]] =
+    Free.inject[StatusOp, F](GetCombinedStatus(owner, repo, ref, accessToken))
 
+  def listStatus(
+      owner: String,
+      repo: String,
+      ref: String,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[Status]]] =
+    Free.inject[StatusOp, F](ListStatus(owner, repo, ref, accessToken))
+
+  def createStatus(
+      owner: String,
+      repo: String,
+      sha: String,
+      state: String,
+      target_url: Option[String],
+      description: Option[String],
+      context: Option[String],
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[Status]] =
+    Free.inject[StatusOp, F](
+      CreateStatus(owner, repo, sha, state, target_url, description, context, accessToken))
 }
 
 /**

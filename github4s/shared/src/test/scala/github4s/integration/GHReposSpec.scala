@@ -110,4 +110,43 @@ trait GHReposSpec[T] extends BaseIntegrationSpec[T] {
     testFutureIsLeft(response)
   }
 
+  "Repos >> GetStatus" should "return a combined status" in {
+    val response = Github(accessToken).repos
+      .getCombinedStatus(validRepoOwner, validRepoName, validRefSingle)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[CombinedStatus](response, { r =>
+      r.result.repository.full_name shouldBe s"$validRepoOwner/$validRepoName"
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return an error when an invalid ref is passed" in {
+    val response = Github(accessToken).repos
+      .getCombinedStatus(validRepoOwner, validRepoName, invalidRef)
+      .execFuture[T](headerUserAgent)
+    testFutureIsLeft(response)
+  }
+
+  "Repos >> ListStatus" should "return a non empty list when a valid ref is provided" in {
+    val response = Github(accessToken).repos
+      .listStatus(validRepoOwner, validRepoName, validCommitSha)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[Status]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return an empty list when an invalid ref is provided" in {
+    val response = Github(accessToken).repos
+      .listStatus(validRepoOwner, validRepoName, invalidRef)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[Status]](response, { r =>
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
 }

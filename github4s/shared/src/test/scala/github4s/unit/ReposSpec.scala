@@ -87,4 +87,56 @@ class ReposSpec extends BaseSpec {
     )
   }
 
+  "Repos.get" should "call httpClient.get with the right parameters" in {
+    val response: GHResponse[CombinedStatus] =
+      Right(GHResult(combinedStatus, okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[CombinedStatus](
+      url = s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status",
+      response = response
+    )
+
+    val repos = new Repos[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    repos.getStatus(sampleToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+  }
+
+  "Repos.listStatus" should "call htppClient.get with the right parameters" in {
+    val response: GHResponse[List[Status]] = Right(GHResult(List(status), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[List[Status]](
+      url = s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses",
+      response = response
+    )
+
+    val repos = new Repos[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    repos.listStatus(sampleToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+  }
+
+  "Repos.createStatus" should "call httpClient.post with the right parameters" in {
+    val response: GHResponse[Status] = Right(GHResult(status, createdStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockPost[Status](
+      url = s"repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha",
+      json = s"""{"state":"$validStatusState"}""",
+      response = response
+    )
+
+    val repos = new Repos[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    repos.createStatus(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validCommitSha,
+      validStatusState,
+      None,
+      None,
+      None)
+  }
 }

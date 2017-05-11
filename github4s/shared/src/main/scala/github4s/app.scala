@@ -26,6 +26,5 @@ object app {
   type COGH04[A]   = Coproduct[AuthOp, COGH03, A]
   type COGH05[A]   = Coproduct[GitDataOp, COGH04, A]
   type COGH06[A]   = Coproduct[PullRequestOp, COGH05, A]
-  type COGH07[A]   = Coproduct[ActivityOp, COGH06, A]
-  type GitHub4s[A] = Coproduct[StatusOp, COGH07, A]
+  type GitHub4s[A] = Coproduct[ActivityOp, COGH06, A]
 }

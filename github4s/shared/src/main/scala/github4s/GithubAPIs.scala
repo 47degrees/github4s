@@ -85,6 +85,30 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
       prerelease,
       accessToken)
 
+  def getCombinedStatus(
+      owner: String,
+      repo: String,
+      ref: String
+  ): GHIO[GHResponse[CombinedStatus]] =
+    O.getCombinedStatus(owner, repo, ref, accessToken)
+
+  def listStatus(
+      owner: String,
+      repo: String,
+      ref: String
+  ): GHIO[GHResponse[List[Status]]] =
+    O.listStatus(owner, repo, ref, accessToken)
+
+  def createStatus(
+      owner: String,
+      repo: String,
+      sha: String,
+      state: String,
+      target_url: Option[String] = None,
+      description: Option[String] = None,
+      context: Option[String] = None
+  ): GHIO[GHResponse[Status]] =
+    O.createStatus(owner, repo, sha, state, target_url, description, context, accessToken)
 }
 
 class GHAuth(accessToken: Option[String] = None)(implicit O: AuthOps[GitHub4s]) {
@@ -291,31 +315,4 @@ class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequest
       maintainerCanModify: Option[Boolean] = Some(true)
   ): GHIO[GHResponse[PullRequest]] =
     O.createPullRequest(owner, repo, newPullRequest, head, base, maintainerCanModify, accessToken)
-}
-
-class GHStatuses(accessToken: Option[String] = None)(implicit O: StatusOps[GitHub4s]) {
-  def getCombinedStatus(
-      owner: String,
-      repo: String,
-      ref: String
-  ): GHIO[GHResponse[CombinedStatus]] =
-    O.getCombinedStatus(owner, repo, ref, accessToken)
-
-  def listStatuses(
-      owner: String,
-      repo: String,
-      ref: String
-  ): GHIO[GHResponse[List[Status]]] =
-    O.listStatuses(owner, repo, ref, accessToken)
-
-  def createStatus(
-      owner: String,
-      repo: String,
-      sha: String,
-      state: String,
-      target_url: Option[String] = None,
-      description: Option[String] = None,
-      context: Option[String] = None
-  ): GHIO[GHResponse[Status]] =
-    O.createStatus(owner, repo, sha, state, target_url, description, context, accessToken)
 }
