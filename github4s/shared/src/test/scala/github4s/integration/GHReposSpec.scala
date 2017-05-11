@@ -19,7 +19,7 @@ package github4s.integration
 import cats.data.NonEmptyList
 import github4s.Github
 import github4s.Github._
-import github4s.free.domain.{Commit, Content, Repository, User}
+import github4s.free.domain._
 import github4s.implicits._
 import github4s.utils.BaseIntegrationSpec
 

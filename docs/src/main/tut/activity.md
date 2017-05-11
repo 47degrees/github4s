@@ -50,6 +50,6 @@ threadSub.exec[cats.Id, HttpResponse[String]]() match {
 ```
 See [the API doc](https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription) for full reference.
 
-As you can see, a few features of the pull request endpoint are missing.
+As you can see, a few features of the activity endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!

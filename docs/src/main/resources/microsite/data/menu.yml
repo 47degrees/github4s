@@ -11,5 +11,8 @@ options:
   - title: Pull Request API
     url: pull_request.html
 
+  - title: Repository API
+    url: repository.html
+
   - title: Activity API
     url: activity.html

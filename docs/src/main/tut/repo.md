@@ -1,16 +1,21 @@
 ---
 layout: docs
-title: Status API
+title: Repository API
 ---
 
-# Status API
+# Repository API
 
-Github4s supports the [Status API](https://developer.github.com/v3/repos/statuses/). As a result,
+Github4s supports the [Repository API](https://developer.github.com/v3/repos/). As a result,
 with github4s, you can:
 
+- [Get repository](#get-repository)
+- [List contributors](#list-contributors)
+- [List commits on a repository](#list-commits-on-a-repository)
+- [Get contents](#get-contents)
+- [Create a release](#create-a-release)
 - [Create a status](#create-a-status)
-- [List status for a specific git ref](#list-statuses)
-- [Get the combined status of a specific git ref](#get-combined-status)
+- [List status for a specific Ref](#list-status-for-a-specific-ref)
+- [Get the combined status of a specific Ref](#get-the-combined-status-for-a-specific-ref)
 
 The following examples assume the following imports and token:
 
@@ -31,8 +36,27 @@ do.
 
 Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
+## Repository
 
-## Create a status
+### Get repository
+
+### List contributors
+
+## Commits
+
+### List commits on a repository
+
+## Contents
+
+### Get contents
+
+## Releases
+
+### Create a release
+
+## Status
+
+### Create a status
 
 You can create a status using `createStatus`, it takes as arguments:
 
@@ -58,7 +82,8 @@ The `result` on the right is the created [Status][status-scala].
 See [the API doc](https://developer.github.com/v3/repos/statuses/#create-a-status) for full
 reference.
 
-## List Status
+### List status for a specific Ref
+
 
 You can also list status through `listStatus`, it take as arguments:
 
@@ -82,7 +107,7 @@ The `result` on the right is the corresponding [List[Status]][status-scala].
 See [the API doc](https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref)
 for full reference.
 
-## Get combined status
+### Get the combined status for a specific Ref
 
 Lastly, you can also get the combined status thanks to `getCombinedStatus`, it takes the same
 arguments as the operation listing statuses:
@@ -102,4 +127,8 @@ The `result` on the right is a [CombinedStatus][status-scala].
 Note that the state of the combined status is the product of a heuristic detailed in
 [the API documentation](https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref).
 
-[status-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Status.scala
+As you can see, a few features of the repository endpoint are missing.
+
+As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
+
+[repository-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Repository.scala

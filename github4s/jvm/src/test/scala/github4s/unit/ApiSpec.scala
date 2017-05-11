@@ -320,7 +320,7 @@ class ApiSpec
 
   "Repos >> GetStatus" should "return the expected combined status when a valid ref is provided" in {
     val response =
-      repos.get(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+      repos.getStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
     response should be('right)
 
     response.toOption map { r ⇒
@@ -330,13 +330,13 @@ class ApiSpec
 
   it should "return an error if no tokens are provided" in {
     val response =
-      repos.get(None, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+      repos.getStatus(None, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
     response should be('left)
   }
 
   it should "return an error if an invalid ref is passed" in {
     val response =
-      repos.get(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
+      repos.getStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
     response should be('left)
   }
 
