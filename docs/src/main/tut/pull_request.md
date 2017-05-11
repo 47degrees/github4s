@@ -85,7 +85,7 @@ If you want to create a pull request, we have two ways to create a pull request.
 
 On the one hand, we pass as parameters to create a new pull request:
 
- - the repository coordinates (owner and name of the repository)
+ - the repository coordinates (`owner` and `name` of the repository)
  - `title` (as part of the `NewPullRequestData` object): Title for the pull request
  - `body` (as part of the `NewPullRequestData` object): Description for the pull request
  - `head`: The name of the branch where your changes are implemented
