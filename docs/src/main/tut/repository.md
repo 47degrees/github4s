@@ -263,4 +263,5 @@ As you can see, a few features of the repository endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[repository-scala]: https://github.com/47deg/github4s/blob/master/github4s/`SHA`red/src/main/scala/github4s/free/domain/Repository.scala
+[repository-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Repository.scala
+[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/User.scala
