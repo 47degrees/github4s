@@ -11,6 +11,9 @@ options:
   - title: Pull Request API
     url: pull_request.html
 
+  - title: User API
+    url: user.html
+
   - title: Repository API
     url: repository.html
 
