@@ -173,7 +173,7 @@ To create a release:
 
 ```tut:silent
 val createRelease =
-  Github(accessToken).repos.createRelease("47deg", "github4s", "v0.1.1", "v0.1.1", "New access token", Some("master"), Some(false), Some(false))
+  Github(accessToken).repos.createRelease("47deg", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
 
 createRelease.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
