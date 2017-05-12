@@ -8,7 +8,7 @@ title: Repository API
 Github4s supports the [Repository API](https://developer.github.com/v3/repos/). As a result,
 with github4s, you can:
 
-- [Get repository](#get-repository)
+- [Get a repository](#get-a-repository)
 - [List contributors](#list-contributors)
 - [List commits on a repository](#list-commits-on-a-repository)
 - [Get contents](#get-contents)
@@ -38,7 +38,7 @@ Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for s
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 ## Repository
 
-### Get repository
+### Get a repository
 
 You can get a repository using `get`, it takes as arguments:
 
@@ -83,7 +83,7 @@ listContributors.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is the created [List[User]][user-scala].
+The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/#list-contributors) for full
 reference.
@@ -110,10 +110,10 @@ val listCommits =
   "47deg",
   "github4s",
   Some("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"),
-  Some("README.md"),Some("developer@47deg.com"),
+  Some("README.md"),
+  Some("developer@47deg.com"),
   Some("2014-11-07T22:01:45Z"),
-  Some("2014-11-07T22:01:45Z"),
-  Some(Pagination(1, 1000)))
+  Some("2014-11-07T22:01:45Z"))
 
 listCommits.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -121,7 +121,7 @@ listCommits.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is the created [List[Commit]][commit-scala].
+The `result` on the right is the corresponding [List[Commit]][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository) for full
 reference.
@@ -150,7 +150,7 @@ getContents.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is the created [NonEmptyList[Content]][content-scala].
+The `result` on the right is the corresponding [NonEmptyList[Content]][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/contents/#get-contents) for full
 reference.
@@ -181,7 +181,7 @@ createRelease.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is the created [Release][release-scala].
+The `result` on the right is the created [Release][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/releases/#create-a-release) for full
 reference.
@@ -209,7 +209,7 @@ createStatus.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is the created [Status][status-scala].
+The `result` on the right is the created [Status][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/statuses/#create-a-status) for full
 reference.
@@ -234,7 +234,7 @@ listStatus.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is the corresponding [List[Status]][status-scala].
+The `result` on the right is the corresponding [List[Status]][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref)
 for full reference.
@@ -254,7 +254,7 @@ combinedStatus.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is a [CombinedStatus][status-scala].
+The `result` on the right is the corresponding [CombinedStatus][repository-scala].
 
 Note that the state of the combined status is the product of a heuristic detailed in
 [the API documentation](https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref).

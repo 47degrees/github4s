@@ -135,7 +135,7 @@ class Repos[C, M[_]](
     )
 
   /**
-   * Fetch contributors listStatus for the the specified repository,
+   * Fetch contributors list for the the specified repository,
    * sorted by the number of commits per contributor in descending order.
    *
    * @param accessToken to identify the authenticated user
@@ -175,7 +175,7 @@ class Repos[C, M[_]](
    * @param targetCommitish specifies the commitish value that determines where the Git tag is created from.
    * Can be any branch or commit SHA. Unused if the Git tag already exists.
    * Default: the repository's default branch (usually `master`).
-   * @param draft `true` to createStatus a draft (unpublished) release, `false` to createStatus a published one.
+   * @param draft `true` to create a draft (unpublished) release, `false` to createStatus a published one.
    * Default: `false`
    * @param prerelease `true` to identify the release as a prerelease.
    * `false` to identify the release as a full release.
