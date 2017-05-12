@@ -223,7 +223,7 @@ class Interpreters[M[_], C](
     }
 
   /**
-   * Lifts Notification Ops to an effect capturing Monad such as Task via natural transformations
+   * Lifts Activity Ops to an effect capturing Monad such as Task via natural transformations
    */
   def activityOpsInterpreter: ActivityOp ~> K =
     new (ActivityOp ~> K) {

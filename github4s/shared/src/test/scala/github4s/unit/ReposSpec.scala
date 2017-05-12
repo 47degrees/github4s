@@ -87,7 +87,7 @@ class ReposSpec extends BaseSpec {
     )
   }
 
-  "Repos.get" should "call httpClient.get with the right parameters" in {
+  "Repos.getStatus" should "call httpClient.get with the right parameters" in {
     val response: GHResponse[CombinedStatus] =
       Right(GHResult(combinedStatus, okStatusCode, Map.empty))
 

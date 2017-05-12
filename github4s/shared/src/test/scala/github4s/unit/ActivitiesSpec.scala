@@ -25,7 +25,7 @@ import github4s.utils.BaseSpec
 
 class ActivitiesSpec extends BaseSpec {
 
-  "Activity.SetThreadSubscription" should "call to httpClient.put with the right parameters" in {
+  "Activity.setThreadSub" should "call to httpClient.put with the right parameters" in {
 
     val response: GHResponse[Subscription] =
       Right(GHResult(subscription, okStatusCode, Map.empty))

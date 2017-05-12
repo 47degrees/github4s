@@ -26,7 +26,7 @@ import github4s.utils.BaseSpec
 
 class GHActivitiesSpec extends BaseSpec {
 
-  "Activities.SetThreadSubscription" should "call to ActivityOps with the right parameters" in {
+  "Activities.setThreadSub" should "call to ActivityOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Subscription]] =
       Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
