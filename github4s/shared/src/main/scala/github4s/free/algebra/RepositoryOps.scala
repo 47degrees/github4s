@@ -162,6 +162,7 @@ class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
         draft,
         prerelease,
         accessToken))
+
   def getCombinedStatus(
       owner: String,
       repo: String,

@@ -171,7 +171,7 @@ Users with push access to the repository can create a release using `createRelea
 
 To create a release:
 
-```tut:silent
+```scala
 val createRelease =
   Github(accessToken).repos.createRelease("47deg", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
 
@@ -199,7 +199,7 @@ You can create a status using `createStatus`, it takes as arguments:
 
 To create a status:
 
-```tut:silent
+```scala
 val createStatus =
   Github(accessToken).repos.createStatus("47deg", "github4s", "aaaaaa", "pending")
 
