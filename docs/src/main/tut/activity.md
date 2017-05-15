@@ -48,8 +48,13 @@ threadSub.exec[cats.Id, HttpResponse[String]]() match {
   case Right(r) => println(r.result)
 }
 ```
+
+The `result` on the right is the created or deleted [Subscription][activity-scala].
+
 See [the API doc](https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription) for full reference.
 
 As you can see, a few features of the activity endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
+
+[activity-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Activity.scala

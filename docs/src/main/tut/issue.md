@@ -157,12 +157,16 @@ You can create a comment for an issue whit the following parameters:
  To create a comment:
 
 ```scala
-val createcomment = Github(accessToken).comments.create("47deg", "github4s", 123, "this is the comment")
+val createcomment = Github(accessToken).issues.create("47deg", "github4s", 123, "this is the comment")
 createcomment.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
+
+The `result` on the right is a [Comment][issue-scala].
+
+See [the API doc](https://developer.github.com/v3/issues/comments/#create-a-comment) for full reference.
 
 ### Edit a Comment
 
@@ -176,13 +180,16 @@ You can edit a comment from an issue whit the following parameters:
  To edit a comment:
 
 ```scala
-val editComment = Github(accessToken).comments.edit("47deg", "github4s", 20, "this is the new comment")
+val editComment = Github(accessToken).issues.edit("47deg", "github4s", 20, "this is the new comment")
 editComment.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
 
+The `result` on the right is a [Comment][issue-scala].
+
+See [the API doc](https://developer.github.com/v3/issues/comments/#edit-a-comment) for full reference.
 
 ### Delete a Comment
 
@@ -195,13 +202,15 @@ You can delete a comment from an issue whit the following parameters:
  To delete a comment:
 
 ```scala
-val deleteComment = Github(accessToken).comments.delete("47deg", "github4s", 20)
+val deleteComment = Github(accessToken).issues.delete("47deg", "github4s", 20)
 deleteComment.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
 
-See [the API doc](https://developer.github.com/v3/issues/comments/) for full reference.
+The `result` on the right is Unit.
+
+See [the API doc](https://developer.github.com/v3/issues/comments/#delete-a-comment) for full reference.
 
 [issue-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Issue.scala

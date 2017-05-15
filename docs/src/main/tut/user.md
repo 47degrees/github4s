@@ -1,8 +1,6 @@
 ---
 layout: docs
-title: Repository API
+title: User API
 ---
 
 # User API
-
-TODO

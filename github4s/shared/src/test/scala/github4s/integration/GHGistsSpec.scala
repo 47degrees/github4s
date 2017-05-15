@@ -24,7 +24,7 @@ import github4s.utils.BaseIntegrationSpec
 
 trait GHGistsSpec[T] extends BaseIntegrationSpec[T] {
 
-  "Gists >> Post" should "return the provided gist" in {
+  "Gists >> New Gist" should "return the provided gist" in {
     val response = Github(accessToken).gists
       .newGist(
         validGistDescription,
