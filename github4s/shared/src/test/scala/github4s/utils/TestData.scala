@@ -332,21 +332,7 @@ trait TestData extends DummyGithubUrls {
     "2011-01-26T19:06:43Z",
     None,
     None,
-    RepoStatus(
-      108,
-      80,
-      80,
-      9,
-      0,
-      None,
-      None,
-      None,
-      None,
-      true,
-      true,
-      false,
-      true
-    ),
+    RepoStatus(108, 80, 80, 9, 0, None, None, None, None, true, true, false, true),
     None
   )
 

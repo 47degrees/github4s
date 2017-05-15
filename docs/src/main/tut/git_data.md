@@ -83,11 +83,12 @@ If it doesn't start with 'refs' and have at least two slashes, it will be reject
 - `sha`: the SHA1 value to set this reference to
 
 ```scala
-val createReference = Github(accessToken).gitData.createReference(
-                                                  "47deg",
-                                                  "github4s",
-                                                  "refs/heads/master",
-                                                  "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
+val createReference = Github(accessToken)
+.gitData.createReference(
+                      "47deg",
+                      "github4s",
+                      "refs/heads/master",
+                      "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 
 createReference.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -111,12 +112,13 @@ You can update a reference using `updateReference`, it takes as arguments:
 Leaving this out or setting it to `false` will make sure you're not overwriting work. Default: `false`
 
 ```scala
-val updateReference = Github(accessToken).gitData.updateReference(
-                                                  "47deg",
-                                                  "github4s",
-                                                  "heads/master",
-                                                  "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
-                                                  Some(false))
+val updateReference = Github(accessToken)
+.gitData.updateReference(
+                      "47deg",
+                      "github4s",
+                      "heads/master",
+                      "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
+                      Some(false))
 
 updateReference.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -164,12 +166,13 @@ for a merge commit, an array of more than one should be provided.
 - `author`: object containing information about the author.
 
 ```scala
-val createCommit = Github(accessToken).gitData.createCommit(
-                                                  "47deg",
-                                                  "github4s",
-                                                  validNote,
-                                                  validTreeSha,
-                                                  List("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"))
+val createCommit = Github(accessToken)
+.gitData.createCommit(
+                  "47deg",
+                  "github4s",
+                  validNote,
+                  validTreeSha,
+                  List("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"))
 
 createCommit.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -230,15 +233,16 @@ You can create a tree using `createTree`, it takes as arguments:
  GitHub will write this blob out and use that SHA for this entry. Use either this, or tree.sha.
 
 ```scala
-val createTree = Github(accessToken).gitData.createTree(
-                                                  "47deg",
-                                                  "github4s",
-                                                  Some("827efc6d56897b048c772eb4087f854f46256132"),
-                                                  List(TreeDataSha(
-                                                    "project/plugins.sbt",
-                                                    "100644",
-                                                    "blob",
-                                                    "827efc6d56897b048c772eb4087f854f46256132")))
+val createTree = Github(accessToken)
+.gitData.createTree(
+              "47deg",
+              "github4s",
+              Some("827efc6d56897b048c772eb4087f854f46256132"),
+              List(TreeDataSha(
+                "project/plugins.sbt",
+                "100644",
+                "blob",
+                "827efc6d56897b048c772eb4087f854f46256132")))
 
 createTree.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -265,13 +269,14 @@ Normally this is a `commit` but it can also be a `tree` or a `blob`.
 - `tagger`: object containing information about the individual creating the tag.
 
 ```scala
-val createTag = Github(accessToken).gitData.createTag(
-                                                  "47deg",
-                                                  "github4s",
-                                                  "v0.1.1",
-                                                  "New access token",
-                                                  "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
-                                                  "commit")
+val createTag = Github(accessToken)
+.gitData.createTag(
+              "47deg",
+              "github4s",
+              "v0.1.1",
+              "New access token",
+              "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
+              "commit")
 
 createTag.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
