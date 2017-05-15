@@ -161,7 +161,7 @@ trait TestData extends DummyGithubUrls {
     html_url = githubApiUrl,
     number = validIssueNumber,
     state = validIssueState,
-    user = User(1, validUsername, githubApiUrl, githubApiUrl),
+    user = user,
     assignee = None,
     labels = List.empty,
     locked = None,
@@ -229,7 +229,7 @@ trait TestData extends DummyGithubUrls {
     prerelease = false,
     created_at = "2011-04-10T20:09:31Z",
     published_at = "2011-04-10T20:09:31Z",
-    author = User(1, validUsername, githubApiUrl, githubApiUrl),
+    author = user,
     url = githubApiUrl,
     html_url = githubApiUrl,
     assets_url = githubApiUrl,
@@ -261,7 +261,7 @@ trait TestData extends DummyGithubUrls {
     target_url = None,
     description = None,
     context = None,
-    creator = Some(User(1, validUsername, githubApiUrl, githubApiUrl)),
+    creator = Some(user),
     created_at = "2011-04-10T20:09:31Z",
     updated_at = "2011-04-10T20:09:31Z"
   )
@@ -277,7 +277,7 @@ trait TestData extends DummyGithubUrls {
       id = 1,
       name = validRepoName,
       full_name = s"$validRepoOwner/$validRepoName",
-      owner = User(1, validUsername, githubApiUrl, githubApiUrl),
+      owner = user,
       `private` = false,
       description = None,
       fork = false,
@@ -306,8 +306,59 @@ trait TestData extends DummyGithubUrls {
     "https://api.github.com/repos/octocat/Hello-World/issues/comments/1",
     "https: //github.com/octocat/Hello-World/issues/1347#issuecomment-1",
     validCommentBody,
-    User(1, validUsername, githubApiUrl, githubApiUrl),
+    user,
     "2011-04-14T16:00:49Z",
     "2011-04-14T16:00:49Z"
   )
+  val repo = Repository(
+    1296269,
+    validRepoName,
+    s"$validRepoOwner/$validRepoName",
+    user,
+    false,
+    Some(validNote),
+    false,
+    RepoUrls(
+      s"https://api.github.com/repos/$validRepoOwner/$validRepoName",
+      s"https://github.com/$validRepoOwner/$validRepoName",
+      s"git:github.com/$validRepoOwner/$validRepoName.git",
+      s"git@github.com:$validRepoOwner/$validRepoName.git",
+      s"https://github.com/$validRepoOwner/$validRepoName.git",
+      s"https://svn.github.com/$validRepoOwner/$validRepoName",
+      Map.empty
+    ),
+    "2011-01-26T19:01:12Z",
+    "2011-01-26T19:14:43Z",
+    "2011-01-26T19:06:43Z",
+    None,
+    None,
+    RepoStatus(
+      108,
+      80,
+      80,
+      9,
+      0,
+      None,
+      None,
+      None,
+      None,
+      true,
+      true,
+      false,
+      true
+    ),
+    None
+  )
+
+  val commit = Commit(
+    validCommitSha,
+    validNote,
+    "2011-01-26T19:01:12Z",
+    s"https://github.com/$validRepoOwner/$validRepoName/commit/$validCommitSha",
+    None,
+    None,
+    None
+  )
+
+  val user = User(1, validUsername, githubApiUrl, githubApiUrl)
 }

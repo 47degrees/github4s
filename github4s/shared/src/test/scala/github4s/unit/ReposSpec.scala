@@ -26,6 +26,27 @@ import github4s.utils.BaseSpec
 
 class ReposSpec extends BaseSpec {
 
+  "Repos.get" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[Repository] =
+      Right(GHResult(repo, okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[Repository](
+      url = s"repos/$validRepoOwner/$validRepoName",
+      response = response
+    )
+
+    val repos = new Repos[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    repos.get(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName
+    )
+  }
+
   "Repos.getContents" should "call to httpClient.get with the right parameters" in {
 
     val response: GHResponse[NonEmptyList[Content]] =
@@ -85,6 +106,82 @@ class ReposSpec extends BaseSpec {
       draft = Some(false),
       prerelease = Some(true)
     )
+  }
+
+  "Repos.listcommit" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[List[Commit]] =
+      Right(GHResult(List(commit), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[List[Commit]](
+      url = s"repos/$validRepoOwner/$validRepoName/commits",
+      response = response
+    )
+
+    val repos = new Repos[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+
+    repos.listCommits(
+      accessToken = sampleToken,
+      headers = headerUserAgent,
+      owner = validRepoOwner,
+      repo = validRepoName
+    )
+  }
+
+  "Repos.listContributors" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[List[User]] =
+      Right(GHResult(List(user), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[List[User]](
+      url = s"repos/$validRepoOwner/$validRepoName/contributors",
+      response = response
+    )
+
+    val repos = new Repos[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+
+    repos.listContributors(
+      accessToken = sampleToken,
+      headers = headerUserAgent,
+      owner = validRepoOwner,
+      repo = validRepoName
+    )
+  }
+
+  "Repos.createRelease" should "call httpClient.post with the right parameters" in {
+    val response: GHResponse[Release] = Right(GHResult(release, createdStatusCode, Map.empty))
+
+    val request =
+      s"""
+       |{
+       |  "tag_name": "$validTagTitle",
+       |  "name": "$validTagTitle",
+       |  "target_commitish": "master",
+       |  "body": "$validNote"
+       |}""".stripMargin
+
+    val httpClientMock = httpClientMockPost[Release](
+      url = s"repos/$validRepoOwner/$validRepoName/releases",
+      json = request,
+      response = response
+    )
+
+    val repos = new Repos[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    repos.createRelease(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validTagTitle,
+      validTagTitle,
+      validNote,
+      Some("master"))
   }
 
   "Repos.getStatus" should "call httpClient.get with the right parameters" in {

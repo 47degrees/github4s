@@ -61,4 +61,74 @@ class PullRequestsSpec extends BaseSpec {
         validPullRequestNumber)
   }
 
+  "GHPullRequests.createPullRequestData" should "call to httpClient.post with the right parameters" in {
+
+    val response: GHResponse[PullRequest] =
+      Right(GHResult(pullRequest, okStatusCode, Map.empty))
+
+    val request =
+      """
+        |{
+        |  "title": "Amazing new feature",
+        |  "body": "Please pull this in!",
+        |  "head": "test-pr-issue",
+        |  "base": "master",
+        |  "maintainer_can_modify":true
+        |}""".stripMargin
+
+    val httpClientMock = httpClientMockPost[PullRequest](
+      url = s"repos/$validRepoOwner/$validRepoName/pulls",
+      json = request,
+      response = response
+    )
+
+    val pullRequests = new PullRequests[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+
+    pullRequests.create(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validNewPullRequestData,
+      validHead,
+      validBase,
+      Some(true))
+  }
+
+  "GHPullRequests.createPullRequestIssue" should "call to httpClient.post with the right parameters" in {
+
+    val response: GHResponse[PullRequest] =
+      Right(GHResult(pullRequest, okStatusCode, Map.empty))
+
+    val request =
+      """
+        |{
+        |  "issue": 31,
+        |  "head": "test-pr-issue",
+        |  "base": "master",
+        |  "maintainer_can_modify":true
+        |}""".stripMargin
+
+    val httpClientMock = httpClientMockPost[PullRequest](
+      url = s"repos/$validRepoOwner/$validRepoName/pulls",
+      json = request,
+      response = response
+    )
+
+    val pullRequests = new PullRequests[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+
+    pullRequests.create(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validNewPullRequestIssue,
+      validHead,
+      validBase,
+      Some(true))
+  }
 }

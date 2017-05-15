@@ -213,4 +213,8 @@ The `result` on the right is Unit.
 
 See [the API doc](https://developer.github.com/v3/issues/comments/#delete-a-comment) for full reference.
 
+As you can see, a few features of the repository endpoint are missing.
+
+As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
+
 [issue-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Issue.scala

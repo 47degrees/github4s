@@ -27,6 +27,20 @@ import github4s.utils.BaseSpec
 
 class GHReposSpec extends BaseSpec {
 
+  "GHRepos.get" should "call to RepositoryOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Repository]] =
+      Free.pure(Right(GHResult(repo, okStatusCode, Map.empty)))
+
+    val repoOps = mock[RepositoryOpsTest]
+    (repoOps.getRepo _)
+      .expects(validRepoOwner, validRepoName, sampleToken)
+      .returns(response)
+
+    val ghReposData = new GHRepos(sampleToken)(repoOps)
+    ghReposData.get(validRepoOwner, validRepoName)
+  }
+
   "GHRepos.contents" should "call to RepositoryOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[NonEmptyList[Content]]] =
@@ -40,6 +54,9 @@ class GHReposSpec extends BaseSpec {
     val ghReposData = new GHRepos(sampleToken)(repoOps)
     ghReposData.getContents(validRepoOwner, validRepoName, validFilePath, Some("master"))
   }
+
+  //TODO listcommit
+  //TODO listContributors
 
   "GHRepos.createRelease" should "call to RepositoryOps with the right parameters" in {
 

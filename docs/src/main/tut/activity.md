@@ -42,7 +42,7 @@ Unsubscribing from a conversation mutes all future notifications (until you comm
  - `ignored`: Determines if all notifications should be blocked from this thread
 
 ```scala
-val threadSub = Github(accessToken).notifications.setThreadSub(5,true,false)
+val threadSub = Github(accessToken).activities.setThreadSub(5,true,false)
 threadSub.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)

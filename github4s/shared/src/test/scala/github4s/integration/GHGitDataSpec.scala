@@ -47,6 +47,14 @@ trait GHGitDataSpec[T] extends BaseIntegrationSpec[T] {
     })
   }
 
+  it should "return an error when an invalid repository name is passed" in {
+    val response = Github(accessToken).gitData
+      .getReference(validRepoOwner, invalidRepoName, validRefSingle)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
   "GitData >> GetCommit" should "return one commit" in {
     val response = Github(accessToken).gitData
       .getCommit(validRepoOwner, validRepoName, validCommitSha)
@@ -56,5 +64,13 @@ trait GHGitDataSpec[T] extends BaseIntegrationSpec[T] {
       r.result.message shouldBe validCommitMsg
       r.statusCode shouldBe okStatusCode
     })
+  }
+
+  it should "return an error when an invalid repository name is passed" in {
+    val response = Github(accessToken).gitData
+      .getCommit(validRepoOwner, invalidRepoName, validCommitSha)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
   }
 }

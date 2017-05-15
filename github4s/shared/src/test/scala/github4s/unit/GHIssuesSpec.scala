@@ -122,6 +122,7 @@ class GHIssuesSpec extends BaseSpec {
     val ghIssues = new GHIssues(sampleToken)(commentOps)
     ghIssues.createComment(validRepoOwner, validRepoName, validIssueNumber, validCommentBody)
   }
+
   "Issues.EditComment" should "call to IssueOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Comment]] =
@@ -135,6 +136,7 @@ class GHIssuesSpec extends BaseSpec {
     val ghIssues = new GHIssues(sampleToken)(commentOps)
     ghIssues.editComment(validRepoOwner, validRepoName, validCommentId, validCommentBody)
   }
+
   "Issues.DeleteComment" should "call to IssueOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Unit]] =
