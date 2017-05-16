@@ -48,7 +48,7 @@ final case class ListCommits(
     author: Option[String] = None,
     since: Option[String] = None,
     until: Option[String] = None,
-    pagination: Option[Pagination] = Some(httpClient.defaultPagination),
+    pagination: Option[Pagination] = None,
     accessToken: Option[String] = None
 ) extends RepositoryOp[GHResponse[List[Commit]]]
 
@@ -126,7 +126,7 @@ class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
       author: Option[String] = None,
       since: Option[String] = None,
       until: Option[String] = None,
-      pagination: Option[Pagination] = Some(httpClient.defaultPagination),
+      pagination: Option[Pagination] = None,
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[Commit]]] =
     Free.inject[RepositoryOp, F](

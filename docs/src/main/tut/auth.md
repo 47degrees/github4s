@@ -6,7 +6,7 @@ title: Authentication API
 # Authentication API
 
 Github4s supports the [Authentication API](https://developer.github.com/v3/oauth_authorizations/). As a result,
-with github4s, you can:
+with Github4s, you can:
 
 - [Create a new authorization token](#create-a-new-authorization-token)
 - [Authorize a url](#authorize-a-url)
@@ -25,25 +25,22 @@ import scalaj.http.HttpResponse
 
 ```
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will
-do.
-
 ## Authentication
 
 ### Create a new authorization token
 
-Used to request a new auth token given basic authentication
+Used to request a new auth token given basic authentication.
 
-You can create a tree using `newAuth`, it takes as arguments:
+You can create a new authorization token using `newAuth`, it takes as arguments:
 
-- basic authentication for the token holder (`username` and `password`)
-- `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes)
-- `note`: to remind you what the OAuth token is for
-- `client_id`: the 20 character OAuth app client key for which to create the token
-- `client_secret`: the 40 character OAuth app client secret for which to create the token
+- basic authentication for the token holder (`username` and `password`).
+- `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
+- `note`: to remind you what the OAuth token is for.
+- `client_id`: the 20 character OAuth app client key for which to create the token.
+- `client_secret`: the 40 character OAuth app client secret for which to create the token.
 
 ```scala
-val newAuth = Github(accessToken).auth.newAuth(
+val newAuth = Github(None).auth.newAuth(
   "rafaparadela",
   "invalidPassword",
   List("public_repo"),
@@ -63,16 +60,16 @@ See [the API doc](https://developer.github.com/v3/oauth_authorizations/#create-a
 
 ### Authorize a url
 
-Generates the authorize url with a random state, both are returned within Authorize object
+Generates the authorize url with a random state, both are returned within Authorize object.
 
-You can create a tree using `authorizeUrl`, it takes as arguments:
+You can authorize a url using `authorizeUrl`, it takes as arguments:
 
-- `client_id`: the 20 character OAuth app client key for which to create the token
-- `redirect_uri`: the URL in your app where users will be sent after authorization
-- `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes)
+- `client_id`: the 20 character OAuth app client key for which to create the token.
+- `redirect_uri`: the URL in your app where users will be sent after authorization.
+- `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
 
 ```scala
-val authorizeUrl = Github(accessToken).auth.authorizeUrl(
+val authorizeUrl = Github(None).auth.authorizeUrl(
   "e8e39175648c9db8c280",
   "http://localhost:9000/_oauth-callback",
   List("public_repo"))
@@ -91,16 +88,16 @@ See [the API doc](https://developer.github.com/v3/oauth/#web-application-flow) f
 
 Requests an access token based on the code retrieved in the [Create a new authorization token](#create-a-new-authorization-token) step of the oAuth process
 
-You can create a tree using `getAccessToken`, it takes as arguments:
+You can get an access token using `getAccessToken`, it takes as arguments:
 
-- `client_id`: the 20 character OAuth app client key for which to create the token
-- `client_secret`: the 40 character OAuth app client secret for which to create the token
-- `code`: the code you received as a response to Step 1
-- `redirect_uri`: the URL in your app where users will be sent after authorization
-- `state`: the unguessable random string you optionally provided in Step 1
+- `client_id`: the 20 character OAuth app client key for which to create the token.
+- `client_secret`: the 40 character OAuth app client secret for which to create the token.
+- `code`: the code you received as a response to [Create a new authorization token](#create-a-new-authorization-token).
+- `redirect_uri`: the URL in your app where users will be sent after authorization.
+- `state`: the unguessable random string you optionally provided in [Create a new authorization token](#create-a-new-authorization-token).
 
 ```tut:silent
-val getAccessToken = Github(accessToken).auth.getAccessToken(
+val getAccessToken = Github(None).auth.getAccessToken(
   "e8e39175648c9db8c280",
   "1234567890",
   "code",

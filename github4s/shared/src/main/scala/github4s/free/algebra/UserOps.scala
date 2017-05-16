@@ -29,7 +29,7 @@ final case class GetUser(username: String, accessToken: Option[String] = None)
 final case class GetAuthUser(accessToken: Option[String] = None) extends UserOp[GHResponse[User]]
 final case class GetUsers(
     since: Int,
-    pagination: Option[Pagination] = Some(httpClient.defaultPagination),
+    pagination: Option[Pagination] = None,
     accessToken: Option[String] = None)
     extends UserOp[GHResponse[List[User]]]
 
@@ -47,7 +47,7 @@ class UserOps[F[_]](implicit I: Inject[UserOp, F]) {
 
   def getUsers(
       since: Int,
-      pagination: Option[Pagination] = Some(httpClient.defaultPagination),
+      pagination: Option[Pagination] = None,
       accessToken: Option[String] = None): Free[F, GHResponse[List[User]]] =
     Free.inject[UserOp, F](GetUsers(since, pagination, accessToken))
 

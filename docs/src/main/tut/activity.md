@@ -6,7 +6,7 @@ title: Activity API
 # Activity API
 
 Github4s supports the [Activity API](https://developer.github.com/v3/activity/). As a result,
-with github4s, you can:
+with Github4s, you can:
 
 - [Set a thread subscription](#set-a-thread-subscription)
 
@@ -40,9 +40,9 @@ Unsubscribing from a conversation mutes all future notifications (until you comm
 
 You can subscribe or unsubscribe using `setThreadSub`, it takes as arguments:
 
- - `id`: Thread id from which you subscribe or unsubscribe
- - `subscribed`: Determines if notifications should be received from this thread
- - `ignored`: Determines if all notifications should be blocked from this thread
+ - `id`: Thread id from which you subscribe or unsubscribe.
+ - `subscribed`: Determines if notifications should be received from this thread.
+ - `ignored`: Determines if all notifications should be blocked from this thread.
 
 ```scala
 val threadSub = Github(accessToken).activities.setThreadSub(5,true,false)

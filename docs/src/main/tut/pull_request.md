@@ -6,7 +6,7 @@ title: Pull Request API
 # Pull Request API
 
 Github4s supports the [Pull Request API](https://developer.github.com/v3/pulls/). As a result,
-with github4s, you can:
+with Github4s, you can:
 
 - [List pull requests](#list-pull-requests)
 - [List the files in a pull request](#list-the-files-in-a-pull-request)

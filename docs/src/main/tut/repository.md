@@ -6,7 +6,7 @@ title: Repository API
 # Repository API
 
 Github4s supports the [Repository API](https://developer.github.com/v3/repos/). As a result,
-with github4s, you can:
+with Github4s, you can:
 
 - [Get a repository](#get-a-repository)
 - [List contributors](#list-contributors)

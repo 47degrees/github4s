@@ -6,7 +6,7 @@ title: Gist API
 # Gist API
 
 Github4s supports the [Gist API](https://developer.github.com/v3/gists/). As a result,
-with github4s, you can:
+with Github4s, you can:
 
 - [Create a gist](#create-a-gist)
 
@@ -34,10 +34,10 @@ provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 You can create a gist using `newGist`, it takes as arguments:
 
-- the gist description
-- whether it is public or private
+- the gist description.
+- whether it is public or private.
 - an association of file names and file contents where the contents are wrapped in
-[GistFile][gist-scala]s
+[GistFile][gist-scala]s.
 
 To create a gist:
 

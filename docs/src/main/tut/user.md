@@ -6,7 +6,7 @@ title: User API
 # User API
 
 Github4s supports the [User API](https://developer.github.com/v3/users/). As a result,
-with github4s, you can:
+with Github4s, you can:
 
 - [Get a user](#get-a-user)
 - [Get an authenticated user](#get-an-authenticated-user)

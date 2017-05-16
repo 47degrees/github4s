@@ -6,7 +6,7 @@ title: Git Data API
 # Git Data API
 
 Github4s supports the [Git Data API](https://developer.github.com/v3/git/). As a result,
-with github4s, you can:
+with Github4s, you can:
 
 - [Get a Reference](#get-a-reference)
 - [Create a Reference](#create-a-reference)
@@ -34,8 +34,7 @@ import scalaj.http.HttpResponse
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will
-do.
+They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will do.
 
 Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
@@ -56,8 +55,8 @@ which doesn't exist, would return head refs including `featureA` and `featureB` 
 
 You can get a reference using `getReference`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
-- `ref`: ref formatted as heads/branch
+- the repository coordinates (`owner` and `name` of the repository).
+- `ref`: ref formatted as heads/branch.
 
 ```tut:silent
 val getReference = Github(accessToken).gitData.getReference("47deg", "github4s", "heads/master")
@@ -80,10 +79,10 @@ For example, the call to get the data for `master` branch will be `heads/master`
 
 You can create a reference using `createReference`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `ref`: The name of the fully qualified reference (ie: refs/heads/master).
 If it doesn't start with 'refs' and have at least two slashes, it will be rejected.
-- `sha`: the SHA1 value to set this reference to
+- `sha`: the SHA1 value to set this reference.
 
 ```scala
 val createReference = Github(accessToken)
@@ -108,11 +107,11 @@ See [the API doc](https://developer.github.com/v3/git/refs/#create-a-reference) 
 
 You can update a reference using `updateReference`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
-- `ref`: ref formatted as heads/branch
-- `sha`: the SHA1 value to set this reference to
+- the repository coordinates (`owner` and `name` of the repository).
+- `ref`: ref formatted as heads/branch.
+- `sha`: the SHA1 value to set this reference.
 - `force`: Indicates whether to force the update or to make sure the update is a fast-forward update.
-Leaving this out or setting it to `false` will make sure you're not overwriting work. Default: `false`
+Leaving this out or setting it to `false` will make sure you're not overwriting work. Default: `false`.
 
 ```scala
 val updateReference = Github(accessToken)
@@ -138,8 +137,8 @@ See [the API doc](https://developer.github.com/v3/git/refs/#update-a-reference) 
 
 You can get a commit using `getCommit`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
-- `sha`: the sha of the commit
+- the repository coordinates (`owner` and `name` of the repository).
+- `sha`: the sha of the commit.
 
 ```tut:silent
 val getCommit = Github(accessToken).gitData.getCommit("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
@@ -159,9 +158,9 @@ See [the API doc](https://developer.github.com/v3/git/commits/#get-a-commit) for
 
 You can create a commit using `createCommit`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `message`: the new commit's message.
-- `tree`: the SHA of the tree object this commit points to
+- `tree`: the SHA of the tree object this commit points.
 - `parents`: the SHAs of the commits that were the parents of this commit. If omitted or empty,
 the commit will be written as a root commit. For a single parent, an array of one SHA should be provided;
 for a merge commit, an array of more than one should be provided.
@@ -192,7 +191,7 @@ See [the API doc](https://developer.github.com/v3/git/commits/#create-a-commit) 
 
 You can create a blob using `createBlob`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `content`: the new blob's content.
 - `encoding`: the encoding used for content. Currently, "utf-8" and "base64" are supported. Default: "utf-8".
 
@@ -222,15 +221,15 @@ however, it will only contain your change, the rest of your files will show up a
 
 You can create a tree using `createTree`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `baseTree`: the SHA1 of the tree you want to update with new data.
 - `treeDataList`: list (of path, mode, type, and sha/blob) specifying a tree structure:
-- `path`: The file referenced in the tree
+- `path`: The file referenced in the tree.
 - `mode`: The file mode; one of 100644 for file (blob), 100755 for executable (blob),
  040000 for subdirectory (tree), 160000 for submodule (commit),
- or 120000 for a blob that specifies the path of a symlink
-- `type`: Either blob, tree, or commit
-- `sha`: The SHA1 checksum ID of the object in the tree
+ or 120000 for a blob that specifies the path of a symlink.
+- `type`: Either blob, tree, or commit.
+- `sha`: The SHA1 checksum ID of the object in the tree.
 - `content`: The content you want this file to have.
  GitHub will write this blob out and use that SHA for this entry. Use either this, or tree.sha.
 
@@ -267,10 +266,10 @@ See [the API doc](https://developer.github.com/v3/git/trees/#create-a-tree) for 
 
 You can create a tag using `createTag`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `tag`: the tag.
 - `message`: the new tag message.
-- `objectSha`: the SHA of the git object this is tagging
+- `objectSha`: the SHA of the git object this is tagging.
 - `objectType`: the type of the object we're tagging.
 Normally this is a `commit` but it can also be a `tree` or a `blob`.
 - `tagger`: object containing information about the individual creating the tag.
