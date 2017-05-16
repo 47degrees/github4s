@@ -25,7 +25,8 @@ import scalaj.http.HttpResponse
 
 ```
 
-**NOTE**: In the examples you will see `Github(None)` because if you are authenticating for the first time you don't have any accessToken yet
+**NOTE**: In the examples you will see `Github(None)`
+because if you are authenticating for the first time you don't have any accessToken yet.
 
 ## Authentication
 
@@ -115,7 +116,7 @@ The `result` on the right is the corresponding [OAuthToken][auth-scala].
 
 See [the API doc](https://developer.github.com/v3/oauth/#web-application-flow) for full reference.
 
-As you can see, a few features of the activity endpoint are missing.
+As you can see, a few features of the authentication endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 

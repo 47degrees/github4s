@@ -26,8 +26,7 @@ import scalaj.http.HttpResponse
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will
-do.
+They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will do.
 
 Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
@@ -36,8 +35,8 @@ provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 You can list the pull requests for a repository using `list`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
-- a list of [PRFilter](https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala)
+- the repository coordinates (`owner` and `name` of the repository).
+- a list of [PRFilter](https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala).
 
 As an example, let's say we want the open pull requests in <https://github.com/scala/scala> sorted
 by popularity:
@@ -61,8 +60,8 @@ See [the API doc](https://developer.github.com/v3/pulls/#list-pull-requests) for
 
 You can also list the files for a pull request using `listFiles`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
-- the pull request number
+- the repository coordinates (`owner` and `name` of the repository).
+- the pull request number.
 
 To list the files for a pull request:
 
@@ -85,12 +84,12 @@ If you want to create a pull request, we have two ways to create a pull request.
 
 On the one hand, we pass as parameters to create a new pull request:
 
- - the repository coordinates (`owner` and `name` of the repository)
- - `title` (as part of the `NewPullRequestData` object): Title for the pull request
- - `body` (as part of the `NewPullRequestData` object): Description for the pull request
- - `head`: The name of the branch where your changes are implemented
- - `base`: The name of the branch you want the changes pulled into
- - `maintainerCanModify`: Optional. Indicates whether maintainers can modify the pull request. `true` by default
+ - the repository coordinates (`owner` and `name` of the repository).
+ - `title` (as part of the `NewPullRequestData` object): Title for the pull request.
+ - `body` (as part of the `NewPullRequestData` object): Description for the pull request.
+ - `head`: The name of the branch where your changes are implemented.
+ - `base`: The name of the branch you want the changes pulled into.
+ - `maintainerCanModify`: Optional. Indicates whether maintainers can modify the pull request. `true` by default.
 
 ```scala
 val createPullRequestData = Github(accessToken).pullRequests.create("47deg", "github4s", NewPullRequestData("title","body"),"my-branch","base-branch",Some(true))
@@ -100,9 +99,10 @@ createPullRequestData.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-On the other hand, we can pass a `issue` id (through `NewPullRequestIssue` object) instead of the title and the body to get this parameter of the issue
+On the other hand, we can pass a `issue` id (through `NewPullRequestIssue` object)
+instead of the title and the body to get this parameter of the issue.
 
-**NOTE**: This option deletes the issue
+**NOTE**: This option deletes the issue.
 
 ```scala
 val createPullRequestIssue = Github(accessToken).pullRequests.create("47deg", "github4s", NewPullRequestIssue("105"),"my-branch","base-branch",Some(true))

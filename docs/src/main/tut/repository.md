@@ -31,8 +31,7 @@ import scalaj.http.HttpResponse
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will
-do.
+They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will do.
 
 Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
@@ -42,7 +41,7 @@ provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 You can get a repository using `get`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 
 To get a repository:
 
@@ -68,7 +67,7 @@ sorted by the number of commits per contributor in descending order.
 
 You can list contributors using `listContributors`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `anom` Set to 1 or true to include anonymous contributors in results.
 
 To list contributors:
@@ -94,13 +93,13 @@ reference.
 
 You can list commits using `listCommits`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `SHA` or branch to start listing commits from. Default: the repository’s default branch (usually `master`).
 - `path`: Only commits containing this file path will be returned.
 - `author`: GitHub login or email address by which to filter by commit author.
 - `since`: Only commits after this date will be returned. Format: "YYYY-MM-DDTHH:MM:SSZ".
 - `until`: Only commits before this date will be returned. Format: "YYYY-MM-DDTHH:MM:SSZ".
-- `pagination`: Limit and Offset for pagination
+- `pagination`: Limit and Offset for pagination.
 
 To list commits:
 
@@ -134,9 +133,9 @@ This method returns the contents of a file or directory in a repository.
 
 You can get contents using `getContents`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `path`: The content path.
-- `ref`: The name of the `commit/branch/tag`. Default: the repository’s default branch (usually `master`)
+- `ref`: The name of the `commit/branch/tag`. Default: the repository’s default branch (usually `master`).
 
 To get contents:
 
@@ -161,13 +160,14 @@ reference.
 
 Users with push access to the repository can create a release using `createRelease`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
+- the repository coordinates (`owner` and `name` of the repository).
 - `tag_name`: The name of the tag.
 - `name`: The name of the release.
 - `body`: Text describing the contents of the tag.
-- `target_commitish`: Specifies the commitish value that determines where the `Git tag` is created from. Can be any branch or commit `SHA`. Unused if the `Git tag` already exists. Default: the repository's default branch (usually `master`).
-- `draft`: true to create a draft (unpublished) release, false to create a published one. Default: false
-- `prerelease`: true to identify the release as a prerelease. false to identify the release as a full release. Default: false
+- `target_commitish`: Specifies the commitish value that determines where the `Git tag` is created from.
+Can be any branch or commit `SHA`. Unused if the `Git tag` already exists. Default: the repository's default branch (usually `master`).
+- `draft`: true to create a draft (unpublished) release, false to create a published one. Default: false.
+- `prerelease`: true to identify the release as a prerelease. false to identify the release as a full release. Default: false.
 
 To create a release:
 
@@ -192,10 +192,10 @@ reference.
 
 You can create a status using `createStatus`, it takes as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
-- the `SHA` of the commit for which we want to create a status
-- the state of the status we want to create (can be pending, success, failure or error)
-- other optional parameters: target url, description and context
+- the repository coordinates (`owner` and `name` of the repository).
+- the `SHA` of the commit for which we want to create a status.
+- the state of the status we want to create (can be pending, success, failure or error).
+- other optional parameters: target url, description and context.
 
 To create a status:
 
@@ -219,8 +219,8 @@ reference.
 
 You can also list status through `listStatus`, it take as arguments:
 
-- the repository coordinates (`owner` and `name` of the repository)
-- a git ref (a `SHA`, a branch `name` or a tag `name`)
+- the repository coordinates (`owner` and `name` of the repository).
+- a git ref (a `SHA`, a branch `name` or a tag `name`).
 
 To list the statuses for a specific ref:
 

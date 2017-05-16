@@ -26,21 +26,15 @@ import scalaj.http.HttpResponse
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will
-do.
-
-Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
-provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
-
 ## User
 
 ### Get a user
 
-Get information for a particular user
+Get information for a particular user.
 
 You can get a user using `get`, it takes as argument:
 
-- `username`: of the user to retrieve
+- `username`: of the user to retrieve.
 
 ```tut:silent
 val getUser = Github(accessToken).users.get("rafaparadela")
@@ -57,7 +51,7 @@ See [the API doc](https://developer.github.com/v3/users/#get-a-single-user) for 
 
 ### Get an authenticated user
 
-Get information of the authenticated user
+Get information of the authenticated user.
 
 You can get an authenticated user using `getAuth`:
 
@@ -79,7 +73,7 @@ See [the API doc](https://developer.github.com/v3/users/#get-the-authenticated-u
 You can get a list of users using `getUsers`, it takes as arguments:
 
 - `since`: The integer ID of the last User that you've seen.
-- `pagination`: Limit and Offset for pagination
+- `pagination`: Limit and Offset for pagination.
 
 ```tut:silent
 val getUsers = Github(accessToken).users.getUsers(1)
@@ -93,7 +87,7 @@ The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/users/#get-all-users) for full reference.
 
-As you can see, a few features of the activity endpoint are missing.
+As you can see, a few features of the user endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 

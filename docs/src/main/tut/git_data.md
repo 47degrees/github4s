@@ -34,12 +34,6 @@ import scalaj.http.HttpResponse
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will do.
-
-Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
-provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
-
-
 ## Git Data
 
 ## References
@@ -210,6 +204,13 @@ See [the API doc](https://developer.github.com/v3/git/blobs/#create-a-blob) for 
 
 ## Trees
 
+As you probably know, Git can be considered as a tree structure.
+Each commit creates a new node in that tree.
+Even we could assume that all the Git commands or methods provided by the API,
+are just tools that serve to navigate on this tree and to manipulate it.
+
+In the next sections, let's see how Github4s API provides some methods to wrap the Github API.
+
 ### Create a Tree
 
 The tree creation API will take nested entries as well. If both a tree and a nested path modifying
@@ -294,7 +295,7 @@ The `result` on the right is the created [Tag][gitdata-scala].
 
 See [the API doc](https://developer.github.com/v3/git/tags/#create-a-tag-object) for full reference.
 
-As you can see, a few features of the repository endpoint are missing.
+As you can see, a few features of the git data endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
