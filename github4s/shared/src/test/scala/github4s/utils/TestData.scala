@@ -18,6 +18,7 @@ package github4s.utils
 
 import com.github.marklister.base64.Base64._
 import github4s.free.domain._
+import java.util.UUID
 
 trait TestData extends DummyGithubUrls {
 
@@ -345,6 +346,12 @@ trait TestData extends DummyGithubUrls {
     None,
     None
   )
+  val validTokenType = "bearer"
+  val validAuthState = UUID.randomUUID().toString
+  val user           = User(1, validUsername, githubApiUrl, githubApiUrl)
 
-  val user = User(1, validUsername, githubApiUrl, githubApiUrl)
+  val authorization = Authorization(validClientId, validRedirectUri, sampleToken)
+  val authorize     = Authorize(validRedirectUri, validAuthState)
+
+  val oAuthToken = OAuthToken(sampleToken, validTokenType, validScopes)
 }

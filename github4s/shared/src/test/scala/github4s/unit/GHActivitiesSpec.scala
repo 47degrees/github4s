@@ -37,7 +37,7 @@ class GHActivitiesSpec extends BaseSpec {
       .returns(response)
 
     val ghActivities = new GHActivities(sampleToken)(activityOps)
-      .setThreadSub(validThreadId, true, false)
+    ghActivities.setThreadSub(validThreadId, true, false)
   }
 
 }
