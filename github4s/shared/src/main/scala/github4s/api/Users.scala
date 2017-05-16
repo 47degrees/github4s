@@ -68,7 +68,7 @@ class Users[C, M[_]](
       accessToken: Option[String] = None,
       headers: Map[String, String] = Map(),
       since: Int,
-      pagination: Option[Pagination] = None
+      pagination: Option[Pagination] = Some(httpClient.defaultPagination)
   ): M[GHResponse[List[User]]] =
     httpClient
       .get[List[User]](accessToken, "users", headers, Map("since" → since.toString), pagination)
