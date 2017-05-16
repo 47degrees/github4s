@@ -28,10 +28,7 @@ class GHUsers(accessToken: Option[String] = None)(implicit O: UserOps[GitHub4s])
 
   def getAuth: GHIO[GHResponse[User]] = O.getAuthUser(accessToken)
 
-  def getUsers(
-      since: Int,
-      pagination: Option[Pagination] = Some(httpClient.defaultPagination)): GHIO[
-    GHResponse[List[User]]] =
+  def getUsers(since: Int, pagination: Option[Pagination] = None): GHIO[GHResponse[List[User]]] =
     O.getUsers(since, pagination, accessToken)
 
 }
@@ -56,7 +53,7 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
       author: Option[String] = None,
       since: Option[String] = None,
       until: Option[String] = None,
-      pagination: Option[Pagination] = Some(httpClient.defaultPagination)
+      pagination: Option[Pagination] = None
   ): GHIO[GHResponse[List[Commit]]] =
     O.listCommits(owner, repo, sha, path, author, since, until, pagination, accessToken)
 
