@@ -36,7 +36,7 @@ provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 You can list the pull requests for a repository using `list`, it takes as arguments:
 
-- the repository coordinates (owner and name of the repository)
+- the repository coordinates (`owner` and `name` of the repository)
 - a list of [PRFilter](https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala)
 
 As an example, let's say we want the open pull requests in <https://github.com/scala/scala> sorted
@@ -61,7 +61,7 @@ See [the API doc](https://developer.github.com/v3/pulls/#list-pull-requests) for
 
 You can also list the files for a pull request using `listFiles`, it takes as arguments:
 
-- the repository coordinates (owner and name of the repository)
+- the repository coordinates (`owner` and `name` of the repository)
 - the pull request number
 
 To list the files for a pull request:

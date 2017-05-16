@@ -25,6 +25,8 @@ import scalaj.http.HttpResponse
 
 ```
 
+**NOTE**: In the examples you will see `Github(None)` because if you are authenticating for the first time you don't have any accessToken yet
+
 ## Authentication
 
 ### Create a new authorization token
@@ -60,7 +62,7 @@ See [the API doc](https://developer.github.com/v3/oauth_authorizations/#create-a
 
 ### Authorize a url
 
-Generates the authorize url with a random state, both are returned within Authorize object.
+Generates the authorize url with a random state, both are returned within an Authorize object.
 
 You can authorize a url using `authorizeUrl`, it takes as arguments:
 
