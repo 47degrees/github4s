@@ -16,7 +16,6 @@ with github4s, you can:
 - [Edit a Comment](#edit-a-comment)
 - [Delete a Comment](#delete-a-comment)
 
-
 The following examples assume the following imports and token:
 
 ```tut:silent
@@ -64,6 +63,7 @@ The `result` on the right is the created [Issue][issue-scala].
 
 See [the API doc](https://developer.github.com/v3/issues/#create-an-issue) for full reference.
 
+
 ### Edit an issue
 
 You can edit an existing issue using `editIssue`, it takes as arguments:
@@ -91,6 +91,7 @@ the `result` on the right is the edited [Issue][issue-scala].
 
 See [the API doc](https://developer.github.com/v3/issues/#edit-an-issue) for full reference.
 
+
 ### List issues 
 
 You can also list issues for a repository through `listIssues`, it take as arguments:
@@ -113,6 +114,7 @@ contain pull requests as Github considers pull requests as issues.
 
 See [the API doc](https://developer.github.com/v3/issues/#list-issues-for-a-repository)
 for full reference.
+
 
 ### Search issues
 
@@ -168,8 +170,8 @@ The `result` on the right is a [Comment][issue-scala].
 
 See [the API doc](https://developer.github.com/v3/issues/comments/#create-a-comment) for full reference.
 
-### Edit a Comment
 
+### Edit a Comment
 
 You can edit a comment from an issue whit the following parameters:
 
@@ -191,8 +193,8 @@ The `result` on the right is a [Comment][issue-scala].
 
 See [the API doc](https://developer.github.com/v3/issues/comments/#edit-a-comment) for full reference.
 
-### Delete a Comment
 
+### Delete a Comment
 
 You can delete a comment from an issue whit the following parameters:
 

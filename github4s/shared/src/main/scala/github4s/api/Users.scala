@@ -23,49 +23,52 @@ import github4s.free.interpreters.Capture
 import io.circe.generic.auto._
 
 /** Factory to encapsulate calls related to Users operations  */
-class Users[C, M[_]](implicit urls: GithubApiUrls,
-                     C: Capture[M],
-                     httpClientImpl: HttpRequestBuilderExtension[C, M]) {
+class Users[C, M[_]](
+    implicit urls: GithubApiUrls,
+    C: Capture[M],
+    httpClientImpl: HttpRequestBuilderExtension[C, M]) {
 
   val httpClient = new HttpClient[C, M]
 
   /**
-    * Get information for a particular user
-    *
-    * @param accessToken to identify the authenticated user
-    * @param headers optional user headers to include in the request
-    * @param username of the user to retrieve
-    * @return GHResponse[User] User details
-    */
-  def get(accessToken: Option[String] = None,
-          headers: Map[String, String] = Map(),
-          username: String): M[GHResponse[User]] =
+   * Get information for a particular user
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param username of the user to retrieve
+   * @return GHResponse[User] User details
+   */
+  def get(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      username: String): M[GHResponse[User]] =
     httpClient.get[User](accessToken, s"users/$username", headers)
 
   /**
-    * Get information of the authenticated user
-    * @param accessToken to identify the authenticated user
-    * @param headers optional user headers to include in the request
-    * @return GHResponse[User] User details
-    */
-  def getAuth(accessToken: Option[String] = None,
-              headers: Map[String, String] = Map()): M[GHResponse[User]] =
+   * Get information of the authenticated user
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @return GHResponse[User] User details
+   */
+  def getAuth(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map()): M[GHResponse[User]] =
     httpClient.get[User](accessToken, "user", headers)
 
   /**
-    * Get users
-    *
-    * @param accessToken to identify the authenticated user
-    * @param headers optional user headers to include in the request
-    * @param since The integer ID of the last User that you've seen.
-    * @param pagination Limit and Offset for pagination
-    * @return GHResponse[List[User] ] List of user's details
-    */
+   * Get users
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param since The integer ID of the last User that you've seen.
+   * @param pagination Limit and Offset for pagination
+   * @return GHResponse[List[User] ] List of user's details
+   */
   def getUsers(
       accessToken: Option[String] = None,
       headers: Map[String, String] = Map(),
       since: Int,
-      pagination: Option[Pagination] = None
+      pagination: Option[Pagination] = Some(httpClient.defaultPagination)
   ): M[GHResponse[List[User]]] =
     httpClient
       .get[List[User]](accessToken, "users", headers, Map("since" → since.toString), pagination)

@@ -17,6 +17,9 @@ with github4s, you can:
 - [Create a Tree](#create-a-tree)
 - [Create a Tag](#create-a-tag)
 
+For more information on the Git object database,
+please read the [Git Internals](https://git-scm.com/book/en/v1/Git-Internals) chapter of the Pro Git book.
+
 The following examples assume the following imports and token:
 
 ```tut:silent
@@ -85,10 +88,10 @@ If it doesn't start with 'refs' and have at least two slashes, it will be reject
 ```scala
 val createReference = Github(accessToken)
 .gitData.createReference(
-                      "47deg",
-                      "github4s",
-                      "refs/heads/master",
-                      "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
+  "47deg",
+  "github4s",
+  "refs/heads/master",
+  "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 
 createReference.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -114,11 +117,10 @@ Leaving this out or setting it to `false` will make sure you're not overwriting 
 ```scala
 val updateReference = Github(accessToken)
 .gitData.updateReference(
-                      "47deg",
-                      "github4s",
-                      "heads/master",
-                      "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
-                      Some(false))
+  "47deg",
+  "github4s",
+  "heads/master",
+  "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 
 updateReference.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -168,11 +170,11 @@ for a merge commit, an array of more than one should be provided.
 ```scala
 val createCommit = Github(accessToken)
 .gitData.createCommit(
-                  "47deg",
-                  "github4s",
-                  validNote,
-                  validTreeSha,
-                  List("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"))
+  "47deg",
+  "github4s",
+  "New access token",
+  "827efc6d56897b048c772eb4087f854f46256132",
+  List("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"))
 
 createCommit.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -227,22 +229,27 @@ You can create a tree using `createTree`, it takes as arguments:
 - `mode`: The file mode; one of 100644 for file (blob), 100755 for executable (blob),
  040000 for subdirectory (tree), 160000 for submodule (commit),
  or 120000 for a blob that specifies the path of a symlink
-- `type`:	string	Either blob, tree, or commit
-- `sha`:	string	The SHA1 checksum ID of the object in the tree
-- `content`:	string	The content you want this file to have.
+- `type`: Either blob, tree, or commit
+- `sha`: The SHA1 checksum ID of the object in the tree
+- `content`: The content you want this file to have.
  GitHub will write this blob out and use that SHA for this entry. Use either this, or tree.sha.
 
 ```scala
 val createTree = Github(accessToken)
 .gitData.createTree(
-              "47deg",
-              "github4s",
-              Some("827efc6d56897b048c772eb4087f854f46256132"),
-              List(TreeDataSha(
-                "project/plugins.sbt",
-                "100644",
-                "blob",
-                "827efc6d56897b048c772eb4087f854f46256132")))
+  "47deg",
+  "github4s",
+  Some("827efc6d56897b048c772eb4087f854f46256132"),
+  List(TreeDataSha(
+    "project/plugins.sbt",
+    "100644",
+    "blob",
+    "827efc6d56897b048c772eb4087f854f46256132")),
+  "project/plugins.sbt",
+  "100644",
+  "blob",
+  "827efc6d56897b048c772eb4087f854f46256132",
+  "Sample Body")
 
 createTree.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
@@ -271,12 +278,12 @@ Normally this is a `commit` but it can also be a `tree` or a `blob`.
 ```scala
 val createTag = Github(accessToken)
 .gitData.createTag(
-              "47deg",
-              "github4s",
-              "v0.1.1",
-              "New access token",
-              "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
-              "commit")
+  "47deg",
+  "github4s",
+  "v0.1.1",
+  "New access token",
+  "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
+  "commit")
 
 createTag.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")

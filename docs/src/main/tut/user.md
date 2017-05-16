@@ -8,8 +8,8 @@ title: User API
 Github4s supports the [User API](https://developer.github.com/v3/users/). As a result,
 with github4s, you can:
 
-- [Get user](#get-user)
-- [Get authenticated user](#get-authenticated-user)
+- [Get a user](#get-a-user)
+- [Get an authenticated user](#get-an-authenticated-user)
 - [Get a list of users](#get-a-list-of-users)
 
 The following examples assume the following imports and token:
@@ -34,55 +34,64 @@ provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 ## User
 
-### Get user
+### Get a user
 
-  /**
-    * Get information for a particular user
-    *
-    * @param accessToken to identify the authenticated user
-    * @param headers optional user headers to include in the request
-    * @param username of the user to retrieve
-    * @return GHResponse[User] User details
-    */
-  def get(username: String): GHIO[GHResponse[User]] = O.getUser(username, accessToken)
+Get information for a particular user
 
-The `result` on the right is the corresponding [List[User]][user-scala].
+You can get a user using `get`, it takes as argument:
 
-See [the API doc](https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription) for full reference.
+- `username`: of the user to retrieve
+
+```tut:silent
+val getUser = Github(accessToken).users.get("rafaparadela")
+getUser.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [User][user-scala].
+
+See [the API doc](https://developer.github.com/v3/users/#get-a-single-user) for full reference.
 
 
-### Get authenticated user
+### Get an authenticated user
 
-  /**
-    * Get information of the authenticated user
-    * @param accessToken to identify the authenticated user
-    * @param headers optional user headers to include in the request
-    * @return GHResponse[User] User details
-    */
-  def getAuth: GHIO[GHResponse[User]] = O.getAuthUser(accessToken)
+Get information of the authenticated user
 
-The `result` on the right is the corresponding [List[User]][user-scala].
+You can get an authenticated user using `getAuth`:
 
-See [the API doc](https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription) for full reference.
+```tut:silent
+val getAuth = Github(accessToken).users.getAuth
+getAuth.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [User][user-scala].
+
+See [the API doc](https://developer.github.com/v3/users/#get-the-authenticated-user) for full reference.
 
 
 ### Get a list of users
 
-  /**
-    * Get users
-    *
-    * @param accessToken to identify the authenticated user
-    * @param headers optional user headers to include in the request
-    * @param since The integer ID of the last User that you've seen.
-    * @param pagination Limit and Offset for pagination
-    * @return GHResponse[List[User] ] List of user's details
-    */
-  def getUsers(since: Int, pagination: Option[Pagination] = None): GHIO[GHResponse[List[User]]] =
-    O.getUsers(since, pagination, accessToken)
+You can get a list of users using `getUsers`, it takes as arguments:
+
+- `since`: The integer ID of the last User that you've seen.
+- `pagination`: Limit and Offset for pagination
+
+```tut:silent
+val getUsers = Github(accessToken).users.getUsers(1)
+getUsers.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
 
 The `result` on the right is the corresponding [List[User]][user-scala].
 
-See [the API doc](https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription) for full reference.
+See [the API doc](https://developer.github.com/v3/users/#get-all-users) for full reference.
 
 As you can see, a few features of the activity endpoint are missing.
 

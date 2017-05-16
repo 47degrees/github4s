@@ -33,9 +33,12 @@ provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 ## Notifications
 
 ### Set a Thread Subscription
+
 This lets you subscribe or unsubscribe from a conversation.
 
 Unsubscribing from a conversation mutes all future notifications (until you comment or get @mentioned once more).
+
+You can subscribe or unsubscribe using `setThreadSub`, it takes as arguments:
 
  - `id`: Thread id from which you subscribe or unsubscribe
  - `subscribed`: Determines if notifications should be received from this thread
