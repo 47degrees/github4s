@@ -19,7 +19,6 @@ package github4s.unit
 import cats.free.Free
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.{GHActivities, HttpClient}
-import github4s.api.Activities
 import github4s.app.GitHub4s
 import github4s.free.domain._
 import github4s.utils.BaseSpec

@@ -18,8 +18,7 @@ package github4s.unit
 
 import cats.free.Free
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.{GHActivities, HttpClient}
-import github4s.api.Activities
+import github4s.{GHGists, HttpClient}
 import github4s.app.GitHub4s
 import github4s.free.domain._
 import github4s.utils.BaseSpec
@@ -37,7 +36,7 @@ class GHGistSpec extends BaseSpec {
       .returns(response)
 
     val ghActivities = new GHActivities(sampleToken)(activityOps)
-      .setThreadSub(validThreadId, true, false)
+      ghActivities.setThreadSub(validThreadId, true, false)
   }*/
 
 }

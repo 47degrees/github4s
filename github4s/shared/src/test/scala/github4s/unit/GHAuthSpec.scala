@@ -18,26 +18,56 @@ package github4s.unit
 
 import cats.free.Free
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.{GHActivities, HttpClient}
-import github4s.api.Activities
+import github4s.{GHAuth, HttpClient}
 import github4s.app.GitHub4s
 import github4s.free.domain._
 import github4s.utils.BaseSpec
 
 class GHAuthSpec extends BaseSpec {
 
-  /*"Activities.setThreadSub" should "call to ActivityOps with the right parameters" in {
+  "Auth.newAuth" should "call to AuthOps with the right parameters" in {
 
-    val response: Free[GitHub4s, GHResponse[Subscription]] =
-      Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
+    val response: Free[GitHub4s, GHResponse[Authorization]] =
+      Free.pure(Right(GHResult(authorization, okStatusCode, Map.empty)))
 
-    val activityOps = mock[ActivityOpsTest]
-    (activityOps.setThreadSub _)
-      .expects(validThreadId, true, false, sampleToken)
+    val authOps = mock[AuthOpsTest]
+    (authOps.newAuth _)
+      .expects(
+        validUsername,
+        invalidPassword,
+        validScopes,
+        validNote,
+        validClientId,
+        invalidClientSecret)
       .returns(response)
 
-    val ghActivities = new GHActivities(sampleToken)(activityOps)
-      .setThreadSub(validThreadId, true, false)
-  }*/
+    val ghAuth = new GHAuth(None)(authOps)
+    ghAuth.newAuth(
+      validUsername,
+      invalidPassword,
+      validScopes,
+      validNote,
+      validClientId,
+      invalidClientSecret)
+  }
+
+  "Auth.getAccessToken" should "call to AuthOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[OAuthToken]] =
+      Free.pure(Right(GHResult(oAuthToken, okStatusCode, Map.empty)))
+
+    val authOps = mock[AuthOpsTest]
+    (authOps.getAccessToken _)
+      .expects(validClientId, invalidClientSecret, validCode, validRedirectUri, validAuthState)
+      .returns(response)
+
+    val ghAuth = new GHAuth(None)(authOps)
+    ghAuth.getAccessToken(
+      validClientId,
+      invalidClientSecret,
+      validCode,
+      validRedirectUri,
+      validAuthState)
+  }
 
 }
