@@ -25,18 +25,46 @@ import github4s.utils.BaseSpec
 
 class GHUserSpec extends BaseSpec {
 
-  /*"Activities.setThreadSub" should "call to ActivityOps with the right parameters" in {
+  "User.setThreadSub" should "call to UserOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Subscription]] =
       Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
 
-    val activityOps = mock[ActivityOpsTest]
-    (activityOps.setThreadSub _)
+    val userOps = mock[UserOpsTest]
+    (userOps.setThreadSub _)
       .expects(validThreadId, true, false, sampleToken)
       .returns(response)
 
-    val ghActivities = new GHActivities(sampleToken)(activityOps)
-      ghActivities.setThreadSub(validThreadId, true, false)
-  }*/
+    val ghUsers = new GHUsers(sampleToken)(userOps)
+    ghUsers.setThreadSub(validThreadId, true, false)
+  }
+
+  "User.setThreadSub" should "call to UserOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Subscription]] =
+      Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
+
+    val userOps = mock[UserOpsTest]
+    (userOps.setThreadSub _)
+      .expects(validThreadId, true, false, sampleToken)
+      .returns(response)
+
+    val ghUsers = new GHUsers(sampleToken)(userOps)
+    ghUsers.setThreadSub(validThreadId, true, false)
+  }
+
+  "User.setThreadSub" should "call to UserOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Subscription]] =
+      Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
+
+    val userOps = mock[UserOpsTest]
+    (userOps.setThreadSub _)
+      .expects(validThreadId, true, false, sampleToken)
+      .returns(response)
+
+    val ghUsers = new GHUsers(sampleToken)(userOps)
+    ghUsers.setThreadSub(validThreadId, true, false)
+  }
 
 }

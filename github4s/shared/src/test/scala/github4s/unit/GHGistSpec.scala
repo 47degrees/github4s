@@ -25,18 +25,18 @@ import github4s.utils.BaseSpec
 
 class GHGistSpec extends BaseSpec {
 
-  /*"Activities.setThreadSub" should "call to ActivityOps with the right parameters" in {
+  "Gist.setThreadSub" should "call to GistOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Subscription]] =
       Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
 
-    val activityOps = mock[ActivityOpsTest]
-    (activityOps.setThreadSub _)
+    val gistOps = mock[GistOpsTest]
+    (gistOps.setThreadSub _)
       .expects(validThreadId, true, false, sampleToken)
       .returns(response)
 
-    val ghActivities = new GHActivities(sampleToken)(activityOps)
-      ghActivities.setThreadSub(validThreadId, true, false)
-  }*/
+    val ghGists = new GHGists(sampleToken)(gistOps)
+    ghGists.setThreadSub(validThreadId, true, false)
+  }
 
 }
