@@ -25,20 +25,25 @@ import github4s.utils.BaseSpec
 
 class GistSpec extends BaseSpec {
 
-  /*"Activity.setThreadSub" should "call to httpClient.put with the right parameters" in {
+  "Gist.newGist" should "call to httpClient.post with the right parameters" in {
 
-    val response: GHResponse[Subscription] =
-      Right(GHResult(subscription, okStatusCode, Map.empty))
+    val response: GHResponse[Gist] =
+      Right(GHResult(gist, okStatusCode, Map.empty))
 
     val request =
       """
         |{
-        |  "subscribed": true,
-        |  "ignored": false
+        |  "description": "A Gist",
+        |  "public": true,
+        |  "files": {
+        |    "test.scala": {
+        |      "content": "val meaningOfLife = 42"
+        |    }
+        |  }
         |}""".stripMargin
 
-    val httpClientMock = httpClientMockPut[Subscription](
-      url = s"notifications/threads/$validThreadId/subscription",
+    val httpClientMock = httpClientMockPost[Gist](
+      url = s"gists",
       json = request,
       response = response
     )
@@ -46,7 +51,14 @@ class GistSpec extends BaseSpec {
     val gists = new Gists[String, Id] {
       override val httpClient: HttpClient[String, Id] = httpClientMock
     }
-    gists.setThreadSub(sampleToken, headerUserAgent, validThreadId, true, false)
-  }*/
+
+    gists.newGist(
+      validGistDescription,
+      validGistPublic,
+      Map(validGistFilename → GistFile(validGistFileContent)),
+      headerUserAgent,
+      sampleToken
+    )
+  }
 
 }

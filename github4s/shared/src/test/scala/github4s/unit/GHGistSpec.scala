@@ -25,18 +25,25 @@ import github4s.utils.BaseSpec
 
 class GHGistSpec extends BaseSpec {
 
-  "Gist.setThreadSub" should "call to GistOps with the right parameters" in {
+  "Gist.newGist" should "call to GistOps with the right parameters" in {
 
-    val response: Free[GitHub4s, GHResponse[Subscription]] =
-      Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
+    val response: Free[GitHub4s, GHResponse[Gist]] =
+      Free.pure(Right(GHResult(gist, okStatusCode, Map.empty)))
 
     val gistOps = mock[GistOpsTest]
-    (gistOps.setThreadSub _)
-      .expects(validThreadId, true, false, sampleToken)
+    (gistOps.newGist _)
+      .expects(
+        validGistDescription,
+        validGistPublic,
+        Map(validGistFilename → GistFile(validGistFileContent)),
+        sampleToken)
       .returns(response)
 
     val ghGists = new GHGists(sampleToken)(gistOps)
-    ghGists.setThreadSub(validThreadId, true, false)
+    ghGists.newGist(
+      validGistDescription,
+      validGistPublic,
+      Map(validGistFilename → GistFile(validGistFileContent)))
   }
 
 }

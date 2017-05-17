@@ -25,28 +25,55 @@ import github4s.utils.BaseSpec
 
 class UserSpec extends BaseSpec {
 
-  /*"Activity.setThreadSub" should "call to httpClient.put with the right parameters" in {
+  "User.get" should "call to httpClient.get with the right parameters" in {
 
-    val response: GHResponse[Subscription] =
-      Right(GHResult(subscription, okStatusCode, Map.empty))
+    val response: GHResponse[User] =
+      Right(GHResult(user, okStatusCode, Map.empty))
 
-    val request =
-      """
-        |{
-        |  "subscribed": true,
-        |  "ignored": false
-        |}""".stripMargin
-
-    val httpClientMock = httpClientMockPut[Subscription](
-      url = s"notifications/threads/$validThreadId/subscription",
-      json = request,
+    val httpClientMock = httpClientMockGet[User](
+      url = s"users/$validUsername",
       response = response
     )
 
     val users = new Users[String, Id] {
       override val httpClient: HttpClient[String, Id] = httpClientMock
     }
-    users.setThreadSub(sampleToken, headerUserAgent, validThreadId, true, false)
-  }*/
+    users.get(sampleToken, headerUserAgent, validUsername)
+  }
+
+  "User.getAuth" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[User] =
+      Right(GHResult(user, okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[User](
+      url = "user",
+      response = response
+    )
+
+    val users = new Users[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    users.getAuth(sampleToken, headerUserAgent)
+  }
+
+  "User.getUsers" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[List[User]] =
+      Right(GHResult(List(user), okStatusCode, Map.empty))
+
+    val request = Map("since" → 1.toString)
+
+    val httpClientMock = httpClientMockGet[List[User]](
+      url = "users",
+      params = request,
+      response = response
+    )
+
+    val users = new Users[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    users.getUsers(sampleToken, headerUserAgent, 1)
+  }
 
 }

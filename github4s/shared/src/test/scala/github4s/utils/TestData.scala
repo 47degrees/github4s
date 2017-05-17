@@ -353,5 +353,8 @@ trait TestData extends DummyGithubUrls {
   val authorization = Authorization(1, validRedirectUri, "token")
   val authorize     = Authorize(validRedirectUri, validAuthState)
 
-  val oAuthToken = OAuthToken("token", validTokenType, "public_repo")
+  val oAuthToken   = OAuthToken("token", validTokenType, "public_repo")
+  val validGistUrl = "https://api.github.com/gists/aa5a315d61ae9438b18d"
+  val validGistId  = "aa5a315d61ae9438b18d"
+  val gist         = Gist(validGistUrl, validGistId, validGistDescription, validGistPublic)
 }

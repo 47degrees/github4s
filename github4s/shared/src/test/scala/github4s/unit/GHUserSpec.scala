@@ -25,46 +25,46 @@ import github4s.utils.BaseSpec
 
 class GHUserSpec extends BaseSpec {
 
-  "User.setThreadSub" should "call to UserOps with the right parameters" in {
+  "User.getUser" should "call to UserOps with the right parameters" in {
 
-    val response: Free[GitHub4s, GHResponse[Subscription]] =
-      Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
+    val response: Free[GitHub4s, GHResponse[User]] =
+      Free.pure(Right(GHResult(user, okStatusCode, Map.empty)))
 
     val userOps = mock[UserOpsTest]
-    (userOps.setThreadSub _)
-      .expects(validThreadId, true, false, sampleToken)
+    (userOps.getUser _)
+      .expects(validUsername, sampleToken)
       .returns(response)
 
     val ghUsers = new GHUsers(sampleToken)(userOps)
-    ghUsers.setThreadSub(validThreadId, true, false)
+    ghUsers.get(validUsername)
   }
 
-  "User.setThreadSub" should "call to UserOps with the right parameters" in {
+  "User.getAuthUser" should "call to UserOps with the right parameters" in {
 
-    val response: Free[GitHub4s, GHResponse[Subscription]] =
-      Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
+    val response: Free[GitHub4s, GHResponse[User]] =
+      Free.pure(Right(GHResult(user, okStatusCode, Map.empty)))
 
     val userOps = mock[UserOpsTest]
-    (userOps.setThreadSub _)
-      .expects(validThreadId, true, false, sampleToken)
+    (userOps.getAuthUser _)
+      .expects(sampleToken)
       .returns(response)
 
     val ghUsers = new GHUsers(sampleToken)(userOps)
-    ghUsers.setThreadSub(validThreadId, true, false)
+    ghUsers.getAuth
   }
 
-  "User.setThreadSub" should "call to UserOps with the right parameters" in {
+  "User.getUsers" should "call to UserOps with the right parameters" in {
 
-    val response: Free[GitHub4s, GHResponse[Subscription]] =
-      Free.pure(Right(GHResult(subscription, okStatusCode, Map.empty)))
+    val response: Free[GitHub4s, GHResponse[List[User]]] =
+      Free.pure(Right(GHResult(List(user), okStatusCode, Map.empty)))
 
     val userOps = mock[UserOpsTest]
-    (userOps.setThreadSub _)
-      .expects(validThreadId, true, false, sampleToken)
+    (userOps.getUsers _)
+      .expects(1, None, sampleToken)
       .returns(response)
 
     val ghUsers = new GHUsers(sampleToken)(userOps)
-    ghUsers.setThreadSub(validThreadId, true, false)
+    ghUsers.getUsers(1)
   }
 
 }
