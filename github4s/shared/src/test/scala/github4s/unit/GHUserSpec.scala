@@ -38,6 +38,6 @@ class GHUserSpec extends BaseSpec {
 
     val ghActivities = new GHActivities(sampleToken)(activityOps)
       .setThreadSub(validThreadId, true, false)
-  }
- */
+  }*/
+
 }

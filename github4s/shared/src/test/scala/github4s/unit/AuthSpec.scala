@@ -22,10 +22,11 @@ import github4s.HttpClient
 import github4s.api.Auth
 import github4s.free.domain._
 import github4s.utils.BaseSpec
+import com.github.marklister.base64.Base64.Encoder
 
 class AuthSpec extends BaseSpec {
 
-  "Auth.newAuth" should "call to httpClient.post with the right parameters" in {
+  "Auth.newAuth" should "call to httpClient.postAuth with the right parameters" in {
 
     val response: GHResponse[Authorization] =
       Right(GHResult(authorization, okStatusCode, Map.empty))
@@ -33,16 +34,16 @@ class AuthSpec extends BaseSpec {
     val request =
       """
         |{
-        |"username": "rafaparadela",
-        |"password": "invalidPassword",
-        |"scopes": List("public_repo"),
+        |"scopes": ["public_repo"],
         |"note": "New access token",
         |"client_id": "e8e39175648c9db8c280",
         |"client_secret": "1234567890"
         |}""".stripMargin
 
-    val httpClientMock = httpClientMockPost[Authorization](
-      url = s"authorizations",
+    val httpClientMock = httpClientMockPostAuth[Authorization](
+      url = "authorizations",
+      headers =
+        Map("Authorization" → s"Basic ${s"rafaparadela:invalidPassword".getBytes.toBase64}"),
       json = request,
       response = response
     )
@@ -50,27 +51,18 @@ class AuthSpec extends BaseSpec {
     val auth = new Auth[String, Id] {
       override val httpClient: HttpClient[String, Id] = httpClientMock
     }
+
     auth.newAuth(
       validUsername,
       invalidPassword,
       validScopes,
       validNote,
       validClientId,
-      invalidClientSecret)
+      invalidClientSecret,
+      headerUserAgent)
   }
 
-  "Auth.authorizeUrl" should "call to httpClient.post with the right parameters" in {
-
-    val response: GHResponse[Authorize] =
-      Right(GHResult(authorize, okStatusCode, Map.empty))
-
-    val auth = new Auth[String, Id]
-    auth.authorizeUrl(validClientId, validRedirectUri, validScopes)
-    //TODO shouldBe validRedirectUri
-
-  }
-
-  "Auth.getAccessToken" should "call to httpClient.post with the right parameters" in {
+  "Auth.getAccessToken" should "call to httpClient.postOAuth with the right parameters" in {
 
     val response: GHResponse[OAuthToken] =
       Right(GHResult(oAuthToken, okStatusCode, Map.empty))
@@ -82,12 +74,11 @@ class AuthSpec extends BaseSpec {
         |"client_secret": "1234567890",
         |"code": "code",
         |"redirect_uri": "http://localhost:9000/_oauth-callback",
-        |"state": $validAuthState,
-        |"headers": Map()
+        |"state": "$validAuthState"
         |}""".stripMargin
 
-    val httpClientMock = httpClientMockPost[OAuthToken](
-      url = s"https://github.com/login/oauth/access_token",
+    val httpClientMock = httpClientMockPostOAuth[OAuthToken](
+      url = "http://127.0.0.1:9999/login/oauth/access_token",
       json = request,
       response = response
     )
@@ -102,6 +93,6 @@ class AuthSpec extends BaseSpec {
       validCode,
       validRedirectUri,
       validAuthState,
-      Map.empty)
+      headerUserAgent)
   }
 }

@@ -76,6 +76,31 @@ trait BaseSpec extends FlatSpec with Matchers with TestData with IdInstances wit
     httpClientMock
   }
 
+  def httpClientMockPostAuth[T](
+      url: String,
+      headers: Map[String, String],
+      json: String,
+      response: GHResponse[T]): HttpClient[String, Id] = {
+    val httpClientMock = mock[HttpClientTest]
+    (httpClientMock
+      .postAuth[T](_: String, _: Map[String, String], _: String)(_: Decoder[T]))
+      .expects(url, headers ++ headerUserAgent, JsonMockParameter(json), *)
+      .returns(response)
+    httpClientMock
+  }
+
+  def httpClientMockPostOAuth[T](
+      url: String,
+      json: String,
+      response: GHResponse[T]): HttpClient[String, Id] = {
+    val httpClientMock = mock[HttpClientTest]
+    (httpClientMock
+      .postOAuth[T](_: String, _: Map[String, String], _: String)(_: Decoder[T]))
+      .expects(url, headerUserAgent, JsonMockParameter(json), *)
+      .returns(response)
+    httpClientMock
+  }
+
   def httpClientMockPatch[T](
       url: String,
       json: String,
