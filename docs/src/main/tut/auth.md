@@ -22,13 +22,10 @@ import scalaj.http.HttpResponse
 // if you're using ScalaJS, replace occurrences of HttpResponse by SimpleHttpResponse
 //import github4s.js.Implicits._
 //import fr.hmil.roshttp.response.SimpleHttpResponse
-
 ```
 
 **NOTE**: In the examples you will see `Github(None)`
-because if you are authenticating for the first time you don't have any accessToken yet.
-
-## Authentication
+because if you are authenticating for the first time you don't have any access token yet.
 
 ### Create a new authorization token
 
@@ -63,12 +60,12 @@ See [the API doc](https://developer.github.com/v3/oauth_authorizations/#create-a
 
 ### Authorize a url
 
-Generates the authorize url with a random state, both are returned within an Authorize object.
+Generates an authorize url with a random state, both are returned within an [Authorize][auth-scala].
 
 You can authorize a url using `authorizeUrl`, it takes as arguments:
 
 - `client_id`: the 20 character OAuth app client key for which to create the token.
-- `redirect_uri`: the URL in your app where users will be sent after authorization.
+- `redirect_uri`: the URL in your app where users will be sent to after authorization.
 - `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
 
 ```scala
@@ -89,7 +86,7 @@ See [the API doc](https://developer.github.com/v3/oauth/#web-application-flow) f
 
 ### Get an access token
 
-Requests an access token based on the code retrieved in the [Create a new authorization token](#create-a-new-authorization-token) step of the oAuth process
+Requests an access token based on the code retrieved in the [Create a new authorization token](#create-a-new-authorization-token) step of the OAuth process
 
 You can get an access token using `getAccessToken`, it takes as arguments:
 

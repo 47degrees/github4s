@@ -40,8 +40,8 @@ val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 
 ### Get a Reference
 
-The ref in the URL must be formatted as `heads/branch`, not just branch.
-For example, the call to get the data for `master` branch will be `heads/master`.
+The ref must be formatted as `heads/branch`, not just `branch`.
+For example, the call to get the data, the `master` branch will be `heads/master`.
 
 If the `ref` doesn't exist in the repository, but existing `refs` start with `ref` they will be
 returned as an array. For example, a call to get the data for a branch named `feature`,
@@ -50,7 +50,7 @@ which doesn't exist, would return head refs including `featureA` and `featureB` 
 You can get a reference using `getReference`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
-- `ref`: ref formatted as heads/branch.
+- `ref`: ref formatted as `heads/branch`.
 
 ```tut:silent
 val getReference = Github(accessToken).gitData.getReference("47deg", "github4s", "heads/master")
@@ -68,19 +68,18 @@ See [the API doc](https://developer.github.com/v3/git/refs/#get-a-reference) for
 
 ### Create a Reference
 
-The ref in the URL must be formatted as `heads/branch`, not just branch.
-For example, the call to get the data for `master` branch will be `heads/master`.
+The ref must be formatted as `heads/branch`, not just `branch`.
+For example, the call to get the data, the `master` branch will be `heads/master`.
 
 You can create a reference using `createReference`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
-- `ref`: The name of the fully qualified reference (ie: refs/heads/master).
-If it doesn't start with 'refs' and have at least two slashes, it will be rejected.
+- `ref`: The name of the fully qualified reference (e.g.: `refs/heads/master`).
+If it doesn't start with 'refs' and has at least two slashes, it will be rejected.
 - `sha`: the SHA1 value to set this reference.
 
 ```scala
-val createReference = Github(accessToken)
-.gitData.createReference(
+val createReference = Github(accessToken).gitData.createReference(
   "47deg",
   "github4s",
   "refs/heads/master",
@@ -154,15 +153,14 @@ You can create a commit using `createCommit`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `message`: the new commit's message.
-- `tree`: the SHA of the tree object this commit points.
-- `parents`: the SHAs of the commits that were the parents of this commit. If omitted or empty,
+- `tree`: the SHA of the tree object this commit points to.
+- `parents`: the SHAs of the commits that are the parents of this commit. If omitted or empty,
 the commit will be written as a root commit. For a single parent, an array of one SHA should be provided;
 for a merge commit, an array of more than one should be provided.
 - `author`: object containing information about the author.
 
 ```scala
-val createCommit = Github(accessToken)
-.gitData.createCommit(
+val createCommit = Github(accessToken).gitData.createCommit(
   "47deg",
   "github4s",
   "New access token",
@@ -206,25 +204,25 @@ See [the API doc](https://developer.github.com/v3/git/blobs/#create-a-blob) for 
 
 As you probably know, Git can be considered as a tree structure.
 Each commit creates a new node in that tree.
-Even we could assume that all the Git commands or methods provided by the API,
-are just tools that serve to navigate on this tree and to manipulate it.
+We can even assume that all the Git commands or methods provided by the API,
+are just tools to navigate this tree and to manipulate it.
 
-In the next sections, let's see how Github4s API provides some methods to wrap the Github API.
+In the next sections, we'll see how Github4s provides methods to wrap the Git API.
 
 ### Create a Tree
 
-The tree creation API will take nested entries as well. If both a tree and a nested path modifying
+The tree creation API will take nested entries as well. If both a tree and a nested entries modifying
 that tree are specified, it will overwrite the contents of that tree with the new path contents
-and write a new tree out.
+write out a new tree.
 
-IMPORTANT: If you don't set the baseTree, the commit will be created on top of everything;
-however, it will only contain your change, the rest of your files will show up as deleted.
+IMPORTANT: If you don't set ´baseTree´, the commit will be created on top of everything;
+however, it will only contain your changes, the rest of your files will show up as deleted.
 
 You can create a tree using `createTree`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `baseTree`: the SHA1 of the tree you want to update with new data.
-- `treeDataList`: list (of path, mode, type, and sha/blob) specifying a tree structure:
+- `treeDataList`: list (of path, mode, type, and sha/blob) specifying a tree structure.
 - `path`: The file referenced in the tree.
 - `mode`: The file mode; one of 100644 for file (blob), 100755 for executable (blob),
  040000 for subdirectory (tree), 160000 for submodule (commit),
@@ -232,11 +230,10 @@ You can create a tree using `createTree`, it takes as arguments:
 - `type`: Either blob, tree, or commit.
 - `sha`: The SHA1 checksum ID of the object in the tree.
 - `content`: The content you want this file to have.
- GitHub will write this blob out and use that SHA for this entry. Use either this, or tree.sha.
+ GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.
 
 ```scala
-val createTree = Github(accessToken)
-.gitData.createTree(
+val createTree = Github(accessToken).gitData.createTree(
   "47deg",
   "github4s",
   Some("827efc6d56897b048c772eb4087f854f46256132"),
@@ -276,14 +273,14 @@ Normally this is a `commit` but it can also be a `tree` or a `blob`.
 - `tagger`: object containing information about the individual creating the tag.
 
 ```scala
-val createTag = Github(accessToken)
-.gitData.createTag(
+val createTag = Github(accessToken).gitData.createTag(
   "47deg",
   "github4s",
   "v0.1.1",
   "New access token",
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
-  "commit")
+  "commit",
+  Some(RefAuthor("2014-11-07T22:01:45Z", "rafaparadela", "developer@47deg.com")))
 
 createTag.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")

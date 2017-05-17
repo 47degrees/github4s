@@ -108,7 +108,7 @@ class ReposSpec extends BaseSpec {
     )
   }
 
-  "Repos.listcommit" should "call to httpClient.get with the right parameters" in {
+  "Repos.listCommits" should "call to httpClient.get with the right parameters" in {
 
     val response: GHResponse[List[Commit]] =
       Right(GHResult(List(commit), okStatusCode, Map.empty))

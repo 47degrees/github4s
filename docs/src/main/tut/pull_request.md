@@ -80,7 +80,7 @@ See [the API doc](https://developer.github.com/v3/pulls/#list-pull-requests-file
 reference.
 
 ## Create a pull request
-If you want to create a pull request, we have two ways to create a pull request.
+If you want to create a pull request, there are two ways to create a pull request.
 
 On the one hand, we pass as parameters to create a new pull request:
 
@@ -92,20 +92,34 @@ On the one hand, we pass as parameters to create a new pull request:
  - `maintainerCanModify`: Optional. Indicates whether maintainers can modify the pull request. `true` by default.
 
 ```scala
-val createPullRequestData = Github(accessToken).pullRequests.create("47deg", "github4s", NewPullRequestData("title","body"),"my-branch","base-branch",Some(true))
+val createPullRequestData = Github(accessToken).pullRequests.create(
+  "47deg",
+  "github4s",
+  NewPullRequestData("title","body"),
+  "my-branch",
+  "base-branch",
+  Some(true))
+
 createPullRequestData.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
 
-On the other hand, we can pass a `issue` id (through `NewPullRequestIssue` object)
-instead of the title and the body to get this parameter of the issue.
+On the other hand, we can pass an `issue` id (through `NewPullRequestIssue` object)
+instead of the title and body.
 
 **NOTE**: This option deletes the issue.
 
 ```scala
-val createPullRequestIssue = Github(accessToken).pullRequests.create("47deg", "github4s", NewPullRequestIssue("105"),"my-branch","base-branch",Some(true))
+val createPullRequestIssue = Github(accessToken).pullRequests.create(
+  "47deg",
+  "github4s",
+  NewPullRequestIssue("105"),
+  "my-branch",
+  "base-branch",
+  Some(true))
+
 createPullRequestIssue.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println("Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)

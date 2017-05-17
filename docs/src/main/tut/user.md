@@ -51,7 +51,7 @@ See [the API doc](https://developer.github.com/v3/users/#get-a-single-user) for 
 
 ### Get an authenticated user
 
-Get information of the authenticated user.
+Get information of the authenticated user making the API call.
 
 You can get an authenticated user using `getAuth`:
 

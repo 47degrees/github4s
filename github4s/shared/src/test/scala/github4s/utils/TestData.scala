@@ -350,8 +350,8 @@ trait TestData extends DummyGithubUrls {
   val validAuthState = UUID.randomUUID().toString
   val user           = User(1, validUsername, githubApiUrl, githubApiUrl)
 
-  val authorization = Authorization(validClientId, validRedirectUri, sampleToken)
+  val authorization = Authorization(1, validRedirectUri, "token")
   val authorize     = Authorize(validRedirectUri, validAuthState)
 
-  val oAuthToken = OAuthToken(sampleToken, validTokenType, validScopes)
+  val oAuthToken = OAuthToken("token", validTokenType, "public_repo")
 }
