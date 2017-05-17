@@ -82,7 +82,7 @@ reference.
 ## Create a pull request
 If you want to create a pull request, there are two ways to create a pull request.
 
-On the one hand, we pass as parameters to create a new pull request:
+One the one hand, we can pass the following parameters:
 
  - the repository coordinates (`owner` and `name` of the repository).
  - `title` (as part of the `NewPullRequestData` object): Title for the pull request.

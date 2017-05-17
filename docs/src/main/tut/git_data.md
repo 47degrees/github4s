@@ -107,8 +107,7 @@ You can update a reference using `updateReference`, it takes as arguments:
 Leaving this out or setting it to `false` will make sure you're not overwriting work. Default: `false`.
 
 ```scala
-val updateReference = Github(accessToken)
-.gitData.updateReference(
+val updateReference = Github(accessToken).gitData.updateReference(
   "47deg",
   "github4s",
   "heads/master",
@@ -270,7 +269,7 @@ You can create a tag using `createTag`, it takes as arguments:
 - `objectSha`: the SHA of the git object this is tagging.
 - `objectType`: the type of the object we're tagging.
 Normally this is a `commit` but it can also be a `tree` or a `blob`.
-- `tagger`: object containing information about the individual creating the tag.
+- `tagger`: Optional object containing information about the individual creating the tag.
 
 ```scala
 val createTag = Github(accessToken).gitData.createTag(
