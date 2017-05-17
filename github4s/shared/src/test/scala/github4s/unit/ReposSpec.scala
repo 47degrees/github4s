@@ -152,38 +152,6 @@ class ReposSpec extends BaseSpec {
     )
   }
 
-  "Repos.createRelease" should "call httpClient.post with the right parameters" in {
-    val response: GHResponse[Release] = Right(GHResult(release, createdStatusCode, Map.empty))
-
-    val request =
-      s"""
-       |{
-       |  "tag_name": "$validTagTitle",
-       |  "name": "$validTagTitle",
-       |  "target_commitish": "master",
-       |  "body": "$validNote"
-       |}""".stripMargin
-
-    val httpClientMock = httpClientMockPost[Release](
-      url = s"repos/$validRepoOwner/$validRepoName/releases",
-      json = request,
-      response = response
-    )
-
-    val repos = new Repos[String, Id] {
-      override val httpClient: HttpClient[String, Id] = httpClientMock
-    }
-    repos.createRelease(
-      sampleToken,
-      headerUserAgent,
-      validRepoOwner,
-      validRepoName,
-      validTagTitle,
-      validTagTitle,
-      validNote,
-      Some("master"))
-  }
-
   "Repos.getStatus" should "call httpClient.get with the right parameters" in {
     val response: GHResponse[CombinedStatus] =
       Right(GHResult(combinedStatus, okStatusCode, Map.empty))
