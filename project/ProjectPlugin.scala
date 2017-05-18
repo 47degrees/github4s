@@ -21,7 +21,7 @@ object ProjectPlugin extends AutoPlugin {
   object autoImport {
 
     lazy val micrositeSettings = Seq(
-      micrositeName := "github4s",
+      micrositeName := "Github4s",
       micrositeDescription := "Github API wrapper written in Scala",
       micrositeBaseUrl := "github4s",
       micrositeDocumentationUrl := "/github4s/docs.html",
@@ -42,7 +42,7 @@ object ProjectPlugin extends AutoPlugin {
       %%("circe-parser"),
       %%("base64"),
       %%("scalamockScalatest") % "test",
-      %%("scalatest") % "test"
+      %%("scalatest")          % "test"
     )
 
     lazy val standardCommonDeps = Seq(
