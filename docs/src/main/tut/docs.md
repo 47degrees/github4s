@@ -136,16 +136,6 @@ object ProgramEval {
 }
 ```
 
-## Test credentials
-
-Note that for Github4s to have access to the GitHub API during the test phases, you need to provide
-a valid access token with the right credentials (depending on your usage of the API, you will need
-different permission), through the sbt configuration variable "token":
-
-```
-sbt -Dtoken=ACCESS_TOKEN_STRING
-```
-
 [http-client]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/HttpClient.scala
 [scalaj]: https://github.com/scalaj/scalaj-http
 [roshttp]: https://github.com/hmil/RosHTTP
