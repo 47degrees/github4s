@@ -43,7 +43,7 @@ class GistSpec extends BaseSpec {
         |}""".stripMargin
 
     val httpClientMock = httpClientMockPost[Gist](
-      url = s"gists",
+      url = "gists",
       json = request,
       response = response
     )
