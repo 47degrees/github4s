@@ -10,7 +10,7 @@ import sbtorgpolicies.templates.badges._
 import sbtorgpolicies.runnable.syntax._
 import scoverage.ScoverageKeys
 import scoverage.ScoverageKeys._
-import tut.Plugin._
+import tut.TutPlugin.autoImport._
 
 object ProjectPlugin extends AutoPlugin {
 
@@ -28,7 +28,7 @@ object ProjectPlugin extends AutoPlugin {
       micrositeGithubOwner := "47deg",
       micrositeGithubRepo := "github4s",
       includeFilter in Jekyll := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md",
-      tutScalacOptions ~= (_ filterNot Set("-Ywarn-unused-import", "-Xlint").contains)
+      scalacOptions in Tut ~= (_ filterNot Set("-Ywarn-unused-import", "-Xlint").contains)
     )
 
     lazy val testSettings = Seq(
@@ -93,7 +93,7 @@ object ProjectPlugin extends AutoPlugin {
       orgSupportedScalaJSVersion := Some("0.6.15"),
       orgScriptTaskListSetting ++= List(
         (ScoverageKeys.coverageAggregate in Test).asRunnableItemFull,
-        (tut in ProjectRef(file("."), "docs")).asRunnableItem
+       "docs/tut".asRunnableItem
       ),
       coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
       // This is necessary to prevent packaging the BuildInfo with

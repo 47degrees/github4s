@@ -1,2 +1,2 @@
 addSbtPlugin(
-  "com.47deg" % "sbt-org-policies" % "0.4.24" exclude ("io.get-coursier", "sbt-coursier"))
+  "com.47deg" % "sbt-org-policies" % "0.5.0" exclude ("io.get-coursier", "sbt-coursier"))
