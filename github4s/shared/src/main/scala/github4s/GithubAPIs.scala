@@ -242,7 +242,7 @@ class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHu
       repo: String,
       ref: String,
       sha: String,
-      force: Option[Boolean] = None
+      force: Boolean = false
   ): GHIO[GHResponse[Ref]] =
     O.updateReference(owner, repo, ref, sha, force, accessToken)
 

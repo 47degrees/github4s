@@ -66,7 +66,7 @@ class GHGitDataSpec extends BaseSpec {
         validRepoName,
         validRefSingle,
         validCommitSha,
-        Some(false),
+        false,
         sampleToken)
       .returns(response)
 
@@ -76,7 +76,7 @@ class GHGitDataSpec extends BaseSpec {
       validRepoName,
       validRefSingle,
       validCommitSha,
-      Some(false))
+      false)
   }
 
   "GHGitData.getCommit" should "call to GitDataOps with the right parameters" in {

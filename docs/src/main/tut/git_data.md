@@ -104,7 +104,7 @@ You can update a reference using `updateReference`, it takes as arguments:
 - `ref`: ref formatted as heads/branch.
 - `sha`: the SHA1 value to set this reference.
 - `force`: Indicates whether to force the update or to make sure the update is a fast-forward update.
-Leaving this out or setting it to `false` will make sure you're not overwriting work. Default: `false`.
+Setting it to `false` will make sure you're not overwriting work. Default: `false`.
 
 ```scala
 val updateReference = Github(accessToken).gitData.updateReference(

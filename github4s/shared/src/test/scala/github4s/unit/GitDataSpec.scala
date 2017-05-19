@@ -75,12 +75,12 @@ class GitDataSpec extends BaseSpec {
 
     val response: GHResponse[Ref] =
       Right(GHResult(ref, okStatusCode, Map.empty))
-    val force = Some(false)
+    val force = false
     val request =
       s"""
          |{
-         |  "sha": "$validCommitSha"
-         |  ${force.map(f => ",\"force\": " + f).getOrElse(" ")}
+         |  "sha": "$validCommitSha",
+         |  "force": $force
          |}
        """.stripMargin
 

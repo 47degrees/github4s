@@ -76,6 +76,6 @@ case class NewTreeRequest(base_tree: Option[String], tree: List[TreeData])
 
 case class CreateReferenceRequest(ref: String, sha: String)
 
-case class UpdateReferenceRequest(sha: String, force: Option[Boolean])
+case class UpdateReferenceRequest(sha: String, force: Boolean)
 
 case class NewTagRequest(tag: String, message: String, `object`: String, `type`: String, tagger: Option[RefAuthor])

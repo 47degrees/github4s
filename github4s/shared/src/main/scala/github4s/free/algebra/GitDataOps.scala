@@ -46,7 +46,7 @@ final case class UpdateReference(
   repo: String,
   ref: String,
   sha: String,
-  force: Option[Boolean],
+  force: Boolean,
   accessToken: Option[String]
 ) extends GitDataOp[GHResponse[Ref]]
 
@@ -122,7 +122,7 @@ class GitDataOps[F[_]](implicit I: Inject[GitDataOp, F]) {
       repo: String,
       ref: String,
       sha: String,
-      force: Option[Boolean],
+      force: Boolean,
       accessToken: Option[String] = None
   ): Free[F, GHResponse[Ref]] =
     Free.inject[GitDataOp, F](UpdateReference(owner, repo, ref, sha, force, accessToken))
