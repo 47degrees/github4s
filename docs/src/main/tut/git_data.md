@@ -71,7 +71,7 @@ See [the API doc](https://developer.github.com/v3/git/refs/#get-a-reference) for
 The ref must be formatted as `heads/branch`, not just `branch`.
 For example, the call to get the data, the `master` branch will be `heads/master`.
 
-You can create a reference using `createReference`, it takes as arguments:
+You can create a reference using `createReference`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `ref`: The name of the fully qualified reference (e.g.: `refs/heads/master`).
@@ -98,7 +98,7 @@ See [the API doc](https://developer.github.com/v3/git/refs/#create-a-reference) 
 
 ### Update a Reference
 
-You can update a reference using `updateReference`, it takes as arguments:
+You can update a reference using `updateReference`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `ref`: ref formatted as heads/branch.
@@ -127,7 +127,7 @@ See [the API doc](https://developer.github.com/v3/git/refs/#update-a-reference) 
 
 ### Get a Commit
 
-You can get a commit using `getCommit`, it takes as arguments:
+You can get a commit using `getCommit`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `sha`: the sha of the commit.
@@ -148,7 +148,7 @@ See [the API doc](https://developer.github.com/v3/git/commits/#get-a-commit) for
 
 ### Create a Commit
 
-You can create a commit using `createCommit`, it takes as arguments:
+You can create a commit using `createCommit`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `message`: the new commit's message.
@@ -180,7 +180,7 @@ See [the API doc](https://developer.github.com/v3/git/commits/#create-a-commit) 
 
 ### Create a Blob
 
-You can create a blob using `createBlob`, it takes as arguments:
+You can create a blob using `createBlob`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `content`: the new blob's content.
@@ -203,10 +203,10 @@ See [the API doc](https://developer.github.com/v3/git/blobs/#create-a-blob) for 
 
 As you probably know, Git can be considered as a tree structure.
 Each commit creates a new node in that tree.
-We can even assume that all the Git commands or methods provided by the API,
+We can even assume that all the Git commands or methods provided by the API
 are just tools to navigate this tree and to manipulate it.
 
-In the next sections, we'll see how Github4s provides methods to wrap the Git API.
+In the following sections, we'll see how Github4s provides methods to wrap the Git API.
 
 ### Create a Tree
 
@@ -217,7 +217,7 @@ write out a new tree.
 IMPORTANT: If you don't set ´baseTree´, the commit will be created on top of everything;
 however, it will only contain your changes, the rest of your files will show up as deleted.
 
-You can create a tree using `createTree`, it takes as arguments:
+You can create a tree using `createTree`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `baseTree`: the SHA1 of the tree you want to update with new data.
@@ -229,7 +229,7 @@ You can create a tree using `createTree`, it takes as arguments:
 - `type`: Either blob, tree, or commit.
 - `sha`: The SHA1 checksum ID of the object in the tree.
 - `content`: The content you want this file to have.
- GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.
+ GitHub will write this blob out and use that SHA for this entry. Use either this or `tree.sha`.
 
 ```scala
 val createTree = Github(accessToken).gitData.createTree(
@@ -261,14 +261,14 @@ See [the API doc](https://developer.github.com/v3/git/trees/#create-a-tree) for 
 
 ### Create a Tag
 
-You can create a tag using `createTag`, it takes as arguments:
+You can create a tag using `createTag`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `tag`: the tag.
 - `message`: the new tag message.
 - `objectSha`: the SHA of the git object this is tagging.
 - `objectType`: the type of the object we're tagging.
-Normally this is a `commit` but it can also be a `tree` or a `blob`.
+Normally this is a `commit`, but it can also be a `tree` or a `blob`.
 - `tagger`: Optional object containing information about the individual creating the tag.
 
 ```scala

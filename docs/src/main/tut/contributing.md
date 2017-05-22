@@ -13,8 +13,8 @@ As an example, we'll assume that the endpoint listing the statuses for a specifi
 the repository API is not part of Github4s and we want Github4s to support it. Documentation for
 this endpoint can be found on [developer.github.com][api-doc].
 
-This endpoint is fairly simple, we need to make a GET request with the repository's owner and name
-as well as the ref for which we want the status in the URL's path and Github will send us back a
+This endpoint is fairly simple; we need to make a GET request with the repository's owner and name
+as well as the ref for which we want the status in the URL's path, and Github will send us back a
 list of statuses.
 
 ## Source
@@ -78,7 +78,7 @@ case class Status(
 ```
 
 We can put it in the [github4s.free.domain package][domain-pkg] in the file corresponding to the
-API, here [Repository][repos-domain-scala].
+API, here: [Repository][repos-domain-scala].
 
 ## API
 
@@ -129,7 +129,7 @@ class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
 ```
 
 This code belongs to the [github4s.free.algebra package][algebra-pkg] in the file corresponding
-to the API, here [RepositoryOps][repos-algebra-scala].
+to the API, here: [RepositoryOps][repos-algebra-scala].
 
 ## Interpreter
 
@@ -194,7 +194,7 @@ Now that we've written our source code, we're ready to write the tests.
 
 ## Token
 
-The first step needed to run the tests is a valid token which we can provide through an
+The first step we need to take in order to run the tests is a valid token which we can provide through an
 environment variable:
 
 ```bash
@@ -232,8 +232,7 @@ it should "return an empty list when an invalid ref is provided" in {
 }
 ```
 
-Note however that integration tests are only required for GET endpoints (not POST or PATCH) in order
-not to create any useless stuff on Github.
+Be aware that integration tests are only required for GET endpoints (not POST or PATCH) to avoid creating useless stuff on GitHub.
 
 ## Unit tests
 
@@ -262,7 +261,7 @@ We're just verifying that our algebra gets the right parameters from our wrapper
 
 ### API spec
 
-We're just checking that our API defined above hits the right endpoint, here
+We're just checking that our API defined above hits the right endpoint, here:
 `s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses"`:
 
 ```scala
@@ -387,7 +386,7 @@ See [the API doc](https://developer.github.com/v3/repos/statuses/#list-statuses-
 for full reference.
 ```
 
-Once the documentation is written we can build it locally with:
+Once the documentation is written, we can build it locally with:
 
 ```bash
 sbt makeMicrosite

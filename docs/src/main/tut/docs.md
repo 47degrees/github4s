@@ -7,7 +7,7 @@ title: Getting Started
 
 ## API token
 
-In order to access the Github API you will need to have [an access token][access-token] with the
+In order to access the Github API, you will need to have [an access token][access-token] with the
 appropriate scopes (i.e. if you want to create gists, your token will need to have the gist scope).
 
 ## Github4s
@@ -50,14 +50,14 @@ val user1 = Github(accessToken).users.get("rafaparadela")
 ```
 
 `user1` in this case is a `GHIO[GHResponse[User]]` which we can run (`foldMap`) with
-`exec[M[_], C]` where `M[_]` represents any type container that implements
+`exec[M[_], C]` where `M[_]` that represents any type container that implements
 `MonadError[M, Throwable]` (for instance `cats.Eval`) and `C` represents a valid implementation of
 an [HttpClient][http-client].
 
 The previously mentioned implicit classes carry out of the box
 instances for working with [scalaj][scalaj] (for JVM-compatible apps) and [roshttp][roshttp] (for
 scala-js-compatible apps). Take into account that in the latter case, you can only use `Future` in
-the place of `M[_]`.
+place of `M[_]`.
 
 A few examples follow with different `MonadError[M, Throwable]`.
 

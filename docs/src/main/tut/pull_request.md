@@ -26,14 +26,14 @@ import scalaj.http.HttpResponse
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will do.
+They also make use of `cats.Id`, but any type container implementing `MonadError[M, Throwable]` will do.
 
-Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
+Support for `cats.Id`, `cats.Eval`, and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 ## List pull requests
 
-You can list the pull requests for a repository using `list`, it takes as arguments:
+You can list the pull requests for a repository using `list`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - a list of [PRFilter](https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala).
@@ -58,7 +58,7 @@ See [the API doc](https://developer.github.com/v3/pulls/#list-pull-requests) for
 
 ## List the files in a pull request
 
-You can also list the files for a pull request using `listFiles`, it takes as arguments:
+You can also list the files for a pull request using `listFiles`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - the pull request number.
@@ -80,9 +80,9 @@ See [the API doc](https://developer.github.com/v3/pulls/#list-pull-requests-file
 reference.
 
 ## Create a pull request
-If you want to create a pull request, there are two ways to create a pull request.
+If you want to create a pull request, you can follow two different methods.
 
-One the one hand, we can pass the following parameters:
+On the one hand, we can pass the following parameters:
 
  - the repository coordinates (`owner` and `name` of the repository).
  - `title` (as part of the `NewPullRequestData` object): Title for the pull request.

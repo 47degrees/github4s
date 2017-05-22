@@ -34,7 +34,7 @@ val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 
 ### Create an issue
 
-You can create an issue using `createIssue`, it takes as arguments:
+You can create an issue using `createIssue`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - the content of the issue (`title` and `body`).
@@ -60,7 +60,7 @@ See [the API doc](https://developer.github.com/v3/issues/#create-an-issue) for f
 
 ### Edit an issue
 
-You can edit an existing issue using `editIssue`, it takes as arguments:
+You can edit an existing issue using `editIssue`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - the issue `number`.
@@ -88,7 +88,7 @@ See [the API doc](https://developer.github.com/v3/issues/#edit-an-issue) for ful
 
 ### List issues 
 
-You can also list issues for a repository through `listIssues`, it take as arguments:
+You can also list issues for a repository through `listIssues`; it take as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 
@@ -112,7 +112,7 @@ for full reference.
 
 ### Search issues
 
-Lastly, you can also search issues all across Github thanks to `searchIssues`, it takes as
+Lastly, you can also search issues all across Github thanks to `searchIssues`; it takes as
 arguments:
 
 - a `query` string (the URL encoding is taken care of by Github4s).
@@ -144,7 +144,7 @@ See [the API doc](https://developer.github.com/v3/search/#search-issues) for ful
 
 ### Create a Comment
 
-You can create a comment for an issue whit the following parameters:
+You can create a comment for an issue with the following parameters:
 
  - the repository coordinates (`owner` and `name` of the repository).
  - `number`: The issue number.
@@ -167,7 +167,7 @@ See [the API doc](https://developer.github.com/v3/issues/comments/#create-a-comm
 
 ### Edit a Comment
 
-You can edit a comment from an issue whit the following parameters:
+You can edit a comment from an issue with the following parameters:
 
  - the repository coordinates (`owner` and `name` of the repository).
  - `id`: The comment id.
@@ -190,7 +190,7 @@ See [the API doc](https://developer.github.com/v3/issues/comments/#edit-a-commen
 
 ### Delete a Comment
 
-You can delete a comment from an issue whit the following parameters:
+You can delete a comment from an issue with the following parameters:
 
  - the repository coordinates (`owner` and `name` of the repository).
  - `id`: The comment id.

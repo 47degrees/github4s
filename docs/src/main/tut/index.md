@@ -12,7 +12,7 @@ Github4s is a GitHub API wrapper written in Scala.
 
 ## Installation
 
-Github4s is compatible with both Scala JVM and Scala.js. It supports 2.10, 2.11 and 2.12.
+Github4s is compatible with both Scala JVM and Scala.js. It supports 2.10, 2.11, and 2.12.
 
 To get started with SBT, simply add the following to your build.sbt file.
 

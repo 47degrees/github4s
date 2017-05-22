@@ -26,12 +26,12 @@ val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 
 They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will do.
 
-Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
+Support for `cats.Id`, `cats.Eval`, and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 ## Create a gist
 
-You can create a gist using `newGist`, it takes as arguments:
+You can create a gist using `newGist`; it takes as arguments:
 
 - the gist description.
 - whether it is public or private.

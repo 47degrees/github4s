@@ -31,7 +31,7 @@ because if you are authenticating for the first time you don't have any access t
 
 Used to request a new auth token given basic authentication.
 
-You can create a new authorization token using `newAuth`, it takes as arguments:
+You can create a new authorization token using `newAuth`; it takes as arguments:
 
 - basic authentication for the token holder (`username` and `password`).
 - `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
@@ -62,7 +62,7 @@ See [the API doc](https://developer.github.com/v3/oauth_authorizations/#create-a
 
 Generates an authorize url with a random state, both are returned within an [Authorize][auth-scala].
 
-You can authorize a url using `authorizeUrl`, it takes as arguments:
+You can authorize a url using `authorizeUrl`; it takes as arguments:
 
 - `client_id`: the 20 character OAuth app client key for which to create the token.
 - `redirect_uri`: the URL in your app where users will be sent to after authorization.
@@ -86,9 +86,9 @@ See [the API doc](https://developer.github.com/v3/oauth/#web-application-flow) f
 
 ### Get an access token
 
-Requests an access token based on the code retrieved in the [Create a new authorization token](#create-a-new-authorization-token) step of the OAuth process
+Requests an access token based on the code retrieved in the [Create a new authorization token](#create-a-new-authorization-token) step of the OAuth process.
 
-You can get an access token using `getAccessToken`, it takes as arguments:
+You can get an access token using `getAccessToken`; it takes as arguments:
 
 - `client_id`: the 20 character OAuth app client key for which to create the token.
 - `client_secret`: the 40 character OAuth app client secret for which to create the token.

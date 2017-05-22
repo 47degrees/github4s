@@ -31,15 +31,15 @@ import scalaj.http.HttpResponse
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will do.
+They also make use of `cats.Id`, but any type container implementing `MonadError[M, Throwable]` will do.
 
-Support for `cats.Id`, `cats.Eval` and `Future` (the only supported option for scala-js) are
+Support for `cats.Id`, `cats.Eval`, and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 ## Repository
 
 ### Get a repository
 
-You can get a repository using `get`, it takes as arguments:
+You can get a repository using `get`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 
@@ -158,7 +158,7 @@ reference.
 
 ### Create a release
 
-Users with push access to the repository can create a release using `createRelease`, it takes as arguments:
+Users with push access to the repository can create a release using `createRelease`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `tag_name`: The name of the tag.
@@ -167,7 +167,7 @@ Users with push access to the repository can create a release using `createRelea
 - `target_commitish`: Specifies the commitish value that determines where the `Git tag` is created from.
 Can be any branch or commit `SHA`. Unused if the `Git tag` already exists. Default: the repository's default branch (usually `master`).
 - `draft`: true to create a draft (unpublished) release, false to create a published one. Default: false.
-- `prerelease`: true to identify the release as a prerelease. false to identify the release as a full release. Default: false.
+- `prerelease`: true to identify the release as a pre-release. false to identify the release as a full release. Default: false.
 
 To create a release:
 
@@ -190,7 +190,7 @@ reference.
 
 ### Create a status
 
-You can create a status using `createStatus`, it takes as arguments:
+You can create a status using `createStatus`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - the `SHA` of the commit for which we want to create a status.
@@ -217,7 +217,7 @@ reference.
 ### List status for a specific Ref
 
 
-You can also list status through `listStatus`, it take as arguments:
+You can also list status through `listStatus`; it take as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - a git ref (a `SHA`, a branch `name` or a tag `name`).
@@ -241,7 +241,7 @@ for full reference.
 
 ### Get the combined status for a specific Ref
 
-Lastly, you can also get the combined status thanks to `getCombinedStatus`, it takes the same
+Lastly, you can also get the combined status thanks to `getCombinedStatus`; it takes the same
 arguments as the operation listing statuses:
 
 ```tut:silent
