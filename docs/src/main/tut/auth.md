@@ -1,11 +1,11 @@
 ---
 layout: docs
-title: Authentication API
+title: Authorization API
 ---
 
-# Authentication API
+# Authorization API
 
-Github4s supports the [Authentication API](https://developer.github.com/v3/oauth_authorizations/). As a result,
+Github4s supports the [Authorization API](https://developer.github.com/v3/oauth_authorizations/). As a result,
 with Github4s, you can:
 
 - [Create a new authorization token](#create-a-new-authorization-token)
@@ -113,7 +113,7 @@ The `result` on the right is the corresponding [OAuthToken][auth-scala].
 
 See [the API doc](https://developer.github.com/v3/oauth/#web-application-flow) for full reference.
 
-As you can see, a few features of the authentication endpoint are missing.
+As you can see, a few features of the authorization endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
