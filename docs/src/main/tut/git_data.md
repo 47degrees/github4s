@@ -56,7 +56,7 @@ You can get a reference using `getReference`, it takes as arguments:
 val getReference = Github(accessToken).gitData.getReference("47deg", "github4s", "heads/master")
 
 getReference.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: s{e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -86,7 +86,7 @@ val createReference = Github(accessToken).gitData.createReference(
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 
 createReference.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -114,7 +114,7 @@ val updateReference = Github(accessToken).gitData.updateReference(
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 
 updateReference.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -136,7 +136,7 @@ You can get a commit using `getCommit`, it takes as arguments:
 val getCommit = Github(accessToken).gitData.getCommit("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 
 getCommit.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -167,7 +167,7 @@ val createCommit = Github(accessToken).gitData.createCommit(
   List("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"))
 
 createCommit.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -190,7 +190,7 @@ You can create a blob using `createBlob`, it takes as arguments:
 val createBlob = Github(accessToken).gitData.createBlob("47deg", "github4s", "New access token")
 
 createBlob.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -248,7 +248,7 @@ val createTree = Github(accessToken).gitData.createTree(
   "Sample Body")
 
 createTree.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -282,7 +282,7 @@ val createTag = Github(accessToken).gitData.createTag(
   Some(RefAuthor("2014-11-07T22:01:45Z", "rafaparadela", "developer@47deg.com")))
 
 createTag.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```

@@ -50,7 +50,7 @@ val getRepo =
   Github(accessToken).repos.get("47deg", "github4s")
 
 getRepo.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -77,7 +77,7 @@ val listContributors =
   Github(accessToken).repos.listContributors("47deg", "github4s", Some("true"))
 
 listContributors.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -115,7 +115,7 @@ val listCommits =
   Some("2014-11-07T22:01:45Z"))
 
 listCommits.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -144,7 +144,7 @@ val getContents =
   Github(accessToken).repos.getContents("47deg", "github4s", "README.md", Some("heads/master"))
 
 getContents.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -176,7 +176,7 @@ val createRelease =
   Github(accessToken).repos.createRelease("47deg", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
 
 createRelease.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -204,7 +204,7 @@ val createStatus =
   Github(accessToken).repos.createStatus("47deg", "github4s", "aaaaaa", "pending")
 
 createStatus.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -229,7 +229,7 @@ val listStatus =
   Github(accessToken).repos.listStatus("47deg", "github4s", "heads/master")
 
 listStatus.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -249,7 +249,7 @@ val combinedStatus =
   Github(accessToken).repos.getCombinedStatus("47deg", "github4s", "heads/master")
 
 combinedStatus.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```

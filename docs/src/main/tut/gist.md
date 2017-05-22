@@ -49,7 +49,7 @@ val files = Map(
 val newGist = Github(accessToken).gists.newGist("Github4s entry point", public = true, files)
 
 newGist.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```

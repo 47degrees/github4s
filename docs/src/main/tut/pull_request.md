@@ -47,7 +47,7 @@ val prFilters = List(PRFilterOpen, PRFilterSortPopularity)
 val listPullRequests = Github(accessToken).pullRequests.list("scala", "scala", prFilters)
 
 listPullRequests.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -69,7 +69,7 @@ To list the files for a pull request:
 val listPullRequestFiles = Github(accessToken).pullRequests.listFiles("47deg", "github4s", 102)
 
 listPullRequestFiles.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -101,7 +101,7 @@ val createPullRequestData = Github(accessToken).pullRequests.create(
   Some(true))
 
 createPullRequestData.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -121,7 +121,7 @@ val createPullRequestIssue = Github(accessToken).pullRequests.create(
   Some(true))
 
 createPullRequestIssue.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```

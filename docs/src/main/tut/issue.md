@@ -48,7 +48,7 @@ val createIssue =
   Github(accessToken).issues.createIssue("47deg", "github4s", "Github4s", "is awesome")
 
 createIssue.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -76,7 +76,7 @@ val editIssue =
   Github(accessToken).issues.editIssue("47deg", "github4s", 1, "open", "Github4s", "is still awesome")
 
 editIssue.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -98,7 +98,7 @@ To list the issues for a repository:
 val listIssues = Github(accessToken).issues.listIssues("47deg", "github4s")
 
 listIssues.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -131,7 +131,7 @@ val searchParams = List(
 val searchIssues = Github(accessToken).issues.searchIssues("existential", searchParams)
 
 searchIssues.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -155,7 +155,7 @@ You can create a comment for an issue whit the following parameters:
 ```scala
 val createcomment = Github(accessToken).issues.create("47deg", "github4s", 123, "this is the comment")
 createcomment.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -178,7 +178,7 @@ You can edit a comment from an issue whit the following parameters:
 ```scala
 val editComment = Github(accessToken).issues.edit("47deg", "github4s", 20, "this is the new comment")
 editComment.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
@@ -200,7 +200,7 @@ You can delete a comment from an issue whit the following parameters:
 ```scala
 val deleteComment = Github(accessToken).issues.delete("47deg", "github4s", 20)
 deleteComment.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) => println("Something went wrong: s{e.getMessage}")
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
 ```
