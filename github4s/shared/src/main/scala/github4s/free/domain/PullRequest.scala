@@ -37,7 +37,7 @@ case class PullRequestBase(
     label: Option[String],
     ref: String,
     sha: String,
-    user: User,
+    user: Option[User],
     repo: Option[Repository])
 
 case class PullRequestFile(

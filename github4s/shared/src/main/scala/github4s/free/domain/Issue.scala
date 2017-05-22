@@ -28,7 +28,7 @@ case class Issue(
     html_url: String,
     number: Int,
     state: String,
-    user: User,
+    user: Option[User],
     assignee: Option[User],
     labels: List[Label] = List.empty,
     locked: Option[Boolean],
@@ -73,7 +73,7 @@ case class Comment(
     url: String,
     html_url: String,
     body: String,
-    user: User,
+    user: Option[User],
     created_at: String,
     updated_at: String)
 
