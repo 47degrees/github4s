@@ -59,7 +59,7 @@ object Decoders {
         id          ← c.downField("id").as[Int]
         name        ← c.downField("name").as[String]
         full_name   ← c.downField("full_name").as[String]
-        owner       ← c.downField("owner").as[User]
+        owner       ← c.downField("owner").as[Option[User]]
         priv        ← c.downField("private").as[Boolean]
         description ← c.downField("description").as[Option[String]]
         fork        ← c.downField("fork").as[Boolean]
