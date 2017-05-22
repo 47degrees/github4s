@@ -125,16 +125,16 @@ class GHReposSpec extends BaseSpec {
     ghReposData.getCombinedStatus(validRepoOwner, validRepoName, validRefSingle)
   }
 
-  "GHRepos.listStatus" should "call to RepositoryOps with the right parameters" in {
+  "GHRepos.listStatuses" should "call to RepositoryOps with the right parameters" in {
     val response: Free[GitHub4s, GHResponse[List[Status]]] =
       Free.pure(Right(GHResult(List(status), okStatusCode, Map.empty)))
 
     val repoOps = mock[RepositoryOpsTest]
-    (repoOps.listStatus _)
+    (repoOps.listStatuses _)
       .expects(validRepoOwner, validRepoName, validRefSingle, sampleToken)
       .returns(response)
     val ghReposData = new GHRepos(sampleToken)(repoOps)
-    ghReposData.listStatus(validRepoOwner, validRepoName, validRefSingle)
+    ghReposData.listStatuses(validRepoOwner, validRepoName, validRefSingle)
   }
 
   "GHRepos.createStatus" should "call to RepositoryOps with the right parameters" in {

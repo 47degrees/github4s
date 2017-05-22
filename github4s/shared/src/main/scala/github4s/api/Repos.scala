@@ -92,7 +92,7 @@ class Repos[C, M[_]](
       params = ref map (r => Map("ref" -> r)) getOrElse Map.empty)
 
   /**
-   * Retrieve the listStatus of commits for a particular repo
+   * Retrieve the list of commits for a particular repo
    *
    * @param accessToken to identify the authenticated user
    * @param headers optional user headers to include in the request
@@ -219,7 +219,7 @@ class Repos[C, M[_]](
     httpClient.get[CombinedStatus](accessToken, s"repos/$owner/$repo/commits/$ref/status", headers)
 
   /**
-   * List status for a commit
+   * List statuses for a commit
    *
    * @param accessToken to identify the authenticated user
    * @param headers optional user headers to include in the request
@@ -228,7 +228,7 @@ class Repos[C, M[_]](
    * @param ref commit SHA, branch name or tag name
    * @return a GHResponse with the status list
    */
-  def listStatus(
+  def listStatuses(
       accessToken: Option[String] = None,
       headers: Map[String, String] = Map(),
       owner: String,

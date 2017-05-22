@@ -78,7 +78,7 @@ final case class GetCombinedStatus(
     accessToken: Option[String] = None
 ) extends RepositoryOp[GHResponse[CombinedStatus]]
 
-final case class ListStatus(
+final case class ListStatuses(
     owner: String,
     repo: String,
     ref: String,
@@ -171,13 +171,13 @@ class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
   ): Free[F, GHResponse[CombinedStatus]] =
     Free.inject[RepositoryOp, F](GetCombinedStatus(owner, repo, ref, accessToken))
 
-  def listStatus(
+  def listStatuses(
       owner: String,
       repo: String,
       ref: String,
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[Status]]] =
-    Free.inject[RepositoryOp, F](ListStatus(owner, repo, ref, accessToken))
+    Free.inject[RepositoryOp, F](ListStatuses(owner, repo, ref, accessToken))
 
   def createStatus(
       owner: String,

@@ -92,12 +92,12 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
   ): GHIO[GHResponse[CombinedStatus]] =
     O.getCombinedStatus(owner, repo, ref, accessToken)
 
-  def listStatus(
+  def listStatuses(
       owner: String,
       repo: String,
       ref: String
   ): GHIO[GHResponse[List[Status]]] =
-    O.listStatus(owner, repo, ref, accessToken)
+    O.listStatuses(owner, repo, ref, accessToken)
 
   def createStatus(
       owner: String,

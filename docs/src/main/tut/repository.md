@@ -216,8 +216,7 @@ reference.
 
 ### List status for a specific Ref
 
-
-You can also list status through `listStatus`; it take as arguments:
+You can also list statuses through `listStatuses`; it take as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - a git ref (a `SHA`, a branch `name` or a tag `name`).
@@ -225,10 +224,10 @@ You can also list status through `listStatus`; it take as arguments:
 To list the statuses for a specific ref:
 
 ```tut:silent
-val listStatus =
-  Github(accessToken).repos.listStatus("47deg", "github4s", "heads/master")
+val listStatuses =
+  Github(accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
 
-listStatus.exec[cats.Id, HttpResponse[String]]() match {
+listStatuses.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

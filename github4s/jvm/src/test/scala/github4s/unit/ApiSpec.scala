@@ -341,8 +341,12 @@ class ApiSpec
   }
 
   "Repos >> ListStatus" should "return the expected statuses when a valid ref is provided" in {
-    val response =
-      repos.listStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+    val response = repos.listStatuses(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validRefSingle)
     response should be('right)
 
     response.toOption map { r ⇒
@@ -353,13 +357,13 @@ class ApiSpec
 
   it should "return an error if no tokens are provided" in {
     val response =
-      repos.listStatus(None, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+      repos.listStatuses(None, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
     response should be('left)
   }
 
   it should "return an empty list when an invalid ref is passed" in {
     val response =
-      repos.listStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
+      repos.listStatuses(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
     response should be('right)
 
     response.toOption map { r ⇒

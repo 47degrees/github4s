@@ -167,7 +167,7 @@ class ReposSpec extends BaseSpec {
     repos.getStatus(sampleToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
   }
 
-  "Repos.listStatus" should "call htppClient.get with the right parameters" in {
+  "Repos.listStatuses" should "call htppClient.get with the right parameters" in {
     val response: GHResponse[List[Status]] = Right(GHResult(List(status), okStatusCode, Map.empty))
 
     val httpClientMock = httpClientMockGet[List[Status]](
@@ -178,7 +178,7 @@ class ReposSpec extends BaseSpec {
     val repos = new Repos[String, Id] {
       override val httpClient: HttpClient[String, Id] = httpClientMock
     }
-    repos.listStatus(sampleToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
+    repos.listStatuses(sampleToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
   }
 
   "Repos.createStatus" should "call httpClient.post with the right parameters" in {

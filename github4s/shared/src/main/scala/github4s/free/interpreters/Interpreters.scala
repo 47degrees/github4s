@@ -101,8 +101,8 @@ class Interpreters[M[_], C](
             prerelease)
         case GetCombinedStatus(owner, repo, ref, accessToken) ⇒
           repos.getStatus(accessToken, headers, owner, repo, ref)
-        case ListStatus(owner, repo, ref, accessToken) ⇒
-          repos.listStatus(accessToken, headers, owner, repo, ref)
+        case ListStatuses(owner, repo, ref, accessToken) ⇒
+          repos.listStatuses(accessToken, headers, owner, repo, ref)
         case CreateStatus(owner, repo, sha, state, target_url, description, context, accessToken) ⇒
           repos.createStatus(
             accessToken,
