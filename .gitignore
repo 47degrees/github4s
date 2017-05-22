@@ -5,5 +5,8 @@ docs/src/jekyll/_site/
 docs/src/jekyll/*.md
 .DS_Store
 
+# Auto-copied from CHANGELOG.md in the project's root
+docs/src/main/tut/changelog.md
+
 # PGP keys
 secring.gpg

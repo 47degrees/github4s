@@ -1,4 +1,5 @@
 import com.typesafe.sbt.site.jekyll.JekyllPlugin.autoImport._
+import microsites._
 import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
 import sbt._
@@ -27,6 +28,15 @@ object ProjectPlugin extends AutoPlugin {
       micrositeDocumentationUrl := "/github4s/docs.html",
       micrositeGithubOwner := "47deg",
       micrositeGithubRepo := "github4s",
+      micrositeAuthor := "Github4s contributors",
+      micrositeOrganizationHomepage := "https://github.com/47deg/github4s/blob/master/AUTHORS.md",
+      micrositeExtraMdFiles := Map(
+        file("CHANGELOG.md") -> ExtraMdFileConfig(
+          "changelog.md",
+          "page",
+          Map("title" -> "Changelog", "section" -> "changelog", "position" -> "2")
+        )
+      ),
       includeFilter in Jekyll := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md",
       scalacOptions in Tut ~= (_ filterNot Set("-Ywarn-unused-import", "-Xlint").contains)
     )
