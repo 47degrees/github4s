@@ -51,7 +51,9 @@ object Decoders {
   }
 
   def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] =
-    RepoUrlKeys.allFields.traverse { name ⇒ c.downField(name).as[Option[String]] }
+    RepoUrlKeys.allFields.traverse { name ⇒
+      c.downField(name).as[Option[String]]
+    }
 
   implicit val decodeStatusRepository: Decoder[StatusRepository] = {
     Decoder.instance { c ⇒
@@ -162,11 +164,11 @@ object Decoders {
 
   implicit val decodePRStatus: Decoder[PullRequestReviewState] =
     Decoder.decodeString.map {
-      case "APPROVED" => PRRStateApproved
+      case "APPROVED"          => PRRStateApproved
       case "CHANGES_REQUESTED" => PRRStateChangesRequested
-      case "COMMENTED" => PRRStateCommented
-      case "PENDING" => PRRStatePending
-      case "DISMISSED" => PRRStateDismissed
+      case "COMMENTED"         => PRRStateCommented
+      case "PENDING"           => PRRStatePending
+      case "DISMISSED"         => PRRStateDismissed
     }
 
   implicit val decodeGist: Decoder[Gist] = Decoder.instance { c ⇒
@@ -187,8 +189,7 @@ object Decoders {
   implicit def decodeNonEmptyList[T](implicit D: Decoder[T]): Decoder[NonEmptyList[T]] = {
 
     def decodeCursors(cursors: List[HCursor]): Result[NonEmptyList[T]] =
-      cursors
-        .toNel
+      cursors.toNel
         .toRight(DecodingFailure("Empty Response", Nil))
         .flatMap(nelCursors => nelCursors.traverse(_.as[T]))
 
