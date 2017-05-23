@@ -27,7 +27,6 @@ import scalaj.http.HttpResponse
 class IntegrationSpec
     extends BaseIntegrationSpec[HttpResponse[String]]
     with GHAuthSpec[HttpResponse[String]]
-    with GHGistsSpec[HttpResponse[String]]
     with GHGitDataSpec[HttpResponse[String]]
     with GHIssuesSpec[HttpResponse[String]]
     with GHPullRequestsSpec[HttpResponse[String]]

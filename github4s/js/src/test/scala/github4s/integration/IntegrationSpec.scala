@@ -27,7 +27,6 @@ import scala.concurrent.Future
 class IntegrationSpec
     extends BaseIntegrationSpec[SimpleHttpResponse]
     with GHAuthSpec[SimpleHttpResponse]
-    with GHGistsSpec[SimpleHttpResponse]
     with GHGitDataSpec[SimpleHttpResponse]
     with GHIssuesSpec[SimpleHttpResponse]
     with GHPullRequestsSpec[SimpleHttpResponse]
