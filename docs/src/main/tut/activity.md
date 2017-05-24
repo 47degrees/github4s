@@ -6,9 +6,10 @@ title: Activity API
 # Activity API
 
 Github4s supports the [Activity API](https://developer.github.com/v3/activity/). As a result,
-with Github4s, you can:
+with Github4s, you can interact with:
 
-- [Set a thread subscription](#set-a-thread-subscription)
+- [Notifications](#notifications)
+  - [Set a thread subscription](#set-a-thread-subscription)
 
 The following examples assume the following imports and token:
 

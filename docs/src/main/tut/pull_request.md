@@ -6,13 +6,15 @@ title: Pull Request API
 # Pull Request API
 
 Github4s supports the [Pull Request API](https://developer.github.com/v3/pulls/). As a result,
-with Github4s, you can:
+with Github4s, you can interact with:
 
-- [List pull requests](#list-pull-requests)
-- [List the files in a pull request](#list-the-files-in-a-pull-request)
-- [Create a pull request](#create-a-pull-request)
-- [List reviews](#list-pull-request-reviews)
-- [Get a review](#get-an-individual-review)
+- [Pull requests](#pull-requests)
+  - [List pull requests](#list-pull-requests)
+  - [List the files in a pull request](#list-the-files-in-a-pull-request)
+  - [Create a pull request](#create-a-pull-request)
+- [Reviews](#reviews)
+  - [List reviews](#list-pull-request-reviews)
+  - [Get a review](#get-an-individual-review)
 
 The following examples assume the following imports and token:
 
@@ -33,7 +35,9 @@ They also make use of `cats.Id`, but any type container implementing `MonadError
 Support for `cats.Id`, `cats.Eval`, and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
-## List pull requests
+## Pull requests
+
+### List pull requests
 
 You can list the pull requests for a repository using `list`; it takes as arguments:
 
@@ -58,7 +62,7 @@ The `result` on the right is the matching [List[PullRequest]][pr-scala].
 
 See [the API doc](https://developer.github.com/v3/pulls/#list-pull-requests) for full reference.
 
-## List the files in a pull request
+### List the files in a pull request
 
 You can also list the files for a pull request using `listFiles`; it takes as arguments:
 
@@ -67,7 +71,7 @@ You can also list the files for a pull request using `listFiles`; it takes as ar
 
 To list the files for a pull request:
 
-```scala
+```tut:silent
 val listPullRequestFiles = Github(accessToken).pullRequests.listFiles("47deg", "github4s", 102)
 
 listPullRequestFiles.exec[cats.Id, HttpResponse[String]]() match {
@@ -81,8 +85,9 @@ the `result` on the right is the [List[PullRequestFile]][pr-scala].
 See [the API doc](https://developer.github.com/v3/pulls/#list-pull-requests-files) for full
 reference.
 
-## Create a pull request
-If you want to create a pull request, you can follow two different methods.
+### Create a pull request
+
+If you want to create a pull request, we can follow two different methods.
 
 On the one hand, we can pass the following parameters:
 
@@ -130,9 +135,9 @@ createPullRequestIssue.exec[cats.Id, HttpResponse[String]]() match {
 
 See [the API doc](https://developer.github.com/v3/pulls/#create-a-pull-request) for full reference.
 
-# Review API
+## Reviews
 
-## List pull request reviews
+### List pull request reviews
 
 You can list the reviews for a pull request using `listReviews`; it takes as arguments:
 
@@ -157,7 +162,7 @@ The `result` on the right is the matching [List[PullRequestReview]][pr-scala].
 
 See [the API doc](https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request) for full reference.
 
-## Get an individual review
+### Get an individual review
 
 You can get an individual review for a pull request using `getReview`; it takes as arguments:
 

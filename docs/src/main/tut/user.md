@@ -6,11 +6,12 @@ title: User API
 # User API
 
 Github4s supports the [User API](https://developer.github.com/v3/users/). As a result,
-with Github4s, you can:
+with Github4s, you can interacts with:
 
-- [Get a user](#get-a-user)
-- [Get an authenticated user](#get-an-authenticated-user)
-- [Get a list of users](#get-a-list-of-users)
+- [Users](#users)
+  - [Get a user](#get-a-user)
+  - [Get an authenticated user](#get-an-authenticated-user)
+  - [Get a list of users](#get-a-list-of-users)
 
 The following examples assume the following imports and token:
 
@@ -26,7 +27,7 @@ import scalaj.http.HttpResponse
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-## User
+## Users
 
 ### Get a user
 

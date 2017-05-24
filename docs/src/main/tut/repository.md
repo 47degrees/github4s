@@ -6,16 +6,21 @@ title: Repository API
 # Repository API
 
 Github4s supports the [Repository API](https://developer.github.com/v3/repos/). As a result,
-with Github4s, you can:
+with Github4s, you can interact with:
 
-- [Get a repository](#get-a-repository)
-- [List contributors](#list-contributors)
-- [List commits on a repository](#list-commits-on-a-repository)
-- [Get contents](#get-contents)
-- [Create a release](#create-a-release)
-- [Create a status](#create-a-status)
-- [List status for a specific Ref](#list-status-for-a-specific-ref)
-- [Get the combined status of a specific Ref](#get-the-combined-status-for-a-specific-ref)
+- [Repositories](#repositories)
+  - [Get a repository](#get-a-repository)
+  - [List contributors](#list-contributors)
+- [Commits](#commits)
+  - [List commits on a repository](#list-commits-on-a-repository)
+- [Contents](#contents)
+  - [Get contents](#get-contents)
+- [Releases](#releases)
+  - [Create a release](#create-a-release)
+- [Statuses](#statuses)
+  - [Create a status](#create-a-status)
+  - [List status for a specific Ref](#list-status-for-a-specific-ref)
+  - [Get the combined status of a specific Ref](#get-the-combined-status-for-a-specific-ref)
 
 The following examples assume the following imports and token:
 
@@ -35,7 +40,8 @@ They also make use of `cats.Id`, but any type container implementing `MonadError
 
 Support for `cats.Id`, `cats.Eval`, and `Future` (the only supported option for scala-js) are
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
-## Repository
+
+## Repositories
 
 ### Get a repository
 
@@ -186,7 +192,7 @@ The `result` on the right is the created [Release][repository-scala].
 See [the API doc](https://developer.github.com/v3/repos/releases/#create-a-release) for full
 reference.
 
-## Status
+## Statuses
 
 ### Create a status
 
@@ -214,7 +220,7 @@ The `result` on the right is the created [Status][repository-scala].
 See [the API doc](https://developer.github.com/v3/repos/statuses/#create-a-status) for full
 reference.
 
-### List status for a specific Ref
+### List statuses for a specific ref
 
 You can also list statuses through `listStatuses`; it take as arguments:
 
@@ -238,7 +244,7 @@ The `result` on the right is the corresponding [List[Status]][repository-scala].
 See [the API doc](https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref)
 for full reference.
 
-### Get the combined status for a specific Ref
+### Get the combined status for a specific ref
 
 Lastly, you can also get the combined status thanks to `getCombinedStatus`; it takes the same
 arguments as the operation listing statuses:

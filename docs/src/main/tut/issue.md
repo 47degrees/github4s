@@ -6,15 +6,17 @@ title: Issue API
 # Issue API
 
 Github4s supports the [Issue API](https://developer.github.com/v3/issues/). As a result,
-with Github4s, you can:
+with Github4s, you can interact with:
 
-- [Create an issue](#create-an-issue)
-- [Edit an issue](#edit-an-issue)
-- [List issues](#list-issues)
-- [Search issues](#search-issues)
-- [Create a Comment](#create-a-comment)
-- [Edit a Comment](#edit-a-comment)
-- [Delete a Comment](#delete-a-comment)
+- [Issues](#issues)
+  - [Create an issue](#create-an-issue)
+  - [Edit an issue](#edit-an-issue)
+  - [List issues](#list-issues)
+  - [Search issues](#search-issues)
+- [Comments](#comments)
+  - [Create a Comment](#create-a-comment)
+  - [Edit a Comment](#edit-a-comment)
+  - [Delete a Comment](#delete-a-comment)
 
 The following examples assume the following imports and token:
 
