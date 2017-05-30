@@ -71,8 +71,14 @@ object ProjectPlugin extends AutoPlugin {
 
     lazy val docsDependencies: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%("scalatest")
 
-    lazy val scalazDependencies: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%(
-      "scalaz-concurrent")
+    lazy val scalazDependencies: Def.Setting[Seq[ModuleID]] =
+      libraryDependencies += %%("scalaz-concurrent")
+
+    lazy val catsEffectDependencies: Def.Setting[Seq[ModuleID]] =
+      libraryDependencies ++= Seq(
+        "org.typelevel" %% "cats-effect" % "0.3",
+        %%("scalatest") % "test"
+      )
   }
 
   override def projectSettings: Seq[Def.Setting[_]] =
