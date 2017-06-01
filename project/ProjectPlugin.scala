@@ -111,7 +111,7 @@ object ProjectPlugin extends AutoPlugin {
         (ScoverageKeys.coverageAggregate in Test).asRunnableItemFull,
        "docs/tut".asRunnableItem
       ),
-      coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
+      coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*;github4s\\.cats\\.effect\\..*",
       // This is necessary to prevent packaging the BuildInfo with
       // sensible information like the Github token. Do not remove.
       mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>

@@ -20,7 +20,7 @@ import cats.effect.IO
 import cats.Eval.later
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import github4s.{HttpRequestBuilder, HttpRequestBuilderExtension, HttpRequestBuilderExtensionJS}
-import github4s.GithubResponses._
+import github4s.GithubResponses.GHResponse
 import io.circe.Decoder
 
 import scala.concurrent.Future
