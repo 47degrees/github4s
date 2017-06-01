@@ -76,7 +76,7 @@ object ProjectPlugin extends AutoPlugin {
 
     lazy val catsEffectDependencies: Def.Setting[Seq[ModuleID]] =
       libraryDependencies ++= Seq(
-        "org.typelevel" %% "cats-effect" % "0.3",
+        %%("cats-effect"),
         %%("scalatest") % "test"
       )
   }

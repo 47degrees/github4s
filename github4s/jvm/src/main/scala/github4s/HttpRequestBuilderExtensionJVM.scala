@@ -67,7 +67,6 @@ trait HttpRequestBuilderExtensionJVM {
                 mapResponse)
             )
           case _ ⇒ C.capture(toEntity[A](request.asString, mapResponse))
-
         }
       }
     }

@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-package github4s.cats.effect
+package github4s.cats.effect.js
 
-import cats.effect.IO
-import github4s.HttpRequestBuilderExtensionJVM
-import github4s.free.interpreters.{Capture, Interpreters}
-import scalaj.http.HttpResponse
-
-object implicits extends HttpRequestBuilderExtensionJVM {
-  implicit val ioCaptureInstance = new Capture[IO] {
-    override def capture[A](a: ⇒ A): IO[A] = IO.pure(a)
-  }
-
-  implicit val intInstanceIOScalaJ =
-    new Interpreters[IO, HttpResponse[String]]
-}
+object Implicits extends ImplicitsJS

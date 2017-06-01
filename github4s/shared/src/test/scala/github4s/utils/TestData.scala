@@ -26,7 +26,7 @@ trait TestData extends DummyGithubUrls {
   val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
 
   val validUsername   = "rafaparadela"
-  val invalidUsername = "GHInvalidaUserName"
+  val invalidUsername = "GHInvalidUserName"
   val invalidPassword = "invalidPassword"
 
   def validBasicAuth = s"Basic ${s"$validUsername:".getBytes.toBase64}"

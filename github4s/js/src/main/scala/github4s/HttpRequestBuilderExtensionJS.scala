@@ -44,36 +44,40 @@ trait HttpRequestBuilderExtensionJS {
     new HttpRequestBuilderExtension[SimpleHttpResponse, Future] {
 
       def run[A](rb: HttpRequestBuilder[SimpleHttpResponse, Future])(
-          implicit D: Decoder[A]): Future[GHResponse[A]] = runMap[A](rb, decodeEntity[A])
+          implicit D: Decoder[A]): Future[GHResponse[A]] = runMapWrapper[A](rb, decodeEntity[A])
 
       def runEmpty(rb: HttpRequestBuilder[SimpleHttpResponse, Future]): Future[GHResponse[Unit]] =
-        runMap[Unit](rb, emptyResponse)
+        runMapWrapper[Unit](rb, emptyResponse)
 
-      private[this] def runMap[A](
+      private[this] def runMapWrapper[A](
           rb: HttpRequestBuilder[SimpleHttpResponse, Future],
-          mapResponse: SimpleHttpResponse => GHResponse[A]): Future[GHResponse[A]] = {
-
-        val params = rb.params.map {
-          case (key, value) => s"$key=$value"
-        } mkString "&"
-
-        val request = HttpRequest(rb.url)
-          .withMethod(Method(rb.httpVerb.verb))
-          .withQueryStringRaw(params)
-          .withHeader("content-type", "application/json")
-          .withHeaders(rb.authHeader.toList: _*)
-          .withHeaders(rb.headers.toList: _*)
-
-        rb.data
-          .map(d => request.send(CirceJSONBody(d)))
-          .getOrElse(request.send())
-          .map(toEntity[A](_, mapResponse))
-          .recoverWith {
-            case e =>
-              Future.successful(Either.left(UnexpectedException(e.getMessage)))
-          }
-      }
+          mapResponse: SimpleHttpResponse => GHResponse[A]): Future[GHResponse[A]] =
+        runMap[A, Future](rb, mapResponse)
     }
+
+  protected def runMap[A, M[_]](
+      rb: HttpRequestBuilder[SimpleHttpResponse, M],
+      mapResponse: SimpleHttpResponse => GHResponse[A]): Future[GHResponse[A]] = {
+    val params = rb.params.map {
+      case (key, value) => s"$key=$value"
+    } mkString "&"
+
+    val request = HttpRequest(rb.url)
+      .withMethod(Method(rb.httpVerb.verb))
+      .withQueryStringRaw(params)
+      .withHeader("content-type", "application/json")
+      .withHeaders(rb.authHeader.toList: _*)
+      .withHeaders(rb.headers.toList: _*)
+
+    rb.data
+      .map(d => request.send(CirceJSONBody(d)))
+      .getOrElse(request.send())
+      .map(toEntity[A](_, mapResponse))
+      .recoverWith {
+        case e =>
+          Future.successful(Either.left(UnexpectedException(e.getMessage)))
+      }
+  }
 
   def toEntity[A](
       response: SimpleHttpResponse,

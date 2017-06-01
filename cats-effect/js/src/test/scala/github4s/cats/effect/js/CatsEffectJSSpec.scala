@@ -14,27 +14,38 @@
  * limitations under the License.
  */
 
-package github4s.cats.effect
+package github4s.cats.effect.js
 
 import cats.effect.IO
-import github4s.cats.effect.implicits._
 import github4s.Github
 import github4s.Github._
+import github4s.cats.effect.js.Implicits._
 import org.scalatest.{FlatSpec, Matchers}
-import scalaj.http.HttpResponse
+import fr.hmil.roshttp.response.SimpleHttpResponse
 
-class CatsEffectSpec extends FlatSpec with Matchers {
+class CatsEffectJSSpec extends FlatSpec with Matchers {
   val accessToken     = sys.env.get("GITHUB4S_ACCESS_TOKEN")
   val headerUserAgent = Map("user-agent" -> "github4s")
   val validUsername   = "rafaparadela"
+  val invalidUsername = "GHInvalidUserName"
   val okStatusCode    = 200
 
-  "cats-effect integration" should "return the expected result for a call" in {
-    val response =
-      Github(accessToken).users.get(validUsername).exec[IO, HttpResponse[String]](headerUserAgent)
+  "cats-effect js integration" should "return a succeded result for a valid call" in {
+    val response = Github(accessToken).users
+      .get(validUsername)
+      .exec[IO, SimpleHttpResponse](headerUserAgent)
 
     val res = response.unsafeRunSync
     res.isRight shouldBe true
-    res.map(_.statusCode) shouldBe Right(okStatusCode)
+    res.right.map(_.statusCode) shouldBe Right(okStatusCode)
+  }
+
+  it should "return a failed result for an invalid call" in {
+    val response = Github(accessToken).users
+      .get(invalidUsername)
+      .exec[IO, SimpleHttpResponse](headerUserAgent)
+
+    val res = response.unsafeRunSync
+    res.isLeft shouldBe true
   }
 }
