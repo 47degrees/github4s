@@ -74,8 +74,8 @@ object ProjectPlugin extends AutoPlugin {
     lazy val scalazDependencies: Def.Setting[Seq[ModuleID]] =
       libraryDependencies += %%("scalaz-concurrent")
 
-    lazy val catsEffectDependencies: Def.Setting[Seq[ModuleID]] =
-      libraryDependencies ++= Seq(
+    lazy val catsEffectDependencies: Seq[ModuleID] =
+      Seq(
         %%("cats-effect"),
         %%("scalatest") % "test"
       )
@@ -109,7 +109,7 @@ object ProjectPlugin extends AutoPlugin {
       orgSupportedScalaJSVersion := Some("0.6.15"),
       orgScriptTaskListSetting ++= List(
         (ScoverageKeys.coverageAggregate in Test).asRunnableItemFull,
-       "docs/tut".asRunnableItem
+        "docs/tut".asRunnableItem
       ),
       coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*;github4s\\.cats\\.effect\\..*",
       // This is necessary to prevent packaging the BuildInfo with
