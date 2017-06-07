@@ -56,8 +56,8 @@ an [HttpClient][http-client].
 
 The previously mentioned implicit classes carry out of the box
 instances for working with [scalaj][scalaj] (for JVM-compatible apps) and [roshttp][roshttp] (for
-scala-js-compatible apps). Take into account that in the latter case, you can only use `Future` in
-place of `M[_]`.
+scala-js-compatible apps). Take into account that in the latter case, you can only use `Future` and
+`cats.effect.IO` (if you pull in the `github4s-cats-effect` dependency) in place of `M[_]`.
 
 A few examples follow with different `MonadError[M, Throwable]`.
 
@@ -115,7 +115,6 @@ object ProgramFuture {
 ```tut:silent
 import scalaz.concurrent.Task
 import github4s.scalaz.implicits._
-import scalaj.http.HttpResponse
 
 object ProgramTask {
   val u4 = Github(accessToken).users.get("franciscodr").exec[Task, HttpResponse[String]]()
@@ -124,6 +123,33 @@ object ProgramTask {
 ```
 
 Note that you'll need a dependency to the `github4s-scalaz` pacakge to leverage `scalaz.Task`.
+
+### Using `cats.effect.IO`
+
+On the JVM:
+```scala
+import cats.effect.IO
+import github4s.cats.effect.jvm.Implicits._
+
+object ProgramTask {
+  val u5 = Github(accesstoken).users.get("juanpedromoreno").exec[IO, HttpResponse[String]]()
+  u5.unsafeRunSync
+}
+```
+
+Using scala-js:
+```scala
+import github4s.cats.effect.js.Implicits._
+import fr.hmil.roshttp.response.SimpleHttpResponse
+
+object ProgramTask {
+  val u6 = Github(accesstoken).users.get("fedefernandez").exec[IO, SimpleHttpResponse]()
+  u6.unsafeRunAsync
+}
+```
+
+Note that you'll need a dependency to the `github4s-cats-effect` package to leverage
+`cats.effect.IO`.
 
 ## Specifying custom headers
 
