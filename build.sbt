@@ -27,7 +27,7 @@ lazy val github4sJVM = github4s.jvm
 lazy val github4sJS  = github4s.js
 
 lazy val docs = (project in file("docs"))
-  .dependsOn(scalaz)
+  .dependsOn(scalaz, catsEffectJVM, catsEffectJS)
   .settings(moduleName := "github4s-docs")
   .settings(micrositeSettings: _*)
   .settings(docsDependencies: _*)
@@ -45,5 +45,6 @@ lazy val catsEffect = (crossProject in file("cats-effect"))
   .jsSettings(sharedJsSettings: _*)
   .jsSettings(testSettings: _*)
   .dependsOn(github4s)
+
 lazy val catsEffectJVM = catsEffect.jvm
 lazy val catsEffectJS  = catsEffect.js

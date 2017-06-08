@@ -127,24 +127,27 @@ Note that you'll need a dependency to the `github4s-scalaz` pacakge to leverage 
 ### Using `cats.effect.IO`
 
 On the JVM:
-```scala
+```tut:silent
 import cats.effect.IO
 import github4s.cats.effect.jvm.Implicits._
 
 object ProgramTask {
-  val u5 = Github(accesstoken).users.get("juanpedromoreno").exec[IO, HttpResponse[String]]()
+  val u5 = Github(accessToken).users.get("juanpedromoreno").exec[IO, HttpResponse[String]]()
   u5.unsafeRunSync
 }
 ```
 
 Using scala-js:
-```scala
+```tut:silent
 import github4s.cats.effect.js.Implicits._
 import fr.hmil.roshttp.response.SimpleHttpResponse
 
 object ProgramTask {
-  val u6 = Github(accesstoken).users.get("fedefernandez").exec[IO, SimpleHttpResponse]()
-  u6.unsafeRunAsync
+  val u6 = Github(accessToken).users.get("fedefernandez").exec[IO, SimpleHttpResponse]()
+  u6.unsafeRunAsync {
+    case Right(s) => // IO effect success
+    case Left(e)  => // IO effect failure
+  }
 }
 ```
 
