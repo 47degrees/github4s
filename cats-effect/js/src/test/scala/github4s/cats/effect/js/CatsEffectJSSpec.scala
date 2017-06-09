@@ -80,4 +80,9 @@ class CatsEffectJSSpec extends AsyncFunSuite with Matchers {
       r.isLeft shouldBe true
     })
   }
+
+  // only here for the 80% coverage, to remove once JS makes use of Captures
+  test("IOCapture == IO.pure") {
+    ioCaptureInstance.capture("a") shouldBe IO.pure("a")
+  }
 }
