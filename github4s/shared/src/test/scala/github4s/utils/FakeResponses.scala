@@ -2112,4 +2112,14 @@ trait FakeResponses {
       |  "user": $getUserValidResponse
       |}
     """.stripMargin
+
+  val getStarredRepoValidResponse =
+    s"""
+      |{
+      |  "starred_at": "2012-03-01T13:02:21Z",
+      |  "repo": $getRepoResponse
+      |}
+    """.stripMargin
+
+  val getStarredReposValidResponse = s"[$getStarredRepoValidResponse]"
 }

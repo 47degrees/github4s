@@ -33,3 +33,8 @@ case class Stargazer(
     starred_at: Option[String],
     user: User
 )
+
+case class StarredRepository(
+    starred_at: Option[String],
+    repo: Repository
+)

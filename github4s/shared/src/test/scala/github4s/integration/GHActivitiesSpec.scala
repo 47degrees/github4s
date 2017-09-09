@@ -18,7 +18,7 @@ package github4s.integration
 
 import github4s.Github
 import github4s.Github._
-import github4s.free.domain.{Stargazer, Subscription}
+import github4s.free.domain.{Stargazer, StarredRepository, Subscription}
 import github4s.implicits._
 import github4s.utils.BaseIntegrationSpec
 
@@ -75,6 +75,41 @@ trait GHActivitiesSpec[T] extends BaseIntegrationSpec[T] {
     val response =
       Github(accessToken).activities
         .listStargazers(invalidRepoName, validRepoName, false)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
+  "Activity >> ListStarredRepositories" should "return the expected list of starred repos" in {
+    val response =
+      Github(accessToken).activities
+        .listStarredRepositories(validUsername, false)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[StarredRepository]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      forAll(r.result) { s => s.starred_at shouldBe None }
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return the expected list of starred repos with dates if timeline" in {
+    val response =
+      Github(accessToken).activities
+        .listStarredRepositories(validUsername, true)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[StarredRepository]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      forAll(r.result) { s => s.starred_at shouldBe defined }
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error for invalid username" in {
+    val response =
+      Github(accessToken).activities
+        .listStarredRepositories(invalidUsername, false)
         .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)

@@ -1100,4 +1100,44 @@ class ApiSpec
     response should be('left)
   }
 
+  "Activities >> ListStarredRepositories" should "return the expected list of repos" in {
+    val response = activities.listStarredRepositories(
+      accessToken = accessToken,
+      headers = headerUserAgent,
+      username = validUsername,
+      timeline = false,
+      pagination = Option(Pagination(validPage, validPerPage))
+    )
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an empty list of repos for invalid page parameter" in {
+    val response = activities.listStarredRepositories(
+      accessToken = accessToken,
+      headers = headerUserAgent,
+      username = validUsername,
+      timeline = false,
+      pagination = Option(Pagination(invalidPage, validPerPage))
+    )
+
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+
+  }
+
+  it should "return error for invalid username" in {
+    val response =
+      activities.listStarredRepositories(accessToken, headerUserAgent, invalidUsername, false)
+    response should be('left)
+  }
+
 }

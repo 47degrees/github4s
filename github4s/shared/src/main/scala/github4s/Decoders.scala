@@ -194,6 +194,14 @@ object Decoders {
       } yield Stargazer(Some(starred_at), user)
     ))
 
+  implicit val decodeStarredRepository: Decoder[StarredRepository] =
+    Decoder[Repository].map(StarredRepository(None, _)).or(Decoder.instance(c =>
+      for {
+        starred_at ← c.downField("starred_at").as[String]
+        repo       ← c.downField("repo").as[Repository]
+      } yield StarredRepository(Some(starred_at), repo)
+    ))
+
   implicit def decodeNonEmptyList[T](implicit D: Decoder[T]): Decoder[NonEmptyList[T]] = {
 
     def decodeCursors(cursors: List[HCursor]): Result[NonEmptyList[T]] =

@@ -226,6 +226,15 @@ class GHActivities(accessToken: Option[String] = None)(implicit O: ActivityOps[G
       pagination: Option[Pagination] = None
   ): GHIO[GHResponse[List[Stargazer]]] =
     O.listStargazers(owner, repo, timeline, pagination, accessToken)
+
+  def listStarredRepositories(
+      username: String,
+      timeline: Boolean,
+      sort: Option[String] = None,
+      direction: Option[String] = None,
+      pagination: Option[Pagination] = None
+  ): GHIO[GHResponse[List[StarredRepository]]] =
+    O.listStarredRepositories(username, timeline, sort, direction, pagination, accessToken)
 }
 
 class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHub4s]) {
