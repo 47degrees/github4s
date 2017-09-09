@@ -139,14 +139,10 @@ trait GHReposSpec[T] extends BaseIntegrationSpec[T] {
     })
   }
 
-  it should "return an empty list when an invalid ref is provided" in {
+  it should "return an error when an invalid ref is provided" in {
     val response = Github(accessToken).repos
       .listStatuses(validRepoOwner, validRepoName, invalidRef)
       .execFuture[T](headerUserAgent)
-
-    testFutureIsRight[List[Status]](response, { r =>
-      r.result.isEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testFutureIsLeft(response)
   }
 }
