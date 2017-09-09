@@ -19,7 +19,7 @@ package github4s.unit
 import cats.data.NonEmptyList
 import cats.syntax.either._
 import github4s.Decoders._
-import github4s.free.domain.{CombinedStatus, Commit, Repository}
+import github4s.free.domain.{CombinedStatus, Commit, Stargazer, Repository}
 import github4s.utils.FakeResponses
 import io.circe.generic.auto._
 import io.circe.parser._
@@ -49,6 +49,14 @@ class DecodersSpec extends FlatSpec with Matchers with FakeResponses {
 
   it should "return an error for an empty JSON" in {
     decode[CombinedStatus](emptyListResponse).isLeft shouldBe true
+  }
+
+  "Stargazer decoder" should "return a stargazer if given a user" in {
+    decode[Stargazer](getUserValidResponse).isRight shouldBe true
+  }
+
+  it should "return a stargazer if given a stargazer" in {
+    decode[Stargazer](getStargazerValidResponse).isRight shouldBe true
   }
 
   "NonEmptyList Decoder" should "return a valid NonEmptyList for a valid JSON list" in {

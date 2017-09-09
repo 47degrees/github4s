@@ -795,7 +795,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
-  //Activity >> Set a thread subscription
+  //Activities >> Set a thread subscription
   mockServer
     .when(
       request
@@ -818,6 +818,30 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withMethod("PUT")
         .withPath(s"/notifications/threads/$invalidThreadId/subscription")
         .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  //Activities >> List stargazers
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/stargazers")
+        .withQueryStringParameter("page", validPage.toString))
+    .respond(response.withStatusCode(okStatusCode).withBody(getUsersValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/stargazers")
+        .withQueryStringParameter("page", invalidPage.toString))
+    .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/stargazers"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
 }

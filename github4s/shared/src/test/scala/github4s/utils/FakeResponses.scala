@@ -58,7 +58,7 @@ trait FakeResponses {
     """
       |[
       |  {
-      |"login": "aslakhellesoy",
+      |    "login": "aslakhellesoy",
       |    "id": 1000,
       |    "avatar_url": "https://avatars.githubusercontent.com/u/1000?v=3",
       |    "gravatar_id": "",
@@ -76,7 +76,7 @@ trait FakeResponses {
       |    "type": "User",
       |    "site_admin": false
       |  }
-      | ]
+      |]
     """.stripMargin
 
   val newAuthValidResponse =
@@ -2104,4 +2104,12 @@ trait FakeResponses {
       |  "created_at": "2011-04-14T16:00:49Z",
       |  "updated_at": "2011-04-14T16:00:49Z"
       |}""".stripMargin
+
+  val getStargazerValidResponse =
+    s"""
+      |{
+      |  "starred_at": "2012-03-01T13:02:21Z",
+      |  "user": $getUserValidResponse
+      |}
+    """.stripMargin
 }

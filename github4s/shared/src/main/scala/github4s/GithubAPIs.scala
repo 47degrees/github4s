@@ -218,6 +218,14 @@ class GHActivities(accessToken: Option[String] = None)(implicit O: ActivityOps[G
       subscribed: Boolean,
       ignored: Boolean): GHIO[GHResponse[Subscription]] =
     O.setThreadSub(id, subscribed, ignored, accessToken)
+
+  def listStargazers(
+      owner: String,
+      repo: String,
+      timeline: Boolean,
+      pagination: Option[Pagination] = None
+  ): GHIO[GHResponse[List[Stargazer]]] =
+    O.listStargazers(owner, repo, timeline, pagination, accessToken)
 }
 
 class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHub4s]) {

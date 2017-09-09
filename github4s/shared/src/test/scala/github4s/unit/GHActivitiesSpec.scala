@@ -39,4 +39,18 @@ class GHActivitiesSpec extends BaseSpec {
     ghActivities.setThreadSub(validThreadId, true, false)
   }
 
+  "Activities.listStargazers" should "call to ActivityOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[List[Stargazer]]] =
+      Free.pure(Right(GHResult(List(stargazer), okStatusCode, Map.empty)))
+
+    val activityOps = mock[ActivityOpsTest]
+    (activityOps.listStargazers _)
+      .expects(validRepoOwner, validRepoName, true, None, sampleToken)
+      .returns(response)
+
+    val ghActivities = new GHActivities(sampleToken)(activityOps)
+    ghActivities.listStargazers(validRepoOwner, validRepoName, true)
+  }
+
 }

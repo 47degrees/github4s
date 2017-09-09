@@ -1054,4 +1054,50 @@ class ApiSpec
     response should be('left)
   }
 
+  "Activities >> ListStargazers" should "return the expected list of stargazers for valid data" in {
+    val response = activities.listStargazers(
+      accessToken = accessToken,
+      headers = headerUserAgent,
+      owner = validRepoOwner,
+      repo = validRepoName,
+      timeline = false,
+      pagination = Option(Pagination(validPage, validPerPage))
+    )
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return an empty list of stargazers for invalid page parameter" in {
+    val response = activities.listStargazers(
+      accessToken = accessToken,
+      headers = headerUserAgent,
+      owner = validRepoOwner,
+      repo = validRepoName,
+      timeline = false,
+      pagination = Option(Pagination(invalidPage, validPerPage))
+    )
+
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+
+  }
+
+  it should "return error for invalid repo name" in {
+    val response = activities.listStargazers(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      invalidRepoName,
+      false)
+    response should be('left)
+  }
+
 }

@@ -17,7 +17,7 @@
 package github4s.api
 
 import github4s.GithubResponses.GHResponse
-import github4s.{GithubApiUrls, HttpClient, HttpRequestBuilderExtension}
+import github4s._
 import github4s.free.domain._
 import github4s.free.interpreters.Capture
 import github4s.util.URLEncoder
@@ -29,6 +29,7 @@ class Activities[C, M[_]](
     implicit urls: GithubApiUrls,
     C: Capture[M],
     httpClientImpl: HttpRequestBuilderExtension[C, M]) {
+  import Decoders._
 
   val httpClient = new HttpClient[C, M]
 
@@ -52,5 +53,32 @@ class Activities[C, M[_]](
       s"notifications/threads/$id/subscription",
       headers,
       data = SubscriptionRequest(subscribed, ignored).asJson.noSpaces)
+
+  /**
+   * List the users having starred a particular repository
+   *
+   * @param accessToken To identify the authenticated user
+   * @param headers Optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param timeline Whether or not to include the date at which point a user starred the repo
+   * @param pagination Limit and Offset for pagination
+   * @return GHResponse with the list of users starring this repo
+   */
+  def listStargazers(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      timeline: Boolean,
+      pagination: Option[Pagination] = Some(httpClient.defaultPagination)
+  ): M[GHResponse[List[Stargazer]]] = {
+    httpClient.get[List[Stargazer]](
+      accessToken,
+      s"repos/$owner/$repo/stargazers",
+      if (timeline) headers + ("Accept" -> "application/vnd.github.v3.star+json") else headers,
+      pagination = pagination
+    )
+  }
 
 }

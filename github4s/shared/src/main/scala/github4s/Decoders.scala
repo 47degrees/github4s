@@ -186,6 +186,14 @@ object Decoders {
       )
   }
 
+  implicit val decodeStargazer: Decoder[Stargazer] =
+    Decoder[User].map(Stargazer(None, _)).or(Decoder.instance(c =>
+      for {
+        starred_at ← c.downField("starred_at").as[String]
+        user       ← c.downField("user").as[User]
+      } yield Stargazer(Some(starred_at), user)
+    ))
+
   implicit def decodeNonEmptyList[T](implicit D: Decoder[T]): Decoder[NonEmptyList[T]] = {
 
     def decodeCursors(cursors: List[HCursor]): Result[NonEmptyList[T]] =

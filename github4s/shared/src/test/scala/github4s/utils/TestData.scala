@@ -359,6 +359,8 @@ trait TestData extends DummyGithubUrls {
   val validGistId  = "aa5a315d61ae9438b18d"
   val gist         = Gist(validGistUrl, validGistId, validGistDescription, validGistPublic)
 
+  val stargazer = Stargazer(None, user)
+
   val pullRequestReview = PullRequestReview(
     id = validPullRequestReviewNumber,
     user = Some(user),
