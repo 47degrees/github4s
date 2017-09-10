@@ -14,9 +14,9 @@ with Github4s, you can interact with:
   - [List issues](#list-issues)
   - [Search issues](#search-issues)
 - [Comments](#comments)
-  - [Create a Comment](#create-a-comment)
-  - [Edit a Comment](#edit-a-comment)
-  - [Delete a Comment](#delete-a-comment)
+  - [Create a comment](#create-a-comment)
+  - [Edit a comment](#edit-a-comment)
+  - [Delete a comment](#delete-a-comment)
 
 The following examples assume the following imports and token:
 
@@ -144,7 +144,7 @@ See [the API doc](https://developer.github.com/v3/search/#search-issues) for ful
 
 ## Comments
 
-### Create a Comment
+### Create a comment
 
 You can create a comment for an issue with the following parameters:
 
@@ -167,7 +167,7 @@ The `result` on the right is a [Comment][issue-scala].
 See [the API doc](https://developer.github.com/v3/issues/comments/#create-a-comment) for full reference.
 
 
-### Edit a Comment
+### Edit a comment
 
 You can edit a comment from an issue with the following parameters:
 
@@ -190,7 +190,7 @@ The `result` on the right is a [Comment][issue-scala].
 See [the API doc](https://developer.github.com/v3/issues/comments/#edit-a-comment) for full reference.
 
 
-### Delete a Comment
+### Delete a comment
 
 You can delete a comment from an issue with the following parameters:
 
