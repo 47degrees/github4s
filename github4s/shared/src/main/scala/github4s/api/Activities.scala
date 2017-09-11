@@ -110,7 +110,7 @@ class Activities[C, M[_]](
       if (timeline) headers + timelineHeader else headers,
       Map(
         "sort"      → sort,
-        "direction" → direction,
+        "direction" → direction
       ).collect { case (key, Some(value)) ⇒ key → value },
       pagination = pagination,
     )
