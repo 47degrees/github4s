@@ -51,6 +51,31 @@ class Repos[C, M[_]](
     httpClient.get[Repository](accessToken, s"repos/$owner/$repo", headers)
 
   /**
+   * List the repositories for a particular organization
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param org organization for which we wish to retrieve the repositories
+   * @param `type` visibility of the retrieved repositories, can be "all", "public", "private",
+   * "forks", "sources" or "member"
+   * @return GHResponse[List[Repository]] the list of repositories for this organization
+   */
+  def listOrgRepos(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      org: String,
+      `type`: Option[String] = None,
+      pagination: Option[Pagination] = Some(httpClient.defaultPagination)
+  ): M[GHResponse[List[Repository]]] =
+    httpClient.get[List[Repository]](
+      accessToken,
+      s"orgs/$org/repos",
+      headers,
+      params = `type`.map(t => Map("type" -> t)).getOrElse(Map.empty),
+      pagination = pagination
+    )
+
+  /**
    * Get the contents of a file or directory in a repository.
    *
    * The response could be a:

@@ -26,7 +26,6 @@ import github4s.utils.BaseIntegrationSpec
 trait GHReposSpec[T] extends BaseIntegrationSpec[T] {
 
   "Repos >> Get" should "return the expected name when a valid repo is provided" in {
-
     val response =
       Github(accessToken).repos
         .get(validRepoOwner, validRepoName)
@@ -47,8 +46,28 @@ trait GHReposSpec[T] extends BaseIntegrationSpec[T] {
     testFutureIsLeft(response)
   }
 
-  "Repos >> GetContents" should "return the expected contents when valid path is provided" in {
+  "Repos >> ListOrgRepos" should "return the expected repos when a valid org is provided" in {
+    val response =
+      Github(accessToken).repos
+        .listOrgRepos(validRepoOwner)
+        .execFuture[T](headerUserAgent)
 
+    testFutureIsRight[List[Repository]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error when an invalid org is passed" in {
+    val response =
+      Github(accessToken).repos
+        .listOrgRepos(invalidRepoName)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
+  "Repos >> GetContents" should "return the expected contents when valid path is provided" in {
     val response =
       Github(accessToken).repos
         .getContents(validRepoOwner, validRepoName, validFilePath)

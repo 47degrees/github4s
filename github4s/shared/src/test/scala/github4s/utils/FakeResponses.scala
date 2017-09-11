@@ -234,6 +234,8 @@ trait FakeResponses {
       |}
     """.stripMargin
 
+  val listOrgReposValidResponse = s"[$getRepoResponse]"
+
   val validRepoFileContents =
     """
       |{

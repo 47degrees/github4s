@@ -127,6 +127,30 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/repos/$validRepoOwner/$invalidRepoName"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
+  //Repos >> list org repos
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/orgs/$validRepoOwner/repos")
+        .withQueryStringParameter("page", validPage.toString))
+    .respond(response.withStatusCode(okStatusCode).withBody(listOrgReposValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/orgs/$validRepoOwner/repos")
+        .withQueryStringParameter("page", invalidPage.toString))
+    .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/orgs/$validRepoOwner/repos"))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
   //Repos >> get contents
   mockServer
     .when(
@@ -188,7 +212,6 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
   //Repos >> list contributors
-
   mockServer
     .when(
       request
