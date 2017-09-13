@@ -10,6 +10,7 @@ with Github4s, you can interact with:
 
 - [Repositories](#repositories)
   - [Get a repository](#get-a-repository)
+  - [List organization repositories](#list-organization-repositories)
   - [List contributors](#list-contributors)
 - [Commits](#commits)
   - [List commits on a repository](#list-commits-on-a-repository)
@@ -64,6 +65,32 @@ getRepo.exec[cats.Id, HttpResponse[String]]() match {
 The `result` on the right is the get [Repository][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/#get) for full
+reference.
+
+### List organization repositories
+
+You can retrieve the list of repositories for a particular organization using `listOrgRepos`; it
+takes as arguments:
+
+- `org`: The organization name.
+- `type`: The optional type of the returned repositories, can be "all", "public", "private",
+"forks", "sources" or "member", defaults to "all".
+- `pagination`: Limit and Offset for pagination.
+
+To list the repositories for an organization:
+
+```tut:silent
+val listOrgRepos = Github(accessToken).repos.listOrgRepos("47deg")
+
+listOrgRepos.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[Repository]][repository-scala].
+
+See [the API doc](https://developer.github.com/v3/repos/#list-organization-repositories) for full
 reference.
 
 ### List contributors
