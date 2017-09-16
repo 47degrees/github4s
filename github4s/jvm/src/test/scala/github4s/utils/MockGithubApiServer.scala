@@ -891,4 +891,27 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withPath(s"/users/$invalidUsername/starred"))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
+  //Organizations >> List members
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/orgs/$validRepoOwner/members")
+        .withQueryStringParameter("page", validPage.toString))
+    .respond(response.withStatusCode(okStatusCode).withBody(getUsersValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/orgs/$validRepoOwner/members")
+        .withQueryStringParameter("page", invalidPage.toString))
+    .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/orgs/$invalidUsername/members"))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 }

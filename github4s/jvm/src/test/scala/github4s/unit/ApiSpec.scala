@@ -34,14 +34,15 @@ class ApiSpec
     with DummyGithubUrls
     with ImplicitsJVM {
 
-  val auth         = new Auth[HttpResponse[String], Id]
-  val repos        = new Repos[HttpResponse[String], Id]
-  val users        = new Users[HttpResponse[String], Id]
-  val gists        = new Gists[HttpResponse[String], Id]
-  val gitData      = new GitData[HttpResponse[String], Id]
-  val pullRequests = new PullRequests[HttpResponse[String], Id]
-  val issues       = new Issues[HttpResponse[String], Id]
-  val activities   = new Activities[HttpResponse[String], Id]
+  val auth          = new Auth[HttpResponse[String], Id]
+  val repos         = new Repos[HttpResponse[String], Id]
+  val users         = new Users[HttpResponse[String], Id]
+  val gists         = new Gists[HttpResponse[String], Id]
+  val gitData       = new GitData[HttpResponse[String], Id]
+  val pullRequests  = new PullRequests[HttpResponse[String], Id]
+  val issues        = new Issues[HttpResponse[String], Id]
+  val activities    = new Activities[HttpResponse[String], Id]
+  val organizations = new Organizations[HttpResponse[String], Id]
 
   "Auth >> NewAuth" should "return a valid token when valid credential is provided" in {
     val response = auth.newAuth(
@@ -1103,6 +1104,40 @@ class ApiSpec
   it should "return error for invalid username" in {
     val response =
       activities.listStarredRepositories(accessToken, headerUserAgent, invalidUsername, false)
+    response should be('left)
+  }
+
+  "Organizations >> ListMembers" should "return the expected list of users" in {
+    val response = organizations.listMembers(
+      accessToken = accessToken,
+      headers = headerUserAgent,
+      org = validRepoOwner,
+      pagination = Option(Pagination(validPage, validPerPage))
+    )
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return an empty list of users for an invalid page parameter" in {
+    val response = organizations.listMembers(
+      accessToken = accessToken,
+      headers = headerUserAgent,
+      org = validRepoOwner,
+      pagination = Option(Pagination(invalidPage, validPerPage))
+    )
+
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return error for an invalid username" in {
+    val response = organizations.listMembers(accessToken, headerUserAgent, invalidUsername)
     response should be('left)
   }
 
