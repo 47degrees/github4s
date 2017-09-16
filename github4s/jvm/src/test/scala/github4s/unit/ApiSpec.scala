@@ -1136,7 +1136,7 @@ class ApiSpec
       r.statusCode shouldBe okStatusCode
     }
   }
-  it should "return error for an invalid username" in {
+  it should "return error for an invalid organization" in {
     val response = organizations.listMembers(accessToken, headerUserAgent, invalidUsername)
     response should be('left)
   }

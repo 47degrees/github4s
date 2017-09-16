@@ -19,3 +19,6 @@ options:
 
   - title: Activity API
     url: activity.html
+
+  - title: Organization API
+    url: organization.html
