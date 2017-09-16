@@ -48,7 +48,8 @@ class Interpreters[M[_], C](
     val c04interpreter: COGH04 ~> K = authOpsInterpreter or c03interpreter
     val c05interpreter: COGH05 ~> K = gitDataOpsInterpreter or c04interpreter
     val c06interpreter: COGH06 ~> K = pullRequestOpsInterpreter or c05interpreter
-    val all: GitHub4s ~> K          = activityOpsInterpreter or c06interpreter
+    val c07interpreter: COGH07 ~> K = activityOpsInterpreter or c06interpreter
+    val all: GitHub4s ~> K          = organizationOpsInterpreter or c07interpreter
     all
   }
 
@@ -321,6 +322,22 @@ class Interpreters[M[_], C](
             pullRequests.listReviews(accessToken, headers, owner, repo, pullRequest)
           case GetPullRequestReview(owner, repo, pullRequest, review, accessToken) ⇒
             pullRequests.getReview(accessToken, headers, owner, repo, pullRequest, review)
+        }
+      }
+    }
+
+  /**
+   * Lifts Organization Ops to an effect capturing Monad such as Task via natural transformations
+   */
+  def organizationOpsInterpreter: OrganizationOp ~> K =
+    new (OrganizationOp ~> K) {
+
+      val organizations = new Organizations()
+
+      def apply[A](fa: OrganizationOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
+        fa match {
+          case ListMembers(org, filter, role, pagination, accessToken) ⇒
+            organizations.listMembers(accessToken, headers, org, filter, role, pagination)
         }
       }
     }

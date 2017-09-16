@@ -355,3 +355,14 @@ class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequest
   ): GHIO[GHResponse[PullRequestReview]] =
     O.getPullRequestReview(owner, repo, pullRequest, review, accessToken)
 }
+
+class GHOrganizations(accessToken: Option[String] = None)(implicit O: OrganizationOps[GitHub4s]) {
+
+  def listMembers(
+      org: String,
+      filter: Option[String] = None,
+      role: Option[String] = None,
+      pagination: Option[Pagination] = None
+  ): GHIO[GHResponse[List[User]]] =
+    O.listMembers(org, filter, role, pagination, accessToken)
+}
