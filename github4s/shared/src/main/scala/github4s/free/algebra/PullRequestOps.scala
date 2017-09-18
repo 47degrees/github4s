@@ -16,7 +16,8 @@
 
 package github4s.free.algebra
 
-import cats.free.{Free, Inject}
+import cats.InjectK
+import cats.free.Free
 import github4s.GithubResponses._
 import github4s.free.domain._
 
@@ -68,7 +69,7 @@ final case class GetPullRequestReview(
  * Exposes Pull Request operations as a Free monadic algebra that may be combined with other
  * Algebras via Coproduct
  */
-class PullRequestOps[F[_]](implicit I: Inject[PullRequestOp, F]) {
+class PullRequestOps[F[_]](implicit I: InjectK[PullRequestOp, F]) {
 
   def listPullRequests(
       owner: String,
@@ -119,7 +120,7 @@ class PullRequestOps[F[_]](implicit I: Inject[PullRequestOp, F]) {
  */
 object PullRequestOps {
 
-  implicit def instance[F[_]](implicit I: Inject[PullRequestOp, F]): PullRequestOps[F] =
+  implicit def instance[F[_]](implicit I: InjectK[PullRequestOp, F]): PullRequestOps[F] =
     new PullRequestOps[F]
 
 }

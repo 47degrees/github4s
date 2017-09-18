@@ -16,7 +16,8 @@
 
 package github4s.free.algebra
 
-import cats.free.{Free, Inject}
+import cats.InjectK
+import cats.free.Free
 import github4s.GithubResponses._
 import github4s.free.domain.{Comment, Issue, SearchIssuesResult, SearchParam}
 
@@ -88,7 +89,7 @@ final case class DeleteComment(
  * Exposes Issue operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
  */
-class IssueOps[F[_]](implicit I: Inject[IssueOp, F]) {
+class IssueOps[F[_]](implicit I: InjectK[IssueOp, F]) {
 
   def listIssues(
       owner: String,
@@ -165,6 +166,6 @@ class IssueOps[F[_]](implicit I: Inject[IssueOp, F]) {
  */
 object IssueOps {
 
-  implicit def instance[F[_]](implicit I: Inject[IssueOp, F]): IssueOps[F] = new IssueOps[F]
+  implicit def instance[F[_]](implicit I: InjectK[IssueOp, F]): IssueOps[F] = new IssueOps[F]
 
 }

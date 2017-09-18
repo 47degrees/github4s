@@ -16,7 +16,8 @@
 
 package github4s.free.algebra
 
-import cats.free.{Free, Inject}
+import cats.InjectK
+import cats.free.Free
 import github4s.GithubResponses._
 import github4s.free.domain._
 
@@ -53,7 +54,7 @@ final case class ListStarredRepositories(
  * Exposes Activity operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
  */
-class ActivityOps[F[_]](implicit I: Inject[ActivityOp, F]) {
+class ActivityOps[F[_]](implicit I: InjectK[ActivityOp, F]) {
 
   def setThreadSub(
       id: Int,
@@ -86,7 +87,7 @@ class ActivityOps[F[_]](implicit I: Inject[ActivityOp, F]) {
  */
 object ActivityOps {
 
-  implicit def instance[F[_]](implicit I: Inject[ActivityOp, F]): ActivityOps[F] =
+  implicit def instance[F[_]](implicit I: InjectK[ActivityOp, F]): ActivityOps[F] =
     new ActivityOps[F]
 
 }

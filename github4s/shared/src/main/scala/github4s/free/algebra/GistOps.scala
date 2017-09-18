@@ -16,7 +16,8 @@
 
 package github4s.free.algebra
 
-import cats.free.{Free, Inject}
+import cats.InjectK
+import cats.free.Free
 import github4s.GithubResponses._
 import github4s.free.domain.{Gist, GistFile}
 
@@ -36,7 +37,7 @@ final case class NewGist(
   * Exposes Gists operations as a Free monadic algebra that may be combined with other Algebras via
   * Coproduct
   */
-class GistOps[F[_]](implicit I: Inject[GistOp, F]) {
+class GistOps[F[_]](implicit I: InjectK[GistOp, F]) {
   def newGist(
       description: String,
       public: Boolean,
@@ -51,6 +52,6 @@ class GistOps[F[_]](implicit I: Inject[GistOp, F]) {
   */
 object GistOps {
 
-  implicit def instance[F[_]](implicit I: Inject[GistOp, F]): GistOps[F] = new GistOps[F]
+  implicit def instance[F[_]](implicit I: InjectK[GistOp, F]): GistOps[F] = new GistOps[F]
 
 }

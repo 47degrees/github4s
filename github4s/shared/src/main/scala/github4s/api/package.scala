@@ -21,6 +21,6 @@ import io.circe.{Json, Printer}
 package object api {
 
   def dropNullPrint(json: Json): String =
-    Printer.noSpaces.copy(dropNullKeys = true).pretty(json)
+    Printer.noSpaces.copy(dropNullValues = true).pretty(json)
 
 }

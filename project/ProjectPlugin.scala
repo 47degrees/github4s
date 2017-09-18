@@ -46,7 +46,9 @@ object ProjectPlugin extends AutoPlugin {
     )
 
     lazy val commonCrossDeps = Seq(
-      %%("cats"),
+      %%("cats-core"),
+      %%("cats-free"),
+      %%("simulacrum"),
       %%("circe-core"),
       %%("circe-generic"),
       %%("circe-parser"),
@@ -106,7 +108,7 @@ object ProjectPlugin extends AutoPlugin {
         ScalaJSBadge.apply(_),
         GitHubIssuesBadge.apply(_)
       ),
-      orgSupportedScalaJSVersion := Some("0.6.15"),
+      orgSupportedScalaJSVersion := Some("0.6.20"),
       orgScriptTaskListSetting ++= List(
         (ScoverageKeys.coverageAggregate in Test).asRunnableItemFull,
         "docs/tut".asRunnableItem

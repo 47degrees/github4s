@@ -16,7 +16,8 @@
 
 package github4s.free.algebra
 
-import cats.free.{Free, Inject}
+import cats.InjectK
+import cats.free.Free
 import github4s.GithubResponses._
 import github4s.free.domain.{OAuthToken, Authorize, Authorization}
 
@@ -52,7 +53,7 @@ final case class GetAccessToken(
   * Exposes Auths operations as a Free monadic algebra that may be combined with other Algebras via
   * Coproduct
   */
-class AuthOps[F[_]](implicit I: Inject[AuthOp, F]) {
+class AuthOps[F[_]](implicit I: InjectK[AuthOp, F]) {
 
   def newAuth(
       username: String,
@@ -87,6 +88,6 @@ class AuthOps[F[_]](implicit I: Inject[AuthOp, F]) {
   */
 object AuthOps {
 
-  implicit def instance[F[_]](implicit I: Inject[AuthOp, F]): AuthOps[F] = new AuthOps[F]
+  implicit def instance[F[_]](implicit I: InjectK[AuthOp, F]): AuthOps[F] = new AuthOps[F]
 
 }

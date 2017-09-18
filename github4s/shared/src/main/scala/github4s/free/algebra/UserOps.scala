@@ -16,7 +16,8 @@
 
 package github4s.free.algebra
 
-import cats.free.{Free, Inject}
+import cats.InjectK
+import cats.free.Free
 import github4s.GithubResponses._
 import github4s.free.domain.{Pagination, User}
 
@@ -37,7 +38,7 @@ final case class GetUsers(
  * Exposes Users operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
  */
-class UserOps[F[_]](implicit I: Inject[UserOp, F]) {
+class UserOps[F[_]](implicit I: InjectK[UserOp, F]) {
 
   def getUser(username: String, accessToken: Option[String] = None): Free[F, GHResponse[User]] =
     Free.inject[UserOp, F](GetUser(username, accessToken))
@@ -58,6 +59,6 @@ class UserOps[F[_]](implicit I: Inject[UserOp, F]) {
  */
 object UserOps {
 
-  implicit def instance[F[_]](implicit I: Inject[UserOp, F]): UserOps[F] = new UserOps[F]
+  implicit def instance[F[_]](implicit I: InjectK[UserOp, F]): UserOps[F] = new UserOps[F]
 
 }

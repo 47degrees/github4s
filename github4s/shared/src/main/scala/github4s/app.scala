@@ -16,16 +16,16 @@
 
 package github4s
 
-import cats.data.Coproduct
+import cats.data.EitherK
 import github4s.free.algebra._
 
 object app {
-  type COGH01[A]   = Coproduct[RepositoryOp, UserOp, A]
-  type COGH02[A]   = Coproduct[GistOp, COGH01, A]
-  type COGH03[A]   = Coproduct[IssueOp, COGH02, A]
-  type COGH04[A]   = Coproduct[AuthOp, COGH03, A]
-  type COGH05[A]   = Coproduct[GitDataOp, COGH04, A]
-  type COGH06[A]   = Coproduct[PullRequestOp, COGH05, A]
-  type COGH07[A]   = Coproduct[ActivityOp, COGH06, A]
-  type GitHub4s[A] = Coproduct[OrganizationOp, COGH07, A]
+  type COGH01[A]   = EitherK[RepositoryOp, UserOp, A]
+  type COGH02[A]   = EitherK[GistOp, COGH01, A]
+  type COGH03[A]   = EitherK[IssueOp, COGH02, A]
+  type COGH04[A]   = EitherK[AuthOp, COGH03, A]
+  type COGH05[A]   = EitherK[GitDataOp, COGH04, A]
+  type COGH06[A]   = EitherK[PullRequestOp, COGH05, A]
+  type COGH07[A]   = EitherK[ActivityOp, COGH06, A]
+  type GitHub4s[A] = EitherK[OrganizationOp, COGH07, A]
 }

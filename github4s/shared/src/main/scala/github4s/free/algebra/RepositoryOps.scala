@@ -16,8 +16,9 @@
 
 package github4s.free.algebra
 
+import cats.InjectK
 import cats.data.NonEmptyList
-import cats.free.{Free, Inject}
+import cats.free.Free
 import github4s.GithubResponses.GHResponse
 import github4s.free.domain._
 
@@ -107,7 +108,7 @@ final case class CreateStatus(
  * Exposes Repositories operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
  */
-class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
+class RepositoryOps[F[_]](implicit I: InjectK[RepositoryOp, F]) {
 
   def getRepo(
       owner: String,
@@ -213,7 +214,7 @@ class RepositoryOps[F[_]](implicit I: Inject[RepositoryOp, F]) {
  */
 object RepositoryOps {
 
-  implicit def instance[F[_]](implicit I: Inject[RepositoryOp, F]): RepositoryOps[F] =
+  implicit def instance[F[_]](implicit I: InjectK[RepositoryOp, F]): RepositoryOps[F] =
     new RepositoryOps[F]
 
 }

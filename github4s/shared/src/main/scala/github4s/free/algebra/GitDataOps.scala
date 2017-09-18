@@ -16,8 +16,9 @@
 
 package github4s.free.algebra
 
+import cats.InjectK
 import cats.data.NonEmptyList
-import cats.free.{Free, Inject}
+import cats.free.Free
 import github4s.GithubResponses._
 import github4s.free.domain._
 
@@ -98,7 +99,7 @@ final case class CreateTag(
  * Exposes Git Data operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
  */
-class GitDataOps[F[_]](implicit I: Inject[GitDataOp, F]) {
+class GitDataOps[F[_]](implicit I: InjectK[GitDataOp, F]) {
 
   def getReference(
       owner: String,
@@ -182,6 +183,6 @@ class GitDataOps[F[_]](implicit I: Inject[GitDataOp, F]) {
  */
 object GitDataOps {
 
-  implicit def instance[F[_]](implicit I: Inject[GitDataOp, F]): GitDataOps[F] = new GitDataOps[F]
+  implicit def instance[F[_]](implicit I: InjectK[GitDataOp, F]): GitDataOps[F] = new GitDataOps[F]
 
 }

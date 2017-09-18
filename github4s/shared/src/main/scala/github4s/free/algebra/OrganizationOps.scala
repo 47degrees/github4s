@@ -16,7 +16,8 @@
 
 package github4s.free.algebra
 
-import cats.free.{Free, Inject}
+import cats.InjectK
+import cats.free.Free
 import github4s.GithubResponses._
 import github4s.free.domain.{Pagination, User}
 
@@ -37,7 +38,7 @@ final case class ListMembers(
  * Exposes Organization operations as a Free monadic algebra that may be combined with other
  * Algebras via Coproduct
  */
-class OrganizationOps[F[_]](implicit I: Inject[OrganizationOp, F]) {
+class OrganizationOps[F[_]](implicit I: InjectK[OrganizationOp, F]) {
 
   def listMembers(
       org: String,
@@ -54,7 +55,7 @@ class OrganizationOps[F[_]](implicit I: Inject[OrganizationOp, F]) {
  */
 object OrganizationOps {
 
-  implicit def instance[F[_]](implicit I: Inject[OrganizationOp, F]): OrganizationOps[F] =
+  implicit def instance[F[_]](implicit I: InjectK[OrganizationOp, F]): OrganizationOps[F] =
     new OrganizationOps[F]
 
 }
