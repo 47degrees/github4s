@@ -112,7 +112,7 @@ case class NewReleaseRequest(
     prerelease: Option[Boolean])
 
 case class Status(
-    id: Int,
+    id: Long,
     url: String,
     state: String,
     target_url: Option[String],
