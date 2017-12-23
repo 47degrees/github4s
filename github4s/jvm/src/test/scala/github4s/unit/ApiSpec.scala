@@ -485,12 +485,7 @@ class ApiSpec
 
   "GitData >> GetReference" should "return the single reference" in {
     val response =
-      gitData.reference(
-        accessToken,
-        headerUserAgent,
-        validRepoOwner,
-        validRepoName,
-        validRefSingle)
+      gitData.reference(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
     response should be('right)
 
     response.toOption map { r =>
