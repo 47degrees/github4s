@@ -114,7 +114,7 @@ object ProjectPlugin extends AutoPlugin {
         ScalaJSBadge.apply(_),
         GitHubIssuesBadge.apply(_)
       ),
-      orgSupportedScalaJSVersion := Some("0.6.20"),
+      orgSupportedScalaJSVersion := Some("0.6.21"),
       orgScriptTaskListSetting ++= List(
         (ScoverageKeys.coverageAggregate in Test).asRunnableItemFull,
         "docs/tut".asRunnableItem

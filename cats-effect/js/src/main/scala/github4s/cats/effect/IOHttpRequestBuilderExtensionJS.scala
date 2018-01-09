@@ -17,7 +17,6 @@
 package github4s.cats.effect
 
 import cats.effect.IO
-import cats.Eval.later
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import github4s.{HttpRequestBuilder, HttpRequestBuilderExtension, HttpRequestBuilderExtensionJS}
 import github4s.GithubResponses.GHResponse
@@ -42,6 +41,6 @@ trait IOHttpRequestBuilderExtensionJS extends HttpRequestBuilderExtensionJS {
       private[this] def runMapWrapper[A](
           rb: HttpRequestBuilder[SimpleHttpResponse, IO],
           mapResponse: SimpleHttpResponse => GHResponse[A]): IO[GHResponse[A]] =
-        IO.fromFuture(later(runMap[A, IO](rb, mapResponse)))
+        IO.fromFuture(IO(runMap[A, IO](rb, mapResponse)))
     }
 }
