@@ -1,7 +1,5 @@
 language: scala
 
-dist: precise
-
 scala:
 - 2.10.6
 - 2.11.11
@@ -20,7 +18,8 @@ install:
 - rvm use 2.2.8 --install --fuzzy
 - gem update --system
 - gem install sass
-- gem install jekyll -v 3.2.1
+- gem install ruby_dep -v 1.3.1
+- gem install jekyll -v 3.4.3
 - gem install jekyll-redirect-from
 
 before_script:
