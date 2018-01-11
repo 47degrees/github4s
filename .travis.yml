@@ -15,7 +15,6 @@ matrix:
   exclude:
   - scala: 2.10.7
     env: FREESBUILD=docs
-  exclude:
   - scala: 2.11.12
     env: FREESBUILD=docs
   - env: SCALAENV=all
