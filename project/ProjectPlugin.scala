@@ -81,6 +81,12 @@ object ProjectPlugin extends AutoPlugin {
         %%("cats-effect"),
         %%("scalatest") % "test"
       )
+
+    def toCompileTestList(sequence: Seq[ProjectReference]): List[String] = sequence.toList.map {
+      p =>
+        val project: String = p.asInstanceOf[LocalProject].project
+        s"$project/test"
+    }
   }
 
   override def projectSettings: Seq[Def.Setting[_]] =

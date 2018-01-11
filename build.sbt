@@ -1,10 +1,12 @@
+import sbtorgpolicies.runnable.syntax._
+
 pgpPassphrase := Some(getEnvVar("PGP_PASSPHRASE").getOrElse("").toCharArray)
 pgpPublicRing := file(s"$gpgFolder/pubring.gpg")
 pgpSecretRing := file(s"$gpgFolder/secring.gpg")
 
 lazy val root = (project in file("."))
-  .dependsOn(github4sJVM, github4sJS, scalaz, catsEffectJVM, catsEffectJS, docs)
-  .aggregate(github4sJVM, github4sJS, scalaz, catsEffectJVM, catsEffectJS, docs)
+  .aggregate(allModules: _*)
+  .dependsOn(allModulesDeps: _*)
   .settings(noPublishSettings: _*)
 
 lazy val github4s = (crossProject in file("github4s"))
@@ -48,3 +50,32 @@ lazy val catsEffect = (crossProject in file("cats-effect"))
 
 lazy val catsEffectJVM = catsEffect.jvm
 lazy val catsEffectJS  = catsEffect.js
+
+/////////////////////
+//// ALL MODULES ////
+/////////////////////
+
+lazy val jvmModules: Seq[ProjectReference] = Seq(
+  github4sJVM,
+  scalaz,
+  catsEffectJVM
+)
+
+lazy val jsModules: Seq[ProjectReference] = Seq(
+  github4sJS,
+  catsEffectJS
+)
+
+lazy val allModules: Seq[ProjectReference] = jvmModules ++ jsModules
+
+lazy val allModulesDeps: Seq[ClasspathDependency] =
+  allModules.map(ClasspathDependency(_, None))
+
+addCommandAlias("validateDocs", ";project docs;tut;project root")
+addCommandAlias(
+  "validateJVM",
+  (toCompileTestList(jvmModules) ++ List("project root")).asCmd)
+addCommandAlias("validateJS", (toCompileTestList(jsModules) ++ List("project root")).asCmd)
+addCommandAlias(
+  "validate",
+  ";clean;compile;coverage;validateJVM;coverageReport;coverageAggregate;coverageOff")
