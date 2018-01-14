@@ -9,14 +9,14 @@ env:
 - SCALAENV=jvm
 - SCALAENV=js
 - SCALAENV=all
-- FREESBUILD=docs
+- G4SBUILD=docs
 
 matrix:
   exclude:
   - scala: 2.10.7
-    env: FREESBUILD=docs
+    env: G4SBUILD=docs
   - scala: 2.11.12
-    env: FREESBUILD=docs
+    env: G4SBUILD=docs
   - env: SCALAENV=all
 
 jdk:
@@ -43,9 +43,9 @@ script:
 - if [ "$SCALAENV" = "jvm" ]; then
     sbt ++$TRAVIS_SCALA_VERSION validateJVM;
   elif [ "$SCALAENV" = "js" ]; then
-    sbt ++$TRAVIS_SCALA_VERSION test:fastOptJS;
+    sbt ++$TRAVIS_SCALA_VERSION compile;
     sbt ++$TRAVIS_SCALA_VERSION validateJS;
-  elif [ "$FREESBUILD" = "docs" ]; then
+  elif [ "$G4SBUILD" = "docs" ]; then
     sbt ++$TRAVIS_SCALA_VERSION docs/tut;
   else
     echo "You might not be invited to the party";
