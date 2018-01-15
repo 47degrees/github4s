@@ -64,15 +64,13 @@ jobs:
             if grep -q "SNAPSHOT" version.sbt; then
               sbt ++$TRAVIS_SCALA_VERSION publish;
             else
-              if [ "$SCALAENV" = "all" ]; then
-                sbt orgUpdateDocFiles;
-                git reset --hard HEAD;
-                git clean -f;
-                git checkout master;
-                git pull origin master;
-                sbt release;
-                sbt docs/publishMicrosite;
-              fi
+              sbt orgUpdateDocFiles;
+              git reset --hard HEAD;
+              git clean -f;
+              git checkout master;
+              git pull origin master;
+              sbt release;
+              sbt docs/publishMicrosite;
             fi
           fi
       scala: 2.12.4
