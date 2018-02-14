@@ -759,7 +759,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withQueryStringParameters(new Parameter("q", s".*$nonExistentSearchQuery.*"))
         .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(okStatusCode).withBody(searchIssuesEmptyResponse))
-  
+
   //Issues >> List comments of an Issue
   mockServer
     .when(
