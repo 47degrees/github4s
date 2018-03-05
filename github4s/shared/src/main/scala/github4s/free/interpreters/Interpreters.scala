@@ -300,10 +300,10 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: PullRequestOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case ListPullRequests(owner, repo, filters, accessToken) ⇒
-            pullRequests.list(accessToken, headers, owner, repo, filters)
-          case ListPullRequestFiles(owner, repo, number, accessToken) ⇒
-            pullRequests.listFiles(accessToken, headers, owner, repo, number)
+          case ListPullRequests(owner, repo, filters, accessToken, pagination) ⇒
+            pullRequests.list(accessToken, headers, owner, repo, filters, pagination)
+          case ListPullRequestFiles(owner, repo, number, accessToken, pagination) ⇒
+            pullRequests.listFiles(accessToken, headers, owner, repo, number, pagination)
           case CreatePullRequest(
               owner,
               repo,
@@ -322,8 +322,8 @@ class Interpreters[M[_], C](
                 head,
                 base,
                 maintainerCanModify)
-          case ListPullRequestReviews(owner, repo, pullRequest, accessToken) ⇒
-            pullRequests.listReviews(accessToken, headers, owner, repo, pullRequest)
+          case ListPullRequestReviews(owner, repo, pullRequest, accessToken, pagination) ⇒
+            pullRequests.listReviews(accessToken, headers, owner, repo, pullRequest, pagination)
           case GetPullRequestReview(owner, repo, pullRequest, review, accessToken) ⇒
             pullRequests.getReview(accessToken, headers, owner, repo, pullRequest, review)
         }
