@@ -32,7 +32,7 @@ class GHPullRequestsSpec extends BaseSpec {
 
     val pullRequestOps = mock[PullRequestOpsTest]
     (pullRequestOps.listPullRequests _)
-      .expects(validRepoOwner, validRepoName, Nil, sampleToken)
+      .expects(validRepoOwner, validRepoName, Nil, sampleToken, None)
       .returns(response)
 
     val ghPullRequests = new GHPullRequests(sampleToken)(pullRequestOps)
@@ -46,7 +46,7 @@ class GHPullRequestsSpec extends BaseSpec {
 
     val pullRequestOps = mock[PullRequestOpsTest]
     (pullRequestOps.listPullRequestFiles _)
-      .expects(validRepoOwner, validRepoName, validPullRequestNumber, sampleToken)
+      .expects(validRepoOwner, validRepoName, validPullRequestNumber, sampleToken, None)
       .returns(response)
 
     val ghPullRequests = new GHPullRequests(sampleToken)(pullRequestOps)
@@ -118,7 +118,8 @@ class GHPullRequestsSpec extends BaseSpec {
         validRepoOwner,
         validRepoName,
         validPullRequestNumber,
-        sampleToken)
+        sampleToken,
+        None)
       .returns(response)
 
     val ghPullRequests = new GHPullRequests(sampleToken)(pullRequestOps)

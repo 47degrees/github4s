@@ -61,7 +61,7 @@ class PullRequests[C, M[_]](
     owner: String,
     repo: String,
     filters: List[PRFilter] = Nil,
-    pagination: Option[Pagination]): M[GHResponse[List[PullRequest]]] =
+    pagination: Option[Pagination] = None): M[GHResponse[List[PullRequest]]] =
     httpClient.get[List[PullRequest]](
       accessToken,
       s"repos/$owner/$repo/pulls",
@@ -85,7 +85,7 @@ class PullRequests[C, M[_]](
     owner: String,
     repo: String,
     number: Int,
-    pagination: Option[Pagination]): M[GHResponse[List[PullRequestFile]]] =
+    pagination: Option[Pagination] = None): M[GHResponse[List[PullRequestFile]]] =
     httpClient
       .get[List[PullRequestFile]](
       accessToken,
@@ -141,7 +141,7 @@ class PullRequests[C, M[_]](
     owner: String,
     repo: String,
     pullRequest: Int,
-    pagination: Option[Pagination]): M[GHResponse[List[PullRequestReview]]] =
+    pagination: Option[Pagination] = None): M[GHResponse[List[PullRequestReview]]] =
     httpClient.get[List[PullRequestReview]](
       accessToken,
       s"repos/$owner/$repo/pulls/$pullRequest/reviews",

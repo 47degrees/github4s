@@ -27,7 +27,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   "PullRequests >> List" should "return a right response when valid repo is provided" in {
     val response =
       Github(accessToken).pullRequests
-        .list(validRepoOwner, validRepoName)
+        .list(validRepoOwner, validRepoName, pagination = None)
         .execFuture[T](headerUserAgent)
 
     testFutureIsRight[List[PullRequest]](response, { r =>
@@ -41,7 +41,8 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
         .list(
           validRepoOwner,
           validRepoName,
-          List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc))
+          List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc),
+          None)
         .execFuture[T](headerUserAgent)
 
     testFutureIsRight[List[PullRequest]](response, { r =>
@@ -53,7 +54,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   it should "return error when an invalid repo name is passed" in {
     val response =
       Github(accessToken).pullRequests
-        .list(validRepoOwner, invalidRepoName)
+        .list(validRepoOwner, invalidRepoName, pagination = None)
         .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)
@@ -62,7 +63,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   "PullRequests >> ListFiles" should "return a right response when a valid repo is provided" in {
     val response =
       Github(accessToken).pullRequests
-        .listFiles(validRepoOwner, validRepoName, validPullRequestNumber)
+        .listFiles(validRepoOwner, validRepoName, validPullRequestNumber, None)
         .execFuture[T](headerUserAgent)
 
     testFutureIsRight[List[PullRequestFile]](response, { r =>
@@ -74,7 +75,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   "PullRequests >> ListFiles" should "return a right response when a valid repo is provided and not all files have 'patch'" in {
     val response =
       Github(None).pullRequests
-        .listFiles("scala", "scala", 4877)
+        .listFiles("scala", "scala", 4877, None)
         .execFuture[T](headerUserAgent)
 
     testFutureIsRight[List[PullRequestFile]](response, { r =>
@@ -86,7 +87,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   it should "return error when an invalid repo name is passed" in {
     val response =
       Github(accessToken).pullRequests
-        .listFiles(validRepoOwner, invalidRepoName, validPullRequestNumber)
+        .listFiles(validRepoOwner, invalidRepoName, validPullRequestNumber, None)
         .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)
@@ -95,7 +96,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   "PullRequests >> ListReviews" should "return a right response when a valid pr is provided" in {
     val response =
       Github(accessToken).pullRequests
-        .listReviews(validRepoOwner, validRepoName, validPullRequestNumber)
+        .listReviews(validRepoOwner, validRepoName, validPullRequestNumber, None)
         .execFuture[T](headerUserAgent)
 
     testFutureIsRight[List[PullRequestReview]](response, { r =>
@@ -107,7 +108,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   it should "return error when an invalid repo name is passed" in {
     val response =
       Github(accessToken).pullRequests
-        .listReviews(validRepoOwner, invalidRepoName, validPullRequestNumber)
+        .listReviews(validRepoOwner, invalidRepoName, validPullRequestNumber, None)
         .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)
@@ -116,7 +117,11 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   "PullRequests >> GetReview" should "return a right response when a valid pr review is provided" in {
     val response =
       Github(accessToken).pullRequests
-        .getReview(validRepoOwner, validRepoName, validPullRequestNumber, validPullRequestReviewNumber)
+        .getReview(
+          validRepoOwner,
+          validRepoName,
+          validPullRequestNumber,
+          validPullRequestReviewNumber)
         .execFuture[T](headerUserAgent)
 
     testFutureIsRight[PullRequestReview](response, { r =>
@@ -128,7 +133,11 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
   it should "return error when an invalid repo name is passed" in {
     val response =
       Github(accessToken).pullRequests
-        .getReview(validRepoOwner, invalidRepoName, validPullRequestNumber, validPullRequestReviewNumber)
+        .getReview(
+          validRepoOwner,
+          invalidRepoName,
+          validPullRequestNumber,
+          validPullRequestReviewNumber)
         .execFuture[T](headerUserAgent)
 
     testFutureIsLeft(response)

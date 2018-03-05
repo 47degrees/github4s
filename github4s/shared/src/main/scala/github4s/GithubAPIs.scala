@@ -235,10 +235,7 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
 
 class GHActivities(accessToken: Option[String] = None)(implicit O: ActivityOps[GitHub4s]) {
 
-  def setThreadSub(
-      id: Int,
-      subscribed: Boolean,
-      ignored: Boolean): GHIO[GHResponse[Subscription]] =
+  def setThreadSub(id: Int, subscribed: Boolean, ignored: Boolean): GHIO[GHResponse[Subscription]] =
     O.setThreadSub(id, subscribed, ignored, accessToken)
 
   def listStargazers(
@@ -334,16 +331,18 @@ class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequest
   def list(
       owner: String,
       repo: String,
-      filters: List[PRFilter] = Nil
+      filters: List[PRFilter] = Nil,
+      pagination: Option[Pagination] = None
   ): GHIO[GHResponse[List[PullRequest]]] =
-    O.listPullRequests(owner, repo, filters, accessToken)
+    O.listPullRequests(owner, repo, filters, accessToken, pagination)
 
   def listFiles(
       owner: String,
       repo: String,
-      number: Int
+      number: Int,
+      pagination: Option[Pagination] = None
   ): GHIO[GHResponse[List[PullRequestFile]]] =
-    O.listPullRequestFiles(owner, repo, number, accessToken)
+    O.listPullRequestFiles(owner, repo, number, accessToken, pagination)
 
   def create(
       owner: String,
@@ -358,9 +357,10 @@ class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequest
   def listReviews(
       owner: String,
       repo: String,
-      pullRequest: Int
+      pullRequest: Int,
+      pagination: Option[Pagination] = None
   ): GHIO[GHResponse[List[PullRequestReview]]] =
-    O.listPullRequestReviews(owner, repo, pullRequest, accessToken)
+    O.listPullRequestReviews(owner, repo, pullRequest, accessToken, pagination)
 
   def getReview(
       owner: String,
