@@ -88,10 +88,10 @@ class PullRequests[C, M[_]](
     pagination: Option[Pagination] = None): M[GHResponse[List[PullRequestFile]]] =
     httpClient
       .get[List[PullRequestFile]](
-      accessToken,
-      s"repos/$owner/$repo/pulls/$number/files",
-      headers,
-      pagination = pagination)
+        accessToken,
+        s"repos/$owner/$repo/pulls/$number/files",
+        headers,
+        pagination = pagination)
 
   /**
     * Create a pull request
