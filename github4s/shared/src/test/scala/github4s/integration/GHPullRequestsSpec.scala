@@ -35,6 +35,18 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
     })
   }
 
+  "PullRequests >> List" should "return a right response when a valid repo is provided but not all pull requests have body" in {
+    val response =
+      Github(accessToken).pullRequests
+        .list("lloydmeta", "gh-test-repo", List(PRFilterOpen))
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[PullRequest]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
   it should "return a non empty list when valid repo and some filters are provided" in {
     val response =
       Github(accessToken).pullRequests
@@ -73,7 +85,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
 
   "PullRequests >> ListFiles" should "return a right response when a valid repo is provided and not all files have 'patch'" in {
     val response =
-      Github(None).pullRequests
+      Github(accessToken).pullRequests
         .listFiles("scala", "scala", 4877)
         .execFuture[T](headerUserAgent)
 

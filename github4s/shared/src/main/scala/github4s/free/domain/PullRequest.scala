@@ -21,7 +21,7 @@ case class PullRequest(
     number: Int,
     state: String,
     title: String,
-    body: String,
+    body: Option[String],
     locked: Boolean,
     html_url: String,
     created_at: String,

@@ -185,7 +185,7 @@ trait TestData extends DummyGithubUrls {
     number = validPullRequestNumber,
     state = "open",
     title = "Title",
-    body = "Body",
+    body = Some("Body"),
     locked = false,
     html_url = githubApiUrl,
     created_at = "2011-04-10T20:09:31Z",
