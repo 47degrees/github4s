@@ -164,11 +164,11 @@ object Decoders {
 
   implicit val decodePRStatus: Decoder[PullRequestReviewState] =
     Decoder.decodeString.map {
-      case "APPROVED"          => PRRStateApproved
-      case "CHANGES_REQUESTED" => PRRStateChangesRequested
-      case "COMMENTED"         => PRRStateCommented
-      case "PENDING"           => PRRStatePending
-      case "DISMISSED"         => PRRStateDismissed
+      case PRRStateApproved.value         => PRRStateApproved
+      case PRRStateChangesRequested.value => PRRStateChangesRequested
+      case PRRStateCommented.value        => PRRStateCommented
+      case PRRStatePending.value          => PRRStatePending
+      case PRRStateDismissed.value        => PRRStateDismissed
     }
 
   implicit val decodeGist: Decoder[Gist] = Decoder.instance { c ⇒
