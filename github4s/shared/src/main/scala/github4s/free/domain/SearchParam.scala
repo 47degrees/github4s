@@ -68,7 +68,7 @@ case object IssueStateClosed extends IssueState {
 }
 
 case class LabelParam(label: String, exclude: Boolean = false) extends SearchParam {
-  override def paramName: String = s"${if (exclude) "-" else ""}state"
+  override def paramName: String = s"${if (exclude) "-" else ""}label"
 
   override def paramValue: String = label
 }
