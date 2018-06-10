@@ -175,6 +175,14 @@ trait TestData extends DummyGithubUrls {
     updated_at = "2011-04-10T20:09:31Z"
   )
 
+  val label = Label(
+    id = Some(1),
+    name = validIssueLabel.head,
+    url = githubApiUrl,
+    color = "",
+    default = None
+  )
+
   val searchIssuesResult = SearchIssuesResult(
     total_count = 1,
     incomplete_results = false,

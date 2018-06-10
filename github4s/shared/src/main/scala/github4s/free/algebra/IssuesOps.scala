@@ -19,7 +19,7 @@ package github4s.free.algebra
 import cats.InjectK
 import cats.free.Free
 import github4s.GithubResponses._
-import github4s.free.domain.{Comment, Issue, SearchIssuesResult, SearchParam}
+import github4s.free.domain.{Comment, Issue, Label, SearchIssuesResult, SearchParam}
 
 /**
  * Issues ops ADT
@@ -98,6 +98,13 @@ final case class DeleteComment(
     id: Int,
     accessToken: Option[String] = None
 ) extends IssueOp[GHResponse[Unit]]
+
+final case class ListLabels(
+    owner: String,
+    repo: String,
+    number: Int,
+    accessToken: Option[String] = None
+) extends IssueOp[GHResponse[List[Label]]]
 
 /**
  * Exposes Issue operations as a Free monadic algebra that may be combined with other Algebras via
@@ -188,6 +195,14 @@ class IssueOps[F[_]](implicit I: InjectK[IssueOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[Unit]] =
     Free.inject[IssueOp, F](DeleteComment(owner, repo, id, accessToken))
+
+  def listLabels(
+      owner: String,
+      repo: String,
+      number: Int,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[Label]]] =
+    Free.inject[IssueOp, F](ListLabels(owner, repo, number, accessToken))
 
 }
 

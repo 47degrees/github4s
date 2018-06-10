@@ -88,7 +88,7 @@ the `result` on the right is the edited [Issue][issue-scala].
 See [the API doc](https://developer.github.com/v3/issues/#edit-an-issue) for full reference.
 
 
-### List issues 
+### List issues
 
 You can also list issues for a repository through `listIssues`; it takes as arguments:
 
@@ -174,7 +174,7 @@ You can list comments of an issue with the following parameters:
  - the repository coordinates (`owner` and `name` of the repository).
  - `number`: The issue number.
 
- To list comment:
+ To list comments:
 
 ```tut:silent
 val commentList = Github(accessToken).issues.listComments("47deg", "github4s", 123)
@@ -254,6 +254,29 @@ deleteComment.exec[cats.Id, HttpResponse[String]]() match {
 The `result` on the right is `Unit`.
 
 See [the API doc](https://developer.github.com/v3/issues/comments/#delete-a-comment) for full reference.
+
+## Labels
+
+### List labels
+
+You can list labels for an issue with the following parameters:
+
+ - the repository coordinates (`owner` and `name` of the repository).
+ - `number`: The issue number.
+
+ To list labels:
+
+```tut:silent
+val labelList = Github(accessToken).issues.listLabels("47deg", "github4s", 123)
+labelList.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[Label]][issue-scala]
+
+See [the API doc](https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue) for full reference.
 
 As you can see, a few features of the issue endpoint are missing.
 

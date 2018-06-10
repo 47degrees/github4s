@@ -20,7 +20,7 @@ import cats.Id
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.HttpClient
 import github4s.api.Issues
-import github4s.free.domain.{Comment, Issue, SearchIssuesResult}
+import github4s.free.domain.{Comment, Issue, Label, SearchIssuesResult}
 import github4s.utils.BaseSpec
 
 class IssuesSpec extends BaseSpec {
@@ -144,7 +144,7 @@ class IssuesSpec extends BaseSpec {
       List.empty)
   }
 
-  "Issues.ListComment" should "call httpClient.get with the right parameters" in {
+  "Issues.ListComments" should "call httpClient.get with the right parameters" in {
     val response: GHResponse[List[Comment]] =
       Right(GHResult(List(comment), okStatusCode, Map.empty))
 
@@ -241,5 +241,25 @@ class IssuesSpec extends BaseSpec {
       validRepoOwner,
       validRepoName,
       validCommentId)
+  }
+
+  "Issues.ListLabels" should "call httpClient.get with the right parameters" in {
+    val response: GHResponse[List[Label]] =
+      Right(GHResult(List(label), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[List[Label]](
+      url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels",
+      response = response
+    )
+
+    val issues = new Issues[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    issues.listLabels(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validIssueNumber)
   }
 }

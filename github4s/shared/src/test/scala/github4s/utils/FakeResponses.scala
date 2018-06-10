@@ -2241,6 +2241,20 @@ trait FakeResponses {
       |  ]
       |}""".stripMargin
 
+  val listLabelsValidResponse =
+    """
+      |[
+      |  {
+      |    "id": 208045946,
+      |    "node_id": "MDU6TGFiZWwyMDgwNDU5NDY=",
+      |    "url": "https://api.github.com/repos/octocat/Hello-World/labels/bug",
+      |    "name": "bug",
+      |    "description": "Houston, we have a problem",
+      |    "color": "f29513",
+      |    "default": true
+      |  }
+      |]""".stripMargin
+
   val searchIssuesEmptyResponse =
     """
       |{

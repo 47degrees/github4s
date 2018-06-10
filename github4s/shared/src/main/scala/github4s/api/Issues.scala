@@ -258,4 +258,22 @@ class Issues[C, M[_]](
       id: Int): M[GHResponse[Unit]] =
     httpClient.delete(accessToken, s"repos/$owner/$repo/issues/comments/$id", headers)
 
+  /**
+   * List the labels assigned to an Issue
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param number Issue number
+   * @return a GHResponse with the list of labels for the Issue.
+   */
+  def listLabels(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      number: Int): M[GHResponse[List[Label]]] =
+    httpClient.get[List[Label]](accessToken, s"repos/$owner/$repo/issues/$number/labels", headers)
+
 }

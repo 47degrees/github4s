@@ -231,6 +231,13 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
   ): GHIO[GHResponse[Unit]] =
     O.deleteComment(owner, repo, id, accessToken)
 
+  def listLabels(
+      owner: String,
+      repo: String,
+      number: Int
+  ): GHIO[GHResponse[List[Label]]] =
+    O.listLabels(owner, repo, number, accessToken)
+
 }
 
 class GHActivities(accessToken: Option[String] = None)(implicit O: ActivityOps[GitHub4s]) {

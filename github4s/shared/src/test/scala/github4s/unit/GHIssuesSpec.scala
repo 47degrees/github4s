@@ -20,7 +20,7 @@ import cats.free.Free
 import github4s.GHIssues
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.app.GitHub4s
-import github4s.free.domain.{Comment, Issue, SearchIssuesResult}
+import github4s.free.domain.{Comment, Issue, Label, SearchIssuesResult}
 import github4s.utils.BaseSpec
 
 class GHIssuesSpec extends BaseSpec {
@@ -174,6 +174,19 @@ class GHIssuesSpec extends BaseSpec {
 
     val ghIssues = new GHIssues(sampleToken)(commentOps)
     ghIssues.deleteComment(validRepoOwner, validRepoName, validCommentId)
+  }
+
+  "Issues.ListLabels" should "call to IssuesOps with the right parameters" in {
+    val response: Free[GitHub4s, GHResponse[List[Label]]] =
+      Free.pure(Right(GHResult(List(label), okStatusCode, Map.empty)))
+
+    val commentOps = mock[IssueOpsTest]
+    (commentOps.listLabels _)
+      .expects(validRepoOwner, validRepoName, validIssueNumber, sampleToken)
+      .returns(response)
+
+    val ghIssues = new GHIssues(sampleToken)(commentOps)
+    ghIssues.listLabels(validRepoOwner, validRepoName, validIssueNumber)
   }
 
 }
