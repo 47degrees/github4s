@@ -238,6 +238,14 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
   ): GHIO[GHResponse[List[Label]]] =
     O.listLabels(owner, repo, number, accessToken)
 
+  def addLabels(
+      owner: String,
+      repo: String,
+      number: Int,
+      labels: List[String]
+  ): GHIO[GHResponse[List[Label]]] =
+    O.addLabels(owner, repo, number, labels, accessToken)
+
 }
 
 class GHActivities(accessToken: Option[String] = None)(implicit O: ActivityOps[GitHub4s]) {

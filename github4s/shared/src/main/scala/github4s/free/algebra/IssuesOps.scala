@@ -106,6 +106,14 @@ final case class ListLabels(
     accessToken: Option[String] = None
 ) extends IssueOp[GHResponse[List[Label]]]
 
+final case class AddLabels(
+    owner: String,
+    repo: String,
+    number: Int,
+    labels: List[String],
+    accessToken: Option[String] = None
+) extends IssueOp[GHResponse[List[Label]]]
+
 /**
  * Exposes Issue operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
@@ -203,6 +211,15 @@ class IssueOps[F[_]](implicit I: InjectK[IssueOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[Label]]] =
     Free.inject[IssueOp, F](ListLabels(owner, repo, number, accessToken))
+
+  def addLabels(
+      owner: String,
+      repo: String,
+      number: Int,
+      labels: List[String],
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[Label]]] =
+    Free.inject[IssueOp, F](AddLabels(owner, repo, number, labels, accessToken))
 
 }
 

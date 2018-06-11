@@ -92,4 +92,15 @@ trait GHIssuesSpec[T] extends BaseIntegrationSpec[T] {
       r.statusCode shouldBe okStatusCode
     })
   }
+
+  "Issues >> AddLabels" should "return a list of labels" in {
+    val response = Github(accessToken).issues
+      .addLabels(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[Label]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
 }

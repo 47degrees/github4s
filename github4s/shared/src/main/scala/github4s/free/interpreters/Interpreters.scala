@@ -227,6 +227,8 @@ class Interpreters[M[_], C](
             issues.deleteComment(accessToken, headers, owner, repo, id)
           case ListLabels(owner, repo, number, accessToken) ⇒
             issues.listLabels(accessToken, headers, owner, repo, number)
+          case AddLabels(owner, repo, number, labels, accessToken) ⇒
+            issues.addLabels(accessToken, headers, owner, repo, number, labels)
         }
       }
     }

@@ -262,4 +262,33 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validIssueNumber)
   }
+
+  "Issues.AddLabels" should "call httpClient.post with the right parameters" in {
+    val response: GHResponse[List[Label]] =
+      Right(GHResult(List(label), okStatusCode, Map.empty))
+
+    val request =
+      """
+        |[
+        |  "bug",
+        |  "code review"
+        |]""".stripMargin
+
+    val httpClientMock = httpClientMockPost[List[Label]](
+      url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels",
+      json = request,
+      response = response
+    )
+
+    val issues = new Issues[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    issues.addLabels(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validIssueNumber,
+      validIssueLabel)
+  }
 }

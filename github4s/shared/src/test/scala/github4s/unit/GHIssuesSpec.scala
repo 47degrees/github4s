@@ -189,4 +189,17 @@ class GHIssuesSpec extends BaseSpec {
     ghIssues.listLabels(validRepoOwner, validRepoName, validIssueNumber)
   }
 
+  "Issues.AddLabels" should "call to IssuesOps with the right parameters" in {
+    val response: Free[GitHub4s, GHResponse[List[Label]]] =
+      Free.pure(Right(GHResult(List(label), okStatusCode, Map.empty)))
+
+    val commentOps = mock[IssueOpsTest]
+    (commentOps.addLabels _)
+      .expects(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel, sampleToken)
+      .returns(response)
+
+    val ghIssues = new GHIssues(sampleToken)(commentOps)
+    ghIssues.addLabels(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel)
+  }
+
 }

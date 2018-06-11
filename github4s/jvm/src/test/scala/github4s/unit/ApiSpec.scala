@@ -1093,6 +1093,45 @@ class ApiSpec
     response should be('left)
   }
 
+  "Issues >> AddLabels" should "return the assigned issue labels when a valid issue number is provided" in {
+    val response =
+      issues.addLabels(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validIssueLabel)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return an error if an invalid issue number is provided" in {
+    val response =
+      issues.addLabels(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        invalidIssueNumber,
+        validIssueLabel)
+    response should be('left)
+  }
+  it should "return an error if no tokens are provided" in {
+    val response =
+      issues.addLabels(
+        None,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validIssueLabel)
+    response should be('left)
+  }
+
   "Activities >> Set a Thread Subscription" should "return the subscription when a valid thread id is provided" in {
     val response =
       activities.setThreadSub(accessToken, headerUserAgent, validThreadId, true, false)
