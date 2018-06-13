@@ -33,27 +33,6 @@ class CatsEffectJSSpec extends AsyncFunSuite with Matchers {
 
   implicit override def executionContext: ExecutionContextExecutor = ExecutionContext.global
 
-  def testEffectOnRunAsync[A](source: IO[GHResponse[A]], f: GHResponse[A] => Assertion)(
-      implicit pos: Position): Future[Assertion] = {
-
-    val effect  = Promise[GHResponse[A]]()
-    val attempt = Promise[Try[GHResponse[A]]]()
-    effect.future.onComplete(attempt.success)
-
-    val io = source.runAsync {
-      case Right(s) => IO(effect.success(s))
-      case Left(e)  => IO(effect.failure(e))
-    }
-
-    for (_ <- io.unsafeToFuture(); v <- attempt.future) yield {
-      v.toOption
-        .map { result =>
-          f(result)
-        }
-        .getOrElse(fail("effect attempt failed"))
-    }
-  }
-
   val accessToken     = sys.env.get("GITHUB4S_ACCESS_TOKEN")
   val headerUserAgent = Map("user-agent" -> "github4s")
   val validUsername   = "rafaparadela"
@@ -65,10 +44,10 @@ class CatsEffectJSSpec extends AsyncFunSuite with Matchers {
       .get(validUsername)
       .exec[IO, SimpleHttpResponse](headerUserAgent)
 
-    testEffectOnRunAsync(response, { r: GHResponse[User] =>
+    response.unsafeToFuture().map { r: GHResponse[User] =>
       r.isRight shouldBe true
       r.right.map(_.statusCode) shouldBe Right(okStatusCode)
-    })
+    }
   }
 
   test("return a failed result for an invalid call") {
@@ -76,9 +55,9 @@ class CatsEffectJSSpec extends AsyncFunSuite with Matchers {
       .get(invalidUsername)
       .exec[IO, SimpleHttpResponse](headerUserAgent)
 
-    testEffectOnRunAsync(response, { r: GHResponse[User] =>
+    response.unsafeToFuture().map { r: GHResponse[User] =>
       r.isLeft shouldBe true
-    })
+    }
   }
 
   // only here for the 80% coverage, to remove once JS makes use of Captures
