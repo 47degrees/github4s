@@ -5,7 +5,7 @@ dist: precise
 scala:
 - 2.10.7
 - 2.11.12
-- 2.12.4
+- 2.12.6
 
 env:
 - SCALAENV=jvm
@@ -73,7 +73,7 @@ jobs:
               sbt docs/publishMicrosite;
             fi
           fi
-      scala: 2.12.4
+      scala: 2.12.6
       env: SCALAENV=all
 
 before_cache:
