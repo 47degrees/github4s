@@ -24,16 +24,16 @@ import org.scalatest.{Assertion, AsyncFunSuite, Matchers}
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import github4s.GithubResponses.GHResponse
 import github4s.free.domain.User
-import org.scalactic.source.Position
 
-import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future, Promise}
-import scala.util.Try
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
+import scala.scalajs.js
 
 class CatsEffectJSSpec extends AsyncFunSuite with Matchers {
 
   implicit override def executionContext: ExecutionContextExecutor = ExecutionContext.global
 
-  val accessToken     = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+  val accessToken =
+    js.Dynamic.global.process.env.GITHUB4S_ACCESS_TOKEN.asInstanceOf[js.UndefOr[String]].toOption
   val headerUserAgent = Map("user-agent" -> "github4s")
   val validUsername   = "rafaparadela"
   val invalidUsername = "GHInvalidUserName"
@@ -44,10 +44,12 @@ class CatsEffectJSSpec extends AsyncFunSuite with Matchers {
       .get(validUsername)
       .exec[IO, SimpleHttpResponse](headerUserAgent)
 
-    response.unsafeToFuture().map { r: GHResponse[User] =>
-      r.isRight shouldBe true
-      r.right.map(_.statusCode) shouldBe Right(okStatusCode)
-    }
+    response
+      .unsafeToFuture()
+      .map { r: GHResponse[User] =>
+        r.isRight shouldBe true
+        r.right.map(_.statusCode) shouldBe Right(okStatusCode)
+      }
   }
 
   test("return a failed result for an invalid call") {
@@ -55,9 +57,11 @@ class CatsEffectJSSpec extends AsyncFunSuite with Matchers {
       .get(invalidUsername)
       .exec[IO, SimpleHttpResponse](headerUserAgent)
 
-    response.unsafeToFuture().map { r: GHResponse[User] =>
-      r.isLeft shouldBe true
-    }
+    response
+      .unsafeToFuture()
+      .map { r: GHResponse[User] =>
+        r.isLeft shouldBe true
+      }
   }
 
   // only here for the 80% coverage, to remove once JS makes use of Captures
