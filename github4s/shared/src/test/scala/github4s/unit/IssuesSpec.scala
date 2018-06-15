@@ -291,4 +291,25 @@ class IssuesSpec extends BaseSpec {
       validIssueNumber,
       validIssueLabel)
   }
+
+  "Issues.RemoveLabel" should "call httpClient.delete with the right parameters" in {
+    val response: GHResponse[List[Label]] =
+      Right(GHResult(List(label), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockDeleteWithResponse[List[Label]](
+      url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels/${validIssueLabel.head}",
+      response = response
+    )
+
+    val issues = new Issues[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    issues.removeLabel(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validIssueNumber,
+      validIssueLabel.head)
+  }
 }

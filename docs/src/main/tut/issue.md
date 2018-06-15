@@ -300,6 +300,28 @@ The `result` on the right is the corresponding assigned [List[Label]][issue-scal
 
 See [the API doc](https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue) for full reference.
 
+### Remove label
+
+You can remove a label from an issue with the following parameters:
+
+ - the repository coordinates (`owner` and `name` of the repository).
+ - `number`: The issue number.
+ - `label`: The label that requires removing.
+
+ To remove an existing label from an issue:
+
+```tut:silent
+val removedLabelList = Github(accessToken).issues.removeLabel("47deg", "github4s", 123, "bug")
+removedLabelList.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding removed [List[Label]][issue-scala]
+
+See [the API doc](https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue) for full reference.
+
 As you can see, a few features of the issue endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!

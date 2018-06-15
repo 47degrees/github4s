@@ -114,6 +114,14 @@ final case class AddLabels(
     accessToken: Option[String] = None
 ) extends IssueOp[GHResponse[List[Label]]]
 
+final case class RemoveLabel(
+    owner: String,
+    repo: String,
+    number: Int,
+    label: String,
+    accessToken: Option[String] = None
+) extends IssueOp[GHResponse[List[Label]]]
+
 /**
  * Exposes Issue operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
@@ -220,6 +228,15 @@ class IssueOps[F[_]](implicit I: InjectK[IssueOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[Label]]] =
     Free.inject[IssueOp, F](AddLabels(owner, repo, number, labels, accessToken))
+
+  def removeLabel(
+      owner: String,
+      repo: String,
+      number: Int,
+      label: String,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[Label]]] =
+    Free.inject[IssueOp, F](RemoveLabel(owner, repo, number, label, accessToken))
 
 }
 

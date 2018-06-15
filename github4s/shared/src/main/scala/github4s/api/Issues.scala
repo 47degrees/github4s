@@ -299,4 +299,27 @@ class Issues[C, M[_]](
       headers,
       labels.asJson.noSpaces)
 
+  /**
+   * Remove the specified label from an Issue
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param number Issue number
+   * @param label the name of the label to remove from the issue
+   * @return a GHResponse with the list of labels removed from the Issue.
+   */
+  def removeLabel(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      number: Int,
+      label: String): M[GHResponse[List[Label]]] =
+    httpClient.deleteWithResponse[List[Label]](
+      accessToken,
+      s"repos/$owner/$repo/issues/$number/labels/$label",
+      headers)
+
 }

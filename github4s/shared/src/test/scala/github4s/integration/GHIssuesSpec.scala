@@ -93,6 +93,17 @@ trait GHIssuesSpec[T] extends BaseIntegrationSpec[T] {
     })
   }
 
+  "Issues >> RemoveLabel" should "return a list of removed labels" in {
+    val response = Github(accessToken).issues
+      .removeLabel(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel.head)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[Label]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
   "Issues >> AddLabels" should "return a list of labels" in {
     val response = Github(accessToken).issues
       .addLabels(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel)

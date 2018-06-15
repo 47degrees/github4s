@@ -1093,6 +1093,45 @@ class ApiSpec
     response should be('left)
   }
 
+  "Issues >> RemoveLabel" should "return the removed issue labels when a valid issue number is provided" in {
+    val response =
+      issues.removeLabel(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validIssueLabel.head)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return an error if an invalid issue number is provided" in {
+    val response =
+      issues.removeLabel(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        invalidIssueNumber,
+        validIssueLabel.head)
+    response should be('left)
+  }
+  it should "return an error if no tokens are provided" in {
+    val response =
+      issues.removeLabel(
+        None,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validIssueLabel.head)
+    response should be('left)
+  }
+
   "Issues >> AddLabels" should "return the assigned issue labels when a valid issue number is provided" in {
     val response =
       issues.addLabels(

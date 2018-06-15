@@ -885,6 +885,32 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withHeader(not("Authorization")))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
+  //Issues >> Remove label from an Issue
+  mockServer
+    .when(request
+      .withMethod("DELETE")
+      .withPath(
+        s"/repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels/${validIssueLabel.head}")
+      .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(okStatusCode).withBody(listLabelsValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("DELETE")
+        .withPath(
+          s"/repos/$validRepoOwner/$validRepoName/issues/$invalidIssueNumber/labels/${validIssueLabel.head}")
+        .withHeader("Authorization", tokenHeader))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(request
+      .withMethod("DELETE")
+      .withPath(
+        s"/repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels/${validIssueLabel.head}")
+      .withHeader(not("Authorization")))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
   //Issues >> List labels for an Issue
   mockServer
     .when(

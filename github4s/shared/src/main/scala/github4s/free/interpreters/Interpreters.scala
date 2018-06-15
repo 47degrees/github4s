@@ -229,6 +229,8 @@ class Interpreters[M[_], C](
             issues.listLabels(accessToken, headers, owner, repo, number)
           case AddLabels(owner, repo, number, labels, accessToken) ⇒
             issues.addLabels(accessToken, headers, owner, repo, number, labels)
+          case RemoveLabel(owner, repo, number, label, accessToken) ⇒
+            issues.removeLabel(accessToken, headers, owner, repo, number, label)
         }
       }
     }

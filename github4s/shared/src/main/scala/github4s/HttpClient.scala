@@ -187,6 +187,16 @@ class HttpClient[C, M[_]](
     httpRbImpl.runEmpty(
       httpRequestBuilder(buildURL(method)).deleteMethod.withHeaders(headers).withAuth(accessToken))
 
+  def deleteWithResponse[A](
+      accessToken: Option[String] = None,
+      url: String,
+      headers: Map[String, String] = Map.empty
+  )(implicit D: Decoder[A]): M[GHResponse[A]] =
+    httpRbImpl.run[A](
+      httpRequestBuilder(buildURL(url)).deleteMethod
+        .withAuth(accessToken)
+        .withHeaders(headers))
+
   private def buildURL(method: String) = urls.baseUrl + method
 
   val defaultPage: Int    = 1
