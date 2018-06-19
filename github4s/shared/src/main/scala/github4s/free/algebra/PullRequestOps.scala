@@ -85,7 +85,7 @@ class PullRequestOps[F[_]](implicit I: InjectK[PullRequestOp, F]) {
     owner: String,
     repo: String,
     number: Int,
-    accessToken: Option[String] = None,
+    accessToken: Option[String] = None
   ): Free[F, GHResponse[PullRequest]] =
     Free.inject[PullRequestOp, F](GetPullRequest(owner, repo, number, accessToken))
 
