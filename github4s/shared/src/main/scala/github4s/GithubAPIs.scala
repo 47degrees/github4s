@@ -351,6 +351,13 @@ class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHu
 }
 
 class GHPullRequests(accessToken: Option[String] = None)(implicit O: PullRequestOps[GitHub4s]) {
+  def get(
+      owner: String,
+      repo: String,
+      number: Int
+  ): GHIO[GHResponse[PullRequest]] =
+    O.getPullRequest(owner, repo, number, accessToken)
+
   def list(
       owner: String,
       repo: String,

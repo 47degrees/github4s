@@ -24,6 +24,35 @@ import github4s.utils.BaseIntegrationSpec
 
 trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
 
+  "PullRequests >> Get" should "return a right response when a valid pr number is provided" in {
+    val response =
+      Github(accessToken).pullRequests
+        .get(validRepoOwner, validRepoName, validPullRequestNumber)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[PullRequest](response, { r =>
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return an error when a valid issue number is provided" in {
+    val response =
+      Github(accessToken).pullRequests
+        .get(validRepoOwner, validRepoName, validIssueNumber)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
+  it should "return an error when an invalid repo name is passed" in {
+    val response =
+      Github(accessToken).pullRequests
+        .get(validRepoOwner, invalidRepoName, validPullRequestNumber)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
   "PullRequests >> List" should "return a right response when valid repo is provided" in {
     val response =
       Github(accessToken).pullRequests
@@ -35,7 +64,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
     })
   }
 
-  "PullRequests >> List" should "return a right response when a valid repo is provided but not all pull requests have body" in {
+  it should "return a right response when a valid repo is provided but not all pull requests have body" in {
     val response =
       Github(accessToken).pullRequests
         .list("lloydmeta", "gh-test-repo", List(PRFilterOpen))
@@ -83,7 +112,7 @@ trait GHPullRequestsSpec[T] extends BaseIntegrationSpec[T] {
     })
   }
 
-  "PullRequests >> ListFiles" should "return a right response when a valid repo is provided and not all files have 'patch'" in {
+  it should "return a right response when a valid repo is provided and not all files have 'patch'" in {
     val response =
       Github(accessToken).pullRequests
         .listFiles("scala", "scala", 4877)

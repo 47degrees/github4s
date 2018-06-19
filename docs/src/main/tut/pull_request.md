@@ -9,6 +9,7 @@ Github4s supports the [Pull Request API](https://developer.github.com/v3/pulls/)
 with Github4s, you can interact with:
 
 - [Pull requests](#pull-requests)
+  - [Get a pull request](#get-a-pull-request)
   - [List pull requests](#list-pull-requests)
   - [List the files in a pull request](#list-the-files-in-a-pull-request)
   - [Create a pull request](#create-a-pull-request)
@@ -36,6 +37,28 @@ Support for `cats.Id`, `cats.Eval`, and `Future` (the only supported option for 
 provided out of the box when importing `github4s.{js,jvm}.Implicits._`.
 
 ## Pull requests
+
+### Get a pull request
+
+You can get a single pull request for a repository using `get`; it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- the pull request number
+
+To get a single pull request:
+
+```tut:silent
+val getPullRequest = Github(accessToken).pullRequests.get("47deg", "github4s", 102)
+
+getPullRequest.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [PullRequest][pr-scala].
+
+See [the API doc](https://developer.github.com/v3/pulls/#get-a-single-pull-request) for full reference.
 
 ### List pull requests
 

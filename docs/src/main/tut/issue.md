@@ -17,6 +17,10 @@ with Github4s, you can interact with:
   - [Create a comment](#create-a-comment)
   - [Edit a comment](#edit-a-comment)
   - [Delete a comment](#delete-a-comment)
+- [Labels](#labels)
+  - [List labels](#list-labels)
+  - [Add labels](#add-labels)
+  - [Remove a label](#remove-a-label)
 
 The following examples assume the following imports and token:
 
@@ -300,7 +304,7 @@ The `result` on the right is the corresponding assigned [List[Label]][issue-scal
 
 See [the API doc](https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue) for full reference.
 
-### Remove label
+### Remove a label
 
 You can remove a label from an issue with the following parameters:
 

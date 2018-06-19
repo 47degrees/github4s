@@ -25,6 +25,22 @@ import github4s.utils.BaseSpec
 
 class PullRequestsSpec extends BaseSpec {
 
+  "PullRequests.get" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[PullRequest] =
+      Right(GHResult(pullRequest, okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[PullRequest](
+      url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber",
+      response = response
+    )
+    val pullRequests = new PullRequests[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    pullRequests.get(
+      sampleToken, headerUserAgent, validRepoOwner, validRepoName, validPullRequestNumber)
+  }
+
   "PullRequests.list" should "call to httpClient.get with the right parameters" in {
 
     val response: GHResponse[List[PullRequest]] =

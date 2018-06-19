@@ -389,7 +389,7 @@ for full reference.
 Once the documentation is written, we can build it locally with:
 
 ```bash
-sbt makeMicrosite
+sbt "project docs" makeMicrosite
 cd docs/target/site/ && jekyll serve
 ```
 

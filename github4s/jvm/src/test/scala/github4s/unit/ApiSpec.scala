@@ -657,7 +657,31 @@ class ApiSpec
     response should be('left)
   }
 
-  "PullRequests >> List" should "return the expected pull request list when valid repo is provided" in {
+  "PullRequests >> Get" should "return the expected pull request when a valid repo is provided" in {
+    val response = pullRequests.get(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      validPullRequestNumber)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.id shouldBe validPullRequestNumber
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return error when an invalid repo name is passed" in {
+    val response = pullRequests.get(
+      accessToken,
+      headerUserAgent,
+      validRepoOwner,
+      invalidRepoName,
+      validPullRequestNumber)
+    response should be('left)
+  }
+
+  "PullRequests >> List" should "return the expected pull request list when a valid repo is provided" in {
     val response =
       pullRequests.list(accessToken, headerUserAgent, validRepoOwner, validRepoName)
     response should be('right)

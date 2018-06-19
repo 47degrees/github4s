@@ -25,6 +25,20 @@ import github4s.utils.BaseSpec
 
 class GHPullRequestsSpec extends BaseSpec {
 
+  "GHPullRequests.get" should "call to PullRequestOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[PullRequest]] =
+      Free.pure(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
+
+    val pullRequestOps = mock[PullRequestOpsTest]
+    (pullRequestOps.getPullRequest _)
+      .expects(validRepoOwner, validRepoName, validPullRequestNumber, sampleToken)
+      .returns(response)
+
+    val ghPullRequests = new GHPullRequests(sampleToken)(pullRequestOps)
+    ghPullRequests.get(validRepoOwner, validRepoName, validPullRequestNumber)
+  }
+
   "GHPullRequests.list" should "call to PullRequestOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[List[PullRequest]]] =

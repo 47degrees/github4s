@@ -26,6 +26,13 @@ import github4s.free.domain._
   */
 sealed trait PullRequestOp[A]
 
+final case class GetPullRequest(
+  owner: String,
+  repo: String,
+  number: Int,
+  accessToken: Option[String] = None
+) extends PullRequestOp[GHResponse[PullRequest]]
+
 final case class ListPullRequests(
   owner: String,
   repo: String,
@@ -73,6 +80,14 @@ final case class GetPullRequestReview(
   * Algebras via Coproduct
   */
 class PullRequestOps[F[_]](implicit I: InjectK[PullRequestOp, F]) {
+
+  def getPullRequest(
+    owner: String,
+    repo: String,
+    number: Int,
+    accessToken: Option[String] = None,
+  ): Free[F, GHResponse[PullRequest]] =
+    Free.inject[PullRequestOp, F](GetPullRequest(owner, repo, number, accessToken))
 
   def listPullRequests(
     owner: String,

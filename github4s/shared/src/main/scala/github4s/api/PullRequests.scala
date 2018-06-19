@@ -38,6 +38,27 @@ class PullRequests[C, M[_]](
   val httpClient = new HttpClient[C, M]
 
   /**
+    * Get a single pull request for a repository
+    *
+    * @param accessToken to identify the authenticated user
+    * @param headers optional user headers to include in the request
+    * @param owner of the repo
+    * @param repo name of the repo
+    * @param number of the pull request
+    * @return a GHResponse with the pull request.
+    */
+  def get(
+    accessToken: Option[String] = None,
+    headers: Map[String, String] = Map(),
+    owner: String,
+    repo: String,
+    number: Int): M[GHResponse[PullRequest]] =
+    httpClient.get[PullRequest](
+      accessToken,
+      s"repos/$owner/$repo/pulls/$number",
+      headers)
+
+  /**
     * List pull requests for a repository
     *
     * @param accessToken to identify the authenticated user

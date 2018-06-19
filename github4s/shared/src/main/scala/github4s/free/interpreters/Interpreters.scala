@@ -306,6 +306,8 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: PullRequestOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
+          case GetPullRequest(owner, repo, number, accessToken) ⇒
+            pullRequests.get(accessToken, headers, owner, repo, number)
           case ListPullRequests(owner, repo, filters, accessToken, pagination) ⇒
             pullRequests.list(accessToken, headers, owner, repo, filters, pagination)
           case ListPullRequestFiles(owner, repo, number, accessToken, pagination) ⇒

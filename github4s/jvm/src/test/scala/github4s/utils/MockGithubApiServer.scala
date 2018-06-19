@@ -532,6 +532,21 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withStatusCode(unauthorizedStatusCode)
         .withBody(unauthorizedResponse))
 
+  //PullRequests >> get
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber"))
+    .respond(response.withStatusCode(okStatusCode).withBody(getPullRequestValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/pulls/$validPullRequestNumber"))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
   //PullRequests >> list
   mockServer
     .when(
@@ -895,12 +910,11 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(response.withStatusCode(okStatusCode).withBody(listLabelsValidResponse))
 
   mockServer
-    .when(
-      request
-        .withMethod("DELETE")
-        .withPath(
-          s"/repos/$validRepoOwner/$validRepoName/issues/$invalidIssueNumber/labels/${validIssueLabel.head}")
-        .withHeader("Authorization", tokenHeader))
+    .when(request
+      .withMethod("DELETE")
+      .withPath(
+        s"/repos/$validRepoOwner/$validRepoName/issues/$invalidIssueNumber/labels/${validIssueLabel.head}")
+      .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
   mockServer
