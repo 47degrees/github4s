@@ -66,6 +66,6 @@ class CatsEffectJSSpec extends AsyncFunSuite with Matchers {
 
   // only here for the 80% coverage, to remove once JS makes use of Captures
   test("IOCapture == IO.apply") {
-    ioCaptureInstance.capture("a").unsafeRunSync shouldBe IO("a").unsafeRunSync
+    syncCaptureInstance[IO].capture("a").unsafeRunSync shouldBe IO("a").unsafeRunSync
   }
 }

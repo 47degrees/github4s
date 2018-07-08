@@ -16,14 +16,14 @@
 
 package github4s.cats.effect.js
 
-import cats.effect.IO
+import cats.effect.Async
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import github4s.HttpRequestBuilderExtensionJS
-import github4s.cats.effect.{IOCaptureInstance, IOHttpRequestBuilderExtensionJS}
+import github4s.cats.effect.{AsyncHttpRequestBuilderExtensionJS, SyncCaptureInstance}
 import github4s.free.interpreters.Interpreters
 import github4s.implicits._
 
-trait ImplicitsJS extends IOHttpRequestBuilderExtensionJS with IOCaptureInstance {
-  implicit val intInstanceIORosHttp =
-    new Interpreters[IO, SimpleHttpResponse]
+trait ImplicitsJS extends AsyncHttpRequestBuilderExtensionJS with SyncCaptureInstance {
+  implicit def intInstanceAsyncRosHttp[F[_]: Async] =
+    new Interpreters[F, SimpleHttpResponse]
 }

@@ -57,7 +57,7 @@ an [HttpClient][http-client].
 The previously mentioned implicit classes carry out of the box
 instances for working with [scalaj][scalaj] (for JVM-compatible apps) and [roshttp][roshttp] (for
 scala-js-compatible apps). Take into account that in the latter case, you can only use `Future` and
-`cats.effect.IO` (if you pull in the `github4s-cats-effect` dependency) in place of `M[_]`.
+`cats.effect.Async` (if you pull in the `github4s-cats-effect` dependency) in place of `M[_]`.
 
 A few examples follow with different `MonadError[M, Throwable]`.
 
@@ -124,9 +124,9 @@ object ProgramTask {
 
 Note that you'll need a dependency to the `github4s-scalaz` pacakge to leverage `scalaz.Task`.
 
-### Using `cats.effect.IO`
+### Using `cats.effect.{Async, Sync}`
 
-On the JVM:
+On the JVM, you can use any `cats.effect.Sync`, here we're using `cats.effect.IO`:
 ```tut:silent
 import cats.effect.IO
 import github4s.cats.effect.jvm.Implicits._
@@ -137,7 +137,7 @@ object ProgramTask {
 }
 ```
 
-Using scala-js:
+Using scala-js, you can use any `cats.effect.Async`, here we're using `cats.effect.IO`:
 ```tut:silent
 import github4s.cats.effect.js.Implicits._
 import fr.hmil.roshttp.response.SimpleHttpResponse
@@ -152,7 +152,7 @@ object ProgramTask {
 ```
 
 Note that you'll need a dependency to the `github4s-cats-effect` package to leverage
-`cats.effect.IO`.
+cats-effect integration.
 
 ## Specifying custom headers
 

@@ -16,14 +16,14 @@
 
 package github4s.cats.effect.jvm
 
-import cats.effect.IO
+import cats.effect.Sync
 import github4s.HttpRequestBuilderExtensionJVM
-import github4s.cats.effect.IOCaptureInstance
+import github4s.cats.effect.SyncCaptureInstance
 import github4s.free.interpreters.Interpreters
 import github4s.implicits._
 import scalaj.http.HttpResponse
 
-trait ImplicitsJVM extends HttpRequestBuilderExtensionJVM with IOCaptureInstance {
-  implicit val intInstanceIOScalaJ =
-    new Interpreters[IO, HttpResponse[String]]
+trait ImplicitsJVM extends HttpRequestBuilderExtensionJVM with SyncCaptureInstance {
+  implicit def intInstanceSyncScalaJ[F[_]: Sync] =
+    new Interpreters[F, HttpResponse[String]]
 }

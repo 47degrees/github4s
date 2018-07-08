@@ -16,11 +16,11 @@
 
 package github4s.cats.effect
 
-import cats.effect.IO
+import cats.effect.Sync
 import github4s.free.interpreters.Capture
 
-trait IOCaptureInstance {
-  implicit val ioCaptureInstance = new Capture[IO] {
-    override def capture[A](a: ⇒ A): IO[A] = IO(a)
+trait SyncCaptureInstance {
+  implicit def syncCaptureInstance[F[_]: Sync] = new Capture[F] {
+    override def capture[A](a: ⇒ A): F[A] = Sync[F].delay(a)
   }
 }
