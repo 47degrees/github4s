@@ -57,7 +57,8 @@ case class TreeDataBlob(path: String, mode: String, `type`: String, content: Str
 case class TreeResult(
     override val sha: String,
     override val url: String,
-    tree: List[TreeDataResult])
+    tree: List[TreeDataResult],
+    truncated: Option[Boolean] = None)
     extends RefInfo(sha, url)
 
 case class TreeDataResult(

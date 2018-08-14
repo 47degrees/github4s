@@ -19,7 +19,7 @@ package github4s.integration
 import cats.data.NonEmptyList
 import github4s.Github
 import github4s.Github._
-import github4s.free.domain.{Ref, RefCommit}
+import github4s.free.domain.{Ref, RefCommit, TreeResult}
 import github4s.implicits._
 import github4s.utils.BaseIntegrationSpec
 
@@ -73,4 +73,38 @@ trait GHGitDataSpec[T] extends BaseIntegrationSpec[T] {
 
     testFutureIsLeft(response)
   }
+
+  "GitData >> GetTree" should "return the file tree non-recursively" in {
+    val response =
+      Github(accessToken).gitData
+        .getTree(validRepoOwner, validRepoName, validCommitSha, recursive=false)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[TreeResult](response, { r =>
+      r.statusCode shouldBe okStatusCode
+      r.result.tree.map(_.path) shouldBe List(".gitignore","build.sbt","project")
+      r.result.truncated shouldBe Some(false)
+    })
+  }
+
+  it should "return the file tree recursively" in {
+    val response =
+      Github(accessToken).gitData
+        .getTree(validRepoOwner, validRepoName, validCommitSha, recursive=true)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[TreeResult](response, { r =>
+      r.statusCode shouldBe okStatusCode
+      r.result.tree.map(_.path) shouldBe List(".gitignore", "build.sbt", "project", "project/build.properties", "project/plugins.sbt")
+    })
+  }
+
+  it should "return an error when an invalid repository name is passed" in {
+    val response = Github(accessToken).gitData
+      .getTree(validRepoOwner, invalidRepoName, validCommitSha, recursive=false)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
 }

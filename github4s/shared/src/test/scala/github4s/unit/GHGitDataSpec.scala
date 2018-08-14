@@ -135,6 +135,25 @@ class GHGitDataSpec extends BaseSpec {
     ghGitData.createBlob(validRepoOwner, validRepoName, validNote, encoding)
   }
 
+  "GHGitData.getTree" should "call to GitDataOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[TreeResult]] =
+      Free.pure(
+        Right(
+          GHResult(
+            TreeResult(validCommitSha, githubApiUrl, treeDataResult, truncated=Some(false)),
+            okStatusCode,
+            Map.empty)))
+
+    val gitDataOps = mock[GitDataOpsTest]
+    (gitDataOps.getTree _)
+      .expects(validRepoOwner, validRepoName, validCommitSha, false, sampleToken)
+      .returns(response)
+
+    val ghGitData = new GHGitData(sampleToken)(gitDataOps)
+    ghGitData.getTree(validRepoOwner, validRepoName, validCommitSha, recursive=false)
+  }
+
   "GHGitData.createTree" should "call to GitDataOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[TreeResult]] =

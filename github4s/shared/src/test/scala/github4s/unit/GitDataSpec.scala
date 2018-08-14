@@ -182,6 +182,25 @@ class GitDataSpec extends BaseSpec {
       encoding)
   }
 
+  "GitData.getTree" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[TreeResult] =
+      Right(
+        GHResult(
+          TreeResult(validCommitSha, githubApiUrl, treeDataResult, truncated=Some(false)),
+          okStatusCode,
+          Map.empty))
+    val httpClientMock = httpClientMockGet[TreeResult](
+      url = s"repos/$validRepoOwner/$validRepoName/git/trees/$validCommitSha",
+      response = response
+    )
+    val gitData = new GitData[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+
+    gitData.tree(sampleToken, headerUserAgent, validRepoOwner, validRepoName, validCommitSha, recursive=false)
+  }
+
   "GitData.createTree" should "call to httpClient.post with the right parameters" in {
 
     val response: GHResponse[TreeResult] =

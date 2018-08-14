@@ -14,6 +14,7 @@ with Github4s, you can:
 - [Get a Commit](#get-a-commit)
 - [Create a Commit](#create-a-commit)
 - [Create a Blob](#create-a-blob)
+- [Get a Tree](#get-a-tree)
 - [Create a Tree](#create-a-tree)
 - [Create a Tag](#create-a-tag)
 
@@ -207,6 +208,28 @@ We can even assume that all the Git commands or methods provided by the API
 are just tools to navigate this tree and to manipulate it.
 
 In the following sections, we'll see how Github4s provides methods to wrap the Git API.
+
+
+### Get a Tree
+
+You can get a tree using `getTree`; it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- `sha`: the sha of the commit.
+- `recursive`: flag whether to get the tree recursively.
+
+```tut:silent
+val getCommit = Github(accessToken).gitData.getTree("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",true)
+
+getCommit.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [TreeResult][gitdata-scala].
+
+See [the API doc](https://developer.github.com/v3/git/trees/#get-a-tree) for full reference.
 
 ### Create a Tree
 

@@ -330,6 +330,14 @@ class GHGitData(accessToken: Option[String] = None)(implicit O: GitDataOps[GitHu
   ): GHIO[GHResponse[RefInfo]] =
     O.createBlob(owner, repo, content, encoding, accessToken)
 
+  def getTree(
+      owner: String,
+      repo: String,
+      sha: String,
+      recursive: Boolean
+  ): GHIO[GHResponse[TreeResult]] =
+    O.getTree(owner, repo, sha, recursive, accessToken)
+
   def createTree(
       owner: String,
       repo: String,

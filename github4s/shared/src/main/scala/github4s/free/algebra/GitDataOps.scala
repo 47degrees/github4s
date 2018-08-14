@@ -76,6 +76,14 @@ final case class CreateBlob(
     accessToken: Option[String] = None
 ) extends GitDataOp[GHResponse[RefInfo]]
 
+final case class GetTree(
+    owner: String,
+    repo: String,
+    sha: String,
+    recursive: Boolean,
+    accessToken: Option[String] = None
+) extends GitDataOp[GHResponse[TreeResult]]
+
 final case class CreateTree(
     owner: String,
     repo: String,
@@ -155,6 +163,15 @@ class GitDataOps[F[_]](implicit I: InjectK[GitDataOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[RefInfo]] =
     Free.inject[GitDataOp, F](CreateBlob(owner, repo, content, encoding, accessToken))
+
+  def getTree(
+      owner: String,
+      repo: String,
+      sha: String,
+      recursive: Boolean,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[TreeResult]] =
+    Free.inject[GitDataOp, F](GetTree(owner, repo, sha, recursive, accessToken))
 
   def createTree(
       owner: String,

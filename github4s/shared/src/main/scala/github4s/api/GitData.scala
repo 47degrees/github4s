@@ -192,6 +192,30 @@ class GitData[C, M[_]](
       dropNullPrint(NewBlobRequest(content, encoding).asJson))
 
   /**
+   * Get a Tree by sha
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param sha the sha of the tree
+   * @param recursive flag whether to get the tree recursively
+   * @return a GHResponse with the Tree
+   */
+  def tree(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      sha: String,
+      recursive: Boolean = false): M[GHResponse[TreeResult]] =
+    httpClient.get[TreeResult](
+      accessToken,
+      s"repos/$owner/$repo/git/trees/$sha",
+      headers,
+      (if (recursive) Map("recursive"->"1") else Map.empty))
+
+  /**
    * Create a new Tree
    *
    * The tree creation API will take nested entries as well. If both a tree and a nested path modifying
