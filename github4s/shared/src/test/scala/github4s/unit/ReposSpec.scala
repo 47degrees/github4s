@@ -172,6 +172,28 @@ class ReposSpec extends BaseSpec {
     )
   }
 
+  "Repos.listCollaborators" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[List[User]] =
+      Right(GHResult(List(user), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[List[User]](
+      url = s"repos/$validRepoOwner/$validRepoName/collaborators",
+      response = response
+    )
+
+    val repos = new Repos[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+
+    repos.listCollaborators(
+      accessToken = sampleToken,
+      headers = headerUserAgent,
+      owner = validRepoOwner,
+      repo = validRepoName
+    )
+  }
+
   "Repos.getStatus" should "call httpClient.get with the right parameters" in {
     val response: GHResponse[CombinedStatus] =
       Right(GHResult(combinedStatus, okStatusCode, Map.empty))

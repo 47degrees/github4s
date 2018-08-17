@@ -71,6 +71,14 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
   ): GHIO[GHResponse[List[User]]] =
     O.listContributors(owner, repo, anon, accessToken)
 
+
+  def listCollaborators(
+      owner: String,
+      repo: String,
+      affiliation: Option[String] = None
+  ): GHIO[GHResponse[List[User]]] =
+    O.listCollaborators(owner, repo, affiliation, accessToken)
+
   def createRelease(
       owner: String,
       repo: String,

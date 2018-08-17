@@ -12,6 +12,7 @@ with Github4s, you can interact with:
   - [Get a repository](#get-a-repository)
   - [List organization repositories](#list-organization-repositories)
   - [List contributors](#list-contributors)
+  - [List collaborators](#list-collaborators)
 - [Commits](#commits)
   - [List commits on a repository](#list-commits-on-a-repository)
 - [Contents](#contents)
@@ -101,7 +102,7 @@ sorted by the number of commits per contributor in descending order.
 You can list contributors using `listContributors`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
-- `anom` Set to 1 or true to include anonymous contributors in results.
+- `anon` Set to 1 or true to include anonymous contributors in results.
 
 To list contributors:
 
@@ -118,6 +119,31 @@ listContributors.exec[cats.Id, HttpResponse[String]]() match {
 The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/#list-contributors) for full
+reference.
+
+### List collaborators
+
+List collaborators in the specified repository.
+
+You can list collaborators using `listCollaborators`, it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- `affiliation`, one of `outside`, `direct`, or `all` (default `all`).
+For more information take a look at [the API doc](https://developer.github.com/v3/repos/collaborators/#parameters).
+
+```tut:silent
+val listCollaborators =
+  Github(accessToken).repos.listCollaborators("47deg", "github4s", Some("all"))
+
+listCollaborators.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[User]][user-scala].
+
+See [the API doc](https://developer.github.com/v3/repos/collaborators/#list-collaborators) for full
 reference.
 
 ## Commits

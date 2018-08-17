@@ -188,6 +188,37 @@ class Repos[C, M[_]](
       })
 
   /**
+   * Fetch list of collaborators for the specified repository.
+   * For organization-owned repositories, the list of collaborators includes outside collaborators,
+   * organization members that are direct collaborators, organization members with access through team memberships,
+   * organization members with access through default organization permissions, and organization owners.
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param affiliation Filter collaborators returned by their affiliation. Can be one of `outside`, `direct`, `all`.
+   *                    Default: `all`
+   * @return GHResponse[List[User]\] List of collaborators within the specified repository
+   */
+  def listCollaborators(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      affiliation: Option[String] = None
+  ): M[GHResponse[List[User]]] =
+    httpClient.get[List[User]](
+      accessToken,
+      s"repos/$owner/$repo/collaborators",
+      headers,
+      Map(
+        "affiliation" -> affiliation
+      ).collect {
+        case (key, Some(value)) => key -> value
+      })
+
+  /**
    * Create a new release
    *
    * @param accessToken to identify the authenticated user

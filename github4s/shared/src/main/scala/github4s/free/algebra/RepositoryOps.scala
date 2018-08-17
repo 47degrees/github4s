@@ -67,6 +67,13 @@ final case class ListContributors(
     accessToken: Option[String] = None
 ) extends RepositoryOp[GHResponse[List[User]]]
 
+final case class ListCollaborators(
+    owner: String,
+    repo: String,
+    affiliation: Option[String] = None,
+    accessToken: Option[String] = None
+) extends RepositoryOp[GHResponse[List[User]]]
+
 final case class CreateRelease(
     owner: String,
     repo: String,
@@ -155,6 +162,14 @@ class RepositoryOps[F[_]](implicit I: InjectK[RepositoryOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[User]]] =
     Free.inject[RepositoryOp, F](ListContributors(owner, repo, anon, accessToken))
+
+  def listCollaborators(
+      owner: String,
+      repo: String,
+      affiliation: Option[String] = None,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[User]]] =
+    Free.inject[RepositoryOp, F](ListCollaborators(owner, repo, affiliation, accessToken))
 
   def createRelease(
       owner: String,
