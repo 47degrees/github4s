@@ -44,6 +44,7 @@ If you wish to add your library here please consider a PR to include it in the l
 --- | --- | ---
 ![scala-exercises](https://www.scala-exercises.org/assets/images/navbar_brand.svg) | [**scala-exercises**](https://www.scala-exercises.org/) | Scala Exercises is an Open Source project for learning different technologies based in the Scala Programming Language.
 | | [**dashing**](https://github.com/benfradet/dashing) | Dashing is a collection of dashboards to monitor the health of an open source organization.
+| | [**cla-bot**](https://github.com/snowplow-incubator/cla-bot) | cla-bot is a GitHub webhook handling the signing process of the contributor license agreement for the [Snowplow](https://github.com/snowplow/) organization.
 
 [comment]: # (Start Copyright)
 # Copyright
