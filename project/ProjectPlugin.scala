@@ -97,11 +97,7 @@ object ProjectPlugin extends AutoPlugin {
       startYear := Option(2016),
       resolvers += Resolver.sonatypeRepo("snapshots"),
       scalaVersion := scalac.`2.12`,
-      crossScalaVersions := "2.10.6" :: scalac.crossScalaVersions,
-      scalacOptions ++= (scalaBinaryVersion.value match {
-        case "2.10" => Seq("-Xdivergence211")
-        case _      => Nil
-      }),
+      crossScalaVersions := scalac.crossScalaVersions,
       scalacOptions ~= (_ filterNot Set("-Xlint").contains),
       orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
       orgBadgeListSetting := List(

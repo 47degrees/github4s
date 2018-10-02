@@ -3,7 +3,6 @@ language: scala
 dist: precise
 
 scala:
-- 2.10.7
 - 2.11.12
 - 2.12.6
 
@@ -15,8 +14,6 @@ env:
 
 matrix:
   exclude:
-  - scala: 2.10.7
-    env: G4SBUILD=docs
   - scala: 2.11.12
     env: G4SBUILD=docs
   - env: SCALAENV=all
