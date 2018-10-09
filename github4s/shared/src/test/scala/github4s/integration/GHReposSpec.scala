@@ -67,6 +67,25 @@ trait GHReposSpec[T] extends BaseIntegrationSpec[T] {
     testFutureIsLeft(response)
   }
 
+  "Repos >> ListUserRepos" should "return the expected repos when a valid user is provided" in {
+    val response = Github(accessToken).repos
+      .listUserRepos(validUsername)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[Repository]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error when an invalid user is passed" in {
+    val response = Github(accessToken).repos
+      .listUserRepos(invalidUsername)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
   "Repos >> GetContents" should "return the expected contents when valid path is provided" in {
     val response =
       Github(accessToken).repos

@@ -11,6 +11,7 @@ with Github4s, you can interact with:
 - [Repositories](#repositories)
   - [Get a repository](#get-a-repository)
   - [List organization repositories](#list-organization-repositories)
+  - [List user repositories](#list-user-repositories)
   - [List contributors](#list-contributors)
   - [List collaborators](#list-collaborators)
 - [Commits](#commits)
@@ -92,6 +93,31 @@ listOrgRepos.exec[cats.Id, HttpResponse[String]]() match {
 The `result` on the right is the corresponding [List[Repository]][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/#list-organization-repositories) for full
+reference.
+
+### List user repositories
+
+You can retrieve the list of repositories for a particular user using `listUserRepos`; it
+takes as arguments:
+
+- `user`: The user name.
+- `type`: The optional type of the returned repositories, can be "all", "owner" or "member", defaults to "owner".
+- `pagination`: Limit and Offset for pagination.
+
+To list the repositories for a user:
+
+```tut:silent
+val listUserRepos = Github(accessToken).repos.listUserRepos("rafaparadela")
+
+listUserRepos.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[Repository]][repository-scala].
+
+See [the API doc](https://developer.github.com/v3/repos/#list-user-repositories) for full
 reference.
 
 ### List contributors

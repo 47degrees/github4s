@@ -54,6 +54,20 @@ class GHReposSpec extends BaseSpec {
     ghReposData.listOrgRepos(validRepoOwner)
   }
 
+  "GHRepos.listUserRepos" should "call to RepositoryOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[List[Repository]]] =
+      Free.pure(Right(GHResult(List(repo), okStatusCode, Map.empty)))
+
+    val repoOps = mock[RepositoryOpsTest]
+    (repoOps.listUserRepos _)
+      .expects(validRepoOwner, None, None, sampleToken)
+      .returns(response)
+
+    val ghReposData = new GHRepos(sampleToken)(repoOps)
+    ghReposData.listUserRepos(validRepoOwner)
+  }
+
   "GHRepos.contents" should "call to RepositoryOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[NonEmptyList[Content]]] =

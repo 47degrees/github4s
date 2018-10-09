@@ -40,6 +40,13 @@ final case class ListOrgRepos(
     accessToken: Option[String] = None
 ) extends RepositoryOp[GHResponse[List[Repository]]]
 
+final case class ListUserRepos(
+    user: String,
+    `type`: Option[String] = None,
+    pagination: Option[Pagination] = None,
+    accessToken: Option[String] = None
+) extends RepositoryOp[GHResponse[List[Repository]]]
+
 final case class GetContents(
     owner: String,
     repo: String,
@@ -131,6 +138,14 @@ class RepositoryOps[F[_]](implicit I: InjectK[RepositoryOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[Repository]]] =
     Free.inject[RepositoryOp, F](ListOrgRepos(org, `type`, pagination, accessToken))
+
+  def listUserRepos(
+      user: String,
+      `type`: Option[String] = None,
+      pagination: Option[Pagination] = None,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[Repository]]] =
+    Free.inject[RepositoryOp, F](ListUserRepos(user, `type`, pagination, accessToken))
 
   def getContents(
       owner: String,

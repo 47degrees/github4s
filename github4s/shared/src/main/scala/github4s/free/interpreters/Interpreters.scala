@@ -65,6 +65,8 @@ class Interpreters[M[_], C](
         case GetRepo(owner, repo, accessToken) ⇒ repos.get(accessToken, headers, owner, repo)
         case ListOrgRepos(org, tipe, pagination, accessToken) ⇒
           repos.listOrgRepos(accessToken, headers, org, tipe, pagination)
+        case ListUserRepos(user, tipe, pagination, accessToken) ⇒
+          repos.listUserRepos(accessToken, headers, user, tipe, pagination)
         case GetContents(owner, repo, path, ref, accessToken) ⇒
           repos.getContents(accessToken, headers, owner, repo, path, ref)
         case ListCommits(owner, repo, sha, path, author, since, until, pagination, accessToken) ⇒

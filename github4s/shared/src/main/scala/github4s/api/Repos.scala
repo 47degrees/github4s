@@ -76,6 +76,31 @@ class Repos[C, M[_]](
     )
 
   /**
+   * List the repositories for a particular user
+   *
+   * @param accessToken to identify the authenticated user
+   * @param headers optional user headers to include in the request
+   * @param user user for which we wish to retrieve the repositories
+   * @param `type` visibility of the retrieved repositories, can be "all", "public", "private",
+   * "forks", "sources" or "member"
+   * @return GHResponse[List[Repository]] the list of repositories for this user
+   */
+  def listUserRepos(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      user: String,
+      `type`: Option[String] = None,
+      pagination: Option[Pagination] = Some(httpClient.defaultPagination)
+  ): M[GHResponse[List[Repository]]] =
+    httpClient.get[List[Repository]](
+      accessToken,
+      s"users/$user/repos",
+      headers,
+      params = `type`.map(t => Map("type" -> t)).getOrElse(Map.empty),
+      pagination = pagination
+    )
+
+  /**
    * Get the contents of a file or directory in a repository.
    *
    * The response could be a:
