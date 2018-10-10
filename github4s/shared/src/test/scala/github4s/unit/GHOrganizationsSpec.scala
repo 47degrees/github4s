@@ -25,7 +25,7 @@ import github4s.utils.BaseSpec
 
 class GHOrganizationsSpec extends BaseSpec {
 
-  "Organizations.listMembers" should "call to OrganizationsOps with the right parameters" in {
+  "Organizations.listMembers" should "call to OrganizationOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[List[User]]] =
       Free.pure(Right(GHResult(List(user), okStatusCode, Map.empty)))
@@ -37,6 +37,20 @@ class GHOrganizationsSpec extends BaseSpec {
 
     val ghOrganizations = new GHOrganizations(sampleToken)(organizationOps)
     ghOrganizations.listMembers(validRepoOwner)
+  }
+
+  "Organizations.listOutsideCollaborators" should "call to OrganizationOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[List[User]]] =
+      Free.pure(Right(GHResult(List(user), okStatusCode, Map.empty)))
+
+    val organizationOps = mock[OrganizationOpsTest]
+    (organizationOps.listOutsideCollaborators _)
+      .expects(validOrganizationName, None, None, sampleToken)
+      .returns(response)
+
+    val ghOrganizations = new GHOrganizations(sampleToken)(organizationOps)
+    ghOrganizations.listOutsideCollaborators(validOrganizationName)
   }
 
 }

@@ -60,4 +60,29 @@ class Organizations[C, M[_]](
       pagination = pagination
     )
 
+   /**
+   * List users who are outside collaborators
+   *
+   * @param accessToken To identify the authenticated user
+   * @param headers Optional user headers to include in the request
+   * @param org Organization for which we want to retrieve collaborators
+   * @param filter To retrieve "all" or only "2fa_disabled" users
+   * @param pagination Limit and Offset for pagination
+   * @return GHResponse with outside collaborators
+   */
+  def listOutsideCollaborators(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      org: String,
+      filter: Option[String] = None,
+      pagination: Option[Pagination] = Some(httpClient.defaultPagination)
+  ): M[GHResponse[List[User]]] =
+    httpClient.get[List[User]](
+      accessToken,
+      s"orgs/$org/outside_collaborators",
+      headers,
+      Map("filter" → filter).collect { case (key, Some(value)) ⇒ key → value },
+      pagination
+    )
+
 }

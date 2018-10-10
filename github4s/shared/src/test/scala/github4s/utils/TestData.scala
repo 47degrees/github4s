@@ -53,6 +53,9 @@ trait TestData extends DummyGithubUrls {
   val validSymlinkPath   = "bin/some-symlink"
   val validSubmodulePath = "test/qunit"
 
+  val validOrganizationName   = "47deg"
+  val invalidOrganizationName = "invalid47deg"
+
   val validSinceInt   = 100
   val invalidSinceInt = 999999999
 

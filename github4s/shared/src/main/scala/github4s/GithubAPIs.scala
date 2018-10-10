@@ -433,4 +433,12 @@ class GHOrganizations(accessToken: Option[String] = None)(implicit O: Organizati
       pagination: Option[Pagination] = None
   ): GHIO[GHResponse[List[User]]] =
     O.listMembers(org, filter, role, pagination, accessToken)
+
+  def listOutsideCollaborators(
+      org: String,
+      filter: Option[String] = None,
+      pagination: Option[Pagination] = None
+  ): GHIO[GHResponse[List[User]]] =
+    O.listOutsideCollaborators(org, filter, pagination, accessToken)
+
 }

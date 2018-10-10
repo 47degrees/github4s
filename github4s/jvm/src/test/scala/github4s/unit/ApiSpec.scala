@@ -1359,4 +1359,39 @@ class ApiSpec
     response should be('left)
   }
 
+  "Organizations >> ListOutsideCollaborators" should "return the expected list of users" in {
+    val response = organizations.listOutsideCollaborators(
+      accessToken = accessToken,
+      headers = headerUserAgent,
+      org = validOrganizationName,
+      pagination = Option(Pagination(validPage, validPerPage))
+    )
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return an empty list of users for an invalid page parameter" in {
+    val response = organizations.listOutsideCollaborators(
+      accessToken = accessToken,
+      headers = headerUserAgent,
+      org = validOrganizationName,
+      pagination = Option(Pagination(invalidPage, validPerPage))
+    )
+
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return error for an invalid organization" in {
+    val response =
+      organizations.listOutsideCollaborators(accessToken, headerUserAgent, invalidOrganizationName)
+    response should be('left)
+  }
+
 }

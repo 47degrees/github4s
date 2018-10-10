@@ -41,4 +41,20 @@ class OrganizationsSpec extends BaseSpec {
     organizations.listMembers(sampleToken, headerUserAgent, validRepoOwner)
   }
 
+  "Organization.listOutsideCollaborators" should "call to httpClient.get with the right parameters" in {
+
+    val response: GHResponse[List[User]] =
+      Right(GHResult(List(user), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[List[User]](
+      url = s"orgs/$validOrganizationName/outside_collaborators",
+      response = response
+    )
+
+    val organizations = new Organizations[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    organizations.listOutsideCollaborators(sampleToken, headerUserAgent, validOrganizationName)
+  }
+
 }

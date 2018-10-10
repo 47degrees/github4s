@@ -356,6 +356,8 @@ class Interpreters[M[_], C](
         fa match {
           case ListMembers(org, filter, role, pagination, accessToken) ⇒
             organizations.listMembers(accessToken, headers, org, filter, role, pagination)
+          case ListOutsideCollaborators(org, filter, pagination, accessToken) ⇒
+            organizations.listOutsideCollaborators(accessToken, headers, org, filter, pagination)
         }
       }
     }

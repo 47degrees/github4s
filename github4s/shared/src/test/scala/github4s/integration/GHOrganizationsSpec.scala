@@ -44,4 +44,26 @@ trait GHOrganizationsSpec[T] extends BaseIntegrationSpec[T] {
 
     testFutureIsLeft(response)
   }
+
+  "Organization >> ListOutsideCollaborators" should "return expected list of users" in {
+    val response =
+      Github(accessToken).organizations
+      .listOutsideCollaborators(validOrganizationName)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[User]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error for an invalid org" in {
+    val response =
+      Github(accessToken).organizations
+        .listOutsideCollaborators(invalidOrganizationName)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
 }

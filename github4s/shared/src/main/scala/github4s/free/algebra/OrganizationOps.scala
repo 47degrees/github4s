@@ -34,6 +34,13 @@ final case class ListMembers(
     accessToken: Option[String] = None
 ) extends OrganizationOp[GHResponse[List[User]]]
 
+final case class ListOutsideCollaborators(
+    org: String,
+    filter: Option[String] = None,
+    pagination: Option[Pagination] = None,
+    accessToken: Option[String] = None
+) extends OrganizationOp[GHResponse[List[User]]]
+
 /**
  * Exposes Organization operations as a Free monadic algebra that may be combined with other
  * Algebras via Coproduct
@@ -48,6 +55,15 @@ class OrganizationOps[F[_]](implicit I: InjectK[OrganizationOp, F]) {
       accessToken: Option[String] = None): Free[F, GHResponse[List[User]]] =
     Free.inject[OrganizationOp, F](
       ListMembers(org, filter, role, pagination, accessToken))
+
+  def listOutsideCollaborators(
+      org: String,
+      filter: Option[String] = None,
+      pagination: Option[Pagination] = None,
+      accessToken: Option[String] = None): Free[F, GHResponse[List[User]]] =
+    Free.inject[OrganizationOp, F](
+      ListOutsideCollaborators(org, filter, pagination, accessToken))
+
 }
 
 /**
