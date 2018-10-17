@@ -322,4 +322,27 @@ class Issues[C, M[_]](
       s"repos/$owner/$repo/issues/$number/labels/$label",
       headers)
 
+  /**
+    * List available assignees for issues
+    *
+    * @param accessToken to identify the authenticated user
+    * @param headers optional user headers to include in the request
+    * @param owner repo owner
+    * @param repo repo name
+    * @param pagination Limit and Offset for pagination
+    * @return a GHResponse with the list of available assignees for issues in specified repository
+    */
+  def listAvailableAssignees(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String,
+      pagination: Option[Pagination] = None): M[GHResponse[List[User]]] =
+    httpClient.get[List[User]](
+      accessToken,
+      s"repos/$owner/$repo/assignees",
+      headers,
+      pagination = pagination
+  )
+
 }

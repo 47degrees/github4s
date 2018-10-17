@@ -20,7 +20,7 @@ import cats.free.Free
 import github4s.GHIssues
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.app.GitHub4s
-import github4s.free.domain.{Comment, Issue, Label, SearchIssuesResult}
+import github4s.free.domain._
 import github4s.utils.BaseSpec
 
 class GHIssuesSpec extends BaseSpec {
@@ -121,7 +121,7 @@ class GHIssuesSpec extends BaseSpec {
         List.empty)
   }
 
-  "Issues.ListComments" should "call to IssuesOps with the right parameters" in {
+  "GHIssues.listComments" should "call to IssuesOps with the right parameters" in {
     val response: Free[GitHub4s, GHResponse[List[Comment]]] =
       Free.pure(Right(GHResult(List(comment), okStatusCode, Map.empty)))
 
@@ -134,7 +134,7 @@ class GHIssuesSpec extends BaseSpec {
     ghIssues.listComments(validRepoOwner, validRepoName, validIssueNumber)
   }
 
-  "Issues.CreateComment" should "call to IssueOps with the right parameters" in {
+  "GHIssues.createComment" should "call to IssueOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Comment]] =
       Free.pure(Right(GHResult(comment, createdStatusCode, Map.empty)))
@@ -148,7 +148,7 @@ class GHIssuesSpec extends BaseSpec {
     ghIssues.createComment(validRepoOwner, validRepoName, validIssueNumber, validCommentBody)
   }
 
-  "Issues.EditComment" should "call to IssueOps with the right parameters" in {
+  "GHIssues.editComment" should "call to IssueOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Comment]] =
       Free.pure(Right(GHResult(comment, okStatusCode, Map.empty)))
@@ -162,7 +162,7 @@ class GHIssuesSpec extends BaseSpec {
     ghIssues.editComment(validRepoOwner, validRepoName, validCommentId, validCommentBody)
   }
 
-  "Issues.DeleteComment" should "call to IssueOps with the right parameters" in {
+  "GHIssues.deleteComment" should "call to IssueOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[Unit]] =
       Free.pure(Right(GHResult((): Unit, deletedStatusCode, Map.empty)))
@@ -176,7 +176,7 @@ class GHIssuesSpec extends BaseSpec {
     ghIssues.deleteComment(validRepoOwner, validRepoName, validCommentId)
   }
 
-  "Issues.ListLabels" should "call to IssuesOps with the right parameters" in {
+  "GHIssues.listLabels" should "call to IssuesOps with the right parameters" in {
     val response: Free[GitHub4s, GHResponse[List[Label]]] =
       Free.pure(Right(GHResult(List(label), okStatusCode, Map.empty)))
 
@@ -189,7 +189,7 @@ class GHIssuesSpec extends BaseSpec {
     ghIssues.listLabels(validRepoOwner, validRepoName, validIssueNumber)
   }
 
-  "Issues.AddLabels" should "call to IssuesOps with the right parameters" in {
+  "GHIssues.addLabels" should "call to IssuesOps with the right parameters" in {
     val response: Free[GitHub4s, GHResponse[List[Label]]] =
       Free.pure(Right(GHResult(List(label), okStatusCode, Map.empty)))
 
@@ -202,7 +202,7 @@ class GHIssuesSpec extends BaseSpec {
     ghIssues.addLabels(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel)
   }
 
-  "Issues.RemoveLabel" should "call to IssuesOps with the right parameters" in {
+  "GHIssues.removeLabel" should "call to IssuesOps with the right parameters" in {
     val response: Free[GitHub4s, GHResponse[List[Label]]] =
       Free.pure(Right(GHResult(List(label), okStatusCode, Map.empty)))
 
@@ -213,6 +213,19 @@ class GHIssuesSpec extends BaseSpec {
 
     val ghIssues = new GHIssues(sampleToken)(commentOps)
     ghIssues.removeLabel(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel.head)
+  }
+
+  "GHIssues.listAvailableAssignees" should "call to IssuesOps with the right parameters" in {
+    val response: Free[GitHub4s, GHResponse[List[User]]] =
+      Free.pure(Right(GHResult(List(user), okStatusCode, Map.empty)))
+
+    val issueOps = mock[IssueOpsTest]
+    (issueOps.listAvailableAssignees _)
+      .expects(validRepoOwner, validRepoName, None, sampleToken)
+      .returns(response)
+
+    val ghIssues = new GHIssues(sampleToken)(issueOps)
+    ghIssues.listAvailableAssignees(validRepoOwner, validRepoName)
   }
 
 }

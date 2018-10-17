@@ -18,8 +18,9 @@ package github4s.free.algebra
 
 import cats.InjectK
 import cats.free.Free
+import github4s.GHRepos
 import github4s.GithubResponses._
-import github4s.free.domain.{Comment, Issue, Label, SearchIssuesResult, SearchParam}
+import github4s.free.domain._
 
 /**
  * Issues ops ADT
@@ -121,6 +122,13 @@ final case class RemoveLabel(
     label: String,
     accessToken: Option[String] = None
 ) extends IssueOp[GHResponse[List[Label]]]
+
+final case class ListAvailableAssignees(
+    owner: String,
+    repo: String,
+    pagination: Option[Pagination] = None,
+    accessToken: Option[String] = None
+) extends IssueOp[GHResponse[List[User]]]
 
 /**
  * Exposes Issue operations as a Free monadic algebra that may be combined with other Algebras via
@@ -237,6 +245,14 @@ class IssueOps[F[_]](implicit I: InjectK[IssueOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[Label]]] =
     Free.inject[IssueOp, F](RemoveLabel(owner, repo, number, label, accessToken))
+
+  def listAvailableAssignees(
+      owner: String,
+      repo: String,
+      pagination: Option[Pagination] = None,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[User]]] =
+    Free.inject[IssueOp, F](ListAvailableAssignees(owner, repo, pagination, accessToken))
 
 }
 

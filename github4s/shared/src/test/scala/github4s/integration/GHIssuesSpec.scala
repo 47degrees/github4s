@@ -18,11 +18,10 @@ package github4s.integration
 
 import github4s.Github
 import github4s.Github._
-import github4s.free.domain.{Issue, Label, SearchIssuesResult}
+import github4s.free.domain.{Issue, Label, SearchIssuesResult, User}
 import github4s.implicits._
 import github4s.utils.BaseIntegrationSpec
 
-import scala.concurrent.ExecutionContext
 
 trait GHIssuesSpec[T] extends BaseIntegrationSpec[T] {
 
@@ -114,4 +113,32 @@ trait GHIssuesSpec[T] extends BaseIntegrationSpec[T] {
       r.statusCode shouldBe okStatusCode
     })
   }
+
+  "GHIssues >> ListAvailableAssignees" should "return a list of users" in {
+    val response = Github(accessToken).issues
+      .listAvailableAssignees(validRepoOwner, validRepoName)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[User]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error for an invalid repo owner" in {
+    val response = Github(accessToken).issues
+      .listAvailableAssignees(invalidRepoOwner, validRepoName)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
+  it should "return error for an invalid repo name" in {
+    val response = Github(accessToken).issues
+      .listAvailableAssignees(validRepoOwner, invalidRepoName)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
 }

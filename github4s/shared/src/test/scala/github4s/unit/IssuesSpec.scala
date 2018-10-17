@@ -20,7 +20,7 @@ import cats.Id
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.HttpClient
 import github4s.api.Issues
-import github4s.free.domain.{Comment, Issue, Label, SearchIssuesResult}
+import github4s.free.domain._
 import github4s.utils.BaseSpec
 
 class IssuesSpec extends BaseSpec {
@@ -312,4 +312,25 @@ class IssuesSpec extends BaseSpec {
       validIssueNumber,
       validIssueLabel.head)
   }
+
+  "Issues.listAvailableAssignees" should "call httpClient.get with the right parameters" in {
+    val response: GHResponse[List[User]] =
+      Right(GHResult(List(user), okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[List[User]](
+      url = s"repos/$validRepoOwner/$validRepoName/assignees",
+      response = response
+    )
+
+    val issues = new Issues[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+    issues.listAvailableAssignees(
+      sampleToken,
+      headerUserAgent,
+      validRepoOwner,
+      validRepoName,
+      Some(Pagination(validPage, validPerPage)))
+  }
+
 }

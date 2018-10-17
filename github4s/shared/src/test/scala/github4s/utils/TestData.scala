@@ -41,6 +41,7 @@ trait TestData extends DummyGithubUrls {
   val invalidCode         = "invalid-code"
 
   val validRepoOwner     = "47deg"
+  val invalidRepoOwner   = "invalid47deg"
   val validRepoName      = "github4s"
   val invalidRepoName    = "GHInvalidRepoName"
   val validRedirectUri   = "http://localhost:9000/_oauth-callback"

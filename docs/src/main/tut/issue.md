@@ -21,6 +21,8 @@ with Github4s, you can interact with:
   - [List labels](#list-labels)
   - [Add labels](#add-labels)
   - [Remove a label](#remove-a-label)
+- [Assignees](#assignees)
+  - [List available assignees](#list-available-assignees)
 
 The following examples assume the following imports and token:
 
@@ -326,8 +328,32 @@ The `result` on the right is the corresponding removed [List[Label]][issue-scala
 
 See [the API doc](https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue) for full reference.
 
+## Assignees
+
+### List available assignees
+
+You can list available assignees for issues in repo with the following parameters:
+
+ - the repository coordinates (`owner` and `name` of the repository).
+ - `pagination`: Limit and Offset for pagination, optional.
+
+ To list available assignees:
+
+```tut:silent
+val assignees = Github(accessToken).issues.listAvailableAssignees("47deg", "github4s", 123)
+assignees.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[User]][user-scala]
+
+See [the API doc](https://developer.github.com/v3/issues/assignees/#list-assignees) for full reference.
+
 As you can see, a few features of the issue endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
 [issue-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Issue.scala
+[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/User.scala

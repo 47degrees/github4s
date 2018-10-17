@@ -974,6 +974,37 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withHeader(not("Authorization")))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
+  //Issues >> List available assignees
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/assignees")
+        .withQueryStringParameter("page", validPage.toString))
+    .respond(response.withStatusCode(okStatusCode).withBody(getUsersValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$invalidRepoOwner/$validRepoName/assignees"))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$invalidRepoName/assignees"))
+    .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/assignees")
+        .withQueryStringParameter("page", invalidPage.toString))
+    .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
+
   //Activities >> Set a thread subscription
   mockServer
     .when(

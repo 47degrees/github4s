@@ -78,7 +78,6 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
   ): GHIO[GHResponse[List[User]]] =
     O.listContributors(owner, repo, anon, accessToken)
 
-
   def listCollaborators(
       owner: String,
       repo: String,
@@ -268,6 +267,13 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
       label: String
   ): GHIO[GHResponse[List[Label]]] =
     O.removeLabel(owner, repo, number, label, accessToken)
+
+  def listAvailableAssignees(
+      owner: String,
+      repo: String,
+      pagination: Option[Pagination] = None
+  ): GHIO[GHResponse[List[User]]] =
+    O.listAvailableAssignees(owner, repo, pagination, accessToken)
 
 }
 

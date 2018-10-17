@@ -1229,6 +1229,57 @@ class ApiSpec
     response should be('left)
   }
 
+  "Issues >> ListAvailableAssignees" should "return the expected users" in {
+    val response =
+      issues.listAvailableAssignees(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        pagination = Option(Pagination(validPage, validPerPage)))
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return an error if an invalid repo owner is provided" in {
+    val response =
+      issues.listAvailableAssignees(
+        accessToken,
+        headerUserAgent,
+        invalidRepoOwner,
+        validRepoName,
+        pagination = None)
+    response should be('left)
+  }
+  it should "return an error if invalid repo name is provided" in {
+    val response =
+      issues.listAvailableAssignees(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        invalidRepoName,
+        pagination = None)
+    response should be('left)
+  }
+  it should "return an empty list of users for an invalid page parameter" in {
+    val response =
+      issues.listAvailableAssignees(
+        accessToken = accessToken,
+        headers = headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        pagination = Option(Pagination(invalidPage, validPerPage)))
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
   "Activities >> Set a Thread Subscription" should "return the subscription when a valid thread id is provided" in {
     val response =
       activities.setThreadSub(accessToken, headerUserAgent, validThreadId, true, false)
