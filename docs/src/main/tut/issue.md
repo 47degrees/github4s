@@ -340,7 +340,7 @@ You can list available assignees for issues in repo with the following parameter
  To list available assignees:
 
 ```tut:silent
-val assignees = Github(accessToken).issues.listAvailableAssignees("47deg", "github4s", 123)
+val assignees = Github(accessToken).issues.listAvailableAssignees("47deg", "github4s")
 assignees.exec[cats.Id, HttpResponse[String]]() match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
