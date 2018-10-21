@@ -22,7 +22,7 @@ with Github4s, you can interact with:
   - [Create a release](#create-a-release)
 - [Statuses](#statuses)
   - [Create a status](#create-a-status)
-  - [List status for a specific Ref](#list-status-for-a-specific-ref)
+  - [List statuses for a specific Ref](#list-statuses-for-a-specific-ref)
   - [Get the combined status of a specific Ref](#get-the-combined-status-for-a-specific-ref)
 
 The following examples assume the following imports and token:
