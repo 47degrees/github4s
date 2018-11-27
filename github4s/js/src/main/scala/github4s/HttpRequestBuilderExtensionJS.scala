@@ -87,8 +87,10 @@ trait HttpRequestBuilderExtensionJS {
         mapResponse(r)
       case r ⇒
         Either.left(
-          UnexpectedException(
-            s"Failed invoking with status : ${r.statusCode}, body : \n ${r.body}"))
+          GithubHttpRequestUnsuccessful(
+            s"Failed invoking with status : ${r.statusCode}, body : \n ${r.body}",
+            r.statusCode
+          ))
     }
 
   def emptyResponse(r: SimpleHttpResponse): GHResponse[Unit] =

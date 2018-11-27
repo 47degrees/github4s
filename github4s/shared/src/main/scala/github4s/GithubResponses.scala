@@ -37,6 +37,11 @@ object GithubResponses {
       json: String
   ) extends GHException(msg)
 
+  case class GithubHttpRequestUnsuccessful(
+    msg: String,
+    statusCode: Int
+  ) extends GHException(msg)
+
   case class UnexpectedException(msg: String) extends GHException(msg)
 
 }

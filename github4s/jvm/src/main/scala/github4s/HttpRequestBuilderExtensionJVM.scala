@@ -16,10 +16,9 @@
 
 package github4s
 
-import github4s.GithubResponses.{GHResponse, GHResult, JsonParsingException, UnexpectedException}
+import github4s.GithubResponses._
 import io.circe.Decoder
 import io.circe.parser._
-
 import scalaj.http._
 import cats.implicits._
 import github4s.free.interpreters.Capture
@@ -79,7 +78,11 @@ trait HttpRequestBuilderExtensionJVM {
         mapResponse(r)
       case r ⇒
         Either.left(
-          UnexpectedException(s"Failed invoking with status : ${r.code} body : \n ${r.body}"))
+          GithubHttpRequestUnsuccessful(
+            s"Failed invoking with status : ${r.code} body : \n ${r.body}",
+            r.code
+          )
+        )
     }
 
   def emptyResponse(r: HttpResponse[String]): GHResponse[Unit] =
