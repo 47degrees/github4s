@@ -78,7 +78,7 @@ trait HttpRequestBuilderExtensionJVM {
         mapResponse(r)
       case r ⇒
         Either.left(
-          GithubHttpRequestUnsuccessful(
+          UnsuccessfulHttpRequest(
             s"Failed invoking with status : ${r.code} body : \n ${r.body}",
             r.code
           )
