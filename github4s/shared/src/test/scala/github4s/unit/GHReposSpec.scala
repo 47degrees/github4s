@@ -96,6 +96,20 @@ class GHReposSpec extends BaseSpec {
     ghReposData.listCommits(validRepoOwner, validRepoName)
   }
 
+  "GHRepos.listBranches" should "call to RepositoryOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[List[Branch]]] =
+      Free.pure(Right(GHResult(List(branch), okStatusCode, Map.empty)))
+
+    val repoOps = mock[RepositoryOpsTest]
+    (repoOps.listBranches _)
+      .expects(validRepoOwner, validRepoName, None, sampleToken)
+      .returns(response)
+
+    val ghReposData = new GHRepos(sampleToken)(repoOps)
+    ghReposData.listBranches(validRepoOwner, validRepoName)
+  }
+
   "GHRepos.listContributors" should "call to RepositoryOps with the right parameters" in {
 
     val response: Free[GitHub4s, GHResponse[List[User]]] =

@@ -185,6 +185,33 @@ class Repos[C, M[_]](
     )
 
   /**
+    * Retrieve list of branches for a repo
+    *
+    * @param accessToken to identify the authenticated user
+    * @param headers optional user headers to include in the request
+    * @param owner of the repo
+    * @param repo name of the repo
+    * @param protected Setting to true returns only protected branches
+    * @return GHResponse[List[Branch]\] List of branches
+    */
+  def listBranches(
+    accessToken: Option[String] = None,
+    headers: Map[String, String] = Map(),
+    owner: String,
+    repo: String,
+    `protected`: Option[Boolean] = None
+  ): M[GHResponse[List[Branch]]] =
+    httpClient.get[List[Branch]](
+      accessToken,
+      s"repos/$owner/$repo/branches",
+      headers,
+      Map(
+        "protected" → `protected`.map(_.toString),
+      ).collect {
+        case (key, Some(value)) ⇒ key → value
+      })
+
+  /**
    * Fetch contributors list for the the specified repository,
    * sorted by the number of commits per contributor in descending order.
    *

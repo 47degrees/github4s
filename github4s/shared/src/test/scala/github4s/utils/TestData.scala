@@ -360,6 +360,16 @@ trait TestData extends DummyGithubUrls {
     None,
     None
   )
+  val validBranchName = "master"
+  val branch = Branch(
+    name = validBranchName,
+    commit = BranchCommit(
+      sha = validCommitSha,
+      url = s"https://api.github.com/repos/$validRepoOwner/$validRepoName/commits/$validCommitSha"
+    ),
+    `protected` = true,
+    protection_url = s"https://api.github.com/repos/$validRepoOwner/$validRepoName/branches/$validBranchName/protection"
+  )
   val validTokenType = "bearer"
   val validAuthState = UUID.randomUUID().toString
   val user           = User(1, validUsername, githubApiUrl, githubApiUrl)

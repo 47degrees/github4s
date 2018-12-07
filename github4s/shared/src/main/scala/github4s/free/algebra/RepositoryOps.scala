@@ -67,6 +67,13 @@ final case class ListCommits(
     accessToken: Option[String] = None
 ) extends RepositoryOp[GHResponse[List[Commit]]]
 
+final case class ListBranches(
+    owner: String,
+    repo: String,
+    `protected`: Option[Boolean] = None,
+    accessToken: Option[String] = None
+) extends RepositoryOp[GHResponse[List[Branch]]]
+
 final case class ListContributors(
     owner: String,
     repo: String,
@@ -169,6 +176,15 @@ class RepositoryOps[F[_]](implicit I: InjectK[RepositoryOp, F]) {
   ): Free[F, GHResponse[List[Commit]]] =
     Free.inject[RepositoryOp, F](
       ListCommits(owner, repo, sha, path, author, since, until, pagination, accessToken))
+
+  def listBranches(
+      owner: String,
+      repo: String,
+      `protected`: Option[Boolean] = None,
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[List[Branch]]] =
+    Free.inject[RepositoryOps, F](
+      ListBranches(owner, repo, `protected`, accessToken))
 
   def listContributors(
       owner: String,

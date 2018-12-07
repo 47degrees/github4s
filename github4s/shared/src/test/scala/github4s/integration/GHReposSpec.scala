@@ -127,6 +127,27 @@ trait GHReposSpec[T] extends BaseIntegrationSpec[T] {
     testFutureIsLeft(response)
   }
 
+  "Repos >> ListBranches" should "return the expected list of branches for valid data" in {
+    val response =
+      Github(accessToken).repos
+      .listBranches(validRepoOwner, validRepoName)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[Branch]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error for invalid repo name" in {
+    val response =
+      Github(accessToken).repos
+        .listBranches(invalidRepoName, validRepoName)
+        .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
   "Repos >> ListContributors" should "return the expected list of contributors for valid data" in {
     val response =
       Github(accessToken).repos

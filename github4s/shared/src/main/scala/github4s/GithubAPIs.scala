@@ -71,6 +71,13 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
   ): GHIO[GHResponse[List[Commit]]] =
     O.listCommits(owner, repo, sha, path, author, since, until, pagination, accessToken)
 
+  def listBranches(
+      owner: String,
+      repo: String,
+      `protected`: Option[Boolean] = None
+  ): GHIO[GHResponse[List[Branch]]] =
+    O.listBranches(owner, repo, `protected`, accessToken)
+
   def listContributors(
       owner: String,
       repo: String,

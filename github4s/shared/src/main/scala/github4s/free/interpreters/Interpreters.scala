@@ -81,6 +81,8 @@ class Interpreters[M[_], C](
             since,
             until,
             pagination)
+        case ListBranches(owner, repo, branchProtected, accessToken) ⇒
+          repos.listBranches(accessToken, headers, owner, repo, branchProtected)
         case ListContributors(owner, repo, anon, accessToken) ⇒
           repos.listContributors(accessToken, headers, owner, repo, anon)
         case ListCollaborators(owner, repo, affiliation, accessToken) =>

@@ -466,6 +466,21 @@ trait FakeResponses {
       |]
     """.stripMargin
 
+  val listBranchesValidResponse =
+    """
+      |[
+      |  {
+      |    "name": "master",
+      |    "commit": {
+      |      "sha": "5f919723674b46a8ade67e6a62348953d2bf4350",
+      |      "url": "https://api.github.com/repos/47deg/github4s/commits/5f919723674b46a8ade67e6a62348953d2bf4350"
+      |    },
+      |    "protected": true,
+      |    "protection_url": "https://api.github.com/repos/47deg/github4s/branches/master/protection"
+      |  }
+      |]
+    """.stripMargin
+
   val listContributorsValidResponse =
     """
       |[

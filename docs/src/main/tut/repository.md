@@ -210,6 +210,33 @@ The `result` on the right is the corresponding [List[Commit]][repository-scala].
 See [the API doc](https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository) for full
 reference.
 
+## Branches
+
+### List branches on a repository
+
+You can list branches using `listBranches`, it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- `protected` Only protected branches.
+
+To list branches:
+
+```tut:silent
+val listBranches =
+  Github(accessToken).repos.listBranches(
+  "47deg",
+  "github4s")
+
+listBranches.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[Commit]][repository-scala].
+
+See [the API doc](https://developer.github.com/v3/repos/branches/#list-branches) for full reference.
+
 ## Contents
 
 ### Get contents
