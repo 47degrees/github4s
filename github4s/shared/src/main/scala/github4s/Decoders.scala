@@ -50,6 +50,32 @@ object Decoders {
       )
   }
 
+  implicit val decodeBranch: Decoder[Branch] = Decoder.instance { c ⇒
+    for {
+      name            ← c.downField("name").as[String]
+      commit          ← c.downField("commit").as[BranchCommit]
+      branchProtected ← c.downField("protected").as[Boolean]
+      protection_url  ← c.downField("protection_url").as[String]
+    } yield
+      Branch(
+        name = name,
+        commit = commit,
+        `protected` = branchProtected,
+        protection_url = protection_url
+      )
+  }
+
+  implicit val decodeBranchCommit: Decoder[BranchCommit] = Decoder.instance { c ⇒
+    for {
+      url ← c.downField("url").as[String]
+      sha ← c.downField("sha").as[String]
+    } yield
+      BranchCommit(
+        url = url,
+        sha = sha
+      )
+  }
+
   def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] =
     RepoUrlKeys.allFields.traverse { name ⇒
       c.downField(name).as[Option[String]]
