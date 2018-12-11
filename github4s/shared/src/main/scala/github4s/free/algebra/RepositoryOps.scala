@@ -183,7 +183,7 @@ class RepositoryOps[F[_]](implicit I: InjectK[RepositoryOp, F]) {
       `protected`: Option[Boolean] = None,
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[Branch]]] =
-    Free.inject[RepositoryOps, F](
+    Free.inject[RepositoryOp, F](
       ListBranches(owner, repo, `protected`, accessToken))
 
   def listContributors(
