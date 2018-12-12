@@ -367,8 +367,8 @@ trait TestData extends DummyGithubUrls {
       sha = validCommitSha,
       url = s"https://api.github.com/repos/$validRepoOwner/$validRepoName/commits/$validCommitSha"
     ),
-    `protected` = true,
-    protection_url = s"https://api.github.com/repos/$validRepoOwner/$validRepoName/branches/$validBranchName/protection"
+    `protected` = Some(true),
+    protection_url = Some(s"https://api.github.com/repos/$validRepoOwner/$validRepoName/branches/$validBranchName/protection")
   )
   val validTokenType = "bearer"
   val validAuthState = UUID.randomUUID().toString

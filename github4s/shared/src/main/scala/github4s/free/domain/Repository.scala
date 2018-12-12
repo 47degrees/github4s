@@ -106,8 +106,8 @@ case class Commit(
 case class Branch(
   name: String,
   commit: BranchCommit,
-  `protected`: Boolean,
-  protection_url: String
+  `protected`: Option[Boolean],
+  protection_url: Option[String]
 )
 
 case class BranchCommit(

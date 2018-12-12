@@ -54,8 +54,8 @@ object Decoders {
     for {
       name            ← c.downField("name").as[String]
       commit          ← c.downField("commit").as[BranchCommit]
-      branchProtected ← c.downField("protected").as[Boolean]
-      protection_url  ← c.downField("protection_url").as[String]
+      branchProtected ← c.downField("protected").as[Option[Boolean]]
+      protection_url  ← c.downField("protection_url").as[Option[String]]
     } yield
       Branch(
         name = name,
