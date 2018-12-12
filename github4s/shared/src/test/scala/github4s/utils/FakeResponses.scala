@@ -470,15 +470,37 @@ trait FakeResponses {
     """
       |[
       |  {
-      |    "name": "master",
       |    "commit": {
       |      "sha": "5f919723674b46a8ade67e6a62348953d2bf4350",
       |      "url": "https://api.github.com/repos/47deg/github4s/commits/5f919723674b46a8ade67e6a62348953d2bf4350"
       |    },
-      |    "protected": true,
-      |    "protection_url": "https://api.github.com/repos/47deg/github4s/branches/master/protection"
+      |    "name": "master"
       |  }
       |]
+    """.stripMargin
+
+  val listBranchesProtectedResponse =
+    """
+      |[
+      |  {
+      |    "commit": {
+      |      "sha": "5f919723674b46a8ade67e6a62348953d2bf4350",
+      |      "url": "https://api.github.com/repos/47deg/github4s/commits/5f919723674b46a8ade67e6a62348953d2bf4350"
+      |    },
+      |    "name": "master",
+      |    "protected": true,
+      |    "protection": {
+      |      "enabled": true,
+      |      "required_status_checks": {
+      |        "contexts": [
+      |          "travis/github4s"
+      |        ],
+      |        "enforcement_level": "everyone"
+      |      }
+      |    },
+      |    "protection_url": "https://api.github.com/repos/47deg/github4s/branches/master/protection"
+      |  }
+      |]      |
     """.stripMargin
 
   val listContributorsValidResponse =

@@ -247,6 +247,13 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .when(
       request
         .withMethod("GET")
+        .withPath(s"/repos/$validRepoOwner/$validRepoName/branches?protected=true"))
+    .respond(response.withStatusCode(okStatusCode).withBody(listBranchesProtectedResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("GET")
         .withPath(s"/repos/$validRepoOwner/$validRepoName/branches"))
     .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
 
