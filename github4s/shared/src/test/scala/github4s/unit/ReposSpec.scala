@@ -210,7 +210,7 @@ class ReposSpec extends BaseSpec {
       headers = headerUserAgent,
       owner = validRepoOwner,
       repo = validRepoName,
-      `protected` = Some(true)
+      onlyProtected = Some(true)
     )
   }
 
