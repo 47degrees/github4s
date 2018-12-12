@@ -117,7 +117,7 @@ class GHReposSpec extends BaseSpec {
 
     val repoOps = mock[RepositoryOpsTest]
     (repoOps.listBranches _)
-      .expects(validRepoOwner, validRepoName, None, sampleToken)
+      .expects(validRepoOwner, validRepoName, Some(true), sampleToken)
       .returns(response)
 
     val ghReposData = new GHRepos(sampleToken)(repoOps)
