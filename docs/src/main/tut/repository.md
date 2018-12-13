@@ -233,7 +233,7 @@ listBranches.exec[cats.Id, HttpResponse[String]]() match {
 }
 ```
 
-The `result` on the right is the corresponding [List[Commit]][repository-scala].
+The `result` on the right is the corresponding [List[Branch]][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/branches/#list-branches) for full reference.
 
