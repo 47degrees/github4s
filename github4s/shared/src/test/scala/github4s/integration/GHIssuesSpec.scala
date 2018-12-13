@@ -36,6 +36,17 @@ trait GHIssuesSpec[T] extends BaseIntegrationSpec[T] {
     })
   }
 
+  "Issues >> Get" should "return an issue which is a PR" in {
+    val response = Github(accessToken).issues
+      .getIssue(validRepoOwner, validRepoName, validPullRequestNumber)
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[Issue](response, { r =>
+      r.result.body.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
   "Issues >> Search" should "return at least one issue for a valid query" in {
     val response = Github(accessToken).issues
       .searchIssues(validSearchQuery, validSearchParams)

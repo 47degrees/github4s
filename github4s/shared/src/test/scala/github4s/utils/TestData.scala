@@ -159,7 +159,7 @@ trait TestData extends DummyGithubUrls {
   val issue = Issue(
     id = 1,
     title = validIssueTitle,
-    body = validIssueBody,
+    body = Some(validIssueBody),
     url = githubApiUrl,
     repository_url = githubApiUrl,
     labels_url = githubApiUrl,

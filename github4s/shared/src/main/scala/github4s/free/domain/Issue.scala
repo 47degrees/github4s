@@ -19,7 +19,7 @@ package github4s.free.domain
 case class Issue(
     id: Int,
     title: String,
-    body: String,
+    body: Option[String],
     url: String,
     repository_url: String,
     labels_url: String,

@@ -871,6 +871,16 @@ class ApiSpec
       r.statusCode shouldBe okStatusCode
     }
   }
+  it should "return an issue which is just a Pull Request" in {
+    val response =
+      issues.get(
+        accessToken,
+        headerUserAgent,
+        validRepoOwner,
+        validRepoName,
+        validPullRequestNumber)
+    response should be('right)
+  }
   it should "return an error if an invalid issue number is provided" in {
     val response =
       issues.get(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidIssueNumber)

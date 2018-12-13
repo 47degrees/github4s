@@ -1946,6 +1946,60 @@ trait FakeResponses {
       |}
     """.stripMargin
 
+  val validGetIssuePrResponse =
+    """
+      |{
+      |    "assignee": null,
+      |    "assignees": [],
+      |    "author_association": "CONTRIBUTOR",
+      |    "body": null,
+      |    "closed_at": null,
+      |    "closed_by": null,
+      |    "comments": 0,
+      |    "comments_url": "https://api.github.com/repos/47deg/github4s/issues/236/comments",
+      |    "created_at": "2018-12-13T09:49:51Z",
+      |    "events_url": "https://api.github.com/repos/47deg/github4s/issues/236/events",
+      |    "html_url": "https://github.com/47deg/github4s/pull/236",
+      |    "id": 390597510,
+      |    "labels": [],
+      |    "labels_url": "https://api.github.com/repos/47deg/github4s/issues/236/labels{/name}",
+      |    "locked": false,
+      |    "milestone": null,
+      |    "node_id": "MDExOlB1bGxSZXF1ZXN0MjM4MzI1MTc2",
+      |    "number": 236,
+      |    "pull_request": {
+      |        "diff_url": "https://github.com/47deg/github4s/pull/236.diff",
+      |        "html_url": "https://github.com/47deg/github4s/pull/236",
+      |        "patch_url": "https://github.com/47deg/github4s/pull/236.patch",
+      |        "url": "https://api.github.com/repos/47deg/github4s/pulls/236"
+      |    },
+      |    "repository_url": "https://api.github.com/repos/47deg/github4s",
+      |    "state": "open",
+      |    "title": "WIP",
+      |    "updated_at": "2018-12-13T09:49:51Z",
+      |    "url": "https://api.github.com/repos/47deg/github4s/issues/236",
+      |    "user": {
+      |        "avatar_url": "https://avatars0.githubusercontent.com/u/185304?v=4",
+      |        "events_url": "https://api.github.com/users/YarekTyshchenko/events{/privacy}",
+      |        "followers_url": "https://api.github.com/users/YarekTyshchenko/followers",
+      |        "following_url": "https://api.github.com/users/YarekTyshchenko/following{/other_user}",
+      |        "gists_url": "https://api.github.com/users/YarekTyshchenko/gists{/gist_id}",
+      |        "gravatar_id": "",
+      |        "html_url": "https://github.com/YarekTyshchenko",
+      |        "id": 185304,
+      |        "login": "YarekTyshchenko",
+      |        "node_id": "MDQ6VXNlcjE4NTMwNA==",
+      |        "organizations_url": "https://api.github.com/users/YarekTyshchenko/orgs",
+      |        "received_events_url": "https://api.github.com/users/YarekTyshchenko/received_events",
+      |        "repos_url": "https://api.github.com/users/YarekTyshchenko/repos",
+      |        "site_admin": false,
+      |        "starred_url": "https://api.github.com/users/YarekTyshchenko/starred{/owner}{/repo}",
+      |        "subscriptions_url": "https://api.github.com/users/YarekTyshchenko/subscriptions",
+      |        "type": "User",
+      |        "url": "https://api.github.com/users/YarekTyshchenko"
+      |    }
+      |}
+    """.stripMargin
 
   val listReviewsValidResponse =
     """
