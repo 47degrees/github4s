@@ -517,6 +517,34 @@ class ApiSpec
     }
   }
 
+  "Gists >> GetGist" should "return the single gist for a valid request" in {
+    val response =
+      gists.getGist(
+        validGistId,
+        sha = None,
+        headerUserAgent,
+        accessToken)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  it should "return the specific revision of gist for a valid request" in {
+    val response =
+      gists.getGist(
+        validGistId,
+        sha = Some(validGistSha),
+        headerUserAgent,
+        accessToken)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
   "GitData >> GetReference" should "return the single reference" in {
     val response =
       gitData.reference(

@@ -9,6 +9,7 @@ Github4s supports the [Gist API](https://developer.github.com/v3/gists/). As a r
 with Github4s, you can:
 
 - [Create a gist](#create-a-gist)
+- [Get a single gist or specific revision of a gist](#get-a-gist)
 
 The following examples assume the following imports and token:
 
@@ -57,6 +58,39 @@ newGist.exec[cats.Id, HttpResponse[String]]() match {
 The `result` on the right is the created [Gist][gist-scala].
 
 See [the API doc](https://developer.github.com/v3/gists/#create-a-gist) for full reference.
+
+## Get a single gist or specific revision of a gist
+
+You can create a gist using `getGist`; it takes as arguments:
+
+- the gist id (obtained via [creation of a gist](#create-a-gist), for ex.).
+- optional sha of the gist revision.
+
+To get a single gist:
+
+```scala
+val singleGist = Github(accessToken).gists.getGist("aa5a315d61ae9438b18d")
+
+singleGist.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+Similarly, to get a specific revision of a gist:
+
+```scala
+val sepcificRevisionGist = Github(accessToken).gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
+
+sepcificRevisionGist.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the requested [Gist][gist-scala].
+
+See [the API doc](https://developer.github.com/v3/gists/#get-a-single-gist) for full reference.
 
 As you can see, a few features of the gist endpoint are missing. As a result, if you'd like to see a
 feature supported, feel free to create an issue and/or a pull request!

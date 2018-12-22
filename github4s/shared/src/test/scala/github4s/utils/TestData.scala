@@ -382,7 +382,8 @@ trait TestData extends DummyGithubUrls {
   val oAuthToken   = OAuthToken("token", validTokenType, "public_repo")
   val validGistUrl = "https://api.github.com/gists/aa5a315d61ae9438b18d"
   val validGistId  = "aa5a315d61ae9438b18d"
-  val gist         = Gist(validGistUrl, validGistId, validGistDescription, validGistPublic)
+  val gist         = Gist(validGistUrl, validGistId, validGistDescription, validGistPublic, Map())
+  val validGistSha = "deadbeef"
 
   val stargazer         = Stargazer(None, user)
   val starredRepository = StarredRepository(None, repo)

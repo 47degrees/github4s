@@ -61,4 +61,48 @@ class GistSpec extends BaseSpec {
     )
   }
 
+  "Gist.getGist" should "call to httpClient.get with the right parameters without sha" in {
+
+    val response: GHResponse[Gist] =
+      Right(GHResult(gist, okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[Gist](
+      url = s"gists/$validGistId",
+      response = response
+    )
+
+    val gists = new Gists[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+
+    gists.getGist(
+      validGistId,
+      sha = None,
+      headerUserAgent,
+      sampleToken
+    )
+  }
+
+  it should "call to httpClient.get with the right parameters with sha" in {
+
+    val response: GHResponse[Gist] =
+      Right(GHResult(gist, okStatusCode, Map.empty))
+
+    val httpClientMock = httpClientMockGet[Gist](
+      url = s"gists/$validGistId/$validGistSha",
+      response = response
+    )
+
+    val gists = new Gists[String, Id] {
+      override val httpClient: HttpClient[String, Id] = httpClientMock
+    }
+
+    gists.getGist(
+      validGistId,
+      sha = Some(validGistSha),
+      headerUserAgent,
+      sampleToken
+    )
+  }
+
 }

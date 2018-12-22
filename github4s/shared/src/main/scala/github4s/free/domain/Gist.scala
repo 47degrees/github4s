@@ -20,7 +20,8 @@ case class Gist(
     url: String,
     id: String,
     description: String,
-    public: Boolean
+    public: Boolean,
+    files: Map[String, GistFile]
 )
 
 case class GistFile(
