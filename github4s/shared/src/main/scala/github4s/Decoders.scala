@@ -197,18 +197,29 @@ object Decoders {
       case PRRStateDismissed.value        => PRRStateDismissed
     }
 
+  implicit val decodeGistFile: Decoder[GistFile] = Decoder.instance { c ⇒
+    for {
+      content ← c.downField("content").as[String]
+    } yield
+      GistFile(
+        content = content
+      )
+  }
+
   implicit val decodeGist: Decoder[Gist] = Decoder.instance { c ⇒
     for {
       url         ← c.downField("url").as[String]
       id          ← c.downField("id").as[String]
       description ← c.downField("description").as[String]
       public      ← c.downField("public").as[Boolean]
+      files       ← c.downField("files").as[Map[String, GistFile]]
     } yield
       Gist(
         url = url,
         id = id,
         description = description,
-        public = public
+        public = public,
+        files = files
       )
   }
 
