@@ -56,4 +56,23 @@ class Gists[C, M[_]](
       data = NewGistRequest(description, public, files).asJson.noSpaces
     )
 
+  /**
+   * Get a single gist or a specific revision of a gist
+   *
+   * @param gistId of the gist
+   * @param sha optional sha of a revision
+   * @param headers optional user headers to include in the request
+   * @param accessToken to identify the authenticated user
+   */
+  def getGist(
+      gistId: String,
+      sha: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      accessToken: Option[String] = None): M[GHResponse[Gist]] =
+    httpClient.get[Gist](
+      accessToken,
+      ("gists" :: gistId :: sha.toList).mkString("/"),
+      headers
+    )
+
 }

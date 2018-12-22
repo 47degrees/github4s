@@ -177,6 +177,8 @@ class Interpreters[M[_], C](
         fa match {
           case NewGist(description, public, files, accessToken) ⇒
             gists.newGist(description, public, files, headers, accessToken)
+          case GetGist(gistId, sha, accessToken) ⇒
+            gists.getGist(gistId, sha, headers, accessToken)
         }
       }
     }
