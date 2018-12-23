@@ -33,3 +33,13 @@ case class NewGistRequest(
     public: Boolean,
     files: Map[String, GistFile]
 )
+
+case class EditGistFile(
+    content: String,
+    filename: Option[String] = None
+)
+
+case class EditGistRequest(
+    description: String,
+    files: Map[String, Option[EditGistFile]]
+)

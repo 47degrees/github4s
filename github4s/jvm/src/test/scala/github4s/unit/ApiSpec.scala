@@ -17,11 +17,10 @@
 package github4s.unit
 
 import github4s.api._
-import github4s.free.domain.{GistFile, Pagination}
+import github4s.free.domain.{EditGistFile, GistFile, Pagination}
 import github4s.utils.{DummyGithubUrls, MockGithubApiServer, TestUtilsJVM}
 import org.scalatest._
 import cats.implicits._
-
 import scalaj.http._
 import cats.Id
 import github4s.jvm.ImplicitsJVM
@@ -519,11 +518,7 @@ class ApiSpec
 
   "Gists >> GetGist" should "return the single gist for a valid request" in {
     val response =
-      gists.getGist(
-        validGistId,
-        sha = None,
-        headerUserAgent,
-        accessToken)
+      gists.getGist(validGistId, sha = None, headerUserAgent, accessToken)
     response should be('right)
 
     response.toOption map { r ⇒
@@ -533,11 +528,28 @@ class ApiSpec
 
   it should "return the specific revision of gist for a valid request" in {
     val response =
-      gists.getGist(
+      gists.getGist(validGistId, sha = Some(validGistSha), headerUserAgent, accessToken)
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+
+  "Gists >> EditGist" should "return the provided gist for a valid request" in {
+    val response =
+      gists.editGist(
         validGistId,
-        sha = Some(validGistSha),
+        validGistDescription,
+        Map(
+          validGistFilename → Some(EditGistFile(validGistFileContent)),
+          validGistOldFilename → Some(
+            EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+          validGistDeletedFilename → None
+        ),
         headerUserAgent,
-        accessToken)
+        accessToken
+      )
     response should be('right)
 
     response.toOption map { r ⇒

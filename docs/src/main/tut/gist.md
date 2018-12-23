@@ -92,6 +92,37 @@ The `result` on the right is the requested [Gist][gist-scala].
 
 See [the API doc](https://developer.github.com/v3/gists/#get-a-single-gist) for full reference.
 
+## Edit a gist
+
+You can edit a gist using `editGist`; it takes as arguments:
+
+- the gist id (obtained via [creation of a gist](#create-a-gist), for ex.).
+- the gist description.
+- an association of file names and optional file contents where the contents are wrapped in
+[EditGistFile][gist-scala]s, if a new file name required, then it must be provided.
+
+To edit a gist (change description, update content of _token.scala_, rename _gh4s.scala_ and remove _token.class_ file):
+
+```scala
+import github4s.free.domain.EditGistFile
+val files = Map(
+  "token.scala" -> Some(EditGistFile("lazy val accessToken = sys.env.get(\"GITHUB4S_ACCESS_TOKEN\")")),
+  "gh4s.scala"  -> Some(EditGistFile("val gh = Github(accessToken)", Some("GH4s.scala"))),
+  "token.class"  -> None
+)
+
+val updatedGist = Github(accessToken).gists.editGist("aa5a315d61ae9438b18d", "Updated github4s entry point", files)
+
+updatedGist.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the updated [Gist][gist-scala].
+
+See [the API doc](https://developer.github.com/v3/gists/#edit-a-gist) for full reference.
+
 As you can see, a few features of the gist endpoint are missing. As a result, if you'd like to see a
 feature supported, feel free to create an issue and/or a pull request!
 

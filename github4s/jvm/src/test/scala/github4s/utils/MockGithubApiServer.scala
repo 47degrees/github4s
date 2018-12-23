@@ -471,6 +471,30 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
         .withStatusCode(unauthorizedStatusCode)
         .withBody(unauthorizedResponse))
 
+  //Gists >> edit a gist
+
+  mockServer
+    .when(
+      request
+        .withMethod("PATCH")
+        .withPath(s"/gists/$validGistId")
+        .withHeader("Authorization", tokenHeader))
+    .respond(
+      response
+        .withStatusCode(okStatusCode)
+        .withBody(editedGistValidResponse))
+
+  mockServer
+    .when(
+      request
+        .withMethod("PATCH")
+        .withPath(s"/gists/$validGistId")
+        .withHeader(not("Authorization")))
+    .respond(
+      response
+        .withStatusCode(unauthorizedStatusCode)
+        .withBody(unauthorizedResponse))
+
   // Git >> References
 
   mockServer

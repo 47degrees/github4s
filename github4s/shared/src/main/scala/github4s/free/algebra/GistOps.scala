@@ -19,7 +19,7 @@ package github4s.free.algebra
 import cats.InjectK
 import cats.free.Free
 import github4s.GithubResponses._
-import github4s.free.domain.{Gist, GistFile}
+import github4s.free.domain.{EditGistFile, Gist, GistFile}
 
 /**
  * Gist ops ADT
@@ -36,6 +36,13 @@ final case class NewGist(
 final case class GetGist(
     gistId: String,
     sha: Option[String] = None,
+    accessToken: Option[String] = None
+) extends GistOp[GHResponse[Gist]]
+
+final case class EditGist(
+    gistId: String,
+    description: String,
+    files: Map[String, Option[EditGistFile]],
     accessToken: Option[String] = None
 ) extends GistOp[GHResponse[Gist]]
 
@@ -58,6 +65,14 @@ class GistOps[F[_]](implicit I: InjectK[GistOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[Gist]] =
     Free.inject[GistOp, F](GetGist(gistId, sha, accessToken))
+
+  def editGist(
+      gistId: String,
+      description: String,
+      files: Map[String, Option[EditGistFile]],
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[Gist]] =
+    Free.inject[GistOp, F](EditGist(gistId, description, files, accessToken))
 }
 
 /**

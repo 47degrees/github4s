@@ -179,6 +179,8 @@ class Interpreters[M[_], C](
             gists.newGist(description, public, files, headers, accessToken)
           case GetGist(gistId, sha, accessToken) ⇒
             gists.getGist(gistId, sha, headers, accessToken)
+          case EditGist(gistId, description, files, accessToken) ⇒
+            gists.editGist(gistId, description, files, headers, accessToken)
         }
       }
     }

@@ -84,4 +84,33 @@ class GHGistSpec extends BaseSpec {
       Some(validGistSha))
   }
 
+  "Gist.editGist" should "call to GistOps with the right parameters" in {
+
+    val response: Free[GitHub4s, GHResponse[Gist]] =
+      Free.pure(Right(GHResult(gist, okStatusCode, Map.empty)))
+
+    val gistOps = mock[GistOpsTest]
+    (gistOps.editGist _)
+      .expects(
+        validGistId,
+        validGistDescription,
+        Map(
+          validGistFilename        → Some(EditGistFile(validGistFileContent)),
+          validGistOldFilename     → Some(EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+          validGistDeletedFilename → None
+        ),
+        sampleToken)
+      .returns(response)
+
+    val ghGists = new GHGists(sampleToken)(gistOps)
+    ghGists.editGist(
+      validGistId,
+      validGistDescription,
+      Map(
+        validGistFilename        → Some(EditGistFile(validGistFileContent)),
+        validGistOldFilename     → Some(EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+        validGistDeletedFilename → None
+      ))
+  }
+
 }

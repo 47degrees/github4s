@@ -22,6 +22,8 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 import github4s.GithubResponses.GHResponse
 import github4s.free.interpreters.Capture
+import io.circe.Encoder
+import io.circe.generic.semiauto.deriveEncoder
 
 import scala.language.higherKinds
 
@@ -75,4 +77,31 @@ class Gists[C, M[_]](
       headers
     )
 
+  /**
+   * Edit a gist
+   *
+   * @param gistId of the gist
+   * @param files map describing the filenames of the Gist and its contents and/or new filenames
+   * @param headers optional user headers to include in the request
+   * @param accessToken to identify the authenticated user
+   */
+  def editGist(
+      gistId: String,
+      description: String,
+      files: Map[String, Option[EditGistFile]],
+      headers: Map[String, String] = Map(),
+      accessToken: Option[String] = None): M[GHResponse[Gist]] = {
+
+    implicit val encodeEditGistFile: Encoder[EditGistFile] = {
+      deriveEncoder[EditGistFile].mapJsonObject(_.filter(e =>
+        !(e._1.equals("filename") && e._2.isNull)))
+    }
+
+    httpClient.patch[Gist](
+      accessToken,
+      s"gists/$gistId",
+      headers,
+      data = EditGistRequest(description, files).asJson.noSpaces
+    )
+  }
 }

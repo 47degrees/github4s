@@ -69,10 +69,13 @@ trait TestData extends DummyGithubUrls {
   val validAnonParameter   = "true"
   val invalidAnonParameter = "X"
 
-  val validGistDescription = "A Gist"
-  val validGistPublic      = true
-  val validGistFileContent = "val meaningOfLife = 42"
-  val validGistFilename    = "test.scala"
+  val validGistDescription     = "A Gist"
+  val validGistPublic          = true
+  val validGistFileContent     = "val meaningOfLife = 42"
+  val validGistFilename        = "test.scala"
+  val validGistNewFilename     = "best.scala"
+  val validGistOldFilename     = "fest.scala"
+  val validGistDeletedFilename = "rest.scala"
 
   val validSearchQuery       = "Scala 2.12"
   val nonExistentSearchQuery = "nonExistentSearchQueryString"
