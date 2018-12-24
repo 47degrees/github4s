@@ -22,9 +22,7 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 import github4s.GithubResponses.GHResponse
 import github4s.free.interpreters.Capture
-import io.circe.Encoder
-import io.circe.generic.semiauto.deriveEncoder
-
+import github4s.Encoders.encodeEditGistFile
 import scala.language.higherKinds
 
 /** Factory to encapsulate calls related to Repositories operations  */
@@ -91,11 +89,6 @@ class Gists[C, M[_]](
       files: Map[String, Option[EditGistFile]],
       headers: Map[String, String] = Map(),
       accessToken: Option[String] = None): M[GHResponse[Gist]] = {
-
-    implicit val encodeEditGistFile: Encoder[EditGistFile] = {
-      deriveEncoder[EditGistFile].mapJsonObject(_.filter(e =>
-        !(e._1.equals("filename") && e._2.isNull)))
-    }
 
     httpClient.patch[Gist](
       accessToken,

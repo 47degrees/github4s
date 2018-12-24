@@ -20,6 +20,7 @@ import github4s.free.domain._
 import io.circe._
 import io.circe.syntax._
 import io.circe.generic.auto._
+import io.circe.generic.semiauto.deriveEncoder
 
 object Encoders {
 
@@ -34,4 +35,9 @@ object Encoders {
   }
 
   implicit val encodePrrStatus: Encoder[PullRequestReviewState] = Encoder.encodeString.contramap(_.value)
+
+  implicit val encodeEditGistFile: Encoder[EditGistFile] = {
+    deriveEncoder[EditGistFile].mapJsonObject(_.filter(e =>
+      !(e._1.equals("filename") && e._2.isNull)))
+  }
 }
