@@ -198,7 +198,7 @@ class ReposSpec extends BaseSpec {
     val httpClientMock = httpClientMockGet[List[Branch]](
       url = s"repos/$validRepoOwner/$validRepoName/branches",
       params = Map("protected" → "true"),
-      response = response,
+      response = response
     )
 
     val repos = new Repos[String, Id] {
