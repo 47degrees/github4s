@@ -82,9 +82,7 @@ lazy val docs = (project in file("docs"))
 //////////
 
 addCommandAlias("validateDocs", ";project docs;tut;project root")
-addCommandAlias(
-  "validateJVM",
-  (toCompileTestList(jvmModules) ++ List("project root")).asCmd)
+addCommandAlias("validateJVM", (toCompileTestList(jvmModules) ++ List("project root")).asCmd)
 addCommandAlias("validateJS", (toCompileTestList(jsModules) ++ List("project root")).asCmd)
 addCommandAlias(
   "validate",

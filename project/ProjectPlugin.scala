@@ -21,6 +21,21 @@ object ProjectPlugin extends AutoPlugin {
 
   object autoImport {
 
+    lazy val V = new {
+      val base64: String             = "0.2.4"
+      val cats: String               = "1.5.0"
+      val catsEffect: String         = "1.1.0"
+      val circe: String              = "0.11.0"
+      val paradise: String           = "2.1.1"
+      val roshttp: String            = "2.2.3"
+      val simulacrum: String         = "0.14.0"
+      val scalaj: String             = "2.4.1"
+      val scalamockScalatest: String = "3.6.0"
+      val scalaTest: String          = "3.0.5"
+      val scalaz: String             = "7.2.27"
+
+    }
+
     lazy val micrositeSettings = Seq(
       micrositeName := "Github4s",
       micrositeDescription := "Github API wrapper written in Scala",
@@ -46,40 +61,42 @@ object ProjectPlugin extends AutoPlugin {
     )
 
     lazy val commonCrossDeps = Seq(
-      %%("cats-core"),
-      %%("cats-free"),
-      %%("simulacrum"),
-      %%("circe-core"),
-      %%("circe-generic"),
-      %%("circe-parser"),
-      %%("base64"),
-      %%("scalamockScalatest") % "test",
-      %%("scalatest")          % "test"
+      %%("cats-core", V.cats),
+      %%("cats-free", V.cats),
+      %%("simulacrum", V.simulacrum),
+      %%("circe-core", V.circe),
+      %%("circe-generic", V.circe),
+      %%("circe-parser", V.circe),
+      %%("base64", V.base64),
+      %%("scalamockScalatest", V.scalamockScalatest) % "test",
+      %%("scalatest", V.scalaTest)                   % "test"
     )
 
     lazy val standardCommonDeps = Seq(
-      libraryDependencies += compilerPlugin(%%("paradise") cross CrossVersion.full)
+      libraryDependencies += compilerPlugin(%%("paradise", V.paradise) cross CrossVersion.full)
     )
 
     lazy val jvmDeps = Seq(
       libraryDependencies ++= Seq(
-        %%("scalaj"),
+        %%("scalaj", V.scalaj),
         "org.mock-server" % "mockserver-netty" % "3.10.4" % "test" excludeAll ExclusionRule(
           "com.twitter")
       )
     )
 
-    lazy val jsDeps: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%%("roshttp")
+    lazy val jsDeps: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%%("roshttp", V.roshttp)
 
-    lazy val docsDependencies: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%("scalatest")
+    lazy val docsDependencies: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%(
+      "scalatest",
+      V.scalaTest)
 
     lazy val scalazDependencies: Def.Setting[Seq[ModuleID]] =
-      libraryDependencies += %%("scalaz-concurrent")
+      libraryDependencies += %%("scalaz-concurrent", V.scalaz)
 
     lazy val catsEffectDependencies: Seq[ModuleID] =
       Seq(
-        %%("cats-effect"),
-        %%("scalatest") % "test"
+        %%("cats-effect", V.catsEffect),
+        %%("scalatest", V.scalaTest) % "test"
       )
 
     def toCompileTestList(sequence: Seq[ProjectReference]): List[String] = sequence.toList.map {
@@ -100,6 +117,7 @@ object ProjectPlugin extends AutoPlugin {
       crossScalaVersions := scalac.crossScalaVersions,
       scalacOptions ~= (_ filterNot Set("-Xlint").contains),
       orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
+      resolvers += Resolver.bintrayRepo("hmil", "maven"),
       orgBadgeListSetting := List(
         TravisBadge.apply(_),
         GitterBadge.apply(_),
