@@ -22,7 +22,6 @@ import github4s.free.domain.{Issue, Label, SearchIssuesResult, User}
 import github4s.implicits._
 import github4s.utils.BaseIntegrationSpec
 
-
 trait GHIssuesSpec[T] extends BaseIntegrationSpec[T] {
 
   "Issues >> List" should "return a list of issues" in {
@@ -36,7 +35,7 @@ trait GHIssuesSpec[T] extends BaseIntegrationSpec[T] {
     })
   }
 
-  "Issues >> Get" should "return an issue which is a PR" in {
+  "Issues >> Get" should "return an issue which is a PR" ignore {
     val response = Github(accessToken).issues
       .getIssue(validRepoOwner, validRepoName, validPullRequestNumber)
       .execFuture[T](headerUserAgent)
