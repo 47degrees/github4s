@@ -63,15 +63,17 @@ object ProjectPlugin extends AutoPlugin {
     )
 
     lazy val commonCrossDeps = Seq(
-      %%("cats-core", V.cats),
-      %%("cats-free", V.cats),
-      %%("simulacrum", V.simulacrum),
-      %%("circe-core", V.circe),
-      %%("circe-generic", V.circe),
-      %%("circe-parser", V.circe),
-      %%("base64", V.base64),
-      %%("scalamockScalatest", V.scalamockScalatest) % "test",
-      %%("scalatest", V.scalaTest)                   % "test"
+      libraryDependencies ++= Seq(
+        %%("cats-core", V.cats),
+        %%("cats-free", V.cats),
+        %%("simulacrum", V.simulacrum),
+        %%("circe-core", V.circe),
+        %%("circe-generic", V.circe),
+        %%("circe-parser", V.circe),
+        %%("base64", V.base64),
+        %%("scalamockScalatest", V.scalamockScalatest) % "test",
+        %%("scalatest", V.scalaTest)                   % "test"
+      )
     )
 
     lazy val standardCommonDeps = Seq(
@@ -95,11 +97,12 @@ object ProjectPlugin extends AutoPlugin {
     lazy val scalazDependencies: Def.Setting[Seq[ModuleID]] =
       libraryDependencies += %%("scalaz-concurrent", V.scalaz)
 
-    lazy val catsEffectDependencies: Seq[ModuleID] =
-      Seq(
+    lazy val catsEffectDependencies = Seq(
+      libraryDependencies ++= Seq(
         %%("cats-effect", V.catsEffect),
         %%("scalatest", V.scalaTest) % "test"
       )
+    )
 
     def toCompileTestList(sequence: Seq[ProjectReference]): List[String] = sequence.toList.map {
       p =>
