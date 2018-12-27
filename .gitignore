@@ -10,3 +10,6 @@ docs/src/main/tut/changelog.md
 
 # PGP keys
 secring.gpg
+
+.metals/
+project/.bloop/
