@@ -29,6 +29,8 @@ object ProjectPlugin extends AutoPlugin {
       val paradise: String           = "2.1.1"
       val roshttp: String            = "2.2.3"
       val simulacrum: String         = "0.14.0"
+      val scala211: String           = "2.11.12"
+      val scala212: String           = "2.12.8"
       val scalaj: String             = "2.4.1"
       val scalamockScalatest: String = "3.6.0"
       val scalaTest: String          = "3.0.5"
@@ -106,6 +108,8 @@ object ProjectPlugin extends AutoPlugin {
     }
   }
 
+  import autoImport.V
+
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
       name := "github4s",
@@ -113,8 +117,8 @@ object ProjectPlugin extends AutoPlugin {
       description := "Github API wrapper written in Scala",
       startYear := Option(2016),
       resolvers += Resolver.sonatypeRepo("snapshots"),
-      scalaVersion := scalac.`2.12`,
-      crossScalaVersions := scalac.crossScalaVersions,
+      scalaVersion := V.scala212,
+      crossScalaVersions := Seq(V.scala211, V.scala212),
       scalacOptions ~= (_ filterNot Set("-Xlint").contains),
       orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
       resolvers += Resolver.bintrayRepo("hmil", "maven"),

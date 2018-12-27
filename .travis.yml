@@ -4,7 +4,7 @@ dist: precise
 
 scala:
 - 2.11.12
-- 2.12.6
+- 2.12.8
 
 env:
 - SCALAENV=jvm
@@ -73,7 +73,7 @@ jobs:
               sbt docs/publishMicrosite;
             fi
           fi
-      scala: 2.12.6
+      scala: 2.12.8
       env: SCALAENV=all
 
 before_cache:
@@ -84,7 +84,7 @@ before_cache:
 
 cache:
   directories:
-  - $HOME/.sbt/0.13/dependency
+  - $HOME/.sbt/1.0/dependency
   - $HOME/.sbt/boot/scala*
   - $HOME/.sbt/launchers
   - $HOME/.ivy2/cache
