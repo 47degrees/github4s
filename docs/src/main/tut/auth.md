@@ -19,9 +19,13 @@ import github4s.Github
 import github4s.Github._
 import github4s.jvm.Implicits._
 import scalaj.http.HttpResponse
-// if you're using ScalaJS, replace occurrences of HttpResponse by SimpleHttpResponse
-//import github4s.js.Implicits._
-//import fr.hmil.roshttp.response.SimpleHttpResponse
+```
+
+for ScalaJS (replace occurrences of HttpResponse by SimpleHttpResponse):
+
+```scala
+import github4s.js.Implicits._
+import fr.hmil.roshttp.response.SimpleHttpResponse
 ```
 
 **NOTE**: In the examples you will see `Github(None)`

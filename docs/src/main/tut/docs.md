@@ -24,7 +24,12 @@ implicits in your scope, depending on your needs:
 
 ```tut:silent
 import github4s.jvm.Implicits._
-// import github4s.js.Implicits._
+```
+
+for ScalaJS:
+
+```scala
+import github4s.js.Implicits._
 ```
 
 ```tut:invisible
