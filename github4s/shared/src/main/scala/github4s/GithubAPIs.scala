@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 47 Degrees, LLC. <http://www.47deg.com>
+ * Copyright 2016-2019 47 Degrees, LLC. <http://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,6 +137,10 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
       context: Option[String] = None
   ): GHIO[GHResponse[Status]] =
     O.createStatus(owner, repo, sha, state, target_url, description, context, accessToken)
+
+  def createFork(owner: String, repo: String): GHIO[GHResponse[Repository]] =
+    O.createFork(owner, repo, accessToken)
+
 }
 
 class GHAuth(accessToken: Option[String] = None)(implicit O: AuthOps[GitHub4s]) {

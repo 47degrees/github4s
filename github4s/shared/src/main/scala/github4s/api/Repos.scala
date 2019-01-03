@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 47 Degrees, LLC. <http://www.47deg.com>
+ * Copyright 2016-2019 47 Degrees, LLC. <http://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -373,4 +373,24 @@ class Repos[C, M[_]](
       s"repos/$owner/$repo/statuses/$sha",
       headers,
       dropNullPrint(NewStatusRequest(state, target_url, description, context).asJson))
+
+  /**
+   * Create a fork
+   *
+   * @param accessToken to identify the authenticated user
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @return GHResponse[Repository] repository details
+   */
+  def createFork(
+      accessToken: Option[String] = None,
+      headers: Map[String, String] = Map(),
+      owner: String,
+      repo: String): M[GHResponse[Repository]] =
+    httpClient.post[Repository](
+      accessToken,
+      s"repos/$owner/$repo/forks",
+      headers,
+      null
+    )
 }
