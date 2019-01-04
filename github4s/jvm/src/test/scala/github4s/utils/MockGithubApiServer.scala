@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2018 47 Degrees, LLC. <http://www.47deg.com>
+ * Copyright 2016-2019 47 Degrees, LLC. <http://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1035,11 +1035,12 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
 
   //Issues >> Remove label from an Issue
   mockServer
-    .when(request
-      .withMethod("DELETE")
-      .withPath(
-        s"/repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels/${validIssueLabel.head}")
-      .withHeader("Authorization", tokenHeader))
+    .when(
+      request
+        .withMethod("DELETE")
+        .withPath(
+          s"/repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels/${validIssueLabel.head}")
+        .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(okStatusCode).withBody(listLabelsValidResponse))
 
   mockServer
@@ -1051,11 +1052,12 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
   mockServer
-    .when(request
-      .withMethod("DELETE")
-      .withPath(
-        s"/repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels/${validIssueLabel.head}")
-      .withHeader(not("Authorization")))
+    .when(
+      request
+        .withMethod("DELETE")
+        .withPath(
+          s"/repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels/${validIssueLabel.head}")
+        .withHeader(not("Authorization")))
     .respond(response.withStatusCode(notFoundStatusCode).withBody(notFoundResponse))
 
   //Issues >> List labels for an Issue

@@ -9,3 +9,4 @@ The maintainers of the project are:
 ## Contributors
 
 These are the people that have contributed to the Github4s project:
+
