@@ -78,3 +78,8 @@ case class Comment(
     updated_at: String)
 
 case class CommentData(body: String)
+
+case class Milestone(title: String,
+                     state: Option[String],
+                     description: Option[String],
+                     due_on: Option[String])

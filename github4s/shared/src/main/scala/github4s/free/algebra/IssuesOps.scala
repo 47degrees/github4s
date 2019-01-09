@@ -129,7 +129,16 @@ final case class ListAvailableAssignees(
     pagination: Option[Pagination] = None,
     accessToken: Option[String] = None
 ) extends IssueOp[GHResponse[List[User]]]
-
+final case class CreateMilestone(
+    owner: String,
+    repo: String,
+    title: String,
+    state: Option[String],
+    description: Option[String],
+    due_on: Option[String],
+    accessToken: Option[String] = None,
+    headers: Map[String, String] = Map()
+) extends IssueOp[GHResponse[Milestone]]
 /**
  * Exposes Issue operations as a Free monadic algebra that may be combined with other Algebras via
  * Coproduct
@@ -253,6 +262,16 @@ class IssueOps[F[_]](implicit I: InjectK[IssueOp, F]) {
       accessToken: Option[String] = None
   ): Free[F, GHResponse[List[User]]] =
     Free.inject[IssueOp, F](ListAvailableAssignees(owner, repo, pagination, accessToken))
+  def createMilestone(
+      owner: String,
+      repo: String,
+      title: String,
+      state: Option[String],
+      description: Option[String],
+      due_on: Option[String],
+      accessToken: Option[String] = None
+  ): Free[F, GHResponse[Milestone]] =
+    Free.inject[IssueOp, F](CreateMilestone(owner, repo, title, state, description, due_on, accessToken))
 
 }
 

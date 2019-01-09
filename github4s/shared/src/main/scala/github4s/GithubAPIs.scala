@@ -295,6 +295,17 @@ class GHIssues(accessToken: Option[String] = None)(implicit O: IssueOps[GitHub4s
   ): GHIO[GHResponse[List[User]]] =
     O.listAvailableAssignees(owner, repo, pagination, accessToken)
 
+  def createMilestone(
+      owner: String,
+      repo: String,
+      title: String,
+      state: Option[String],
+      description: Option[String],
+      due_on: Option[String],
+      accessToken: Option[String]
+  ): GHIO[GHResponse[Milestone]] =
+    O.createMilestone(owner, repo, title, state, description, due_on, accessToken)
+
 }
 
 class GHActivities(accessToken: Option[String] = None)(implicit O: ActivityOps[GitHub4s]) {

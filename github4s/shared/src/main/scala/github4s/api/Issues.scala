@@ -345,4 +345,34 @@ class Issues[C, M[_]](
       pagination = pagination
   )
 
+  /**
+    * Create a milestone
+    *
+    * @param accessToken to identify the authenticated user
+    * @param headers     optional user headers to include in the request
+    * @param owner       repo owner
+    * @param repo        repo name
+    * @param title       required title of the milestone
+    * @param state       the state of the milestone, either open or closed - default=open
+    * @param description a description of the milestone
+    * @param due_on      the milestone due date a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ
+    * @return a GHResponse with the milestone
+    */
+  def createMilestone(
+                      owner: String,
+                      repo: String,
+                      title: String,
+                      state: Option[String],
+                      description: Option[String],
+                      due_on: Option[String],
+                      accessToken: Option[String] = None,
+                      headers: Map[String, String] = Map()
+                    ): M[GHResponse[Milestone]] =
+    httpClient.post[Milestone](
+      accessToken,
+      s"repos/$owner/$repo/milestones",
+      headers,
+      Milestone(title, state, description, due_on).asJson.noSpaces
+    )
+
 }

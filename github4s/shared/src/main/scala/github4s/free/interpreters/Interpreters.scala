@@ -243,6 +243,8 @@ class Interpreters[M[_], C](
             issues.removeLabel(accessToken, headers, owner, repo, number, label)
           case ListAvailableAssignees(owner, repo, pagination, accessToken) ⇒
             issues.listAvailableAssignees(accessToken, headers, owner, repo, pagination)
+          case CreateMilestone(owner, repo, title, state, description, due_on, accessToken,headers) ⇒
+            issues.createMilestone(owner, repo, title, state, description, due_on, accessToken,  headers)
         }
       }
     }
