@@ -26,5 +26,16 @@ case class User(
     company: Option[String] = None,
     blog: Option[String] = None,
     location: Option[String] = None,
-    bio: Option[String] = None
+    bio: Option[String] = None,
+    followers_url: Option[String] = None,
+    following_url: Option[String] = None
 )
+
+object User {
+  import io.circe.{ Decoder, Encoder, Json }
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
+
+  implicit val jsonEncoder: Encoder[User] = deriveEncoder[User]
+  implicit val jsonDecoder: Decoder[User] = deriveDecoder[User]
+}
