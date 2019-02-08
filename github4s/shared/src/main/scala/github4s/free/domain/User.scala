@@ -28,5 +28,8 @@ case class User(
     location: Option[String] = None,
     bio: Option[String] = None,
     followers_url: Option[String] = None,
-    following_url: Option[String] = None
+    following_url: Option[String] = None,
+    `type`: String,
+    hireable: Option[Boolean],
+    public_repos: Int
 )
