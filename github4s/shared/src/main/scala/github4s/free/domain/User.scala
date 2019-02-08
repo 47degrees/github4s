@@ -30,12 +30,3 @@ case class User(
     followers_url: Option[String] = None,
     following_url: Option[String] = None
 )
-
-object User {
-  import io.circe.{ Decoder, Encoder, Json }
-  import io.circe.syntax._
-  import io.circe.generic.semiauto._
-
-  implicit val jsonEncoder: Encoder[User] = deriveEncoder[User]
-  implicit val jsonDecoder: Decoder[User] = deriveDecoder[User]
-}
