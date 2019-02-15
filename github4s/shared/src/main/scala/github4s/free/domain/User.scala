@@ -31,5 +31,5 @@ case class User(
     following_url: Option[String] = None,
     `type`: String,
     hireable: Option[Boolean],
-    public_repos: Int
+    public_repos: Option[Int] = None
 )
