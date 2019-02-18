@@ -29,7 +29,7 @@ case class User(
     bio: Option[String] = None,
     followers_url: Option[String] = None,
     following_url: Option[String] = None,
-    `type`: String,
-    hireable: Option[Boolean],
+    `type`: String = "User", // I think this can be either "User" or "Organization"
+    hireable: Option[Boolean] = None,
     public_repos: Option[Int] = None
 )
