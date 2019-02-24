@@ -69,10 +69,10 @@ object ProjectPlugin extends AutoPlugin {
         %%("simulacrum", V.simulacrum),
         %%("circe-core", V.circe),
         %%("circe-generic", V.circe),
-        %%("circe-parser", V.circe),
         %%("base64", V.base64),
-        %%("scalamockScalatest", V.scalamockScalatest) % "test",
-        %%("scalatest", V.scalaTest)                   % "test"
+        %%("circe-parser", V.circe)                    % Test,
+        %%("scalamockScalatest", V.scalamockScalatest) % Test,
+        %%("scalatest", V.scalaTest)                   % Test
       )
     )
 
@@ -83,7 +83,7 @@ object ProjectPlugin extends AutoPlugin {
     lazy val jvmDeps = Seq(
       libraryDependencies ++= Seq(
         %%("scalaj", V.scalaj),
-        "org.mock-server" % "mockserver-netty" % "3.10.4" % "test" excludeAll ExclusionRule(
+        "org.mock-server" % "mockserver-netty" % "3.10.4" % Test excludeAll ExclusionRule(
           "com.twitter")
       )
     )
@@ -100,7 +100,7 @@ object ProjectPlugin extends AutoPlugin {
     lazy val catsEffectDependencies = Seq(
       libraryDependencies ++= Seq(
         %%("cats-effect", V.catsEffect),
-        %%("scalatest", V.scalaTest) % "test"
+        %%("scalatest", V.scalaTest) % Test
       )
     )
 
