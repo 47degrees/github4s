@@ -25,8 +25,8 @@ import fr.hmil.roshttp.response.SimpleHttpResponse
 import fr.hmil.roshttp.util.HeaderMap
 import github4s.GithubResponses._
 import github4s.HttpClient.{HttpCode200, HttpCode299}
-import io.circe.Decoder
-import io.circe.parser._
+import io.circe._
+import io.circe.syntax._
 
 import scala.concurrent.Future
 
@@ -81,7 +81,7 @@ trait HttpRequestBuilderExtensionJS {
 
   def toEntity[A](
       response: SimpleHttpResponse,
-      mapResponse: (SimpleHttpResponse) => GHResponse[A]): GHResponse[A] =
+      mapResponse: SimpleHttpResponse => GHResponse[A]): GHResponse[A] =
     response match {
       case r if r.statusCode <= HttpCode299.statusCode && r.statusCode >= HttpCode200.statusCode ⇒
         mapResponse(r)
@@ -97,10 +97,12 @@ trait HttpRequestBuilderExtensionJS {
     Either.right(GHResult((): Unit, r.statusCode, rosHeaderMapToRegularMap(r.headers)))
 
   def decodeEntity[A](r: SimpleHttpResponse)(implicit D: Decoder[A]): GHResponse[A] =
-    decode[A](r.body).bimap(
-      e ⇒ JsonParsingException(e.getMessage, r.body),
-      result ⇒ GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
-    )
+    r.body.asJson
+      .as[A]
+      .bimap(
+        e ⇒ JsonParsingException(e.getMessage, r.body),
+        result ⇒ GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
+      )
   private def rosHeaderMapToRegularMap(
       headers: HeaderMap[String]): Map[String, IndexedSeq[String]] =
     headers.flatMap(m => Map(m._1.toLowerCase -> IndexedSeq(m._2)))
