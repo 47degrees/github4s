@@ -69,6 +69,7 @@ object ProjectPlugin extends AutoPlugin {
         %%("simulacrum", V.simulacrum),
         %%("circe-core", V.circe),
         %%("circe-generic", V.circe),
+        "io.circe" %% "circe-jackson28" % V.circe,
         %%("base64", V.base64),
         %%("circe-parser", V.circe)                    % Test,
         %%("scalamockScalatest", V.scalamockScalatest) % Test,

@@ -26,6 +26,7 @@ import fr.hmil.roshttp.util.HeaderMap
 import github4s.GithubResponses._
 import github4s.HttpClient.{HttpCode200, HttpCode299}
 import io.circe._
+import io.circe.jackson._
 import io.circe.syntax._
 
 import scala.concurrent.Future
@@ -97,8 +98,8 @@ trait HttpRequestBuilderExtensionJS {
     Either.right(GHResult((): Unit, r.statusCode, rosHeaderMapToRegularMap(r.headers)))
 
   def decodeEntity[A](r: SimpleHttpResponse)(implicit D: Decoder[A]): GHResponse[A] =
-    r.body.asJson
-      .as[A]
+    parse(r.body)
+      .flatMap(_.as[A])
       .bimap(
         e ⇒ JsonParsingException(e.getMessage, r.body),
         result ⇒ GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
