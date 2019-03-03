@@ -55,6 +55,14 @@ class GHRepos(accessToken: Option[String] = None)(implicit O: RepositoryOps[GitH
   ): GHIO[GHResponse[List[Repository]]] =
     O.listUserRepos(user, `type`, pagination, accessToken)
 
+  def listAuthenticatedUserRepos(
+      visibility: Option[String] = None,
+      affiliation: Option[String] = None,
+      `type`: Option[String] = None,
+       pagination: Option[Pagination] = None
+   ): GHIO[GHResponse[List[Repository]]] =
+    O.listAuthenticatedUserRepos(visibility, affiliation, `type`, pagination, accessToken)
+
   def getContents(
       owner: String,
       repo: String,

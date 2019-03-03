@@ -76,7 +76,7 @@ class Repos[C, M[_]](
     )
 
   /**
-   * List the repositories for a particular user
+   * List the public repositories for a particular user
    *
    * @param accessToken to identify the authenticated user
    * @param headers optional user headers to include in the request
@@ -95,6 +95,33 @@ class Repos[C, M[_]](
     httpClient.get[List[Repository]](
       accessToken,
       s"users/$user/repos",
+      headers,
+      params = `type`.map(t => Map("type" -> t)).getOrElse(Map.empty),
+      pagination = pagination
+    )
+
+  /**
+    * List repositories that the authenticated user has explicit permission to access
+    *
+    * @param accessToken to identify the authenticated user
+    * @param headers optional user headers to include in the request
+    * @param visiblility can be all, public, private
+    * @param affiliation comma-separated list of owner, collaborator or organization members
+    * @param `type` visibility of the retrieved repositories, can be "all", "public", "private",
+    * "forks", "sources" or "member"
+    * @return GHResponse[List[Repository]] the list of repositories for this user
+    */
+  def listAuthenticatedUserRepos(
+     accessToken: Option[String] = None,
+     headers: Map[String, String] = Map(),
+     visibility: Option[String] = None,
+     affiliation: Option[String] = None,
+     `type`: Option[String] = None,
+     pagination: Option[Pagination] = Some(httpClient.defaultPagination)
+  ): M[GHResponse[List[Repository]]] =
+    httpClient.get[List[Repository]](
+      accessToken,
+      s"user/repos",
       headers,
       params = `type`.map(t => Map("type" -> t)).getOrElse(Map.empty),
       pagination = pagination

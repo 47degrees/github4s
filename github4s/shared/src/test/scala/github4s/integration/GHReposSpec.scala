@@ -67,6 +67,25 @@ trait GHReposSpec[T] extends BaseIntegrationSpec[T] {
     testFutureIsLeft(response)
   }
 
+  "Repos >> ListAuthenticatedUserRepos" should "return the expected repos when a token is given" in {
+    val response = Github(accessToken).repos
+      .listAuthenticatedUserRepos()
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsRight[List[Repository]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  "Repos >> ListAuthenticatedUserRepos" should "fail if no token is provided" in {
+    val response = Github(None).repos
+      .listAuthenticatedUserRepos()
+      .execFuture[T](headerUserAgent)
+
+    testFutureIsLeft(response)
+  }
+
   "Repos >> ListUserRepos" should "return the expected repos when a valid user is provided" in {
     val response = Github(accessToken).repos
       .listUserRepos(validUsername)

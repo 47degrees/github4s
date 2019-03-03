@@ -12,6 +12,7 @@ with Github4s, you can interact with:
   - [Get a repository](#get-a-repository)
   - [List organization repositories](#list-organization-repositories)
   - [List user repositories](#list-user-repositories)
+  - [List authenticated user repositories](#list-authenticated-user-repositories)
   - [List contributors](#list-contributors)
   - [List collaborators](#list-collaborators)
 - [Commits](#commits)
@@ -118,6 +119,32 @@ listUserRepos.exec[cats.Id, HttpResponse[String]]() match {
 The `result` on the right is the corresponding [List[Repository]][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/#list-user-repositories) for full
+reference.
+
+### List authenticated user repositories
+
+You can retrieve the list of repositories for a particular user using `listAuthenticatedUserRepos`; it
+takes as arguments:
+
+- `visibility`: Optional visibility of the repositories
+- `affiliation`: Option comma-separated list of organization, owner or collaborator
+- `type`: The optional type of the returned repositories, can be "all", "owner" or "member", defaults to "owner".
+- `pagination`: Limit and Offset for pagination.
+
+To list the repositories for a user:
+
+```tut:silent
+val listAuthenticatedUserRepos = Github(accessToken).repos.listAuthenticatedUserRepos(visibility=Some("private"))
+
+listAuthenticatedUserRepos.exec[cats.Id, HttpResponse[String]]() match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[Repository]][repository-scala].
+
+See [the API doc](https://developer.github.com/v3/repos/#list-your-repositories) for full
 reference.
 
 ### List contributors

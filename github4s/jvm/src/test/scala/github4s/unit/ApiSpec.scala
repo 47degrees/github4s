@@ -182,6 +182,42 @@ class ApiSpec
     response should be('left)
   }
 
+  "Repos >> ListAuthenticatedUserRepos" should "return the expected repos when a token is provided" in {
+    val response = repos.listAuthenticatedUserRepos(
+      accessToken,
+      headerUserAgent,
+      None,
+      None,
+      None,
+      Option(Pagination(validPage, validPerPage)))
+    response should be('right)
+
+    response.toOption map { r ⇒
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
+  }
+  it should "return an empty list of repos for invalid page parameter" in {
+    val response = repos.listAuthenticatedUserRepos(
+      None,
+      headerUserAgent,
+      None,
+      None,
+      None,
+      Option(Pagination(invalidPage, validPerPage)))
+    response should be('left)
+
+    response.toOption map { r ⇒
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe unauthorizedStatusCode
+    }
+  }
+  it should "return error when an invalid user is passed" in {
+    val response =
+      repos.listUserRepos(accessToken, headerUserAgent, invalidUsername)
+    response should be('left)
+  }
+
   "Repos >> GetContents" should "return the expected contents when valid repo and a valid file path is provided" in {
     val response =
       repos.getContents(accessToken, headerUserAgent, validRepoOwner, validRepoName, validFilePath)
