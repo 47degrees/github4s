@@ -887,6 +887,7 @@ trait FakeResponses {
       |  "updated_at": "2011-01-26T19:01:12Z",
       |  "closed_at": "2011-01-26T19:01:12Z",
       |  "merged_at": "2011-01-26T19:01:12Z",
+      |  "merge_commit_sha": "e5bd3914e2e596debea16f433f57875b5b90bcd6",
       |  "head": {
       |    "label": "new-topic",
       |    "ref": "new-topic",
@@ -1274,6 +1275,7 @@ trait FakeResponses {
       |  "updated_at": "2011-01-26T19:01:12Z",
       |  "closed_at": "2011-01-26T19:01:12Z",
       |  "merged_at": "2011-01-26T19:01:12Z",
+      |  "merge_commit_sha": "e5bd3914e2e596debea16f433f57875b5b90bcd6",
       |  "head": {
       |    "label": "new-topic",
       |    "ref": "new-topic",

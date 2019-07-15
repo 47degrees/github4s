@@ -28,6 +28,7 @@ case class PullRequest(
     updated_at: Option[String],
     closed_at: Option[String],
     merged_at: Option[String],
+    merge_commit_sha: String,
     base: Option[PullRequestBase],
     head: Option[PullRequestBase],
     user: Option[User],

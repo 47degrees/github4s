@@ -114,6 +114,7 @@ trait TestData extends DummyGithubUrls {
   val validPullRequestFileSha      = "f80f79cafbe3f2ba71311b82e1171e73bd37a470"
   val validPullRequestNumber       = 1
   val validPullRequestReviewNumber = 39318789
+  val validMergeCommitSha = "e5bd3914e2e596debea16f433f57875b5b90bcd6"
 
   val validHead   = "test-pr-issue"
   val invalidHead = ""
@@ -208,6 +209,7 @@ trait TestData extends DummyGithubUrls {
     updated_at = None,
     closed_at = None,
     merged_at = None,
+    merge_commit_sha = validMergeCommitSha,
     base = None,
     head = None,
     user = None,
