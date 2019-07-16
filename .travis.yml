@@ -26,6 +26,7 @@ before_install:
     openssl aes-256-cbc -K $encrypted_88322e86f6b6_key -iv $encrypted_88322e86f6b6_iv -in secring.gpg.enc -out secring.gpg -d;
   fi
 - export PATH=${PATH}:./vendor/bundle
+- export SBT_JAVA_OPT=-J-Xss64m
 
 install:
 - rvm use 2.3.8 --install --fuzzy
@@ -43,12 +44,12 @@ before_script:
 
 script:
 - if [ "$SCALAENV" = "jvm" ]; then
-    sbt ++$TRAVIS_SCALA_VERSION validateJVM;
+    sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT validateJVM;
   elif [ "$SCALAENV" = "js" ]; then
-    sbt ++$TRAVIS_SCALA_VERSION compile;
-    sbt ++$TRAVIS_SCALA_VERSION validateJS;
+    sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT compile;
+    sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT validateJS;
   elif [ "$G4SBUILD" = "docs" ]; then
-    sbt ++$TRAVIS_SCALA_VERSION docs/tut;
+    sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT docs/tut;
   else
     echo "You might not be invited to the party";
   fi
