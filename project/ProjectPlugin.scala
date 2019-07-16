@@ -124,7 +124,10 @@ object ProjectPlugin extends AutoPlugin {
       scalaVersion := V.scala212,
       crossScalaVersions := Seq(V.scala211, V.scala212),
       scalacOptions ~= (_ filterNot Set("-Xlint").contains),
-      scalacOptions += "-Ywarn-macros:after",
+      scalacOptions ++= (scalaBinaryVersion.value match {
+        case x if x.startsWith("2.12") => Seq("-Ywarn-macros:after")
+        case _                         => Seq.empty
+      }),
       orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
       resolvers += Resolver.bintrayRepo("hmil", "maven"),
       orgBadgeListSetting := List(
