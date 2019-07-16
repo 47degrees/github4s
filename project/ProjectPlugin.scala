@@ -125,7 +125,7 @@ object ProjectPlugin extends AutoPlugin {
       crossScalaVersions := Seq(V.scala211, V.scala212),
       scalacOptions ~= (_ filterNot Set("-Xlint").contains),
       scalacOptions ++= ((scalaBinaryVersion.value, getEnvVar("SCALAENV")) match {
-        case (x, env) if x.startsWith("2.12") && !env.contains("jvm") => Seq("-Ywarn-macros:after")
+        case (x, env) if x.startsWith("2.12") && !env.contains("js") => Seq("-Ywarn-macros:after")
         case _                         => Seq.empty
       }),
       orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
