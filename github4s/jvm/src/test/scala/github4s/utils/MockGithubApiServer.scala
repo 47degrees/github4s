@@ -371,7 +371,7 @@ trait MockGithubApiServer extends MockServerService with FakeResponses with Test
       request
         .withMethod("GET")
         .withPath(s"/repos/$validRepoOwner/$validRepoName/commits/$invalidRef/statuses")
-        .withHeader(not("Authorization")))
+        .withHeader("Authorization", tokenHeader))
     .respond(response.withStatusCode(okStatusCode).withBody(emptyListResponse))
 
   //Repos >> createStatus
