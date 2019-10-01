@@ -26,7 +26,7 @@ trait MockServerService extends FlatSpec with BeforeAndAfterAll {
 
   val mockServer = startClientAndServer(mockServerPort)
 
-  override def beforeAll = ConfigurationProperties.overrideLogLevel("OFF")
+  override def beforeAll = ConfigurationProperties.logLevel("ERROR")
 
   override def afterAll = {
     mockServer.stop
