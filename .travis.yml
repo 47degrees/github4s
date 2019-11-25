@@ -19,7 +19,7 @@ matrix:
   - env: SCALAENV=all
 
 jdk:
-- oraclejdk8
+- oraclejdk11
 
 before_install:
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
