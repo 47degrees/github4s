@@ -35,7 +35,6 @@ object ProjectPlugin extends AutoPlugin {
       val scalamockScalatest: String = "3.6.0"
       val scalaTest: String          = "3.0.8"
       val scalaz: String             = "7.2.29"
-
     }
 
     lazy val micrositeSettings = Seq(
@@ -84,7 +83,7 @@ object ProjectPlugin extends AutoPlugin {
     lazy val jvmDeps = Seq(
       libraryDependencies ++= Seq(
         %%("scalaj", V.scalaj),
-        "org.mock-server" % "mockserver-netty" % "5.6.1" % Test excludeAll ExclusionRule(
+        "org.mock-server" % "mockserver-netty" % "5.7.2" % Test excludeAll ExclusionRule(
           "com.twitter")
       )
     )
