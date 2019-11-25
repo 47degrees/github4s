@@ -1,6 +1,6 @@
 language: scala
 
-dist: precise
+dist: trusty
 
 scala:
 - 2.11.12
