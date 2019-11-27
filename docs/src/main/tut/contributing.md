@@ -138,10 +138,10 @@ We're now ready to make [our repository interpreter][interpreter-scala] deal wit
 ```scala
 def repositoryOpsInterpreter: RepositoryOp ~> K = new (RepositoryOp ~> K) {
   val repos = new Repos()
-  def apply[A](fa: RepositoryOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
+  def apply[A](fa: RepositoryOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers ⇒
     fa match {
       // ...
-      case ListStatuses(owner, repo, ref, accessToken) =>
+      case ListStatuses(owner, repo, ref, accessToken) ⇒
         repos.listStatus(accessToken, headers, owner, repo, ref)
       // ...
     }
