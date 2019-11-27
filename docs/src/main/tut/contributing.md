@@ -138,10 +138,10 @@ We're now ready to make [our repository interpreter][interpreter-scala] deal wit
 ```scala
 def repositoryOpsInterpreter: RepositoryOp ~> K = new (RepositoryOp ~> K) {
   val repos = new Repos()
-  def apply[A](fa: RepositoryOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers ⇒
+  def apply[A](fa: RepositoryOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
     fa match {
       // ...
-      case ListStatuses(owner, repo, ref, accessToken) ⇒
+      case ListStatuses(owner, repo, ref, accessToken) =>
         repos.listStatus(accessToken, headers, owner, repo, ref)
       // ...
     }
@@ -214,7 +214,7 @@ we'll be writing our tests in [GHReposSpec][repos-integ-spec-scala]:
     .listStatuses(validRepoOwner, validRepoName, validCommitSha)
     .execFuture[T](headerUserAgent)
 
-  testFutureIsRight[List[Status]](response, { r ⇒
+  testFutureIsRight[List[Status]](response, { r =>
     r.result.nonEmpty shouldBe true
     r.statusCode shouldBe okStatusCode
   })
@@ -225,7 +225,7 @@ it should "return an empty list when an invalid ref is provided" in {
     .listStatuses(validRepoOwner, validRepoName, invalidRef)
     .execFuture[T](headerUserAgent)
 
-  testFutureIsRight[List[Status]](response, { r ⇒
+  testFutureIsRight[List[Status]](response, { r =>
     r.result.isEmpty shouldBe true
     r.statusCode shouldBe okStatusCode
   })
@@ -326,7 +326,7 @@ We can now write the unit tests making use of the previous mocks in [ApiSpec][ap
     repos.listStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
   response should be('right)
 
-  response.toOption map { r ⇒
+  response.toOption map { r =>
     r.result.nonEmpty shouldBe true
     r.statusCode shouldBe okStatusCode
   }
@@ -343,7 +343,7 @@ it should "return an empty list when an invalid ref is passed" in {
     repos.listStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
   response should be('right)
 
-  response.toOption map { r ⇒
+  response.toOption map { r =>
     r.result.isEmpty shouldBe true
     r.statusCode shouldBe okStatusCode
   }
@@ -375,8 +375,8 @@ val listStatuses =
   Github(accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
 
 listStatuses.exec[cats.Id, HttpResponse[String]]() match {
-  case Left(e) ⇒ println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) ⇒ println(r.result)
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
 }
 {triple backtick}
 
