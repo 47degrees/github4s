@@ -43,7 +43,7 @@ abstract class BaseIntegrationSpec[T] extends AsyncFlatSpec with Matchers with I
   def testFutureIsRight[A](
       response: Future[GHResponse[A]],
       f: (GHResult[A]) => Assertion): Future[Assertion] =
-    response map { r ⇒
+    response map { r =>
       r.isRight shouldBe true
       r.toOption map (f(_)) match {
         case _ => succeed

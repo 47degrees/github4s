@@ -56,7 +56,7 @@ trait HttpRequestBuilderExtensionJVM {
           .headers(rb.headers)
           .copy(urlBuilder = (req: HttpRequest) => s"${req.url}$params")
         rb.data match {
-          case Some(d) ⇒
+          case Some(d) =>
             C.capture(
               toEntity[A](
                 request
@@ -66,7 +66,7 @@ trait HttpRequestBuilderExtensionJVM {
                   .asString,
                 mapResponse)
             )
-          case _ ⇒ C.capture(toEntity[A](request.asString, mapResponse))
+          case _ => C.capture(toEntity[A](request.asString, mapResponse))
         }
       }
     }
@@ -75,9 +75,9 @@ trait HttpRequestBuilderExtensionJVM {
       response: HttpResponse[String],
       mapResponse: (HttpResponse[String]) => GHResponse[A]): GHResponse[A] =
     response match {
-      case r if r.isSuccess ⇒
+      case r if r.isSuccess =>
         mapResponse(r)
-      case r ⇒
+      case r =>
         Either.left(
           UnsuccessfulHttpRequest(
             s"Failed invoking with status : ${r.code} body : \n ${r.body}",
@@ -93,11 +93,11 @@ trait HttpRequestBuilderExtensionJVM {
     parse(r.body)
       .flatMap(_.as[A])
       .bimap(
-        e ⇒ JsonParsingException(e.getMessage, r.body),
-        result ⇒ GHResult(result, r.code, toLowerCase(r.headers))
+        e => JsonParsingException(e.getMessage, r.body),
+        result => GHResult(result, r.code, toLowerCase(r.headers))
       )
 
   private def toLowerCase(
       headers: Map[String, IndexedSeq[String]]): Map[String, IndexedSeq[String]] =
-    headers.map(e ⇒ (e._1.toLowerCase, e._2))
+    headers.map(e => (e._1.toLowerCase, e._2))
 }

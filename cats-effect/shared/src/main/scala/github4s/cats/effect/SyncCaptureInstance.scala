@@ -21,6 +21,6 @@ import github4s.free.interpreters.Capture
 
 trait SyncCaptureInstance {
   implicit def syncCaptureInstance[F[_]: Sync] = new Capture[F] {
-    override def capture[A](a: ⇒ A): F[A] = Sync[F].delay(a)
+    override def capture[A](a: => A): F[A] = Sync[F].delay(a)
   }
 }

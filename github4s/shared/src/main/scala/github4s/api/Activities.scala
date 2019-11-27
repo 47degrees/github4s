@@ -111,7 +111,7 @@ class Activities[C, M[_]](
       Map(
         "sort"      → sort,
         "direction" → direction
-      ).collect { case (key, Some(value)) ⇒ key → value },
+      ).collect { case (key, Some(value)) => key → value },
       pagination = pagination
     )
 

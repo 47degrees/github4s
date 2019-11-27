@@ -56,7 +56,7 @@ class Organizations[C, M[_]](
       Map(
         "filter" → filter,
         "role"   → role
-      ).collect { case (key, Some(value)) ⇒ key → value },
+      ).collect { case (key, Some(value)) => key → value },
       pagination = pagination
     )
 
@@ -81,7 +81,7 @@ class Organizations[C, M[_]](
       accessToken,
       s"orgs/$org/outside_collaborators",
       headers,
-      Map("filter" → filter).collect { case (key, Some(value)) ⇒ key → value },
+      Map("filter" → filter).collect { case (key, Some(value)) => key → value },
       pagination
     )
 

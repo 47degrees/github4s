@@ -140,9 +140,9 @@ class PullRequests[C, M[_]](
     base: String,
     maintainerCanModify: Option[Boolean] = Some(true)): M[GHResponse[PullRequest]] = {
     val data: CreatePullRequest = newPullRequest match {
-      case NewPullRequestData(title, body) ⇒
+      case NewPullRequestData(title, body) =>
         CreatePullRequestData(title, head, base, body, maintainerCanModify)
-      case NewPullRequestIssue(issue) ⇒
+      case NewPullRequestIssue(issue) =>
         CreatePullRequestIssue(issue, head, base, maintainerCanModify)
     }
     httpClient

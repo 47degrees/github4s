@@ -55,7 +55,7 @@ class ApiSpec
       headers = headerUserAgent)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.token.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -78,7 +78,7 @@ class ApiSpec
       auth.authorizeUrl(validClientId, validRedirectUri, validScopes)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.url.contains(validRedirectUri) shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -89,7 +89,7 @@ class ApiSpec
       auth.getAccessToken("", "", validCode, "", "", headers = headerUserAgent)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.access_token.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -104,7 +104,7 @@ class ApiSpec
       repos.get(accessToken, headerUserAgent, validRepoOwner, validRepoName)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.name shouldBe validRepoName
       r.statusCode shouldBe okStatusCode
     }
@@ -124,7 +124,7 @@ class ApiSpec
       Option(Pagination(validPage, validPerPage)))
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -138,7 +138,7 @@ class ApiSpec
       Option(Pagination(invalidPage, validPerPage)))
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -158,7 +158,7 @@ class ApiSpec
       Option(Pagination(validPage, validPerPage)))
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -172,7 +172,7 @@ class ApiSpec
       Option(Pagination(invalidPage, validPerPage)))
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -188,7 +188,7 @@ class ApiSpec
       repos.getContents(accessToken, headerUserAgent, validRepoOwner, validRepoName, validFilePath)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.head.path shouldBe validFilePath
       r.result.tail.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
@@ -199,7 +199,7 @@ class ApiSpec
       repos.getContents(accessToken, headerUserAgent, validRepoOwner, validRepoName, validDirPath)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.head.path.startsWith(validDirPath) shouldBe true
       r.result.tail.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
@@ -215,7 +215,7 @@ class ApiSpec
         validSymlinkPath)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.head.path shouldBe validSymlinkPath
       r.result.tail.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
@@ -231,7 +231,7 @@ class ApiSpec
         validSubmodulePath)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.head.path shouldBe validSubmodulePath
       r.result.tail.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
@@ -253,7 +253,7 @@ class ApiSpec
     )
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -269,7 +269,7 @@ class ApiSpec
 
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -290,7 +290,7 @@ class ApiSpec
 
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result shouldNot be(empty)
       r.statusCode shouldBe okStatusCode
     }
@@ -305,7 +305,7 @@ class ApiSpec
     )
 
     response should be('right)
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result shouldNot be(empty)
       r.statusCode shouldBe okStatusCode
     }
@@ -321,7 +321,7 @@ class ApiSpec
 
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result shouldBe empty
       r.statusCode shouldBe okStatusCode
     }
@@ -366,7 +366,7 @@ class ApiSpec
       repos.getStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.statusCode shouldBe okStatusCode
     }
   }
@@ -390,7 +390,7 @@ class ApiSpec
       validRefSingle)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -405,7 +405,7 @@ class ApiSpec
       repos.listStatuses(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -459,7 +459,7 @@ class ApiSpec
     val response = users.get(accessToken, headerUserAgent, validUsername)
 
     response should be('right)
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.login shouldBe validUsername
       r.statusCode shouldBe okStatusCode
     }
@@ -472,7 +472,7 @@ class ApiSpec
     val response = users.getAuth(accessToken, headerUserAgent)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.login shouldBe validUsername
       r.statusCode shouldBe okStatusCode
     }
@@ -486,7 +486,7 @@ class ApiSpec
     val response = users.getUsers(accessToken, headerUserAgent, validSinceInt)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -496,7 +496,7 @@ class ApiSpec
       users.getUsers(accessToken, headerUserAgent, invalidSinceInt)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -512,7 +512,7 @@ class ApiSpec
         accessToken)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.statusCode shouldBe createdStatusCode
     }
   }
@@ -522,7 +522,7 @@ class ApiSpec
       gists.getGist(validGistId, sha = None, headerUserAgent, accessToken)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.statusCode shouldBe okStatusCode
     }
   }
@@ -532,7 +532,7 @@ class ApiSpec
       gists.getGist(validGistId, sha = Some(validGistSha), headerUserAgent, accessToken)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.statusCode shouldBe okStatusCode
     }
   }
@@ -553,7 +553,7 @@ class ApiSpec
       )
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.statusCode shouldBe okStatusCode
     }
   }
@@ -736,7 +736,7 @@ class ApiSpec
       validPullRequestNumber)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.id shouldBe validPullRequestNumber
       r.statusCode shouldBe okStatusCode
     }
@@ -756,7 +756,7 @@ class ApiSpec
       pullRequests.list(accessToken, headerUserAgent, validRepoOwner, validRepoName)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -776,7 +776,7 @@ class ApiSpec
       validPullRequestNumber)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -882,7 +882,7 @@ class ApiSpec
       issues.list(accessToken, headerUserAgent, validRepoOwner, validRepoName)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -903,7 +903,7 @@ class ApiSpec
       issues.get(accessToken, headerUserAgent, validRepoOwner, validRepoName, validIssueNumber)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.statusCode shouldBe okStatusCode
     }
   }
@@ -1035,7 +1035,7 @@ class ApiSpec
       issues.search(accessToken, headerUserAgent, nonExistentSearchQuery, List.empty)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.items.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1051,7 +1051,7 @@ class ApiSpec
         validIssueNumber)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1176,7 +1176,7 @@ class ApiSpec
         validIssueNumber)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1208,7 +1208,7 @@ class ApiSpec
         validIssueLabel.head)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1247,7 +1247,7 @@ class ApiSpec
         validIssueLabel)
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1285,7 +1285,7 @@ class ApiSpec
         pagination = Option(Pagination(validPage, validPerPage)))
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1320,7 +1320,7 @@ class ApiSpec
         pagination = Option(Pagination(invalidPage, validPerPage)))
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1353,7 +1353,7 @@ class ApiSpec
     )
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1370,7 +1370,7 @@ class ApiSpec
 
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1395,7 +1395,7 @@ class ApiSpec
     )
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1411,7 +1411,7 @@ class ApiSpec
 
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1431,7 +1431,7 @@ class ApiSpec
     )
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1446,7 +1446,7 @@ class ApiSpec
 
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1465,7 +1465,7 @@ class ApiSpec
     )
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
@@ -1480,7 +1480,7 @@ class ApiSpec
 
     response should be('right)
 
-    response.toOption map { r ⇒
+    response.toOption map { r =>
       r.result.isEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     }
