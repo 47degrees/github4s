@@ -26,7 +26,6 @@ before_install:
     openssl aes-256-cbc -K $encrypted_88322e86f6b6_key -iv $encrypted_88322e86f6b6_iv -in secring.gpg.enc -out secring.gpg -d;
   fi
 - export PATH=${PATH}:./vendor/bundle
-- export SBT_JAVA_OPT=-J-Xss64m
 
 install:
 - rvm use 2.3.8 --install --fuzzy
