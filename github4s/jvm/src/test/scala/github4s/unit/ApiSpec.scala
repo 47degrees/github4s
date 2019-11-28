@@ -400,10 +400,15 @@ class ApiSpec
       repos.listStatuses(None, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
     response should be('left)
   }
-  it should "return an error when an invalid ref is passed" in {
+  it should "return an empty list when an invalid ref is passed" in {
     val response =
       repos.listStatuses(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
-    response should be('left)
+    response should be('right)
+
+    response.toOption map { r =>
+      r.result.isEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    }
   }
 
   "Repos >> CreateStatus" should "return the created status if a valid sha is provided" taggedAs Integration in {
