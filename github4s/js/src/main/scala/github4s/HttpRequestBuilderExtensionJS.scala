@@ -84,9 +84,9 @@ trait HttpRequestBuilderExtensionJS {
       response: SimpleHttpResponse,
       mapResponse: SimpleHttpResponse => GHResponse[A]): GHResponse[A] =
     response match {
-      case r if r.statusCode <= HttpCode299.statusCode && r.statusCode >= HttpCode200.statusCode ⇒
+      case r if r.statusCode <= HttpCode299.statusCode && r.statusCode >= HttpCode200.statusCode =>
         mapResponse(r)
-      case r ⇒
+      case r =>
         Either.left(
           UnsuccessfulHttpRequest(
             s"Failed invoking with status : ${r.statusCode}, body : \n ${r.body}",
@@ -101,8 +101,8 @@ trait HttpRequestBuilderExtensionJS {
     parse(r.body)
       .flatMap(_.as[A])
       .bimap(
-        e ⇒ JsonParsingException(e.getMessage, r.body),
-        result ⇒ GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
+        e => JsonParsingException(e.getMessage, r.body),
+        result => GHResult(result, r.statusCode, rosHeaderMapToRegularMap(r.headers))
       )
   private def rosHeaderMapToRegularMap(
       headers: HeaderMap[String]): Map[String, IndexedSeq[String]] =

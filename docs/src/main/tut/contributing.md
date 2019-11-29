@@ -326,7 +326,7 @@ We can now write the unit tests making use of the previous mocks in [ApiSpec][ap
     repos.listStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
   response should be('right)
 
-  response.toOption map { r ⇒
+  response.toOption map { r =>
     r.result.nonEmpty shouldBe true
     r.statusCode shouldBe okStatusCode
   }
@@ -343,7 +343,7 @@ it should "return an empty list when an invalid ref is passed" in {
     repos.listStatus(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
   response should be('right)
 
-  response.toOption map { r ⇒
+  response.toOption map { r =>
     r.result.isEmpty shouldBe true
     r.statusCode shouldBe okStatusCode
   }

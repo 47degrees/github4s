@@ -31,7 +31,7 @@ import io.circe.generic.auto._
 object Decoders {
   case class Author(login: Option[String], avatar_url: Option[String], html_url: Option[String])
 
-  implicit val decodeCommit: Decoder[Commit] = Decoder.instance { c ⇒
+  implicit val decodeCommit: Decoder[Commit] = Decoder.instance { c =>
     for {
       sha     ← c.downField("sha").as[String]
       message ← c.downField("commit").downField("message").as[String]
@@ -50,7 +50,7 @@ object Decoders {
       )
   }
 
-  implicit val decodeBranch: Decoder[Branch] = Decoder.instance { c ⇒
+  implicit val decodeBranch: Decoder[Branch] = Decoder.instance { c =>
     for {
       name            ← c.downField("name").as[String]
       commit          ← c.downField("commit").as[BranchCommit]
@@ -65,7 +65,7 @@ object Decoders {
       )
   }
 
-  implicit val decodeBranchCommit: Decoder[BranchCommit] = Decoder.instance { c ⇒
+  implicit val decodeBranchCommit: Decoder[BranchCommit] = Decoder.instance { c =>
     for {
       url ← c.downField("url").as[String]
       sha ← c.downField("sha").as[String]
@@ -77,12 +77,12 @@ object Decoders {
   }
 
   def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] =
-    RepoUrlKeys.allFields.traverse { name ⇒
+    RepoUrlKeys.allFields.traverse { name =>
       c.downField(name).as[Option[String]]
     }
 
   implicit val decodeStatusRepository: Decoder[StatusRepository] = {
-    Decoder.instance { c ⇒
+    Decoder.instance { c =>
       for {
         id          ← c.downField("id").as[Int]
         name        ← c.downField("name").as[String]
@@ -110,7 +110,7 @@ object Decoders {
 
   implicit val decodeRepository: Decoder[Repository] = {
 
-    Decoder.instance { c ⇒
+    Decoder.instance { c =>
       for {
         id                ← c.downField("id").as[Int]
         name              ← c.downField("name").as[String]
@@ -197,7 +197,7 @@ object Decoders {
       case PRRStateDismissed.value        => PRRStateDismissed
     }
 
-  implicit val decodeGistFile: Decoder[GistFile] = Decoder.instance { c ⇒
+  implicit val decodeGistFile: Decoder[GistFile] = Decoder.instance { c =>
     for {
       content ← c.downField("content").as[String]
     } yield
@@ -206,7 +206,7 @@ object Decoders {
       )
   }
 
-  implicit val decodeGist: Decoder[Gist] = Decoder.instance { c ⇒
+  implicit val decodeGist: Decoder[Gist] = Decoder.instance { c =>
     for {
       url         ← c.downField("url").as[String]
       id          ← c.downField("id").as[String]
@@ -246,7 +246,7 @@ object Decoders {
         .toRight(DecodingFailure("Empty Response", Nil))
         .flatMap(nelCursors => nelCursors.traverse(_.as[T]))
 
-    Decoder.instance { c ⇒
+    Decoder.instance { c =>
       c.as[T] match {
         case Right(r) => Right(NonEmptyList(r, Nil))
         case Left(_)  => c.as[List[HCursor]] flatMap decodeCursors

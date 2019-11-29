@@ -29,7 +29,7 @@ import scala.language.higherKinds
 
 @typeclass
 trait Capture[M[_]] {
-  def capture[A](a: ⇒ A): M[A]
+  def capture[A](a: => A): M[A]
 }
 
 class Interpreters[M[_], C](
@@ -62,14 +62,14 @@ class Interpreters[M[_], C](
 
     def apply[A](fa: RepositoryOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
       fa match {
-        case GetRepo(owner, repo, accessToken) ⇒ repos.get(accessToken, headers, owner, repo)
-        case ListOrgRepos(org, tipe, pagination, accessToken) ⇒
+        case GetRepo(owner, repo, accessToken) => repos.get(accessToken, headers, owner, repo)
+        case ListOrgRepos(org, tipe, pagination, accessToken) =>
           repos.listOrgRepos(accessToken, headers, org, tipe, pagination)
-        case ListUserRepos(user, tipe, pagination, accessToken) ⇒
+        case ListUserRepos(user, tipe, pagination, accessToken) =>
           repos.listUserRepos(accessToken, headers, user, tipe, pagination)
-        case GetContents(owner, repo, path, ref, accessToken) ⇒
+        case GetContents(owner, repo, path, ref, accessToken) =>
           repos.getContents(accessToken, headers, owner, repo, path, ref)
-        case ListCommits(owner, repo, sha, path, author, since, until, pagination, accessToken) ⇒
+        case ListCommits(owner, repo, sha, path, author, since, until, pagination, accessToken) =>
           repos.listCommits(
             accessToken,
             headers,
@@ -81,9 +81,9 @@ class Interpreters[M[_], C](
             since,
             until,
             pagination)
-        case ListBranches(owner, repo, branchProtected, accessToken) ⇒
+        case ListBranches(owner, repo, branchProtected, accessToken) =>
           repos.listBranches(accessToken, headers, owner, repo, branchProtected)
-        case ListContributors(owner, repo, anon, accessToken) ⇒
+        case ListContributors(owner, repo, anon, accessToken) =>
           repos.listContributors(accessToken, headers, owner, repo, anon)
         case ListCollaborators(owner, repo, affiliation, accessToken) =>
           repos.listCollaborators(accessToken, headers, owner, repo, affiliation)
@@ -108,11 +108,11 @@ class Interpreters[M[_], C](
             targetCommitish,
             draft,
             prerelease)
-        case GetCombinedStatus(owner, repo, ref, accessToken) ⇒
+        case GetCombinedStatus(owner, repo, ref, accessToken) =>
           repos.getStatus(accessToken, headers, owner, repo, ref)
-        case ListStatuses(owner, repo, ref, accessToken) ⇒
+        case ListStatuses(owner, repo, ref, accessToken) =>
           repos.listStatuses(accessToken, headers, owner, repo, ref)
-        case CreateStatus(owner, repo, sha, state, target_url, description, context, accessToken) ⇒
+        case CreateStatus(owner, repo, sha, state, target_url, description, context, accessToken) =>
           repos.createStatus(
             accessToken,
             headers,
@@ -137,9 +137,9 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: UserOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case GetUser(username, accessToken) ⇒ users.get(accessToken, headers, username)
-          case GetAuthUser(accessToken)       ⇒ users.getAuth(accessToken, headers)
-          case GetUsers(since, pagination, accessToken) ⇒ users.getUsers(accessToken, headers, since, pagination)
+          case GetUser(username, accessToken) => users.get(accessToken, headers, username)
+          case GetAuthUser(accessToken)       => users.getAuth(accessToken, headers)
+          case GetUsers(since, pagination, accessToken) => users.getUsers(accessToken, headers, since, pagination)
           case GetFollowing(username, accessToken) => users.getFollowing(accessToken, headers, username)
         }
       }
@@ -155,11 +155,11 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: AuthOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case NewAuth(username, password, scopes, note, client_id, client_secret) ⇒
+          case NewAuth(username, password, scopes, note, client_id, client_secret) =>
             auth.newAuth(username, password, scopes, note, client_id, client_secret, headers)
-          case AuthorizeUrl(client_id, redirect_uri, scopes) ⇒
+          case AuthorizeUrl(client_id, redirect_uri, scopes) =>
             auth.authorizeUrl(client_id, redirect_uri, scopes)
-          case GetAccessToken(client_id, client_secret, code, redirect_uri, state) ⇒
+          case GetAccessToken(client_id, client_secret, code, redirect_uri, state) =>
             auth.getAccessToken(client_id, client_secret, code, redirect_uri, state, headers)
         }
       }
@@ -175,11 +175,11 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: GistOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case NewGist(description, public, files, accessToken) ⇒
+          case NewGist(description, public, files, accessToken) =>
             gists.newGist(description, public, files, headers, accessToken)
-          case GetGist(gistId, sha, accessToken) ⇒
+          case GetGist(gistId, sha, accessToken) =>
             gists.getGist(gistId, sha, headers, accessToken)
-          case EditGist(gistId, description, files, accessToken) ⇒
+          case EditGist(gistId, description, files, accessToken) =>
             gists.editGist(gistId, description, files, headers, accessToken)
         }
       }
@@ -195,13 +195,13 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: IssueOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case ListIssues(owner, repo, accessToken) ⇒
+          case ListIssues(owner, repo, accessToken) =>
             issues.list(accessToken, headers, owner, repo)
-          case GetIssue(owner, repo, number, accessToken) ⇒
+          case GetIssue(owner, repo, number, accessToken) =>
             issues.get(accessToken, headers, owner, repo, number)
-          case SearchIssues(query, searchParams, accessToken) ⇒
+          case SearchIssues(query, searchParams, accessToken) =>
             issues.search(accessToken, headers, query, searchParams)
-          case CreateIssue(owner, repo, title, body, milestone, labels, assignees, accessToken) ⇒
+          case CreateIssue(owner, repo, title, body, milestone, labels, assignees, accessToken) =>
             issues
               .create(accessToken, headers, owner, repo, title, body, milestone, labels, assignees)
           case EditIssue(
@@ -214,7 +214,7 @@ class Interpreters[M[_], C](
               milestone,
               labels,
               assignees,
-              accessToken) ⇒
+              accessToken) =>
             issues.edit(
               accessToken,
               headers,
@@ -227,21 +227,21 @@ class Interpreters[M[_], C](
               milestone,
               labels,
               assignees)
-          case ListComments(owner, repo, number, accessToken) ⇒
+          case ListComments(owner, repo, number, accessToken) =>
             issues.listComments(accessToken, headers, owner, repo, number)
-          case CreateComment(owner, repo, number, body, accessToken) ⇒
+          case CreateComment(owner, repo, number, body, accessToken) =>
             issues.createComment(accessToken, headers, owner, repo, number, body)
-          case EditComment(owner, repo, id, body, accessToken) ⇒
+          case EditComment(owner, repo, id, body, accessToken) =>
             issues.editComment(accessToken, headers, owner, repo, id, body)
-          case DeleteComment(owner, repo, id, accessToken) ⇒
+          case DeleteComment(owner, repo, id, accessToken) =>
             issues.deleteComment(accessToken, headers, owner, repo, id)
-          case ListLabels(owner, repo, number, accessToken) ⇒
+          case ListLabels(owner, repo, number, accessToken) =>
             issues.listLabels(accessToken, headers, owner, repo, number)
-          case AddLabels(owner, repo, number, labels, accessToken) ⇒
+          case AddLabels(owner, repo, number, labels, accessToken) =>
             issues.addLabels(accessToken, headers, owner, repo, number, labels)
-          case RemoveLabel(owner, repo, number, label, accessToken) ⇒
+          case RemoveLabel(owner, repo, number, label, accessToken) =>
             issues.removeLabel(accessToken, headers, owner, repo, number, label)
-          case ListAvailableAssignees(owner, repo, pagination, accessToken) ⇒
+          case ListAvailableAssignees(owner, repo, pagination, accessToken) =>
             issues.listAvailableAssignees(accessToken, headers, owner, repo, pagination)
         }
       }
@@ -257,12 +257,12 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: ActivityOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case SetThreadSub(id, subscribed, ignored, accessToken) ⇒
+          case SetThreadSub(id, subscribed, ignored, accessToken) =>
             activities.setThreadSub(accessToken, headers, id, subscribed, ignored)
-          case ListStargazers(owner, repo, timeline, pagination, accessToken) ⇒
+          case ListStargazers(owner, repo, timeline, pagination, accessToken) =>
             activities.listStargazers(accessToken, headers, owner, repo, timeline, pagination)
           case ListStarredRepositories(
-              username, timeline, sort, direction, pagination, accessToken) ⇒
+              username, timeline, sort, direction, pagination, accessToken) =>
             activities.listStarredRepositories(
               accessToken, headers, username, timeline, sort, direction, pagination)
         }
@@ -279,23 +279,23 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: GitDataOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case GetReference(owner, repo, ref, accessToken) ⇒
+          case GetReference(owner, repo, ref, accessToken) =>
             gitData.reference(accessToken, headers, owner, repo, ref)
-          case CreateReference(owner, repo, ref, sha, accessToken) ⇒
+          case CreateReference(owner, repo, ref, sha, accessToken) =>
             gitData.createReference(accessToken, headers, owner, repo, ref, sha)
-          case UpdateReference(owner, repo, ref, sha, force, accessToken) ⇒
+          case UpdateReference(owner, repo, ref, sha, force, accessToken) =>
             gitData.updateReference(accessToken, headers, owner, repo, ref, sha, force)
-          case GetCommit(owner, repo, sha, accessToken) ⇒
+          case GetCommit(owner, repo, sha, accessToken) =>
             gitData.commit(accessToken, headers, owner, repo, sha)
-          case CreateCommit(owner, repo, message, tree, parents, author, accessToken) ⇒
+          case CreateCommit(owner, repo, message, tree, parents, author, accessToken) =>
             gitData.createCommit(accessToken, headers, owner, repo, message, tree, parents, author)
-          case CreateBlob(owner, repo, content, encoding, accessToken) ⇒
+          case CreateBlob(owner, repo, content, encoding, accessToken) =>
             gitData.createBlob(accessToken, headers, owner, repo, content, encoding)
-          case CreateTree(owner, repo, baseTree, treeDataList, accessToken) ⇒
+          case CreateTree(owner, repo, baseTree, treeDataList, accessToken) =>
             gitData.createTree(accessToken, headers, owner, repo, baseTree, treeDataList)
-          case GetTree(owner, repo, sha, recursive, accessToken) ⇒
+          case GetTree(owner, repo, sha, recursive, accessToken) =>
             gitData.tree(accessToken, headers, owner, repo, sha, recursive)
-          case CreateTag(owner, repo, tag, message, objectSha, objectType, author, accessToken) ⇒
+          case CreateTag(owner, repo, tag, message, objectSha, objectType, author, accessToken) =>
             gitData.createTag(
               accessToken,
               headers,
@@ -320,11 +320,11 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: PullRequestOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case GetPullRequest(owner, repo, number, accessToken) ⇒
+          case GetPullRequest(owner, repo, number, accessToken) =>
             pullRequests.get(accessToken, headers, owner, repo, number)
-          case ListPullRequests(owner, repo, filters, accessToken, pagination) ⇒
+          case ListPullRequests(owner, repo, filters, accessToken, pagination) =>
             pullRequests.list(accessToken, headers, owner, repo, filters, pagination)
-          case ListPullRequestFiles(owner, repo, number, accessToken, pagination) ⇒
+          case ListPullRequestFiles(owner, repo, number, accessToken, pagination) =>
             pullRequests.listFiles(accessToken, headers, owner, repo, number, pagination)
           case CreatePullRequest(
               owner,
@@ -333,7 +333,7 @@ class Interpreters[M[_], C](
               head,
               base,
               maintainerCanModify,
-              accessToken) ⇒
+              accessToken) =>
             pullRequests
               .create(
                 accessToken,
@@ -344,9 +344,9 @@ class Interpreters[M[_], C](
                 head,
                 base,
                 maintainerCanModify)
-          case ListPullRequestReviews(owner, repo, pullRequest, accessToken, pagination) ⇒
+          case ListPullRequestReviews(owner, repo, pullRequest, accessToken, pagination) =>
             pullRequests.listReviews(accessToken, headers, owner, repo, pullRequest, pagination)
-          case GetPullRequestReview(owner, repo, pullRequest, review, accessToken) ⇒
+          case GetPullRequestReview(owner, repo, pullRequest, review, accessToken) =>
             pullRequests.getReview(accessToken, headers, owner, repo, pullRequest, review)
         }
       }
@@ -362,9 +362,9 @@ class Interpreters[M[_], C](
 
       def apply[A](fa: OrganizationOp[A]): K[A] = Kleisli[M, Map[String, String], A] { headers =>
         fa match {
-          case ListMembers(org, filter, role, pagination, accessToken) ⇒
+          case ListMembers(org, filter, role, pagination, accessToken) =>
             organizations.listMembers(accessToken, headers, org, filter, role, pagination)
-          case ListOutsideCollaborators(org, filter, pagination, accessToken) ⇒
+          case ListOutsideCollaborators(org, filter, pagination, accessToken) =>
             organizations.listOutsideCollaborators(accessToken, headers, org, filter, pagination)
         }
       }
