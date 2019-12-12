@@ -80,13 +80,8 @@ class HttpRequestBuilder[C, M[_]](
 
   def withAuth(accessToken: Option[String] = None) = {
     val authHeader = accessToken match {
-<<<<<<< HEAD
       case Some(token) => Map("Authorization" → s"token $token")
       case _           => Map.empty[String, String]
-=======
-      case Some(token) ⇒ Map("Authorization" -> s"token $token")
-      case _           ⇒ Map.empty[String, String]
->>>>>>> master
     }
     new HttpRequestBuilder[C, M](url, httpVerb, authHeader, data, params, headers)
   }
@@ -130,13 +125,8 @@ class HttpClient[C, M[_]](
       httpRequestBuilder(buildURL(method))
         .withAuth(accessToken)
         .withHeaders(headers)
-<<<<<<< HEAD
         .withParams(params ++ pagination.fold(Map.empty[String, String])(p =>
           Map("page" → p.page.toString, "per_page" → p.per_page.toString))))
-=======
-        .withParams(params ++ pagination.fold(Map.empty[String, String])(p ⇒
-          Map("page" -> p.page.toString, "per_page" -> p.per_page.toString))))
->>>>>>> master
 
   def patch[A](
       accessToken: Option[String] = None,
