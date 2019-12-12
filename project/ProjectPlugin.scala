@@ -84,7 +84,7 @@ object ProjectPlugin extends AutoPlugin {
     lazy val jvmDeps = Seq(
       libraryDependencies ++= Seq(
         %%("scalaj", V.scalaj),
-        "org.mock-server" % "mockserver-netty" % "5.7.2" % Test excludeAll ExclusionRule(
+        "org.mock-server" % "mockserver-netty" % "5.8.0" % Test excludeAll ExclusionRule(
           "com.twitter")
       )
     )

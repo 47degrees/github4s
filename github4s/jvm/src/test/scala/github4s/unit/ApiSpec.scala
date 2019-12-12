@@ -400,7 +400,7 @@ class ApiSpec
       repos.listStatuses(None, headerUserAgent, validRepoOwner, validRepoName, validRefSingle)
     response should be('left)
   }
-  it should "return an empty list when an invalid ref is passed" in {
+  it should "return an empty list when an invalid ref is passed" taggedAs Integration in {
     val response =
       repos.listStatuses(accessToken, headerUserAgent, validRepoOwner, validRepoName, invalidRef)
     response should be('right)
