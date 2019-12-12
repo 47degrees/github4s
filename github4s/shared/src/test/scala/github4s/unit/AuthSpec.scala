@@ -43,7 +43,7 @@ class AuthSpec extends BaseSpec {
     val httpClientMock = httpClientMockPostAuth[Authorization](
       url = "authorizations",
       headers =
-        Map("Authorization" → s"Basic ${s"rafaparadela:invalidPassword".getBytes.toBase64}"),
+        Map("Authorization" -> s"Basic ${s"rafaparadela:invalidPassword".getBytes.toBase64}"),
       json = request,
       response = response
     )

@@ -35,7 +35,7 @@ class GHGistSpec extends BaseSpec {
       .expects(
         validGistDescription,
         validGistPublic,
-        Map(validGistFilename → GistFile(validGistFileContent)),
+        Map(validGistFilename -> GistFile(validGistFileContent)),
         sampleToken)
       .returns(response)
 
@@ -43,7 +43,7 @@ class GHGistSpec extends BaseSpec {
     ghGists.newGist(
       validGistDescription,
       validGistPublic,
-      Map(validGistFilename → GistFile(validGistFileContent)))
+      Map(validGistFilename -> GistFile(validGistFileContent)))
   }
 
   "Gist.getGist" should "call to GistOps with the right parameters without sha" in {
@@ -95,9 +95,9 @@ class GHGistSpec extends BaseSpec {
         validGistId,
         validGistDescription,
         Map(
-          validGistFilename        → Some(EditGistFile(validGistFileContent)),
-          validGistOldFilename     → Some(EditGistFile(validGistFileContent, Some(validGistNewFilename))),
-          validGistDeletedFilename → None
+          validGistFilename        -> Some(EditGistFile(validGistFileContent)),
+          validGistOldFilename     -> Some(EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+          validGistDeletedFilename -> None
         ),
         sampleToken)
       .returns(response)
@@ -107,9 +107,9 @@ class GHGistSpec extends BaseSpec {
       validGistId,
       validGistDescription,
       Map(
-        validGistFilename        → Some(EditGistFile(validGistFileContent)),
-        validGistOldFilename     → Some(EditGistFile(validGistFileContent, Some(validGistNewFilename))),
-        validGistDeletedFilename → None
+        validGistFilename        -> Some(EditGistFile(validGistFileContent)),
+        validGistOldFilename     -> Some(EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+        validGistDeletedFilename -> None
       ))
   }
 

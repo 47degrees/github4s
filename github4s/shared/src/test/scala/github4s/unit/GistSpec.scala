@@ -55,7 +55,7 @@ class GistSpec extends BaseSpec {
     gists.newGist(
       validGistDescription,
       validGistPublic,
-      Map(validGistFilename → GistFile(validGistFileContent)),
+      Map(validGistFilename -> GistFile(validGistFileContent)),
       headerUserAgent,
       sampleToken
     )
@@ -140,9 +140,9 @@ class GistSpec extends BaseSpec {
       validGistId,
       validGistDescription,
       Map(
-        validGistFilename        → Some(EditGistFile(validGistFileContent)),
-        validGistOldFilename     → Some(EditGistFile(validGistFileContent, Some(validGistNewFilename))),
-        validGistDeletedFilename → None
+        validGistFilename        -> Some(EditGistFile(validGistFileContent)),
+        validGistOldFilename     -> Some(EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+        validGistDeletedFilename -> None
       ),
       headerUserAgent,
       sampleToken
