@@ -71,7 +71,7 @@ class Users[C, M[_]](
       pagination: Option[Pagination] = None
   ): M[GHResponse[List[User]]] =
     httpClient
-      .get[List[User]](accessToken, "users", headers, Map("since" → since.toString), pagination)
+      .get[List[User]](accessToken, "users", headers, Map("since" -> since.toString), pagination)
 
   /**
     * Get information for a particular user's list of users they follow

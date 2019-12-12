@@ -62,7 +62,7 @@ class Auth[C, M[_]](
   ): M[GHResponse[Authorization]] =
     httpClient.postAuth[Authorization](
       method = "authorizations",
-      headers = Map("Authorization" → s"Basic ${s"$username:$password".getBytes.toBase64}") ++ headers,
+      headers = Map("Authorization" -> s"Basic ${s"$username:$password".getBytes.toBase64}") ++ headers,
       data = NewAuthRequest(scopes, note, client_id, client_secret).asJson.noSpaces
     )
 

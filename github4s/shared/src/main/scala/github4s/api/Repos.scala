@@ -173,13 +173,13 @@ class Repos[C, M[_]](
       s"repos/$owner/$repo/commits",
       headers,
       Map(
-        "sha"    → sha,
-        "path"   → path,
-        "author" → author,
-        "since"  → since,
-        "until"  → until
+        "sha"    -> sha,
+        "path"   -> path,
+        "author" -> author,
+        "since"  -> since,
+        "until"  -> until
       ).collect {
-        case (key, Some(value)) ⇒ key → value
+        case (key, Some(value)) ⇒ key -> value
       },
       pagination
     )
@@ -206,9 +206,9 @@ class Repos[C, M[_]](
       s"repos/$owner/$repo/branches",
       headers,
       Map(
-        "protected" → onlyProtected.map(_.toString)
+        "protected" -> onlyProtected.map(_.toString)
       ).collect {
-        case (key, Some(value)) ⇒ key → value
+        case (key, Some(value)) ⇒ key -> value
       })
 
   /**
@@ -234,9 +234,9 @@ class Repos[C, M[_]](
       s"repos/$owner/$repo/contributors",
       headers,
       Map(
-        "anon" → anon
+        "anon" -> anon
       ).collect {
-        case (key, Some(value)) ⇒ key → value
+        case (key, Some(value)) ⇒ key -> value
       })
 
   /**

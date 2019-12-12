@@ -62,7 +62,7 @@ class UserSpec extends BaseSpec {
     val response: GHResponse[List[User]] =
       Right(GHResult(List(user), okStatusCode, Map.empty))
 
-    val request = Map("since" → 1.toString)
+    val request = Map("since" -> 1.toString)
 
     val httpClientMock = httpClientMockGet[List[User]](
       url = "users",
@@ -90,6 +90,6 @@ class UserSpec extends BaseSpec {
       override val httpClient: HttpClient[String, Id] = httpClientMock
     }
     users.getFollowing(sampleToken, headerUserAgent, validUsername)
-  }  
+  }
 
 }

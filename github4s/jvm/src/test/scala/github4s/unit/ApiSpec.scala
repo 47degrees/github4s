@@ -543,10 +543,10 @@ class ApiSpec
         validGistId,
         validGistDescription,
         Map(
-          validGistFilename → Some(EditGistFile(validGistFileContent)),
-          validGistOldFilename → Some(
+          validGistFilename -> Some(EditGistFile(validGistFileContent)),
+          validGistOldFilename -> Some(
             EditGistFile(validGistFileContent, Some(validGistNewFilename))),
-          validGistDeletedFilename → None
+          validGistDeletedFilename -> None
         ),
         headerUserAgent,
         accessToken

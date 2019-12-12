@@ -109,9 +109,9 @@ class Activities[C, M[_]](
       s"users/$username/starred",
       if (timeline) headers + timelineHeader else headers,
       Map(
-        "sort"      → sort,
-        "direction" → direction
-      ).collect { case (key, Some(value)) ⇒ key → value },
+        "sort"      -> sort,
+        "direction" -> direction
+      ).collect { case (key, Some(value)) ⇒ key -> value },
       pagination = pagination
     )
 
