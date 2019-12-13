@@ -179,11 +179,7 @@ class Repos[C, M[_]](
         "since"  -> since,
         "until"  -> until
       ).collect {
-<<<<<<< HEAD
-        case (key, Some(value)) => key → value
-=======
-        case (key, Some(value)) ⇒ key -> value
->>>>>>> master
+        case (key, Some(value)) => key -> value
       },
       pagination
     )
@@ -212,11 +208,7 @@ class Repos[C, M[_]](
       Map(
         "protected" -> onlyProtected.map(_.toString)
       ).collect {
-<<<<<<< HEAD
-        case (key, Some(value)) => key → value
-=======
-        case (key, Some(value)) ⇒ key -> value
->>>>>>> master
+        case (key, Some(value)) => key -> value
       })
 
   /**
@@ -244,11 +236,7 @@ class Repos[C, M[_]](
       Map(
         "anon" -> anon
       ).collect {
-<<<<<<< HEAD
-        case (key, Some(value)) => key → value
-=======
-        case (key, Some(value)) ⇒ key -> value
->>>>>>> master
+        case (key, Some(value)) => key -> value
       })
 
   /**
