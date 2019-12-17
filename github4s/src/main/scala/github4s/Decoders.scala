@@ -33,11 +33,11 @@ object Decoders {
 
   implicit val decodeCommit: Decoder[Commit] = Decoder.instance { c =>
     for {
-      sha     ← c.downField("sha").as[String]
-      message ← c.downField("commit").downField("message").as[String]
-      date    ← c.downField("commit").downField("author").downField("date").as[String]
-      url     ← c.downField("html_url").as[String]
-      author  ← c.downField("author").as[Option[Author]]
+      sha     <- c.downField("sha").as[String]
+      message <- c.downField("commit").downField("message").as[String]
+      date    <- c.downField("commit").downField("author").downField("date").as[String]
+      url     <- c.downField("html_url").as[String]
+      author  <- c.downField("author").as[Option[Author]]
     } yield
       Commit(
         sha = sha,
@@ -52,10 +52,10 @@ object Decoders {
 
   implicit val decodeBranch: Decoder[Branch] = Decoder.instance { c =>
     for {
-      name            ← c.downField("name").as[String]
-      commit          ← c.downField("commit").as[BranchCommit]
-      branchProtected ← c.downField("protected").as[Option[Boolean]]
-      protection_url  ← c.downField("protection_url").as[Option[String]]
+      name            <- c.downField("name").as[String]
+      commit          <- c.downField("commit").as[BranchCommit]
+      branchProtected <- c.downField("protected").as[Option[Boolean]]
+      protection_url  <- c.downField("protection_url").as[Option[String]]
     } yield
       Branch(
         name = name,
@@ -67,8 +67,8 @@ object Decoders {
 
   implicit val decodeBranchCommit: Decoder[BranchCommit] = Decoder.instance { c =>
     for {
-      url ← c.downField("url").as[String]
-      sha ← c.downField("sha").as[String]
+      url <- c.downField("url").as[String]
+      sha <- c.downField("sha").as[String]
     } yield
       BranchCommit(
         url = url,
@@ -84,14 +84,14 @@ object Decoders {
   implicit val decodeStatusRepository: Decoder[StatusRepository] = {
     Decoder.instance { c =>
       for {
-        id          ← c.downField("id").as[Int]
-        name        ← c.downField("name").as[String]
-        full_name   ← c.downField("full_name").as[String]
-        owner       ← c.downField("owner").as[Option[User]]
-        priv        ← c.downField("private").as[Boolean]
-        description ← c.downField("description").as[Option[String]]
-        fork        ← c.downField("fork").as[Boolean]
-        repoUrls    ← readRepoUrls(c)
+        id          <- c.downField("id").as[Int]
+        name        <- c.downField("name").as[String]
+        full_name   <- c.downField("full_name").as[String]
+        owner       <- c.downField("owner").as[Option[User]]
+        priv        <- c.downField("private").as[Boolean]
+        description <- c.downField("description").as[Option[String]]
+        fork        <- c.downField("fork").as[Boolean]
+        repoUrls    <- readRepoUrls(c)
       } yield
         StatusRepository(
           id = id,
@@ -112,39 +112,39 @@ object Decoders {
 
     Decoder.instance { c =>
       for {
-        id                ← c.downField("id").as[Int]
-        name              ← c.downField("name").as[String]
-        full_name         ← c.downField("full_name").as[String]
-        owner             ← c.downField("owner").as[User]
-        priv              ← c.downField("private").as[Boolean]
-        description       ← c.downField("description").as[Option[String]]
-        fork              ← c.downField("fork").as[Boolean]
-        created_at        ← c.downField("created_at").as[String]
-        updated_at        ← c.downField("updated_at").as[String]
-        pushed_at         ← c.downField("pushed_at").as[String]
-        homepage          ← c.downField("homepage").as[Option[String]]
-        language          ← c.downField("language").as[Option[String]]
-        organization      ← c.downField("organization").as[Option[User]]
-        size              ← c.downField("size").as[Int]
-        stargazers_count  ← c.downField("stargazers_count").as[Int]
-        watchers_count    ← c.downField("watchers_count").as[Int]
-        forks_count       ← c.downField("forks_count").as[Int]
-        open_issues_count ← c.downField("open_issues_count").as[Int]
-        open_issues       ← c.downField("open_issues").as[Option[Int]]
-        watchers          ← c.downField("watchers").as[Option[Int]]
-        network_count     ← c.downField("network_count").as[Option[Int]]
-        subscribers_count ← c.downField("subscribers_count").as[Option[Int]]
-        has_issues        ← c.downField("has_issues").as[Boolean]
-        has_downloads     ← c.downField("has_downloads").as[Boolean]
-        has_wiki          ← c.downField("has_wiki").as[Boolean]
-        has_pages         ← c.downField("has_pages").as[Boolean]
-        url               ← c.downField("url").as[String]
-        html_url          ← c.downField("html_url").as[String]
-        git_url           ← c.downField("git_url").as[String]
-        ssh_url           ← c.downField("ssh_url").as[String]
-        clone_url         ← c.downField("clone_url").as[String]
-        svn_url           ← c.downField("svn_url").as[String]
-        repoUrls          ← readRepoUrls(c)
+        id                <- c.downField("id").as[Int]
+        name              <- c.downField("name").as[String]
+        full_name         <- c.downField("full_name").as[String]
+        owner             <- c.downField("owner").as[User]
+        priv              <- c.downField("private").as[Boolean]
+        description       <- c.downField("description").as[Option[String]]
+        fork              <- c.downField("fork").as[Boolean]
+        created_at        <- c.downField("created_at").as[String]
+        updated_at        <- c.downField("updated_at").as[String]
+        pushed_at         <- c.downField("pushed_at").as[String]
+        homepage          <- c.downField("homepage").as[Option[String]]
+        language          <- c.downField("language").as[Option[String]]
+        organization      <- c.downField("organization").as[Option[User]]
+        size              <- c.downField("size").as[Int]
+        stargazers_count  <- c.downField("stargazers_count").as[Int]
+        watchers_count    <- c.downField("watchers_count").as[Int]
+        forks_count       <- c.downField("forks_count").as[Int]
+        open_issues_count <- c.downField("open_issues_count").as[Int]
+        open_issues       <- c.downField("open_issues").as[Option[Int]]
+        watchers          <- c.downField("watchers").as[Option[Int]]
+        network_count     <- c.downField("network_count").as[Option[Int]]
+        subscribers_count <- c.downField("subscribers_count").as[Option[Int]]
+        has_issues        <- c.downField("has_issues").as[Boolean]
+        has_downloads     <- c.downField("has_downloads").as[Boolean]
+        has_wiki          <- c.downField("has_wiki").as[Boolean]
+        has_pages         <- c.downField("has_pages").as[Boolean]
+        url               <- c.downField("url").as[String]
+        html_url          <- c.downField("html_url").as[String]
+        git_url           <- c.downField("git_url").as[String]
+        ssh_url           <- c.downField("ssh_url").as[String]
+        clone_url         <- c.downField("clone_url").as[String]
+        svn_url           <- c.downField("svn_url").as[String]
+        repoUrls          <- readRepoUrls(c)
       } yield
         Repository(
           id = id,
@@ -199,7 +199,7 @@ object Decoders {
 
   implicit val decodeGistFile: Decoder[GistFile] = Decoder.instance { c =>
     for {
-      content ← c.downField("content").as[String]
+      content <- c.downField("content").as[String]
     } yield
       GistFile(
         content = content
@@ -208,11 +208,11 @@ object Decoders {
 
   implicit val decodeGist: Decoder[Gist] = Decoder.instance { c =>
     for {
-      url         ← c.downField("url").as[String]
-      id          ← c.downField("id").as[String]
-      description ← c.downField("description").as[String]
-      public      ← c.downField("public").as[Boolean]
-      files       ← c.downField("files").as[Map[String, GistFile]]
+      url         <- c.downField("url").as[String]
+      id          <- c.downField("id").as[String]
+      description <- c.downField("description").as[String]
+      public      <- c.downField("public").as[Boolean]
+      files       <- c.downField("files").as[Map[String, GistFile]]
     } yield
       Gist(
         url = url,
@@ -228,8 +228,8 @@ object Decoders {
       .map(Stargazer(None, _))
       .or(Decoder.instance(c =>
         for {
-          starred_at ← c.downField("starred_at").as[String]
-          user       ← c.downField("user").as[User]
+          starred_at <- c.downField("starred_at").as[String]
+          user       <- c.downField("user").as[User]
         } yield Stargazer(Some(starred_at), user)))
 
   implicit val decodeStarredRepository: Decoder[StarredRepository] =
@@ -237,8 +237,8 @@ object Decoders {
       .map(StarredRepository(None, _))
       .or(Decoder.instance(c =>
         for {
-          starred_at ← c.downField("starred_at").as[String]
-          repo       ← c.downField("repo").as[Repository]
+          starred_at <- c.downField("starred_at").as[String]
+          repo       <- c.downField("repo").as[Repository]
         } yield StarredRepository(Some(starred_at), repo)))
 
   implicit def decodeNonEmptyList[T](implicit D: Decoder[T]): Decoder[NonEmptyList[T]] = {

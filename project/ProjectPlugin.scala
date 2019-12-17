@@ -29,6 +29,7 @@ object ProjectPlugin extends AutoPlugin {
       val paradise: String     = "2.1.1"
       val simulacrum: String   = "0.19.0"
       val scala212: String     = "2.12.10"
+      val scala213: String     = "2.13.1"
       val scalaj: String       = "2.4.2"
       val scalamock: String    = "4.4.0"
       val scalaTest: String    = "3.1.0"
@@ -69,9 +70,12 @@ object ProjectPlugin extends AutoPlugin {
         %%("scalamock", V.scalamock) % Test,
         %%("scalatest", V.scalaTest) % Test,
         "org.mock-server"            % "mockserver-netty" % "5.8.0" % Test excludeAll ExclusionRule(
-          "com.twitter"),
-        compilerPlugin(%%("paradise", V.paradise) cross CrossVersion.full)
-      )
+          "com.twitter")
+      ),
+      libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
+        case Some((2, 13)) => Seq.empty[ModuleID]
+        case _             => Seq(compilerPlugin(%%("paradise", V.paradise) cross CrossVersion.full))
+      })
     )
 
     lazy val docsDependencies: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%(
@@ -102,8 +106,14 @@ object ProjectPlugin extends AutoPlugin {
       startYear := Option(2016),
       resolvers += Resolver.sonatypeRepo("snapshots"),
       scalaVersion := V.scala212,
-      crossScalaVersions := Seq(V.scala212),
-      scalacOptions ~= (_ filterNot Set("-Xlint").contains),
+      crossScalaVersions := Seq(V.scala212, V.scala213),
+      scalacOptions := {
+        val withStripedLinter = scalacOptions.value filterNot Set("-Xlint", "-Xfuture").contains
+        CrossVersion.partialVersion(scalaBinaryVersion.value) match {
+          case Some((2, 13)) => withStripedLinter :+ "-Ymacro-annotations"
+          case _             => withStripedLinter
+        }
+      },
       orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
       orgBadgeListSetting := List(
         TravisBadge.apply(_),

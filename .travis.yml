@@ -3,6 +3,10 @@ dist: trusty
 jdk:
   - oraclejdk11
 
+scala:
+  - 2.12.10
+  - 2.13.1
+
 before_install:
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
     openssl aes-256-cbc -K $encrypted_88322e86f6b6_key -iv $encrypted_88322e86f6b6_iv -in secring.gpg.enc -out secring.gpg -d;
@@ -17,7 +21,7 @@ install:
   # - gem install jekyll -v 4.0.0
 
 stages:
-- test
+- docs
 - deploy
 
 after_success:
@@ -27,8 +31,12 @@ jobs:
   include:
     - script:
         - sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT validate;
+    - stage: docs
+      scala: 2.12.10
+      script:
         - sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT docs/tut;
     - stage: deploy
+      scala: 2.12.10
       script:
         - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
             if grep -q "SNAPSHOT" version.sbt; then
@@ -43,7 +51,6 @@ jobs:
               sbt docs/publishMicrosite;
             fi
           fi
-      scala: 2.12.10
 
 before_cache:
   - du -h -d 1 $HOME/.ivy2/cache
