@@ -22,17 +22,17 @@ object ProjectPlugin extends AutoPlugin {
   object autoImport {
 
     lazy val V = new {
-      val base64: String             = "0.2.9"
-      val cats: String               = "2.0.0"
-      val catsEffect: String         = "2.0.0"
-      val circe: String              = "0.11.2"
-      val circeJackson: String       = "0.11.1"
-      val paradise: String           = "2.1.1"
-      val simulacrum: String         = "0.19.0"
-      val scala212: String           = "2.12.10"
-      val scalaj: String             = "2.4.2"
-      val scalamock: String = "4.4.0"
-      val scalaTest: String          = "3.0.8"
+      val base64: String       = "0.2.9"
+      val cats: String         = "2.0.0"
+      val catsEffect: String   = "2.0.0"
+      val circe: String        = "0.11.2"
+      val circeJackson: String = "0.11.1"
+      val paradise: String     = "2.1.1"
+      val simulacrum: String   = "0.19.0"
+      val scala212: String     = "2.12.10"
+      val scalaj: String       = "2.4.2"
+      val scalamock: String    = "4.4.0"
+      val scalaTest: String    = "3.0.8"
     }
 
     lazy val micrositeSettings = Seq(
@@ -43,6 +43,7 @@ object ProjectPlugin extends AutoPlugin {
       micrositeGithubOwner := "47deg",
       micrositeGithubRepo := "github4s",
       micrositeAuthor := "Github4s contributors",
+      micrositeCompilingDocsTool := WithTut,
       micrositeOrganizationHomepage := "https://github.com/47deg/github4s/blob/master/AUTHORS.md",
       micrositeExtraMdFiles := Map(
         file("CHANGELOG.md") -> ExtraMdFileConfig(
@@ -65,10 +66,10 @@ object ProjectPlugin extends AutoPlugin {
         "io.circe" %% "circe-jackson28" % V.circeJackson,
         %%("base64", V.base64),
         %%("scalaj", V.scalaj),
-        %%("circe-parser", V.circe)                    % Test,
+        %%("circe-parser", V.circe)  % Test,
         %%("scalamock", V.scalamock) % Test,
-        %%("scalatest", V.scalaTest)                   % Test,
-        "org.mock-server" % "mockserver-netty" % "5.8.0" % Test excludeAll ExclusionRule(
+        %%("scalatest", V.scalaTest) % Test,
+        "org.mock-server"            % "mockserver-netty" % "5.8.0" % Test excludeAll ExclusionRule(
           "com.twitter"),
         compilerPlugin(%%("paradise", V.paradise) cross CrossVersion.full)
       )
