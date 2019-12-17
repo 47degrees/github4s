@@ -21,13 +21,6 @@ import github4s.jvm.Implicits._
 import scalaj.http.HttpResponse
 ```
 
-for ScalaJS (replace occurrences of HttpResponse by SimpleHttpResponse):
-
-```scala
-import github4s.js.Implicits._
-import fr.hmil.roshttp.response.SimpleHttpResponse
-```
-
 **NOTE**: In the examples you will see `Github(None)`
 because if you are authenticating for the first time you don't have any access token yet.
 

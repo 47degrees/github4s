@@ -18,9 +18,6 @@ import github4s.Github
 import github4s.Github._
 import github4s.jvm.Implicits._
 import scalaj.http.HttpResponse
-// if you're using ScalaJS, replace occurrences of HttpResponse by SimpleHttpResponse
-//import github4s.js.Implicits._
-//import fr.hmil.roshttp.response.SimpleHttpResponse
 
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```

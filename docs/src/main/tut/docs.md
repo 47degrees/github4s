@@ -26,12 +26,6 @@ implicits in your scope, depending on your needs:
 import github4s.jvm.Implicits._
 ```
 
-for ScalaJS:
-
-```scala
-import github4s.js.Implicits._
-```
-
 ```tut:invisible
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
@@ -58,11 +52,6 @@ val user1 = Github(accessToken).users.get("rafaparadela")
 `exec[M[_], C]` where `M[_]` that represents any type container that implements
 `MonadError[M, Throwable]` (for instance `cats.Eval`) and `C` represents a valid implementation of
 an [HttpClient][http-client].
-
-The previously mentioned implicit classes carry out of the box
-instances for working with [scalaj][scalaj] (for JVM-compatible apps) and [roshttp][roshttp] (for
-scala-js-compatible apps). Take into account that in the latter case, you can only use `Future` and
-`cats.effect.Async` (if you pull in the `github4s-cats-effect` dependency) in place of `M[_]`.
 
 A few examples follow with different `MonadError[M, Throwable]`.
 
@@ -115,20 +104,6 @@ object ProgramFuture {
 }
 ```
 
-### Using `scalaz.Task`
-
-```tut:silent
-import scalaz.concurrent.Task
-import github4s.scalaz.implicits._
-
-object ProgramTask {
-  val u4 = Github(accessToken).users.get("franciscodr").exec[Task, HttpResponse[String]]()
-  u4.unsafePerformSyncAttempt
-}
-```
-
-Note that you'll need a dependency to the `github4s-scalaz` pacakge to leverage `scalaz.Task`.
-
 ### Using `cats.effect.{Async, Sync}`
 
 On the JVM, you can use any `cats.effect.Sync`, here we're using `cats.effect.IO`:
@@ -139,20 +114,6 @@ import github4s.cats.effect.jvm.Implicits._
 object ProgramTask {
   val u5 = Github(accessToken).users.get("juanpedromoreno").exec[IO, HttpResponse[String]]()
   u5.unsafeRunSync
-}
-```
-
-Using scala-js, you can use any `cats.effect.Async`, here we're using `cats.effect.IO`:
-```tut:silent
-import github4s.cats.effect.js.Implicits._
-import fr.hmil.roshttp.response.SimpleHttpResponse
-
-object ProgramTask {
-  val u6 = Github(accessToken).users.get("fedefernandez").exec[IO, SimpleHttpResponse]()
-  u6.unsafeRunAsync {
-    case Right(s) => // IO effect success
-    case Left(e)  => // IO effect failure
-  }
 }
 ```
 
@@ -172,5 +133,4 @@ object ProgramEval {
 
 [http-client]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/HttpClient.scala
 [scalaj]: https://github.com/scalaj/scalaj-http
-[roshttp]: https://github.com/hmil/RosHTTP
 [access-token]: https://github.com/settings/tokens
