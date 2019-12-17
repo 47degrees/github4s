@@ -18,9 +18,10 @@ package github4s.utils
 
 import org.mockserver.configuration.ConfigurationProperties
 import org.mockserver.integration.ClientAndServer._
-import org.scalatest.{BeforeAndAfterAll, FlatSpec}
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.flatspec.AnyFlatSpec
 
-trait MockServerService extends FlatSpec with BeforeAndAfterAll {
+trait MockServerService extends AnyFlatSpec with BeforeAndAfterAll {
 
   val mockServerPort = 9999
 

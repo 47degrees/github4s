@@ -21,9 +21,10 @@ import github4s.free.domain._
 import github4s.utils.TestData
 import io.circe.parser._
 import io.circe.syntax._
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 
-class EncodersSpec extends FlatSpec with Matchers with TestData {
+class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
 
   "TreeData encoder" should "encode the TreeDataSha" in {
     val treeData: TreeData = TreeDataSha(validFilePath, validMode, validBlobType, validCommitSha)

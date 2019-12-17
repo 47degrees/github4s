@@ -27,9 +27,10 @@ import io.circe.Decoder
 import io.circe.parser.parse
 import org.scalamock.matchers.MockParameter
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.flatspec.AnyFlatSpec
 
-trait BaseSpec extends FlatSpec with Matchers with TestData with IdInstances with MockFactory {
+trait BaseSpec extends AnyFlatSpec with Matchers with TestData with IdInstances with MockFactory {
 
   case class JsonMockParameter(json: String) extends MockParameter[String](json) {
     override def equals(argument: Any): Boolean = parse(json) == parse(argument.toString)

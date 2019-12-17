@@ -17,15 +17,15 @@
 package github4s.unit
 
 import cats.data.NonEmptyList
-import cats.syntax.either._
 import github4s.Decoders._
 import github4s.free.domain._
 import github4s.utils.FakeResponses
 import io.circe.generic.auto._
 import io.circe.parser._
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class DecodersSpec extends FlatSpec with Matchers with FakeResponses {
+class DecodersSpec extends AnyFlatSpec with Matchers with FakeResponses {
 
   "Commit decoder" should "return a list of commits when the JSON is valid" in {
     decode[List[Commit]](listCommitsValidResponse).isRight shouldBe true

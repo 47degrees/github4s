@@ -1,9 +1,8 @@
-import com.typesafe.sbt.site.jekyll.JekyllPlugin.autoImport._
+import com.typesafe.sbt.site.SitePlugin.autoImport._
 import microsites._
 import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
 import sbt._
-import sbtorgpolicies.model._
 import sbtorgpolicies.OrgPoliciesKeys.orgBadgeListSetting
 import sbtorgpolicies.OrgPoliciesPlugin
 import sbtorgpolicies.OrgPoliciesPlugin.autoImport._
@@ -25,14 +24,14 @@ object ProjectPlugin extends AutoPlugin {
       val base64: String       = "0.2.9"
       val cats: String         = "2.0.0"
       val catsEffect: String   = "2.0.0"
-      val circe: String        = "0.11.2"
-      val circeJackson: String = "0.11.1"
+      val circe: String        = "0.12.3"
+      val circeJackson: String = "0.12.1"
       val paradise: String     = "2.1.1"
       val simulacrum: String   = "0.19.0"
       val scala212: String     = "2.12.10"
       val scalaj: String       = "2.4.2"
       val scalamock: String    = "4.4.0"
-      val scalaTest: String    = "3.0.8"
+      val scalaTest: String    = "3.1.0"
     }
 
     lazy val micrositeSettings = Seq(
@@ -52,7 +51,7 @@ object ProjectPlugin extends AutoPlugin {
           Map("title" -> "Changelog", "section" -> "changelog", "position" -> "2")
         )
       ),
-      includeFilter in Jekyll := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md",
+      includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md",
       scalacOptions in Tut ~= (_ filterNot Set("-Ywarn-unused-import", "-Xlint").contains)
     )
 

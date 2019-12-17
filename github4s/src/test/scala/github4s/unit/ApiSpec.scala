@@ -19,15 +19,16 @@ package github4s.unit
 import github4s.api._
 import github4s.free.domain.{EditGistFile, GistFile, Pagination}
 import github4s.utils.{DummyGithubUrls, MockGithubApiServer, TestUtilsJVM}
-import org.scalatest._
 import cats.implicits._
 import scalaj.http._
 import cats.Id
 import github4s.jvm.ImplicitsJVM
 import github4s.utils.Integration
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 class ApiSpec
-    extends FlatSpec
+    extends AnyFlatSpec
     with Matchers
     with TestUtilsJVM
     with MockGithubApiServer
