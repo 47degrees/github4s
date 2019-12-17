@@ -18,15 +18,18 @@ install:
   # - gem install sass
   # - gem install jekyll -v 4.0.0
 
-script:
-- sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT validate;
-- sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT docs/tut;
+stages:
+- test
+- deploy
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 
 jobs:
   include:
+    - script:
+        - sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT validate;
+        - sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT docs/tut;
     - stage: deploy
       script:
         - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
