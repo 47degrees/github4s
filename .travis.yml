@@ -21,15 +21,13 @@ install:
   # - gem install jekyll -v 4.0.0
 
 script:
-- sbt ++$TRAVIS_SCALA_VERSION clean coverage test coverageReport coverageAggregate
+- sbt ++$TRAVIS_SCALA_VERSION test
 
 stages:
 - test
+- coverage
 - docs
 - deploy
-
-after_success:
-- bash <(curl -s https://codecov.io/bash)
 
 jobs:
   include:
@@ -37,6 +35,11 @@ jobs:
       scala: 2.12.10
       script:
         - sbt ++$TRAVIS_SCALA_VERSION docs/tut
+    - stage: coverage
+      scala: 2.12.10
+      script:
+        - sbt ++$TRAVIS_SCALA_VERSION clean coverage test coverageReport coverageAggregate
+        - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
       scala: 2.12.10
       script:

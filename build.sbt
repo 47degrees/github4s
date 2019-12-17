@@ -1,12 +1,9 @@
-import sbtorgpolicies.runnable.syntax._
-
 pgpPassphrase := Some(getEnvVar("PGP_PASSPHRASE").getOrElse("").toCharArray)
 pgpPublicRing := file(s"$gpgFolder/pubring.gpg")
 pgpSecretRing := file(s"$gpgFolder/secring.gpg")
 
 lazy val root = (project in file("."))
   .settings(moduleName := "github4s-root")
-  .settings(crossScalaVersions := Nil)
   .aggregate(allModules: _*)
   .dependsOn(allModulesDeps: _*)
   .settings(noPublishSettings: _*)
@@ -50,4 +47,3 @@ lazy val docs = (project in file("docs"))
   .settings(docsDependencies: _*)
   .settings(noPublishSettings: _*)
   .enablePlugins(MicrositesPlugin)
-
