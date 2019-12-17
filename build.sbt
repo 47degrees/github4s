@@ -51,12 +51,3 @@ lazy val docs = (project in file("docs"))
   .settings(noPublishSettings: _*)
   .enablePlugins(MicrositesPlugin)
 
-//////////
-// MISC //
-//////////
-
-addCommandAlias("validateDocs", ";project docs;tut;project root")
-addCommandAlias("validateJVM", (toCompileTestList(allModules) ++ List("project root")).asCmd)
-addCommandAlias(
-  "validate",
-  ";clean;compile;coverage;validateJVM;coverageReport;coverageAggregate;coverageOff")

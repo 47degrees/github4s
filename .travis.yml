@@ -20,7 +20,11 @@ install:
   # - gem install sass
   # - gem install jekyll -v 4.0.0
 
+script:
+- sbt ++$TRAVIS_SCALA_VERSION clean coverage test coverageReport coverageAggregate
+
 stages:
+- test
 - docs
 - deploy
 
@@ -29,12 +33,10 @@ after_success:
 
 jobs:
   include:
-    - script:
-        - sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT validate;
     - stage: docs
       scala: 2.12.10
       script:
-        - sbt ++$TRAVIS_SCALA_VERSION $SBT_JAVA_OPT docs/tut;
+        - sbt ++$TRAVIS_SCALA_VERSION docs/tut
     - stage: deploy
       scala: 2.12.10
       script:
