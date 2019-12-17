@@ -1,9 +1,7 @@
 language: scala
+dist: trusty
 jdk:
-  - openjdk8
-dist: xenial
-scala:
-- 2.12.10
+  - oraclejdk11
 
 before_install:
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then

@@ -25,7 +25,7 @@ import org.scalatest.{Assertion, AsyncFlatSpec, Ignore, Inspectors, Matchers, Ta
 import scala.concurrent.{ExecutionContext, Future}
 
 object Integration
-    extends Tag(if (sys.env.get("GITHUB4S_Agit statuCCESS_TOKEN").isDefined) "" else classOf[Ignore].getName)
+    extends Tag(if (sys.env.get("GITHUB4S_ACCESS_TOKEN").isDefined) "" else classOf[Ignore].getName)
 
 abstract class BaseIntegrationSpec[T]
     extends AsyncFlatSpec
