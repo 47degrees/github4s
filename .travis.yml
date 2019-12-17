@@ -25,7 +25,6 @@ script:
 
 stages:
 - test
-- coverage
 - docs
 - deploy
 
@@ -35,9 +34,6 @@ jobs:
       scala: 2.12.10
       script:
         - sbt ++$TRAVIS_SCALA_VERSION docs/tut
-    - stage: coverage
-      scala: 2.12.10
-      script:
         - sbt ++$TRAVIS_SCALA_VERSION clean coverage test coverageReport coverageAggregate
         - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
