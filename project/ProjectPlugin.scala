@@ -44,6 +44,7 @@ object ProjectPlugin extends AutoPlugin {
       micrositeGithubRepo := "github4s",
       micrositeAuthor := "Github4s contributors",
       micrositeCompilingDocsTool := WithTut,
+      micrositePushSiteWith := GitHub4s,
       micrositeOrganizationHomepage := "https://github.com/47deg/github4s/blob/master/AUTHORS.md",
       micrositeExtraMdFiles := Map(
         file("CHANGELOG.md") -> ExtraMdFileConfig(
