@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: User API
+permalink: user
 ---
 
 # User API
@@ -109,5 +110,3 @@ getUser.exec[cats.Id, HttpResponse[String]]() match {
 The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/users/followers/#list-users-followed-by-another-use) for full reference.
-
-

@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Organization API
+permalink: organization
 ---
 
 # Organization API

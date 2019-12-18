@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Issue API
+permalink: issue
 ---
 
 # Issue API

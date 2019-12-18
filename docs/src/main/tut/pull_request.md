@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Pull Request API
+permalink: pull_request
 ---
 
 # Pull Request API

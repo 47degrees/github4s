@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Activity API
+permalink: activity
 ---
 
 # Activity API

@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Git Data API
+permalink: git_data
 ---
 
 # Git Data API

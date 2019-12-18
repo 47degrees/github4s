@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Gist API
+permalink: gist
 ---
 
 # Gist API

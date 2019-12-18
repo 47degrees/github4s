@@ -1,6 +1,7 @@
 ---
 layout: docs
 title: Authorization API
+permalink: auth
 ---
 
 # Authorization API
