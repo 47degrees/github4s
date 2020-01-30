@@ -18,7 +18,7 @@ package github4s.unit
 
 import cats.data.NonEmptyList
 import github4s.Decoders._
-import github4s.free.domain._
+import github4s.domain._
 import github4s.domain.{Stargazer, StarredRepository}
 import github4s.utils.FakeResponses
 import io.circe.generic.auto._

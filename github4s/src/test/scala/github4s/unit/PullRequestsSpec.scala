@@ -16,186 +16,129 @@
 
 package github4s.unit
 
-import cats.Id
+import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.HttpClient
-import github4s.api.PullRequests
-import github4s.free.domain._
+import github4s.http.HttpClient
+import github4s.interpreters.PullRequestsInterpreter
+import github4s.domain._
 import github4s.utils.BaseSpec
 
 class PullRequestsSpec extends BaseSpec {
 
+  implicit val token = sampleToken
+
   "PullRequests.get" should "call to httpClient.get with the right parameters" in {
 
-    val response: GHResponse[PullRequest] =
-      Right(GHResult(pullRequest, okStatusCode, Map.empty))
+    val response: IO[GHResponse[PullRequest]] =
+      IO(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
 
-    val httpClientMock = httpClientMockGet[PullRequest](
+    implicit val httpClientMock = httpClientMockGet[PullRequest](
       url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber",
       response = response
     )
-    val pullRequests = new PullRequests[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
-    pullRequests.get(
-      sampleToken,
-      headerUserAgent,
-      validRepoOwner,
-      validRepoName,
-      validPullRequestNumber)
+    val pullRequests = new PullRequestsInterpreter[IO]
+    pullRequests.get(validRepoOwner,validRepoName,validPullRequestNumber,headerUserAgent)
+
   }
 
   "PullRequests.list" should "call to httpClient.get with the right parameters" in {
 
-    val response: GHResponse[List[PullRequest]] =
-      Right(GHResult(List(pullRequest), okStatusCode, Map.empty))
+    val response: IO[GHResponse[List[PullRequest]]] =
+      IO(Right(GHResult(List(pullRequest), okStatusCode, Map.empty)))
 
-    val httpClientMock = httpClientMockGet[List[PullRequest]](
+    implicit val httpClientMock = httpClientMockGet[List[PullRequest]](
       url = s"repos/$validRepoOwner/$validRepoName/pulls",
       response = response
     )
-    val pullRequests = new PullRequests[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
-    pullRequests.list(sampleToken, headerUserAgent, validRepoOwner, validRepoName, Nil)
+    val pullRequests = new PullRequestsInterpreter[IO]
+    pullRequests.list(validRepoOwner,validRepoName,Nil,headerUserAgent)
+
   }
 
   "PullRequests.listFiles" should "call to httpClient.get with the right parameters" in {
 
-    val response: GHResponse[List[PullRequestFile]] =
-      Right(GHResult(List(pullRequestFile), okStatusCode, Map.empty))
+    val response: IO[GHResponse[List[PullRequestFile]]] =
+      IO(Right(GHResult(List(pullRequestFile), okStatusCode, Map.empty)))
 
-    val httpClientMock = httpClientMockGet[List[PullRequestFile]](
+    implicit val httpClientMock = httpClientMockGet[List[PullRequestFile]](
       url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/files",
       response = response
     )
-    val pullRequests = new PullRequests[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
+    val pullRequests = new PullRequestsInterpreter[IO]
     pullRequests
-      .listFiles(
-        sampleToken,
-        headerUserAgent,
-        validRepoOwner,
-        validRepoName,
-        validPullRequestNumber)
+      .listFiles(validRepoOwner,validRepoName,validPullRequestNumber,headerUserAgent)
+
   }
 
-  "GHPullRequests.createPullRequestData" should "call to httpClient.post with the right parameters" in {
+  "GHPullRequests.create" should "call to httpClient.post with the right parameters" in {
 
-    val response: GHResponse[PullRequest] =
-      Right(GHResult(pullRequest, okStatusCode, Map.empty))
+    val response: IO[GHResponse[PullRequest]] =
+      IO(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
 
-    val request =
-      """
-        |{
-        |  "title": "Amazing new feature",
-        |  "body": "Please pull this in!",
-        |  "head": "test-pr-issue",
-        |  "base": "master",
-        |  "maintainer_can_modify":true
-        |}""".stripMargin
+    val request = NewPullRequestData("Title","Body")
 
-    val httpClientMock = httpClientMockPost[PullRequest](
+    implicit val httpClientMock = httpClientMockPost[NewPullRequest, PullRequest](
       url = s"repos/$validRepoOwner/$validRepoName/pulls",
-      json = request,
+      req = request,
       response = response
     )
 
-    val pullRequests = new PullRequests[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
+    val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.create(
-      sampleToken,
-      headerUserAgent,
-      validRepoOwner,
-      validRepoName,
-      validNewPullRequestData,
-      validHead,
-      validBase,
-      Some(true))
+    pullRequests.create(validRepoOwner,validRepoName,validNewPullRequestData,validHead,validBase,Some(true),headerUserAgent)
+
   }
 
-  "GHPullRequests.createPullRequestIssue" should "call to httpClient.post with the right parameters" in {
+  "GHPullRequests.create" should "call to httpClient.post with the right parameters" in {
 
-    val response: GHResponse[PullRequest] =
-      Right(GHResult(pullRequest, okStatusCode, Map.empty))
+    val response: IO[GHResponse[PullRequest]] =
+      IO(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
 
-    val request =
-      """
-        |{
-        |  "issue": 31,
-        |  "head": "test-pr-issue",
-        |  "base": "master",
-        |  "maintainer_can_modify":true
-        |}""".stripMargin
+    val request = NewPullRequestIssue(31)
 
-    val httpClientMock = httpClientMockPost[PullRequest](
+    implicit val httpClientMock = httpClientMockPost[NewPullRequest, PullRequest](
       url = s"repos/$validRepoOwner/$validRepoName/pulls",
-      json = request,
+      req = request,
       response = response
     )
 
-    val pullRequests = new PullRequests[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
+    val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.create(
-      sampleToken,
-      headerUserAgent,
-      validRepoOwner,
-      validRepoName,
-      validNewPullRequestIssue,
-      validHead,
-      validBase,
-      Some(true))
+    pullRequests.create(validRepoOwner,validRepoName,validNewPullRequestIssue,validHead,validBase,Some(true),headerUserAgent)
+
   }
 
-  "GHPullRequests.listPullRequestReviews" should "call to httpClient.post with the right parameters" in {
+  "GHPullRequests.listReviews" should "call to httpClient.post with the right parameters" in {
 
-    val response: GHResponse[List[PullRequestReview]] =
-      Right(GHResult(List(pullRequestReview), okStatusCode, Map.empty))
+    val response: IO[GHResponse[List[PullRequestReview]]] =
+      IO(Right(GHResult(List(pullRequestReview), okStatusCode, Map.empty)))
 
-    val httpClientMock = httpClientMockGet[List[PullRequestReview]](
+    implicit val httpClientMock = httpClientMockGet[List[PullRequestReview]](
       url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/reviews",
       response = response
     )
 
-    val pullRequests = new PullRequests[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
+    val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.listReviews(
-      sampleToken,
-      headerUserAgent,
-      validRepoOwner,
-      validRepoName,
-      validPullRequestNumber)
+    pullRequests.listReviews(validRepoOwner,validRepoName,validPullRequestNumber,headerUserAgent)
+
   }
 
-  "GHPullRequests.getPullRequestReview" should "call to httpClient.post with the right parameters" in {
+  "GHPullRequests.getReview" should "call to httpClient.post with the right parameters" in {
 
-    val response: GHResponse[PullRequestReview] =
-      Right(GHResult(pullRequestReview, okStatusCode, Map.empty))
+    val response: IO[GHResponse[PullRequestReview]] =
+      IO(Right(GHResult(pullRequestReview, okStatusCode, Map.empty)))
 
-    val httpClientMock = httpClientMockGet[PullRequestReview](
+    implicit val httpClientMock = httpClientMockGet[PullRequestReview](
       url =
         s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/reviews/$validPullRequestReviewNumber",
       response = response
     )
 
-    val pullRequests = new PullRequests[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
+    val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.getReview(
-      sampleToken,
-      headerUserAgent,
-      validRepoOwner,
-      validRepoName,
-      validPullRequestNumber,
-      validPullRequestReviewNumber)
+    pullRequests.getReview(validRepoOwner,validRepoName,validPullRequestNumber,validPullRequestReviewNumber,headerUserAgent)
+
   }
 
 }

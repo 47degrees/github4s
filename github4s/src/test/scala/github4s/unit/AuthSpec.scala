@@ -16,76 +16,52 @@
 
 package github4s.unit
 
-import cats.Id
+import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.HttpClient
-import github4s.api.Auth
-import github4s.free.domain._
 import github4s.utils.BaseSpec
 import com.github.marklister.base64.Base64.Encoder
+import github4s.domain.{Authorization, NewAuthRequest, NewOAuthRequest, OAuthToken}
+import github4s.interpreters.AuthInterpreter
 
 class AuthSpec extends BaseSpec {
 
+  implicit val token = sampleToken
+
   "Auth.newAuth" should "call to httpClient.postAuth with the right parameters" in {
 
-    val response: GHResponse[Authorization] =
-      Right(GHResult(authorization, okStatusCode, Map.empty))
+    val response: IO[GHResponse[Authorization]] =
+      IO(Right(GHResult(authorization, okStatusCode, Map.empty)))
 
-    val request =
-      """
-        |{
-        |"scopes": ["public_repo"],
-        |"note": "New access token",
-        |"client_id": "e8e39175648c9db8c280",
-        |"client_secret": "1234567890"
-        |}""".stripMargin
+    val request = NewAuthRequest(validScopes, validNote, validClientId, invalidClientSecret)
 
-    val httpClientMock = httpClientMockPostAuth[Authorization](
+    implicit val httpClientMock = httpClientMockPostAuth[NewAuthRequest, Authorization](
       url = "authorizations",
       headers =
         Map("Authorization" -> s"Basic ${s"rafaparadela:invalidPassword".getBytes.toBase64}"),
-      json = request,
+      req = request,
       response = response
     )
 
-    val auth = new Auth[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
+    val auth = new AuthInterpreter[IO]
 
-    auth.newAuth(
-      validUsername,
-      invalidPassword,
-      validScopes,
-      validNote,
-      validClientId,
-      invalidClientSecret,
-      headerUserAgent)
+    auth.newAuth(validUsername,invalidPassword, validScopes,validNote,validClientId,invalidClientSecret,headerUserAgent)
+
   }
 
   "Auth.getAccessToken" should "call to httpClient.postOAuth with the right parameters" in {
 
-    val response: GHResponse[OAuthToken] =
-      Right(GHResult(oAuthToken, okStatusCode, Map.empty))
+    val response: IO[GHResponse[OAuthToken]] =
+      IO(Right(GHResult(oAuthToken, okStatusCode, Map.empty)))
 
-    val request =
-      s"""
-        |{
-        |"client_id": "e8e39175648c9db8c280",
-        |"client_secret": "1234567890",
-        |"code": "code",
-        |"redirect_uri": "http://localhost:9000/_oauth-callback",
-        |"state": "$validAuthState"
-        |}""".stripMargin
+    val request = NewOAuthRequest(validClientId,invalidClientSecret,validCode,validRedirectUri,validAuthState)
 
-    val httpClientMock = httpClientMockPostOAuth[OAuthToken](
+    implicit val httpClientMock = httpClientMockPostOAuth[NewOAuthRequest, OAuthToken](
       url = "http://127.0.0.1:9999/login/oauth/access_token",
-      json = request,
+      req = request,
       response = response
     )
 
-    val auth = new Auth[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
+    val auth = new AuthInterpreter[IO]
 
     auth.getAccessToken(
       validClientId,

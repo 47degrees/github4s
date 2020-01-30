@@ -24,19 +24,17 @@ import github4s.utils.BaseSpec
 
 class UserInterpreterSpec extends BaseSpec {
 
+  implicit val token = sampleToken
 
   "UsersInterpreter.get" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[User]] =
       IO(Right(GHResult(user, okStatusCode, Map.empty)))
 
-    val httpClientMock = httpClientMockGet[User](
+    implicit val httpClientMock = httpClientMockGet[User](
       url = s"users/$validUsername",
       response = response
     )
-
-    implicit val h = httpClientMock
-    implicit val t = sampleToken
 
     val users = new UsersInterpreter[IO]
     users.get(validUsername, headerUserAgent)
@@ -48,13 +46,10 @@ class UserInterpreterSpec extends BaseSpec {
     val response: IO[GHResponse[User]] =
       IO(Right(GHResult(user, okStatusCode, Map.empty)))
 
-    val httpClientMock = httpClientMockGet[User](
+    implicit val httpClientMock = httpClientMockGet[User](
       url = "user",
       response = response
     )
-
-    implicit val h = httpClientMock
-    implicit val t = sampleToken
 
     val users = new UsersInterpreter[IO]
     users.getAuth(headerUserAgent)
@@ -67,14 +62,11 @@ class UserInterpreterSpec extends BaseSpec {
 
     val request = Map("since" -> 1.toString)
 
-    val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock = httpClientMockGet[List[User]](
       url = "users",
       params = request,
       response = response
     )
-
-    implicit val h = httpClientMock
-    implicit val t = sampleToken
 
     val users = new UsersInterpreter[IO]
     users.getUsers( 1, None, headerUserAgent)
@@ -85,13 +77,10 @@ class UserInterpreterSpec extends BaseSpec {
     val response: IO[GHResponse[List[User]]] =
       IO(Right(GHResult(List(user), okStatusCode, Map.empty)))
 
-    val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock = httpClientMockGet[List[User]](
       url = s"users/$validUsername/following",
       response = response
     )
-
-    implicit val h = httpClientMock
-    implicit val t = sampleToken
 
     val users = new UsersInterpreter[IO]
     users.getFollowing(validUsername, headerUserAgent)

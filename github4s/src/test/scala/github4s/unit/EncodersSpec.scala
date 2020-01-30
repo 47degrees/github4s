@@ -17,7 +17,7 @@
 package github4s.unit
 
 import github4s.Encoders._
-import github4s.free.domain._
+import github4s.domain._
 import github4s.utils.TestData
 import io.circe.parser._
 import io.circe.syntax._
