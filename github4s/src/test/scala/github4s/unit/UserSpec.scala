@@ -16,51 +16,54 @@
 
 package github4s.unit
 
-import cats.Id
+import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.HttpClient
-import github4s.api.Users
-import github4s.free.domain._
+import github4s.interpreters.UsersInterpreter
+import github4s.domain._
 import github4s.utils.BaseSpec
 
-class UserSpec extends BaseSpec {
+class UserInterpreterSpec extends BaseSpec {
 
-  "User.get" should "call to httpClient.get with the right parameters" in {
 
-    val response: GHResponse[User] =
-      Right(GHResult(user, okStatusCode, Map.empty))
+  "UsersInterpreter.get" should "call to httpClient.get with the right parameters" in {
+
+    val response: IO[GHResponse[User]] =
+      IO(Right(GHResult(user, okStatusCode, Map.empty)))
 
     val httpClientMock = httpClientMockGet[User](
       url = s"users/$validUsername",
       response = response
     )
 
-    val users = new Users[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
-    users.get(sampleToken, headerUserAgent, validUsername)
+    implicit val h = httpClientMock
+    implicit val t = sampleToken
+
+    val users = new UsersInterpreter[IO]
+    users.get(validUsername, headerUserAgent)
+
   }
 
   "User.getAuth" should "call to httpClient.get with the right parameters" in {
 
-    val response: GHResponse[User] =
-      Right(GHResult(user, okStatusCode, Map.empty))
+    val response: IO[GHResponse[User]] =
+      IO(Right(GHResult(user, okStatusCode, Map.empty)))
 
     val httpClientMock = httpClientMockGet[User](
       url = "user",
       response = response
     )
 
-    val users = new Users[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
-    users.getAuth(sampleToken, headerUserAgent)
+    implicit val h = httpClientMock
+    implicit val t = sampleToken
+
+    val users = new UsersInterpreter[IO]
+    users.getAuth(headerUserAgent)
   }
 
   "User.getUsers" should "call to httpClient.get with the right parameters" in {
 
-    val response: GHResponse[List[User]] =
-      Right(GHResult(List(user), okStatusCode, Map.empty))
+    val response: IO[GHResponse[List[User]]] =
+      IO(Right(GHResult(List(user), okStatusCode, Map.empty)))
 
     val request = Map("since" -> 1.toString)
 
@@ -70,26 +73,28 @@ class UserSpec extends BaseSpec {
       response = response
     )
 
-    val users = new Users[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
-    users.getUsers(sampleToken, headerUserAgent, 1)
+    implicit val h = httpClientMock
+    implicit val t = sampleToken
+
+    val users = new UsersInterpreter[IO]
+    users.getUsers( 1, None, headerUserAgent)
   }
 
   "User.getFollowing" should "call to httpClient.get with the right parameters" in {
 
-    val response: GHResponse[List[User]] =
-      Right(GHResult(List(user), okStatusCode, Map.empty))
+    val response: IO[GHResponse[List[User]]] =
+      IO(Right(GHResult(List(user), okStatusCode, Map.empty)))
 
     val httpClientMock = httpClientMockGet[List[User]](
       url = s"users/$validUsername/following",
       response = response
     )
 
-    val users = new Users[Id] {
-      override val httpClient: HttpClient[Id] = httpClientMock
-    }
-    users.getFollowing(sampleToken, headerUserAgent, validUsername)
+    implicit val h = httpClientMock
+    implicit val t = sampleToken
+
+    val users = new UsersInterpreter[IO]
+    users.getFollowing(validUsername, headerUserAgent)
   }
 
 }

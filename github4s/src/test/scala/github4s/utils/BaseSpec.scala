@@ -16,108 +16,97 @@
 
 package github4s.utils
 
-import cats.Id
 import github4s.GithubResponses.{GHResponse, UnexpectedException}
-import github4s.app.GitHub4s
-import github4s.free.algebra._
 import github4s.domain.Pagination
-import github4s.{HttpClient, HttpRequestBuilder, HttpRequestBuilderExtension, IdInstances}
-import io.circe
-import io.circe.Decoder
-import io.circe.parser.parse
-import org.scalamock.matchers.MockParameter
+import github4s.http.HttpClient
+import io.circe.{Decoder, Encoder}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpec
+import io.circe.parser.parse
+import org.scalamock.matchers.MockParameter
 
-trait BaseSpec extends AnyFlatSpec with Matchers with TestData with IdInstances with MockFactory {
+import scala.concurrent.duration.Duration
+import java.util.concurrent.TimeUnit
 
-  case class JsonMockParameter(json: String) extends MockParameter[String](json) {
-    override def equals(argument: Any): Boolean = parse(json) == parse(argument.toString)
-  }
+trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory {
 
-  class HttpClientTest extends HttpClient[Id]
+  implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
+  implicit val io = cats.effect.IO.contextShift(ec)
+  import cats.effect.IO
 
-  implicit def httpRequestBuilderExtension: HttpRequestBuilderExtension[Id] =
-    new HttpRequestBuilderExtension[Id] {
-      override def run[A](rb: HttpRequestBuilder[Id])(
-          implicit D: circe.Decoder[A]): Id[GHResponse[A]] =
-        Left(UnexpectedException("Stub!"))
+  class HttpClientTest extends HttpClient[IO](Duration(1000, TimeUnit.MILLISECONDS))
 
-      override def runEmpty(rb: HttpRequestBuilder[Id]): Id[GHResponse[Unit]] =
-        Left(UnexpectedException("Stub!"))
-    }
-
-  def httpClientMockGet[T](
+  def httpClientMockGet[Res](
       url: String,
       params: Map[String, String] = Map.empty,
-      response: GHResponse[T]): HttpClient[Id] = {
+      response: IO[GHResponse[Res]]): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
-      .get[T](
+      .get[Res](
         _: Option[String],
         _: String,
         _: Map[String, String],
         _: Map[String, String],
-        _: Option[Pagination])(_: Decoder[T]))
+        _: Option[Pagination])(_: Decoder[Res]))
       .expects(sampleToken, url, headerUserAgent, params, *, *)
       .returns(response)
     httpClientMock
   }
 
-  def httpClientMockPost[T](url: String, json: String, response: GHResponse[T]): HttpClient[Id] = {
+  def httpClientMockPost[Req,Res](url: String, req: Req, response: IO[GHResponse[Res]]): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
-      .post[T](_: Option[String], _: String, _: Map[String, String], _: String)(_: Decoder[T]))
-      .expects(sampleToken, url, headerUserAgent, JsonMockParameter(json), *)
+      .post[Req,Res](_: Option[String], _: String, _: Map[String, String], _: Req)(_: Encoder[Req], _: Decoder[Res]))
+      .expects(sampleToken,url,headerUserAgent,req,*,*)
       .returns(response)
     httpClientMock
   }
 
-  def httpClientMockPostAuth[T](
+  def httpClientMockPostAuth[Req,Res](
       url: String,
       headers: Map[String, String],
-      json: String,
-      response: GHResponse[T]): HttpClient[Id] = {
+      req: Req,
+      response: IO[GHResponse[Res]]): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
-      .postAuth[T](_: String, _: Map[String, String], _: String)(_: Decoder[T]))
-      .expects(url, headers ++ headerUserAgent, JsonMockParameter(json), *)
+      .postAuth[Req,Res](_: String, _: Map[String, String], _: Req)(_: Encoder[Req], _: Decoder[Res]))
+      .expects(url, headers ++ headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
   }
 
-  def httpClientMockPostOAuth[T](
+  def httpClientMockPostOAuth[Req,Res](
       url: String,
-      json: String,
-      response: GHResponse[T]): HttpClient[Id] = {
+      req: Req,
+      response: IO[GHResponse[Res]]): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
-      .postOAuth[T](_: String, _: Map[String, String], _: String)(_: Decoder[T]))
-      .expects(url, headerUserAgent, JsonMockParameter(json), *)
+      .postOAuth[Req,Res](_: String, _: Map[String, String], _: Req)(_: Encoder[Req], _: Decoder[Res]))
+      .expects(url, headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
   }
 
-  def httpClientMockPatch[T](url: String, json: String, response: GHResponse[T]): HttpClient[Id] = {
+  def httpClientMockPatch[Req,Res](url: String, req: Req, response: IO[GHResponse[Res]]): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
-      .patch[T](_: Option[String], _: String, _: Map[String, String], _: String)(_: Decoder[T]))
-      .expects(sampleToken, url, headerUserAgent, JsonMockParameter(json), *)
+      .patch[Req,Res](_: Option[String], _: String, _: Map[String, String], _: Req)(_: Encoder[Req], _: Decoder[Res]))
+      .expects(sampleToken, url, headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
   }
 
-  def httpClientMockPut[T](url: String, json: String, response: GHResponse[T]): HttpClient[Id] = {
+  def httpClientMockPut[Req,Res](url: String, req: Req, response: IO[GHResponse[Res]]): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
-      .put[T](_: Option[String], _: String, _: Map[String, String], _: String)(_: Decoder[T]))
-      .expects(sampleToken, url, headerUserAgent, JsonMockParameter(json), *)
+      .put[Req,Res](_: Option[String], _: String, _: Map[String, String], _: Req)(_: Encoder[Req], _: Decoder[Res]))
+      .expects(sampleToken, url, headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
   }
 
-  def httpClientMockDelete(url: String, response: GHResponse[Unit]): HttpClient[Id] = {
+  def httpClientMockDelete(url: String, response: IO[GHResponse[Unit]]): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
       .delete(_: Option[String], _: String, _: Map[String, String]))
@@ -126,23 +115,13 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with IdInstances 
     httpClientMock
   }
 
-  def httpClientMockDeleteWithResponse[T](url: String, response: GHResponse[T]): HttpClient[Id] = {
+  def httpClientMockDeleteWithResponse[Res](url: String, response: IO[GHResponse[Res]]): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
-      .deleteWithResponse[T](_: Option[String], _: String, _: Map[String, String])(_: Decoder[T]))
+      .deleteWithResponse[Res](_: Option[String], _: String, _: Map[String, String])(_: Decoder[Res]))
       .expects(sampleToken, url, headerUserAgent, *)
       .returns(response)
     httpClientMock
   }
-
-  class GitDataOpsTest      extends GitDataOps[GitHub4s]
-  class PullRequestOpsTest  extends PullRequestOps[GitHub4s]
-  class RepositoryOpsTest   extends RepositoryOps[GitHub4s]
-  class IssueOpsTest        extends IssueOps[GitHub4s]
-  class ActivityOpsTest     extends ActivityOps[GitHub4s]
-  class AuthOpsTest         extends AuthOps[GitHub4s]
-  class UserOpsTest         extends UserOps[GitHub4s]
-  class GistOpsTest         extends GistOps[GitHub4s]
-  class OrganizationOpsTest extends OrganizationOps[GitHub4s]
 
 }
