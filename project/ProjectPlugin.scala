@@ -30,7 +30,7 @@ object ProjectPlugin extends AutoPlugin {
       val simulacrum: String   = "0.19.0"
       val scala212: String     = "2.12.10"
       val scala213: String     = "2.13.1"
-      val http4s: String       = "0.20.16"
+      val http4s: String       = "0.21.0-M6"
       val scalamock: String    = "4.4.0"
       val scalaTest: String    = "3.1.0"
     }
@@ -113,7 +113,7 @@ object ProjectPlugin extends AutoPlugin {
       description := "Github API wrapper written in Scala",
       startYear := Option(2016),
       resolvers += Resolver.sonatypeRepo("snapshots"),
-      scalaVersion := V.scala212,
+      scalaVersion := V.scala213,
       crossScalaVersions := Seq(V.scala212, V.scala213),
       scalacOptions := {
         val withStripedLinter = scalacOptions.value filterNot Set("-Xlint", "-Xfuture").contains

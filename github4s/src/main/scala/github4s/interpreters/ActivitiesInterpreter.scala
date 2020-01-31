@@ -21,13 +21,7 @@ import github4s.GithubResponses.GHResponse
 import github4s.Decoders
 import github4s.http.HttpClient
 import github4s.algebras.Activities
-import github4s.domain.{
-  Pagination,
-  Stargazer,
-  StarredRepository,
-  Subscription,
-  SubscriptionRequest
-}
+import github4s.domain.{Pagination, Stargazer, StarredRepository, Subscription, SubscriptionRequest}
 import io.circe.generic.auto._
 
 class ActivitiesInterpreter[F[_]: Applicative](

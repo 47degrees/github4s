@@ -124,13 +124,14 @@ case class NewReleaseRequest(
     prerelease: Option[Boolean])
 
 case class Status(
-    id: Long,
     url: String,
+    avatar_url: String,
+    id: Long,
+    node_id: String,
     state: String,
-    target_url: Option[String],
     description: Option[String],
+    target_url: Option[String],
     context: Option[String],
-    creator: Option[User],
     created_at: String,
     updated_at: String
 )

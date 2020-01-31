@@ -20,7 +20,7 @@ class RefInfo(val sha: String, val url: String) {
   override def toString: String = s"RefInfo($sha, $url)"
 }
 
-case class Ref(ref: String, url: String, `object`: RefObject)
+case class Ref(ref: String, node_id: String, url: String, `object`: RefObject)
 
 case class RefObject(`type`: String, override val sha: String, override val url: String)
     extends RefInfo(sha, url)

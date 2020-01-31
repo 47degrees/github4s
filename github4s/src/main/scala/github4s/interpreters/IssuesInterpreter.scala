@@ -19,15 +19,7 @@ package github4s.interpreters
 import cats.Applicative
 import github4s.http.HttpClient
 import github4s.algebras.Issues
-import github4s.domain.{
-  Comment,
-  Issue,
-  Label,
-  Pagination,
-  SearchIssuesResult,
-  SearchParam,
-  User
-}
+import github4s.domain.{Comment, Issue, Label, Pagination, SearchIssuesResult, SearchParam, User}
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import java.net.URLEncoder.encode
