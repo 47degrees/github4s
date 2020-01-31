@@ -38,7 +38,7 @@ class OrganizationsSpec extends BaseSpec {
 
     val organizations = new OrganizationsInterpreter[IO]
 
-    organizations.listMembers(validRepoOwner,None, None, None, headerUserAgent)
+    organizations.listMembers(validRepoOwner, None, None, None, headerUserAgent)
   }
 
   "Organization.listOutsideCollaborators" should "call to httpClient.get with the right parameters" in {
@@ -53,7 +53,7 @@ class OrganizationsSpec extends BaseSpec {
 
     val organizations = new OrganizationsInterpreter[IO]
 
-    organizations.listOutsideCollaborators( validOrganizationName, None, None, headerUserAgent)
+    organizations.listOutsideCollaborators(validOrganizationName, None, None, headerUserAgent)
   }
 
 }

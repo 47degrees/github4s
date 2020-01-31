@@ -37,7 +37,7 @@ class PullRequestsSpec extends BaseSpec {
       response = response
     )
     val pullRequests = new PullRequestsInterpreter[IO]
-    pullRequests.get(validRepoOwner,validRepoName,validPullRequestNumber,headerUserAgent)
+    pullRequests.get(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
 
   }
 
@@ -51,7 +51,7 @@ class PullRequestsSpec extends BaseSpec {
       response = response
     )
     val pullRequests = new PullRequestsInterpreter[IO]
-    pullRequests.list(validRepoOwner,validRepoName,Nil,headerUserAgent)
+    pullRequests.list(validRepoOwner, validRepoName, Nil, headerUserAgent)
 
   }
 
@@ -66,18 +66,23 @@ class PullRequestsSpec extends BaseSpec {
     )
     val pullRequests = new PullRequestsInterpreter[IO]
     pullRequests
-      .listFiles(validRepoOwner,validRepoName,validPullRequestNumber,headerUserAgent)
+      .listFiles(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
 
   }
 
-  "GHPullRequests.create" should "call to httpClient.post with the right parameters" in {
+  "PullRequests.create data" should "call to httpClient.post with the right parameters" in {
 
     val response: IO[GHResponse[PullRequest]] =
       IO(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
 
-    val request = NewPullRequestData("Title","Body")
+    val request = CreatePullRequestData(
+      "Amazing new feature",
+      validHead,
+      validBase,
+      "Please pull this in!",
+      Some(true))
 
-    implicit val httpClientMock = httpClientMockPost[NewPullRequest, PullRequest](
+    implicit val httpClientMock = httpClientMockPost[CreatePullRequestData, PullRequest](
       url = s"repos/$validRepoOwner/$validRepoName/pulls",
       req = request,
       response = response
@@ -85,18 +90,25 @@ class PullRequestsSpec extends BaseSpec {
 
     val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.create(validRepoOwner,validRepoName,validNewPullRequestData,validHead,validBase,Some(true),headerUserAgent)
+    pullRequests.create(
+      validRepoOwner,
+      validRepoName,
+      validNewPullRequestData,
+      validHead,
+      validBase,
+      Some(true),
+      headerUserAgent)
 
   }
 
-  "GHPullRequests.create" should "call to httpClient.post with the right parameters" in {
+  "PullRequests.create issue" should "call to httpClient.post with the right parameters" in {
 
     val response: IO[GHResponse[PullRequest]] =
       IO(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
 
-    val request = NewPullRequestIssue(31)
+    val request = CreatePullRequestIssue(31, validHead, validBase, Some(true))
 
-    implicit val httpClientMock = httpClientMockPost[NewPullRequest, PullRequest](
+    implicit val httpClientMock = httpClientMockPost[CreatePullRequestIssue, PullRequest](
       url = s"repos/$validRepoOwner/$validRepoName/pulls",
       req = request,
       response = response
@@ -104,7 +116,14 @@ class PullRequestsSpec extends BaseSpec {
 
     val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.create(validRepoOwner,validRepoName,validNewPullRequestIssue,validHead,validBase,Some(true),headerUserAgent)
+    pullRequests.create(
+      validRepoOwner,
+      validRepoName,
+      validNewPullRequestIssue,
+      validHead,
+      validBase,
+      Some(true),
+      headerUserAgent)
 
   }
 
@@ -120,7 +139,7 @@ class PullRequestsSpec extends BaseSpec {
 
     val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.listReviews(validRepoOwner,validRepoName,validPullRequestNumber,headerUserAgent)
+    pullRequests.listReviews(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
 
   }
 
@@ -137,7 +156,12 @@ class PullRequestsSpec extends BaseSpec {
 
     val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.getReview(validRepoOwner,validRepoName,validPullRequestNumber,validPullRequestReviewNumber,headerUserAgent)
+    pullRequests.getReview(
+      validRepoOwner,
+      validRepoName,
+      validPullRequestNumber,
+      validPullRequestReviewNumber,
+      headerUserAgent)
 
   }
 

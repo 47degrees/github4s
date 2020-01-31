@@ -31,7 +31,10 @@ class GistSpec extends BaseSpec {
     val response: IO[GHResponse[Gist]] =
       IO(Right(GHResult(gist, okStatusCode, Map.empty)))
 
-    val request = NewGistRequest(validGistDescription,validGistPublic,Map(validGistFilename -> GistFile(validGistFileContent)))
+    val request = NewGistRequest(
+      validGistDescription,
+      validGistPublic,
+      Map(validGistFilename -> GistFile(validGistFileContent)))
 
     implicit val httpClientMock = httpClientMockPost[NewGistRequest, Gist](
       url = "gists",
@@ -92,12 +95,15 @@ class GistSpec extends BaseSpec {
     val response: IO[GHResponse[Gist]] =
       IO(Right(GHResult(gist, okStatusCode, Map.empty)))
 
-    val request = EditGistRequest(validGistDescription,Map(
-      validGistFilename -> Some(EditGistFile(validGistFileContent)),
-      validGistOldFilename -> Some(
-        EditGistFile(validGistFileContent, Some(validGistNewFilename))),
-      validGistDeletedFilename -> None
-    ))
+    val request = EditGistRequest(
+      validGistDescription,
+      Map(
+        validGistFilename -> Some(EditGistFile(validGistFileContent)),
+        validGistOldFilename -> Some(
+          EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+        validGistDeletedFilename -> None
+      )
+    )
 
     implicit val httpClientMock = httpClientMockPatch[EditGistRequest, Gist](
       url = s"gists/$validGistId",

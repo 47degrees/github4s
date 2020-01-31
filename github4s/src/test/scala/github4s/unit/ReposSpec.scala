@@ -19,7 +19,18 @@ package github4s.unit
 import cats.effect.IO
 import cats.data.NonEmptyList
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.domain.{Branch, CombinedStatus, Commit, Content, NewReleaseRequest, NewStatusRequest, Release, Repository, Status, User}
+import github4s.domain.{
+  Branch,
+  CombinedStatus,
+  Commit,
+  Content,
+  NewReleaseRequest,
+  NewStatusRequest,
+  Release,
+  Repository,
+  Status,
+  User
+}
 import github4s.interpreters.RepositoriesInterpreter
 import github4s.utils.BaseSpec
 
@@ -39,7 +50,7 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.get(validRepoOwner,validRepoName, headerUserAgent)
+    repos.get(validRepoOwner, validRepoName, headerUserAgent)
 
   }
 
@@ -55,7 +66,7 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listOrgRepos(validRepoOwner,headers = headerUserAgent)
+    repos.listOrgRepos(validRepoOwner, headers = headerUserAgent)
 
   }
 
@@ -88,7 +99,7 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.getContents(validRepoOwner, validRepoName, validFilePath, Some("master"),headerUserAgent)
+    repos.getContents(validRepoOwner, validRepoName, validFilePath, Some("master"), headerUserAgent)
 
   }
 
@@ -96,7 +107,13 @@ class ReposSpec extends BaseSpec {
 
     val response: IO[GHResponse[Release]] = IO(Right(GHResult(release, okStatusCode, Map.empty)))
 
-    val request = NewReleaseRequest(validTagTitle, validTagTitle, validNote, Some("master"), Some(false), Some(true))
+    val request = NewReleaseRequest(
+      validTagTitle,
+      validTagTitle,
+      validNote,
+      Some("master"),
+      Some(false),
+      Some(true))
 
     implicit val httpClientMock = httpClientMockPost[NewReleaseRequest, Release](
       url = s"repos/$validRepoOwner/$validRepoName/releases",
@@ -106,7 +123,16 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.createRelease(validRepoOwner, validRepoName, validTagTitle, validTagTitle, validNote, Some("master"), Some(false), Some(true), headerUserAgent)
+    repos.createRelease(
+      validRepoOwner,
+      validRepoName,
+      validTagTitle,
+      validTagTitle,
+      validNote,
+      Some("master"),
+      Some(false),
+      Some(true),
+      headerUserAgent)
 
   }
 
@@ -169,7 +195,6 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-
     repos.listContributors(validRepoOwner, validRepoName, headers = headerUserAgent)
 
   }
@@ -206,7 +231,8 @@ class ReposSpec extends BaseSpec {
   }
 
   "Repos.listStatuses" should "call htppClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Status]]] = IO(Right(GHResult(List(status), okStatusCode, Map.empty)))
+    val response: IO[GHResponse[List[Status]]] =
+      IO(Right(GHResult(List(status), okStatusCode, Map.empty)))
 
     implicit val httpClientMock = httpClientMockGet[List[Status]](
       url = s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses",
@@ -232,7 +258,15 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.createStatus(validRepoOwner, validRepoName, validCommitSha, validStatusState, None, None, None, headerUserAgent)
+    repos.createStatus(
+      validRepoOwner,
+      validRepoName,
+      validCommitSha,
+      validStatusState,
+      None,
+      None,
+      None,
+      headerUserAgent)
 
   }
 }

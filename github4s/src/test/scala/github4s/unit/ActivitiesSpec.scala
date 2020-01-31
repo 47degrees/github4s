@@ -31,7 +31,7 @@ class ActivitiesSpec extends BaseSpec {
     val response: IO[GHResponse[Subscription]] =
       IO(Right(GHResult(subscription, okStatusCode, Map.empty)))
 
-    val request = SubscriptionRequest(true,false)
+    val request = SubscriptionRequest(true, false)
 
     implicit val httpClientMock = httpClientMockPut[SubscriptionRequest, Subscription](
       url = s"notifications/threads/$validThreadId/subscription",
@@ -41,7 +41,7 @@ class ActivitiesSpec extends BaseSpec {
 
     val activities = new ActivitiesInterpreter[IO]
 
-    activities.setThreadSub(validThreadId,true,false,headerUserAgent)
+    activities.setThreadSub(validThreadId, true, false, headerUserAgent)
   }
 
   "Activity.listStargazers" should "call to httpClient.get with the right parameters" in {
@@ -56,7 +56,7 @@ class ActivitiesSpec extends BaseSpec {
 
     val activities = new ActivitiesInterpreter[IO]
 
-    activities.listStargazers(validRepoOwner,validRepoName, false, None, headerUserAgent)
+    activities.listStargazers(validRepoOwner, validRepoName, false, None, headerUserAgent)
   }
 
   "Activity.listStarredRepositories" should "call to httpClient.get with the right parameters" in {
@@ -71,7 +71,7 @@ class ActivitiesSpec extends BaseSpec {
 
     val activities = new ActivitiesInterpreter[IO]
 
-    activities.listStarredRepositories(validUsername, false, None, None, None, headerUserAgent )
+    activities.listStarredRepositories(validUsername, false, None, None, None, headerUserAgent)
   }
 
 }

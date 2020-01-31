@@ -18,7 +18,17 @@ package github4s.unit
 
 import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.domain.{Comment, CommentData, EditIssueRequest, Issue, Label, NewIssueRequest, Pagination, SearchIssuesResult, User}
+import github4s.domain.{
+  Comment,
+  CommentData,
+  EditIssueRequest,
+  Issue,
+  Label,
+  NewIssueRequest,
+  Pagination,
+  SearchIssuesResult,
+  User
+}
 import github4s.interpreters.IssuesInterpreter
 import github4s.utils.BaseSpec
 
@@ -68,7 +78,7 @@ class IssuesSpec extends BaseSpec {
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.searchIssues("",validSearchParams, headerUserAgent)
+    issues.searchIssues("", validSearchParams, headerUserAgent)
   }
 
   "Issues.createIssue" should "call httpClient.post with the right parameters" in {
@@ -84,14 +94,28 @@ class IssuesSpec extends BaseSpec {
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.createIssue(validRepoOwner, validRepoName, validIssueTitle, validIssueBody, None, List.empty, List.empty, headerUserAgent)
+    issues.createIssue(
+      validRepoOwner,
+      validRepoName,
+      validIssueTitle,
+      validIssueBody,
+      None,
+      List.empty,
+      List.empty,
+      headerUserAgent)
 
   }
 
   "Issues.editIssue" should "call httpClient.patch with the right parameters" in {
     val response: IO[GHResponse[Issue]] = IO(Right(GHResult(issue, okStatusCode, Map.empty)))
 
-    val request = EditIssueRequest(validIssueState, validIssueTitle, validIssueBody, None, List.empty, List.empty)
+    val request = EditIssueRequest(
+      validIssueState,
+      validIssueTitle,
+      validIssueBody,
+      None,
+      List.empty,
+      List.empty)
 
     implicit val httpClientMock = httpClientMockPatch[EditIssueRequest, Issue](
       url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber",
@@ -123,11 +147,7 @@ class IssuesSpec extends BaseSpec {
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listComments(
-      validRepoOwner,
-      validRepoName,
-      validIssueNumber,
-      headerUserAgent)
+    issues.listComments(validRepoOwner, validRepoName, validIssueNumber, headerUserAgent)
   }
 
   "Issue.CreateComment" should "call to httpClient.post with the right parameters" in {
@@ -185,11 +205,7 @@ class IssuesSpec extends BaseSpec {
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.deleteComment(
-      validRepoOwner,
-      validRepoName,
-      validCommentId,
-      headerUserAgent)
+    issues.deleteComment(validRepoOwner, validRepoName, validCommentId, headerUserAgent)
   }
 
   "Issues.ListLabels" should "call httpClient.get with the right parameters" in {

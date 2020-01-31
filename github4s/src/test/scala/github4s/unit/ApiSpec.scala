@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
+/*
 package github4s.unit
 
-import github4s.api._
+import cats.effect.IO
+import github4s.interpreters._
 import github4s.free.domain.{EditGistFile, GistFile, Pagination}
 import github4s.utils.{DummyGithubUrls, MockGithubApiServer, TestUtilsJVM}
 import cats.Id
-import github4s.InstancesAndInterpreters
 import github4s.utils.Integration
 import org.scalatest.EitherValues
 import org.scalatest.flatspec.AnyFlatSpec
@@ -32,10 +33,9 @@ class ApiSpec
     with TestUtilsJVM
     with MockGithubApiServer
     with DummyGithubUrls
-    with EitherValues
-    with InstancesAndInterpreters {
+    with EitherValues {
 
-  val auth          = new Auth[Id]
+  val auth          = new AuthInterpreter[IO]
   val repos         = new Repos[Id]
   val users         = new Users[Id]
   val gists         = new Gists[Id]
@@ -1302,3 +1302,4 @@ class ApiSpec
   }
 
 }
+ */

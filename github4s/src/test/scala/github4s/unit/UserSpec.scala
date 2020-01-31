@@ -69,7 +69,7 @@ class UserInterpreterSpec extends BaseSpec {
     )
 
     val users = new UsersInterpreter[IO]
-    users.getUsers( 1, None, headerUserAgent)
+    users.getUsers(1, None, headerUserAgent)
   }
 
   "User.getFollowing" should "call to httpClient.get with the right parameters" in {

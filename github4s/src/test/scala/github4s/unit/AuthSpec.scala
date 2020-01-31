@@ -44,7 +44,14 @@ class AuthSpec extends BaseSpec {
 
     val auth = new AuthInterpreter[IO]
 
-    auth.newAuth(validUsername,invalidPassword, validScopes,validNote,validClientId,invalidClientSecret,headerUserAgent)
+    auth.newAuth(
+      validUsername,
+      invalidPassword,
+      validScopes,
+      validNote,
+      validClientId,
+      invalidClientSecret,
+      headerUserAgent)
 
   }
 
@@ -53,10 +60,15 @@ class AuthSpec extends BaseSpec {
     val response: IO[GHResponse[OAuthToken]] =
       IO(Right(GHResult(oAuthToken, okStatusCode, Map.empty)))
 
-    val request = NewOAuthRequest(validClientId,invalidClientSecret,validCode,validRedirectUri,validAuthState)
+    val request = NewOAuthRequest(
+      validClientId,
+      invalidClientSecret,
+      validCode,
+      validRedirectUri,
+      validAuthState)
 
     implicit val httpClientMock = httpClientMockPostOAuth[NewOAuthRequest, OAuthToken](
-      url = "http://127.0.0.1:9999/login/oauth/access_token",
+      url = "https://github.com/login/oauth/access_token",
       req = request,
       response = response
     )
