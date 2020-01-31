@@ -16,8 +16,8 @@
 
 package github4s.utils
 
+import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.free.interpreters.{Capture, Interpreters}
 import org.scalatest.{Assertion, Ignore, Inspectors, Tag}
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -35,8 +35,7 @@ abstract class BaseIntegrationSpec
   override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  implicit def futureInterpreters: Interpreters[Future]
-  implicit def extension(implicit capture: Capture[Future]): HttpRequestBuilderExtension[Future]
+  implicit val ioContextShift = IO.contextShift(executionContext)
 
   def accessToken: Option[String]
 
