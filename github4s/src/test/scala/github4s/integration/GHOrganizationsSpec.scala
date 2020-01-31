@@ -16,8 +16,9 @@
 
 package github4s.integration
 
+import cats.effect.IO
+import github4s.GithubIOSyntax._
 import github4s.Github
-import github4s.Github._
 import github4s.domain.User
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -25,9 +26,9 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
 
   "Organization >> ListMembers" should "return the expected list of users" taggedAs Integration in {
     val response =
-      Github(accessToken).organizations
-        .listMembers(validRepoOwner)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).organizations
+        .listMembers(validRepoOwner, headers = headerUserAgent)
+        .toFuture
 
     testFutureIsRight[List[User]](response, { r =>
       r.result.nonEmpty shouldBe true
@@ -37,18 +38,18 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
 
   it should "return error for an invalid org" taggedAs Integration in {
     val response =
-      Github(accessToken).organizations
-        .listMembers(invalidUsername)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).organizations
+        .listMembers(invalidUsername, headers = headerUserAgent)
+        .toFuture
 
     testFutureIsLeft(response)
   }
 
   "Organization >> ListOutsideCollaborators" should "return expected list of users" taggedAs Integration in {
     val response =
-      Github(accessToken).organizations
-        .listOutsideCollaborators(validOrganizationName)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).organizations
+        .listOutsideCollaborators(validOrganizationName, headers = headerUserAgent)
+        .toFuture
 
     testFutureIsRight[List[User]](response, { r =>
       r.result.nonEmpty shouldBe true
@@ -58,9 +59,9 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
 
   it should "return error for an invalid org" taggedAs Integration in {
     val response =
-      Github(accessToken).organizations
-        .listOutsideCollaborators(invalidOrganizationName)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).organizations
+        .listOutsideCollaborators(invalidOrganizationName, headers = headerUserAgent)
+        .toFuture
 
     testFutureIsLeft(response)
   }

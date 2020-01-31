@@ -16,8 +16,9 @@
 
 package github4s.integration
 
+import cats.effect.IO
+import github4s.GithubIOSyntax._
 import github4s.Github
-import github4s.Github._
 import github4s.domain.{Stargazer, StarredRepository, Subscription}
 
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -26,9 +27,9 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
   "Activity >> Set a thread subscription" should "return expected response when a valid thread id is provided" taggedAs Integration in {
     val response =
-      Github(accessToken).activities
-        .setThreadSub(validThreadId, true, false)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).activities
+        .setThreadSub(validThreadId, true, false, headerUserAgent)
+        .toFuture
 
     testFutureIsRight[Subscription](response, { r =>
       r.statusCode shouldBe okStatusCode
@@ -37,18 +38,18 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
   it should "return error when an invalid thread id is passed" taggedAs Integration in {
     val response =
-      Github(accessToken).activities
-        .setThreadSub(invalidThreadId, true, false)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).activities
+        .setThreadSub(invalidThreadId, true, false, headerUserAgent)
+        .toFuture
 
     testFutureIsLeft(response)
   }
 
   "Activity >> ListStargazers" should "return the expected list of starrers for valid data" taggedAs Integration in {
     val response =
-      Github(accessToken).activities
-        .listStargazers(validRepoOwner, validRepoName, false)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).activities
+        .listStargazers(validRepoOwner, validRepoName, false, None, headerUserAgent)
+        .toFuture
 
     testFutureIsRight[List[Stargazer]](response, { r =>
       r.result.nonEmpty shouldBe true
@@ -61,9 +62,9 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
   it should "return the expected list of starrers for valid data with dates if timeline" taggedAs Integration in {
     val response =
-      Github(accessToken).activities
-        .listStargazers(validRepoOwner, validRepoName, true)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).activities
+        .listStargazers(validRepoOwner, validRepoName, true, None, headerUserAgent)
+        .toFuture
 
     testFutureIsRight[List[Stargazer]](response, { r =>
       r.result.nonEmpty shouldBe true
@@ -76,18 +77,18 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
   it should "return error for invalid repo name" in {
     val response =
-      Github(accessToken).activities
-        .listStargazers(invalidRepoName, validRepoName, false)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).activities
+        .listStargazers(invalidRepoName, validRepoName, false, None, headerUserAgent)
+        .toFuture
 
     testFutureIsLeft(response)
   }
 
   "Activity >> ListStarredRepositories" should "return the expected list of starred repos" taggedAs Integration in {
     val response =
-      Github(accessToken).activities
-        .listStarredRepositories(validUsername, false)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).activities
+        .listStarredRepositories(validUsername, false, headers = headerUserAgent)
+        .toFuture
 
     testFutureIsRight[List[StarredRepository]](response, { r =>
       r.result.nonEmpty shouldBe true
@@ -100,9 +101,9 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
   it should "return the expected list of starred repos with dates if timeline" taggedAs Integration in {
     val response =
-      Github(accessToken).activities
-        .listStarredRepositories(validUsername, true)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).activities
+        .listStarredRepositories(validUsername, true, headers = headerUserAgent)
+        .toFuture
 
     testFutureIsRight[List[StarredRepository]](response, { r =>
       r.result.nonEmpty shouldBe true
@@ -115,9 +116,9 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
   it should "return error for invalid username" taggedAs Integration in {
     val response =
-      Github(accessToken).activities
-        .listStarredRepositories(invalidUsername, false)
-        .execFuture(headerUserAgent)
+      Github[IO](accessToken).activities
+        .listStarredRepositories(invalidUsername, false, headers = headerUserAgent)
+        .toFuture
 
     testFutureIsLeft(response)
   }
