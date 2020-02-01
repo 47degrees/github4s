@@ -574,6 +574,20 @@ trait FakeResponses {
       |[]
     """.stripMargin
 
+  val getSingleRefResponse =
+    """
+      |{
+      |  "ref": "refs/heads/master",
+      |  "node_id": "MDM6UmVmNTMzNDM1OTk6bWFzdGVy",
+      |  "url": "https://api.github.com/repos/47deg/github4s/git/refs/heads/master",
+      |  "object": {
+      |    "sha": "aabb34533e0d75bcfda10477b4f4b28e3d74fe2f",
+      |    "type": "commit",
+      |    "url": "https://api.github.com/repos/47deg/github4s/git/commits/aabb34533e0d75bcfda10477b4f4b28e3d74fe2f"
+      |  }
+      |}
+      |""".stripMargin
+
   val notFoundResponse =
     """
       |{
@@ -1618,11 +1632,13 @@ trait FakeResponses {
   val getCombinedStatusValidResponse =
     """
       |{
-      |  "state": "success",
-      |  "statuses": [
+      |    "state": "success",
+      |    "statuses": [
       |    {
       |      "url": "https://api.github.com/repos/47deg/github4s/statuses/e20eab90fef0fc02abc96868713a57ac8e5eaf50",
+      |      "avatar_url": "https://avatars2.githubusercontent.com/oa/1508?v=4",
       |      "id": 1142923124,
+      |      "node_id": "MDEzOlN0YXR1c0NvbnRleHQxMTQyOTIzMTI0",
       |      "state": "success",
       |      "description": "The Travis CI build passed",
       |      "target_url": "https://travis-ci.org/47deg/github4s/builds/220706044",
@@ -1632,7 +1648,9 @@ trait FakeResponses {
       |    },
       |    {
       |      "url": "https://api.github.com/repos/47deg/github4s/statuses/e20eab90fef0fc02abc96868713a57ac8e5eaf50",
+      |      "avatar_url": "https://avatars0.githubusercontent.com/oa/119817?v=4",
       |      "id": 1142928020,
+      |      "node_id": "MDEzOlN0YXR1c0NvbnRleHQxMTQyOTI4MDIw",
       |      "state": "success",
       |      "description": "80.24% remains the same compared to a6f4c12",
       |      "target_url": "https://codecov.io/gh/47deg/github4s/commit/e20eab90fef0fc02abc96868713a57ac8e5eaf50",
@@ -1642,7 +1660,9 @@ trait FakeResponses {
       |    },
       |    {
       |      "url": "https://api.github.com/repos/47deg/github4s/statuses/e20eab90fef0fc02abc96868713a57ac8e5eaf50",
+      |      "avatar_url": "https://avatars0.githubusercontent.com/oa/119817?v=4",
       |      "id": 1142928022,
+      |      "node_id": "MDEzOlN0YXR1c0NvbnRleHQxMTQyOTI4MDIy",
       |      "state": "success",
       |      "description": "Coverage not affected when comparing a6f4c12...e20eab9",
       |      "target_url": "https://codecov.io/gh/47deg/github4s/commit/e20eab90fef0fc02abc96868713a57ac8e5eaf50",
@@ -1650,17 +1670,20 @@ trait FakeResponses {
       |      "created_at": "2017-04-10T20:29:58Z",
       |      "updated_at": "2017-04-10T20:29:58Z"
       |    }
-      |  ],
-      |  "sha": "e20eab90fef0fc02abc96868713a57ac8e5eaf50",
-      |  "total_count": 3,
-      |  "repository": {
-      |    "id": 53343599,
-      |    "name": "github4s",
-      |    "full_name": "47deg/github4s",
-      |    "owner": {
+      |    ],
+      |    "sha": "e20eab90fef0fc02abc96868713a57ac8e5eaf50",
+      |    "total_count": 3,
+      |    "repository": {
+      |      "id": 53343599,
+      |      "node_id": "MDEwOlJlcG9zaXRvcnk1MzM0MzU5OQ==",
+      |      "name": "github4s",
+      |      "full_name": "47deg/github4s",
+      |      "private": false,
+      |      "owner": {
       |      "login": "47deg",
       |      "id": 479857,
-      |      "avatar_url": "https://avatars0.githubusercontent.com/u/479857?v=3",
+      |      "node_id": "MDEyOk9yZ2FuaXphdGlvbjQ3OTg1Nw==",
+      |      "avatar_url": "https://avatars3.githubusercontent.com/u/479857?v=4",
       |      "gravatar_id": "",
       |      "url": "https://api.github.com/users/47deg",
       |      "html_url": "https://github.com/47deg",
@@ -1676,51 +1699,51 @@ trait FakeResponses {
       |      "type": "Organization",
       |      "site_admin": false
       |    },
-      |    "private": false,
-      |    "html_url": "https://github.com/47deg/github4s",
-      |    "description": "A GitHub API wrapper written in Scala",
-      |    "fork": false,
-      |    "url": "https://api.github.com/repos/47deg/github4s",
-      |    "forks_url": "https://api.github.com/repos/47deg/github4s/forks",
-      |    "keys_url": "https://api.github.com/repos/47deg/github4s/keys{/key_id}",
-      |    "collaborators_url": "https://api.github.com/repos/47deg/github4s/collaborators{/collaborator}",
-      |    "teams_url": "https://api.github.com/repos/47deg/github4s/teams",
-      |    "hooks_url": "https://api.github.com/repos/47deg/github4s/hooks",
-      |    "issue_events_url": "https://api.github.com/repos/47deg/github4s/issues/events{/number}",
-      |    "events_url": "https://api.github.com/repos/47deg/github4s/events",
-      |    "assignees_url": "https://api.github.com/repos/47deg/github4s/assignees{/user}",
-      |    "branches_url": "https://api.github.com/repos/47deg/github4s/branches{/branch}",
-      |    "tags_url": "https://api.github.com/repos/47deg/github4s/tags",
-      |    "blobs_url": "https://api.github.com/repos/47deg/github4s/git/blobs{/sha}",
-      |    "git_tags_url": "https://api.github.com/repos/47deg/github4s/git/tags{/sha}",
-      |    "git_refs_url": "https://api.github.com/repos/47deg/github4s/git/refs{/sha}",
-      |    "trees_url": "https://api.github.com/repos/47deg/github4s/git/trees{/sha}",
-      |    "statuses_url": "https://api.github.com/repos/47deg/github4s/statuses/{sha}",
-      |    "languages_url": "https://api.github.com/repos/47deg/github4s/languages",
-      |    "stargazers_url": "https://api.github.com/repos/47deg/github4s/stargazers",
-      |    "contributors_url": "https://api.github.com/repos/47deg/github4s/contributors",
-      |    "subscribers_url": "https://api.github.com/repos/47deg/github4s/subscribers",
-      |    "subscription_url": "https://api.github.com/repos/47deg/github4s/subscription",
-      |    "commits_url": "https://api.github.com/repos/47deg/github4s/commits{/sha}",
-      |    "git_commits_url": "https://api.github.com/repos/47deg/github4s/git/commits{/sha}",
-      |    "comments_url": "https://api.github.com/repos/47deg/github4s/comments{/number}",
-      |    "issue_comment_url": "https://api.github.com/repos/47deg/github4s/issues/comments{/number}",
-      |    "contents_url": "https://api.github.com/repos/47deg/github4s/contents/{+path}",
-      |    "compare_url": "https://api.github.com/repos/47deg/github4s/compare/{base}...{head}",
-      |    "merges_url": "https://api.github.com/repos/47deg/github4s/merges",
-      |    "archive_url": "https://api.github.com/repos/47deg/github4s/{archive_format}{/ref}",
-      |    "downloads_url": "https://api.github.com/repos/47deg/github4s/downloads",
-      |    "issues_url": "https://api.github.com/repos/47deg/github4s/issues{/number}",
-      |    "pulls_url": "https://api.github.com/repos/47deg/github4s/pulls{/number}",
-      |    "milestones_url": "https://api.github.com/repos/47deg/github4s/milestones{/number}",
-      |    "notifications_url": "https://api.github.com/repos/47deg/github4s/notifications{?since,all,participating}",
-      |    "labels_url": "https://api.github.com/repos/47deg/github4s/labels{/name}",
-      |    "releases_url": "https://api.github.com/repos/47deg/github4s/releases{/id}",
-      |    "deployments_url": "https://api.github.com/repos/47deg/github4s/deployments"
-      |  },
-      |  "commit_url": "https://api.github.com/repos/47deg/github4s/commits/e20eab90fef0fc02abc96868713a57ac8e5eaf50",
-      |  "url": "https://api.github.com/repos/47deg/github4s/commits/e20eab90fef0fc02abc96868713a57ac8e5eaf50/status"
-      |}""".stripMargin
+      |      "html_url": "https://github.com/47deg/github4s",
+      |      "description": "A GitHub API wrapper written in Scala",
+      |      "fork": false,
+      |      "url": "https://api.github.com/repos/47deg/github4s",
+      |      "forks_url": "https://api.github.com/repos/47deg/github4s/forks",
+      |      "keys_url": "https://api.github.com/repos/47deg/github4s/keys{/key_id}",
+      |      "collaborators_url": "https://api.github.com/repos/47deg/github4s/collaborators{/collaborator}",
+      |      "teams_url": "https://api.github.com/repos/47deg/github4s/teams",
+      |      "hooks_url": "https://api.github.com/repos/47deg/github4s/hooks",
+      |      "issue_events_url": "https://api.github.com/repos/47deg/github4s/issues/events{/number}",
+      |      "events_url": "https://api.github.com/repos/47deg/github4s/events",
+      |      "assignees_url": "https://api.github.com/repos/47deg/github4s/assignees{/user}",
+      |      "branches_url": "https://api.github.com/repos/47deg/github4s/branches{/branch}",
+      |      "tags_url": "https://api.github.com/repos/47deg/github4s/tags",
+      |      "blobs_url": "https://api.github.com/repos/47deg/github4s/git/blobs{/sha}",
+      |      "git_tags_url": "https://api.github.com/repos/47deg/github4s/git/tags{/sha}",
+      |      "git_refs_url": "https://api.github.com/repos/47deg/github4s/git/refs{/sha}",
+      |      "trees_url": "https://api.github.com/repos/47deg/github4s/git/trees{/sha}",
+      |      "statuses_url": "https://api.github.com/repos/47deg/github4s/statuses/{sha}",
+      |      "languages_url": "https://api.github.com/repos/47deg/github4s/languages",
+      |      "stargazers_url": "https://api.github.com/repos/47deg/github4s/stargazers",
+      |      "contributors_url": "https://api.github.com/repos/47deg/github4s/contributors",
+      |      "subscribers_url": "https://api.github.com/repos/47deg/github4s/subscribers",
+      |      "subscription_url": "https://api.github.com/repos/47deg/github4s/subscription",
+      |      "commits_url": "https://api.github.com/repos/47deg/github4s/commits{/sha}",
+      |      "git_commits_url": "https://api.github.com/repos/47deg/github4s/git/commits{/sha}",
+      |      "comments_url": "https://api.github.com/repos/47deg/github4s/comments{/number}",
+      |      "issue_comment_url": "https://api.github.com/repos/47deg/github4s/issues/comments{/number}",
+      |      "contents_url": "https://api.github.com/repos/47deg/github4s/contents/{+path}",
+      |      "compare_url": "https://api.github.com/repos/47deg/github4s/compare/{base}...{head}",
+      |      "merges_url": "https://api.github.com/repos/47deg/github4s/merges",
+      |      "archive_url": "https://api.github.com/repos/47deg/github4s/{archive_format}{/ref}",
+      |      "downloads_url": "https://api.github.com/repos/47deg/github4s/downloads",
+      |      "issues_url": "https://api.github.com/repos/47deg/github4s/issues{/number}",
+      |      "pulls_url": "https://api.github.com/repos/47deg/github4s/pulls{/number}",
+      |      "milestones_url": "https://api.github.com/repos/47deg/github4s/milestones{/number}",
+      |      "notifications_url": "https://api.github.com/repos/47deg/github4s/notifications{?since,all,participating}",
+      |      "labels_url": "https://api.github.com/repos/47deg/github4s/labels{/name}",
+      |      "releases_url": "https://api.github.com/repos/47deg/github4s/releases{/id}",
+      |      "deployments_url": "https://api.github.com/repos/47deg/github4s/deployments"
+      |    },
+      |    "commit_url": "https://api.github.com/repos/47deg/github4s/commits/e20eab90fef0fc02abc96868713a57ac8e5eaf50",
+      |    "url": "https://api.github.com/repos/47deg/github4s/commits/e20eab90fef0fc02abc96868713a57ac8e5eaf50/status"
+      |  }
+      |""".stripMargin
 
   val listStatusValidResponse =
     """
