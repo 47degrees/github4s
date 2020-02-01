@@ -137,6 +137,8 @@ trait TestData extends DummyGithubUrls {
   val validStatusState = "success"
   val validMode        = "100644"
   val validBlobType    = "blob"
+  val validAvatarUrl   = "https://github.com/images/error/hubot_happy.gif"
+  val validNodeId      = "MDY6U3RhdHVzMQ=="
 
   val treeDataList: List[TreeData] = List(
     TreeDataSha(validPath, validMode, validBlobType, validTreeSha))
@@ -150,7 +152,7 @@ trait TestData extends DummyGithubUrls {
       url = githubApiUrl))
 
   val refObject = RefObject(commitType, validCommitSha, githubApiUrl)
-  val ref       = Ref("XXXX", githubApiUrl, refObject)
+  val ref       = Ref("XXXX", "nodeid", githubApiUrl, refObject)
 
   val refCommitAuthor =
     RefAuthor("2014-11-07T22:01:45Z", validUsername, "developer@47deg.com")
@@ -279,13 +281,14 @@ trait TestData extends DummyGithubUrls {
   )
 
   val status = Status(
-    id = 1,
     url = githubApiUrl,
+    avatar_url = validAvatarUrl,
+    id = 1,
+    node_id = validNodeId,
     state = validStatusState,
     target_url = None,
     description = None,
     context = None,
-    creator = Some(user),
     created_at = "2011-04-10T20:09:31Z",
     updated_at = "2011-04-10T20:09:31Z"
   )
@@ -406,4 +409,5 @@ trait TestData extends DummyGithubUrls {
     html_url = "",
     pull_request_url = ""
   )
+
 }
