@@ -17,15 +17,39 @@
 package github4s.utils
 
 import cats.effect.IO
+
 import github4s.GithubResponses.{GHResponse, GHResult}
+import github4s.integration.{
+  GHActivitiesSpec,
+  GHAuthSpec,
+  GHGitDataSpec,
+  GHIssuesSpec,
+  GHOrganizationsSpec,
+  GHPullRequestsSpec,
+  GHReposSpec,
+  GHUsersSpec
+}
 import org.scalatest.{Assertion, Ignore, Inspectors, Tag}
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
+class IntegrationSpec
+    extends BaseIntegrationSpec
+    with GHActivitiesSpec
+    with GHAuthSpec
+    with GHGitDataSpec
+    with GHIssuesSpec
+    with GHOrganizationsSpec
+    with GHPullRequestsSpec
+    with GHReposSpec
+    with GHUsersSpec
+
 object Integration
-    extends Tag(if (sys.env.get("GITHUB4S_ACCESS_TOKEN").isDefined) "" else classOf[Ignore].getName)
+    extends Tag(
+      if (sys.env.get("GITHUB4S_ACCESS_TOKEN").isDefined) ""
+      else classOf[Ignore].getName)
 
 abstract class BaseIntegrationSpec
     extends AsyncFlatSpec
@@ -37,7 +61,7 @@ abstract class BaseIntegrationSpec
 
   implicit val ioContextShift = IO.contextShift(executionContext)
 
-  def accessToken: Option[String]
+  def accessToken: Option[String] = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 
   def testFutureIsLeft[A](response: Future[GHResponse[A]]): Future[Assertion] =
     response map { r =>
