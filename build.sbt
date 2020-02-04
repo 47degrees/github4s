@@ -21,17 +21,12 @@ lazy val github4s =
     )
     .settings(coreDeps: _*)
 
-lazy val catsEffect =
-  (project in file("cats-effect"))
-    .settings(moduleName := "github4s-cats-effect")
-    .settings(catsEffectDependencies: _*)
-    .dependsOn(github4s)
 
 /////////////////////
 //// ALL MODULES ////
 /////////////////////
 
-lazy val allModules: Seq[ProjectReference] = Seq(github4s, catsEffect)
+lazy val allModules: Seq[ProjectReference] = Seq(github4s)
 
 lazy val allModulesDeps: Seq[ClasspathDependency] =
   allModules.map(ClasspathDependency(_, None))

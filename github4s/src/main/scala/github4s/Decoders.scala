@@ -25,6 +25,7 @@ import github4s.domain._
 import io.circe.Decoder.Result
 import io.circe._
 import io.circe.generic.auto._
+import io.circe.generic.semiauto.deriveDecoder
 
 /** Implicit circe decoders of domains objects */
 object Decoders {
@@ -254,5 +255,10 @@ object Decoders {
       }
     }
   }
+
+  implicit val decoderPullRequestFile: Decoder[PullRequestFile] = deriveDecoder[PullRequestFile]
+  implicit val decoderPullRequestReview: Decoder[PullRequestReview] =
+    deriveDecoder[PullRequestReview]
+  implicit val decoderPullRequest: Decoder[PullRequest] = deriveDecoder[PullRequest]
 
 }

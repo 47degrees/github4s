@@ -88,13 +88,6 @@ object ProjectPlugin extends AutoPlugin {
       "scalatest",
       V.scalaTest)
 
-    lazy val catsEffectDependencies = Seq(
-      libraryDependencies ++= Seq(
-        %%("cats-effect", V.catsEffect),
-        %%("scalatest", V.scalaTest) % Test
-      )
-    )
-
     def toCompileTestList(sequence: Seq[ProjectReference]): List[String] = sequence.toList.map {
       p =>
         val project: String = p.asInstanceOf[LocalProject].project
