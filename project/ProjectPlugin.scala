@@ -25,7 +25,6 @@ object ProjectPlugin extends AutoPlugin {
       val cats: String         = "2.1.0"
       val catsEffect: String   = "2.0.0"
       val circe: String        = "0.12.3"
-      val circeJackson: String = "0.12.1"
       val paradise: String     = "2.1.1"
       val simulacrum: String   = "0.19.0"
       val scala212: String     = "2.12.10"
@@ -70,7 +69,6 @@ object ProjectPlugin extends AutoPlugin {
         %%("circe-core", V.circe),
         %%("circe-generic", V.circe),
         "io.circe" %% "circe-literal" % V.circe,
-        "io.circe" %% "circe-jackson28" % V.circeJackson,
         %%("base64", V.base64),
         "org.http4s" %% "http4s-blaze-client" % V.http4s,
         "org.http4s" %% "http4s-circe" % V.http4s,

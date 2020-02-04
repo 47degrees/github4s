@@ -159,30 +159,25 @@ object Decoders {
           homepage = homepage,
           language = language,
           organization = organization,
-          status = RepoStatus(
-            size = size,
-            stargazers_count = stargazers_count,
-            watchers_count = watchers_count,
-            forks_count = forks_count,
-            open_issues_count = open_issues_count,
-            open_issues = open_issues,
-            watchers = watchers,
-            network_count = network_count,
-            subscribers_count = subscribers_count,
-            has_issues = has_issues,
-            has_downloads = has_downloads,
-            has_wiki = has_wiki,
-            has_pages = has_pages
-          ),
-          urls = RepoUrls(
-            url = url,
-            html_url = html_url,
-            git_url = git_url,
-            ssh_url = ssh_url,
-            clone_url = clone_url,
-            svn_url = svn_url,
-            otherUrls = (RepoUrlKeys.allFields zip repoUrls.flatten).toMap
-          )
+          size = size,
+          stargazers_count = stargazers_count,
+          watchers_count = watchers_count,
+          forks_count = forks_count,
+          open_issues_count = open_issues_count,
+          open_issues = open_issues,
+          watchers = watchers,
+          network_count = network_count,
+          subscribers_count = subscribers_count,
+          has_issues = has_issues,
+          has_downloads = has_downloads,
+          has_wiki = has_wiki,
+          has_pages = has_pages,
+          url = url,
+          html_url = html_url,
+          git_url = git_url,
+          ssh_url = ssh_url,
+          clone_url = clone_url,
+          svn_url = svn_url
         )
     }
   }
