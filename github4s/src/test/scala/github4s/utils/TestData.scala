@@ -329,47 +329,38 @@ trait TestData extends DummyGithubUrls {
   val invalidCommentId   = 0
 
   val comment = Comment(
-    id = validCommentId,
-    url = "https://api.github.com/repos/octocat/Hello-World/issues/comments/1",
-    html_url = "https: //github.com/octocat/Hello-World/issues/1347#issuecomment-1",
-    body = validCommentBody,
-    user = Some(user),
-    created_at = "2011-04-14T16:00:49Z",
-    updated_at = "2011-04-14T16:00:49Z"
+    validCommentId,
+    "https://api.github.com/repos/octocat/Hello-World/issues/comments/1",
+    "https: //github.com/octocat/Hello-World/issues/1347#issuecomment-1",
+    validCommentBody,
+    Some(user),
+    "2011-04-14T16:00:49Z",
+    "2011-04-14T16:00:49Z"
   )
   val repo = Repository(
-    id = 1296269,
-    name = validRepoName,
-    full_name = s"$validRepoOwner/$validRepoName",
-    owner = user,
-    `private` = false,
-    description = Some(validNote),
-    fork = false,
-    url = s"https://api.github.com/repos/$validRepoOwner/$validRepoName",
-    html_url = s"https://github.com/$validRepoOwner/$validRepoName",
-    git_url = s"git:github.com/$validRepoOwner/$validRepoName.git",
-    ssh_url = s"git@github.com:$validRepoOwner/$validRepoName.git",
-    clone_url = s"https://github.com/$validRepoOwner/$validRepoName.git",
-    svn_url = s"https://svn.github.com/$validRepoOwner/$validRepoName",
-    created_at = "2011-01-26T19:01:12Z",
-    updated_at = "2011-01-26T19:14:43Z",
-    pushed_at = "2011-01-26T19:06:43Z",
-    homepage = None,
-    language = None,
-    size = 108,
-    stargazers_count = 80,
-    watchers_count = 80,
-    forks_count = 9,
-    open_issues_count = 0,
-    open_issues = None,
-    watchers = None,
-    network_count = None,
-    subscribers_count = None,
-    has_issues = true,
-    has_downloads = true,
-    has_wiki = false,
-    has_pages = true,
-    organization = None
+    1296269,
+    validRepoName,
+    s"$validRepoOwner/$validRepoName",
+    user,
+    false,
+    Some(validNote),
+    false,
+    RepoUrls(
+      s"https://api.github.com/repos/$validRepoOwner/$validRepoName",
+      s"https://github.com/$validRepoOwner/$validRepoName",
+      s"git:github.com/$validRepoOwner/$validRepoName.git",
+      s"git@github.com:$validRepoOwner/$validRepoName.git",
+      s"https://github.com/$validRepoOwner/$validRepoName.git",
+      s"https://svn.github.com/$validRepoOwner/$validRepoName",
+      Map.empty
+    ),
+    "2011-01-26T19:01:12Z",
+    "2011-01-26T19:14:43Z",
+    "2011-01-26T19:06:43Z",
+    None,
+    None,
+    RepoStatus(108, 80, 80, 9, 0, None, None, None, None, true, true, false, true),
+    None
   )
 
   val commit = Commit(
