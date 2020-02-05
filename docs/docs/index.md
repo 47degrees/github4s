@@ -13,10 +13,8 @@ Github4s is a GitHub API wrapper written in Scala.
 
 To get started with SBT, simply add the following to your build.sbt file.
 
-[comment]: # (Start Replace)
 
-```scala
+
+```scala mdoc:silent:fail
 libraryDependencies += "com.47deg" %% "github4s" % "0.21.0"
 ```
-
-[comment]: # (End Replace)

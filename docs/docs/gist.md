@@ -16,13 +16,17 @@ with Github4s, you can:
 The following examples assume the following imports and token:
 
 ```scala mdoc:silent
+import github4s.Github
+import github4s.GithubIOSyntax._
+import cats.effect.IO
+import scala.concurrent.ExecutionContext.Implicits.global
+
+implicit val IOContextShift = IO.contextShift(global)
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
+They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
 
-They also make use of `cats.Id` but any type container implementing `MonadError[M, Throwable]` will do.
-
-Support for `cats.Id`, `cats.Eval`, and `Future` are
-provided out of the box when importing `github4s.implicits._`.
+LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Create a gist
 
@@ -35,15 +39,15 @@ You can create a gist using `newGist`; it takes as arguments:
 
 To create a gist:
 
-```scala
-import github4s.free.domain.GistFile
-val files = Map(
+```scala mdoc:silent
+import github4s.domain.GistFile
+val gistfiles = Map(
   "token.scala" -> GistFile("val accessToken = sys.env.get(\"GITHUB4S_ACCESS_TOKEN\")"),
   "gh4s.scala"  -> GistFile("val gh = Github(accessToken)")
 )
-val newGist = Github(accessToken).gists.newGist("Github4s entry point", public = true, files)
+val newGist = Github[IO](accessToken).gists.newGist("Github4s entry point", public = true, gistfiles)
 
-newGist.exec[cats.Id]() match {
+newGist.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -62,10 +66,10 @@ You can create a gist using `getGist`; it takes as arguments:
 
 To get a single gist:
 
-```scala
-val singleGist = Github(accessToken).gists.getGist("aa5a315d61ae9438b18d")
+```scala mdoc:silent
+val singleGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d")
 
-singleGist.exec[cats.Id]() match {
+singleGist.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -73,10 +77,10 @@ singleGist.exec[cats.Id]() match {
 
 Similarly, to get a specific revision of a gist:
 
-```scala
-val sepcificRevisionGist = Github(accessToken).gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
+```scala mdoc:silent
+val sepcificRevisionGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
 
-sepcificRevisionGist.exec[cats.Id]() match {
+sepcificRevisionGist.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -97,17 +101,17 @@ You can edit a gist using `editGist`; it takes as arguments:
 
 To edit a gist (change description, update content of _token.scala_, rename _gh4s.scala_ and remove _token.class_ file):
 
-```scala
-import github4s.free.domain.EditGistFile
-val files = Map(
+```scala mdoc:silent
+import github4s.domain.EditGistFile
+val editfiles = Map(
   "token.scala" -> Some(EditGistFile("lazy val accessToken = sys.env.get(\"GITHUB4S_ACCESS_TOKEN\")")),
   "gh4s.scala"  -> Some(EditGistFile("val gh = Github(accessToken)", Some("GH4s.scala"))),
   "token.class"  -> None
 )
 
-val updatedGist = Github(accessToken).gists.editGist("aa5a315d61ae9438b18d", "Updated github4s entry point", files)
+val updatedGist = Github[IO](accessToken).gists.editGist("aa5a315d61ae9438b18d", "Updated github4s entry point", editfiles)
 
-updatedGist.exec[cats.Id]() match {
+updatedGist.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

@@ -17,9 +17,15 @@ The following examples assume the following imports:
 
 ```scala mdoc:silent
 import github4s.Github
-import github4s.Github._
-import github4s.implicits._
+import github4s.GithubIOSyntax._
+import cats.effect.IO
+import scala.concurrent.ExecutionContext.Implicits.global
+
+implicit val IOContextShift = IO.contextShift(global)
 ```
+They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
+
+LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 **NOTE**: In the examples you will see `Github(None)`
 because if you are authenticating for the first time you don't have any access token yet.
@@ -36,15 +42,15 @@ You can create a new authorization token using `newAuth`; it takes as arguments:
 - `client_id`: the 20 character OAuth app client key for which to create the token.
 - `client_secret`: the 40 character OAuth app client secret for which to create the token.
 
-```scala
-val newAuth = Github(None).auth.newAuth(
+```scala mdoc:silent
+val newAuth = Github[IO](None).auth.newAuth(
   "rafaparadela",
   "invalidPassword",
   List("public_repo"),
   "New access token",
   "e8e39175648c9db8c280",
   "1234567890")
-newAuth.exec[cats.Id]() match {
+newAuth.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -65,12 +71,12 @@ You can authorize a url using `authorizeUrl`; it takes as arguments:
 - `redirect_uri`: the URL in your app where users will be sent to after authorization.
 - `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
 
-```scala
-val authorizeUrl = Github(None).auth.authorizeUrl(
+```scala mdoc:silent
+val authorizeUrl = Github[IO](None).auth.authorizeUrl(
   "e8e39175648c9db8c280",
   "http://localhost:9000/_oauth-callback",
   List("public_repo"))
-authorizeUrl.exec[cats.Id]() match {
+authorizeUrl.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -94,13 +100,13 @@ You can get an access token using `getAccessToken`; it takes as arguments:
 - `state`: the unguessable random string you optionally provided in [Create a new authorization token](#create-a-new-authorization-token).
 
 ```scala mdoc:silent
-val getAccessToken = Github(None).auth.getAccessToken(
+val getAccessToken = Github[IO](None).auth.getAccessToken(
   "e8e39175648c9db8c280",
   "1234567890",
   "code",
   "http://localhost:9000/_oauth-callback",
   "status")
-getAccessToken.exec[cats.Id]() match {
+getAccessToken.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

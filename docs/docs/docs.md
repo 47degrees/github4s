@@ -18,21 +18,16 @@ API in Github4s.
 
 ```scala mdoc:silent
 import github4s.Github
-import github4s.Github._
 ```
-
-In order for Github4s to work, you'll need the appropriate implicits in your scope:
-
-```scala
-import github4s.implicits._
-```
-
 ```scala mdoc:invisible
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-Every Github4s API call returns a `GHIO[GHResponse[A]]` which is an alias for
-`Free[Github4s, GHResponse[A]]`.
+In order for Github4s to work, you'll need an appropriate implicit `ExecutionContext` in Scope.
+
+Github4s is a Tagless Final API.
+
+Every Github4s API call returns an `F[GHResponse[A]]` where `F` has an instance of [cats.effect.ConcurrentEffect][cats-concurrent-effect]
 
 `GHResponse[A]` is, in turn, a type alias for `Either[GHException, GHResult[A]]`.
 
@@ -40,46 +35,75 @@ Every Github4s API call returns a `GHIO[GHResponse[A]]` which is an alias for
 response:
 
 ```scala
-case class GHResult[A](result: A, statusCode: Int, headers: Map[String, IndexedSeq[String]])
+case class GHResult[A](result: A, statusCode: Int, headers: Map[String, String])
 ```
 
 As an introductory example, we can get a user with the following:
 
-```scala mdoc:silent
-val user1 = Github(accessToken).users.get("rafaparadela")
+```scala mdoc:silent:fail
+val user1 = Github[IO](accessToken).users.get("rafaparadela")
 ```
 
-`user1` in this case is a `GHIO[GHResponse[User]]` which we can run (`foldMap`) with
-`exec[M[_]]` where `M[_]` that represents any type container that implements
-`MonadError[M, Throwable]` (for instance `cats.Eval`).
+`user1` in this case is a `IO[GHResponse[User]]`.
 
-A few examples follow with different `MonadError[M, Throwable]`.
 
-### Using `cats.Eval`
+### Using `cats.effect.IO`
 
 ```scala mdoc:silent
-object ProgramEval {
-  import github4s.implicits._
-  val u1 = user1.exec[cats.Eval]().value
+object ProgramIO {
+  import cats.effect.IO
+  import cats.effect.IO.contextShift
+  import scala.concurrent.ExecutionContext.Implicits.global
+  import github4s.Github
+  
+  implicit val IOContextShift = IO.contextShift(global)
+
+  val u1 = Github[IO](accessToken).users.get("juanpedromoreno")
+  u1.unsafeRunSync
 }
 ```
 
-As mentioned above, `u1` should have an `GHResult[User]` in the right.
+### Using `monix.eval.Task`
 
-```scala mdoc:silent
+```scala mdoc:silent:fail
+object ProgramTask {
+    import monix.execution.Scheduler.Implicits.global
+    import monix.eval.Task
+    import github4s.Github
+    
+    val u2 = Github[Task](accessToken).users.get("rafaparadela")
+}
+```
+
+As mentioned above, `u2` should have an `Task[GHResponse[User]]`
+
+```scala mdoc:silent:fail
 import github4s.GithubResponses.GHResult
-ProgramEval.u1 match {
-  case Right(GHResult(result, status@_, headers@_)) => result.login
-  case Left(e) => e.getMessage
+
+ProgramTask.u2.runAsync { result =>
+  result match {
+    case Right(GHResult(result, status@_, headers@_)) => doSomething
+    case Left(e) => doSomething
+  }
 }
+
 ```
+
+Support for `cats.Id` and `Future` are provided with `GithubIOSyntax` which contains syntax to lift from `IO`.
 
 ### Using `cats.Id`
 
 ```scala mdoc:silent
 object ProgramId {
-  import github4s.implicits._
-  val u2 = Github(accessToken).users.get("raulraja").exec[cats.Id]()
+  import cats.effect.IO
+  import cats.effect.IO.contextShift
+  import scala.concurrent.ExecutionContext.Implicits.global
+  import github4s.Github
+  import github4s.GithubIOSyntax._
+  
+  implicit val IOContextShift = IO.contextShift(global)
+
+  val u3 = Github[IO](accessToken).users.get("rafaparadela").toId
 }
 ```
 
@@ -87,46 +111,38 @@ object ProgramId {
 
 ```scala mdoc:silent
 object ProgramFuture {
+  import cats.effect.IO
+  import cats.effect.IO.contextShift
   import scala.concurrent.ExecutionContext.Implicits.global
   import scala.concurrent.duration._
   import scala.concurrent.Await
-  import github4s.implicits._
+  import github4s.Github
+  import github4s.GithubIOSyntax._
 
-  // execFuture is a shortcut for exec[Future]
-  val u3 = Github(accessToken).users.get("dialelo").execFuture()
-  Await.result(u3, 2.seconds)
+  implicit val IOContextShift = IO.contextShift(global)
+
+  val u4 = Github[IO](accessToken).users.get("dialelo").toFuture
+  Await.result(u4, 2.seconds)
 }
 ```
 
-### Using `cats.effect.Sync`
-
-We can use any `cats.effect.Sync`, here we're using `cats.effect.IO`:
-
-```scala mdoc:silent
-object ProgramSync {
-  import cats.effect.IO
-  import github4s.cats.effect.implicits._
-
-  val u5 = Github(accessToken).users.get("juanpedromoreno").exec[IO]()
-  u5.unsafeRunSync
-}
-```
-
-Note that you'll need a dependency to the `github4s-cats-effect` package to leverage the
-cats-effect integration.
 
 ## Specifying custom headers
 
-The different `exec` methods let users include custom headers for any Github API request:
+Headers are an optional field for any Github API request:
 
-```scala mdoc:silent
+```scala mdoc:silent:fail
 object ProgramEvalWithHeaders {
-  import github4s.implicits._
+  import monix.execution.Scheduler.Implicits.global
+  import monix.eval.Task
+  import github4s.Github
+    
   val userHeaders = Map("user-agent" -> "github4s")
-  val user1 = Github(accessToken).users.get("rafaparadela").exec[cats.Eval](userHeaders).value
+  val u5 = Github[Task](accessToken).users.get("rafaparadela",userHeaders)  
 }
 ```
 
 [http-client]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/HttpClient.scala
-[scalaj]: https://github.com/scalaj/scalaj-http
 [access-token]: https://github.com/settings/tokens
+[cats-concurrent-effect]: https://typelevel.org/cats-effect/typeclasses/concurrent-effect.html
+[monix-task]: https://monix.io/docs/3x/eval/task.html

@@ -19,11 +19,16 @@ The following examples assume the following imports and token:
 
 ```scala mdoc:silent
 import github4s.Github
-import github4s.Github._
-import github4s.implicits._
+import github4s.GithubIOSyntax._
+import cats.effect.IO
+import scala.concurrent.ExecutionContext.Implicits.global
 
+implicit val IOContextShift = IO.contextShift(global)
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
+They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
+
+LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Users
 
@@ -36,8 +41,8 @@ You can get a user using `get`, it takes as argument:
 - `username`: of the user to retrieve.
 
 ```scala mdoc:silent
-val getUser = Github(accessToken).users.get("rafaparadela")
-getUser.exec[cats.Id]() match {
+val getUser = Github[IO](accessToken).users.get("rafaparadela")
+getUser.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -55,8 +60,8 @@ Get information of the authenticated user making the API call.
 You can get an authenticated user using `getAuth`:
 
 ```scala mdoc:silent
-val getAuth = Github(accessToken).users.getAuth
-getAuth.exec[cats.Id]() match {
+val getAuth = Github[IO](accessToken).users.getAuth()
+getAuth.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -75,8 +80,8 @@ You can get a list of users using `getUsers`, it takes as arguments:
 - `pagination`: Limit and Offset for pagination.
 
 ```scala mdoc:silent
-val getUsers = Github(accessToken).users.getUsers(1)
-getUsers.exec[cats.Id]() match {
+val getUsers = Github[IO](accessToken).users.getUsers(1)
+getUsers.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -99,8 +104,8 @@ You can get a list of users followed by another user using `getFollowing`, it ta
 - `username`: of the user to retrieve.
 
 ```scala mdoc:silent
-val getFollowing = Github(accessToken).users.getFollowing("rafaparadela")
-getFollowing.exec[cats.Id]() match {
+val getFollowing = Github[IO](accessToken).users.getFollowing("rafaparadela")
+getFollowing.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

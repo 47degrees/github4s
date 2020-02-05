@@ -15,20 +15,23 @@ with Github4s, you can interact with:
   - [List stargazers](#list-stargazers)
   - [List starred repositories](#list-starred-repositories)
 
-The following examples assume the following imports and token:
+The following examples use `cats.effect.IO` and assume the following imports and token:
 
 ```scala mdoc:silent
 import github4s.Github
-import github4s.Github._
-import github4s.implicits._
+import github4s.GithubIOSyntax._
+import cats.effect.IO
+import scala.concurrent.ExecutionContext.Implicits.global
 
+implicit val IOContextShift = IO.contextShift(global)
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id`, but any type container implementing `MonadError[M, Throwable]` will do.
 
-Support for `cats.Id`, `cats.Eval`, and `Future` are
-provided out of the box when importing `github4s.implicits._`.
+They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
+
+LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
+
 
 ## Notifications
 
@@ -44,9 +47,9 @@ You can subscribe or unsubscribe using `setThreadSub`; it takes as arguments:
 - `subscribed`: Determines if notifications should be received from this thread.
 - `ignored`: Determines if all notifications should be blocked from this thread.
 
-```scala
-val threadSub = Github(accessToken).activities.setThreadSub(5, true, false)
-threadSub.exec[cats.Id]() match {
+```scala mdoc:silent
+val threadSub = Github[IO](accessToken).activities.setThreadSub(5, true, false)
+threadSub.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -69,8 +72,8 @@ You can list the users starring a specific repository with `listStargazers`; it 
 To list the stargazers of 47deg/github4s:
 
 ```scala mdoc:silent
-val listStargazers = Github(accessToken).activities.listStargazers("47deg", "github4s", true)
-listStargazers.exec[cats.Id]() match {
+val listStargazers = Github[IO](accessToken).activities.listStargazers("47deg", "github4s", true)
+listStargazers.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -96,8 +99,8 @@ the repo was last pushed to), optional.
 To list the starred repositories for user `rafaparadela`:
 
 ```scala mdoc:silent
-val listStarredRepositories = Github(accessToken).activities.listStarredRepositories("rafaparadela", true)
-listStarredRepositories.exec[cats.Id]() match {
+val listStarredRepositories = Github[IO](accessToken).activities.listStarredRepositories("rafaparadela", true)
+listStarredRepositories.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
