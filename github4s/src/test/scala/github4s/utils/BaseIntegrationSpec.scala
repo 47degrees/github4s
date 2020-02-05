@@ -35,16 +35,16 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IntegrationSpec extends GHPullRequestsSpec
-//    extends BaseIntegrationSpec
-//    with GHActivitiesSpec
-//    with GHAuthSpec
-//    with GHGitDataSpec
-//    with GHIssuesSpec
-//    with GHOrganizationsSpec
-//    with GHPullRequestsSpec
-//    with GHReposSpec
-//    with GHUsersSpec
+class IntegrationSpec
+    extends BaseIntegrationSpec
+    with GHActivitiesSpec
+    with GHAuthSpec
+    with GHGitDataSpec
+    with GHIssuesSpec
+    with GHOrganizationsSpec
+    with GHPullRequestsSpec
+    with GHReposSpec
+    with GHUsersSpec
 
 object Integration
     extends Tag(

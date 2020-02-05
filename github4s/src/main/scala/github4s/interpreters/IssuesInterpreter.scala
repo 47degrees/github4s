@@ -23,7 +23,8 @@ import github4s.domain.{Comment, Issue, Label, Pagination, SearchIssuesResult, S
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import java.net.URLEncoder.encode
-import io.circe.generic.auto._
+import github4s.Decoders._
+import github4s.Encoders._
 
 class IssuesInterpreter[F[_]: Applicative](
     implicit client: HttpClient[F],

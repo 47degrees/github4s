@@ -22,7 +22,8 @@ import github4s.domain.{Authorization, Authorize, NewAuthRequest, OAuthToken}
 import java.util.UUID
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.domain._
-import io.circe.generic.auto._
+import github4s.Decoders._
+import github4s.Encoders._
 import cats.implicits._
 import com.github.marklister.base64.Base64.Encoder
 import github4s.http.HttpClient

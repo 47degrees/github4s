@@ -22,7 +22,8 @@ import github4s.algebras.Repositories
 import cats.data.NonEmptyList
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
-import io.circe.generic.auto._
+import github4s.Decoders._
+import github4s.Encoders._
 
 class RepositoriesInterpreter[F[_]: Applicative](
     implicit client: HttpClient[F],

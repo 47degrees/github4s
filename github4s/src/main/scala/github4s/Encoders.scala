@@ -41,4 +41,25 @@ object Encoders {
     deriveEncoder[EditGistFile].mapJsonObject(_.filter(e =>
       !(e._1.equals("filename") && e._2.isNull)))
   }
+
+  implicit val encoderCreateReferenceRequest: Encoder[CreateReferenceRequest] =
+    deriveEncoder[CreateReferenceRequest]
+  implicit val encoderNewCommitRequest: Encoder[NewCommitRequest] = deriveEncoder[NewCommitRequest]
+  implicit val encoderNewBlobRequest: Encoder[NewBlobRequest]     = deriveEncoder[NewBlobRequest]
+  implicit val encoderNewTreeRequest: Encoder[NewTreeRequest]     = deriveEncoder[NewTreeRequest]
+  implicit val encoderNewTagRequest: Encoder[NewTagRequest]       = deriveEncoder[NewTagRequest]
+  implicit val encoderUpdateReferenceRequest: Encoder[UpdateReferenceRequest] =
+    deriveEncoder[UpdateReferenceRequest]
+  implicit val encoderSubscriptionRequest: Encoder[SubscriptionRequest] =
+    deriveEncoder[SubscriptionRequest]
+  implicit val encoderNewAuthRequest: Encoder[NewAuthRequest]     = deriveEncoder[NewAuthRequest]
+  implicit val encoderNewOAuthRequest: Encoder[NewOAuthRequest]   = deriveEncoder[NewOAuthRequest]
+  implicit val encoderNewGistRequest: Encoder[NewGistRequest]     = deriveEncoder[NewGistRequest]
+  implicit val encoderEditGistRequest: Encoder[EditGistRequest]   = deriveEncoder[EditGistRequest]
+  implicit val encoderNewIssueRequest: Encoder[NewIssueRequest]   = deriveEncoder[NewIssueRequest]
+  implicit val encoderEditIssueRequest: Encoder[EditIssueRequest] = deriveEncoder[EditIssueRequest]
+  implicit val encoderCommentData: Encoder[CommentData]           = deriveEncoder[CommentData]
+  implicit val encoderNewReleaseRequest: Encoder[NewReleaseRequest] =
+    deriveEncoder[NewReleaseRequest]
+  implicit val encoderNewStatusRequest: Encoder[NewStatusRequest] = deriveEncoder[NewStatusRequest]
 }

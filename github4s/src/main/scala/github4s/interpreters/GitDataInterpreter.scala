@@ -23,7 +23,8 @@ import github4s.domain.{Ref, RefAuthor, RefCommit, RefInfo, Tag, TreeData, TreeR
 import cats.data.NonEmptyList
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
-import io.circe.generic.auto._
+import github4s.Decoders._
+import github4s.Encoders._
 
 class GitDataInterpreter[F[_]: Applicative](
     implicit client: HttpClient[F],

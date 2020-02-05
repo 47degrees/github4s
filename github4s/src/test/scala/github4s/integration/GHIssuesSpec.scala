@@ -35,13 +35,13 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
     })
   }
 
-  "Issues >> Get" should "return an issue which is a PR" ignore {
+  "Issues >> Get" should "return an issue which is a PR" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .getIssue(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
       .toFuture
 
     testFutureIsRight[Issue](response, { r =>
-      r.result.body.isEmpty shouldBe true
+      r.result.pull_request.isDefined shouldBe true
       r.statusCode shouldBe okStatusCode
     })
   }

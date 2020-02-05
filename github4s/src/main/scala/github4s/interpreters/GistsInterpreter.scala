@@ -20,7 +20,8 @@ import cats.Applicative
 import github4s.http.HttpClient
 import github4s.domain.{EditGistFile, EditGistRequest, Gist, GistFile, NewGistRequest}
 import github4s.algebras.Gists
-import io.circe.generic.auto._
+import github4s.Decoders._
+import github4s.Encoders._
 import github4s.GithubResponses.GHResponse
 
 class GistsInterpreter[F[_]: Applicative](
