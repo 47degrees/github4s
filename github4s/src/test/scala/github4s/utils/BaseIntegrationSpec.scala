@@ -37,14 +37,14 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class IntegrationSpec
     extends BaseIntegrationSpec
-//    with GHActivitiesSpec
-//    with GHAuthSpec
-//    with GHGitDataSpec
-//    with GHIssuesSpec
+    with GHActivitiesSpec
+    with GHAuthSpec
+    with GHGitDataSpec
+    with GHIssuesSpec
     with GHOrganizationsSpec
-//    with GHPullRequestsSpec
-//    with GHReposSpec
-//    with GHUsersSpec
+    with GHPullRequestsSpec
+    with GHReposSpec
+    with GHUsersSpec
 
 object Integration
     extends Tag(
