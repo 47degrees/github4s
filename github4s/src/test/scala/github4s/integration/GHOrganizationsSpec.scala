@@ -45,10 +45,10 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
     testFutureIsLeft(response)
   }
 
-  "Organization >> ListOutsideCollaborators" should "return expected list of users" taggedAs Integration in {
+  "Organization >> ListOutsideCollaborators" should "return expected list of users" ignore {
     val response =
       Github[IO](accessToken).organizations
-        .listOutsideCollaborators(validRepoOwner, headers = headerUserAgent)
+        .listOutsideCollaborators(validOrganizationName, headers = headerUserAgent)
         .toFuture
 
     testFutureIsRight[List[User]](response, { r =>
