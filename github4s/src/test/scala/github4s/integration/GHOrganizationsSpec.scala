@@ -48,7 +48,7 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
   "Organization >> ListOutsideCollaborators" should "return expected list of users" taggedAs Integration in {
     val response =
       Github[IO](accessToken).organizations
-        .listOutsideCollaborators(validOrganizationName, headers = headerUserAgent)
+        .listOutsideCollaborators("scala-exercises", headers = headerUserAgent)
         .toFuture
 
     testFutureIsRight[List[User]](response, { r =>

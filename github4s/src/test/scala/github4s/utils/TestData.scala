@@ -85,10 +85,7 @@ trait TestData extends DummyGithubUrls {
   val validSearchQuery       = "Scala 2.12"
   val nonExistentSearchQuery = "nonExistentSearchQueryString"
   val validSearchParams = List(
-    OwnerParamInRepository(s"$validRepoOwner/$validRepoName"),
-    LabelParam(label = "enhancement"),
-    IssueTypeIssue,
-    SearchIn(Set(SearchInTitle))
+    OwnerParamInRepository(s"$validRepoOwner/$validRepoName")
   )
 
   val validIssueNumber = 48
