@@ -215,4 +215,4 @@ See [the API doc](https://developer.github.com/v3/pulls/reviews/#get-a-single-re
 As you can see, a few features of the pull request endpoint are missing. As a result, if you'd like
 to see a feature supported, feel free to create an issue and/or a pull request!
 
-[pr-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala
+[pr-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala

@@ -95,8 +95,6 @@ As you can see, a few features of the user endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/User.scala
-
 ### List users followed by another user
 
 You can get a list of users followed by another user using `getFollowing`, it takes as argument:
@@ -114,3 +112,5 @@ getFollowing.toId match {
 The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/users/followers/#list-users-followed-by-another-use) for full reference.
+
+[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala

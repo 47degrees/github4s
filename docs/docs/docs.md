@@ -142,7 +142,6 @@ object ProgramEvalWithHeaders {
 }
 ```
 
-[http-client]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/HttpClient.scala
 [access-token]: https://github.com/settings/tokens
 [cats-concurrent-effect]: https://typelevel.org/cats-effect/typeclasses/concurrent-effect.html
 [monix-task]: https://monix.io/docs/3x/eval/task.html
