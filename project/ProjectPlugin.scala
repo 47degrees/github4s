@@ -29,7 +29,7 @@ object ProjectPlugin extends AutoPlugin {
       val simulacrum: String   = "0.19.0"
       val scala212: String     = "2.12.10"
       val scala213: String     = "2.13.1"
-      val http4s: String       = "0.21.0-M6"
+      val http4s: String       = "0.21.0"
       val scalamock: String    = "4.4.0"
       val scalaTest: String    = "3.1.0"
     }
@@ -75,8 +75,6 @@ object ProjectPlugin extends AutoPlugin {
         %%("circe-parser", V.circe)  % Test,
         %%("scalamock", V.scalamock) % Test,
         %%("scalatest", V.scalaTest) % Test,
-        "org.mock-server"            % "mockserver-netty" % "5.8.1" % Test excludeAll ExclusionRule(
-          "com.twitter")
       ),
       libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
         case Some((2, 13)) => Seq.empty[ModuleID]
