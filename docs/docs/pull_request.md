@@ -44,7 +44,7 @@ You can get a single pull request for a repository using `get`; it takes as argu
 
 To get a single pull request:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getPullRequest = Github[IO](accessToken).pullRequests.get("47deg", "github4s", 102)
 
 getPullRequest.toId match {
@@ -67,7 +67,7 @@ You can list the pull requests for a repository using `list`; it takes as argume
 As an example, let's say we want the open pull requests in <https://github.com/scala/scala> sorted
 by popularity:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 import github4s.domain._
 val prFilters = List(PRFilterOpen, PRFilterSortPopularity)
 val listPullRequests = Github[IO](accessToken).pullRequests.list("scala", "scala", prFilters)
@@ -91,7 +91,7 @@ You can also list the files for a pull request using `listFiles`; it takes as ar
 
 To list the files for a pull request:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listPullRequestFiles = Github[IO](accessToken).pullRequests.listFiles("47deg", "github4s", 102)
 
 listPullRequestFiles.toId match {
@@ -118,7 +118,7 @@ On the one hand, we can pass the following parameters:
  - `base`: The name of the branch you want the changes pulled into.
  - `maintainerCanModify`: Optional. Indicates whether maintainers can modify the pull request. `true` by default.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 import github4s.domain.NewPullRequestData
 
 val createPullRequestData = Github[IO](accessToken).pullRequests.create(
@@ -140,7 +140,7 @@ instead of the title and body.
 
 **NOTE**: This option deletes the issue.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 import github4s.domain.NewPullRequestIssue
 val createPullRequestIssue = Github[IO](accessToken).pullRequests.create(
   "47deg",
@@ -169,7 +169,7 @@ You can list the reviews for a pull request using `listReviews`; it takes as arg
 
 As an example, if we wanted to see all the reviews for pull request 139 of `47deg/github4s`:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listReviews = Github[IO](accessToken).pullRequests.listReviews(
   "47deg",
   "github4s",
@@ -195,7 +195,7 @@ You can get an individual review for a pull request using `getReview`; it takes 
 
 As an example, if we wanted to see review 39355613 for pull request 139 of `47deg/github4s`:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val review = Github[IO](accessToken).pullRequests.getReview(
   "47deg",
   "github4s",

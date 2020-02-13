@@ -39,7 +39,7 @@ You can create a gist using `newGist`; it takes as arguments:
 
 To create a gist:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 import github4s.domain.GistFile
 val gistfiles = Map(
   "token.scala" -> GistFile("val accessToken = sys.env.get(\"GITHUB4S_ACCESS_TOKEN\")"),
@@ -66,7 +66,7 @@ You can create a gist using `getGist`; it takes as arguments:
 
 To get a single gist:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val singleGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d")
 
 singleGist.toId match {
@@ -77,7 +77,7 @@ singleGist.toId match {
 
 Similarly, to get a specific revision of a gist:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val sepcificRevisionGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
 
 sepcificRevisionGist.toId match {
@@ -101,7 +101,7 @@ You can edit a gist using `editGist`; it takes as arguments:
 
 To edit a gist (change description, update content of _token.scala_, rename _gh4s.scala_ and remove _token.class_ file):
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 import github4s.domain.EditGistFile
 val editfiles = Map(
   "token.scala" -> Some(EditGistFile("lazy val accessToken = sys.env.get(\"GITHUB4S_ACCESS_TOKEN\")")),

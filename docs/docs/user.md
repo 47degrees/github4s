@@ -40,7 +40,7 @@ You can get a user using `get`, it takes as argument:
 
 - `username`: of the user to retrieve.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getUser = Github[IO](accessToken).users.get("rafaparadela")
 getUser.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -59,7 +59,7 @@ Get information of the authenticated user making the API call.
 
 You can get an authenticated user using `getAuth`:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getAuth = Github[IO](accessToken).users.getAuth()
 getAuth.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -79,7 +79,7 @@ You can get a list of users using `getUsers`, it takes as arguments:
 - `since`: The integer ID of the last User that you've seen.
 - `pagination`: Limit and Offset for pagination.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getUsers = Github[IO](accessToken).users.getUsers(1)
 getUsers.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -101,7 +101,7 @@ You can get a list of users followed by another user using `getFollowing`, it ta
 
 - `username`: of the user to retrieve.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getFollowing = Github[IO](accessToken).users.getFollowing("rafaparadela")
 getFollowing.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

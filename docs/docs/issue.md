@@ -56,7 +56,7 @@ if you have push access to the repository.
 
 To create an issue:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val createIssue =
   Github[IO](accessToken).issues.createIssue("47deg", "github4s", "Github4s", "is awesome",None,List("Label"),List("Assignee"))
 
@@ -84,7 +84,7 @@ if you have push access to the repository.
 
 To edit an issue:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val editIssue =
   Github[IO](accessToken).issues.editIssue("47deg", "github4s", 1, "open", "Github4s", "is still awesome",None,List("Label"),List("Assignee"))
 
@@ -107,7 +107,7 @@ You can also list issues for a repository through `listIssues`; it takes as argu
 
 To list the issues for a repository:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listIssues = Github[IO](accessToken).issues.listIssues("47deg", "github4s")
 
 listIssues.toId match {
@@ -131,7 +131,7 @@ You can also get a single issue of a repository through `getIssue`; it takes as 
 
 To get a single issue from a repository:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val issue = Github[IO](accessToken).issues.getIssue("47deg", "github4s", 17)
 
 issue.toId match {
@@ -157,7 +157,7 @@ arguments:
 Let's say we want to search for the Scala bugs (<https://github.com/scala/bug>) which contain
 the "existential" keyword in their title:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 import github4s.domain._
 val searchParams = List(
   OwnerParamInRepository("scala/bug"),
@@ -187,7 +187,7 @@ You can list comments of an issue with the following parameters:
 
  To list comments:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val commentList = Github[IO](accessToken).issues.listComments("47deg", "github4s", 17)
 commentList.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -209,7 +209,7 @@ You can create a comment for an issue with the following parameters:
 
  To create a comment:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val createcomment = Github[IO](accessToken).issues.createComment("47deg", "github4s", 17, "this is the comment")
 createcomment.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -232,7 +232,7 @@ You can edit a comment from an issue with the following parameters:
 
  To edit a comment:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val editComment = Github[IO](accessToken).issues.editComment("47deg", "github4s", 20, "this is the new comment")
 editComment.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -254,7 +254,7 @@ You can delete a comment from an issue with the following parameters:
 
  To delete a comment:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val deleteComment = Github[IO](accessToken).issues.deleteComment("47deg", "github4s", 20)
 deleteComment.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -277,7 +277,7 @@ You can list labels for an issue with the following parameters:
 
  To list labels:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val labelList = Github[IO](accessToken).issues.listLabels("47deg", "github4s", 17)
 labelList.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -299,7 +299,7 @@ You can add existing labels to an issue with the following parameters:
 
  To add existing labels to an issue:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val assignedLabelList = Github[IO](accessToken).issues.addLabels("47deg", "github4s", 17, List("bug", "code review"))
 assignedLabelList.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -321,7 +321,7 @@ You can remove a label from an issue with the following parameters:
 
  To remove an existing label from an issue:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val removedLabelList = Github[IO](accessToken).issues.removeLabel("47deg", "github4s", 17, "bug")
 removedLabelList.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -344,7 +344,7 @@ You can list available assignees for issues in repo with the following parameter
 
  To list available assignees:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val assignees = Github[IO](accessToken).issues.listAvailableAssignees("47deg", "github4s")
 assignees.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

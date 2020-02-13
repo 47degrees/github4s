@@ -42,7 +42,7 @@ You can create a new authorization token using `newAuth`; it takes as arguments:
 - `client_id`: the 20 character OAuth app client key for which to create the token.
 - `client_secret`: the 40 character OAuth app client secret for which to create the token.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val newAuth = Github[IO](None).auth.newAuth(
   "rafaparadela",
   "invalidPassword",
@@ -71,7 +71,7 @@ You can authorize a url using `authorizeUrl`; it takes as arguments:
 - `redirect_uri`: the URL in your app where users will be sent to after authorization.
 - `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val authorizeUrl = Github[IO](None).auth.authorizeUrl(
   "e8e39175648c9db8c280",
   "http://localhost:9000/_oauth-callback",
@@ -99,7 +99,7 @@ You can get an access token using `getAccessToken`; it takes as arguments:
 - `redirect_uri`: the URL in your app where users will be sent after authorization.
 - `state`: the unguessable random string you optionally provided in [Create a new authorization token](#create-a-new-authorization-token).
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getAccessToken = Github[IO](None).auth.getAccessToken(
   "e8e39175648c9db8c280",
   "1234567890",

@@ -43,7 +43,7 @@ You can list the members for a particular organization with `listMembers`; it ta
 
 To list the members for organization `47deg`:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listMembers = Github[IO](accessToken).organizations.listMembers("47deg")
 listMembers.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -67,7 +67,7 @@ You can list the outside collaborators of your organization with `listOutsideCol
 
 To list the outside collaborators for organization `47deg`:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val outsideCollaborators = Github[IO](accessToken).organizations.listOutsideCollaborators("47deg")
 outsideCollaborators.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
