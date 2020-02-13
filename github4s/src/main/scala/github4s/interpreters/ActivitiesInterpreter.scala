@@ -16,21 +16,15 @@
 
 package github4s.interpreters
 
-import cats.Applicative
-import github4s.GithubResponses.GHResponse
-import github4s.Decoders
-import github4s.http.HttpClient
 import github4s.algebras.Activities
-import github4s.domain.{Pagination, Stargazer, StarredRepository, Subscription, SubscriptionRequest}
 import github4s.Decoders._
+import github4s.domain._
 import github4s.Encoders._
+import github4s.GithubResponses.GHResponse
+import github4s.http.HttpClient
 
-class ActivitiesInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String])
+class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Activities[F] {
-
-  import Decoders._
 
   private val timelineHeader = ("Accept" -> "application/vnd.github.v3.star+json")
 

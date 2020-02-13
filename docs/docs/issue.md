@@ -132,7 +132,7 @@ You can also get a single issue of a repository through `getIssue`; it takes as 
 To get a single issue from a repository:
 
 ```scala mdoc:silent
-val issue = Github[IO](accessToken).issues.getIssue("47deg", "github4s", 123)
+val issue = Github[IO](accessToken).issues.getIssue("47deg", "github4s", 17)
 
 issue.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -188,7 +188,7 @@ You can list comments of an issue with the following parameters:
  To list comments:
 
 ```scala mdoc:silent
-val commentList = Github[IO](accessToken).issues.listComments("47deg", "github4s", 123)
+val commentList = Github[IO](accessToken).issues.listComments("47deg", "github4s", 17)
 commentList.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
@@ -210,7 +210,7 @@ You can create a comment for an issue with the following parameters:
  To create a comment:
 
 ```scala mdoc:silent
-val createcomment = Github[IO](accessToken).issues.createComment("47deg", "github4s", 123, "this is the comment")
+val createcomment = Github[IO](accessToken).issues.createComment("47deg", "github4s", 17, "this is the comment")
 createcomment.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
@@ -278,7 +278,7 @@ You can list labels for an issue with the following parameters:
  To list labels:
 
 ```scala mdoc:silent
-val labelList = Github[IO](accessToken).issues.listLabels("47deg", "github4s", 123)
+val labelList = Github[IO](accessToken).issues.listLabels("47deg", "github4s", 17)
 labelList.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
@@ -300,7 +300,7 @@ You can add existing labels to an issue with the following parameters:
  To add existing labels to an issue:
 
 ```scala mdoc:silent
-val assignedLabelList = Github[IO](accessToken).issues.addLabels("47deg", "github4s", 123, List("bug", "code review"))
+val assignedLabelList = Github[IO](accessToken).issues.addLabels("47deg", "github4s", 17, List("bug", "code review"))
 assignedLabelList.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
@@ -322,7 +322,7 @@ You can remove a label from an issue with the following parameters:
  To remove an existing label from an issue:
 
 ```scala mdoc:silent
-val removedLabelList = Github[IO](accessToken).issues.removeLabel("47deg", "github4s", 123, "bug")
+val removedLabelList = Github[IO](accessToken).issues.removeLabel("47deg", "github4s", 17, "bug")
 removedLabelList.toId match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)

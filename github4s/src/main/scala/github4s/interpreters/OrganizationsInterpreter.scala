@@ -16,16 +16,13 @@
 
 package github4s.interpreters
 
-import cats.Applicative
 import github4s.GithubResponses.GHResponse
 import github4s.http.HttpClient
 import github4s.algebras.Organizations
 import github4s.domain.{Pagination, User}
 import github4s.Decoders._
 
-class OrganizationsInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String])
+class OrganizationsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Organizations[F] {
 
   override def listMembers(

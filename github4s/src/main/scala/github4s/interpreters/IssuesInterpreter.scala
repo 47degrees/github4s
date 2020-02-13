@@ -16,19 +16,15 @@
 
 package github4s.interpreters
 
-import cats.Applicative
 import github4s.http.HttpClient
 import github4s.algebras.Issues
-import github4s.domain.{Comment, Issue, Label, Pagination, SearchIssuesResult, SearchParam, User}
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import java.net.URLEncoder.encode
 import github4s.Decoders._
 import github4s.Encoders._
 
-class IssuesInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String])
+class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Issues[F] {
 
   override def listIssues(

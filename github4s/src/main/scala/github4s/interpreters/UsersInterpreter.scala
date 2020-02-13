@@ -22,7 +22,6 @@ import github4s.algebras.Users
 import github4s.GithubResponses.GHResponse
 import github4s.domain.{Pagination, User}
 import github4s.Decoders._
-import github4s.Encoders._
 
 class UsersInterpreter[F[_]: Applicative](
     implicit client: HttpClient[F],
