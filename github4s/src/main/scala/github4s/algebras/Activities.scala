@@ -19,7 +19,7 @@ package github4s.algebras
 import github4s.GithubResponses.GHResponse
 import github4s.domain.{Pagination, Stargazer, StarredRepository, Subscription}
 
-abstract class Activities[F[_]] {
+trait Activities[F[_]] {
 
   /**
    * Set a thread subscription

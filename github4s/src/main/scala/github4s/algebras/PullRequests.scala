@@ -26,7 +26,7 @@ import github4s.domain.{
   PullRequestReview
 }
 
-abstract class PullRequests[F[_]] {
+trait PullRequests[F[_]] {
 
   /**
    * Get a single pull request for a repository
@@ -37,7 +37,7 @@ abstract class PullRequests[F[_]] {
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the pull request.
    */
-  def get(
+  def getPullRequest(
       owner: String,
       repo: String,
       number: Int,
@@ -62,12 +62,12 @@ abstract class PullRequests[F[_]] {
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the pull request list.
    */
-  def list(
+  def listPullRequests(
       owner: String,
       repo: String,
       filters: List[PRFilter] = Nil,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map(),
-      pagination: Option[Pagination] = None
   ): F[GHResponse[List[PullRequest]]]
 
   /**
@@ -84,8 +84,8 @@ abstract class PullRequests[F[_]] {
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination] = None
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
   ): F[GHResponse[List[PullRequestFile]]]
 
   /**
@@ -101,7 +101,7 @@ abstract class PullRequests[F[_]] {
    * @param maintainerCanModify Indicates whether maintainers can modify the pull request, Default:Some(true).
    * @param headers Optional user headers to include in the request
    */
-  def create(
+  def createPullRequest(
       owner: String,
       repo: String,
       newPullRequest: NewPullRequest,
@@ -117,15 +117,15 @@ abstract class PullRequests[F[_]] {
    * @param owner Owner of the repo
    * @param repo Name of the repo
    * @param pullRequest ID number of the PR to get reviews for.
-   * @param headers Optional user header to include in the request
    * @param pagination Limit and Offset for pagination
+   * @param headers Optional user header to include in the request
    */
   def listReviews(
       owner: String,
       repo: String,
       pullRequest: Int,
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination] = None): F[GHResponse[List[PullRequestReview]]]
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequestReview]]]
 
   /**
    * Get a specific pull request review.

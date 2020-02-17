@@ -19,7 +19,7 @@ package github4s.algebras
 import github4s.GithubResponses.GHResponse
 import github4s.domain.{Pagination, User}
 
-abstract class Users[F[_]] {
+trait Users[F[_]] {
 
   /**
    * Get information for a particular user

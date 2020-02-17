@@ -19,7 +19,7 @@ package github4s.algebras
 import github4s.GithubResponses.GHResponse
 import github4s.domain.{Pagination, User}
 
-abstract class Organizations[F[_]] {
+trait Organizations[F[_]] {
 
   /**
    * List the users belonging to a specific organization

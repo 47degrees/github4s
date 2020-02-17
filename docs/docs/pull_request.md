@@ -45,9 +45,9 @@ You can get a single pull request for a repository using `get`; it takes as argu
 To get a single pull request:
 
 ```scala mdoc:compile-only
-val getPullRequest = Github[IO](accessToken).pullRequests.get("47deg", "github4s", 102)
+val getPullRequest = Github[IO](accessToken).pullRequests.getPullRequest("47deg", "github4s", 102)
 
-getPullRequest.toId match {
+getPullRequest.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -70,9 +70,9 @@ by popularity:
 ```scala mdoc:compile-only
 import github4s.domain._
 val prFilters = List(PRFilterOpen, PRFilterSortPopularity)
-val listPullRequests = Github[IO](accessToken).pullRequests.list("scala", "scala", prFilters)
+val listPullRequests = Github[IO](accessToken).pullRequests.listPullRequests("scala", "scala", prFilters)
 
-listPullRequests.toId match {
+listPullRequests.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -94,7 +94,7 @@ To list the files for a pull request:
 ```scala mdoc:compile-only
 val listPullRequestFiles = Github[IO](accessToken).pullRequests.listFiles("47deg", "github4s", 102)
 
-listPullRequestFiles.toId match {
+listPullRequestFiles.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -121,15 +121,15 @@ On the one hand, we can pass the following parameters:
 ```scala mdoc:compile-only
 import github4s.domain.NewPullRequestData
 
-val createPullRequestData = Github[IO](accessToken).pullRequests.create(
+val createPullRequestData = Github[IO](accessToken).pullRequests.createPullRequest(
   "47deg",
   "github4s",
-  NewPullRequestData("title","body"),
+  NewPullRequestData("title", "body"),
   "my-branch",
   "base-branch",
   Some(true))
 
-createPullRequestData.toId match {
+createPullRequestData.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -142,7 +142,7 @@ instead of the title and body.
 
 ```scala mdoc:compile-only
 import github4s.domain.NewPullRequestIssue
-val createPullRequestIssue = Github[IO](accessToken).pullRequests.create(
+val createPullRequestIssue = Github[IO](accessToken).pullRequests.createPullRequest(
   "47deg",
   "github4s",
   NewPullRequestIssue(105),
@@ -150,7 +150,7 @@ val createPullRequestIssue = Github[IO](accessToken).pullRequests.create(
   "base-branch",
   Some(true))
 
-createPullRequestIssue.toId match {
+createPullRequestIssue.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -175,7 +175,7 @@ val listReviews = Github[IO](accessToken).pullRequests.listReviews(
   "github4s",
   139)
 
-listReviews.toId match {
+listReviews.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -202,7 +202,7 @@ val review = Github[IO](accessToken).pullRequests.getReview(
   139,
   39355613)
 
-review.toId match {
+review.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

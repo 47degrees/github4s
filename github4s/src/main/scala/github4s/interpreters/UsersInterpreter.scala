@@ -16,16 +16,13 @@
 
 package github4s.interpreters
 
-import cats.Applicative
 import github4s.http.HttpClient
 import github4s.algebras.Users
 import github4s.GithubResponses.GHResponse
 import github4s.domain.{Pagination, User}
 import github4s.Decoders._
 
-class UsersInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String])
+class UsersInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Users[F] {
 
   override def get(username: String, headers: Map[String, String] = Map()): F[GHResponse[User]] =

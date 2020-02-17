@@ -49,7 +49,7 @@ You can subscribe or unsubscribe using `setThreadSub`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val threadSub = Github[IO](accessToken).activities.setThreadSub(5, true, false)
-threadSub.toId match {
+threadSub.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -73,7 +73,7 @@ To list the stargazers of 47deg/github4s:
 
 ```scala mdoc:compile-only
 val listStargazers = Github[IO](accessToken).activities.listStargazers("47deg", "github4s", true)
-listStargazers.toId match {
+listStargazers.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -100,7 +100,7 @@ To list the starred repositories for user `rafaparadela`:
 
 ```scala mdoc:compile-only
 val listStarredRepositories = Github[IO](accessToken).activities.listStarredRepositories("rafaparadela", true)
-listStarredRepositories.toId match {
+listStarredRepositories.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

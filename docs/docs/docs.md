@@ -138,7 +138,7 @@ object ProgramEvalWithHeaders {
   import github4s.Github
     
   val userHeaders = Map("user-agent" -> "github4s")
-  val u5 = Github[Task](accessToken).users.get("rafaparadela",userHeaders)  
+  val u5 = Github[Task](accessToken).users.get("rafaparadela", userHeaders)  
 }
 ```
 

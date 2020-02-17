@@ -59,7 +59,7 @@ You can get a reference using `getReference`, it takes as arguments:
 ```scala mdoc:compile-only
 val getReference = Github[IO](accessToken).gitData.getReference("47deg", "github4s", "heads/master")
 
-getReference.toId match {
+getReference.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -89,7 +89,7 @@ val createReference = Github[IO](accessToken).gitData.createReference(
   "refs/heads/master",
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 
-createReference.toId match {
+createReference.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -115,9 +115,10 @@ val updateReference = Github[IO](accessToken).gitData.updateReference(
   "47deg",
   "github4s",
   "heads/master",
-  "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",false)
+  "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
+  false)
 
-updateReference.toId match {
+updateReference.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -139,7 +140,7 @@ You can get a commit using `getCommit`; it takes as arguments:
 ```scala mdoc:compile-only
 val getCommit = Github[IO](accessToken).gitData.getCommit("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 
-getCommit.toId match {
+getCommit.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -171,7 +172,7 @@ val createCommit = Github[IO](accessToken).gitData.createCommit(
   List("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"),
   None)
 
-createCommit.toId match {
+createCommit.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -194,7 +195,7 @@ You can create a blob using `createBlob`; it takes as arguments:
 ```scala mdoc:compile-only
 val createBlob = Github[IO](accessToken).gitData.createBlob("47deg", "github4s", "New access token", Some("utf-8"))
 
-createBlob.toId match {
+createBlob.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -223,9 +224,9 @@ You can get a tree using `getTree`; it takes as arguments:
 - `recursive`: flag whether to get the tree recursively.
 
 ```scala mdoc:compile-only
-val getTree = Github[IO](accessToken).gitData.getTree("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",true)
+val getTree = Github[IO](accessToken).gitData.getTree("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891", true)
 
-getTree.toId match {
+getTree.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -270,7 +271,7 @@ val createTree = Github[IO](accessToken).gitData.createTree(
     "blob",
     "827efc6d56897b048c772eb4087f854f46256132")))
 
-createTree.toId match {
+createTree.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -305,7 +306,7 @@ val createTag = Github[IO](accessToken).gitData.createTag(
   "commit",
   Some(RefAuthor("2014-11-07T22:01:45Z", "rafaparadela", "developer@47deg.com")))
 
-createTag.toId match {
+createTag.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

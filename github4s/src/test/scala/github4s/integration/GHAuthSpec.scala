@@ -43,7 +43,7 @@ trait GHAuthSpec extends BaseIntegrationSpec {
   "Auth >> AuthorizeUrl" should "return the expected URL for valid username" taggedAs Integration in {
     val response =
       Github[IO]().auth
-        .authorizeUrl(validClientId, validRedirectUri, validScopes, headerUserAgent)
+        .authorizeUrl(validClientId, validRedirectUri, validScopes)
         .toFuture
 
     testFutureIsRight[Authorize](response, { r =>

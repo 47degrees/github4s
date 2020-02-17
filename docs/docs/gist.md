@@ -47,7 +47,7 @@ val gistfiles = Map(
 )
 val newGist = Github[IO](accessToken).gists.newGist("Github4s entry point", public = true, gistfiles)
 
-newGist.toId match {
+newGist.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -69,7 +69,7 @@ To get a single gist:
 ```scala mdoc:compile-only
 val singleGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d")
 
-singleGist.toId match {
+singleGist.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -80,7 +80,7 @@ Similarly, to get a specific revision of a gist:
 ```scala mdoc:compile-only
 val sepcificRevisionGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
 
-sepcificRevisionGist.toId match {
+sepcificRevisionGist.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -111,7 +111,7 @@ val editfiles = Map(
 
 val updatedGist = Github[IO](accessToken).gists.editGist("aa5a315d61ae9438b18d", "Updated github4s entry point", editfiles)
 
-updatedGist.toId match {
+updatedGist.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

@@ -49,8 +49,7 @@ class AuthInterpreter[F[_]: Applicative](
   override def authorizeUrl(
       client_id: String,
       redirect_uri: String,
-      scopes: List[String],
-      headers: Map[String, String] = Map()): F[GHResponse[Authorize]] = {
+      scopes: List[String]): F[GHResponse[Authorize]] = {
     val state = UUID.randomUUID().toString
     val result: GHResponse[Authorize] =
       Either.right(

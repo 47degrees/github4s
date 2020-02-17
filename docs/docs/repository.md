@@ -56,7 +56,7 @@ To get a repository:
 val getRepo =
   Github[IO](accessToken).repos.get("47deg", "github4s")
 
-getRepo.toId match {
+getRepo.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -82,7 +82,7 @@ To list the repositories for an organization:
 ```scala mdoc:compile-only
 val listOrgRepos = Github[IO](accessToken).repos.listOrgRepos("47deg")
 
-listOrgRepos.toId match {
+listOrgRepos.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -107,7 +107,7 @@ To list the repositories for a user:
 ```scala mdoc:compile-only
 val listUserRepos = Github[IO](accessToken).repos.listUserRepos("rafaparadela")
 
-listUserRepos.toId match {
+listUserRepos.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -134,7 +134,7 @@ To list contributors:
 val listContributors =
   Github[IO](accessToken).repos.listContributors("47deg", "github4s", Some("true"))
 
-listContributors.toId match {
+listContributors.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -159,7 +159,7 @@ For more information take a look at [the API doc](https://developer.github.com/v
 val listCollaborators =
   Github[IO](accessToken).repos.listCollaborators("47deg", "github4s", Some("all"))
 
-listCollaborators.toId match {
+listCollaborators.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -197,7 +197,7 @@ val listCommits =
   Some("2014-11-07T22:01:45Z"),
   Some("2014-11-07T22:01:45Z"))
 
-listCommits.toId match {
+listCommits.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -225,7 +225,7 @@ val listBranches =
   "47deg",
   "github4s")
 
-listBranches.toId match {
+listBranches.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -253,7 +253,7 @@ To get contents:
 val getContents =
   Github[IO](accessToken).repos.getContents("47deg", "github4s", "README.md", Some("heads/master"))
 
-getContents.toId match {
+getContents.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -285,7 +285,7 @@ To create a release:
 val createRelease =
   Github[IO](accessToken).repos.createRelease("47deg", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
 
-createRelease.toId match {
+createRelease.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -313,7 +313,7 @@ To create a status:
 val createStatus =
   Github[IO](accessToken).repos.createStatus("47deg", "github4s", "aaaaaa", "pending", None, None, None)
 
-createStatus.toId match {
+createStatus.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -337,7 +337,7 @@ To list the statuses for a specific ref:
 val listStatuses =
   Github[IO](accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
 
-listStatuses.toId match {
+listStatuses.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -357,7 +357,7 @@ arguments as the operation listing statuses:
 val combinedStatus =
   Github[IO](accessToken).repos.getCombinedStatus("47deg", "github4s", "heads/master")
 
-combinedStatus.toId match {
+combinedStatus.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

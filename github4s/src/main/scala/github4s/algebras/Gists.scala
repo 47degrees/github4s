@@ -19,7 +19,7 @@ package github4s.algebras
 import github4s.GithubResponses.GHResponse
 import github4s.domain.{EditGistFile, Gist, GistFile}
 
-abstract class Gists[F[_]] {
+trait Gists[F[_]] {
 
   /**
    * Create a new gist

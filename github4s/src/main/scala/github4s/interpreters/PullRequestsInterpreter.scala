@@ -26,19 +26,19 @@ import github4s.Encoders._
 class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends PullRequests[F] {
 
-  override def get(
+  override def getPullRequest(
       owner: String,
       repo: String,
       number: Int,
       headers: Map[String, String] = Map()): F[GHResponse[PullRequest]] =
     client.get[PullRequest](accessToken, s"repos/$owner/$repo/pulls/$number", headers)
 
-  override def list(
+  override def listPullRequests(
       owner: String,
       repo: String,
       filters: List[PRFilter],
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination]): F[GHResponse[List[PullRequest]]] =
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequest]]] =
     client.get[List[PullRequest]](
       accessToken,
       s"repos/$owner/$repo/pulls",
@@ -50,8 +50,8 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination]): F[GHResponse[List[PullRequestFile]]] =
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequestFile]]] =
     client
       .get[List[PullRequestFile]](
         accessToken,
@@ -59,7 +59,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
         headers,
         pagination = pagination)
 
-  override def create(
+  override def createPullRequest(
       owner: String,
       repo: String,
       newPullRequest: NewPullRequest,
@@ -81,8 +81,8 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       pullRequest: Int,
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination]): F[GHResponse[List[PullRequestReview]]] =
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequestReview]]] =
     client.get[List[PullRequestReview]](
       accessToken,
       s"repos/$owner/$repo/pulls/$pullRequest/reviews",

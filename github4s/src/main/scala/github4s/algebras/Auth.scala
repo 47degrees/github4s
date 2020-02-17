@@ -19,7 +19,7 @@ package github4s.algebras
 import github4s.GithubResponses.GHResponse
 import github4s.domain.{Authorization, Authorize, OAuthToken}
 
-abstract class Auth[F[_]] {
+trait Auth[F[_]] {
 
   /**
    * Call to request a new authorization given a basic authentication, the returned object Authorization includes an
@@ -56,7 +56,6 @@ abstract class Auth[F[_]] {
       client_id: String,
       redirect_uri: String,
       scopes: List[String],
-      headers: Map[String, String] = Map()
   ): F[GHResponse[Authorize]]
 
   /**
