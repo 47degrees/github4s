@@ -27,6 +27,7 @@ import github4s.integration.{
   GHOrganizationsSpec,
   GHPullRequestsSpec,
   GHReposSpec,
+  GHTeamsSpec,
   GHUsersSpec
 }
 import org.scalatest.{Assertion, Ignore, Inspectors, Tag}
@@ -45,6 +46,7 @@ class IntegrationSpec
     with GHPullRequestsSpec
     with GHReposSpec
     with GHUsersSpec
+    with GHTeamsSpec
 
 object Integration
     extends Tag(

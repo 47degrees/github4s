@@ -407,4 +407,21 @@ trait TestData extends DummyGithubUrls {
     pull_request_url = ""
   )
 
+  val validNameTeam = "47 Devs"
+  val validSlug     = "47-devs"
+
+  val team = Team(
+    name = validNameTeam,
+    id = 40235,
+    node_id = "MDQ6VGVhbTQwMjM1",
+    slug = validSlug,
+    description = null,
+    privacy = "secret",
+    url = "https://api.github.com/organizations/479857/team/40235",
+    html_url = "https://github.com/orgs/47deg/teams/47-devs",
+    members_url = "https://api.github.com/organizations/479857/team/40235/members{/member}",
+    repositories_url = "https://api.github.com/organizations/479857/team/40235/repos",
+    permission = "push",
+    parent = null
+  )
 }

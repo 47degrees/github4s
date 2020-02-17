@@ -27,6 +27,7 @@ import github4s.algebras.{
   Organizations,
   PullRequests,
   Repositories,
+  Teams,
   Users
 }
 import github4s.modules._
@@ -49,6 +50,7 @@ class Github[F[_]: ConcurrentEffect](accessToken: Option[String], timeout: Optio
   val gitData: GitData[F]             = module.gitData
   val pullRequests: PullRequests[F]   = module.pullRequests
   val organizations: Organizations[F] = module.organizations
+  val teams: Teams[F]                 = module.teams
 
 }
 

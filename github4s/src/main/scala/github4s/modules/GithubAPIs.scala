@@ -34,6 +34,7 @@ sealed trait GithubAPIs[F[_]] {
   val gitData: GitData[F]
   val pullRequests: PullRequests[F]
   val organizations: Organizations[F]
+  val teams: Teams[F]
 }
 
 class GithubAPIv3[F[_]: ConcurrentEffect](accessToken: Option[String] = None, timeout: Duration)(
@@ -52,4 +53,6 @@ class GithubAPIv3[F[_]: ConcurrentEffect](accessToken: Option[String] = None, ti
   override val gitData: GitData[F]             = new GitDataInterpreter[F]
   override val pullRequests: PullRequests[F]   = new PullRequestsInterpreter[F]
   override val organizations: Organizations[F] = new OrganizationsInterpreter[F]
+  override val teams: Teams[F]                 = new TeamsInterpreter[F]
+
 }
