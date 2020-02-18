@@ -47,12 +47,8 @@ object Http4sSyntax {
   implicit class RequestBuilderOps[R](val self: RequestBuilder[R]) extends AnyVal {
 
     def toHeaderList: List[Header] =
-      (self.headers.map({ kv =>
-        Header(kv._1, kv._2)
-      }) ++
-        self.authHeader.map({ kv =>
-          Header(kv._1, kv._2)
-        })).toList
+      (self.headers.map(kv => Header(kv._1, kv._2)) ++
+        self.authHeader.map(kv => Header(kv._1, kv._2))).toList
 
     def toUri(urls: GithubAPIv3Config): Uri =
       Uri.fromString(self.url).getOrElse(Uri.unsafeFromString(urls.baseUrl)) =?
