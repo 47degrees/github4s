@@ -39,7 +39,7 @@ class OrganizationsInterpreter[F[_]](implicit client: HttpClient[F], accessToken
         "filter" -> filter,
         "role"   -> role
       ).collect { case (key, Some(value)) => key -> value },
-      pagination = pagination
+      pagination
     )
 
   override def listOutsideCollaborators(

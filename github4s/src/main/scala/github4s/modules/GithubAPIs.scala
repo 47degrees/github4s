@@ -25,15 +25,15 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
 
 sealed trait GithubAPIs[F[_]] {
-  val users: Users[F]
-  val repos: Repositories[F]
-  val auth: Auth[F]
-  val gists: Gists[F]
-  val issues: Issues[F]
-  val activities: Activities[F]
-  val gitData: GitData[F]
-  val pullRequests: PullRequests[F]
-  val organizations: Organizations[F]
+  def users: Users[F]
+  def repos: Repositories[F]
+  def auth: Auth[F]
+  def gists: Gists[F]
+  def issues: Issues[F]
+  def activities: Activities[F]
+  def gitData: GitData[F]
+  def pullRequests: PullRequests[F]
+  def organizations: Organizations[F]
 }
 
 class GithubAPIv3[F[_]: ConcurrentEffect](accessToken: Option[String] = None, timeout: Duration)(
