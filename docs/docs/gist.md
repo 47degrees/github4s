@@ -39,7 +39,7 @@ You can create a gist using `newGist`; it takes as arguments:
 
 To create a gist:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 import github4s.domain.GistFile
 val gistfiles = Map(
   "token.scala" -> GistFile("val accessToken = sys.env.get(\"GITHUB4S_ACCESS_TOKEN\")"),
@@ -47,7 +47,7 @@ val gistfiles = Map(
 )
 val newGist = Github[IO](accessToken).gists.newGist("Github4s entry point", public = true, gistfiles)
 
-newGist.toId match {
+newGist.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -66,10 +66,10 @@ You can create a gist using `getGist`; it takes as arguments:
 
 To get a single gist:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val singleGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d")
 
-singleGist.toId match {
+singleGist.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -77,10 +77,10 @@ singleGist.toId match {
 
 Similarly, to get a specific revision of a gist:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val sepcificRevisionGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
 
-sepcificRevisionGist.toId match {
+sepcificRevisionGist.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -101,7 +101,7 @@ You can edit a gist using `editGist`; it takes as arguments:
 
 To edit a gist (change description, update content of _token.scala_, rename _gh4s.scala_ and remove _token.class_ file):
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 import github4s.domain.EditGistFile
 val editfiles = Map(
   "token.scala" -> Some(EditGistFile("lazy val accessToken = sys.env.get(\"GITHUB4S_ACCESS_TOKEN\")")),
@@ -111,7 +111,7 @@ val editfiles = Map(
 
 val updatedGist = Github[IO](accessToken).gists.editGist("aa5a315d61ae9438b18d", "Updated github4s entry point", editfiles)
 
-updatedGist.toId match {
+updatedGist.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -124,4 +124,4 @@ See [the API doc](https://developer.github.com/v3/gists/#edit-a-gist) for full r
 As you can see, a few features of the gist endpoint are missing. As a result, if you'd like to see a
 feature supported, feel free to create an issue and/or a pull request!
 
-[gist-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Gist.scala
+[gist-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Gist.scala

@@ -16,17 +16,14 @@
 
 package github4s.interpreters
 
-import cats.Applicative
-import github4s.http.HttpClient
-import github4s.domain.{EditGistFile, EditGistRequest, Gist, GistFile, NewGistRequest}
 import github4s.algebras.Gists
 import github4s.Decoders._
+import github4s.domain.{EditGistFile, EditGistRequest, Gist, GistFile, NewGistRequest}
 import github4s.Encoders._
 import github4s.GithubResponses.GHResponse
+import github4s.http.HttpClient
 
-class GistsInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String])
+class GistsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Gists[F] {
 
   override def newGist(

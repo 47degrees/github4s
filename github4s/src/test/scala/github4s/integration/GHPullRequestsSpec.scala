@@ -27,7 +27,11 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> Get" should "return a right response when a valid pr number is provided" taggedAs Integration in {
     val response =
       Github[IO](accessToken).pullRequests
-        .get(validRepoOwner, validRepoName, validPullRequestNumber, headers = headerUserAgent)
+        .getPullRequest(
+          validRepoOwner,
+          validRepoName,
+          validPullRequestNumber,
+          headers = headerUserAgent)
         .toFuture
 
     testFutureIsRight[PullRequest](response, { r =>
@@ -38,7 +42,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
   it should "return an error when a valid issue number is provided" taggedAs Integration in {
     val response =
       Github[IO](accessToken).pullRequests
-        .get(validRepoOwner, validRepoName, validIssueNumber, headers = headerUserAgent)
+        .getPullRequest(validRepoOwner, validRepoName, validIssueNumber, headers = headerUserAgent)
         .toFuture
 
     testFutureIsLeft(response)
@@ -47,7 +51,11 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
   it should "return an error when an invalid repo name is passed" taggedAs Integration in {
     val response =
       Github[IO](accessToken).pullRequests
-        .get(validRepoOwner, invalidRepoName, validPullRequestNumber, headers = headerUserAgent)
+        .getPullRequest(
+          validRepoOwner,
+          invalidRepoName,
+          validPullRequestNumber,
+          headers = headerUserAgent)
         .toFuture
 
     testFutureIsLeft(response)
@@ -56,7 +64,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> List" should "return a right response when valid repo is provided" taggedAs Integration in {
     val response =
       Github[IO](accessToken).pullRequests
-        .list(
+        .listPullRequests(
           validRepoOwner,
           validRepoName,
           pagination = Some(Pagination(1, 10)),
@@ -71,7 +79,11 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
   it should "return a right response when a valid repo is provided but not all pull requests have body" taggedAs Integration in {
     val response =
       Github[IO](accessToken).pullRequests
-        .list("lloydmeta", "gh-test-repo", List(PRFilterOpen), headers = headerUserAgent)
+        .listPullRequests(
+          "lloydmeta",
+          "gh-test-repo",
+          List(PRFilterOpen),
+          headers = headerUserAgent)
         .toFuture
 
     testFutureIsRight[List[PullRequest]](response, { r =>
@@ -83,7 +95,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
   it should "return a non empty list when valid repo and some filters are provided" taggedAs Integration in {
     val response =
       Github[IO](accessToken).pullRequests
-        .list(
+        .listPullRequests(
           validRepoOwner,
           validRepoName,
           List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc),
@@ -99,7 +111,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
     val response =
       Github[IO](accessToken).pullRequests
-        .list(validRepoOwner, invalidRepoName, headers = headerUserAgent)
+        .listPullRequests(validRepoOwner, invalidRepoName, headers = headerUserAgent)
         .toFuture
 
     testFutureIsLeft(response)

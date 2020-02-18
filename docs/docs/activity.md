@@ -47,9 +47,9 @@ You can subscribe or unsubscribe using `setThreadSub`; it takes as arguments:
 - `subscribed`: Determines if notifications should be received from this thread.
 - `ignored`: Determines if all notifications should be blocked from this thread.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val threadSub = Github[IO](accessToken).activities.setThreadSub(5, true, false)
-threadSub.toId match {
+threadSub.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -71,9 +71,9 @@ You can list the users starring a specific repository with `listStargazers`; it 
 
 To list the stargazers of 47deg/github4s:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listStargazers = Github[IO](accessToken).activities.listStargazers("47deg", "github4s", true)
-listStargazers.toId match {
+listStargazers.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -98,9 +98,9 @@ the repo was last pushed to), optional.
 
 To list the starred repositories for user `rafaparadela`:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listStarredRepositories = Github[IO](accessToken).activities.listStarredRepositories("rafaparadela", true)
-listStarredRepositories.toId match {
+listStarredRepositories.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -115,4 +115,4 @@ As you can see, a few features of the activity endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[activity-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Activity.scala
+[activity-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Activity.scala

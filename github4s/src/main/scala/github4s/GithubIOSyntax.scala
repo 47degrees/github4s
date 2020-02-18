@@ -28,7 +28,7 @@ object GithubIOSyntax {
     override def liftIO[A](ioa: IO[A]): Future[A] = ioa.unsafeToFuture()
   }
 
-  implicit val IdLiftIO: LiftIO[Id] = new LiftIO[Id] {
+  implicit val idLiftIO: LiftIO[Id] = new LiftIO[Id] {
 
     override def liftIO[A](ioa: IO[A]): Id[A] = ioa.unsafeRunSync()
   }

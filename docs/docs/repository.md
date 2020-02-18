@@ -52,11 +52,11 @@ You can get a repository using `get`; it takes as arguments:
 
 To get a repository:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getRepo =
   Github[IO](accessToken).repos.get("47deg", "github4s")
 
-getRepo.toId match {
+getRepo.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -79,10 +79,10 @@ takes as arguments:
 
 To list the repositories for an organization:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listOrgRepos = Github[IO](accessToken).repos.listOrgRepos("47deg")
 
-listOrgRepos.toId match {
+listOrgRepos.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -104,10 +104,10 @@ takes as arguments:
 
 To list the repositories for a user:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listUserRepos = Github[IO](accessToken).repos.listUserRepos("rafaparadela")
 
-listUserRepos.toId match {
+listUserRepos.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -130,11 +130,11 @@ You can list contributors using `listContributors`, it takes as arguments:
 
 To list contributors:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listContributors =
   Github[IO](accessToken).repos.listContributors("47deg", "github4s", Some("true"))
 
-listContributors.toId match {
+listContributors.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -155,11 +155,11 @@ You can list collaborators using `listCollaborators`, it takes as arguments:
 - `affiliation`, one of `outside`, `direct`, or `all` (default `all`).
 For more information take a look at [the API doc](https://developer.github.com/v3/repos/collaborators/#parameters).
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listCollaborators =
   Github[IO](accessToken).repos.listCollaborators("47deg", "github4s", Some("all"))
 
-listCollaborators.toId match {
+listCollaborators.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -186,7 +186,7 @@ You can list commits using `listCommits`, it takes as arguments:
 
 To list commits:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listCommits =
   Github[IO](accessToken).repos.listCommits(
   "47deg",
@@ -197,7 +197,7 @@ val listCommits =
   Some("2014-11-07T22:01:45Z"),
   Some("2014-11-07T22:01:45Z"))
 
-listCommits.toId match {
+listCommits.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -219,13 +219,13 @@ You can list branches using `listBranches`, it takes as arguments:
 
 To list branches:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listBranches =
   Github[IO](accessToken).repos.listBranches(
   "47deg",
   "github4s")
 
-listBranches.toId match {
+listBranches.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -249,11 +249,11 @@ You can get contents using `getContents`, it takes as arguments:
 
 To get contents:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getContents =
   Github[IO](accessToken).repos.getContents("47deg", "github4s", "README.md", Some("heads/master"))
 
-getContents.toId match {
+getContents.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -281,11 +281,11 @@ Can be any branch or commit `SHA`. Unused if the `Git tag` already exists. Defau
 
 To create a release:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val createRelease =
   Github[IO](accessToken).repos.createRelease("47deg", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
 
-createRelease.toId match {
+createRelease.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -309,11 +309,11 @@ You can create a status using `createStatus`; it takes as arguments:
 
 To create a status:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val createStatus =
   Github[IO](accessToken).repos.createStatus("47deg", "github4s", "aaaaaa", "pending", None, None, None)
 
-createStatus.toId match {
+createStatus.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -333,11 +333,11 @@ You can also list statuses through `listStatuses`; it take as arguments:
 
 To list the statuses for a specific ref:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val listStatuses =
   Github[IO](accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
 
-listStatuses.toId match {
+listStatuses.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -353,11 +353,11 @@ for full reference.
 Lastly, you can also get the combined status thanks to `getCombinedStatus`; it takes the same
 arguments as the operation listing statuses:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val combinedStatus =
   Github[IO](accessToken).repos.getCombinedStatus("47deg", "github4s", "heads/master")
 
-combinedStatus.toId match {
+combinedStatus.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -372,5 +372,5 @@ As you can see, a few features of the repository endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[repository-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Repository.scala
-[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/User.scala
+[repository-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Repository.scala
+[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala

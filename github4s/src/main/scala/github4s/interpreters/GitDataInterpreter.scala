@@ -16,19 +16,15 @@
 
 package github4s.interpreters
 
-import cats.Applicative
 import github4s.http.HttpClient
 import github4s.algebras.GitData
-import github4s.domain.{Ref, RefAuthor, RefCommit, RefInfo, Tag, TreeData, TreeResult}
 import cats.data.NonEmptyList
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import github4s.Decoders._
 import github4s.Encoders._
 
-class GitDataInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String])
+class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends GitData[F] {
   override def getReference(
       owner: String,

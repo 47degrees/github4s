@@ -16,7 +16,6 @@
 
 package github4s.interpreters
 
-import cats.Applicative
 import github4s.http.HttpClient
 import github4s.algebras.PullRequests
 import github4s.GithubResponses.GHResponse
@@ -24,24 +23,22 @@ import github4s.domain._
 import github4s.Decoders._
 import github4s.Encoders._
 
-class PullRequestsInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String])
+class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends PullRequests[F] {
 
-  override def get(
+  override def getPullRequest(
       owner: String,
       repo: String,
       number: Int,
       headers: Map[String, String] = Map()): F[GHResponse[PullRequest]] =
     client.get[PullRequest](accessToken, s"repos/$owner/$repo/pulls/$number", headers)
 
-  override def list(
+  override def listPullRequests(
       owner: String,
       repo: String,
       filters: List[PRFilter],
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination]): F[GHResponse[List[PullRequest]]] =
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequest]]] =
     client.get[List[PullRequest]](
       accessToken,
       s"repos/$owner/$repo/pulls",
@@ -53,8 +50,8 @@ class PullRequestsInterpreter[F[_]: Applicative](
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination]): F[GHResponse[List[PullRequestFile]]] =
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequestFile]]] =
     client
       .get[List[PullRequestFile]](
         accessToken,
@@ -62,7 +59,7 @@ class PullRequestsInterpreter[F[_]: Applicative](
         headers,
         pagination = pagination)
 
-  override def create(
+  override def createPullRequest(
       owner: String,
       repo: String,
       newPullRequest: NewPullRequest,
@@ -84,8 +81,8 @@ class PullRequestsInterpreter[F[_]: Applicative](
       owner: String,
       repo: String,
       pullRequest: Int,
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination]): F[GHResponse[List[PullRequestReview]]] =
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequestReview]]] =
     client.get[List[PullRequestReview]](
       accessToken,
       s"repos/$owner/$repo/pulls/$pullRequest/reviews",

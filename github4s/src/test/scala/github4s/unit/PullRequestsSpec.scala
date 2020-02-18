@@ -37,7 +37,11 @@ class PullRequestsSpec extends BaseSpec {
       response = response
     )
     val pullRequests = new PullRequestsInterpreter[IO]
-    pullRequests.get(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
+    pullRequests.getPullRequest(
+      validRepoOwner,
+      validRepoName,
+      validPullRequestNumber,
+      headerUserAgent)
 
   }
 
@@ -51,7 +55,7 @@ class PullRequestsSpec extends BaseSpec {
       response = response
     )
     val pullRequests = new PullRequestsInterpreter[IO]
-    pullRequests.list(validRepoOwner, validRepoName, Nil, headerUserAgent)
+    pullRequests.listPullRequests(validRepoOwner, validRepoName, Nil, None, headerUserAgent)
 
   }
 
@@ -66,7 +70,7 @@ class PullRequestsSpec extends BaseSpec {
     )
     val pullRequests = new PullRequestsInterpreter[IO]
     pullRequests
-      .listFiles(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
+      .listFiles(validRepoOwner, validRepoName, validPullRequestNumber, None, headerUserAgent)
 
   }
 
@@ -90,7 +94,7 @@ class PullRequestsSpec extends BaseSpec {
 
     val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.create(
+    pullRequests.createPullRequest(
       validRepoOwner,
       validRepoName,
       validNewPullRequestData,
@@ -116,7 +120,7 @@ class PullRequestsSpec extends BaseSpec {
 
     val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.create(
+    pullRequests.createPullRequest(
       validRepoOwner,
       validRepoName,
       validNewPullRequestIssue,
@@ -139,7 +143,12 @@ class PullRequestsSpec extends BaseSpec {
 
     val pullRequests = new PullRequestsInterpreter[IO]
 
-    pullRequests.listReviews(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
+    pullRequests.listReviews(
+      validRepoOwner,
+      validRepoName,
+      validPullRequestNumber,
+      None,
+      headerUserAgent)
 
   }
 

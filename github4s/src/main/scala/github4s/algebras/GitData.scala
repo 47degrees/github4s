@@ -20,7 +20,7 @@ import cats.data.NonEmptyList
 import github4s.GithubResponses.GHResponse
 import github4s.domain.{Ref, RefAuthor, RefCommit, RefInfo, Tag, TreeData, TreeResult}
 
-abstract class GitData[F[_]] {
+trait GitData[F[_]] {
 
   /**
    * Get a Reference by name
@@ -200,7 +200,6 @@ abstract class GitData[F[_]] {
   /**
    * Create a Tag
    *
-   * @param headers optional user headers to include in the request
    * @param owner of the repo
    * @param repo name of the repo
    * @param tag the tag.
@@ -209,6 +208,7 @@ abstract class GitData[F[_]] {
    * @param objectType the type of the object we're tagging.
    * Normally this is a `commit` but it can also be a `tree` or a `blob`.
    * @param author object containing information about the individual creating the tag.
+   * @param headers optional user headers to include in the request
    * @return a GHResponse with Tag
    */
   def createTag(

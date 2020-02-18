@@ -30,7 +30,7 @@ import github4s.domain.{
   User
 }
 
-abstract class Repositories[F[_]] {
+trait Repositories[F[_]] {
 
   /**
    * Get information of a particular repository

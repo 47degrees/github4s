@@ -49,7 +49,7 @@ val user1 = Github[IO](accessToken).users.get("rafaparadela")
 
 ### Using `cats.effect.IO`
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 object ProgramIO {
   import cats.effect.IO
   import cats.effect.IO.contextShift
@@ -93,7 +93,7 @@ Support for `cats.Id` and `Future` are provided with `GithubIOSyntax` which cont
 
 ### Using `cats.Id`
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 object ProgramId {
   import cats.effect.IO
   import cats.effect.IO.contextShift
@@ -109,7 +109,7 @@ object ProgramId {
 
 ### Using `Future`
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 object ProgramFuture {
   import cats.effect.IO
   import cats.effect.IO.contextShift
@@ -138,11 +138,10 @@ object ProgramEvalWithHeaders {
   import github4s.Github
     
   val userHeaders = Map("user-agent" -> "github4s")
-  val u5 = Github[Task](accessToken).users.get("rafaparadela",userHeaders)  
+  val u5 = Github[Task](accessToken).users.get("rafaparadela", userHeaders)  
 }
 ```
 
-[http-client]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/HttpClient.scala
 [access-token]: https://github.com/settings/tokens
 [cats-concurrent-effect]: https://typelevel.org/cats-effect/typeclasses/concurrent-effect.html
 [monix-task]: https://monix.io/docs/3x/eval/task.html

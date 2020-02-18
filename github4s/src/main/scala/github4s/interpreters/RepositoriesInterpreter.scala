@@ -16,7 +16,6 @@
 
 package github4s.interpreters
 
-import cats.Applicative
 import github4s.http.HttpClient
 import github4s.algebras.Repositories
 import cats.data.NonEmptyList
@@ -25,9 +24,7 @@ import github4s.domain._
 import github4s.Decoders._
 import github4s.Encoders._
 
-class RepositoriesInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String])
+class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Repositories[F] {
   override def get(
       owner: String,

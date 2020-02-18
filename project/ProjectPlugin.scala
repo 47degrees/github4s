@@ -24,12 +24,12 @@ object ProjectPlugin extends AutoPlugin {
       val base64: String       = "0.2.9"
       val cats: String         = "2.1.0"
       val catsEffect: String   = "2.0.0"
-      val circe: String        = "0.12.3"
+      val circe: String        = "0.13.0"
       val paradise: String     = "2.1.1"
       val simulacrum: String   = "0.19.0"
       val scala212: String     = "2.12.10"
       val scala213: String     = "2.13.1"
-      val http4s: String       = "0.21.0-M6"
+      val http4s: String       = "0.21.0"
       val scalamock: String    = "4.4.0"
       val scalaTest: String    = "3.1.0"
     }
@@ -75,7 +75,7 @@ object ProjectPlugin extends AutoPlugin {
         %%("circe-parser", V.circe)  % Test,
         %%("scalamock", V.scalamock) % Test,
         %%("scalatest", V.scalaTest) % Test,
-        "org.mock-server"            % "mockserver-netty" % "5.8.1" % Test excludeAll ExclusionRule(
+        "org.mock-server"            % "mockserver-netty" % "5.9.0" % Test excludeAll ExclusionRule(
           "com.twitter")
       ),
       libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {

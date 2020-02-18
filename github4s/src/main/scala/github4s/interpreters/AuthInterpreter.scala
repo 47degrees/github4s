@@ -17,16 +17,15 @@
 package github4s.interpreters
 
 import cats.Applicative
-import github4s.algebras.Auth
-import github4s.domain.{Authorization, Authorize, NewAuthRequest, OAuthToken}
-import java.util.UUID
-import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.domain._
-import github4s.Decoders._
-import github4s.Encoders._
 import cats.implicits._
 import com.github.marklister.base64.Base64.Encoder
+import github4s.algebras.Auth
+import github4s.Decoders._
+import github4s.domain._
+import github4s.Encoders._
+import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.http.HttpClient
+import java.util.UUID
 
 class AuthInterpreter[F[_]: Applicative](
     implicit client: HttpClient[F],
@@ -50,8 +49,7 @@ class AuthInterpreter[F[_]: Applicative](
   override def authorizeUrl(
       client_id: String,
       redirect_uri: String,
-      scopes: List[String],
-      headers: Map[String, String] = Map()): F[GHResponse[Authorize]] = {
+      scopes: List[String]): F[GHResponse[Authorize]] = {
     val state = UUID.randomUUID().toString
     val result: GHResponse[Authorize] =
       Either.right(

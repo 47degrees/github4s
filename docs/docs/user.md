@@ -40,9 +40,9 @@ You can get a user using `get`, it takes as argument:
 
 - `username`: of the user to retrieve.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getUser = Github[IO](accessToken).users.get("rafaparadela")
-getUser.toId match {
+getUser.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -59,9 +59,9 @@ Get information of the authenticated user making the API call.
 
 You can get an authenticated user using `getAuth`:
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getAuth = Github[IO](accessToken).users.getAuth()
-getAuth.toId match {
+getAuth.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -79,9 +79,9 @@ You can get a list of users using `getUsers`, it takes as arguments:
 - `since`: The integer ID of the last User that you've seen.
 - `pagination`: Limit and Offset for pagination.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getUsers = Github[IO](accessToken).users.getUsers(1)
-getUsers.toId match {
+getUsers.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -95,17 +95,15 @@ As you can see, a few features of the user endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/User.scala
-
 ### List users followed by another user
 
 You can get a list of users followed by another user using `getFollowing`, it takes as argument:
 
 - `username`: of the user to retrieve.
 
-```scala mdoc:silent
+```scala mdoc:compile-only
 val getFollowing = Github[IO](accessToken).users.getFollowing("rafaparadela")
-getFollowing.toId match {
+getFollowing.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
@@ -114,3 +112,5 @@ getFollowing.toId match {
 The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/users/followers/#list-users-followed-by-another-use) for full reference.
+
+[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala
