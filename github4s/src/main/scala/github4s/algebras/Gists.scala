@@ -17,7 +17,7 @@
 package github4s.algebras
 
 import github4s.GithubResponses.GHResponse
-import github4s.domain.{EditGistFile, Gist, GistFile}
+import github4s.domain._
 
 trait Gists[F[_]] {
 

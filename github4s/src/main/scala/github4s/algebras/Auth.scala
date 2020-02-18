@@ -17,7 +17,7 @@
 package github4s.algebras
 
 import github4s.GithubResponses.GHResponse
-import github4s.domain.{Authorization, Authorize, OAuthToken}
+import github4s.domain._
 
 trait Auth[F[_]] {
 

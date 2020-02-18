@@ -17,14 +17,7 @@
 package github4s.algebras
 
 import github4s.GithubResponses.GHResponse
-import github4s.domain.{
-  NewPullRequest,
-  PRFilter,
-  Pagination,
-  PullRequest,
-  PullRequestFile,
-  PullRequestReview
-}
+import github4s.domain._
 
 trait PullRequests[F[_]] {
 

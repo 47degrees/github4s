@@ -19,7 +19,7 @@ package github4s.interpreters
 import github4s.http.HttpClient
 import github4s.algebras.Users
 import github4s.GithubResponses.GHResponse
-import github4s.domain.{Pagination, User}
+import github4s.domain._
 import github4s.Decoders._
 
 class UsersInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])

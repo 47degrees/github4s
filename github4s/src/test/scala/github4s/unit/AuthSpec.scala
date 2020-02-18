@@ -20,7 +20,7 @@ import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.utils.BaseSpec
 import com.github.marklister.base64.Base64.Encoder
-import github4s.domain.{Authorization, NewAuthRequest, NewOAuthRequest, OAuthToken}
+import github4s.domain._
 import github4s.interpreters.AuthInterpreter
 
 class AuthSpec extends BaseSpec {

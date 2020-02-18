@@ -19,22 +19,7 @@ package github4s.unit
 import cats.effect.IO
 import cats.data.NonEmptyList
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.domain.{
-  CreateReferenceRequest,
-  NewBlobRequest,
-  NewCommitRequest,
-  NewTagRequest,
-  NewTreeRequest,
-  Ref,
-  RefCommit,
-  RefInfo,
-  Tag,
-  TreeData,
-  TreeDataBlob,
-  TreeDataSha,
-  TreeResult,
-  UpdateReferenceRequest
-}
+import github4s.domain._
 import github4s.interpreters.GitDataInterpreter
 import github4s.utils.BaseSpec
 

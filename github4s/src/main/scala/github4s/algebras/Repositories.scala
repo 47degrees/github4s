@@ -18,17 +18,7 @@ package github4s.algebras
 
 import cats.data.NonEmptyList
 import github4s.GithubResponses.GHResponse
-import github4s.domain.{
-  Branch,
-  CombinedStatus,
-  Commit,
-  Content,
-  Pagination,
-  Release,
-  Repository,
-  Status,
-  User
-}
+import github4s.domain._
 
 trait Repositories[F[_]] {
 
