@@ -18,7 +18,6 @@ package github4s.unit
 
 import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.http.HttpClient
 import github4s.interpreters.PullRequestsInterpreter
 import github4s.domain._
 import github4s.utils.BaseSpec

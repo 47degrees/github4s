@@ -17,7 +17,6 @@
 package github4s.http
 
 import cats.effect.ConcurrentEffect
-import org.http4s.{Header, Request, Uri}
 import org.http4s._
 import org.http4s.MediaType
 import org.http4s.Headers
@@ -36,7 +35,7 @@ object Http4sSyntax {
             .withEntity(data.asJson.noSpaceNorNull))
   }
 
-  implicit class JsonOps(self: Json) {
+  implicit class JsonOps(val self: Json) extends AnyVal {
     def noSpaceNorNull: String = Printer.noSpaces.copy(dropNullValues = true).print(self)
   }
 
@@ -45,14 +44,11 @@ object Http4sSyntax {
       self.toList.map(header => (header.name.value, header.value)).toMap
   }
 
-  implicit class RequestBuilderOps[R](self: RequestBuilder[R]) {
+  implicit class RequestBuilderOps[R](val self: RequestBuilder[R]) extends AnyVal {
 
-    val toHeaderList: List[Header] = (self.headers.map({ kv =>
-      Header(kv._1, kv._2)
-    }) ++
-      self.authHeader.map({ kv =>
-        Header(kv._1, kv._2)
-      })).toList
+    def toHeaderList: List[Header] =
+      (self.headers.map(kv => Header(kv._1, kv._2)) ++
+        self.authHeader.map(kv => Header(kv._1, kv._2))).toList
 
     def toUri(urls: GithubAPIv3Config): Uri =
       Uri.fromString(self.url).getOrElse(Uri.unsafeFromString(urls.baseUrl)) =?

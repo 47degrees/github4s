@@ -41,8 +41,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       accessToken,
       s"orgs/$org/repos",
       headers,
-      params = `type`.map(t => Map("type" -> t)).getOrElse(Map.empty),
-      pagination = pagination
+      `type`.fold(Map.empty[String, String])(t => Map("type" -> t)),
+      pagination
     )
 
   override def listUserRepos(
@@ -54,8 +54,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       accessToken,
       s"users/$user/repos",
       headers,
-      params = `type`.map(t => Map("type" -> t)).getOrElse(Map.empty),
-      pagination = pagination
+      `type`.fold(Map.empty[String, String])(t => Map("type" -> t)),
+      pagination
     )
 
   override def getContents(
@@ -68,7 +68,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       accessToken,
       s"repos/$owner/$repo/contents/$path",
       headers,
-      params = ref map (r => Map("ref" -> r)) getOrElse Map.empty)
+      ref.fold(Map.empty[String, String])(r => Map("ref" -> r)))
 
   override def listCommits(
       owner: String,

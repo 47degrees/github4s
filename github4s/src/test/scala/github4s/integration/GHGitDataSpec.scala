@@ -20,7 +20,7 @@ import cats.effect.IO
 import github4s.GithubIOSyntax._
 import cats.data.NonEmptyList
 import github4s.Github
-import github4s.domain.{Ref, RefCommit, TreeResult}
+import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
 trait GHGitDataSpec extends BaseIntegrationSpec {

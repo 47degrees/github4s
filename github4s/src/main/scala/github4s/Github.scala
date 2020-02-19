@@ -18,22 +18,10 @@ package github4s
 
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import cats.effect.ConcurrentEffect
-import github4s.algebras.{
-  Activities,
-  Auth,
-  Gists,
-  GitData,
-  Issues,
-  Organizations,
-  PullRequests,
-  Repositories,
-  Teams,
-  Users
-}
+import github4s.algebras._
 import github4s.modules._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
-import scala.language.higherKinds
 
 class Github[F[_]: ConcurrentEffect](accessToken: Option[String], timeout: Option[Duration])(
     implicit ec: ExecutionContext) {

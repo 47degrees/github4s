@@ -33,7 +33,7 @@ object GithubIOSyntax {
     override def liftIO[A](ioa: IO[A]): Id[A] = ioa.unsafeRunSync()
   }
 
-  implicit class IOOps[A](self: IO[A]) {
+  implicit class IOOps[A](val self: IO[A]) extends AnyVal {
 
     def toFuture(implicit liftIO: LiftIO[Future]): Future[A] = liftIO.liftIO(self)
 

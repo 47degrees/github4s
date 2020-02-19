@@ -57,7 +57,8 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
         accessToken,
         s"repos/$owner/$repo/pulls/$number/files",
         headers,
-        pagination = pagination)
+        Map.empty,
+        pagination)
 
   override def createPullRequest(
       owner: String,
@@ -87,7 +88,8 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       accessToken,
       s"repos/$owner/$repo/pulls/$pullRequest/reviews",
       headers,
-      pagination = pagination)
+      Map.empty,
+      pagination)
 
   override def getReview(
       owner: String,

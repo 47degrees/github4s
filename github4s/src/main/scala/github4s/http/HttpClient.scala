@@ -123,7 +123,7 @@ class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: Exe
     .withConnectTimeout(connTimeout)
     .resource
 
-  private def buildURL(method: String) = urls.baseUrl + method
+  private def buildURL(method: String): String = urls.baseUrl + method
 
   private def run[Req: Encoder, Res: Decoder](request: RequestBuilder[Req]): F[GHResponse[Res]] =
     resource

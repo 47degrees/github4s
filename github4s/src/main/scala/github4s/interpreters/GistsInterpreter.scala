@@ -18,7 +18,7 @@ package github4s.interpreters
 
 import github4s.algebras.Gists
 import github4s.Decoders._
-import github4s.domain.{EditGistFile, EditGistRequest, Gist, GistFile, NewGistRequest}
+import github4s.domain._
 import github4s.Encoders._
 import github4s.GithubResponses.GHResponse
 import github4s.http.HttpClient

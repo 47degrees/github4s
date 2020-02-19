@@ -18,17 +18,7 @@ package github4s.unit
 
 import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
-import github4s.domain.{
-  Comment,
-  CommentData,
-  EditIssueRequest,
-  Issue,
-  Label,
-  NewIssueRequest,
-  Pagination,
-  SearchIssuesResult,
-  User
-}
+import github4s.domain._
 import github4s.interpreters.IssuesInterpreter
 import github4s.utils.BaseSpec
 

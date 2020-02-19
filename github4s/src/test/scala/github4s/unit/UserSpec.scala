@@ -22,7 +22,7 @@ import github4s.interpreters.UsersInterpreter
 import github4s.domain._
 import github4s.utils.BaseSpec
 
-class UserInterpreterSpec extends BaseSpec {
+class UserSpec extends BaseSpec {
 
   implicit val token = sampleToken
 

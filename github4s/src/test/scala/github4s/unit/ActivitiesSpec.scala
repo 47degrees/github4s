@@ -19,7 +19,7 @@ package github4s.unit
 import cats.effect.IO
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.interpreters.ActivitiesInterpreter
-import github4s.domain.{Stargazer, StarredRepository, Subscription, SubscriptionRequest}
+import github4s.domain._
 import github4s.utils.BaseSpec
 
 class ActivitiesSpec extends BaseSpec {

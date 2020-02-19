@@ -17,7 +17,7 @@
 package github4s.algebras
 
 import github4s.GithubResponses.GHResponse
-import github4s.domain.{Comment, Issue, Label, Pagination, SearchIssuesResult, SearchParam, User}
+import github4s.domain._
 
 trait Issues[F[_]] {
 

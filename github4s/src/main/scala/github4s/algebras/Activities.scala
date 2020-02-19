@@ -17,7 +17,7 @@
 package github4s.algebras
 
 import github4s.GithubResponses.GHResponse
-import github4s.domain.{Pagination, Stargazer, StarredRepository, Subscription}
+import github4s.domain._
 
 trait Activities[F[_]] {
 
