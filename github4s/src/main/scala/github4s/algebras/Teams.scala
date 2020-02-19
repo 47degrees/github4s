@@ -19,7 +19,7 @@ package github4s.algebras
 import github4s.GithubResponses.GHResponse
 import github4s.domain.Team
 
-abstract class Teams[F[_]] {
+trait Teams[F[_]] {
 
   /** List the teams for a particular organization
    *
