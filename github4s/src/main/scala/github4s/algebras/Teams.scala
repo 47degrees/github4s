@@ -17,16 +17,20 @@
 package github4s.algebras
 
 import github4s.GithubResponses.GHResponse
-import github4s.domain.Team
+import github4s.domain.{Pagination, Team}
 
 trait Teams[F[_]] {
 
   /** List the teams for a particular organization
    *
    * @param org organization for which we wish to retrieve the teams
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return GHResponse[List[Team]] the list of teams for this organization
    */
-  def listTeams(org: String, headers: Map[String, String] = Map()): F[GHResponse[List[Team]]]
+  def listTeams(
+      org: String,
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()): F[GHResponse[List[Team]]]
 
 }
