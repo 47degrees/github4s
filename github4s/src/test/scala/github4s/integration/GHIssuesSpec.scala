@@ -103,7 +103,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
     })
   }
 
-  ignore should "return a list of removed labels" taggedAs Integration in {
+  "Issues >> RemoveLabel" should "return a list of removed labels" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .removeLabel(
         validRepoOwner,
