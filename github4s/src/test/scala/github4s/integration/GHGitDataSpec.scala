@@ -17,7 +17,6 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.GithubIOSyntax._
 import cats.data.NonEmptyList
 import github4s.Github
 import github4s.domain._
@@ -28,9 +27,9 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
   "GitData >> GetReference" should "return a list of references" taggedAs Integration in {
     val response = Github[IO](accessToken).gitData
       .getReference(validRepoOwner, validRepoName, "heads", headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[NonEmptyList[Ref]](response, { r =>
+    testIsRight[NonEmptyList[Ref]](response, { r =>
       r.result.tail.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -39,9 +38,9 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
   it should "return at least one reference" taggedAs Integration in {
     val response = Github[IO](accessToken).gitData
       .getReference(validRepoOwner, validRepoName, validRefSingle, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[NonEmptyList[Ref]](response, { r =>
+    testIsRight[NonEmptyList[Ref]](response, { r =>
       r.result.head.ref.contains(validRefSingle) shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -50,17 +49,17 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
   it should "return an error when an invalid repository name is passed" taggedAs Integration in {
     val response = Github[IO](accessToken).gitData
       .getReference(validRepoOwner, invalidRepoName, validRefSingle, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "GitData >> GetCommit" should "return one commit" taggedAs Integration in {
     val response = Github[IO](accessToken).gitData
       .getCommit(validRepoOwner, validRepoName, validCommitSha, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[RefCommit](response, { r =>
+    testIsRight[RefCommit](response, { r =>
       r.result.message shouldBe validCommitMsg
       r.statusCode shouldBe okStatusCode
     })
@@ -69,18 +68,18 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
   it should "return an error when an invalid repository name is passed" taggedAs Integration in {
     val response = Github[IO](accessToken).gitData
       .getCommit(validRepoOwner, invalidRepoName, validCommitSha, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "GitData >> GetTree" should "return the file tree non-recursively" taggedAs Integration in {
     val response =
       Github[IO](accessToken).gitData
         .getTree(validRepoOwner, validRepoName, validCommitSha, recursive = false, headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[TreeResult](
+    testIsRight[TreeResult](
       response, { r =>
         r.statusCode shouldBe okStatusCode
         r.result.tree.map(_.path) shouldBe List(".gitignore", "build.sbt", "project")
@@ -93,9 +92,9 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).gitData
         .getTree(validRepoOwner, validRepoName, validCommitSha, recursive = true, headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[TreeResult](
+    testIsRight[TreeResult](
       response, { r =>
         r.statusCode shouldBe okStatusCode
         r.result.tree.map(_.path) shouldBe List(
@@ -111,9 +110,9 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
   it should "return an error when an invalid repository name is passed" taggedAs Integration in {
     val response = Github[IO](accessToken).gitData
       .getTree(validRepoOwner, invalidRepoName, validCommitSha, recursive = false, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
 }

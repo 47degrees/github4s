@@ -141,9 +141,9 @@ we'll be writing our tests in [GHReposSpec][repos-integ-spec]:
 "Repos >> ListStatus" should "return a non empty list when a valid ref is provided" taggedAs Integration in {
     val response = Github[IO](accessToken).repos
       .listStatuses(validRepoOwner, validRepoName, validCommitSha, headers = headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[List[Status]](response, { r =>
+    testIsRight[List[Status]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -152,8 +152,8 @@ we'll be writing our tests in [GHReposSpec][repos-integ-spec]:
   it should "return an error when an invalid ref is provided" taggedAs Integration in {
     val response = Github[IO](accessToken).repos
       .listStatuses(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
-      .toFuture
-    testFutureIsLeft(response)
+      .unsafeRunSync()
+    testIsLeft(response)
   }
 ```
 
@@ -211,7 +211,7 @@ To list the statuses for a specific ref:
 val listStatuses =
   Github[IO](accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
 
-listStatuses.toId match {
+listStatuses.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

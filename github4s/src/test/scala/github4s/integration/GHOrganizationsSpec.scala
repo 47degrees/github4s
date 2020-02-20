@@ -17,7 +17,6 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.GithubIOSyntax._
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -28,9 +27,9 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).organizations
         .listMembers(validRepoOwner, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[User]](response, { r =>
+    testIsRight[List[User]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -40,18 +39,18 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).organizations
         .listMembers(invalidUsername, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "Organization >> ListOutsideCollaborators" should "return expected list of users" ignore {
     val response =
       Github[IO](accessToken).organizations
         .listOutsideCollaborators(validOrganizationName, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[User]](response, { r =>
+    testIsRight[List[User]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -61,9 +60,9 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).organizations
         .listOutsideCollaborators(invalidOrganizationName, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
 }

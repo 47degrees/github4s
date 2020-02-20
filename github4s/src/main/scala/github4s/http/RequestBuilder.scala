@@ -39,7 +39,7 @@ case class RequestBuilder[Res](
 
   def withParams(params: Map[String, String]): RequestBuilder[Res] = this.copy(params = params)
 
-  def withData(data: Res): RequestBuilder[Res] = this.copy(data = Option(data))
+  def withData(data: Res): RequestBuilder[Res] = this.copy(data = Some(data))
 
   def withAuth(accessToken: Option[String] = None): RequestBuilder[Res] =
     this.copy(authHeader = accessToken match {

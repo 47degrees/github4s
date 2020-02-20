@@ -17,7 +17,6 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.GithubIOSyntax._
 import github4s.Github
 import github4s.domain._
 
@@ -29,9 +28,9 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).activities
         .setThreadSub(validThreadId, true, false, headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[Subscription](response, { r =>
+    testIsRight[Subscription](response, { r =>
       r.statusCode shouldBe okStatusCode
     })
   }
@@ -40,18 +39,18 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).activities
         .setThreadSub(invalidThreadId, true, false, headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "Activity >> ListStargazers" should "return the expected list of starrers for valid data" taggedAs Integration in {
     val response =
       Github[IO](accessToken).activities
         .listStargazers(validRepoOwner, validRepoName, false, None, headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[Stargazer]](response, { r =>
+    testIsRight[List[Stargazer]](response, { r =>
       r.result.nonEmpty shouldBe true
       forAll(r.result) { s =>
         s.starred_at shouldBe None
@@ -64,9 +63,9 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).activities
         .listStargazers(validRepoOwner, validRepoName, true, None, headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[Stargazer]](response, { r =>
+    testIsRight[List[Stargazer]](response, { r =>
       r.result.nonEmpty shouldBe true
       forAll(r.result) { s =>
         s.starred_at shouldBe defined
@@ -79,18 +78,18 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).activities
         .listStargazers(invalidRepoName, validRepoName, false, None, headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "Activity >> ListStarredRepositories" should "return the expected list of starred repos" taggedAs Integration in {
     val response =
       Github[IO](accessToken).activities
         .listStarredRepositories(validUsername, false, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[StarredRepository]](response, { r =>
+    testIsRight[List[StarredRepository]](response, { r =>
       r.result.nonEmpty shouldBe true
       forAll(r.result) { s =>
         s.starred_at shouldBe None
@@ -103,9 +102,9 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).activities
         .listStarredRepositories(validUsername, true, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[StarredRepository]](response, { r =>
+    testIsRight[List[StarredRepository]](response, { r =>
       r.result.nonEmpty shouldBe true
       forAll(r.result) { s =>
         s.starred_at shouldBe defined
@@ -118,8 +117,8 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).activities
         .listStarredRepositories(invalidUsername, false, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 }
