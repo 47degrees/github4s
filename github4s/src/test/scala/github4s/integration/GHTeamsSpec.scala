@@ -25,9 +25,11 @@ import github4s.utils.{BaseIntegrationSpec, Integration}
 trait GHTeamsSpec extends BaseIntegrationSpec {
   "Team >> ListTeams" should "return the expected teams when a valid org is provided" taggedAs Integration in {
     val response =
-      Github[IO](accessToken).teams.listTeams(validRepoOwner, headers = headerUserAgent).toFuture
+      Github[IO](accessToken).teams
+        .listTeams(validRepoOwner, headers = headerUserAgent)
+        .unsafeRunSync()
 
-    testFutureIsRight[List[Team]](response, { r =>
+    testIsRight[List[Team]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -37,9 +39,9 @@ trait GHTeamsSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).teams
         .listTeams(invalidRepoName, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
 }
