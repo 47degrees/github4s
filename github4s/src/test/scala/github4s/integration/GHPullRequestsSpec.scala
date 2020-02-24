@@ -17,7 +17,6 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.GithubIOSyntax._
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -32,9 +31,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoName,
           validPullRequestNumber,
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[PullRequest](response, { r =>
+    testIsRight[PullRequest](response, { r =>
       r.statusCode shouldBe okStatusCode
     })
   }
@@ -43,9 +42,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).pullRequests
         .getPullRequest(validRepoOwner, validRepoName, validIssueNumber, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   it should "return an error when an invalid repo name is passed" taggedAs Integration in {
@@ -56,9 +55,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           invalidRepoName,
           validPullRequestNumber,
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "PullRequests >> List" should "return a right response when valid repo is provided" taggedAs Integration in {
@@ -69,9 +68,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoName,
           pagination = Some(Pagination(1, 10)),
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[PullRequest]](response, { r =>
+    testIsRight[List[PullRequest]](response, { r =>
       r.statusCode shouldBe okStatusCode
     })
   }
@@ -84,9 +83,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           "gh-test-repo",
           List(PRFilterOpen),
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[PullRequest]](response, { r =>
+    testIsRight[List[PullRequest]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -100,9 +99,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoName,
           List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc),
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[PullRequest]](response, { r =>
+    testIsRight[List[PullRequest]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -112,18 +111,18 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).pullRequests
         .listPullRequests(validRepoOwner, invalidRepoName, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "PullRequests >> ListFiles" should "return a right response when a valid repo is provided" taggedAs Integration in {
     val response =
       Github[IO](accessToken).pullRequests
         .listFiles(validRepoOwner, validRepoName, validPullRequestNumber, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[PullRequestFile]](response, { r =>
+    testIsRight[List[PullRequestFile]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -133,9 +132,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
     val response =
       Github[IO](accessToken).pullRequests
         .listFiles("scala", "scala", 4877, headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[PullRequestFile]](response, { r =>
+    testIsRight[List[PullRequestFile]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -149,9 +148,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           invalidRepoName,
           validPullRequestNumber,
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "PullRequests >> ListReviews" should "return a right response when a valid pr is provided" taggedAs Integration in {
@@ -162,9 +161,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoName,
           validPullRequestNumber,
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[List[PullRequestReview]](response, { r =>
+    testIsRight[List[PullRequestReview]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -178,9 +177,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           invalidRepoName,
           validPullRequestNumber,
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   "PullRequests >> GetReview" should "return a right response when a valid pr review is provided" taggedAs Integration in {
@@ -192,9 +191,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validPullRequestNumber,
           validPullRequestReviewNumber,
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsRight[PullRequestReview](response, { r =>
+    testIsRight[PullRequestReview](response, { r =>
       r.result.id shouldBe validPullRequestReviewNumber
       r.statusCode shouldBe okStatusCode
     })
@@ -209,9 +208,9 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validPullRequestNumber,
           validPullRequestReviewNumber,
           headers = headerUserAgent)
-        .toFuture
+        .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
 }

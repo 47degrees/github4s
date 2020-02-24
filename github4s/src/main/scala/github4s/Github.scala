@@ -26,20 +26,19 @@ import scala.concurrent.duration.Duration
 class Github[F[_]: ConcurrentEffect](accessToken: Option[String], timeout: Option[Duration])(
     implicit ec: ExecutionContext) {
 
-  val module: GithubAPIs[F] =
+  private lazy val module: GithubAPIs[F] =
     new GithubAPIv3[F](accessToken, timeout.getOrElse(Duration(1000l, MILLISECONDS)))
 
-  val users: Users[F]                 = module.users
-  val repos: Repositories[F]          = module.repos
-  val auth: Auth[F]                   = module.auth
-  val gists: Gists[F]                 = module.gists
-  val issues: Issues[F]               = module.issues
-  val activities: Activities[F]       = module.activities
-  val gitData: GitData[F]             = module.gitData
-  val pullRequests: PullRequests[F]   = module.pullRequests
-  val organizations: Organizations[F] = module.organizations
-  val teams: Teams[F]                 = module.teams
-
+  lazy val users: Users[F]                 = module.users
+  lazy val repos: Repositories[F]          = module.repos
+  lazy val auth: Auth[F]                   = module.auth
+  lazy val gists: Gists[F]                 = module.gists
+  lazy val issues: Issues[F]               = module.issues
+  lazy val activities: Activities[F]       = module.activities
+  lazy val gitData: GitData[F]             = module.gitData
+  lazy val pullRequests: PullRequests[F]   = module.pullRequests
+  lazy val organizations: Organizations[F] = module.organizations
+  lazy val teams: Teams[F]                 = module.teams
 }
 
 object Github {

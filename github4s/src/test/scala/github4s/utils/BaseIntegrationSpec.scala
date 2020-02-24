@@ -65,19 +65,14 @@ abstract class BaseIntegrationSpec
 
   def accessToken: Option[String] = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 
-  def testFutureIsLeft[A](response: Future[GHResponse[A]]): Future[Assertion] =
-    response map { r =>
-      r.isLeft shouldBe true
+  def testIsRight[A](response: GHResponse[A], f: (GHResult[A]) => Assertion): Assertion = {
+    response.isRight shouldBe true
+    response.toOption map (f(_)) match {
+      case _ => succeed
     }
+  }
 
-  def testFutureIsRight[A](
-      response: Future[GHResponse[A]],
-      f: (GHResult[A]) => Assertion): Future[Assertion] =
-    response map { r =>
-      r.isRight shouldBe true
-      r.toOption map (f(_)) match {
-        case _ => succeed
-      }
-    }
+  def testIsLeft[A](response: GHResponse[A]): Assertion =
+    response.isLeft shouldBe true
 
 }

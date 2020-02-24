@@ -17,7 +17,6 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.GithubIOSyntax._
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -27,20 +26,21 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
   "Issues >> List" should "return a list of issues" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .listIssues(validRepoOwner, validRepoName, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[List[Issue]](response, { r =>
+    testIsRight[List[Issue]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
+
   }
 
   "Issues >> Get" should "return an issue which is a PR" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .getIssue(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[Issue](response, { r =>
+    testIsRight[Issue](response, { r =>
       r.result.pull_request.isDefined shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -49,9 +49,9 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
   "Issues >> Search" should "return at least one issue for a valid query" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .searchIssues(validSearchQuery, validSearchParams, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[SearchIssuesResult](response, { r =>
+    testIsRight[SearchIssuesResult](response, { r =>
       r.result.total_count > 0 shouldBe true
       r.result.items.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
@@ -61,9 +61,9 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
   it should "return an empty result for a non existent query string" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .searchIssues(nonExistentSearchQuery, validSearchParams, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[SearchIssuesResult](response, { r =>
+    testIsRight[SearchIssuesResult](response, { r =>
       r.result.total_count shouldBe 0
       r.result.items.nonEmpty shouldBe false
       r.statusCode shouldBe okStatusCode
@@ -83,9 +83,9 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
         validIssueLabel,
         validAssignees,
         headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[Issue](response, { r =>
+    testIsRight[Issue](response, { r =>
       r.result.state shouldBe validIssueState
       r.result.title shouldBe validIssueTitle
       r.statusCode shouldBe okStatusCode
@@ -95,9 +95,9 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
   "Issues >> ListLabels" should "return a list of labels" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .listLabels(validRepoOwner, validRepoName, validIssueNumber, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[List[Label]](response, { r =>
+    testIsRight[List[Label]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -111,9 +111,9 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
         validIssueNumber,
         validIssueLabel.head,
         headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[List[Label]](response, { r =>
+    testIsRight[List[Label]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -122,9 +122,9 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
   "Issues >> AddLabels" should "return a list of labels" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .addLabels(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[List[Label]](response, { r =>
+    testIsRight[List[Label]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -133,9 +133,9 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
   "GHIssues >> ListAvailableAssignees" should "return a list of users" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .listAvailableAssignees(validRepoOwner, validRepoName, None, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsRight[List[User]](response, { r =>
+    testIsRight[List[User]](response, { r =>
       r.result.nonEmpty shouldBe true
       r.statusCode shouldBe okStatusCode
     })
@@ -144,17 +144,17 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
   it should "return error for an invalid repo owner" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .listAvailableAssignees(invalidRepoOwner, validRepoName, None, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
   it should "return error for an invalid repo name" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .listAvailableAssignees(validRepoOwner, invalidRepoName, None, headerUserAgent)
-      .toFuture
+      .unsafeRunSync()
 
-    testFutureIsLeft(response)
+    testIsLeft(response)
   }
 
 }
