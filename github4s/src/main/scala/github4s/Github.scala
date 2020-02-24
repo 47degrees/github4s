@@ -38,6 +38,7 @@ class Github[F[_]: ConcurrentEffect](accessToken: Option[String], timeout: Optio
   lazy val gitData: GitData[F]             = module.gitData
   lazy val pullRequests: PullRequests[F]   = module.pullRequests
   lazy val organizations: Organizations[F] = module.organizations
+  lazy val projects: Projects[F]           = module.projects
 
 }
 

@@ -278,4 +278,7 @@ object Decoders {
           starred_at <- c.downField("starred_at").as[String]
           user       <- c.downField("user").as[User]
         } yield Stargazer(Some(starred_at), user)))
+
+  implicit val decodeProject: Decoder[Project] = deriveDecoder[Project]
+
 }

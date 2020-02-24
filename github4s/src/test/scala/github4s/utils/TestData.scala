@@ -26,6 +26,8 @@ trait TestData extends DummyGithubUrls {
 
   val sampleToken: Option[String]          = Some("token")
   val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
+  val headerAccept: Map[String, String] = Map(
+    "Accept" -> "application/vnd.github.inertia-preview+json")
 
   val validUsername   = "rafaparadela"
   val invalidUsername = "GHInvalidUserName"
@@ -35,6 +37,7 @@ trait TestData extends DummyGithubUrls {
   val user         = User(1, validUsername, githubApiUrl, githubApiUrl)
 
   def validBasicAuth = s"Basic ${s"$validUsername:".getBytes.toBase64}"
+
   def invalidBasicAuth =
     s"Basic ${s"$validUsername:$invalidPassword".getBytes.toBase64}"
 
@@ -405,6 +408,43 @@ trait TestData extends DummyGithubUrls {
     state = PRRStateCommented,
     html_url = "",
     pull_request_url = ""
+  )
+
+  val project = Project(
+    owner_url = "https://api.github.com/orgs/47deg",
+    url = "https://api.github.com/projects/1903050",
+    html_url = "https://github.com/orgs/47deg/projects/4",
+    columns_url = "https://api.github.com/projects/1903050/columns",
+    id = 1903050,
+    node_id = "MDc6UHJvamVjdDE5MDMwNTA=",
+    name = "Team Asterism",
+    body = Some(
+      "Track all things related with the open source initiatives maintained by the Asterism internal tea"),
+    number = 4,
+    creator = Creator(
+      login = "calvellido",
+      id = 7753447,
+      node_id = "MDQ6VXNlcjc3NTM0NDc=",
+      avatar_url = "https://avatars0.githubusercontent.com/u/7753447?v=4",
+      gravatar_id = None,
+      url = "https://api.github.com/users/calvellido",
+      html_url = "https://github.com/calvellido",
+      followers_url = "https://api.github.com/users/calvellido/followers",
+      following_url = "https://api.github.com/users/calvellido/following{/other_user}",
+      gists_url = "https://api.github.com/users/calvellido/gists{/gist_id}",
+      starred_url = "https://api.github.com/users/calvellido/starred{/owner}{/repo}",
+      subscriptions_url = "https://api.github.com/users/calvellido/subscriptions",
+      organizations_url = "https://api.github.com/users/calvellido/orgs",
+      repos_url = "https://api.github.com/users/calvellido/repos",
+      events_url = "https://api.github.com/users/calvellido/events{/privacy}",
+      received_events_url = "https://api.github.com/users/calvellido/received_events",
+      `type` = "User",
+      site_admin = false
+    ),
+    created_at = "2018-10-30T14:18:42Z",
+    updated_at = "2019-09-30T07:26:21Z",
+    organization_permission = Some("read"),
+    `private` = Some(true)
   )
 
 }

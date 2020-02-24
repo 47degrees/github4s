@@ -25,6 +25,7 @@ import github4s.integration.{
   GHGitDataSpec,
   GHIssuesSpec,
   GHOrganizationsSpec,
+  GHProjectsSpec,
   GHPullRequestsSpec,
   GHReposSpec,
   GHUsersSpec
@@ -45,6 +46,7 @@ class IntegrationSpec
     with GHPullRequestsSpec
     with GHReposSpec
     with GHUsersSpec
+    with GHProjectsSpec
 
 object Integration
     extends Tag(
