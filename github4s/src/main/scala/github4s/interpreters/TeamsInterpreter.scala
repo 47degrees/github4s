@@ -16,7 +16,6 @@
 
 package github4s.interpreters
 
-import cats.Applicative
 import github4s.Decoders._
 import github4s.GithubResponses.GHResponse
 import github4s.algebras.Teams
