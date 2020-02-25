@@ -9,7 +9,8 @@ scala:
 
 before_install:
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
-    openssl aes-256-cbc -K $encrypted_88322e86f6b6_key -iv $encrypted_88322e86f6b6_iv -in secring.gpg.enc -out secring.gpg -d;
+    openssl aes-256-cbc -K $encrypted_88322e86f6b6_key -iv $encrypted_88322e86f6b6_iv -in secret_key.asc.enc -out secret_key.asc -d;
+    gpg --import --batch --passphrase "$PGP_PASSPHRASE" secret_key.asc;
   fi
 - export PATH=${PATH}:./vendor/bundle
 

@@ -10,7 +10,7 @@ docs/src/jekyll/*.md
 docs/src/main/tut/changelog.md
 
 # PGP keys
-secring.gpg
+secret_key.asc
 
 .metals/
 project/.bloop/

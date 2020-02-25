@@ -1,6 +1,4 @@
 pgpPassphrase := Some(getEnvVar("PGP_PASSPHRASE").getOrElse("").toCharArray)
-pgpPublicRing := file(s"$gpgFolder/pubring.gpg")
-pgpSecretRing := file(s"$gpgFolder/secring.gpg")
 
 lazy val root = (project in file("."))
   .settings(moduleName := "github4s-root")
