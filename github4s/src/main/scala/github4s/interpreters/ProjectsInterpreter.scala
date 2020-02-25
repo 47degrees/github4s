@@ -36,7 +36,7 @@ class ProjectsInterpreter[F[_]: Applicative](
     client.get[List[Project]](
       accessToken,
       s"orgs/$org/projects",
-      headers,
+      headers ++ Map("Accept" -> "application/vnd.github.inertia-preview+json"),
       state.fold(Map.empty[String, String])(s => Map("state" -> s)),
       pagination
     )

@@ -33,12 +33,13 @@ class ProjectSpec extends BaseSpec {
 
     implicit val httpClientMock = httpClientMockGet[List[Project]](
       url = s"orgs/$validRepoOwner/projects",
+      headers = headerAccept,
       response = response
     )
 
     val projects = new ProjectsInterpreter[IO]
 
-    projects.listProjects(validRepoOwner, None, None, headers = headerUserAgent)
+    projects.listProjects(validRepoOwner, None, None, headers = headerUserAgent ++ headerAccept)
 
   }
 }
