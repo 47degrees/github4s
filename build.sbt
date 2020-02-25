@@ -14,11 +14,11 @@ lazy val github4s =
       buildInfoKeys := Seq[BuildInfoKey](
         name,
         version,
-        "token" -> sys.env.getOrElse("GITHUB4S_ACCESS_TOKEN", "")),
+        "token" -> sys.env.getOrElse("GITHUB4S_ACCESS_TOKEN", "")
+      ),
       buildInfoPackage := "github4s"
     )
     .settings(coreDeps: _*)
-
 
 /////////////////////
 //// ALL MODULES ////

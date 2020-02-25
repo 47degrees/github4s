@@ -102,7 +102,8 @@ class ReposSpec extends BaseSpec {
       validNote,
       Some("master"),
       Some(false),
-      Some(true))
+      Some(true)
+    )
 
     implicit val httpClientMock = httpClientMockPost[NewReleaseRequest, Release](
       url = s"repos/$validRepoOwner/$validRepoName/releases",
@@ -121,7 +122,8 @@ class ReposSpec extends BaseSpec {
       Some("master"),
       Some(false),
       Some(true),
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -255,7 +257,8 @@ class ReposSpec extends BaseSpec {
       None,
       None,
       None,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 }

@@ -138,7 +138,8 @@ trait TestData extends DummyGithubUrls {
   val validNodeId      = "MDY6U3RhdHVzMQ=="
 
   val treeDataList: List[TreeData] = List(
-    TreeDataSha(validPath, validMode, validBlobType, validTreeSha))
+    TreeDataSha(validPath, validMode, validBlobType, validTreeSha)
+  )
   val treeDataResult = List(
     TreeDataResult(
       path = validPath,
@@ -146,7 +147,9 @@ trait TestData extends DummyGithubUrls {
       `type` = validBlobType,
       size = Some(100),
       sha = validTreeSha,
-      url = githubApiUrl))
+      url = githubApiUrl
+    )
+  )
 
   val refObject = RefObject(commitType, validCommitSha, githubApiUrl)
   val ref       = Ref("XXXX", "nodeid", githubApiUrl, refObject)
@@ -161,7 +164,8 @@ trait TestData extends DummyGithubUrls {
     committer = refCommitAuthor,
     message = validNote,
     tree = refInfo,
-    parents = List(refInfo))
+    parents = List(refInfo)
+  )
 
   val issue = Issue(
     id = 1,
@@ -378,7 +382,8 @@ trait TestData extends DummyGithubUrls {
     ),
     `protected` = Some(true),
     protection_url = Some(
-      s"https://api.github.com/repos/$validRepoOwner/$validRepoName/branches/$validBranchName/protection")
+      s"https://api.github.com/repos/$validRepoOwner/$validRepoName/branches/$validBranchName/protection"
+    )
   )
   val branch = protectedBranch.copy(`protected` = None, protection_url = None)
 

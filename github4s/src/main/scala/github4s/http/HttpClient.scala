@@ -45,30 +45,38 @@ class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: Exe
       RequestBuilder(url = buildURL(method))
         .withAuth(accessToken)
         .withHeaders(headers)
-        .withParams(params ++ pagination.fold(Map.empty[String, String])(p =>
-          Map("page" -> p.page.toString, "per_page" -> p.per_page.toString))))
+        .withParams(
+          params ++ pagination.fold(Map.empty[String, String])(p =>
+            Map("page" -> p.page.toString, "per_page" -> p.per_page.toString)
+          )
+        )
+    )
 
   def patch[Req: Encoder, Res: Decoder](
       accessToken: Option[String] = None,
       method: String,
       headers: Map[String, String] = Map.empty,
-      data: Req): F[GHResponse[Res]] =
+      data: Req
+  ): F[GHResponse[Res]] =
     run[Req, Res](
       RequestBuilder(buildURL(method)).patchMethod
         .withAuth(accessToken)
         .withHeaders(headers)
-        .withData(data))
+        .withData(data)
+    )
 
   def put[Req: Encoder, Res: Decoder](
       accessToken: Option[String] = None,
       url: String,
       headers: Map[String, String] = Map(),
-      data: Req): F[GHResponse[Res]] =
+      data: Req
+  ): F[GHResponse[Res]] =
     run[Req, Res](
       RequestBuilder(buildURL(url)).putMethod
         .withAuth(accessToken)
         .withHeaders(headers)
-        .withData(data))
+        .withData(data)
+    )
 
   def post[Req: Encoder, Res: Decoder](
       accessToken: Option[String] = None,
@@ -80,7 +88,8 @@ class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: Exe
       RequestBuilder(buildURL(url)).postMethod
         .withAuth(accessToken)
         .withHeaders(headers)
-        .withData(data))
+        .withData(data)
+    )
 
   def postAuth[Req: Encoder, Res: Decoder](
       method: String,
@@ -97,14 +106,17 @@ class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: Exe
     run[Req, Res](
       RequestBuilder(url).postMethod
         .withHeaders(Map("Accept" -> "application/json") ++ headers)
-        .withData(data))
+        .withData(data)
+    )
 
   def delete(
       accessToken: Option[String] = None,
       method: String,
-      headers: Map[String, String] = Map.empty): F[GHResponse[Unit]] =
+      headers: Map[String, String] = Map.empty
+  ): F[GHResponse[Unit]] =
     run[Unit, Unit](
-      RequestBuilder(buildURL(method)).deleteMethod.withHeaders(headers).withAuth(accessToken))
+      RequestBuilder(buildURL(method)).deleteMethod.withHeaders(headers).withAuth(accessToken)
+    )
 
   def deleteWithResponse[Res: Decoder](
       accessToken: Option[String] = None,
@@ -114,7 +126,8 @@ class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: Exe
     run[Unit, Res](
       RequestBuilder(buildURL(url)).deleteMethod
         .withAuth(accessToken)
-        .withHeaders(headers))
+        .withHeaders(headers)
+    )
 
   val defaultPagination   = Pagination(1, 1000)
   val defaultPage: Int    = 1
@@ -134,15 +147,17 @@ class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: Exe
             .withUri(request.toUri(urls))
             .withHeaders(request.toHeaderList: _*)
             .withJsonBody(request.data)
-        ).use(
-          response =>
-            response
-              .attemptAs[Res]
-              .value
-              .map(
-                _.bimap(
-                  e => JsonParsingException(e.message, request.data.toString),
-                  a => GHResult(a, response.status.code, response.headers.toMap)
-                ))))
+        ).use(response =>
+          response
+            .attemptAs[Res]
+            .value
+            .map(
+              _.bimap(
+                e => JsonParsingException(e.message, request.data.toString),
+                a => GHResult(a, response.status.code, response.headers.toMap)
+              )
+            )
+        )
+      )
 
 }

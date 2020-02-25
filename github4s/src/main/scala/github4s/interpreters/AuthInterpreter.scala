@@ -29,8 +29,8 @@ import java.util.UUID
 
 class AuthInterpreter[F[_]: Applicative](
     implicit client: HttpClient[F],
-    accessToken: Option[String])
-    extends Auth[F] {
+    accessToken: Option[String]
+) extends Auth[F] {
 
   override def newAuth(
       username: String,
@@ -39,24 +39,28 @@ class AuthInterpreter[F[_]: Applicative](
       note: String,
       client_id: String,
       client_secret: String,
-      headers: Map[String, String] = Map()): F[GHResponse[Authorization]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Authorization]] =
     client.postAuth[NewAuthRequest, Authorization](
       method = "authorizations",
-      headers = Map("Authorization" -> s"Basic ${s"$username:$password".getBytes.toBase64}") ++ headers,
+      headers =
+        Map("Authorization" -> s"Basic ${s"$username:$password".getBytes.toBase64}") ++ headers,
       data = NewAuthRequest(scopes, note, client_id, client_secret)
     )
 
   override def authorizeUrl(
       client_id: String,
       redirect_uri: String,
-      scopes: List[String]): F[GHResponse[Authorize]] = {
+      scopes: List[String]
+  ): F[GHResponse[Authorize]] = {
     val state = UUID.randomUUID().toString
     val result: GHResponse[Authorize] =
       Either.right(
         GHResult(
           result = Authorize(
             client.urls.authorizeUrl.format(client_id, redirect_uri, scopes.mkString(","), state),
-            state),
+            state
+          ),
           statusCode = 200,
           headers = Map.empty
         )
@@ -70,7 +74,8 @@ class AuthInterpreter[F[_]: Applicative](
       code: String,
       redirect_uri: String,
       state: String,
-      headers: Map[String, String] = Map()): F[GHResponse[OAuthToken]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[OAuthToken]] =
     client.postOAuth[NewOAuthRequest, OAuthToken](
       url = client.urls.accessTokenUrl,
       headers = headers,

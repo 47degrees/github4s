@@ -30,7 +30,8 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map()): F[GHResponse[PullRequest]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequest]] =
     client.get[PullRequest](accessToken, s"repos/$owner/$repo/pulls/$number", headers)
 
   override def listPullRequests(
@@ -38,27 +39,31 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       filters: List[PRFilter],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequest]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[PullRequest]]] =
     client.get[List[PullRequest]](
       accessToken,
       s"repos/$owner/$repo/pulls",
       headers,
       filters.map(_.tupled).toMap,
-      pagination)
+      pagination
+    )
 
   override def listFiles(
       owner: String,
       repo: String,
       number: Int,
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequestFile]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[PullRequestFile]]] =
     client
       .get[List[PullRequestFile]](
         accessToken,
         s"repos/$owner/$repo/pulls/$number/files",
         headers,
         Map.empty,
-        pagination)
+        pagination
+      )
 
   override def createPullRequest(
       owner: String,
@@ -67,7 +72,8 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       head: String,
       base: String,
       maintainerCanModify: Option[Boolean],
-      headers: Map[String, String] = Map()): F[GHResponse[PullRequest]] = {
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequest]] = {
     val data: CreatePullRequest = newPullRequest match {
       case NewPullRequestData(title, body) =>
         CreatePullRequestData(title, head, base, body, maintainerCanModify)
@@ -83,22 +89,26 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       pullRequest: Int,
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequestReview]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[PullRequestReview]]] =
     client.get[List[PullRequestReview]](
       accessToken,
       s"repos/$owner/$repo/pulls/$pullRequest/reviews",
       headers,
       Map.empty,
-      pagination)
+      pagination
+    )
 
   override def getReview(
       owner: String,
       repo: String,
       pullRequest: Int,
       review: Int,
-      headers: Map[String, String] = Map()): F[GHResponse[PullRequestReview]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequestReview]] =
     client.get[PullRequestReview](
       accessToken,
       s"repos/$owner/$repo/pulls/$pullRequest/reviews/$review",
-      headers)
+      headers
+    )
 }

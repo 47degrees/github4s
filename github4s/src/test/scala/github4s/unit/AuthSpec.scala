@@ -51,7 +51,8 @@ class AuthSpec extends BaseSpec {
       validNote,
       validClientId,
       invalidClientSecret,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -65,7 +66,8 @@ class AuthSpec extends BaseSpec {
       invalidClientSecret,
       validCode,
       validRedirectUri,
-      validAuthState)
+      validAuthState
+    )
 
     implicit val httpClientMock = httpClientMockPostOAuth[NewOAuthRequest, OAuthToken](
       url = "https://github.com/login/oauth/access_token",
@@ -81,6 +83,7 @@ class AuthSpec extends BaseSpec {
       validCode,
       validRedirectUri,
       validAuthState,
-      headerUserAgent)
+      headerUserAgent
+    )
   }
 }

@@ -92,7 +92,8 @@ class IssuesSpec extends BaseSpec {
       None,
       List.empty,
       List.empty,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -105,7 +106,8 @@ class IssuesSpec extends BaseSpec {
       validIssueBody,
       None,
       List.empty,
-      List.empty)
+      List.empty
+    )
 
     implicit val httpClientMock = httpClientMockPatch[EditIssueRequest, Issue](
       url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber",
@@ -124,7 +126,8 @@ class IssuesSpec extends BaseSpec {
       None,
       List.empty,
       List.empty,
-      headerUserAgent)
+      headerUserAgent
+    )
   }
 
   "Issues.ListComments" should "call httpClient.get with the right parameters" in {
@@ -159,7 +162,8 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validIssueNumber,
       validCommentBody,
-      headerUserAgent)
+      headerUserAgent
+    )
   }
 
   "Issue.EditComment" should "call to httpClient.patch with the right parameters" in {
@@ -181,7 +185,8 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validCommentId,
       validCommentBody,
-      headerUserAgent)
+      headerUserAgent
+    )
   }
 
   "Issue.DeleteComment" should "call to httpClient.delete with the right parameters" in {
@@ -229,7 +234,8 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validIssueNumber,
       validIssueLabel,
-      headerUserAgent)
+      headerUserAgent
+    )
   }
 
   "Issues.RemoveLabel" should "call httpClient.delete with the right parameters" in {
@@ -248,7 +254,8 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validIssueNumber,
       validIssueLabel.head,
-      headerUserAgent)
+      headerUserAgent
+    )
   }
 
   "Issues.listAvailableAssignees" should "call httpClient.get with the right parameters" in {
@@ -265,7 +272,8 @@ class IssuesSpec extends BaseSpec {
       validRepoOwner,
       validRepoName,
       Some(Pagination(validPage, validPerPage)),
-      headerUserAgent)
+      headerUserAgent
+    )
   }
 
 }

@@ -82,7 +82,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
         None,
         validIssueLabel,
         validAssignees,
-        headerUserAgent)
+        headerUserAgent
+      )
       .unsafeRunSync()
 
     testIsRight[Issue](response, { r =>
@@ -110,7 +111,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
         validRepoName,
         validIssueNumber,
         validIssueLabel.head,
-        headerUserAgent)
+        headerUserAgent
+      )
       .unsafeRunSync()
 
     testIsRight[List[Label]](response, { r =>

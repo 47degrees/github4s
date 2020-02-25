@@ -32,19 +32,22 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: O
       id: Int,
       subscribed: Boolean,
       ignored: Boolean,
-      headers: Map[String, String] = Map()): F[GHResponse[Subscription]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Subscription]] =
     client.put[SubscriptionRequest, Subscription](
       accessToken = accessToken,
       url = s"notifications/threads/$id/subscription",
       headers = headers,
-      data = SubscriptionRequest(subscribed, ignored))
+      data = SubscriptionRequest(subscribed, ignored)
+    )
 
   override def listStargazers(
       owner: String,
       repo: String,
       timeline: Boolean,
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[Stargazer]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Stargazer]]] =
     client.get[List[Stargazer]](
       accessToken,
       s"repos/$owner/$repo/stargazers",
@@ -58,7 +61,8 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: O
       sort: Option[String],
       direction: Option[String],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[StarredRepository]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[StarredRepository]]] =
     client.get[List[StarredRepository]](
       accessToken,
       s"users/$username/starred",

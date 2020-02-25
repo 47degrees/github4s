@@ -33,7 +33,8 @@ trait GHAuthSpec extends BaseIntegrationSpec {
         validNote,
         validClientId,
         invalidClientSecret,
-        headerUserAgent)
+        headerUserAgent
+      )
       .unsafeRunSync()
 
     testIsLeft(response)

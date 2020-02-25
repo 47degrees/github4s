@@ -24,10 +24,11 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
 
 class Github[F[_]: ConcurrentEffect](accessToken: Option[String], timeout: Option[Duration])(
-    implicit ec: ExecutionContext) {
+    implicit ec: ExecutionContext
+) {
 
   private lazy val module: GithubAPIs[F] =
-    new GithubAPIv3[F](accessToken, timeout.getOrElse(Duration(1000l, MILLISECONDS)))
+    new GithubAPIv3[F](accessToken, timeout.getOrElse(Duration(1000L, MILLISECONDS)))
 
   lazy val users: Users[F]                 = module.users
   lazy val repos: Repositories[F]          = module.repos
@@ -45,7 +46,8 @@ object Github {
 
   def apply[F[_]: ConcurrentEffect](
       accessToken: Option[String] = None,
-      timeout: Option[Duration] = None)(implicit ec: ExecutionContext): Github[F] =
+      timeout: Option[Duration] = None
+  )(implicit ec: ExecutionContext): Github[F] =
     new Github[F](accessToken, timeout)
 
 }

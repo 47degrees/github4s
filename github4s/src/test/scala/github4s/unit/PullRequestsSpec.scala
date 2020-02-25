@@ -40,7 +40,8 @@ class PullRequestsSpec extends BaseSpec {
       validRepoOwner,
       validRepoName,
       validPullRequestNumber,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -83,7 +84,8 @@ class PullRequestsSpec extends BaseSpec {
       validHead,
       validBase,
       "Please pull this in!",
-      Some(true))
+      Some(true)
+    )
 
     implicit val httpClientMock = httpClientMockPost[CreatePullRequestData, PullRequest](
       url = s"repos/$validRepoOwner/$validRepoName/pulls",
@@ -100,7 +102,8 @@ class PullRequestsSpec extends BaseSpec {
       validHead,
       validBase,
       Some(true),
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -126,7 +129,8 @@ class PullRequestsSpec extends BaseSpec {
       validHead,
       validBase,
       Some(true),
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -147,7 +151,8 @@ class PullRequestsSpec extends BaseSpec {
       validRepoName,
       validPullRequestNumber,
       None,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -169,7 +174,8 @@ class PullRequestsSpec extends BaseSpec {
       validRepoName,
       validPullRequestNumber,
       validPullRequestReviewNumber,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 

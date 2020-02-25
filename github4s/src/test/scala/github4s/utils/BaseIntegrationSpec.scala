@@ -41,7 +41,8 @@ class IntegrationSpec
 object Integration
     extends Tag(
       if (sys.env.get("GITHUB4S_ACCESS_TOKEN").isDefined) ""
-      else classOf[Ignore].getName)
+      else classOf[Ignore].getName
+    )
 
 abstract class BaseIntegrationSpec
     extends AsyncFlatSpec

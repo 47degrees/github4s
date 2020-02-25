@@ -38,8 +38,8 @@ sealed trait GithubAPIs[F[_]] {
 }
 
 class GithubAPIv3[F[_]: ConcurrentEffect](accessToken: Option[String] = None, timeout: Duration)(
-    implicit ec: ExecutionContext)
-    extends GithubAPIs[F] {
+    implicit ec: ExecutionContext
+) extends GithubAPIs[F] {
 
   implicit val client = new HttpClient[F](timeout)
   implicit val at     = accessToken

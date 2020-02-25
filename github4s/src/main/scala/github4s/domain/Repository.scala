@@ -76,7 +76,8 @@ case class Release(
     assets_url: String,
     upload_url: String,
     tarball_url: String,
-    zipball_url: String)
+    zipball_url: String
+)
 
 case class Content(
     `type`: String,
@@ -91,7 +92,8 @@ case class Content(
     url: String,
     git_url: String,
     html_url: String,
-    download_url: Option[String])
+    download_url: Option[String]
+)
 
 case class Commit(
     sha: String,
@@ -121,7 +123,8 @@ case class NewReleaseRequest(
     body: String,
     target_commitish: Option[String],
     draft: Option[Boolean],
-    prerelease: Option[Boolean])
+    prerelease: Option[Boolean]
+)
 
 case class Status(
     url: String,

@@ -31,6 +31,7 @@ trait Teams[F[_]] {
   def listTeams(
       org: String,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Team]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Team]]]
 
 }

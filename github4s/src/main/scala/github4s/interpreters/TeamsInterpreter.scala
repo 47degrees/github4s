@@ -28,6 +28,7 @@ class TeamsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
   override def listTeams(
       org: String,
       pagination: Option[Pagination],
-      headers: Map[String, String]): F[GHResponse[List[Team]]] =
+      headers: Map[String, String]
+  ): F[GHResponse[List[Team]]] =
     client.get[List[Team]](accessToken, method = s"orgs/$org/teams", headers, Map.empty, pagination)
 }

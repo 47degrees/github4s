@@ -48,7 +48,8 @@ object ProjectPlugin extends AutoPlugin {
       micrositePalette := Map(
         "brand-primary"   -> "#3D3832",
         "brand-secondary" -> "#f90",
-        "white-color"     -> "#FFFFFF"),
+        "white-color"     -> "#FFFFFF"
+      ),
       micrositeExtraMdFiles := Map(
         file("CHANGELOG.md") -> ExtraMdFileConfig(
           "changelog.md",
@@ -57,7 +58,8 @@ object ProjectPlugin extends AutoPlugin {
             "title"     -> "Changelog",
             "section"   -> "home",
             "position"  -> "3",
-            "permalink" -> "changelog")
+            "permalink" -> "changelog"
+          )
         )
       ),
       micrositeExtraMdFilesOutput := mdocIn.value,
@@ -80,7 +82,8 @@ object ProjectPlugin extends AutoPlugin {
         %%("scalamock", V.scalamock) % Test,
         %%("scalatest", V.scalaTest) % Test,
         "org.mock-server"            % "mockserver-netty" % "5.9.0" % Test excludeAll ExclusionRule(
-          "com.twitter")
+          "com.twitter"
+        )
       ),
       libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
         case Some((2, 13)) => Seq.empty[ModuleID]
@@ -88,9 +91,8 @@ object ProjectPlugin extends AutoPlugin {
       })
     )
 
-    lazy val docsDependencies: Def.Setting[Seq[ModuleID]] = libraryDependencies += %%(
-      "scalatest",
-      V.scalaTest)
+    lazy val docsDependencies: Def.Setting[Seq[ModuleID]] =
+      libraryDependencies += %%("scalatest", V.scalaTest)
 
     def toCompileTestList(sequence: Seq[ProjectReference]): List[String] = sequence.toList.map {
       p =>

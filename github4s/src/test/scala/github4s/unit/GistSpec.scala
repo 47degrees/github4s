@@ -34,7 +34,8 @@ class GistSpec extends BaseSpec {
     val request = NewGistRequest(
       validGistDescription,
       validGistPublic,
-      Map(validGistFilename -> GistFile(validGistFileContent)))
+      Map(validGistFilename -> GistFile(validGistFileContent))
+    )
 
     implicit val httpClientMock = httpClientMockPost[NewGistRequest, Gist](
       url = "gists",
@@ -100,7 +101,8 @@ class GistSpec extends BaseSpec {
       Map(
         validGistFilename -> Some(EditGistFile(validGistFileContent)),
         validGistOldFilename -> Some(
-          EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+          EditGistFile(validGistFileContent, Some(validGistNewFilename))
+        ),
         validGistDeletedFilename -> None
       )
     )
@@ -119,7 +121,8 @@ class GistSpec extends BaseSpec {
       Map(
         validGistFilename -> Some(EditGistFile(validGistFileContent)),
         validGistOldFilename -> Some(
-          EditGistFile(validGistFileContent, Some(validGistNewFilename))),
+          EditGistFile(validGistFileContent, Some(validGistNewFilename))
+        ),
         validGistDeletedFilename -> None
       ),
       headerUserAgent

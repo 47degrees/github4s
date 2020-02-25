@@ -102,7 +102,8 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
           "build.sbt",
           "project",
           "project/build.properties",
-          "project/plugins.sbt")
+          "project/plugins.sbt"
+        )
       }
     )
   }
