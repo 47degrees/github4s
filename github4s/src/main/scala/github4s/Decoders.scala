@@ -279,36 +279,6 @@ object Decoders {
           user       <- c.downField("user").as[User]
         } yield Stargazer(Some(starred_at), user)))
 
-  implicit val decodeTeam: Decoder[Team] =
-    Decoder.instance { c =>
-      for {
-        id               <- c.downField("id").as[Int]
-        node_id          <- c.downField("node_id").as[String]
-        url              <- c.downField("url").as[String]
-        html_url         <- c.downField("html_url").as[String]
-        name             <- c.downField("name").as[String]
-        slug             <- c.downField("slug").as[String]
-        description      <- c.downField("description").as[Option[String]]
-        privacy          <- c.downField("privacy").as[String]
-        permission       <- c.downField("permission").as[String]
-        members_url      <- c.downField("members_url").as[String]
-        repositories_url <- c.downField("repositories_url").as[String]
-        parent           <- c.downField("parent").as[Option[Team]]
+  implicit val decodeTeam: Decoder[Team] = deriveDecoder[Team]
 
-      } yield
-        Team(
-          id = id,
-          node_id = node_id,
-          url = url,
-          html_url = html_url,
-          name = name,
-          slug = slug,
-          description = description,
-          privacy = privacy,
-          permission = permission,
-          members_url = members_url,
-          repositories_url = repositories_url,
-          parent = parent
-        )
-    }
 }
