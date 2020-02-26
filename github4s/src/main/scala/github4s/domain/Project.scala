@@ -53,3 +53,14 @@ case class Creator(
     `type`: String,
     site_admin: Boolean
 )
+
+case class Column(
+    url: String,
+    project_url: String,
+    cards_url: String,
+    id: Int,
+    node_id: String,
+    name: String,
+    created_at: String,
+    updated_at: String
+)

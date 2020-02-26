@@ -18,7 +18,7 @@ package github4s.integration
 
 import cats.effect.IO
 import github4s.Github
-import github4s.domain.Project
+import github4s.domain.{Column, Project}
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
 trait GHProjectsSpec extends BaseIntegrationSpec {
@@ -38,7 +38,28 @@ trait GHProjectsSpec extends BaseIntegrationSpec {
   it should "return error when an invalid org is passed" taggedAs Integration in {
     val response =
       Github[IO](accessToken).projects
-        .listProjects(invalidRepoName, headers = headerUserAgent)
+        .listProjects(invalidRepoName, headers = headerUserAgent ++ headerAccept)
+        .unsafeRunSync()
+
+    testIsLeft(response)
+  }
+
+  "Project >> ListColumns" should "return the expected column when a valid project id is provided" taggedAs Integration in {
+    val response =
+      Github[IO](accessToken).projects
+        .listColumns(validProjectId, headers = headerUserAgent ++ headerAccept)
+        .unsafeRunSync()
+
+    testIsRight[List[Column]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error when an invalid project id is passed" taggedAs Integration in {
+    val response =
+      Github[IO](accessToken).projects
+        .listColumns(invalidProjectId, headers = headerAccept ++ headerUserAgent)
         .unsafeRunSync()
 
     testIsLeft(response)

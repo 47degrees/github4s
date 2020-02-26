@@ -434,12 +434,15 @@ trait TestData extends DummyGithubUrls {
     parent = null
   )
 
+  val validProjectId   = 1903050
+  val invalidProjectId = 11111
+
   val project = Project(
     owner_url = "https://api.github.com/orgs/47deg",
     url = "https://api.github.com/projects/1903050",
     html_url = "https://github.com/orgs/47deg/projects/4",
     columns_url = "https://api.github.com/projects/1903050/columns",
-    id = 1903050,
+    id = validProjectId,
     node_id = "MDc6UHJvamVjdDE5MDMwNTA=",
     name = "Team Asterism",
     body = Some(
@@ -471,4 +474,16 @@ trait TestData extends DummyGithubUrls {
     organization_permission = Some("read"),
     `private` = Some(true)
   )
+
+  val column = Column(
+    url = "https://api.github.com/projects/columns/3724010",
+    project_url = "https://api.github.com/projects/1910444",
+    cards_url = "https://api.github.com/projects/columns/3724010/cards",
+    id = 3724010,
+    node_id = "MDEzOlByb2plY3RDb2x1bW4zNzI0MDEw",
+    name = "To do",
+    created_at = "2018-11-02T09:36:28Z",
+    updated_at = "2019-07-04T09:39:01Z"
+  )
+
 }

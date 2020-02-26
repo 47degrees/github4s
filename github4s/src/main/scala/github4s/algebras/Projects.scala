@@ -17,7 +17,7 @@
 package github4s.algebras
 
 import github4s.GithubResponses.GHResponse
-import github4s.domain.{Pagination, Project}
+import github4s.domain._
 
 trait Projects[F[_]] {
 
@@ -37,4 +37,19 @@ trait Projects[F[_]] {
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Project]]]
+
+  /**
+   * List the columns belonging to a specific project id
+   *
+   * @param project_id Project id for which we want to retrieve the columns
+   * @param pagination Limit and Offset for pagination
+   * @param headers Optional user headers to include in the request
+   * @return GHResponse with the list of columns belonging to this project id
+   */
+  def listColumns(
+      project_id: Int,
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Column]]]
+
 }

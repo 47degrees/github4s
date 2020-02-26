@@ -19,7 +19,7 @@ package github4s.interpreters
 import cats.Applicative
 import github4s.GithubResponses.GHResponse
 import github4s.algebras.Projects
-import github4s.domain.{Pagination, Project}
+import github4s.domain.{Column, Pagination, Project}
 import github4s.http.HttpClient
 import github4s.Decoders._
 
@@ -41,4 +41,16 @@ class ProjectsInterpreter[F[_]: Applicative](
       state.fold(Map.empty[String, String])(s => Map("state" -> s)),
       pagination
     )
+
+  override def listColumns(
+      project_id: Int,
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[Column]]] = client.get[List[Column]](
+    accessToken,
+    s"projects/$project_id/columns",
+    headers ++ Map("Accept" -> "application/vnd.github.inertia-preview+json"),
+    Map(),
+    pagination
+  )
 }
