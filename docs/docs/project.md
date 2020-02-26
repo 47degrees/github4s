@@ -26,7 +26,7 @@ implicit val IOContextShift = IO.contextShift(global)
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 ```
 
-They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
+They also make use of `cats.effect.IO`, but any type container `F` implementing `ConcurrentEffect` will do.
 
 LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
