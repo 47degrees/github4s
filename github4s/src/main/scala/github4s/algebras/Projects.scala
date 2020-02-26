@@ -24,7 +24,7 @@ trait Projects[F[_]] {
   /**
    * List the projects belonging to a specific organization
    *
-   * @param org        Organization for which we want to retrieve the members
+   * @param org        Organization for which we want to retrieve the projects
    * @param state      Filter projects returned by their state. Can be either `open`, `closed`, `all`.
    *                   Default: `open`
    * @param pagination Limit and Offset for pagination
