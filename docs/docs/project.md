@@ -52,7 +52,7 @@ To list the projects for organization `47deg`:
 
 ```scala mdoc:compile-only
 val listProjects = Github[IO](accessToken).projects.listProjects(org = "47deg",headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
-listProjects.unsafeRunSync match {
+listProjects.unsafeRunSync() match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }
