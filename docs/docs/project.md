@@ -9,7 +9,7 @@ permalink: project
 Github4s supports the [Project API](https://developer.github.com/v3/projects/). As a result,
 with Github4s, you can interact with:
 
-- [Projet](#project)
+- [Project](#project)
   - [List projects](#list-project)
   - [Columns](#columns)
     - [List project columns](#list-projects-columns)
