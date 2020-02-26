@@ -29,14 +29,16 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
   override def get(
       owner: String,
       repo: String,
-      headers: Map[String, String] = Map()): F[GHResponse[Repository]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Repository]] =
     client.get[Repository](accessToken, s"repos/$owner/$repo", headers)
 
   override def listOrgRepos(
       org: String,
       `type`: Option[String],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[Repository]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Repository]]] =
     client.get[List[Repository]](
       accessToken,
       s"orgs/$org/repos",
@@ -49,7 +51,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       user: String,
       `type`: Option[String],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[Repository]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Repository]]] =
     client.get[List[Repository]](
       accessToken,
       s"users/$user/repos",
@@ -63,12 +66,14 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       path: String,
       ref: Option[String],
-      headers: Map[String, String] = Map()): F[GHResponse[NonEmptyList[Content]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[NonEmptyList[Content]]] =
     client.get[NonEmptyList[Content]](
       accessToken,
       s"repos/$owner/$repo/contents/$path",
       headers,
-      ref.fold(Map.empty[String, String])(r => Map("ref" -> r)))
+      ref.fold(Map.empty[String, String])(r => Map("ref" -> r))
+    )
 
   override def listCommits(
       owner: String,
@@ -79,7 +84,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       since: Option[String],
       until: Option[String],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[Commit]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Commit]]] =
     client.get[List[Commit]](
       accessToken,
       s"repos/$owner/$repo/commits",
@@ -100,7 +106,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       onlyProtected: Option[Boolean],
-      headers: Map[String, String] = Map()): F[GHResponse[List[Branch]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Branch]]] =
     client.get[List[Branch]](
       accessToken,
       s"repos/$owner/$repo/branches",
@@ -109,13 +116,15 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
         "protected" -> onlyProtected.map(_.toString)
       ).collect {
         case (key, Some(value)) => key -> value
-      })
+      }
+    )
 
   override def listContributors(
       owner: String,
       repo: String,
       anon: Option[String],
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]] =
     client.get[List[User]](
       accessToken,
       s"repos/$owner/$repo/contributors",
@@ -124,13 +133,15 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
         "anon" -> anon
       ).collect {
         case (key, Some(value)) => key -> value
-      })
+      }
+    )
 
   override def listCollaborators(
       owner: String,
       repo: String,
       affiliation: Option[String],
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]] =
     client.get[List[User]](
       accessToken,
       s"repos/$owner/$repo/collaborators",
@@ -139,7 +150,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
         "affiliation" -> affiliation
       ).collect {
         case (key, Some(value)) => key -> value
-      })
+      }
+    )
 
   override def createRelease(
       owner: String,
@@ -150,25 +162,29 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       targetCommitish: Option[String],
       draft: Option[Boolean],
       prerelease: Option[Boolean],
-      headers: Map[String, String] = Map()): F[GHResponse[Release]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Release]] =
     client.post[NewReleaseRequest, Release](
       accessToken,
       s"repos/$owner/$repo/releases",
       headers,
-      NewReleaseRequest(tagName, name, body, targetCommitish, draft, prerelease))
+      NewReleaseRequest(tagName, name, body, targetCommitish, draft, prerelease)
+    )
 
   override def getCombinedStatus(
       owner: String,
       repo: String,
       ref: String,
-      headers: Map[String, String] = Map()): F[GHResponse[CombinedStatus]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[CombinedStatus]] =
     client.get[CombinedStatus](accessToken, s"repos/$owner/$repo/commits/$ref/status", headers)
 
   override def listStatuses(
       owner: String,
       repo: String,
       ref: String,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Status]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Status]]] =
     client.get[List[Status]](accessToken, s"repos/$owner/$repo/commits/$ref/statuses", headers)
 
   override def createStatus(
@@ -179,10 +195,12 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       target_url: Option[String],
       description: Option[String],
       context: Option[String],
-      headers: Map[String, String] = Map()): F[GHResponse[Status]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Status]] =
     client.post[NewStatusRequest, Status](
       accessToken,
       s"repos/$owner/$repo/statuses/$sha",
       headers,
-      NewStatusRequest(state, target_url, description, context))
+      NewStatusRequest(state, target_url, description, context)
+    )
 }

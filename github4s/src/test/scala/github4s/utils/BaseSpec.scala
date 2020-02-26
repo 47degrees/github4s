@@ -47,7 +47,8 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
         _: String,
         _: Map[String, String],
         _: Map[String, String],
-        _: Option[Pagination])(_: Decoder[Res]))
+        _: Option[Pagination]
+      )(_: Decoder[Res]))
       .expects(sampleToken, url, headers ++ headerUserAgent, params, *, *)
       .returns(response)
     httpClientMock
@@ -56,12 +57,14 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
   def httpClientMockPost[Req, Res](
       url: String,
       req: Req,
-      response: IO[GHResponse[Res]]): HttpClient[IO] = {
+      response: IO[GHResponse[Res]]
+  ): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
       .post[Req, Res](_: Option[String], _: String, _: Map[String, String], _: Req)(
         _: Encoder[Req],
-        _: Decoder[Res]))
+        _: Decoder[Res]
+      ))
       .expects(sampleToken, url, headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
@@ -71,12 +74,14 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
       url: String,
       headers: Map[String, String],
       req: Req,
-      response: IO[GHResponse[Res]]): HttpClient[IO] = {
+      response: IO[GHResponse[Res]]
+  ): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
       .postAuth[Req, Res](_: String, _: Map[String, String], _: Req)(
         _: Encoder[Req],
-        _: Decoder[Res]))
+        _: Decoder[Res]
+      ))
       .expects(url, headers ++ headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
@@ -85,12 +90,14 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
   def httpClientMockPostOAuth[Req, Res](
       url: String,
       req: Req,
-      response: IO[GHResponse[Res]]): HttpClient[IO] = {
+      response: IO[GHResponse[Res]]
+  ): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
       .postOAuth[Req, Res](_: String, _: Map[String, String], _: Req)(
         _: Encoder[Req],
-        _: Decoder[Res]))
+        _: Decoder[Res]
+      ))
       .expects(url, headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
@@ -99,12 +106,14 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
   def httpClientMockPatch[Req, Res](
       url: String,
       req: Req,
-      response: IO[GHResponse[Res]]): HttpClient[IO] = {
+      response: IO[GHResponse[Res]]
+  ): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
       .patch[Req, Res](_: Option[String], _: String, _: Map[String, String], _: Req)(
         _: Encoder[Req],
-        _: Decoder[Res]))
+        _: Decoder[Res]
+      ))
       .expects(sampleToken, url, headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
@@ -113,12 +122,14 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
   def httpClientMockPut[Req, Res](
       url: String,
       req: Req,
-      response: IO[GHResponse[Res]]): HttpClient[IO] = {
+      response: IO[GHResponse[Res]]
+  ): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
       .put[Req, Res](_: Option[String], _: String, _: Map[String, String], _: Req)(
         _: Encoder[Req],
-        _: Decoder[Res]))
+        _: Decoder[Res]
+      ))
       .expects(sampleToken, url, headerUserAgent, req, *, *)
       .returns(response)
     httpClientMock
@@ -135,11 +146,13 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
 
   def httpClientMockDeleteWithResponse[Res](
       url: String,
-      response: IO[GHResponse[Res]]): HttpClient[IO] = {
+      response: IO[GHResponse[Res]]
+  ): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
       .deleteWithResponse[Res](_: Option[String], _: String, _: Map[String, String])(
-        _: Decoder[Res]))
+        _: Decoder[Res]
+      ))
       .expects(sampleToken, url, headerUserAgent, *)
       .returns(response)
     httpClientMock

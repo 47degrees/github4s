@@ -14,29 +14,24 @@
  * limitations under the License.
  */
 
-package github4s
+package github4s.algebras
 
-import cats.Id
-import cats.effect.{IO, LiftIO}
+import github4s.GithubResponses.GHResponse
+import github4s.domain._
 
-import scala.concurrent.Future
+trait Teams[F[_]] {
 
-object GithubIOSyntax {
+  /** List the teams for a particular organization
+   *
+   * @param org organization for which we wish to retrieve the teams
+   * @param pagination Limit and Offset for pagination
+   * @param headers optional user headers to include in the request
+   * @return GHResponse[List[Team]] the list of teams for this organization
+   */
+  def listTeams(
+      org: String,
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Team]]]
 
-  implicit val futureLiftIO: LiftIO[Future] = new LiftIO[Future] {
-
-    override def liftIO[A](ioa: IO[A]): Future[A] = ioa.unsafeToFuture()
-  }
-
-  implicit val idLiftIO: LiftIO[Id] = new LiftIO[Id] {
-
-    override def liftIO[A](ioa: IO[A]): Id[A] = ioa.unsafeRunSync()
-  }
-
-  implicit class IOOps[A](val self: IO[A]) extends AnyVal {
-
-    def toFuture(implicit liftIO: LiftIO[Future]): Future[A] = liftIO.liftIO(self)
-
-    def toId(implicit liftIO: LiftIO[Id]): Id[A] = liftIO.liftIO(self)
-  }
 }

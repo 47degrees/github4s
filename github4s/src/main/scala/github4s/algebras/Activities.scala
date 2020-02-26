@@ -34,7 +34,8 @@ trait Activities[F[_]] {
       id: Int,
       subscribed: Boolean,
       ignored: Boolean,
-      headers: Map[String, String] = Map()): F[GHResponse[Subscription]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Subscription]]
 
   /**
    * List the users having starred a particular repository
@@ -51,7 +52,8 @@ trait Activities[F[_]] {
       repo: String,
       timeline: Boolean,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Stargazer]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Stargazer]]]
 
   /**
    * List the repositories starred by a particular user
@@ -71,6 +73,7 @@ trait Activities[F[_]] {
       sort: Option[String] = None,
       direction: Option[String] = None,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[StarredRepository]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[StarredRepository]]]
 
 }

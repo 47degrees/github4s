@@ -77,9 +77,7 @@ object Decoders {
   }
 
   def readRepoUrls(c: HCursor): Either[DecodingFailure, List[Option[String]]] =
-    RepoUrlKeys.allFields.traverse { name =>
-      c.downField(name).as[Option[String]]
-    }
+    RepoUrlKeys.allFields.traverse(name => c.downField(name).as[Option[String]])
 
   implicit val decodeStatusRepository: Decoder[StatusRepository] = {
     Decoder.instance { c =>
@@ -226,11 +224,13 @@ object Decoders {
   implicit val decodeStarredRepository: Decoder[StarredRepository] =
     Decoder[Repository]
       .map(StarredRepository(None, _))
-      .or(Decoder.instance(c =>
-        for {
-          starred_at <- c.downField("starred_at").as[String]
-          repo       <- c.downField("repo").as[Repository]
-        } yield StarredRepository(Some(starred_at), repo)))
+      .or(
+        Decoder.instance(c =>
+          for {
+            starred_at <- c.downField("starred_at").as[String]
+            repo       <- c.downField("repo").as[Repository]
+          } yield StarredRepository(Some(starred_at), repo))
+      )
 
   implicit def decodeNonEmptyList[T](implicit D: Decoder[T]): Decoder[NonEmptyList[T]] = {
 
@@ -273,12 +273,14 @@ object Decoders {
   implicit val decodeStargazer: Decoder[Stargazer] =
     decoderUser
       .map(Stargazer(None, _))
-      .or(Decoder.instance(c =>
-        for {
-          starred_at <- c.downField("starred_at").as[String]
-          user       <- c.downField("user").as[User]
-        } yield Stargazer(Some(starred_at), user)))
+      .or(
+        Decoder.instance(c =>
+          for {
+            starred_at <- c.downField("starred_at").as[String]
+            user       <- c.downField("user").as[User]
+          } yield Stargazer(Some(starred_at), user))
+      )
 
+  implicit val decodeTeam: Decoder[Team]       = deriveDecoder[Team]
   implicit val decodeProject: Decoder[Project] = deriveDecoder[Project]
-
 }

@@ -32,14 +32,16 @@ case class PullRequest(
     base: Option[PullRequestBase],
     head: Option[PullRequestBase],
     user: Option[User],
-    assignee: Option[User])
+    assignee: Option[User]
+)
 
 case class PullRequestBase(
     label: Option[String],
     ref: String,
     sha: String,
     user: Option[User],
-    repo: Option[Repository])
+    repo: Option[Repository]
+)
 
 case class PullRequestFile(
     sha: String,
@@ -52,7 +54,8 @@ case class PullRequestFile(
     raw_url: String,
     contents_url: String,
     patch: Option[String],
-    previous_filename: Option[String])
+    previous_filename: Option[String]
+)
 sealed trait CreatePullRequest {
   def head: String
   def base: String
@@ -63,15 +66,15 @@ case class CreatePullRequestData(
     head: String,
     base: String,
     body: String,
-    maintainer_can_modify: Option[Boolean] = Some(true))
-    extends CreatePullRequest
+    maintainer_can_modify: Option[Boolean] = Some(true)
+) extends CreatePullRequest
 
 case class CreatePullRequestIssue(
     issue: Int,
     head: String,
     base: String,
-    maintainer_can_modify: Option[Boolean] = Some(true))
-    extends CreatePullRequest
+    maintainer_can_modify: Option[Boolean] = Some(true)
+) extends CreatePullRequest
 
 sealed abstract class PRFilter(val name: String, val value: String)
     extends Product
@@ -110,7 +113,8 @@ case class PullRequestReview(
     commit_id: String,
     state: PullRequestReviewState,
     html_url: String,
-    pull_request_url: String)
+    pull_request_url: String
+)
 
 sealed abstract class PullRequestReviewState(val value: String)
 case object PRRStateApproved         extends PullRequestReviewState("APPROVED")

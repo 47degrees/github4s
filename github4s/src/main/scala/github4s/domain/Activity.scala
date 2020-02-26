@@ -22,7 +22,8 @@ case class Subscription(
     reason: Option[String],
     created_at: String,
     url: String,
-    thread_url: String)
+    thread_url: String
+)
 
 case class SubscriptionRequest(
     subscribed: Boolean,

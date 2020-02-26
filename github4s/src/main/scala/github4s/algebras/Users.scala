@@ -48,7 +48,8 @@ trait Users[F[_]] {
   def getUsers(
       since: Int,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]]
 
   /**
    * Get information for a particular user's list of users they follow
@@ -59,5 +60,6 @@ trait Users[F[_]] {
    */
   def getFollowing(
       username: String,
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]]
 }

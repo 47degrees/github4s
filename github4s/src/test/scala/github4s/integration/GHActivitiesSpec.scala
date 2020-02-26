@@ -30,9 +30,7 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .setThreadSub(validThreadId, true, false, headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[Subscription](response, { r =>
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[Subscription](response, r => r.statusCode shouldBe okStatusCode)
   }
 
   it should "return error when an invalid thread id is passed" taggedAs Integration in {
@@ -52,9 +50,7 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
     testIsRight[List[Stargazer]](response, { r =>
       r.result.nonEmpty shouldBe true
-      forAll(r.result) { s =>
-        s.starred_at shouldBe None
-      }
+      forAll(r.result)(s => s.starred_at shouldBe None)
       r.statusCode shouldBe okStatusCode
     })
   }
@@ -67,9 +63,7 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
     testIsRight[List[Stargazer]](response, { r =>
       r.result.nonEmpty shouldBe true
-      forAll(r.result) { s =>
-        s.starred_at shouldBe defined
-      }
+      forAll(r.result)(s => s.starred_at shouldBe defined)
       r.statusCode shouldBe okStatusCode
     })
   }
@@ -91,9 +85,7 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
     testIsRight[List[StarredRepository]](response, { r =>
       r.result.nonEmpty shouldBe true
-      forAll(r.result) { s =>
-        s.starred_at shouldBe None
-      }
+      forAll(r.result)(s => s.starred_at shouldBe None)
       r.statusCode shouldBe okStatusCode
     })
   }
@@ -106,9 +98,7 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
 
     testIsRight[List[StarredRepository]](response, { r =>
       r.result.nonEmpty shouldBe true
-      forAll(r.result) { s =>
-        s.starred_at shouldBe defined
-      }
+      forAll(r.result)(s => s.starred_at shouldBe defined)
       r.statusCode shouldBe okStatusCode
     })
   }

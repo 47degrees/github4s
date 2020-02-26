@@ -60,7 +60,7 @@ trait PullRequests[F[_]] {
       repo: String,
       filters: List[PRFilter] = Nil,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map(),
+      headers: Map[String, String] = Map()
   ): F[GHResponse[List[PullRequest]]]
 
   /**
@@ -118,7 +118,8 @@ trait PullRequests[F[_]] {
       repo: String,
       pullRequest: Int,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[PullRequestReview]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[PullRequestReview]]]
 
   /**
    * Get a specific pull request review.
@@ -134,6 +135,7 @@ trait PullRequests[F[_]] {
       repo: String,
       pullRequest: Int,
       review: Int,
-      headers: Map[String, String] = Map()): F[GHResponse[PullRequestReview]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequestReview]]
 
 }

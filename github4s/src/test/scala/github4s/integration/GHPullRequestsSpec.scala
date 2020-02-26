@@ -30,12 +30,11 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoOwner,
           validRepoName,
           validPullRequestNumber,
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
-    testIsRight[PullRequest](response, { r =>
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[PullRequest](response, r => r.statusCode shouldBe okStatusCode)
   }
 
   it should "return an error when a valid issue number is provided" taggedAs Integration in {
@@ -54,7 +53,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoOwner,
           invalidRepoName,
           validPullRequestNumber,
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
     testIsLeft(response)
@@ -67,12 +67,11 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoOwner,
           validRepoName,
           pagination = Some(Pagination(1, 10)),
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
-    testIsRight[List[PullRequest]](response, { r =>
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[PullRequest]](response, r => r.statusCode shouldBe okStatusCode)
   }
 
   it should "return a right response when a valid repo is provided but not all pull requests have body" taggedAs Integration in {
@@ -82,7 +81,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           "lloydmeta",
           "gh-test-repo",
           List(PRFilterOpen),
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
     testIsRight[List[PullRequest]](response, { r =>
@@ -98,7 +98,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoOwner,
           validRepoName,
           List(PRFilterAll, PRFilterSortCreated, PRFilterOrderAsc),
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
     testIsRight[List[PullRequest]](response, { r =>
@@ -147,7 +148,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoOwner,
           invalidRepoName,
           validPullRequestNumber,
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
     testIsLeft(response)
@@ -160,7 +162,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoOwner,
           validRepoName,
           validPullRequestNumber,
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
     testIsRight[List[PullRequestReview]](response, { r =>
@@ -176,7 +179,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoOwner,
           invalidRepoName,
           validPullRequestNumber,
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
     testIsLeft(response)
@@ -190,7 +194,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           validRepoName,
           validPullRequestNumber,
           validPullRequestReviewNumber,
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
     testIsRight[PullRequestReview](response, { r =>
@@ -207,7 +212,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
           invalidRepoName,
           validPullRequestNumber,
           validPullRequestReviewNumber,
-          headers = headerUserAgent)
+          headers = headerUserAgent
+        )
         .unsafeRunSync()
 
     testIsLeft(response)

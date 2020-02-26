@@ -34,12 +34,14 @@ class UsersInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
   override def getUsers(
       since: Int,
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]] =
     client
       .get[List[User]](accessToken, "users", headers, Map("since" -> since.toString), pagination)
 
   override def getFollowing(
       username: String,
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]] =
     client.get[List[User]](accessToken, s"users/$username/following", headers)
 }

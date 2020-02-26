@@ -30,7 +30,8 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       owner: String,
       repo: String,
       ref: String,
-      headers: Map[String, String] = Map()): F[GHResponse[NonEmptyList[Ref]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[NonEmptyList[Ref]]] =
     client.get[NonEmptyList[Ref]](accessToken, s"repos/$owner/$repo/git/refs/$ref", headers)
 
   override def createReference(
@@ -38,12 +39,14 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       repo: String,
       ref: String,
       sha: String,
-      headers: Map[String, String] = Map()): F[GHResponse[Ref]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Ref]] =
     client.post[CreateReferenceRequest, Ref](
       accessToken,
       s"repos/$owner/$repo/git/refs",
       headers,
-      CreateReferenceRequest(ref, sha))
+      CreateReferenceRequest(ref, sha)
+    )
 
   override def updateReference(
       owner: String,
@@ -51,18 +54,21 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       ref: String,
       sha: String,
       force: Boolean,
-      headers: Map[String, String] = Map()): F[GHResponse[Ref]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Ref]] =
     client.patch[UpdateReferenceRequest, Ref](
       accessToken,
       s"repos/$owner/$repo/git/refs/$ref",
       headers,
-      UpdateReferenceRequest(sha, force))
+      UpdateReferenceRequest(sha, force)
+    )
 
   override def getCommit(
       owner: String,
       repo: String,
       sha: String,
-      headers: Map[String, String] = Map()): F[GHResponse[RefCommit]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[RefCommit]] =
     client.get[RefCommit](accessToken, s"repos/$owner/$repo/git/commits/$sha", headers)
 
   override def createCommit(
@@ -72,48 +78,56 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       tree: String,
       parents: List[String],
       author: Option[RefAuthor],
-      headers: Map[String, String] = Map()): F[GHResponse[RefCommit]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[RefCommit]] =
     client.post[NewCommitRequest, RefCommit](
       accessToken,
       s"repos/$owner/$repo/git/commits",
       headers,
-      NewCommitRequest(message, tree, parents, author))
+      NewCommitRequest(message, tree, parents, author)
+    )
 
   override def createBlob(
       owner: String,
       repo: String,
       content: String,
       encoding: Option[String],
-      headers: Map[String, String] = Map()): F[GHResponse[RefInfo]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[RefInfo]] =
     client.post[NewBlobRequest, RefInfo](
       accessToken,
       s"repos/$owner/$repo/git/blobs",
       headers,
-      NewBlobRequest(content, encoding))
+      NewBlobRequest(content, encoding)
+    )
 
   override def getTree(
       owner: String,
       repo: String,
       sha: String,
       recursive: Boolean,
-      headers: Map[String, String] = Map()): F[GHResponse[TreeResult]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[TreeResult]] =
     client.get[TreeResult](
       accessToken,
       s"repos/$owner/$repo/git/trees/$sha",
       headers,
-      (if (recursive) Map("recursive" -> "1") else Map.empty))
+      (if (recursive) Map("recursive" -> "1") else Map.empty)
+    )
 
   override def createTree(
       owner: String,
       repo: String,
       baseTree: Option[String],
       treeDataList: List[TreeData],
-      headers: Map[String, String] = Map()): F[GHResponse[TreeResult]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[TreeResult]] =
     client.post[NewTreeRequest, TreeResult](
       accessToken,
       s"repos/$owner/$repo/git/trees",
       headers,
-      NewTreeRequest(baseTree, treeDataList))
+      NewTreeRequest(baseTree, treeDataList)
+    )
 
   override def createTag(
       owner: String,
@@ -123,10 +137,12 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       objectSha: String,
       objectType: String,
       author: Option[RefAuthor],
-      headers: Map[String, String] = Map()): F[GHResponse[Tag]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Tag]] =
     client.post[NewTagRequest, Tag](
       accessToken,
       s"repos/$owner/$repo/git/tags",
       headers,
-      NewTagRequest(tag, message, objectSha, objectType, author))
+      NewTagRequest(tag, message, objectSha, objectType, author)
+    )
 }

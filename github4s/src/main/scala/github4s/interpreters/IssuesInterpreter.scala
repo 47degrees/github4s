@@ -30,20 +30,23 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
   override def listIssues(
       owner: String,
       repo: String,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Issue]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Issue]]] =
     client.get[List[Issue]](accessToken, s"repos/$owner/$repo/issues", headers)
 
   override def getIssue(
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map()): F[GHResponse[Issue]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Issue]] =
     client.get[Issue](accessToken, s"repos/$owner/$repo/issues/$number", headers)
 
   override def searchIssues(
       query: String,
       searchParams: List[SearchParam],
-      headers: Map[String, String] = Map()): F[GHResponse[SearchIssuesResult]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[SearchIssuesResult]] =
     client.get[SearchIssuesResult](
       accessToken = accessToken,
       method = "search/issues",
@@ -59,12 +62,14 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       milestone: Option[Int],
       labels: List[String],
       assignees: List[String],
-      headers: Map[String, String] = Map()): F[GHResponse[Issue]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Issue]] =
     client.post[NewIssueRequest, Issue](
       accessToken,
       s"repos/$owner/$repo/issues",
       headers,
-      data = NewIssueRequest(title, body, milestone, labels, assignees))
+      data = NewIssueRequest(title, body, milestone, labels, assignees)
+    )
 
   override def editIssue(
       owner: String,
@@ -76,18 +81,21 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       milestone: Option[Int],
       labels: List[String],
       assignees: List[String],
-      headers: Map[String, String] = Map()): F[GHResponse[Issue]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Issue]] =
     client.patch[EditIssueRequest, Issue](
       accessToken,
       s"repos/$owner/$repo/issues/$issue",
       headers,
-      data = EditIssueRequest(state, title, body, milestone, labels, assignees))
+      data = EditIssueRequest(state, title, body, milestone, labels, assignees)
+    )
 
   override def listComments(
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Comment]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Comment]]] =
     client
       .get[List[Comment]](accessToken, s"repos/$owner/$repo/issues/$number/comments", headers)
 
@@ -96,38 +104,44 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       repo: String,
       number: Int,
       body: String,
-      headers: Map[String, String] = Map()): F[GHResponse[Comment]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Comment]] =
     client.post[CommentData, Comment](
       accessToken,
       s"repos/$owner/$repo/issues/$number/comments",
       headers,
-      CommentData(body))
+      CommentData(body)
+    )
 
   override def editComment(
       owner: String,
       repo: String,
       id: Int,
       body: String,
-      headers: Map[String, String] = Map()): F[GHResponse[Comment]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Comment]] =
     client
       .patch[CommentData, Comment](
         accessToken,
         s"repos/$owner/$repo/issues/comments/$id",
         headers,
-        CommentData(body))
+        CommentData(body)
+      )
 
   override def deleteComment(
       owner: String,
       repo: String,
       id: Int,
-      headers: Map[String, String] = Map()): F[GHResponse[Unit]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Unit]] =
     client.delete(accessToken, s"repos/$owner/$repo/issues/comments/$id", headers)
 
   override def listLabels(
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Label]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Label]]] =
     client.get[List[Label]](accessToken, s"repos/$owner/$repo/issues/$number/labels", headers)
 
   override def addLabels(
@@ -135,29 +149,34 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       repo: String,
       number: Int,
       labels: List[String],
-      headers: Map[String, String] = Map()): F[GHResponse[List[Label]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Label]]] =
     client.post[List[String], List[Label]](
       accessToken,
       s"repos/$owner/$repo/issues/$number/labels",
       headers,
-      labels)
+      labels
+    )
 
   override def removeLabel(
       owner: String,
       repo: String,
       number: Int,
       label: String,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Label]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Label]]] =
     client.deleteWithResponse[List[Label]](
       accessToken,
       s"repos/$owner/$repo/issues/$number/labels/$label",
-      headers)
+      headers
+    )
 
   override def listAvailableAssignees(
       owner: String,
       repo: String,
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]] =
     client.get[List[User]](
       accessToken,
       s"repos/$owner/$repo/assignees",

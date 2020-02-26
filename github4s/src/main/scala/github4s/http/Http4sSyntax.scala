@@ -28,11 +28,11 @@ object Http4sSyntax {
 
   implicit class RequestOps[F[_]: ConcurrentEffect](self: Request[F]) {
     def withJsonBody[T](maybeData: Option[T])(implicit enc: Encoder[T]): Request[F] =
-      maybeData.fold(self)(
-        data =>
-          self
-            .withContentType(`Content-Type`(MediaType.application.json))
-            .withEntity(data.asJson.noSpaceNorNull))
+      maybeData.fold(self)(data =>
+        self
+          .withContentType(`Content-Type`(MediaType.application.json))
+          .withEntity(data.asJson.noSpaceNorNull)
+      )
   }
 
   implicit class JsonOps(val self: Json) extends AnyVal {

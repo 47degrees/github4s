@@ -36,20 +36,23 @@ case class Issue(
     pull_request: Option[IssuePullRequest],
     closed_at: Option[String],
     created_at: String,
-    updated_at: String)
+    updated_at: String
+)
 
 case class Label(
     id: Option[Int],
     name: String,
     url: String,
     color: String,
-    default: Option[Boolean])
+    default: Option[Boolean]
+)
 
 case class IssuePullRequest(
     url: Option[String],
     html_url: Option[String],
     diff_url: Option[String],
-    patch_url: Option[String])
+    patch_url: Option[String]
+)
 
 case class SearchIssuesResult(total_count: Int, incomplete_results: Boolean, items: List[Issue])
 
@@ -58,7 +61,8 @@ case class NewIssueRequest(
     body: String,
     milestone: Option[Int],
     labels: List[String],
-    assignees: List[String])
+    assignees: List[String]
+)
 
 case class EditIssueRequest(
     state: String,
@@ -66,7 +70,8 @@ case class EditIssueRequest(
     body: String,
     milestone: Option[Int],
     labels: List[String],
-    assignees: List[String])
+    assignees: List[String]
+)
 
 case class Comment(
     id: Int,
@@ -75,6 +80,7 @@ case class Comment(
     body: String,
     user: Option[User],
     created_at: String,
-    updated_at: String)
+    updated_at: String
+)
 
 case class CommentData(body: String)

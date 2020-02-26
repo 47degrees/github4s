@@ -36,7 +36,8 @@ trait Organizations[F[_]] {
       filter: Option[String] = None,
       role: Option[String] = None,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]]
 
   /**
    * List users who are outside collaborators
@@ -51,5 +52,6 @@ trait Organizations[F[_]] {
       org: String,
       filter: Option[String] = None,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]]
 }

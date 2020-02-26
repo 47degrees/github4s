@@ -30,7 +30,8 @@ class OrganizationsInterpreter[F[_]](implicit client: HttpClient[F], accessToken
       filter: Option[String],
       role: Option[String],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]] =
     client.get[List[User]](
       accessToken,
       s"orgs/$org/members",
@@ -46,7 +47,8 @@ class OrganizationsInterpreter[F[_]](implicit client: HttpClient[F], accessToken
       org: String,
       filter: Option[String],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()): F[GHResponse[List[User]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[User]]] =
     client.get[List[User]](
       accessToken,
       s"orgs/$org/outside_collaborators",

@@ -55,7 +55,7 @@ trait Auth[F[_]] {
   def authorizeUrl(
       client_id: String,
       redirect_uri: String,
-      scopes: List[String],
+      scopes: List[String]
   ): F[GHResponse[Authorize]]
 
   /**

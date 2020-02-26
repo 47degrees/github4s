@@ -14,29 +14,19 @@
  * limitations under the License.
  */
 
-package github4s
+package github4s.domain
 
-import cats.Id
-import cats.effect.{IO, LiftIO}
-
-import scala.concurrent.Future
-
-object GithubIOSyntax {
-
-  implicit val futureLiftIO: LiftIO[Future] = new LiftIO[Future] {
-
-    override def liftIO[A](ioa: IO[A]): Future[A] = ioa.unsafeToFuture()
-  }
-
-  implicit val idLiftIO: LiftIO[Id] = new LiftIO[Id] {
-
-    override def liftIO[A](ioa: IO[A]): Id[A] = ioa.unsafeRunSync()
-  }
-
-  implicit class IOOps[A](val self: IO[A]) extends AnyVal {
-
-    def toFuture(implicit liftIO: LiftIO[Future]): Future[A] = liftIO.liftIO(self)
-
-    def toId(implicit liftIO: LiftIO[Id]): Id[A] = liftIO.liftIO(self)
-  }
-}
+final case class Team(
+    id: Int,
+    node_id: String,
+    url: String,
+    html_url: String,
+    name: String,
+    slug: String,
+    description: Option[String],
+    privacy: String,
+    permission: String,
+    members_url: String,
+    repositories_url: String,
+    parent: Option[Team] = None
+)

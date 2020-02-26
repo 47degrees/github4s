@@ -141,7 +141,8 @@ trait TestData extends DummyGithubUrls {
   val validNodeId      = "MDY6U3RhdHVzMQ=="
 
   val treeDataList: List[TreeData] = List(
-    TreeDataSha(validPath, validMode, validBlobType, validTreeSha))
+    TreeDataSha(validPath, validMode, validBlobType, validTreeSha)
+  )
   val treeDataResult = List(
     TreeDataResult(
       path = validPath,
@@ -149,7 +150,9 @@ trait TestData extends DummyGithubUrls {
       `type` = validBlobType,
       size = Some(100),
       sha = validTreeSha,
-      url = githubApiUrl))
+      url = githubApiUrl
+    )
+  )
 
   val refObject = RefObject(commitType, validCommitSha, githubApiUrl)
   val ref       = Ref("XXXX", "nodeid", githubApiUrl, refObject)
@@ -164,7 +167,8 @@ trait TestData extends DummyGithubUrls {
     committer = refCommitAuthor,
     message = validNote,
     tree = refInfo,
-    parents = List(refInfo))
+    parents = List(refInfo)
+  )
 
   val issue = Issue(
     id = 1,
@@ -381,7 +385,8 @@ trait TestData extends DummyGithubUrls {
     ),
     `protected` = Some(true),
     protection_url = Some(
-      s"https://api.github.com/repos/$validRepoOwner/$validRepoName/branches/$validBranchName/protection")
+      s"https://api.github.com/repos/$validRepoOwner/$validRepoName/branches/$validBranchName/protection"
+    )
   )
   val branch = protectedBranch.copy(`protected` = None, protection_url = None)
 
@@ -408,6 +413,24 @@ trait TestData extends DummyGithubUrls {
     state = PRRStateCommented,
     html_url = "",
     pull_request_url = ""
+  )
+
+  val validNameTeam = "47 Devs"
+  val validSlug     = "47-devs"
+
+  val team = Team(
+    name = validNameTeam,
+    id = 40235,
+    node_id = "MDQ6VGVhbTQwMjM1",
+    slug = validSlug,
+    description = null,
+    privacy = "secret",
+    url = "https://api.github.com/organizations/479857/team/40235",
+    html_url = "https://github.com/orgs/47deg/teams/47-devs",
+    members_url = "https://api.github.com/organizations/479857/team/40235/members{/member}",
+    repositories_url = "https://api.github.com/organizations/479857/team/40235/repos",
+    permission = "push",
+    parent = null
   )
 
   val project = Project(
@@ -446,5 +469,4 @@ trait TestData extends DummyGithubUrls {
     organization_permission = Some("read"),
     `private` = Some(true)
   )
-
 }

@@ -38,8 +38,9 @@ object Encoders {
     Encoder.encodeString.contramap(_.value)
 
   implicit val encodeEditGistFile: Encoder[EditGistFile] = {
-    deriveEncoder[EditGistFile].mapJsonObject(_.filter(e =>
-      !(e._1.equals("filename") && e._2.isNull)))
+    deriveEncoder[EditGistFile].mapJsonObject(
+      _.filter(e => !(e._1.equals("filename") && e._2.isNull))
+    )
   }
 
   implicit val encoderCreateReferenceRequest: Encoder[CreateReferenceRequest] =

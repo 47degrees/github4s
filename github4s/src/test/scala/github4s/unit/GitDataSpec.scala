@@ -59,7 +59,8 @@ class GitDataSpec extends BaseSpec {
       validRepoName,
       s"refs/$validRefSingle",
       validCommitSha,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -83,7 +84,8 @@ class GitDataSpec extends BaseSpec {
       validRefSingle,
       validCommitSha,
       force,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -120,7 +122,8 @@ class GitDataSpec extends BaseSpec {
       validTreeSha,
       List(validCommitSha),
       Some(refCommitAuthor),
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -148,7 +151,10 @@ class GitDataSpec extends BaseSpec {
           GHResult(
             TreeResult(validCommitSha, githubApiUrl, treeDataResult, truncated = Some(false)),
             okStatusCode,
-            Map.empty)))
+            Map.empty
+          )
+        )
+      )
 
     implicit val httpClientMock = httpClientMockGet[TreeResult](
       url = s"repos/$validRepoOwner/$validRepoName/git/trees/$validCommitSha",
@@ -161,7 +167,8 @@ class GitDataSpec extends BaseSpec {
       validRepoName,
       validCommitSha,
       recursive = false,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -173,7 +180,10 @@ class GitDataSpec extends BaseSpec {
           GHResult(
             TreeResult(validCommitSha, githubApiUrl, treeDataResult),
             okStatusCode,
-            Map.empty)))
+            Map.empty
+          )
+        )
+      )
 
     val request = NewTreeRequest(Some(validTreeSha), treeDataList)
 
@@ -188,7 +198,8 @@ class GitDataSpec extends BaseSpec {
       validRepoName,
       Some(validTreeSha),
       treeDataList,
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 
@@ -212,7 +223,8 @@ class GitDataSpec extends BaseSpec {
       validCommitSha,
       commitType,
       Some(refCommitAuthor),
-      headerUserAgent)
+      headerUserAgent
+    )
 
   }
 

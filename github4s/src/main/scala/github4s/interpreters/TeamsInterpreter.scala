@@ -14,29 +14,21 @@
  * limitations under the License.
  */
 
-package github4s
+package github4s.interpreters
 
-import cats.Id
-import cats.effect.{IO, LiftIO}
+import github4s.Decoders._
+import github4s.GithubResponses.GHResponse
+import github4s.algebras.Teams
+import github4s.domain._
+import github4s.http.HttpClient
 
-import scala.concurrent.Future
+class TeamsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
+    extends Teams[F] {
 
-object GithubIOSyntax {
-
-  implicit val futureLiftIO: LiftIO[Future] = new LiftIO[Future] {
-
-    override def liftIO[A](ioa: IO[A]): Future[A] = ioa.unsafeToFuture()
-  }
-
-  implicit val idLiftIO: LiftIO[Id] = new LiftIO[Id] {
-
-    override def liftIO[A](ioa: IO[A]): Id[A] = ioa.unsafeRunSync()
-  }
-
-  implicit class IOOps[A](val self: IO[A]) extends AnyVal {
-
-    def toFuture(implicit liftIO: LiftIO[Future]): Future[A] = liftIO.liftIO(self)
-
-    def toId(implicit liftIO: LiftIO[Id]): Id[A] = liftIO.liftIO(self)
-  }
+  override def listTeams(
+      org: String,
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[Team]]] =
+    client.get[List[Team]](accessToken, method = s"orgs/$org/teams", headers, Map.empty, pagination)
 }

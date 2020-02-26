@@ -32,7 +32,8 @@ case class RefCommit(
     committer: RefAuthor,
     message: String,
     tree: RefInfo,
-    parents: List[RefInfo])
+    parents: List[RefInfo]
+)
 
 case class Tag(
     tag: String,
@@ -40,7 +41,8 @@ case class Tag(
     url: String,
     message: String,
     tagger: RefAuthor,
-    `object`: RefObject)
+    `object`: RefObject
+)
 
 case class RefAuthor(date: String, name: String, email: String)
 
@@ -59,8 +61,8 @@ case class TreeResult(
     override val sha: String,
     override val url: String,
     tree: List[TreeDataResult],
-    truncated: Option[Boolean] = None)
-    extends RefInfo(sha, url)
+    truncated: Option[Boolean] = None
+) extends RefInfo(sha, url)
 
 case class TreeDataResult(
     path: String,
@@ -68,13 +70,15 @@ case class TreeDataResult(
     `type`: String,
     size: Option[Int],
     sha: String,
-    url: String)
+    url: String
+)
 
 case class NewCommitRequest(
     message: String,
     tree: String,
     parents: List[String],
-    author: Option[RefAuthor])
+    author: Option[RefAuthor]
+)
 
 case class NewBlobRequest(content: String, encoding: Option[String])
 
@@ -89,4 +93,5 @@ case class NewTagRequest(
     message: String,
     `object`: String,
     `type`: String,
-    tagger: Option[RefAuthor])
+    tagger: Option[RefAuthor]
+)
