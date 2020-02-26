@@ -23,7 +23,7 @@ import github4s.domain.{Column, Pagination, Project}
 import github4s.http.HttpClient
 import github4s.Decoders._
 
-class ProjectsInterpreter[F[_]: Applicative](
+class ProjectsInterpreter[F[_]](
     implicit client: HttpClient[F],
     accessToken: Option[String]
 ) extends Projects[F] {
