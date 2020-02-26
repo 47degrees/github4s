@@ -25,14 +25,15 @@ import github4s.Decoders._
 
 class ProjectsInterpreter[F[_]: Applicative](
     implicit client: HttpClient[F],
-    accessToken: Option[String])
-    extends Projects[F] {
+    accessToken: Option[String]
+) extends Projects[F] {
 
   override def listProjects(
       org: String,
       state: Option[String],
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Project]]] =
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Project]]] =
     client.get[List[Project]](
       accessToken,
       s"orgs/$org/projects",

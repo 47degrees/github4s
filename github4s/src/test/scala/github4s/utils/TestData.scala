@@ -27,7 +27,8 @@ trait TestData extends DummyGithubUrls {
   val sampleToken: Option[String]          = Some("token")
   val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
   val headerAccept: Map[String, String] = Map(
-    "Accept" -> "application/vnd.github.inertia-preview+json")
+    "Accept" -> "application/vnd.github.inertia-preview+json"
+  )
 
   val validUsername   = "rafaparadela"
   val invalidUsername = "GHInvalidUserName"
@@ -442,7 +443,8 @@ trait TestData extends DummyGithubUrls {
     node_id = "MDc6UHJvamVjdDE5MDMwNTA=",
     name = "Team Asterism",
     body = Some(
-      "Track all things related with the open source initiatives maintained by the Asterism internal tea"),
+      "Track all things related with the open source initiatives maintained by the Asterism internal tea"
+    ),
     number = 4,
     creator = Creator(
       login = "calvellido",

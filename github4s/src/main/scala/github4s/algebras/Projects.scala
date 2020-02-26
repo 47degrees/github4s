@@ -35,5 +35,6 @@ trait Projects[F[_]] {
       org: String,
       state: Option[String] = None,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()): F[GHResponse[List[Project]]]
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Project]]]
 }

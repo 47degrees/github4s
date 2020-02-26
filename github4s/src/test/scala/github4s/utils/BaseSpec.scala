@@ -39,7 +39,8 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
       url: String,
       params: Map[String, String] = Map.empty,
       headers: Map[String, String] = Map.empty,
-      response: IO[GHResponse[Res]]): HttpClient[IO] = {
+      response: IO[GHResponse[Res]]
+  ): HttpClient[IO] = {
     val httpClientMock = mock[HttpClientTest]
     (httpClientMock
       .get[Res](
