@@ -37,7 +37,7 @@ class ProjectsInterpreter[F[_]: Applicative](
     client.get[List[Project]](
       accessToken,
       s"orgs/$org/projects",
-      headers ++ Map("Accept" -> "application/vnd.github.inertia-preview+json"),
+      headers,
       state.fold(Map.empty[String, String])(s => Map("state" -> s)),
       pagination
     )
@@ -49,7 +49,7 @@ class ProjectsInterpreter[F[_]: Applicative](
   ): F[GHResponse[List[Column]]] = client.get[List[Column]](
     accessToken,
     s"projects/$project_id/columns",
-    headers ++ Map("Accept" -> "application/vnd.github.inertia-preview+json"),
+    headers,
     Map(),
     pagination
   )
