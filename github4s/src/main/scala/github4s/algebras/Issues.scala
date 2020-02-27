@@ -280,9 +280,9 @@ trait Issues[F[_]] {
    *
    * @param owner repo owner
    * @param repo repo name
-   * @param state
-   * @param sort
-   * @param direction
+   * @param state filter milestones returned by their state. Can be either `open`, `closed`, `all`. Default: `open`
+   * @param sort What to sort results by. Either due_on or completeness. Default: due_on
+   * @param direction The direction of the sort. Either asc or desc. Default: asc
    * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return

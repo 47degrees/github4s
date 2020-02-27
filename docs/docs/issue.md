@@ -26,6 +26,8 @@ with Github4s, you can interact with:
   - [Remove a label](#remove-a-label)
 - [Assignees](#assignees)
   - [List available assignees](#list-available-assignees)
+- [Milestones](#milestones)
+  - [List milestone](#list-milestones-for-a-repository)
 
 The following examples assume the following imports and token:
 
@@ -362,3 +364,33 @@ As a result, if you'd like to see a feature supported, feel free to create an is
 
 [issue-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Issue.scala
 [user-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala
+
+## Milestones
+
+### List milestones for a repository
+
+You can list the milestone for a particular organization and repository with `listMilestones`; it takes arguments:
+
+ - `owner`: name of the owner for which we want to retrieve the milestones.
+ - `repo`: name of the repository for which we want to retrieve the milestones.
+ - `state`: filter projects returned by their state. Can be either `open`, `closed`, `all`. Default: `open`, optional
+ - `sort`: what to sort results by. Either `due_on` or `completeness`. Default: `due_on`, optional
+ - `direction` the direction of the sort. Either `asc` or `desc`. Default: `asc`, optional
+ - `pagination`: Limit and Offset for pagination, optional.
+ - `header`: headers to include in the request, optional.
+
+ To list the milestone for owner `47deg` and repository `github4s`:
+
+```scala mdoc:compile-only
+val milestones = Github[IO](accessToken).issues.listMilestones("47deg", "github4s")
+milestones.unsafeRunSync match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[Milestone]][milestone-scala]
+
+See [the API doc](https://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository) for full reference.
+
+[milestone-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
