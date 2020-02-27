@@ -45,19 +45,20 @@ trait TestData extends DummyGithubUrls {
   val validCode           = "code"
   val invalidCode         = "invalid-code"
 
-  val validRepoOwner     = "47deg"
-  val invalidRepoOwner   = "invalid47deg"
-  val validRepoName      = "github4s"
-  val invalidRepoName    = "GHInvalidRepoName"
-  val validRedirectUri   = "http://localhost:9000/_oauth-callback"
-  val validPage          = 1
-  val invalidPage        = 999
-  val validPerPage       = 100
-  val validFilePath      = "README.md"
-  val invalidFilePath    = "NON_EXISTENT_FILE_IN_REPOSITORY"
-  val validDirPath       = "lib"
-  val validSymlinkPath   = "bin/some-symlink"
-  val validSubmodulePath = "test/qunit"
+  val validRepoOwner             = "47deg"
+  val invalidRepoOwner           = "invalid47deg"
+  val validRepoName              = "github4s"
+  val validRepoNameWithMilestone = "marlow"
+  val invalidRepoName            = "GHInvalidRepoName"
+  val validRedirectUri           = "http://localhost:9000/_oauth-callback"
+  val validPage                  = 1
+  val invalidPage                = 999
+  val validPerPage               = 100
+  val validFilePath              = "README.md"
+  val invalidFilePath            = "NON_EXISTENT_FILE_IN_REPOSITORY"
+  val validDirPath               = "lib"
+  val validSymlinkPath           = "bin/some-symlink"
+  val validSubmodulePath         = "test/qunit"
 
   val validOrganizationName   = "47deg"
   val invalidOrganizationName = "invalid47deg"
@@ -196,6 +197,44 @@ trait TestData extends DummyGithubUrls {
     url = githubApiUrl,
     color = "",
     default = None
+  )
+
+  val milestone = Milestone(
+    url = "https://api.github.com/repos/47deg/marlow/milestones/7",
+    html_url = "https://github.com/47deg/marlow/milestone/7",
+    labels_url = "https://api.github.com/repos/47deg/marlow/milestones/7/labels",
+    id = 4221043,
+    node_id = "MDk6TWlsZXN0b25lNDIyMTA0Mw==",
+    number = 7,
+    title = "2020 Q1",
+    description = "",
+    creator = Creator(
+      login = "juanpedromoreno",
+      id = 4879373,
+      node_id = "MDQ6VXNlcjQ4NzkzNzM=",
+      avatar_url = "https://avatars2.githubusercontent.com/u/4879373?v=4",
+      gravatar_id = None,
+      url = "https://api.github.com/users/juanpedromoreno",
+      html_url = "https://github.com/juanpedromoreno",
+      followers_url = "https://api.github.com/users/juanpedromoreno/followers",
+      following_url = "https://api.github.com/users/juanpedromoreno/following{/other_user}",
+      gists_url = "https://api.github.com/users/juanpedromoreno/gists{/gist_id}",
+      starred_url = "https://api.github.com/users/juanpedromoreno/starred{/owner}{/repo}",
+      subscriptions_url = "https://api.github.com/users/juanpedromoreno/subscriptions",
+      organizations_url = "https://api.github.com/users/juanpedromoreno/orgs",
+      repos_url = "https://api.github.com/users/juanpedromoreno/repos",
+      events_url = "https://api.github.com/users/juanpedromoreno/events{/privacy}",
+      received_events_url = "https://api.github.com/users/juanpedromoreno/received_events",
+      `type` = "User",
+      site_admin = false
+    ),
+    open_issues = 6,
+    closed_issues = 1,
+    state = "open",
+    created_at = "2019-04-11T13:19:38Z",
+    updated_at = "2020-01-24T11:50:58Z",
+    due_on = "2020-03-31T07:00:00Z",
+    closed_at = None
   )
 
   val searchIssuesResult = SearchIssuesResult(

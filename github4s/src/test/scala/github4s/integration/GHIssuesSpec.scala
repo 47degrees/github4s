@@ -159,4 +159,46 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
     testIsLeft(response)
   }
 
+  "GHIssues >> ListMilestones" should "return a list of milestones" taggedAs Integration in {
+    val response = Github[IO](accessToken).issues
+      .listMilestones(
+        validRepoOwner,
+        validRepoNameWithMilestone,
+        None,
+        None,
+        None,
+        None,
+        headerUserAgent
+      )
+      .unsafeRunSync()
+
+    testIsRight[List[Milestone]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error for an invalid repo owner" taggedAs Integration in {
+    val response = Github[IO](accessToken).issues
+      .listMilestones(
+        invalidRepoOwner,
+        validRepoNameWithMilestone,
+        None,
+        None,
+        None,
+        None,
+        headerUserAgent
+      )
+      .unsafeRunSync()
+
+    testIsLeft(response)
+  }
+
+  it should "return error for an invalid repo name" taggedAs Integration in {
+    val response = Github[IO](accessToken).issues
+      .listMilestones(validRepoOwner, invalidRepoName, None, None, None, None, headerUserAgent)
+      .unsafeRunSync()
+    testIsLeft(response)
+  }
+
 }
