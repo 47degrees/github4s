@@ -16,7 +16,7 @@
 
 package github4s.domain
 
-case class Project(
+final case class Project(
     owner_url: String,
     url: String,
     html_url: String,
@@ -33,7 +33,7 @@ case class Project(
     `private`: Option[Boolean]
 )
 
-case class Creator(
+final case class Creator(
     login: String,
     id: Int,
     node_id: String,
@@ -54,7 +54,7 @@ case class Creator(
     site_admin: Boolean
 )
 
-case class Column(
+final case class Column(
     url: String,
     project_url: String,
     cards_url: String,

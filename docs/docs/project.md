@@ -6,6 +6,11 @@ permalink: project
 
 # Project API
 
+Note: The Projects API is currently available for developers to preview. During the preview period,
+the API may change without advance notice. Please see the blog post for full details. To access the
+API during the preview period, you must provide a custom media type in the `Accept` header:
+ `application/vnd.github.inertia-preview+json`
+
 Github4s supports the [Project API](https://developer.github.com/v3/projects/). As a result,
 with Github4s, you can interact with:
 
@@ -34,11 +39,6 @@ LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ### List projects
 
-Note: The Projects API is currently available for developers to preview. During the preview period,
-the API may change without advance notice. Please see the blog post for full details. To access the
-API during the preview period, you must provide a custom media type in the `Accept` header:
- `application/vnd.github.inertia-preview+json`
-
 You can list the project for a particular organization with `listProjects`; it takes as arguments:
 
 - `org`: name of the organization for which we want to retrieve the projects.
@@ -46,12 +46,12 @@ You can list the project for a particular organization with `listProjects`; it t
 - `pagination`: Limit and Offset for pagination, optional.
 - `header`: headers to include in the request, optional.
 
-
-
 To list the projects for organization `47deg`:
 
 ```scala mdoc:compile-only
-val listProjects = Github[IO](accessToken).projects.listProjects(org = "47deg",headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
+val listProjects = Github[IO](accessToken).projects.listProjects(
+    org = "47deg",
+    headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
 listProjects.unsafeRunSync() match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
@@ -68,11 +68,6 @@ See [the API doc](https://developer.github.com/v3/projects/#list-organization-pr
 
 #### List project columns
 
-Note: The Projects API is currently available for developers to preview. During the preview period,
-the API may change without advance notice. Please see the blog post for full details. To access the
-API during the preview period, you must provide a custom media type in the `Accept` header:
- `application/vnd.github.inertia-preview+json`
-
 You can list the columns for a particular project with `listColumns`; it takes as arguments:
 
 - `project_id`: project id for which we want to retrieve the columns.
@@ -82,7 +77,9 @@ You can list the columns for a particular project with `listColumns`; it takes a
 To list the columns for project_id `1910444`:
 
 ```scala mdoc:compile-only
-val listColumns = Github[IO](accessToken).projects.listColumns(project_id="1910444",headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
+val listColumns = Github[IO](accessToken).projects.listColumns(
+    project_id="1910444",
+    headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
 listColumnss.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
