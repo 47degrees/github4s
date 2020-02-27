@@ -183,4 +183,23 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       headers,
       pagination = pagination
     )
+
+  override def listMilestones(
+      owner: String,
+      repo: String,
+      state: Option[String],
+      sort: Option[String],
+      direction: Option[String],
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[Milestone]]] =
+    client.get[List[Milestone]](
+      accessToken,
+      s"repos/$owner/$repo/milestones",
+      headers,
+      pagination = pagination,
+      params = state.fold(Map.empty[String, String])(s => Map("state"  -> s)) ++
+        sort.fold(Map.empty[String, String])(s => Map("sort"           -> s)) ++
+        direction.fold(Map.empty[String, String])(d => Map("direction" -> d))
+    )
 }

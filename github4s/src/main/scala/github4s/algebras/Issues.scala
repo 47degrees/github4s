@@ -275,4 +275,26 @@ trait Issues[F[_]] {
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]]
+
+  /**
+   *
+   * @param owner repo owner
+   * @param repo repo name
+   * @param state
+   * @param sort
+   * @param direction
+   * @param pagination Limit and Offset for pagination
+   * @param headers optional user headers to include in the request
+   * @return
+   */
+  def listMilestones(
+      owner: String,
+      repo: String,
+      state: Option[String],
+      sort: Option[String],
+      direction: Option[String],
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Milestone]]]
+
 }
