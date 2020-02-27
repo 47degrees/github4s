@@ -59,7 +59,7 @@ trait GHProjectsSpec extends BaseIntegrationSpec {
   it should "return error when an invalid project id is passed" taggedAs Integration in {
     val response =
       Github[IO](accessToken).projects
-        .listColumns(invalidProjectId, headers = headerAccept ++ headerUserAgent)
+        .listColumns(invalidProjectId, headers = headerUserAgent ++ headerAccept)
         .unsafeRunSync()
 
     testIsLeft(response)
