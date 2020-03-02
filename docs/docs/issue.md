@@ -21,6 +21,7 @@ with Github4s, you can interact with:
   - [Edit a comment](#edit-a-comment)
   - [Delete a comment](#delete-a-comment)
 - [Labels](#labels)
+  - [List labels for this repository](#list-labels-for-this-repository)
   - [List labels](#list-labels)
   - [Add labels](#add-labels)
   - [Remove a label](#remove-a-label)
@@ -269,6 +270,28 @@ The `result` on the right is `Unit`.
 See [the API doc](https://developer.github.com/v3/issues/comments/#delete-a-comment) for full reference.
 
 ## Labels
+
+### List labels for this repository
+
+You can list labels for an issue with the following parameters:
+
+ - the repository coordinates (`owner` and `name` of the repository).
+ - `pagination`: Limit and Offset for pagination, optional.
+
+ To list labels:
+
+```scala mdoc:compile-only
+val labelListRepository = Github[IO](accessToken).issues.listLabelsRepository("47deg", "github4s")
+labelListRepository.unsafeRunSync match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r.result)
+}
+```
+
+The `result` on the right is the corresponding [List[Label]][issue-scala]
+
+See [the API doc](https://developer.github.com/v3/issues/labels/#list-all-labels-for-this-repository) for full reference.
+
 
 ### List labels
 
