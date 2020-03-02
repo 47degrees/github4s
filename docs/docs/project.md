@@ -78,7 +78,7 @@ To list the columns for project_id `1910444`:
 
 ```scala mdoc:compile-only
 val listColumns = Github[IO](accessToken).projects.listColumns(
-    project_id="1910444",
+    project_id = 1910444,
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
 listColumnss.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
