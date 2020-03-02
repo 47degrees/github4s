@@ -104,6 +104,32 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
     })
   }
 
+  "Issues >> listLabelsRepository" should "return a list of labels" taggedAs Integration in {
+    val response = Github[IO](accessToken).issues
+      .listLabelsRepository(validRepoOwner, validRepoName, headerUserAgent, None)
+      .unsafeRunSync()
+
+    testIsRight[List[Label]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+  it should "return error for an invalid repo owner" taggedAs Integration in {
+    val response = Github[IO](accessToken).issues
+      .listLabelsRepository(invalidRepoOwner, validRepoName, headerUserAgent, None)
+      .unsafeRunSync()
+
+    testIsLeft(response)
+  }
+
+  it should "return error for an invalid repo name" taggedAs Integration in {
+    val response = Github[IO](accessToken).issues
+      .listLabelsRepository(validRepoOwner, invalidRepoName, headerUserAgent, None)
+      .unsafeRunSync()
+
+    testIsLeft(response)
+  }
+
   "Issues >> RemoveLabel" should "return a list of removed labels" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .removeLabel(

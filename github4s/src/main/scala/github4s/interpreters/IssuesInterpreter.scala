@@ -136,6 +136,20 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
   ): F[GHResponse[Unit]] =
     client.delete(accessToken, s"repos/$owner/$repo/issues/comments/$id", headers)
 
+  override def listLabelsRepository(
+      owner: String,
+      repo: String,
+      headers: Map[String, String],
+      pagination: Option[Pagination]
+  ): F[GHResponse[List[Label]]] =
+    client.get[List[Label]](
+      accessToken,
+      method = s"repos/$owner/$repo/labels",
+      headers,
+      Map(),
+      pagination
+    )
+
   override def listLabels(
       owner: String,
       repo: String,

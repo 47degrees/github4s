@@ -209,6 +209,22 @@ trait Issues[F[_]] {
   ): F[GHResponse[Unit]]
 
   /**
+   * List the labels assigned to a Repository
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param headers optional user headers to include in the request
+   * @param pagination
+   * @return a GHResponse with the list of labels for the Repository.
+   */
+  def listLabelsRepository(
+      owner: String,
+      repo: String,
+      headers: Map[String, String] = Map(),
+      pagination: Option[Pagination] = None
+  ): F[GHResponse[List[Label]]]
+
+  /**
    * List the labels assigned to an Issue
    *
    * @param owner of the repo
