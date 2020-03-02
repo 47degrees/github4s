@@ -17,14 +17,13 @@
 package github4s.utils
 
 import cats.effect.IO
-
 import github4s.GithubResponses.{GHResponse, GHResult}
 import github4s.integration._
-import org.scalatest.{Assertion, Ignore, Inspectors, Tag}
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.{Assertion, Ignore, Inspectors, Tag}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class IntegrationSpec
     extends BaseIntegrationSpec
@@ -37,6 +36,7 @@ class IntegrationSpec
     with GHReposSpec
     with GHUsersSpec
     with GHTeamsSpec
+    with GHProjectsSpec
 
 object Integration
     extends Tag(

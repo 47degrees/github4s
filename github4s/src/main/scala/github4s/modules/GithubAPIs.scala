@@ -18,8 +18,8 @@ package github4s.modules
 
 import cats.effect.ConcurrentEffect
 import github4s.algebras._
-import github4s.interpreters._
 import github4s.http.HttpClient
+import github4s.interpreters._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
@@ -35,6 +35,7 @@ sealed trait GithubAPIs[F[_]] {
   def pullRequests: PullRequests[F]
   def organizations: Organizations[F]
   def teams: Teams[F]
+  def projects: Projects[F]
 }
 
 class GithubAPIv3[F[_]: ConcurrentEffect](accessToken: Option[String] = None, timeout: Duration)(
@@ -54,5 +55,6 @@ class GithubAPIv3[F[_]: ConcurrentEffect](accessToken: Option[String] = None, ti
   override val pullRequests: PullRequests[F]   = new PullRequestsInterpreter[F]
   override val organizations: Organizations[F] = new OrganizationsInterpreter[F]
   override val teams: Teams[F]                 = new TeamsInterpreter[F]
+  override val projects: Projects[F]           = new ProjectsInterpreter[F]
 
 }

@@ -1,5 +1,34 @@
 # Changelog
 
+## 02/28/2020 - Version 0.22.0
+
+Release changes:
+
+* Avoid gem system update ([#316](https://github.com/47deg/github4s/pull/316))
+* Active sidebar items ([#319](https://github.com/47deg/github4s/pull/319))
+* Update cats-core, cats-free to 2.1.0 ([#320](https://github.com/47deg/github4s/pull/320))
+* Update sbt to 1.3.6 ([#322](https://github.com/47deg/github4s/pull/322))
+* Update mockserver-netty to 5.8.1 ([#321](https://github.com/47deg/github4s/pull/321))
+* Update sbt-microsites to 1.1.0 ([#324](https://github.com/47deg/github4s/pull/324))
+* Sbt microsite adaptation ([#317](https://github.com/47deg/github4s/pull/317))
+* Update sbt to 1.3.7 ([#325](https://github.com/47deg/github4s/pull/325))
+* Re-formats for 2020 copyright ([#326](https://github.com/47deg/github4s/pull/326))
+* Removes unused parameter ([#327](https://github.com/47deg/github4s/pull/327))
+* Replace tut by mdoc and other clean ups ([#330](https://github.com/47deg/github4s/pull/330))
+* Update circe-core, circe-generic, ... to 0.13.0 ([#343](https://github.com/47deg/github4s/pull/343))
+* Update sbt to 1.3.8 ([#336](https://github.com/47deg/github4s/pull/336))
+* Update mockserver-netty to 5.9.0 ([#335](https://github.com/47deg/github4s/pull/335))
+* Tagless final refactor ([#344](https://github.com/47deg/github4s/pull/344))
+* Update scalatest to 3.1.1 ([#347](https://github.com/47deg/github4s/pull/347))
+* Update sbt-microsites to 1.1.2 ([#348](https://github.com/47deg/github4s/pull/348))
+* Update http4s-blaze-client, http4s-circe to 0.21.1 ([#346](https://github.com/47deg/github4s/pull/346))
+* Get the list of teams in an organization. ([#350](https://github.com/47deg/github4s/pull/350))
+* Lower the minimum code coverage threshold to 75% ([#353](https://github.com/47deg/github4s/pull/353))
+* Update cats-core, cats-free to 2.1.1 ([#351](https://github.com/47deg/github4s/pull/351))
+* Update sbt-org-policies to 0.13.1 ([#352](https://github.com/47deg/github4s/pull/352))
+* Releases 0.22.0 ([#355](https://github.com/47deg/github4s/pull/355))
+
+
 ## 12/18/2019 - Version 0.21.0
 
 Release changes:

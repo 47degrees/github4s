@@ -31,3 +31,6 @@ options:
 
   - title: Team API
     url: team
+
+  - title: Project API
+    url: project

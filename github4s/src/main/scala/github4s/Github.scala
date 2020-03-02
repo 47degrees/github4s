@@ -40,6 +40,7 @@ class Github[F[_]: ConcurrentEffect](accessToken: Option[String], timeout: Optio
   lazy val pullRequests: PullRequests[F]   = module.pullRequests
   lazy val organizations: Organizations[F] = module.organizations
   lazy val teams: Teams[F]                 = module.teams
+  lazy val projects: Projects[F]           = module.projects
 }
 
 object Github {
