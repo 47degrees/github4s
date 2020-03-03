@@ -405,7 +405,7 @@ You can list the milestone for a particular organization and repository with `li
  To list the milestone for owner `47deg` and repository `github4s`:
 
 ```scala mdoc:compile-only
-val milestones = Github[IO](accessToken).issues.listMilestones("47deg", "github4s")
+val milestones = Github[IO](accessToken).issues.listMilestones("47deg", "github4s", "open", None, None)
 milestones.unsafeRunSync match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
