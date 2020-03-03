@@ -214,7 +214,7 @@ trait Issues[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param headers optional user headers to include in the request
-   * @param pagination
+   * @param pagination Limit and Offset for pagination, optional.
    * @return a GHResponse with the list of labels for the Repository.
    */
   def listLabelsRepository(
