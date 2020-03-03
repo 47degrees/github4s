@@ -25,9 +25,9 @@ val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 
 In order for Github4s to work, you'll need an appropriate implicit `ExecutionContext` in Scope.
 
-Github4s is a Tagless Final API.
+Github4s uses [Tagless Final encoding](https://typelevel.org/blog/2017/12/27/optimizing-final-tagless.html).
 
-Every Github4s API call returns an `F[GHResponse[A]]` where `F` has an instance of [cats.effect.ConcurrentEffect][cats-concurrent-effect]
+Every Github4s API call returns an `F[GHResponse[A]]` where `F` has an instance of [cats.effect.ConcurrentEffect][cats-concurrent-effect].
 
 `GHResponse[A]` is, in turn, a type alias for `Either[GHException, GHResult[A]]`.
 
@@ -46,6 +46,20 @@ val user1 = Github[IO](accessToken).users.get("rafaparadela")
 
 `user1` in this case is a `IO[GHResponse[User]]`.
 
+### Using `F[_]: cats.effect.ConcurrentEffect`
+
+```scala mdoc:compile-only
+object ProgramF {
+  import cats.effect.ConcurrentEffect
+  import scala.concurrent.ExecutionContext
+  import github4s.Github
+  import github4s.GithubResponses.GHResponse
+  import github4s.domain.User
+
+  def u1[F[_]: ConcurrentEffect](implicit ec: ExecutionContext): F[GHResponse[User]] =
+    Github[F](accessToken).users.get("juanpedromoreno")
+}
+```
 
 ### Using `cats.effect.IO`
 

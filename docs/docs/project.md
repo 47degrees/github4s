@@ -15,9 +15,9 @@ Github4s supports the [Project API](https://developer.github.com/v3/projects/). 
 with Github4s, you can interact with:
 
 - [Project](#project)
-  - [List projects](#list-project)
+  - [List projects](#list-projects)
   - [Columns](#columns)
-    - [List project columns](#list-projects-columns)
+    - [List project columns](#list-project-columns)
 
 The following examples assume the following imports and token:
 
