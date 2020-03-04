@@ -144,10 +144,9 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
   ): F[GHResponse[List[Label]]] =
     client.get[List[Label]](
       accessToken,
-      method = s"repos/$owner/$repo/labels",
-      headers,
-      Map(),
-      pagination
+      s"repos/$owner/$repo/labels",
+      headers = headers,
+      pagination = pagination
     )
 
   override def listLabels(
