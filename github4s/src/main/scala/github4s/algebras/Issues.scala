@@ -293,6 +293,7 @@ trait Issues[F[_]] {
   ): F[GHResponse[List[User]]]
 
   /**
+   * List milestone in specified repository
    *
    * @param owner repo owner
    * @param repo repo name
@@ -301,7 +302,7 @@ trait Issues[F[_]] {
    * @param direction The direction of the sort. Either asc or desc. Default: asc
    * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
-   * @return
+   * @return a GHResponse with the list of milestones in specified repository
    */
   def listMilestones(
       owner: String,

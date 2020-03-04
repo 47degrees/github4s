@@ -211,8 +211,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       s"repos/$owner/$repo/milestones",
       headers,
       pagination = pagination,
-      params = state.fold(Map.empty[String, String])(s => Map("state"  -> s)) ++
-        sort.fold(Map.empty[String, String])(s => Map("sort"           -> s)) ++
-        direction.fold(Map.empty[String, String])(d => Map("direction" -> d))
+      params =
+        List(state.map("state" -> _), sort.map("sort" -> _), direction.map("direction" -> _)).flatten.toMap
     )
 }
