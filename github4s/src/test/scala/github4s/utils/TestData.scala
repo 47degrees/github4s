@@ -49,20 +49,19 @@ trait TestData extends DummyGithubUrls {
   val validCode           = "code"
   val invalidCode         = "invalid-code"
 
-  val validRepoOwner             = "47deg"
-  val invalidRepoOwner           = "invalid47deg"
-  val validRepoName              = "github4s"
-  val validRepoNameWithMilestone = "marlow"
-  val invalidRepoName            = "GHInvalidRepoName"
-  val validRedirectUri           = "http://localhost:9000/_oauth-callback"
-  val validPage                  = 1
-  val invalidPage                = 999
-  val validPerPage               = 100
-  val validFilePath              = "README.md"
-  val invalidFilePath            = "NON_EXISTENT_FILE_IN_REPOSITORY"
-  val validDirPath               = "lib"
-  val validSymlinkPath           = "bin/some-symlink"
-  val validSubmodulePath         = "test/qunit"
+  val validRepoOwner     = "47deg"
+  val invalidRepoOwner   = "invalid47deg"
+  val validRepoName      = "github4s"
+  val invalidRepoName    = "GHInvalidRepoName"
+  val validRedirectUri   = "http://localhost:9000/_oauth-callback"
+  val validPage          = 1
+  val invalidPage        = 999
+  val validPerPage       = 100
+  val validFilePath      = "README.md"
+  val invalidFilePath    = "NON_EXISTENT_FILE_IN_REPOSITORY"
+  val validDirPath       = "lib"
+  val validSymlinkPath   = "bin/some-symlink"
+  val validSubmodulePath = "test/qunit"
 
   val validOrganizationName   = "47deg"
   val invalidOrganizationName = "invalid47deg"
