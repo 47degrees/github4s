@@ -189,7 +189,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
     val response = Github[IO](accessToken).issues
       .listMilestones(
         validRepoOwner,
-        validRepoNameWithMilestone,
+        validRepoName,
         None,
         None,
         None,
@@ -198,17 +198,14 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       )
       .unsafeRunSync()
 
-    testIsRight[List[Milestone]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Milestone]](response, r => r.statusCode shouldBe okStatusCode)
   }
 
   it should "return error for an invalid repo owner" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
       .listMilestones(
         invalidRepoOwner,
-        validRepoNameWithMilestone,
+        validRepoName,
         None,
         None,
         None,
