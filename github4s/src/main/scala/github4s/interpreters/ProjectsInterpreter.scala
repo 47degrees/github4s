@@ -42,6 +42,21 @@ class ProjectsInterpreter[F[_]](
       pagination
     )
 
+  override def listProjectsRepository(
+      owner: String,
+      repo: String,
+      state: Option[String],
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[Project]]] =
+    client.get[List[Project]](
+      accessToken,
+      s"repos/$owner/$repo/projects",
+      headers,
+      state.fold(Map.empty[String, String])(s => Map("state" -> s)),
+      pagination
+    )
+
   override def listColumns(
       project_id: Int,
       pagination: Option[Pagination],
