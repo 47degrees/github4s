@@ -115,9 +115,9 @@ listCards.unsafeRunSync match {
 }
 ```
 
-The `result` on the right is the corresponding [List[Card]][column-scala].
+The `result` on the right is the corresponding [List[Card]][card-scala].
 
 See [the API doc](https://developer.github.com/v3/projects/cards/#list-project-cards) for full reference.
 
-[column-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
+[card-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
 
