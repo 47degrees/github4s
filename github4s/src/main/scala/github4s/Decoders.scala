@@ -280,5 +280,6 @@ object Decoders {
   implicit val decodeMilestone: Decoder[Milestone] = deriveDecoder[Milestone]
   implicit val decodeProject: Decoder[Project]     = deriveDecoder[Project]
   implicit val decodeColumn: Decoder[Column]       = deriveDecoder[Column]
+  implicit val decodeCard: Decoder[Card]           = deriveDecoder[Card]
 
 }

@@ -52,4 +52,21 @@ trait Projects[F[_]] {
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Column]]]
 
+  /**
+   * List the cards belonging to a specific column id
+   *
+   * @param column_id Column id for which we want to retrieve the cards
+   * @param archived_state Filters the project cards that are returned by the card's state.
+   *                       Can be one of all,archived, or not_archived. Default: not_archived
+   * @param pagination Limit and Offset for pagination
+   * @param headers Optional user headers to include in the request
+   * @return GHResponse with the list of cards belonging to this column id
+   */
+  def listCards(
+      column_id: Int,
+      archived_state: Option[String] = None,
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Card]]]
+
 }

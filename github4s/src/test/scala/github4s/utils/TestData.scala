@@ -486,4 +486,40 @@ trait TestData extends DummyGithubUrls {
     updated_at = "2019-07-04T09:39:01Z"
   )
 
+  val validColumnId   = 8271018
+  val invalidColumnId = -32
+
+  val card = Card(
+    url = "https://api.github.com/projects/columns/cards/34323195",
+    project_url = "https://api.github.com/projects/4085286",
+    id = 34323195,
+    node_id = "MDExOlByb2plY3RDYXJkMzQzMjMxOTU=",
+    note = Some("Test Card"),
+    archived = false,
+    creator = Creator(
+      login = "calvellido",
+      id = 7753447,
+      node_id = "MDQ6VXNlcjc3NTM0NDc=",
+      avatar_url = "https://avatars0.githubusercontent.com/u/7753447?v=4",
+      gravatar_id = None,
+      url = "https://api.github.com/users/calvellido",
+      html_url = "https://github.com/calvellido",
+      followers_url = "https://api.github.com/users/calvellido/followers",
+      following_url = "https://api.github.com/users/calvellido/following{/other_user}",
+      gists_url = "https://api.github.com/users/calvellido/gists{/gist_id}",
+      starred_url = "https://api.github.com/users/calvellido/starred{/owner}{/repo}",
+      subscriptions_url = "https://api.github.com/users/calvellido/subscriptions",
+      organizations_url = "https://api.github.com/users/calvellido/orgs",
+      repos_url = "https://api.github.com/users/calvellido/repos",
+      events_url = "https://api.github.com/users/calvellido/events{/privacy}",
+      received_events_url = "https://api.github.com/users/calvellido/received_events",
+      `type` = "User",
+      site_admin = false
+    ),
+    created_at = "2018-11-02T09:36:28Z",
+    updated_at = "2019-07-04T09:39:01Z",
+    column_url = "https://api.github.com/projects/columns/8271018",
+    content_url = None
+  )
+
 }

@@ -18,7 +18,7 @@ package github4s.integration
 
 import cats.effect.IO
 import github4s.Github
-import github4s.domain.{Column, Project}
+import github4s.domain.{Card, Column, Project}
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
 trait GHProjectsSpec extends BaseIntegrationSpec {
@@ -65,4 +65,23 @@ trait GHProjectsSpec extends BaseIntegrationSpec {
     testIsLeft(response)
   }
 
+  "Project >> ListCards" should "return the expected cards when a valid column id is provided" taggedAs Integration in {
+    val response = Github[IO](accessToken).projects
+      .listCards(validColumnId, headers = headerUserAgent ++ headerAccept)
+      .unsafeRunSync()
+
+    testIsRight[List[Card]](response, { r =>
+      r.result.nonEmpty shouldBe true
+      r.statusCode shouldBe okStatusCode
+    })
+  }
+
+  it should "return error when an invalid column id is passed" taggedAs Integration in {
+    val response =
+      Github[IO](accessToken).projects
+        .listCards(invalidColumnId, headers = headerUserAgent ++ headerAccept)
+        .unsafeRunSync()
+
+    testIsLeft(response)
+  }
 }

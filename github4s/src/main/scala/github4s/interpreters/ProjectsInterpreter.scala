@@ -16,10 +16,9 @@
 
 package github4s.interpreters
 
-import cats.Applicative
 import github4s.GithubResponses.GHResponse
 import github4s.algebras.Projects
-import github4s.domain.{Column, Pagination, Project}
+import github4s.domain._
 import github4s.http.HttpClient
 import github4s.Decoders._
 
@@ -53,4 +52,19 @@ class ProjectsInterpreter[F[_]](
     Map(),
     pagination
   )
+
+  override def listCards(
+      column_id: Int,
+      archived_state: Option[String],
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[Card]]] =
+    client.get[List[Card]](
+      accessToken,
+      s"projects/columns/$column_id/cards",
+      headers,
+      archived_state.fold(Map.empty[String, String])(s => Map("archived_state" -> s)),
+      pagination
+    )
+
 }

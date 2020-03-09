@@ -64,3 +64,17 @@ final case class Column(
     created_at: String,
     updated_at: String
 )
+
+final case class Card(
+    url: String,
+    project_url: String,
+    id: Int,
+    node_id: String,
+    note: Option[String],
+    archived: Boolean,
+    creator: Creator,
+    created_at: String,
+    updated_at: String,
+    column_url: String,
+    content_url: Option[String]
+)
