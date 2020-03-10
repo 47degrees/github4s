@@ -18,6 +18,8 @@ with Github4s, you can interact with:
   - [List projects](#list-projects)
   - [Columns](#columns)
     - [List project columns](#list-project-columns)
+  - [Cards](#cards)
+    - [List project cards](#list-project-cards-by-column)
 
 The following examples assume the following imports and token:
 
@@ -99,7 +101,8 @@ See [the API doc](https://developer.github.com/v3/projects/columns/#list-project
 You can list the cards for a particular column with `listCards`; it takes as arguments:
 
 - `column_id`: column id for which we want to retrieve the cards.
-- `archived_state`: filters the project cards that are returned by the card's state. Can be one of `all`,`archived`, or `not_archived`. Default: `not_archived`
+- `archived_state`: filters the project cards that are returned by the card's state. 
+Can be one of `all`,`archived`, or `not_archived`. Default: `not_archived`, optional.
 - `pagination`: Limit and Offset for pagination, optional.
 - `header`: headers to include in the request, optional.
 
