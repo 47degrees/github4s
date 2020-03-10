@@ -29,10 +29,8 @@ trait GHTeamsSpec extends BaseIntegrationSpec {
         .listTeams(validRepoOwner, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[Team]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Team]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid org is passed" taggedAs Integration in {
@@ -40,8 +38,8 @@ trait GHTeamsSpec extends BaseIntegrationSpec {
       Github[IO](accessToken).teams
         .listTeams(invalidRepoName, headers = headerUserAgent)
         .unsafeRunSync()
-
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
 }

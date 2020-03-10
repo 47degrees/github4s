@@ -17,7 +17,8 @@
 package github4s.unit
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import cats.syntax.either._
+import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import github4s.interpreters.ProjectsInterpreter
 import github4s.utils.BaseSpec
@@ -29,7 +30,7 @@ class ProjectSpec extends BaseSpec {
   "Project.listProjects" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[Project]]] =
-      IO(Right(GHResult(List(project), okStatusCode, Map.empty)))
+      IO(GHResponse(List(project).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[Project]](
       url = s"orgs/$validRepoOwner/projects",
@@ -46,7 +47,7 @@ class ProjectSpec extends BaseSpec {
   "Project.listProjectsRepository" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[Project]]] =
-      IO(Right(GHResult(List(project), okStatusCode, Map.empty)))
+      IO(GHResponse(List(project).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[Project]](
       url = s"repos/$validRepoOwner/$validRepoName/projects",
@@ -69,7 +70,7 @@ class ProjectSpec extends BaseSpec {
   "Project.listColumns" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[Column]]] =
-      IO(Right(GHResult(List(column), okStatusCode, Map.empty)))
+      IO(GHResponse(List(column).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[Column]](
       url = s"projects/$validProjectId/columns",

@@ -20,7 +20,7 @@ import github4s.domain.Pagination
 import org.http4s.Request
 import org.http4s.client.blaze.BlazeClientBuilder
 import cats.effect.{ConcurrentEffect, Resource}
-import github4s.GithubResponses.{GHResponse, GHResult, JsonParsingException}
+import github4s.GithubResponses.{GHResponse, JsonParsingException}
 import cats.implicits._
 import io.circe.{Decoder, Encoder}
 import org.http4s.circe.CirceEntityDecoder._
@@ -151,12 +151,13 @@ class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: Exe
           response
             .attemptAs[Res]
             .value
-            .map(
-              _.bimap(
-                e => JsonParsingException(e.message, request.data.toString),
-                a => GHResult(a, response.status.code, response.headers.toMap)
+            .map { e =>
+              GHResponse(
+                e.leftMap(e => JsonParsingException(e.message, request.data.toString)),
+                response.status.code,
+                response.headers.toMap
               )
-            )
+            }
         )
       )
 

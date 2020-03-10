@@ -30,10 +30,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .get(validRepoOwner, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[Repository](response, { r =>
-      r.result.name shouldBe validRepoName
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[Repository](response, r => r.name shouldBe validRepoName)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
@@ -43,6 +41,7 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListOrgRepos" should "return the expected repos when a valid org is provided" taggedAs Integration in {
@@ -51,10 +50,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .listOrgRepos(validRepoOwner, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[Repository]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Repository]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid org is passed" taggedAs Integration in {
@@ -64,6 +61,7 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListUserRepos" should "return the expected repos when a valid user is provided" taggedAs Integration in {
@@ -71,10 +69,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
       .listUserRepos(validUsername, headers = headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[List[Repository]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Repository]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid user is passed" taggedAs Integration in {
@@ -83,6 +79,7 @@ trait GHReposSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> GetContents" should "return the expected contents when valid path is provided" taggedAs Integration in {
@@ -91,10 +88,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .getContents(validRepoOwner, validRepoName, validFilePath, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[NonEmptyList[Content]](response, { r =>
-      r.result.head.path shouldBe validFilePath
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[NonEmptyList[Content]](response, r => r.head.path shouldBe validFilePath)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid path is passed" taggedAs Integration in {
@@ -103,6 +98,7 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .getContents(validRepoOwner, validRepoName, invalidFilePath, headers = headerUserAgent)
         .unsafeRunSync()
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListCommits" should "return the expected list of commits for valid data" taggedAs Integration in {
@@ -111,10 +107,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .listCommits(validRepoOwner, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[Commit]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Commit]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" taggedAs Integration in {
@@ -122,8 +116,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
       Github[IO](accessToken).repos
         .listCommits(invalidRepoName, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
-
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListBranches" should "return the expected list of branches for valid data" taggedAs Integration in {
@@ -132,10 +126,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .listBranches(validRepoOwner, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[Branch]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Branch]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" taggedAs Integration in {
@@ -143,8 +135,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
       Github[IO](accessToken).repos
         .listBranches(invalidRepoName, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
-
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListContributors" should "return the expected list of contributors for valid data" taggedAs Integration in {
@@ -153,10 +145,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .listContributors(validRepoOwner, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[User]](response, { r =>
-      r.result shouldNot be(empty)
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[User]](response, r => r shouldNot be(empty))
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" taggedAs Integration in {
@@ -164,8 +154,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
       Github[IO](accessToken).repos
         .listContributors(invalidRepoName, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
-
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListCollaborators" should "return the expected list of collaborators for valid data" taggedAs Integration in {
@@ -174,10 +164,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
         .listCollaborators(validRepoOwner, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[User]](response, { r =>
-      r.result shouldNot be(empty)
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[User]](response, r => r shouldNot be(empty))
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" taggedAs Integration in {
@@ -185,8 +173,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
       Github[IO](accessToken).repos
         .listCollaborators(invalidRepoName, validRepoName, headers = headerUserAgent)
         .unsafeRunSync()
-
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> GetStatus" should "return a combined status" taggedAs Integration in {
@@ -194,10 +182,11 @@ trait GHReposSpec extends BaseIntegrationSpec {
       .getCombinedStatus(validRepoOwner, validRepoName, validRefSingle, headers = headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[CombinedStatus](response, { r =>
-      r.result.repository.full_name shouldBe s"$validRepoOwner/$validRepoName"
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[CombinedStatus](
+      response,
+      r => r.repository.full_name shouldBe s"$validRepoOwner/$validRepoName"
+    )
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return an error when an invalid ref is passed" taggedAs Integration in {
@@ -205,6 +194,7 @@ trait GHReposSpec extends BaseIntegrationSpec {
       .getCombinedStatus(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
       .unsafeRunSync()
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListStatus" should "return a non empty list when a valid ref is provided" taggedAs Integration in {
@@ -212,10 +202,8 @@ trait GHReposSpec extends BaseIntegrationSpec {
       .listStatuses(validRepoOwner, validRepoName, validCommitSha, headers = headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[List[Status]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Status]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return an error when an invalid ref is provided" taggedAs Integration in {
@@ -223,5 +211,6 @@ trait GHReposSpec extends BaseIntegrationSpec {
       .listStatuses(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
       .unsafeRunSync()
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 }

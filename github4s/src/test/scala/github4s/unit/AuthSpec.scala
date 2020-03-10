@@ -17,7 +17,8 @@
 package github4s.unit
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import cats.syntax.either._
+import github4s.GithubResponses.GHResponse
 import github4s.utils.BaseSpec
 import com.github.marklister.base64.Base64.Encoder
 import github4s.domain._
@@ -30,7 +31,7 @@ class AuthSpec extends BaseSpec {
   "Auth.newAuth" should "call to httpClient.postAuth with the right parameters" in {
 
     val response: IO[GHResponse[Authorization]] =
-      IO(Right(GHResult(authorization, okStatusCode, Map.empty)))
+      IO(GHResponse(authorization.asRight, okStatusCode, Map.empty))
 
     val request = NewAuthRequest(validScopes, validNote, validClientId, invalidClientSecret)
 
@@ -59,7 +60,7 @@ class AuthSpec extends BaseSpec {
   "Auth.getAccessToken" should "call to httpClient.postOAuth with the right parameters" in {
 
     val response: IO[GHResponse[OAuthToken]] =
-      IO(Right(GHResult(oAuthToken, okStatusCode, Map.empty)))
+      IO(GHResponse(oAuthToken.asRight, okStatusCode, Map.empty))
 
     val request = NewOAuthRequest(
       validClientId,

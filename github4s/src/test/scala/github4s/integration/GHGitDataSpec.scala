@@ -29,10 +29,8 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
       .getReference(validRepoOwner, validRepoName, "heads", headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[NonEmptyList[Ref]](response, { r =>
-      r.result.tail.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[NonEmptyList[Ref]](response, r => r.tail.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return at least one reference" taggedAs Integration in {
@@ -40,10 +38,8 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
       .getReference(validRepoOwner, validRepoName, validRefSingle, headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[NonEmptyList[Ref]](response, { r =>
-      r.result.head.ref.contains(validRefSingle) shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[NonEmptyList[Ref]](response, r => r.head.ref.contains(validRefSingle) shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return an error when an invalid repository name is passed" taggedAs Integration in {
@@ -52,6 +48,7 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "GitData >> GetCommit" should "return one commit" taggedAs Integration in {
@@ -59,10 +56,8 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
       .getCommit(validRepoOwner, validRepoName, validCommitSha, headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[RefCommit](response, { r =>
-      r.result.message shouldBe validCommitMsg
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[RefCommit](response, r => r.message shouldBe validCommitMsg)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return an error when an invalid repository name is passed" taggedAs Integration in {
@@ -71,6 +66,7 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "GitData >> GetTree" should "return the file tree non-recursively" taggedAs Integration in {
@@ -81,11 +77,11 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
 
     testIsRight[TreeResult](
       response, { r =>
-        r.statusCode shouldBe okStatusCode
-        r.result.tree.map(_.path) shouldBe List(".gitignore", "build.sbt", "project")
-        r.result.truncated shouldBe Some(false)
+        r.tree.map(_.path) shouldBe List(".gitignore", "build.sbt", "project")
+        r.truncated shouldBe Some(false)
       }
     )
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return the file tree recursively" taggedAs Integration in {
@@ -96,8 +92,7 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
 
     testIsRight[TreeResult](
       response, { r =>
-        r.statusCode shouldBe okStatusCode
-        r.result.tree.map(_.path) shouldBe List(
+        r.tree.map(_.path) shouldBe List(
           ".gitignore",
           "build.sbt",
           "project",
@@ -106,6 +101,7 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
         )
       }
     )
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return an error when an invalid repository name is passed" taggedAs Integration in {
@@ -114,6 +110,7 @@ trait GHGitDataSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
 }

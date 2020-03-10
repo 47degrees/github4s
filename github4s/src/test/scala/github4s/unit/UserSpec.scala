@@ -17,7 +17,8 @@
 package github4s.unit
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import cats.syntax.either._
+import github4s.GithubResponses.GHResponse
 import github4s.interpreters.UsersInterpreter
 import github4s.domain._
 import github4s.utils.BaseSpec
@@ -27,9 +28,8 @@ class UserSpec extends BaseSpec {
   implicit val token = sampleToken
 
   "UsersInterpreter.get" should "call to httpClient.get with the right parameters" in {
-
     val response: IO[GHResponse[User]] =
-      IO(Right(GHResult(user, okStatusCode, Map.empty)))
+      IO(GHResponse(user.asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[User](
       url = s"users/$validUsername",
@@ -38,13 +38,11 @@ class UserSpec extends BaseSpec {
 
     val users = new UsersInterpreter[IO]
     users.get(validUsername, headerUserAgent)
-
   }
 
   "User.getAuth" should "call to httpClient.get with the right parameters" in {
-
     val response: IO[GHResponse[User]] =
-      IO(Right(GHResult(user, okStatusCode, Map.empty)))
+      IO(GHResponse(user.asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[User](
       url = "user",
@@ -56,9 +54,8 @@ class UserSpec extends BaseSpec {
   }
 
   "User.getUsers" should "call to httpClient.get with the right parameters" in {
-
     val response: IO[GHResponse[List[User]]] =
-      IO(Right(GHResult(List(user), okStatusCode, Map.empty)))
+      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
     val request = Map("since" -> 1.toString)
 
@@ -73,9 +70,8 @@ class UserSpec extends BaseSpec {
   }
 
   "User.getFollowing" should "call to httpClient.get with the right parameters" in {
-
     val response: IO[GHResponse[List[User]]] =
-      IO(Right(GHResult(List(user), okStatusCode, Map.empty)))
+      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[User]](
       url = s"users/$validUsername/following",

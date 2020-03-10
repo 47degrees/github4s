@@ -30,7 +30,8 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .setThreadSub(validThreadId, true, false, headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[Subscription](response, r => r.statusCode shouldBe okStatusCode)
+    testIsRight[Subscription](response)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid thread id is passed" taggedAs Integration in {
@@ -40,6 +41,7 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Activity >> ListStargazers" should "return the expected list of starrers for valid data" taggedAs Integration in {
@@ -49,10 +51,10 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsRight[List[Stargazer]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      forAll(r.result)(s => s.starred_at shouldBe None)
-      r.statusCode shouldBe okStatusCode
+      r.nonEmpty shouldBe true
+      forAll(r)(s => s.starred_at shouldBe None)
     })
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return the expected list of starrers for valid data with dates if timeline" taggedAs Integration in {
@@ -62,10 +64,10 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsRight[List[Stargazer]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      forAll(r.result)(s => s.starred_at shouldBe defined)
-      r.statusCode shouldBe okStatusCode
+      r.nonEmpty shouldBe true
+      forAll(r)(s => s.starred_at shouldBe defined)
     })
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" in {
@@ -75,6 +77,7 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Activity >> ListStarredRepositories" should "return the expected list of starred repos" taggedAs Integration in {
@@ -84,10 +87,10 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsRight[List[StarredRepository]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      forAll(r.result)(s => s.starred_at shouldBe None)
-      r.statusCode shouldBe okStatusCode
+      r.nonEmpty shouldBe true
+      forAll(r)(s => s.starred_at shouldBe None)
     })
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return the expected list of starred repos with dates if timeline" taggedAs Integration in {
@@ -97,10 +100,10 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsRight[List[StarredRepository]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      forAll(r.result)(s => s.starred_at shouldBe defined)
-      r.statusCode shouldBe okStatusCode
+      r.nonEmpty shouldBe true
+      forAll(r)(s => s.starred_at shouldBe defined)
     })
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid username" taggedAs Integration in {
@@ -110,5 +113,6 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 }

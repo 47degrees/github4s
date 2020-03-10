@@ -34,7 +34,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         )
         .unsafeRunSync()
 
-    testIsRight[PullRequest](response, r => r.statusCode shouldBe okStatusCode)
+    testIsRight[PullRequest](response)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return an error when a valid issue number is provided" taggedAs Integration in {
@@ -44,6 +45,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   it should "return an error when an invalid repo name is passed" taggedAs Integration in {
@@ -58,6 +60,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "PullRequests >> List" should "return a right response when valid repo is provided" taggedAs Integration in {
@@ -71,7 +74,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         )
         .unsafeRunSync()
 
-    testIsRight[List[PullRequest]](response, r => r.statusCode shouldBe okStatusCode)
+    testIsRight[List[PullRequest]](response)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return a right response when a valid repo is provided but not all pull requests have body" taggedAs Integration in {
@@ -85,10 +89,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         )
         .unsafeRunSync()
 
-    testIsRight[List[PullRequest]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[PullRequest]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return a non empty list when valid repo and some filters are provided" taggedAs Integration in {
@@ -102,10 +104,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         )
         .unsafeRunSync()
 
-    testIsRight[List[PullRequest]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[PullRequest]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
@@ -115,6 +115,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "PullRequests >> ListFiles" should "return a right response when a valid repo is provided" taggedAs Integration in {
@@ -123,10 +124,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         .listFiles(validRepoOwner, validRepoName, validPullRequestNumber, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[PullRequestFile]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[PullRequestFile]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return a right response when a valid repo is provided and not all files have 'patch'" taggedAs Integration in {
@@ -135,10 +134,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         .listFiles("scala", "scala", 4877, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[PullRequestFile]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[PullRequestFile]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
@@ -153,6 +150,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "PullRequests >> ListReviews" should "return a right response when a valid pr is provided" taggedAs Integration in {
@@ -166,10 +164,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         )
         .unsafeRunSync()
 
-    testIsRight[List[PullRequestReview]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[PullRequestReview]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
@@ -184,6 +180,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "PullRequests >> GetReview" should "return a right response when a valid pr review is provided" taggedAs Integration in {
@@ -198,10 +195,8 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         )
         .unsafeRunSync()
 
-    testIsRight[PullRequestReview](response, { r =>
-      r.result.id shouldBe validPullRequestReviewNumber
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[PullRequestReview](response, r => r.id shouldBe validPullRequestReviewNumber)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
@@ -217,6 +212,7 @@ trait GHPullRequestsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
 }

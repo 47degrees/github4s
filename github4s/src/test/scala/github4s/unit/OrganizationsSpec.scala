@@ -17,7 +17,8 @@
 package github4s.unit
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import cats.syntax.either._
+import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import github4s.interpreters.OrganizationsInterpreter
 import github4s.utils.BaseSpec
@@ -29,7 +30,7 @@ class OrganizationsSpec extends BaseSpec {
   "Organization.listMembers" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[User]]] =
-      IO(Right(GHResult(List(user), okStatusCode, Map.empty)))
+      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[User]](
       url = s"orgs/$validRepoOwner/members",
@@ -42,9 +43,8 @@ class OrganizationsSpec extends BaseSpec {
   }
 
   "Organization.listOutsideCollaborators" should "call to httpClient.get with the right parameters" in {
-
     val response: IO[GHResponse[List[User]]] =
-      IO(Right(GHResult(List(user), okStatusCode, Map.empty)))
+      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[User]](
       url = s"orgs/$validOrganizationName/outside_collaborators",

@@ -28,11 +28,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .listIssues(validRepoOwner, validRepoName, headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[List[Issue]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
-
+    testIsRight[List[Issue]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   "Issues >> Get" should "return an issue which is a PR" taggedAs Integration in {
@@ -40,10 +37,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .getIssue(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[Issue](response, { r =>
-      r.result.pull_request.isDefined shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[Issue](response, r => r.pull_request.isDefined shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   "Issues >> Search" should "return at least one issue for a valid query" taggedAs Integration in {
@@ -52,10 +47,10 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsRight[SearchIssuesResult](response, { r =>
-      r.result.total_count > 0 shouldBe true
-      r.result.items.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
+      r.total_count > 0 shouldBe true
+      r.items.nonEmpty shouldBe true
     })
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return an empty result for a non existent query string" taggedAs Integration in {
@@ -64,10 +59,10 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsRight[SearchIssuesResult](response, { r =>
-      r.result.total_count shouldBe 0
-      r.result.items.nonEmpty shouldBe false
-      r.statusCode shouldBe okStatusCode
+      r.total_count shouldBe 0
+      r.items.nonEmpty shouldBe false
     })
+    response.statusCode shouldBe okStatusCode
   }
 
   "Issues >> Edit" should "edit the specified issue" taggedAs Integration in {
@@ -87,10 +82,10 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsRight[Issue](response, { r =>
-      r.result.state shouldBe validIssueState
-      r.result.title shouldBe validIssueTitle
-      r.statusCode shouldBe okStatusCode
+      r.state shouldBe validIssueState
+      r.title shouldBe validIssueTitle
     })
+    response.statusCode shouldBe okStatusCode
   }
 
   "Issues >> ListLabels" should "return a list of labels" taggedAs Integration in {
@@ -98,10 +93,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .listLabels(validRepoOwner, validRepoName, validIssueNumber, headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[List[Label]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Label]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   "Issues >> listLabelsRepository" should "return a list of labels" taggedAs Integration in {
@@ -109,10 +102,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .listLabelsRepository(validRepoOwner, validRepoName, headerUserAgent, None)
       .unsafeRunSync()
 
-    testIsRight[List[Label]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Label]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
   it should "return error for an invalid repo owner" taggedAs Integration in {
     val response = Github[IO](accessToken).issues
@@ -120,6 +111,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   it should "return error for an invalid repo name" taggedAs Integration in {
@@ -128,6 +120,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Issues >> RemoveLabel" should "return a list of removed labels" taggedAs Integration in {
@@ -141,10 +134,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       )
       .unsafeRunSync()
 
-    testIsRight[List[Label]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Label]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   "Issues >> AddLabels" should "return a list of labels" taggedAs Integration in {
@@ -152,10 +143,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .addLabels(validRepoOwner, validRepoName, validIssueNumber, validIssueLabel, headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[List[Label]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Label]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   "GHIssues >> ListAvailableAssignees" should "return a list of users" taggedAs Integration in {
@@ -163,10 +152,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .listAvailableAssignees(validRepoOwner, validRepoName, None, headerUserAgent)
       .unsafeRunSync()
 
-    testIsRight[List[User]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[User]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for an invalid repo owner" taggedAs Integration in {
@@ -175,6 +162,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   it should "return error for an invalid repo name" taggedAs Integration in {
@@ -183,6 +171,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "GHIssues >> ListMilestones" should "return a list of milestones" taggedAs Integration in {
@@ -198,7 +187,8 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       )
       .unsafeRunSync()
 
-    testIsRight[List[Milestone]](response, r => r.statusCode shouldBe okStatusCode)
+    testIsRight[List[Milestone]](response)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for an invalid repo owner" taggedAs Integration in {
@@ -215,6 +205,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   it should "return error for an invalid repo name" taggedAs Integration in {
@@ -222,6 +213,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       .listMilestones(validRepoOwner, invalidRepoName, None, None, None, None, headerUserAgent)
       .unsafeRunSync()
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
 }

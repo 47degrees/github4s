@@ -18,9 +18,11 @@ package github4s
 
 object GithubResponses {
 
-  type GHResponse[A] = Either[GHException, GHResult[A]]
-
-  case class GHResult[A](result: A, statusCode: Int, headers: Map[String, String])
+  final case class GHResponse[A](
+      result: Either[GHException, A],
+      statusCode: Int,
+      headers: Map[String, String]
+  )
 
   sealed abstract class GHException(msg: String, cause: Option[Throwable] = None)
       extends Throwable(msg) {

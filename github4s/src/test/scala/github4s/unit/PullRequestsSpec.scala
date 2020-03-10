@@ -17,7 +17,8 @@
 package github4s.unit
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import cats.syntax.either._
+import github4s.GithubResponses.GHResponse
 import github4s.interpreters.PullRequestsInterpreter
 import github4s.domain._
 import github4s.utils.BaseSpec
@@ -29,7 +30,7 @@ class PullRequestsSpec extends BaseSpec {
   "PullRequests.get" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[PullRequest]] =
-      IO(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
+      IO(GHResponse(pullRequest.asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[PullRequest](
       url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber",
@@ -48,7 +49,7 @@ class PullRequestsSpec extends BaseSpec {
   "PullRequests.list" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[PullRequest]]] =
-      IO(Right(GHResult(List(pullRequest), okStatusCode, Map.empty)))
+      IO(GHResponse(List(pullRequest).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[PullRequest]](
       url = s"repos/$validRepoOwner/$validRepoName/pulls",
@@ -62,7 +63,7 @@ class PullRequestsSpec extends BaseSpec {
   "PullRequests.listFiles" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[PullRequestFile]]] =
-      IO(Right(GHResult(List(pullRequestFile), okStatusCode, Map.empty)))
+      IO(GHResponse(List(pullRequestFile).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[PullRequestFile]](
       url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/files",
@@ -75,9 +76,8 @@ class PullRequestsSpec extends BaseSpec {
   }
 
   "PullRequests.create data" should "call to httpClient.post with the right parameters" in {
-
     val response: IO[GHResponse[PullRequest]] =
-      IO(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
+      IO(GHResponse(pullRequest.asRight, okStatusCode, Map.empty))
 
     val request = CreatePullRequestData(
       "Amazing new feature",
@@ -108,9 +108,8 @@ class PullRequestsSpec extends BaseSpec {
   }
 
   "PullRequests.create issue" should "call to httpClient.post with the right parameters" in {
-
     val response: IO[GHResponse[PullRequest]] =
-      IO(Right(GHResult(pullRequest, okStatusCode, Map.empty)))
+      IO(GHResponse(pullRequest.asRight, okStatusCode, Map.empty))
 
     val request = CreatePullRequestIssue(31, validHead, validBase, Some(true))
 
@@ -135,9 +134,8 @@ class PullRequestsSpec extends BaseSpec {
   }
 
   "GHPullRequests.listReviews" should "call to httpClient.post with the right parameters" in {
-
     val response: IO[GHResponse[List[PullRequestReview]]] =
-      IO(Right(GHResult(List(pullRequestReview), okStatusCode, Map.empty)))
+      IO(GHResponse(List(pullRequestReview).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[PullRequestReview]](
       url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/reviews",
@@ -157,9 +155,8 @@ class PullRequestsSpec extends BaseSpec {
   }
 
   "GHPullRequests.getReview" should "call to httpClient.post with the right parameters" in {
-
     val response: IO[GHResponse[PullRequestReview]] =
-      IO(Right(GHResult(pullRequestReview, okStatusCode, Map.empty)))
+      IO(GHResponse(pullRequestReview.asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[PullRequestReview](
       url =
