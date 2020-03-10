@@ -43,6 +43,29 @@ class ProjectSpec extends BaseSpec {
 
   }
 
+  "Project.listProjectsRepository" should "call to httpClient.get with the right parameters" in {
+
+    val response: IO[GHResponse[List[Project]]] =
+      IO(Right(GHResult(List(project), okStatusCode, Map.empty)))
+
+    implicit val httpClientMock = httpClientMockGet[List[Project]](
+      url = s"repos/$validRepoOwner/$validRepoName/projects",
+      headers = headerAccept,
+      response = response
+    )
+
+    val projects = new ProjectsInterpreter[IO]
+
+    projects.listProjectsRepository(
+      validRepoOwner,
+      validRepoName,
+      None,
+      None,
+      headers = headerUserAgent ++ headerAccept
+    )
+
+  }
+
   "Project.listColumns" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[Column]]] =
