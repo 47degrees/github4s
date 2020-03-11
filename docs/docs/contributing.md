@@ -144,9 +144,9 @@ we'll be writing our tests in [GHReposSpec][repos-integ-spec]:
       .unsafeRunSync()
 
     testIsRight[List[Status]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
+      r.nonEmpty shouldBe true
     })
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return an error when an invalid ref is provided" taggedAs Integration in {
@@ -154,6 +154,7 @@ we'll be writing our tests in [GHReposSpec][repos-integ-spec]:
       .listStatuses(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
       .unsafeRunSync()
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 ```
 
@@ -174,7 +175,7 @@ We're just checking that our API defined above hits the right endpoint, here:
 ```scala
 "Repos.listStatuses" should "call htppClient.get with the right parameters" in {
     val response: IO[GHResponse[List[Status]]] =
-      IO(Right(GHResult(List(status), okStatusCode, Map.empty)))
+      IO(GHResult(List(status).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[Status]](
       url = s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses",
@@ -184,7 +185,6 @@ We're just checking that our API defined above hits the right endpoint, here:
     val repos = new RepositoriesInterpreter[IO]
 
     repos.listStatuses(validRepoOwner, validRepoName, validRefSingle, headerUserAgent)
-
   }
 ```
 
@@ -211,9 +211,10 @@ To list the statuses for a specific ref:
 val listStatuses =
   Github[IO](accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
 
-listStatuses.unsafeRunSync match {
+val response = listStatuses.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 {triple backtick}
 
