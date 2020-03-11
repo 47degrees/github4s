@@ -40,7 +40,7 @@ LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ### List repository projects
 
-You can list the project for a particular repository with `listProjectsRepository`; it takes as arguments:
+You can list the projects for a particular repository with `listProjectsRepository`; it takes as arguments:
 
 - `owner`: name of the owner for which we want to retrieve the projects.
 - `repo`: name of the repository for which we want to retrieve the projects.
