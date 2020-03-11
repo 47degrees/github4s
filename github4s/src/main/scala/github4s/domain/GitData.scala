@@ -16,14 +16,16 @@
 
 package github4s.domain
 
-class RefInfo(val sha: String, val url: String) {
-  override def toString: String = s"RefInfo($sha, $url)"
+sealed trait RefMetadata {
+  def sha: String
+  def url: String
 }
 
-case class Ref(ref: String, node_id: String, url: String, `object`: RefObject)
+final case class RefInfo(sha: String, url: String) extends RefMetadata
 
-case class RefObject(`type`: String, override val sha: String, override val url: String)
-    extends RefInfo(sha, url)
+final case class RefObject(`type`: String, sha: String, url: String) extends RefMetadata
+
+case class Ref(ref: String, node_id: String, url: String, `object`: RefObject)
 
 case class RefCommit(
     sha: String,
@@ -58,11 +60,11 @@ case class TreeDataBlob(path: String, mode: String, `type`: String, content: Str
     extends TreeData
 
 case class TreeResult(
-    override val sha: String,
-    override val url: String,
+    sha: String,
+    url: String,
     tree: List[TreeDataResult],
     truncated: Option[Boolean] = None
-) extends RefInfo(sha, url)
+) extends RefMetadata
 
 case class TreeDataResult(
     path: String,
