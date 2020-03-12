@@ -17,7 +17,7 @@
 package github4s.utils
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import github4s.GithubResponses.GHResponse
 import github4s.integration._
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -56,14 +56,14 @@ abstract class BaseIntegrationSpec
 
   def accessToken: Option[String] = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 
-  def testIsRight[A](response: GHResponse[A], f: (GHResult[A]) => Assertion): Assertion = {
-    response.isRight shouldBe true
-    response.toOption map (f(_)) match {
+  def testIsRight[A](response: GHResponse[A], f: A => Assertion = (_: A) => succeed): Assertion = {
+    response.result.isRight shouldBe true
+    response.result.toOption map (f(_)) match {
       case _ => succeed
     }
   }
 
   def testIsLeft[A](response: GHResponse[A]): Assertion =
-    response.isLeft shouldBe true
+    response.result.isLeft shouldBe true
 
 }

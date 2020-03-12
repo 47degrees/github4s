@@ -17,7 +17,8 @@
 package github4s.unit
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import cats.syntax.either._
+import github4s.GithubResponses.GHResponse
 import github4s.interpreters.ActivitiesInterpreter
 import github4s.domain._
 import github4s.utils.BaseSpec
@@ -29,7 +30,7 @@ class ActivitiesSpec extends BaseSpec {
   "Activity.setThreadSub" should "call to httpClient.put with the right parameters" in {
 
     val response: IO[GHResponse[Subscription]] =
-      IO(Right(GHResult(subscription, okStatusCode, Map.empty)))
+      IO(GHResponse(subscription.asRight, okStatusCode, Map.empty))
 
     val request = SubscriptionRequest(true, false)
 
@@ -47,7 +48,7 @@ class ActivitiesSpec extends BaseSpec {
   "Activity.listStargazers" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[Stargazer]]] =
-      IO(Right(GHResult(List(stargazer), okStatusCode, Map.empty)))
+      IO(GHResponse(List(stargazer).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[Stargazer]](
       url = s"repos/$validRepoOwner/$validRepoName/stargazers",
@@ -62,7 +63,7 @@ class ActivitiesSpec extends BaseSpec {
   "Activity.listStarredRepositories" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[StarredRepository]]] =
-      IO(Right(GHResult(List(starredRepository), okStatusCode, Map.empty)))
+      IO(GHResponse(List(starredRepository).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[StarredRepository]](
       url = s"users/$validUsername/starred",

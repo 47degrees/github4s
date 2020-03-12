@@ -58,10 +58,10 @@ You can get a reference using `getReference`, it takes as arguments:
 
 ```scala mdoc:compile-only
 val getReference = Github[IO](accessToken).gitData.getReference("47deg", "github4s", "heads/master")
-
-getReference.unsafeRunSync match {
+val response = getReference.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -88,10 +88,10 @@ val createReference = Github[IO](accessToken).gitData.createReference(
   "github4s",
   "refs/heads/master",
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
-
-createReference.unsafeRunSync match {
+val response = createReference.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -117,10 +117,10 @@ val updateReference = Github[IO](accessToken).gitData.updateReference(
   "heads/master",
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
   false)
-
-updateReference.unsafeRunSync match {
+val response = updateReference.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -139,10 +139,10 @@ You can get a commit using `getCommit`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val getCommit = Github[IO](accessToken).gitData.getCommit("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
-
-getCommit.unsafeRunSync match {
+val response = getCommit.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -171,10 +171,10 @@ val createCommit = Github[IO](accessToken).gitData.createCommit(
   "827efc6d56897b048c772eb4087f854f46256132",
   List("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"),
   None)
-
-createCommit.unsafeRunSync match {
+val response = createCommit.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -194,10 +194,10 @@ You can create a blob using `createBlob`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val createBlob = Github[IO](accessToken).gitData.createBlob("47deg", "github4s", "New access token", Some("utf-8"))
-
-createBlob.unsafeRunSync match {
+val response = createBlob.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -225,10 +225,10 @@ You can get a tree using `getTree`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val getTree = Github[IO](accessToken).gitData.getTree("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891", true)
-
-getTree.unsafeRunSync match {
+val response = getTree.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -270,10 +270,10 @@ val createTree = Github[IO](accessToken).gitData.createTree(
     "100644",
     "blob",
     "827efc6d56897b048c772eb4087f854f46256132")))
-
-createTree.unsafeRunSync match {
+val response = createTree.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -305,10 +305,10 @@ val createTag = Github[IO](accessToken).gitData.createTag(
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
   "commit",
   Some(RefAuthor("2014-11-07T22:01:45Z", "rafaparadela", "developer@47deg.com")))
-
-createTag.unsafeRunSync match {
+val response = createTag.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 

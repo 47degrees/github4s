@@ -55,10 +55,10 @@ To get a repository:
 ```scala mdoc:compile-only
 val getRepo =
   Github[IO](accessToken).repos.get("47deg", "github4s")
-
-getRepo.unsafeRunSync match {
+val response = getRepo.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -81,10 +81,10 @@ To list the repositories for an organization:
 
 ```scala mdoc:compile-only
 val listOrgRepos = Github[IO](accessToken).repos.listOrgRepos("47deg")
-
-listOrgRepos.unsafeRunSync match {
+val response = listOrgRepos.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -106,10 +106,10 @@ To list the repositories for a user:
 
 ```scala mdoc:compile-only
 val listUserRepos = Github[IO](accessToken).repos.listUserRepos("rafaparadela")
-
-listUserRepos.unsafeRunSync match {
+val response = listUserRepos.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -133,10 +133,10 @@ To list contributors:
 ```scala mdoc:compile-only
 val listContributors =
   Github[IO](accessToken).repos.listContributors("47deg", "github4s", Some("true"))
-
-listContributors.unsafeRunSync match {
+val response = listContributors.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -158,10 +158,10 @@ For more information take a look at [the API doc](https://developer.github.com/v
 ```scala mdoc:compile-only
 val listCollaborators =
   Github[IO](accessToken).repos.listCollaborators("47deg", "github4s", Some("all"))
-
-listCollaborators.unsafeRunSync match {
+val response = listCollaborators.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -196,10 +196,10 @@ val listCommits =
   Some("developer@47deg.com"),
   Some("2014-11-07T22:01:45Z"),
   Some("2014-11-07T22:01:45Z"))
-
-listCommits.unsafeRunSync match {
+val response = listCommits.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -224,10 +224,10 @@ val listBranches =
   Github[IO](accessToken).repos.listBranches(
   "47deg",
   "github4s")
-
-listBranches.unsafeRunSync match {
+val response = listBranches.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -252,10 +252,10 @@ To get contents:
 ```scala mdoc:compile-only
 val getContents =
   Github[IO](accessToken).repos.getContents("47deg", "github4s", "README.md", Some("heads/master"))
-
-getContents.unsafeRunSync match {
+val response = getContents.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -284,10 +284,10 @@ To create a release:
 ```scala mdoc:compile-only
 val createRelease =
   Github[IO](accessToken).repos.createRelease("47deg", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
-
-createRelease.unsafeRunSync match {
+val response = createRelease.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -312,10 +312,10 @@ To create a status:
 ```scala mdoc:compile-only
 val createStatus =
   Github[IO](accessToken).repos.createStatus("47deg", "github4s", "aaaaaa", "pending", None, None, None)
-
-createStatus.unsafeRunSync match {
+val response = createStatus.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -336,10 +336,10 @@ To list the statuses for a specific ref:
 ```scala mdoc:compile-only
 val listStatuses =
   Github[IO](accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
-
-listStatuses.unsafeRunSync match {
+val response = listStatuses.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -356,10 +356,10 @@ arguments as the operation listing statuses:
 ```scala mdoc:compile-only
 val combinedStatus =
   Github[IO](accessToken).repos.getCombinedStatus("47deg", "github4s", "heads/master")
-
-combinedStatus.unsafeRunSync match {
+val response = combinedStatus.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 

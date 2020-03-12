@@ -29,10 +29,8 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
         .listMembers(validRepoOwner, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[User]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[User]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for an invalid org" taggedAs Integration in {
@@ -42,6 +40,7 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Organization >> ListOutsideCollaborators" should "return expected list of users" ignore {
@@ -50,10 +49,8 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
         .listOutsideCollaborators(validOrganizationName, headers = headerUserAgent)
         .unsafeRunSync()
 
-    testIsRight[List[User]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[User]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for an invalid org" taggedAs Integration in {
@@ -63,6 +60,7 @@ trait GHOrganizationsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
 }

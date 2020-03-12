@@ -41,9 +41,10 @@ To list the teams for organization `47deg`:
 
 ```scala mdoc:compile-only
 val listTeams = Github[IO](accessToken).teams.listTeams("47deg")
-listTeams.unsafeRunSync match {
+val response = listTeams.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 

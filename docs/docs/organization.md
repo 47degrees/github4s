@@ -45,9 +45,10 @@ To list the members for organization `47deg`:
 
 ```scala mdoc:compile-only
 val listMembers = Github[IO](accessToken).organizations.listMembers("47deg")
-listMembers.unsafeRunSync match {
+val response = listMembers.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -69,9 +70,10 @@ To list the outside collaborators for organization `47deg`:
 
 ```scala mdoc:compile-only
 val outsideCollaborators = Github[IO](accessToken).organizations.listOutsideCollaborators("47deg")
-outsideCollaborators.unsafeRunSync match {
+val response = outsideCollaborators.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 

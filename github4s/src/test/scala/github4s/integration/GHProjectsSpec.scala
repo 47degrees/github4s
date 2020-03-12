@@ -29,10 +29,8 @@ trait GHProjectsSpec extends BaseIntegrationSpec {
         .listProjects(validRepoOwner, headers = headerUserAgent ++ headerAccept)
         .unsafeRunSync()
 
-    testIsRight[List[Project]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Project]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid org is passed" taggedAs Integration in {
@@ -44,16 +42,55 @@ trait GHProjectsSpec extends BaseIntegrationSpec {
     testIsLeft(response)
   }
 
+  "Project >> ListProjectsRepository" should "return the expected projects when a valid owner and repo are provided" taggedAs Integration in {
+    val response =
+      Github[IO](accessToken).projects
+        .listProjectsRepository(
+          validRepoOwner,
+          validRepoName,
+          headers = headerUserAgent ++ headerAccept
+        )
+        .unsafeRunSync()
+
+    testIsRight[List[Project]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return error when an invalid repo is passed" taggedAs Integration in {
+    val response =
+      Github[IO](accessToken).projects
+        .listProjectsRepository(
+          validRepoOwner,
+          invalidRepoName,
+          headers = headerUserAgent ++ headerAccept
+        )
+        .unsafeRunSync()
+
+    testIsLeft(response)
+  }
+
+  it should "return error when an invalid owner is passed" taggedAs Integration in {
+    val response =
+      Github[IO](accessToken).projects
+        .listProjectsRepository(
+          invalidRepoOwner,
+          validRepoName,
+          headers = headerUserAgent ++ headerAccept
+        )
+        .unsafeRunSync()
+
+    testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
+  }
+
   "Project >> ListColumns" should "return the expected column when a valid project id is provided" taggedAs Integration in {
     val response =
       Github[IO](accessToken).projects
         .listColumns(validProjectId, headers = headerUserAgent ++ headerAccept)
         .unsafeRunSync()
 
-    testIsRight[List[Column]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Column]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid project id is passed" taggedAs Integration in {
@@ -63,6 +100,7 @@ trait GHProjectsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Project >> ListCards" should "return the expected cards when a valid column id is provided" taggedAs Integration in {

@@ -46,10 +46,8 @@ trait GHAuthSpec extends BaseIntegrationSpec {
         .authorizeUrl(validClientId, validRedirectUri, validScopes)
         .unsafeRunSync()
 
-    testIsRight[Authorize](response, { r =>
-      r.result.url.contains(validRedirectUri) shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[Authorize](response, r => r.url.contains(validRedirectUri) shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   "Auth >> GetAccessToken" should "return error on Left for invalid code value" taggedAs Integration in {
@@ -58,6 +56,7 @@ trait GHAuthSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
 }

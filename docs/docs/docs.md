@@ -29,13 +29,15 @@ Github4s uses [Tagless Final encoding](https://typelevel.org/blog/2017/12/27/opt
 
 Every Github4s API call returns an `F[GHResponse[A]]` where `F` has an instance of [cats.effect.ConcurrentEffect][cats-concurrent-effect].
 
-`GHResponse[A]` is, in turn, a type alias for `Either[GHException, GHResult[A]]`.
-
-`GHResult` contains the result `A` given by Github as well as the status code and headers of the
-response:
+`GHResponse[A]` contains the result `A` given by Github (or an error) as well as the status code and
+headers of the response:
 
 ```scala
-case class GHResult[A](result: A, statusCode: Int, headers: Map[String, String])
+final case class GHResponse[A](
+    result: Either[GHException, A],
+    statusCode: Int,
+    headers: Map[String, String]
+)
 ```
 
 As an introductory example, we can get a user with the following:
@@ -69,11 +71,11 @@ object ProgramIO {
   import cats.effect.IO.contextShift
   import scala.concurrent.ExecutionContext.Implicits.global
   import github4s.Github
-  
+
   implicit val IOContextShift = IO.contextShift(global)
 
   val u1 = Github[IO](accessToken).users.get("juanpedromoreno")
-  u1.unsafeRunSync
+  u1.unsafeRunSync()
 }
 ```
 
@@ -84,21 +86,19 @@ object ProgramTask {
     import monix.execution.Scheduler.Implicits.global
     import monix.eval.Task
     import github4s.Github
-    
+
     val u2 = Github[Task](accessToken).users.get("rafaparadela")
 }
 ```
 
-As mentioned above, `u2` should have an `Task[GHResponse[User]]`
+As mentioned above, `u2` should be a `Task[GHResponse[User]]`
 
 ```scala mdoc:silent:fail
 import github4s.GithubResponses.GHResult
 
-ProgramTask.u2.runAsync { result =>
-  result match {
-    case Right(GHResult(result, status@_, headers@_)) => doSomething
-    case Left(e) => doSomething
-  }
+ProgramTask.u2.runAsync() {
+  case GHResult(Right(result), status@_, headers@_) => doSomething
+  case GHResult(Left(error), status@_, headers@_) => doSomethingElse
 }
 
 ```
@@ -114,7 +114,7 @@ object ProgramId {
   import scala.concurrent.ExecutionContext.Implicits.global
   import github4s.Github
   import github4s.GithubIOSyntax._
-  
+
   implicit val IOContextShift = IO.contextShift(global)
 
   val u3 = Github[IO](accessToken).users.get("rafaparadela").toId
@@ -150,9 +150,9 @@ object ProgramEvalWithHeaders {
   import monix.execution.Scheduler.Implicits.global
   import monix.eval.Task
   import github4s.Github
-    
+
   val userHeaders = Map("user-agent" -> "github4s")
-  val u5 = Github[Task](accessToken).users.get("rafaparadela", userHeaders)  
+  val u5 = Github[Task](accessToken).users.get("rafaparadela", userHeaders)
 }
 ```
 

@@ -62,10 +62,10 @@ To create an issue:
 ```scala mdoc:compile-only
 val createIssue =
   Github[IO](accessToken).issues.createIssue("47deg", "github4s", "Github4s", "is awesome", None, List("Label"), List("Assignee"))
-
-createIssue.unsafeRunSync match {
+val response = createIssue.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -90,10 +90,10 @@ To edit an issue:
 ```scala mdoc:compile-only
 val editIssue =
   Github[IO](accessToken).issues.editIssue("47deg", "github4s", 1, "open", "Github4s", "is still awesome", None, List("Label"), List("Assignee"))
-
-editIssue.unsafeRunSync match {
+val response = editIssue.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -112,10 +112,10 @@ To list the issues for a repository:
 
 ```scala mdoc:compile-only
 val listIssues = Github[IO](accessToken).issues.listIssues("47deg", "github4s")
-
-listIssues.unsafeRunSync match {
+val response = listIssues.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -136,10 +136,10 @@ To get a single issue from a repository:
 
 ```scala mdoc:compile-only
 val issue = Github[IO](accessToken).issues.getIssue("47deg", "github4s", 17)
-
-issue.unsafeRunSync match {
+val response = issue.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -168,10 +168,10 @@ val searchParams = List(
   SearchIn(Set(SearchInTitle))
 )
 val searchIssues = Github[IO](accessToken).issues.searchIssues("existential", searchParams)
-
-searchIssues.unsafeRunSync match {
+val response = searchIssues.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -192,9 +192,10 @@ You can list comments of an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val commentList = Github[IO](accessToken).issues.listComments("47deg", "github4s", 17)
-commentList.unsafeRunSync match {
+val response = commentList.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -214,9 +215,10 @@ You can create a comment for an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val createcomment = Github[IO](accessToken).issues.createComment("47deg", "github4s", 17, "this is the comment")
-createcomment.unsafeRunSync match {
+val response = createcomment.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -237,9 +239,10 @@ You can edit a comment from an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val editComment = Github[IO](accessToken).issues.editComment("47deg", "github4s", 20, "this is the new comment")
-editComment.unsafeRunSync match {
+val response = editComment.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -259,9 +262,10 @@ You can delete a comment from an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val deleteComment = Github[IO](accessToken).issues.deleteComment("47deg", "github4s", 20)
-deleteComment.unsafeRunSync match {
+val response = deleteComment.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -282,9 +286,10 @@ You can list labels for an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val labelListRepository = Github[IO](accessToken).issues.listLabelsRepository("47deg", "github4s")
-labelListRepository.unsafeRunSync match {
+val response = labelListRepository.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -304,9 +309,10 @@ You can list labels for an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val labelList = Github[IO](accessToken).issues.listLabels("47deg", "github4s", 17)
-labelList.unsafeRunSync match {
+val response = labelList.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -326,9 +332,10 @@ You can add existing labels to an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val assignedLabelList = Github[IO](accessToken).issues.addLabels("47deg", "github4s", 17, List("bug", "code review"))
-assignedLabelList.unsafeRunSync match {
+val response = assignedLabelList.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -348,9 +355,10 @@ You can remove a label from an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val removedLabelList = Github[IO](accessToken).issues.removeLabel("47deg", "github4s", 17, "bug")
-removedLabelList.unsafeRunSync match {
+val response = removedLabelList.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -371,9 +379,10 @@ You can list available assignees for issues in repo with the following parameter
 
 ```scala mdoc:compile-only
 val assignees = Github[IO](accessToken).issues.listAvailableAssignees("47deg", "github4s")
-assignees.unsafeRunSync match {
+val response = assignees.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -406,9 +415,10 @@ You can list the milestone for a particular organization and repository with `li
 
 ```scala mdoc:compile-only
 val milestones = Github[IO](accessToken).issues.listMilestones("47deg", "github4s", Some("open"), None, None)
-milestones.unsafeRunSync match {
+val response = milestones.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 

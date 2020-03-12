@@ -17,8 +17,9 @@
 package github4s.unit
 
 import cats.effect.IO
+import cats.syntax.either._
 import cats.data.NonEmptyList
-import github4s.GithubResponses.{GHResponse, GHResult}
+import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import github4s.interpreters.GitDataInterpreter
 import github4s.utils.BaseSpec
@@ -30,7 +31,7 @@ class GitDataSpec extends BaseSpec {
   "GitData.getReference" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[NonEmptyList[Ref]]] =
-      IO(Right(GHResult(NonEmptyList(ref, Nil), okStatusCode, Map.empty)))
+      IO(GHResponse(NonEmptyList.one(ref).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[NonEmptyList[Ref]](
       url = s"repos/$validRepoOwner/$validRepoName/git/refs/$validRefSingle",
@@ -44,7 +45,7 @@ class GitDataSpec extends BaseSpec {
   "GitData.createReference" should "call to httpClient.post with the right parameters" in {
 
     val response: IO[GHResponse[Ref]] =
-      IO(Right(GHResult(ref, okStatusCode, Map.empty)))
+      IO(GHResponse(ref.asRight, okStatusCode, Map.empty))
     val request = CreateReferenceRequest(s"refs/$validRefSingle", validCommitSha)
 
     implicit val httpClientMock = httpClientMockPost[CreateReferenceRequest, Ref](
@@ -67,7 +68,7 @@ class GitDataSpec extends BaseSpec {
   "GitData.updateReference" should "call to httpClient.patch with the right parameters" in {
 
     val response: IO[GHResponse[Ref]] =
-      IO(Right(GHResult(ref, okStatusCode, Map.empty)))
+      IO(GHResponse(ref.asRight, okStatusCode, Map.empty))
     val force   = false
     val request = UpdateReferenceRequest(validCommitSha, force)
 
@@ -92,7 +93,7 @@ class GitDataSpec extends BaseSpec {
   "GitData.getCommit" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[RefCommit]] =
-      IO(Right(GHResult(refCommit, okStatusCode, Map.empty)))
+      IO(GHResponse(refCommit.asRight, okStatusCode, Map.empty))
     implicit val httpClientMock = httpClientMockGet[RefCommit](
       url = s"repos/$validRepoOwner/$validRepoName/git/commits/$validCommitSha",
       response = response
@@ -105,7 +106,7 @@ class GitDataSpec extends BaseSpec {
   "GitData.createCommit" should "call to httpClient.post with the right parameters" in {
 
     val response: IO[GHResponse[RefCommit]] =
-      IO(Right(GHResult(refCommit, okStatusCode, Map.empty)))
+      IO(GHResponse(refCommit.asRight, okStatusCode, Map.empty))
     val request =
       NewCommitRequest(validNote, validTreeSha, List(validCommitSha), Some(refCommitAuthor))
 
@@ -130,7 +131,7 @@ class GitDataSpec extends BaseSpec {
   "GitData.createBlob" should "call to httpClient.post with the right parameters" in {
 
     val response: IO[GHResponse[RefInfo]] =
-      IO(Right(GHResult(new RefInfo(validCommitSha, githubApiUrl), okStatusCode, Map.empty)))
+      IO(GHResponse(RefInfo(validCommitSha, githubApiUrl).asRight, okStatusCode, Map.empty))
     val request = NewBlobRequest(validNote, encoding)
 
     implicit val httpClientMock = httpClientMockPost[NewBlobRequest, RefInfo](
@@ -147,12 +148,10 @@ class GitDataSpec extends BaseSpec {
 
     val response: IO[GHResponse[TreeResult]] =
       IO(
-        Right(
-          GHResult(
-            TreeResult(validCommitSha, githubApiUrl, treeDataResult, truncated = Some(false)),
-            okStatusCode,
-            Map.empty
-          )
+        GHResponse(
+          TreeResult(validCommitSha, githubApiUrl, treeDataResult, truncated = Some(false)).asRight,
+          okStatusCode,
+          Map.empty
         )
       )
 
@@ -176,12 +175,10 @@ class GitDataSpec extends BaseSpec {
 
     val response: IO[GHResponse[TreeResult]] =
       IO(
-        Right(
-          GHResult(
-            TreeResult(validCommitSha, githubApiUrl, treeDataResult),
-            okStatusCode,
-            Map.empty
-          )
+        GHResponse(
+          TreeResult(validCommitSha, githubApiUrl, treeDataResult).asRight,
+          okStatusCode,
+          Map.empty
         )
       )
 
@@ -205,7 +202,7 @@ class GitDataSpec extends BaseSpec {
 
   "GitData.createTag" should "call to httpClient.post with the right parameters" in {
 
-    val response: IO[GHResponse[Tag]] = IO(Right(GHResult(tag, okStatusCode, Map.empty)))
+    val response: IO[GHResponse[Tag]] = IO(GHResponse(tag.asRight, okStatusCode, Map.empty))
     val request =
       NewTagRequest(validTagTitle, validNote, validCommitSha, commitType, Some(refCommitAuthor))
 

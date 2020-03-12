@@ -23,7 +23,7 @@ import github4s.algebras.Auth
 import github4s.Decoders._
 import github4s.domain._
 import github4s.Encoders._
-import github4s.GithubResponses.{GHResponse, GHResult}
+import github4s.GithubResponses.GHResponse
 import github4s.http.HttpClient
 import java.util.UUID
 
@@ -55,15 +55,13 @@ class AuthInterpreter[F[_]: Applicative](
   ): F[GHResponse[Authorize]] = {
     val state = UUID.randomUUID().toString
     val result: GHResponse[Authorize] =
-      Either.right(
-        GHResult(
-          result = Authorize(
-            client.urls.authorizeUrl.format(client_id, redirect_uri, scopes.mkString(","), state),
-            state
-          ),
-          statusCode = 200,
-          headers = Map.empty
-        )
+      GHResponse(
+        result = Authorize(
+          client.urls.authorizeUrl.format(client_id, redirect_uri, scopes.mkString(","), state),
+          state
+        ).asRight,
+        statusCode = 200,
+        headers = Map.empty
       )
     result.pure[F]
   }

@@ -17,7 +17,8 @@
 package github4s.unit
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import cats.syntax.either._
+import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import github4s.interpreters.GistsInterpreter
 import github4s.utils.BaseSpec
@@ -29,7 +30,7 @@ class GistSpec extends BaseSpec {
   "Gist.newGist" should "call to httpClient.post with the right parameters" in {
 
     val response: IO[GHResponse[Gist]] =
-      IO(Right(GHResult(gist, okStatusCode, Map.empty)))
+      IO(GHResponse(gist.asRight, okStatusCode, Map.empty))
 
     val request = NewGistRequest(
       validGistDescription,
@@ -56,7 +57,7 @@ class GistSpec extends BaseSpec {
   "Gist.getGist" should "call to httpClient.get with the right parameters without sha" in {
 
     val response: IO[GHResponse[Gist]] =
-      IO(Right(GHResult(gist, okStatusCode, Map.empty)))
+      IO(GHResponse(gist.asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[Gist](
       url = s"gists/$validGistId",
@@ -75,7 +76,7 @@ class GistSpec extends BaseSpec {
   it should "call to httpClient.get with the right parameters with sha" in {
 
     val response: IO[GHResponse[Gist]] =
-      IO(Right(GHResult(gist, okStatusCode, Map.empty)))
+      IO(GHResponse(gist.asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[Gist](
       url = s"gists/$validGistId/$validGistSha",
@@ -94,7 +95,7 @@ class GistSpec extends BaseSpec {
   "Gist.editGist" should "call to httpClient.patch with the right parameters" in {
 
     val response: IO[GHResponse[Gist]] =
-      IO(Right(GHResult(gist, okStatusCode, Map.empty)))
+      IO(GHResponse(gist.asRight, okStatusCode, Map.empty))
 
     val request = EditGistRequest(
       validGistDescription,

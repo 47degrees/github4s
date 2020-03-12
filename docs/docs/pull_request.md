@@ -46,10 +46,10 @@ To get a single pull request:
 
 ```scala mdoc:compile-only
 val getPullRequest = Github[IO](accessToken).pullRequests.getPullRequest("47deg", "github4s", 102)
-
-getPullRequest.unsafeRunSync match {
+val response = getPullRequest.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -71,10 +71,10 @@ by popularity:
 import github4s.domain._
 val prFilters = List(PRFilterOpen, PRFilterSortPopularity)
 val listPullRequests = Github[IO](accessToken).pullRequests.listPullRequests("scala", "scala", prFilters)
-
-listPullRequests.unsafeRunSync match {
+val response = listPullRequests.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -93,10 +93,10 @@ To list the files for a pull request:
 
 ```scala mdoc:compile-only
 val listPullRequestFiles = Github[IO](accessToken).pullRequests.listFiles("47deg", "github4s", 102)
-
-listPullRequestFiles.unsafeRunSync match {
+val response = listPullRequestFiles.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -128,10 +128,10 @@ val createPullRequestData = Github[IO](accessToken).pullRequests.createPullReque
   "my-branch",
   "base-branch",
   Some(true))
-
-createPullRequestData.unsafeRunSync match {
+val response = createPullRequestData.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -149,10 +149,10 @@ val createPullRequestIssue = Github[IO](accessToken).pullRequests.createPullRequ
   "my-branch",
   "base-branch",
   Some(true))
-
-createPullRequestIssue.unsafeRunSync match {
+val response = createPullRequestIssue.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -174,10 +174,10 @@ val listReviews = Github[IO](accessToken).pullRequests.listReviews(
   "47deg",
   "github4s",
   139)
-
-listReviews.unsafeRunSync match {
+val response = listReviews.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -201,10 +201,10 @@ val review = Github[IO](accessToken).pullRequests.getReview(
   "github4s",
   139,
   39355613)
-
-review.unsafeRunSync match {
+val response = review.unsafeRunSync()
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 

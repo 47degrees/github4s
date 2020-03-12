@@ -17,7 +17,8 @@
 package github4s.unit
 
 import cats.effect.IO
-import github4s.GithubResponses.{GHResponse, GHResult}
+import cats.syntax.either._
+import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import github4s.interpreters.TeamsInterpreter
 import github4s.utils.BaseSpec
@@ -27,9 +28,8 @@ class TeamsSpec extends BaseSpec {
   implicit val token = sampleToken
 
   "Teams.listTeam" should "call to httpClient.get with the right parameters" in {
-
     val response: IO[GHResponse[List[Team]]] =
-      IO(Right(GHResult(List(team), okStatusCode, Map.empty)))
+      IO(GHResponse(List(team).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[Team]](
       url = s"orgs/$validRepoOwner/teams",

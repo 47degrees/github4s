@@ -39,6 +39,25 @@ trait Projects[F[_]] {
   ): F[GHResponse[List[Project]]]
 
   /**
+   * List the projects belonging to a specific repository
+   *
+   * @param owner      of the repo
+   * @param repo       name of the repo
+   * @param state      Filter projects returned by their state. Can be either `open`, `closed`, `all`.
+   *                   Default: `open`
+   * @param pagination Limit and Offset for pagination
+   * @param headers    Optional user headers to include in the request
+   * @return GHResponse with lists the projects in a repository.
+   */
+  def listProjectsRepository(
+      owner: String,
+      repo: String,
+      state: Option[String] = None,
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Project]]]
+
+  /**
    * List the columns belonging to a specific project id
    *
    * @param project_id Project id for which we want to retrieve the columns

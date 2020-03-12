@@ -19,6 +19,7 @@ package github4s.unit
 import github4s.Encoders._
 import github4s.domain._
 import github4s.utils.TestData
+import io.circe.Json
 import io.circe.parser._
 import io.circe.syntax._
 import org.scalatest.matchers.should.Matchers
@@ -39,7 +40,7 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
          | }
       """.stripMargin
 
-    val expectedJson = parse(expectedJsonString).right.get
+    val expectedJson = parse(expectedJsonString).getOrElse(Json.Null)
     val actualJson   = treeData.asJson
 
     actualJson shouldBe expectedJson
@@ -58,7 +59,7 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
          | }
       """.stripMargin
 
-    val expectedJson = parse(expectedJsonString).right.get
+    val expectedJson = parse(expectedJsonString).getOrElse(Json.Null)
     val actualJson   = treeData.asJson
 
     actualJson shouldBe expectedJson
@@ -79,7 +80,7 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
          | }
       """.stripMargin
 
-    val expectedJson = parse(expectedJsonString).right.get
+    val expectedJson = parse(expectedJsonString).getOrElse(Json.Null)
     val actualJson   = createPullRequest.asJson
 
     actualJson shouldBe expectedJson
@@ -99,7 +100,7 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
          | }
       """.stripMargin
 
-    val expectedJson = parse(expectedJsonString).right.get
+    val expectedJson = parse(expectedJsonString).getOrElse(Json.Null)
     val actualJson   = createPullRequest.asJson
 
     actualJson shouldBe expectedJson
