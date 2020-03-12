@@ -108,10 +108,8 @@ trait GHProjectsSpec extends BaseIntegrationSpec {
       .listCards(validColumnId, headers = headerUserAgent ++ headerAccept)
       .unsafeRunSync()
 
-    testIsRight[List[Card]](response, { r =>
-      r.result.nonEmpty shouldBe true
-      r.statusCode shouldBe okStatusCode
-    })
+    testIsRight[List[Card]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid column id is passed" taggedAs Integration in {
@@ -121,5 +119,6 @@ trait GHProjectsSpec extends BaseIntegrationSpec {
         .unsafeRunSync()
 
     testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 }

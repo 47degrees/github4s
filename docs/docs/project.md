@@ -146,7 +146,8 @@ To list the columns for project_id `8271018`:
 val listCards = Github[IO](accessToken).projects.listCards(
     column_id = 8271018,
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
-listCards.unsafeRunSync match {
+val response = listCards.unsafeRunSync()
+response match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r.result)
 }

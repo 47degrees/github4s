@@ -87,7 +87,7 @@ class ProjectSpec extends BaseSpec {
   "Project.listCards" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[List[Card]]] =
-      IO(Right(GHResult(List(card), okStatusCode, Map.empty)))
+      IO(GHResponse(List(card).asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[List[Card]](
       url = s"projects/columns/$validColumnId/cards",
