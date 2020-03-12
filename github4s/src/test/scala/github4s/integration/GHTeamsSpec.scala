@@ -17,7 +17,6 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.GithubIOSyntax._
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}

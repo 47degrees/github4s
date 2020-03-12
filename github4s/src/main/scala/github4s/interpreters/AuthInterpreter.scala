@@ -28,8 +28,7 @@ import github4s.http.HttpClient
 import java.util.UUID
 
 class AuthInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F],
-    accessToken: Option[String]
+    implicit client: HttpClient[F]
 ) extends Auth[F] {
 
   override def newAuth(
