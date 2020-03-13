@@ -147,9 +147,9 @@ val listCards = Github[IO](accessToken).projects.listCards(
     column_id = 8271018,
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
 val response = listCards.unsafeRunSync()
-response match {
+response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r.result)
+  case Right(r) => println(r)
 }
 ```
 
@@ -158,4 +158,3 @@ The `result` on the right is the corresponding [List[Card]][card-scala].
 See [the API doc](https://developer.github.com/v3/projects/cards/#list-project-cards) for full reference.
 
 [card-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
-
