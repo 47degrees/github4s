@@ -45,7 +45,7 @@ You can get a single pull request for a repository using `get`; it takes as argu
 To get a single pull request:
 
 ```scala mdoc:compile-only
-val getPullRequest = Github[IO](accessToken).pullRequests.getPullRequest("47deg", "github4s", 102)
+val getPullRequest = Github[IO](accessToken).pullRequests.getPullRequest("47degrees", "github4s", 102)
 val response = getPullRequest.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -92,7 +92,7 @@ You can also list the files for a pull request using `listFiles`; it takes as ar
 To list the files for a pull request:
 
 ```scala mdoc:compile-only
-val listPullRequestFiles = Github[IO](accessToken).pullRequests.listFiles("47deg", "github4s", 102)
+val listPullRequestFiles = Github[IO](accessToken).pullRequests.listFiles("47degrees", "github4s", 102)
 val response = listPullRequestFiles.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

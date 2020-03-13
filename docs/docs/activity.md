@@ -73,7 +73,7 @@ You can list the users starring a specific repository with `listStargazers`; it 
 To list the stargazers of 47degrees/github4s:
 
 ```scala mdoc:compile-only
-val listStargazers = Github[IO](accessToken).activities.listStargazers("47deg", "github4s", true)
+val listStargazers = Github[IO](accessToken).activities.listStargazers("47degrees", "github4s", true)
 val response = listStargazers.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

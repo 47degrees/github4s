@@ -209,7 +209,7 @@ To list the statuses for a specific ref:
 
 {triple backtick}scala mdoc:silent
 val listStatuses =
-  Github[IO](accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
+  Github[IO](accessToken).repos.listStatuses("47degrees", "github4s", "heads/master")
 
 val response = listStatuses.unsafeRunSync()
 response.result match {
