@@ -320,4 +320,4 @@ As you can see, a few features of the git data endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[gitdata-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/GitData.scala
+[gitdata-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/GitData.scala

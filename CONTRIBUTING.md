@@ -1,7 +1,7 @@
 # Contributing
 
 Discussion around Github4s happens in the [Gitter channel](https://gitter.im/47deg/github4s) as well as on
-[GitHub issues](https://github.com/47deg/github4s/issues) and [pull requests](https://github.com/47deg/github4s/pulls).
+[GitHub issues](https://github.com/47degrees/github4s/issues) and [pull requests](https://github.com/47degrees/github4s/pulls).
 
 Feel free to open an issue if you notice a bug, have an idea for a feature, or have a question about
 the code. Pull requests are also welcome.

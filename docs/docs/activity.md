@@ -70,7 +70,7 @@ You can list the users starring a specific repository with `listStargazers`; it 
 - `timeline`: whether or not to return the date at which point the user starred the repository.
 - `pagination`: Limit and Offset for pagination, optional.
 
-To list the stargazers of 47deg/github4s:
+To list the stargazers of 47degrees/github4s:
 
 ```scala mdoc:compile-only
 val listStargazers = Github[IO](accessToken).activities.listStargazers("47deg", "github4s", true)
@@ -118,4 +118,4 @@ As you can see, a few features of the activity endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[activity-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Activity.scala
+[activity-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Activity.scala

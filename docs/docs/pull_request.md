@@ -62,7 +62,7 @@ See [the API doc](https://developer.github.com/v3/pulls/#get-a-single-pull-reque
 You can list the pull requests for a repository using `list`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
-- a list of [PRFilter](https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala).
+- a list of [PRFilter](https://github.com/47degrees/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala).
 
 As an example, let's say we want the open pull requests in <https://github.com/scala/scala> sorted
 by popularity:
@@ -167,7 +167,7 @@ You can list the reviews for a pull request using `listReviews`; it takes as arg
 - the repository coordinates (`owner` and `name` of the repository).
 - the pull request id.
 
-As an example, if we wanted to see all the reviews for pull request 139 of `47deg/github4s`:
+As an example, if we wanted to see all the reviews for pull request 139 of `47degrees/github4s`:
 
 ```scala mdoc:compile-only
 val listReviews = Github[IO](accessToken).pullRequests.listReviews(
@@ -193,7 +193,7 @@ You can get an individual review for a pull request using `getReview`; it takes 
 - the pull request id.
 - the review id.
 
-As an example, if we wanted to see review 39355613 for pull request 139 of `47deg/github4s`:
+As an example, if we wanted to see review 39355613 for pull request 139 of `47degrees/github4s`:
 
 ```scala mdoc:compile-only
 val review = Github[IO](accessToken).pullRequests.getReview(
@@ -215,4 +215,4 @@ See [the API doc](https://developer.github.com/v3/pulls/reviews/#get-a-single-re
 As you can see, a few features of the pull request endpoint are missing. As a result, if you'd like
 to see a feature supported, feel free to create an issue and/or a pull request!
 
-[pr-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala
+[pr-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala
