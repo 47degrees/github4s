@@ -49,7 +49,7 @@ trait TestData extends DummyGithubUrls {
   val validCode           = "code"
   val invalidCode         = "invalid-code"
 
-  val validRepoOwner     = "47deg"
+  val validRepoOwner     = "47degrees"
   val invalidRepoOwner   = "invalid47deg"
   val validRepoName      = "github4s"
   val invalidRepoName    = "GHInvalidRepoName"
@@ -63,7 +63,7 @@ trait TestData extends DummyGithubUrls {
   val validSymlinkPath   = "bin/some-symlink"
   val validSubmodulePath = "test/qunit"
 
-  val validOrganizationName   = "47deg"
+  val validOrganizationName   = "47degrees"
   val invalidOrganizationName = "invalid47deg"
 
   val validSinceInt   = 100
@@ -427,7 +427,7 @@ trait TestData extends DummyGithubUrls {
     description = null,
     privacy = "secret",
     url = "https://api.github.com/organizations/479857/team/40235",
-    html_url = "https://github.com/orgs/47deg/teams/47-devs",
+    html_url = "https://github.com/orgs/47degrees/teams/engineering",
     members_url = "https://api.github.com/organizations/479857/team/40235/members{/member}",
     repositories_url = "https://api.github.com/organizations/479857/team/40235/repos",
     permission = "push",
@@ -438,9 +438,9 @@ trait TestData extends DummyGithubUrls {
   val invalidProjectId = 11111
 
   val project = Project(
-    owner_url = "https://api.github.com/orgs/47deg",
+    owner_url = "https://api.github.com/orgs/47degrees",
     url = "https://api.github.com/projects/1903050",
-    html_url = "https://github.com/orgs/47deg/projects/4",
+    html_url = "https://github.com/orgs/47degrees/projects/1",
     columns_url = "https://api.github.com/projects/1903050/columns",
     id = validProjectId,
     node_id = "MDc6UHJvamVjdDE5MDMwNTA=",
