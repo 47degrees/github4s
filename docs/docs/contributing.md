@@ -191,7 +191,7 @@ We're just checking that our API defined above hits the right endpoint, here:
 # Documentation
 
 Finally, we can add documentation to http://47deg.github.io/github4s/. Github4s uses
-[sbt-microsites](https://github.com/47deg/sbt-microsites) and [mdoc](https://github.com/scalameta/mdoc)
+[sbt-microsites](https://github.com/47degrees/sbt-microsites) and [mdoc](https://github.com/scalameta/mdoc)
 to generate and publish its documentation.
 
 It shouldn't come as a surprise at this point, but the documentation is grouped by API. As a result,
@@ -209,7 +209,7 @@ To list the statuses for a specific ref:
 
 {triple backtick}scala mdoc:silent
 val listStatuses =
-  Github[IO](accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
+  Github[IO](accessToken).repos.listStatuses("47degrees", "github4s", "heads/master")
 
 val response = listStatuses.unsafeRunSync()
 response.result match {
@@ -232,14 +232,14 @@ cd docs/target/site/ && jekyll serve
 ```
 
 [api-doc]: https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref
-[repos-domain]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Repository.scala
-[domain-pkg]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/
-[repos-algebra]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/algebras/Repositories.scala
-[algebra-pkg]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/algebras/
-[repos-interpreter]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/interpreters/RepositoriesInterpreter.scala
-[httpclient]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/http/HttpClient.scala
-[integ-pkg]: https://github.com/47deg/github4s/blob/master/github4s/src/test/scala/github4s/integration/
-[repos-integ-spec]: https://github.com/47deg/github4s/blob/master/github4s/src/test/scala/github4s/integration/GHReposSpec.scala
-[unit-pkg]: https://github.com/47deg/github4s/tree/master/github4s/src/test/scala/github4s/unit
-[repos-interpreter-spec]: https://github.com/47deg/github4s/blob/master/github4s/src/test/scala/github4s/unit/ReposSpec.scala
-[repos-md]: https://github.com/47deg/github4s/blob/master/docs/docs/repository.md
+[repos-domain]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Repository.scala
+[domain-pkg]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/
+[repos-algebra]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/algebras/Repositories.scala
+[algebra-pkg]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/algebras/
+[repos-interpreter]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/interpreters/RepositoriesInterpreter.scala
+[httpclient]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/http/HttpClient.scala
+[integ-pkg]: https://github.com/47degrees/github4s/blob/master/github4s/src/test/scala/github4s/integration/
+[repos-integ-spec]: https://github.com/47degrees/github4s/blob/master/github4s/src/test/scala/github4s/integration/GHReposSpec.scala
+[unit-pkg]: https://github.com/47degrees/github4s/tree/master/github4s/src/test/scala/github4s/unit
+[repos-interpreter-spec]: https://github.com/47degrees/github4s/blob/master/github4s/src/test/scala/github4s/unit/ReposSpec.scala
+[repos-md]: https://github.com/47degrees/github4s/blob/master/docs/docs/repository.md

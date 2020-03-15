@@ -49,7 +49,7 @@ trait TestData extends DummyGithubUrls {
   val validCode           = "code"
   val invalidCode         = "invalid-code"
 
-  val validRepoOwner     = "47deg"
+  val validRepoOwner     = "47degrees"
   val invalidRepoOwner   = "invalid47deg"
   val validRepoName      = "github4s"
   val invalidRepoName    = "GHInvalidRepoName"
@@ -63,7 +63,7 @@ trait TestData extends DummyGithubUrls {
   val validSymlinkPath   = "bin/some-symlink"
   val validSubmodulePath = "test/qunit"
 
-  val validOrganizationName   = "47deg"
+  val validOrganizationName   = "47degrees"
   val invalidOrganizationName = "invalid47deg"
 
   val validSinceInt   = 100
@@ -427,45 +427,43 @@ trait TestData extends DummyGithubUrls {
     description = null,
     privacy = "secret",
     url = "https://api.github.com/organizations/479857/team/40235",
-    html_url = "https://github.com/orgs/47deg/teams/47-devs",
+    html_url = "https://github.com/orgs/47degrees/teams/engineering",
     members_url = "https://api.github.com/organizations/479857/team/40235/members{/member}",
     repositories_url = "https://api.github.com/organizations/479857/team/40235/repos",
     permission = "push",
     parent = null
   )
 
-  val validProjectId   = 1903050
+  val validProjectId   = 4115271
   val invalidProjectId = 11111
 
   val project = Project(
-    owner_url = "https://api.github.com/orgs/47deg",
-    url = "https://api.github.com/projects/1903050",
-    html_url = "https://github.com/orgs/47deg/projects/4",
-    columns_url = "https://api.github.com/projects/1903050/columns",
+    owner_url = "https://api.github.com/orgs/47degrees",
+    url = s"https://api.github.com/projects/$validProjectId",
+    html_url = "https://github.com/orgs/47degrees/projects/1",
+    columns_url = s"https://api.github.com/projects/$validProjectId/columns",
     id = validProjectId,
-    node_id = "MDc6UHJvamVjdDE5MDMwNTA=",
-    name = "Team Asterism",
-    body = Some(
-      "Track all things related with the open source initiatives maintained by the Asterism internal tea"
-    ),
+    node_id = "MDc6UHJvamVjdDQxMTUyNzE=",
+    name = "OSS",
+    body = None,
     number = 4,
     creator = Creator(
-      login = "calvellido",
-      id = 7753447,
-      node_id = "MDQ6VXNlcjc3NTM0NDc=",
-      avatar_url = "https://avatars0.githubusercontent.com/u/7753447?v=4",
+      login = "juanpedromoreno",
+      id = 4879373,
+      node_id = "MDQ6VXNlcjQ4NzkzNzM",
+      avatar_url = "https://avatars0.githubusercontent.com/u/4879373?u=14c42c4477d6f407c17ad5275501f9347208a9df&v=4",
       gravatar_id = None,
-      url = "https://api.github.com/users/calvellido",
-      html_url = "https://github.com/calvellido",
-      followers_url = "https://api.github.com/users/calvellido/followers",
-      following_url = "https://api.github.com/users/calvellido/following{/other_user}",
-      gists_url = "https://api.github.com/users/calvellido/gists{/gist_id}",
-      starred_url = "https://api.github.com/users/calvellido/starred{/owner}{/repo}",
-      subscriptions_url = "https://api.github.com/users/calvellido/subscriptions",
-      organizations_url = "https://api.github.com/users/calvellido/orgs",
-      repos_url = "https://api.github.com/users/calvellido/repos",
-      events_url = "https://api.github.com/users/calvellido/events{/privacy}",
-      received_events_url = "https://api.github.com/users/calvellido/received_events",
+      url = "https://api.github.com/users/juanpedromoreno",
+      html_url = "https://github.com/juanpedromoreno",
+      followers_url = "https://api.github.com/users/juanpedromoreno/followers",
+      following_url = "https://api.github.com/users/juanpedromoreno/following{/other_user}",
+      gists_url = "https://api.github.com/users/juanpedromoreno/gists{/gist_id}",
+      starred_url = "https://api.github.com/users/juanpedromoreno/starred{/owner}{/repo}",
+      subscriptions_url = "https://api.github.com/users/juanpedromoreno/subscriptions",
+      organizations_url = "https://api.github.com/users/juanpedromoreno/orgs",
+      repos_url = "https://api.github.com/users/juanpedromoreno/repos",
+      events_url = "https://api.github.com/users/juanpedromoreno/events{/privacy}",
+      received_events_url = "https://api.github.com/users/juanpedromoreno/received_events",
       `type` = "User",
       site_admin = false
     ),

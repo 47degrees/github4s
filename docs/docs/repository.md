@@ -54,7 +54,7 @@ To get a repository:
 
 ```scala mdoc:compile-only
 val getRepo =
-  Github[IO](accessToken).repos.get("47deg", "github4s")
+  Github[IO](accessToken).repos.get("47degrees", "github4s")
 val response = getRepo.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -132,7 +132,7 @@ To list contributors:
 
 ```scala mdoc:compile-only
 val listContributors =
-  Github[IO](accessToken).repos.listContributors("47deg", "github4s", Some("true"))
+  Github[IO](accessToken).repos.listContributors("47degrees", "github4s", Some("true"))
 val response = listContributors.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -157,7 +157,7 @@ For more information take a look at [the API doc](https://developer.github.com/v
 
 ```scala mdoc:compile-only
 val listCollaborators =
-  Github[IO](accessToken).repos.listCollaborators("47deg", "github4s", Some("all"))
+  Github[IO](accessToken).repos.listCollaborators("47degrees", "github4s", Some("all"))
 val response = listCollaborators.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -251,7 +251,7 @@ To get contents:
 
 ```scala mdoc:compile-only
 val getContents =
-  Github[IO](accessToken).repos.getContents("47deg", "github4s", "README.md", Some("heads/master"))
+  Github[IO](accessToken).repos.getContents("47degrees", "github4s", "README.md", Some("heads/master"))
 val response = getContents.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -283,7 +283,7 @@ To create a release:
 
 ```scala mdoc:compile-only
 val createRelease =
-  Github[IO](accessToken).repos.createRelease("47deg", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
+  Github[IO](accessToken).repos.createRelease("47degrees", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
 val response = createRelease.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -311,7 +311,7 @@ To create a status:
 
 ```scala mdoc:compile-only
 val createStatus =
-  Github[IO](accessToken).repos.createStatus("47deg", "github4s", "aaaaaa", "pending", None, None, None)
+  Github[IO](accessToken).repos.createStatus("47degrees", "github4s", "aaaaaa", "pending", None, None, None)
 val response = createStatus.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -335,7 +335,7 @@ To list the statuses for a specific ref:
 
 ```scala mdoc:compile-only
 val listStatuses =
-  Github[IO](accessToken).repos.listStatuses("47deg", "github4s", "heads/master")
+  Github[IO](accessToken).repos.listStatuses("47degrees", "github4s", "heads/master")
 val response = listStatuses.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -355,7 +355,7 @@ arguments as the operation listing statuses:
 
 ```scala mdoc:compile-only
 val combinedStatus =
-  Github[IO](accessToken).repos.getCombinedStatus("47deg", "github4s", "heads/master")
+  Github[IO](accessToken).repos.getCombinedStatus("47degrees", "github4s", "heads/master")
 val response = combinedStatus.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -372,5 +372,5 @@ As you can see, a few features of the repository endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[repository-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Repository.scala
-[user-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala
+[repository-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Repository.scala
+[user-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala

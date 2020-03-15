@@ -124,4 +124,4 @@ See [the API doc](https://developer.github.com/v3/gists/#edit-a-gist) for full r
 As you can see, a few features of the gist endpoint are missing. As a result, if you'd like to see a
 feature supported, feel free to create an issue and/or a pull request!
 
-[gist-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Gist.scala
+[gist-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Gist.scala

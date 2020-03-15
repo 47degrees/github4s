@@ -68,7 +68,7 @@ The `result` on the right is the corresponding [List[Project]][project-scala].
 
 See [the API doc](https://developer.github.com/v3/projects/#list-repository-projects) for full reference.
 
-[project-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
+[project-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
 
 
 ### List projects
@@ -97,7 +97,7 @@ The `result` on the right is the corresponding [List[Project]][project-scala].
 
 See [the API doc](https://developer.github.com/v3/projects/#list-organization-projects) for full reference.
 
-[project-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
+[project-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
 
 ### Columns
 
@@ -126,7 +126,7 @@ The `result` on the right is the corresponding [List[Column]][column-scala].
 
 See [the API doc](https://developer.github.com/v3/projects/columns/#list-project-columns) for full reference.
 
-[column-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
+[column-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
 
 ### Cards
 
@@ -157,4 +157,4 @@ The `result` on the right is the corresponding [List[Card]][card-scala].
 
 See [the API doc](https://developer.github.com/v3/projects/cards/#list-project-cards) for full reference.
 
-[card-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala
+[card-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Project.scala

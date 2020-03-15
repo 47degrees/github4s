@@ -45,7 +45,7 @@ You can get a single pull request for a repository using `get`; it takes as argu
 To get a single pull request:
 
 ```scala mdoc:compile-only
-val getPullRequest = Github[IO](accessToken).pullRequests.getPullRequest("47deg", "github4s", 102)
+val getPullRequest = Github[IO](accessToken).pullRequests.getPullRequest("47degrees", "github4s", 102)
 val response = getPullRequest.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -62,7 +62,7 @@ See [the API doc](https://developer.github.com/v3/pulls/#get-a-single-pull-reque
 You can list the pull requests for a repository using `list`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
-- a list of [PRFilter](https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala).
+- a list of [PRFilter](https://github.com/47degrees/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala).
 
 As an example, let's say we want the open pull requests in <https://github.com/scala/scala> sorted
 by popularity:
@@ -92,7 +92,7 @@ You can also list the files for a pull request using `listFiles`; it takes as ar
 To list the files for a pull request:
 
 ```scala mdoc:compile-only
-val listPullRequestFiles = Github[IO](accessToken).pullRequests.listFiles("47deg", "github4s", 102)
+val listPullRequestFiles = Github[IO](accessToken).pullRequests.listFiles("47degrees", "github4s", 102)
 val response = listPullRequestFiles.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -167,7 +167,7 @@ You can list the reviews for a pull request using `listReviews`; it takes as arg
 - the repository coordinates (`owner` and `name` of the repository).
 - the pull request id.
 
-As an example, if we wanted to see all the reviews for pull request 139 of `47deg/github4s`:
+As an example, if we wanted to see all the reviews for pull request 139 of `47degrees/github4s`:
 
 ```scala mdoc:compile-only
 val listReviews = Github[IO](accessToken).pullRequests.listReviews(
@@ -193,7 +193,7 @@ You can get an individual review for a pull request using `getReview`; it takes 
 - the pull request id.
 - the review id.
 
-As an example, if we wanted to see review 39355613 for pull request 139 of `47deg/github4s`:
+As an example, if we wanted to see review 39355613 for pull request 139 of `47degrees/github4s`:
 
 ```scala mdoc:compile-only
 val review = Github[IO](accessToken).pullRequests.getReview(
@@ -215,4 +215,4 @@ See [the API doc](https://developer.github.com/v3/pulls/reviews/#get-a-single-re
 As you can see, a few features of the pull request endpoint are missing. As a result, if you'd like
 to see a feature supported, feel free to create an issue and/or a pull request!
 
-[pr-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala
+[pr-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala

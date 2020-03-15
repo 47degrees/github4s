@@ -53,4 +53,4 @@ The `result` on the right is the corresponding [List[Team]][team-scala].
 See [the API doc](https://developer.github.com/v3/teams/#list-teams) for full reference.
 
 
-[team-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/Team.scala
+[team-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Team.scala

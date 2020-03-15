@@ -57,7 +57,7 @@ You can get a reference using `getReference`, it takes as arguments:
 - `ref`: ref formatted as `heads/branch`.
 
 ```scala mdoc:compile-only
-val getReference = Github[IO](accessToken).gitData.getReference("47deg", "github4s", "heads/master")
+val getReference = Github[IO](accessToken).gitData.getReference("47degrees", "github4s", "heads/master")
 val response = getReference.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -138,7 +138,7 @@ You can get a commit using `getCommit`; it takes as arguments:
 - `sha`: the sha of the commit.
 
 ```scala mdoc:compile-only
-val getCommit = Github[IO](accessToken).gitData.getCommit("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
+val getCommit = Github[IO](accessToken).gitData.getCommit("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 val response = getCommit.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -193,7 +193,7 @@ You can create a blob using `createBlob`; it takes as arguments:
 - `encoding`: the encoding used for content. Currently, "utf-8" and "base64" are supported. Default: "utf-8".
 
 ```scala mdoc:compile-only
-val createBlob = Github[IO](accessToken).gitData.createBlob("47deg", "github4s", "New access token", Some("utf-8"))
+val createBlob = Github[IO](accessToken).gitData.createBlob("47degrees", "github4s", "New access token", Some("utf-8"))
 val response = createBlob.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -224,7 +224,7 @@ You can get a tree using `getTree`; it takes as arguments:
 - `recursive`: flag whether to get the tree recursively.
 
 ```scala mdoc:compile-only
-val getTree = Github[IO](accessToken).gitData.getTree("47deg", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891", true)
+val getTree = Github[IO](accessToken).gitData.getTree("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891", true)
 val response = getTree.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -320,4 +320,4 @@ As you can see, a few features of the git data endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[gitdata-scala]: https://github.com/47deg/github4s/blob/master/github4s/src/main/scala/github4s/domain/GitData.scala
+[gitdata-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/GitData.scala

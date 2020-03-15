@@ -11,6 +11,7 @@ import sbtorgpolicies.runnable.syntax._
 import scoverage.ScoverageKeys
 import scoverage.ScoverageKeys._
 import mdoc.MdocPlugin.autoImport._
+import sbtorgpolicies.model.GitHubSettings
 
 object ProjectPlugin extends AutoPlugin {
 
@@ -39,12 +40,12 @@ object ProjectPlugin extends AutoPlugin {
       micrositeDescription := "Github API wrapper written in Scala",
       micrositeBaseUrl := "github4s",
       micrositeDocumentationUrl := "docs",
-      micrositeGithubOwner := "47deg",
+      micrositeGithubOwner := "47degrees",
       micrositeGithubRepo := "github4s",
       micrositeAuthor := "Github4s contributors",
       micrositeCompilingDocsTool := WithMdoc,
       micrositePushSiteWith := GitHub4s,
-      micrositeOrganizationHomepage := "https://github.com/47deg/github4s/blob/master/AUTHORS.md",
+      micrositeOrganizationHomepage := "https://github.com/47degrees/github4s/blob/master/AUTHORS.md",
       micrositePalette := Map(
         "brand-primary"   -> "#3D3832",
         "brand-secondary" -> "#f90",
@@ -106,6 +107,14 @@ object ProjectPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
       name := "github4s",
+      orgGithubSetting := GitHubSettings(
+        organization = "47degrees",
+        project = (name in LocalRootProject).value,
+        organizationName = "47 Degrees",
+        groupId = "com.47deg",
+        organizationHomePage = url("http://47deg.com"),
+        organizationEmail = "hello@47deg.com"
+      ),
       orgProjectName := "Github4s",
       description := "Github API wrapper written in Scala",
       startYear := Option(2016),

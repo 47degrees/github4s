@@ -4,51 +4,51 @@
 
 Release changes:
 
-* Avoid gem system update ([#316](https://github.com/47deg/github4s/pull/316))
-* Active sidebar items ([#319](https://github.com/47deg/github4s/pull/319))
-* Update cats-core, cats-free to 2.1.0 ([#320](https://github.com/47deg/github4s/pull/320))
-* Update sbt to 1.3.6 ([#322](https://github.com/47deg/github4s/pull/322))
-* Update mockserver-netty to 5.8.1 ([#321](https://github.com/47deg/github4s/pull/321))
-* Update sbt-microsites to 1.1.0 ([#324](https://github.com/47deg/github4s/pull/324))
-* Sbt microsite adaptation ([#317](https://github.com/47deg/github4s/pull/317))
-* Update sbt to 1.3.7 ([#325](https://github.com/47deg/github4s/pull/325))
-* Re-formats for 2020 copyright ([#326](https://github.com/47deg/github4s/pull/326))
-* Removes unused parameter ([#327](https://github.com/47deg/github4s/pull/327))
-* Replace tut by mdoc and other clean ups ([#330](https://github.com/47deg/github4s/pull/330))
-* Update circe-core, circe-generic, ... to 0.13.0 ([#343](https://github.com/47deg/github4s/pull/343))
-* Update sbt to 1.3.8 ([#336](https://github.com/47deg/github4s/pull/336))
-* Update mockserver-netty to 5.9.0 ([#335](https://github.com/47deg/github4s/pull/335))
-* Tagless final refactor ([#344](https://github.com/47deg/github4s/pull/344))
-* Update scalatest to 3.1.1 ([#347](https://github.com/47deg/github4s/pull/347))
-* Update sbt-microsites to 1.1.2 ([#348](https://github.com/47deg/github4s/pull/348))
-* Update http4s-blaze-client, http4s-circe to 0.21.1 ([#346](https://github.com/47deg/github4s/pull/346))
-* Get the list of teams in an organization. ([#350](https://github.com/47deg/github4s/pull/350))
-* Lower the minimum code coverage threshold to 75% ([#353](https://github.com/47deg/github4s/pull/353))
-* Update cats-core, cats-free to 2.1.1 ([#351](https://github.com/47deg/github4s/pull/351))
-* Update sbt-org-policies to 0.13.1 ([#352](https://github.com/47deg/github4s/pull/352))
-* Releases 0.22.0 ([#355](https://github.com/47deg/github4s/pull/355))
+* Avoid gem system update ([#316](https://github.com/47degrees/github4s/pull/316))
+* Active sidebar items ([#319](https://github.com/47degrees/github4s/pull/319))
+* Update cats-core, cats-free to 2.1.0 ([#320](https://github.com/47degrees/github4s/pull/320))
+* Update sbt to 1.3.6 ([#322](https://github.com/47degrees/github4s/pull/322))
+* Update mockserver-netty to 5.8.1 ([#321](https://github.com/47degrees/github4s/pull/321))
+* Update sbt-microsites to 1.1.0 ([#324](https://github.com/47degrees/github4s/pull/324))
+* Sbt microsite adaptation ([#317](https://github.com/47degrees/github4s/pull/317))
+* Update sbt to 1.3.7 ([#325](https://github.com/47degrees/github4s/pull/325))
+* Re-formats for 2020 copyright ([#326](https://github.com/47degrees/github4s/pull/326))
+* Removes unused parameter ([#327](https://github.com/47degrees/github4s/pull/327))
+* Replace tut by mdoc and other clean ups ([#330](https://github.com/47degrees/github4s/pull/330))
+* Update circe-core, circe-generic, ... to 0.13.0 ([#343](https://github.com/47degrees/github4s/pull/343))
+* Update sbt to 1.3.8 ([#336](https://github.com/47degrees/github4s/pull/336))
+* Update mockserver-netty to 5.9.0 ([#335](https://github.com/47degrees/github4s/pull/335))
+* Tagless final refactor ([#344](https://github.com/47degrees/github4s/pull/344))
+* Update scalatest to 3.1.1 ([#347](https://github.com/47degrees/github4s/pull/347))
+* Update sbt-microsites to 1.1.2 ([#348](https://github.com/47degrees/github4s/pull/348))
+* Update http4s-blaze-client, http4s-circe to 0.21.1 ([#346](https://github.com/47degrees/github4s/pull/346))
+* Get the list of teams in an organization. ([#350](https://github.com/47degrees/github4s/pull/350))
+* Lower the minimum code coverage threshold to 75% ([#353](https://github.com/47degrees/github4s/pull/353))
+* Update cats-core, cats-free to 2.1.1 ([#351](https://github.com/47degrees/github4s/pull/351))
+* Update sbt-org-policies to 0.13.1 ([#352](https://github.com/47degrees/github4s/pull/352))
+* Releases 0.22.0 ([#355](https://github.com/47degrees/github4s/pull/355))
 
 
 ## 12/18/2019 - Version 0.21.0
 
 Release changes:
 
-* Update mockserver-netty to 5.6.1 ([#281](https://github.com/47deg/github4s/pull/281))
-* Update cats-effect to 2.0.0 ([#282](https://github.com/47deg/github4s/pull/282))
-* Update sbt to 1.3.3 ([#283](https://github.com/47deg/github4s/pull/283))
-* Update scalaz-concurrent to 7.2.29 ([#284](https://github.com/47deg/github4s/pull/284))
-* Mockserver 5.7.2 ([#293](https://github.com/47deg/github4s/pull/293))
-* Specify additional SBT memory settings ([#295](https://github.com/47deg/github4s/pull/295))
-* Updates ([#298](https://github.com/47deg/github4s/pull/298))
-* Update mockserver-netty to 5.8.0 ([#303](https://github.com/47deg/github4s/pull/303))
-* Tagged test as integration ([#301](https://github.com/47deg/github4s/pull/301))
-* 304 migrate unicode arrows ([#305](https://github.com/47deg/github4s/pull/305))
-* Update sbt to 1.3.5 ([#306](https://github.com/47deg/github4s/pull/306))
-* replacing unicode arrows ([#302](https://github.com/47deg/github4s/pull/302))
-* Cross-build Scala 2.13 ([#311](https://github.com/47deg/github4s/pull/311))
-* Release 0.21.0 ([#312](https://github.com/47deg/github4s/pull/312))
-* Upgrades build ([#310](https://github.com/47deg/github4s/pull/310))
-* Removes Scalajs & Scala 2.11 support ([#309](https://github.com/47deg/github4s/pull/309))
+* Update mockserver-netty to 5.6.1 ([#281](https://github.com/47degrees/github4s/pull/281))
+* Update cats-effect to 2.0.0 ([#282](https://github.com/47degrees/github4s/pull/282))
+* Update sbt to 1.3.3 ([#283](https://github.com/47degrees/github4s/pull/283))
+* Update scalaz-concurrent to 7.2.29 ([#284](https://github.com/47degrees/github4s/pull/284))
+* Mockserver 5.7.2 ([#293](https://github.com/47degrees/github4s/pull/293))
+* Specify additional SBT memory settings ([#295](https://github.com/47degrees/github4s/pull/295))
+* Updates ([#298](https://github.com/47degrees/github4s/pull/298))
+* Update mockserver-netty to 5.8.0 ([#303](https://github.com/47degrees/github4s/pull/303))
+* Tagged test as integration ([#301](https://github.com/47degrees/github4s/pull/301))
+* 304 migrate unicode arrows ([#305](https://github.com/47degrees/github4s/pull/305))
+* Update sbt to 1.3.5 ([#306](https://github.com/47degrees/github4s/pull/306))
+* replacing unicode arrows ([#302](https://github.com/47degrees/github4s/pull/302))
+* Cross-build Scala 2.13 ([#311](https://github.com/47degrees/github4s/pull/311))
+* Release 0.21.0 ([#312](https://github.com/47degrees/github4s/pull/312))
+* Upgrades build ([#310](https://github.com/47degrees/github4s/pull/310))
+* Removes Scalajs & Scala 2.11 support ([#309](https://github.com/47degrees/github4s/pull/309))
 
 
 ## 02/25/2019 - Version 0.20.1
@@ -66,240 +66,240 @@ Release changes:
 
 Release changes:
 
-* List user repositories api ([#224](https://github.com/47deg/github4s/pull/224))
-* Add support for the list outside collaborators endpoint ([#225](https://github.com/47deg/github4s/pull/225))
-* Fix documentation for the list available assignees endpoint ([#227](https://github.com/47deg/github4s/pull/227))
-* Add missing links to issue table of contents ([#228](https://github.com/47deg/github4s/pull/228))
-* Add support for the list available assignees endpoint ([#226](https://github.com/47deg/github4s/pull/226))
-* Missing microsite menu entries + broken link ([#229](https://github.com/47deg/github4s/pull/229))
-* Introduce a way to distinguish different github errors ([#230](https://github.com/47deg/github4s/pull/230))
-* Fix returned type in list branches docs ([#235](https://github.com/47deg/github4s/pull/235))
-* Add support for the list branched endpoint (47deg#231) ([#232](https://github.com/47deg/github4s/pull/232))
-* Update Ruby to latest 2.3.8 for Travis CI ([#241](https://github.com/47deg/github4s/pull/241))
-* Fix decoding of issue when body is null ([#236](https://github.com/47deg/github4s/pull/236))
-* Build upgrade and Release 0.20.0 ([#243](https://github.com/47deg/github4s/pull/243))
-* Add Edit gist api ([#240](https://github.com/47deg/github4s/pull/240))
+* List user repositories api ([#224](https://github.com/47degrees/github4s/pull/224))
+* Add support for the list outside collaborators endpoint ([#225](https://github.com/47degrees/github4s/pull/225))
+* Fix documentation for the list available assignees endpoint ([#227](https://github.com/47degrees/github4s/pull/227))
+* Add missing links to issue table of contents ([#228](https://github.com/47degrees/github4s/pull/228))
+* Add support for the list available assignees endpoint ([#226](https://github.com/47degrees/github4s/pull/226))
+* Missing microsite menu entries + broken link ([#229](https://github.com/47degrees/github4s/pull/229))
+* Introduce a way to distinguish different github errors ([#230](https://github.com/47degrees/github4s/pull/230))
+* Fix returned type in list branches docs ([#235](https://github.com/47degrees/github4s/pull/235))
+* Add support for the list branched endpoint (47deg#231) ([#232](https://github.com/47degrees/github4s/pull/232))
+* Update Ruby to latest 2.3.8 for Travis CI ([#241](https://github.com/47degrees/github4s/pull/241))
+* Fix decoding of issue when body is null ([#236](https://github.com/47degrees/github4s/pull/236))
+* Build upgrade and Release 0.20.0 ([#243](https://github.com/47degrees/github4s/pull/243))
+* Add Edit gist api ([#240](https://github.com/47degrees/github4s/pull/240))
 
 
 ## 10/04/2018 - Version 0.19.0
 
 Release changes:
 
-* Bump sbt-org-policies to 0.9.4 ([#223](https://github.com/47deg/github4s/pull/223))
+* Bump sbt-org-policies to 0.9.4 ([#223](https://github.com/47degrees/github4s/pull/223))
 
 
 ## 09/04/2018 - Version 0.18.8
 
 Release changes:
 
-* Add dashing as an application using github4s ([#216](https://github.com/47deg/github4s/pull/216))
-* Add listCollaborators method ([#218](https://github.com/47deg/github4s/pull/218))
-* add get tree api implementation ([#217](https://github.com/47deg/github4s/pull/217))
-* Release 0.18.7 ([#219](https://github.com/47deg/github4s/pull/219))
-* Add cla-bot to the Github4s in the wild section ([#220](https://github.com/47deg/github4s/pull/220))
-* Release 0.18.8 ([#221](https://github.com/47deg/github4s/pull/221))
+* Add dashing as an application using github4s ([#216](https://github.com/47degrees/github4s/pull/216))
+* Add listCollaborators method ([#218](https://github.com/47degrees/github4s/pull/218))
+* add get tree api implementation ([#217](https://github.com/47degrees/github4s/pull/217))
+* Release 0.18.7 ([#219](https://github.com/47degrees/github4s/pull/219))
+* Add cla-bot to the Github4s in the wild section ([#220](https://github.com/47degrees/github4s/pull/220))
+* Release 0.18.8 ([#221](https://github.com/47degrees/github4s/pull/221))
 
 
 ## 08/20/2018 - Version 0.18.7
 
 Release changes:
 
-* Add dashing as an application using github4s ([#216](https://github.com/47deg/github4s/pull/216))
-* Add listCollaborators method ([#218](https://github.com/47deg/github4s/pull/218))
-* add get tree api implementation ([#217](https://github.com/47deg/github4s/pull/217))
-* Release 0.18.7 ([#219](https://github.com/47deg/github4s/pull/219))
+* Add dashing as an application using github4s ([#216](https://github.com/47degrees/github4s/pull/216))
+* Add listCollaborators method ([#218](https://github.com/47degrees/github4s/pull/218))
+* add get tree api implementation ([#217](https://github.com/47degrees/github4s/pull/217))
+* Release 0.18.7 ([#219](https://github.com/47degrees/github4s/pull/219))
 
 
 ## 07/09/2018 - Version 0.18.6
 
 Release changes:
 
-* Abstract away from cats-effect IO ([#214](https://github.com/47deg/github4s/pull/214))
-* Release 0.18.6 ([#215](https://github.com/47deg/github4s/pull/215))
+* Abstract away from cats-effect IO ([#214](https://github.com/47degrees/github4s/pull/214))
+* Release 0.18.6 ([#215](https://github.com/47degrees/github4s/pull/215))
 
 
 ## 06/24/2018 - Version 0.18.5
 
 Release changes:
 
-* List labels endpoint ([#206](https://github.com/47deg/github4s/pull/206))
-* Bump Scala version to 2.12.6 in travis.yml ([#208](https://github.com/47deg/github4s/pull/208))
-* Fix cats-effect JS tests flakiness ([#209](https://github.com/47deg/github4s/pull/209))
-* Add support for the add labels endpoint ([#207](https://github.com/47deg/github4s/pull/207))
-* Add support for the remove label endpoint ([#210](https://github.com/47deg/github4s/pull/210))
-* Add support for the get pull request endpoint ([#211](https://github.com/47deg/github4s/pull/211))
-* Release 0.18.5 ([#212](https://github.com/47deg/github4s/pull/212))
+* List labels endpoint ([#206](https://github.com/47degrees/github4s/pull/206))
+* Bump Scala version to 2.12.6 in travis.yml ([#208](https://github.com/47degrees/github4s/pull/208))
+* Fix cats-effect JS tests flakiness ([#209](https://github.com/47degrees/github4s/pull/209))
+* Add support for the add labels endpoint ([#207](https://github.com/47degrees/github4s/pull/207))
+* Add support for the remove label endpoint ([#210](https://github.com/47degrees/github4s/pull/210))
+* Add support for the get pull request endpoint ([#211](https://github.com/47degrees/github4s/pull/211))
+* Release 0.18.5 ([#212](https://github.com/47degrees/github4s/pull/212))
 
 
 ## 04/10/2018 - Version 0.18.4
 
 Release changes:
 
-* Keep circe decoders dry ([#202](https://github.com/47deg/github4s/pull/202))
-* Change param so we are filtering by label ([#204](https://github.com/47deg/github4s/pull/204))
-* Release 0.18.4 ([#205](https://github.com/47deg/github4s/pull/205))
+* Keep circe decoders dry ([#202](https://github.com/47degrees/github4s/pull/202))
+* Change param so we are filtering by label ([#204](https://github.com/47degrees/github4s/pull/204))
+* Release 0.18.4 ([#205](https://github.com/47degrees/github4s/pull/205))
 
 
 ## 03/11/2018 - Version 0.18.3
 
 Release changes:
 
-* # Make `body: Option[String]` ([#200](https://github.com/47deg/github4s/pull/200))
-* Release 0.18.3 ([#201](https://github.com/47deg/github4s/pull/201))
+* # Make `body: Option[String]` ([#200](https://github.com/47degrees/github4s/pull/200))
+* Release 0.18.3 ([#201](https://github.com/47degrees/github4s/pull/201))
 
 
 ## 03/07/2018 - Version 0.18.2
 
 Release changes:
 
-* Add pagination support for PullRequest ops ([#198](https://github.com/47deg/github4s/pull/198))
-* Releases 0.18.2 ([#199](https://github.com/47deg/github4s/pull/199))
+* Add pagination support for PullRequest ops ([#198](https://github.com/47degrees/github4s/pull/198))
+* Releases 0.18.2 ([#199](https://github.com/47degrees/github4s/pull/199))
 
 
 ## 02/14/2018 - Version 0.18.1
 
 Release changes:
 
-* Fix Capture instances for IO and Future ([#195](https://github.com/47deg/github4s/pull/195))
-* Release 0.18.1 ([#196](https://github.com/47deg/github4s/pull/196))
+* Fix Capture instances for IO and Future ([#195](https://github.com/47degrees/github4s/pull/195))
+* Release 0.18.1 ([#196](https://github.com/47degrees/github4s/pull/196))
 
 
 ## 01/23/2018 - Version 0.18.0
 
 Release changes:
 
-* Bump ruby version in travis to fix travis build ([#182](https://github.com/47deg/github4s/pull/182))
-* Make status' id a Long ([#183](https://github.com/47deg/github4s/pull/183))
-* Make PullRequestFile#patch an Option[String] ([#181](https://github.com/47deg/github4s/pull/181))
-* Fixes Travis file ([#190](https://github.com/47deg/github4s/pull/190))
-* Bump sbt-org-policies to 0.8.22 to benefit from cats 1.0.1 and circe 0.9.1 ([#192](https://github.com/47deg/github4s/pull/192))
-* Get a single issue ([#191](https://github.com/47deg/github4s/pull/191))
-* Fetch issue comments ([#188](https://github.com/47deg/github4s/pull/188))
-* Release version 0.18.0 ([#193](https://github.com/47deg/github4s/pull/193))
+* Bump ruby version in travis to fix travis build ([#182](https://github.com/47degrees/github4s/pull/182))
+* Make status' id a Long ([#183](https://github.com/47degrees/github4s/pull/183))
+* Make PullRequestFile#patch an Option[String] ([#181](https://github.com/47degrees/github4s/pull/181))
+* Fixes Travis file ([#190](https://github.com/47degrees/github4s/pull/190))
+* Bump sbt-org-policies to 0.8.22 to benefit from cats 1.0.1 and circe 0.9.1 ([#192](https://github.com/47degrees/github4s/pull/192))
+* Get a single issue ([#191](https://github.com/47degrees/github4s/pull/191))
+* Fetch issue comments ([#188](https://github.com/47degrees/github4s/pull/188))
+* Release version 0.18.0 ([#193](https://github.com/47degrees/github4s/pull/193))
 
 
 ## 11/08/2017 - Version 0.17.0
 
 Release changes:
 
-* Bumps sbt-org-policies in order to fix docs autopublishing issue ([#168](https://github.com/47deg/github4s/pull/168))
-* Bump sbt-org-policies to 0.8.7 to benefit from cats 1.0.0-RC1 & co ([#176](https://github.com/47deg/github4s/pull/176))
-* Bump Travis' Scala version to 2.12.4 ([#177](https://github.com/47deg/github4s/pull/177))
+* Bumps sbt-org-policies in order to fix docs autopublishing issue ([#168](https://github.com/47degrees/github4s/pull/168))
+* Bump sbt-org-policies to 0.8.7 to benefit from cats 1.0.0-RC1 & co ([#176](https://github.com/47degrees/github4s/pull/176))
+* Bump Travis' Scala version to 2.12.4 ([#177](https://github.com/47degrees/github4s/pull/177))
 
 
 ## 09/25/2017 - Version 0.16.0
 
 Release changes:
 
-* Remove integration.GHGistsSpec ([#151](https://github.com/47deg/github4s/pull/151))
-* Make gh4s doc structure reflect gh doc structure ([#152](https://github.com/47deg/github4s/pull/152))
-* cats-effect module ([#155](https://github.com/47deg/github4s/pull/155))
-* List statuses now gives back a 404 for a non-existing ref instead of an empty list ([#160](https://github.com/47deg/github4s/pull/160))
-* Support for starring-related operations ([#161](https://github.com/47deg/github4s/pull/161))
-* Support for the list organization repositories endpoint ([#162](https://github.com/47deg/github4s/pull/162))
-* Organization API ([#163](https://github.com/47deg/github4s/pull/163))
-* Bump sbt-org-policies to 0.7.4 ([#164](https://github.com/47deg/github4s/pull/164))
-* Release 0.16.0 ([#165](https://github.com/47deg/github4s/pull/165))
-* Bump travis 2.12 version to 2.12.3 ([#166](https://github.com/47deg/github4s/pull/166))
+* Remove integration.GHGistsSpec ([#151](https://github.com/47degrees/github4s/pull/151))
+* Make gh4s doc structure reflect gh doc structure ([#152](https://github.com/47degrees/github4s/pull/152))
+* cats-effect module ([#155](https://github.com/47degrees/github4s/pull/155))
+* List statuses now gives back a 404 for a non-existing ref instead of an empty list ([#160](https://github.com/47degrees/github4s/pull/160))
+* Support for starring-related operations ([#161](https://github.com/47degrees/github4s/pull/161))
+* Support for the list organization repositories endpoint ([#162](https://github.com/47degrees/github4s/pull/162))
+* Organization API ([#163](https://github.com/47degrees/github4s/pull/163))
+* Bump sbt-org-policies to 0.7.4 ([#164](https://github.com/47degrees/github4s/pull/164))
+* Release 0.16.0 ([#165](https://github.com/47degrees/github4s/pull/165))
+* Bump travis 2.12 version to 2.12.3 ([#166](https://github.com/47degrees/github4s/pull/166))
 
 
 ## 05/23/2017 - Version 0.15.0
 
 Release changes:
 
-* Remove integration tests creating statuses ([#128](https://github.com/47deg/github4s/pull/128))
-* Streamlined the getting started ([#126](https://github.com/47deg/github4s/pull/126))
-* Support Comment API ([#127](https://github.com/47deg/github4s/pull/127))
-* Refactor Algebras ([#130](https://github.com/47deg/github4s/pull/130))
-* Missing Test and Docs ([#132](https://github.com/47deg/github4s/pull/132))
-* Missing unit test ([#137](https://github.com/47deg/github4s/pull/137))
-* Contributing guide ([#138](https://github.com/47deg/github4s/pull/138))
-* Replace updateReference's force parameter type from Option[Boolean] to Boolean ([#141](https://github.com/47deg/github4s/pull/141))
-* Upgrades tut bumping sbt-org-policies version to 0.5.0 ([#140](https://github.com/47deg/github4s/pull/140))
-* Fixes ghost users associated with pull requests, issues and comments ([#144](https://github.com/47deg/github4s/pull/144))
-* Microsite Enhancements ([#143](https://github.com/47deg/github4s/pull/143))
-* Super minor lang edits ([#146](https://github.com/47deg/github4s/pull/146))
-* Fix string interpolation in docs ([#147](https://github.com/47deg/github4s/pull/147))
-* Rename listStatus to listStatuses ([#145](https://github.com/47deg/github4s/pull/145))
-* Rename Authentication to Authorization in the doc ([#148](https://github.com/47deg/github4s/pull/148))
-* Add support for the read half of the PR Review API ([#139](https://github.com/47deg/github4s/pull/139))
-* Releases 0.15.0 ([#150](https://github.com/47deg/github4s/pull/150))
+* Remove integration tests creating statuses ([#128](https://github.com/47degrees/github4s/pull/128))
+* Streamlined the getting started ([#126](https://github.com/47degrees/github4s/pull/126))
+* Support Comment API ([#127](https://github.com/47degrees/github4s/pull/127))
+* Refactor Algebras ([#130](https://github.com/47degrees/github4s/pull/130))
+* Missing Test and Docs ([#132](https://github.com/47degrees/github4s/pull/132))
+* Missing unit test ([#137](https://github.com/47degrees/github4s/pull/137))
+* Contributing guide ([#138](https://github.com/47degrees/github4s/pull/138))
+* Replace updateReference's force parameter type from Option[Boolean] to Boolean ([#141](https://github.com/47degrees/github4s/pull/141))
+* Upgrades tut bumping sbt-org-policies version to 0.5.0 ([#140](https://github.com/47degrees/github4s/pull/140))
+* Fixes ghost users associated with pull requests, issues and comments ([#144](https://github.com/47degrees/github4s/pull/144))
+* Microsite Enhancements ([#143](https://github.com/47degrees/github4s/pull/143))
+* Super minor lang edits ([#146](https://github.com/47degrees/github4s/pull/146))
+* Fix string interpolation in docs ([#147](https://github.com/47degrees/github4s/pull/147))
+* Rename listStatus to listStatuses ([#145](https://github.com/47degrees/github4s/pull/145))
+* Rename Authentication to Authorization in the doc ([#148](https://github.com/47degrees/github4s/pull/148))
+* Add support for the read half of the PR Review API ([#139](https://github.com/47degrees/github4s/pull/139))
+* Releases 0.15.0 ([#150](https://github.com/47degrees/github4s/pull/150))
 
 
 ## 05/08/2017 - Version 0.14.7
 
 Release changes:
 
-* Replace foldLeft with traverse in Decoders ([#101](https://github.com/47deg/github4s/pull/101))
-* Documentation for the PR API ([#102](https://github.com/47deg/github4s/pull/102))
-* Publish Microsite automatically when merging in master branch ([#103](https://github.com/47deg/github4s/pull/103))
-* Removes annoying compiler warnings reported by -Xlint flag ([#104](https://github.com/47deg/github4s/pull/104))
-* Made request success check consistent between scala and scala js ([#112](https://github.com/47deg/github4s/pull/112))
-* Create pull request api ([#109](https://github.com/47deg/github4s/pull/109))
-* Replace issue id by issue number in the doc ([#114](https://github.com/47deg/github4s/pull/114))
-* Unify JVM and JS tests ([#115](https://github.com/47deg/github4s/pull/115))
-* Issues API unit tests ([#116](https://github.com/47deg/github4s/pull/116))
-* Documentation for the gist API ([#121](https://github.com/47deg/github4s/pull/121))
-* Make sure sbt is executable in travis ([#122](https://github.com/47deg/github4s/pull/122))
-* Support notifications api ([#123](https://github.com/47deg/github4s/pull/123))
-* Releases 0.14.7 ([#124](https://github.com/47deg/github4s/pull/124))
-* Upgrades sbt org policies plugin ([#125](https://github.com/47deg/github4s/pull/125))
+* Replace foldLeft with traverse in Decoders ([#101](https://github.com/47degrees/github4s/pull/101))
+* Documentation for the PR API ([#102](https://github.com/47degrees/github4s/pull/102))
+* Publish Microsite automatically when merging in master branch ([#103](https://github.com/47degrees/github4s/pull/103))
+* Removes annoying compiler warnings reported by -Xlint flag ([#104](https://github.com/47degrees/github4s/pull/104))
+* Made request success check consistent between scala and scala js ([#112](https://github.com/47degrees/github4s/pull/112))
+* Create pull request api ([#109](https://github.com/47degrees/github4s/pull/109))
+* Replace issue id by issue number in the doc ([#114](https://github.com/47degrees/github4s/pull/114))
+* Unify JVM and JS tests ([#115](https://github.com/47degrees/github4s/pull/115))
+* Issues API unit tests ([#116](https://github.com/47degrees/github4s/pull/116))
+* Documentation for the gist API ([#121](https://github.com/47degrees/github4s/pull/121))
+* Make sure sbt is executable in travis ([#122](https://github.com/47degrees/github4s/pull/122))
+* Support notifications api ([#123](https://github.com/47degrees/github4s/pull/123))
+* Releases 0.14.7 ([#124](https://github.com/47degrees/github4s/pull/124))
+* Upgrades sbt org policies plugin ([#125](https://github.com/47degrees/github4s/pull/125))
 
 
 ## 04/25/2017 - Version 0.14.6
 
 Release changes:
 
-* List pull request files endpoint ([#99](https://github.com/47deg/github4s/pull/99))
-* Fixes head repo decode failure ([#100](https://github.com/47deg/github4s/pull/100))
+* List pull request files endpoint ([#99](https://github.com/47degrees/github4s/pull/99))
+* Fixes head repo decode failure ([#100](https://github.com/47degrees/github4s/pull/100))
 
 
 ## 04/24/2017 - Version 0.14.5
 
 Release changes:
 
-* Doc for the issue api ([#93](https://github.com/47deg/github4s/pull/93))
-* Avoids executing create and edit issue operations ([#95](https://github.com/47deg/github4s/pull/95))
-* Tries to fix OOM issues. Bumps sbt version ([#92](https://github.com/47deg/github4s/pull/92))
-* Releases 0.14.5 ([#98](https://github.com/47deg/github4s/pull/98))
+* Doc for the issue api ([#93](https://github.com/47degrees/github4s/pull/93))
+* Avoids executing create and edit issue operations ([#95](https://github.com/47degrees/github4s/pull/95))
+* Tries to fix OOM issues. Bumps sbt version ([#92](https://github.com/47degrees/github4s/pull/92))
+* Releases 0.14.5 ([#98](https://github.com/47degrees/github4s/pull/98))
 
 
 ## 04/21/2017 - Version 0.14.4
 
 Release changes:
 
-* Updated advertised version in the readme to 0.14.3 ([#86](https://github.com/47deg/github4s/pull/86))
-* Remove duplicated circe-parser dependency ([#87](https://github.com/47deg/github4s/pull/87))
-* Documentation for the status API ([#88](https://github.com/47deg/github4s/pull/88))
-* PullRequest's head ([#90](https://github.com/47deg/github4s/pull/90))
-* Upgrades Project ([#91](https://github.com/47deg/github4s/pull/91))
+* Updated advertised version in the readme to 0.14.3 ([#86](https://github.com/47degrees/github4s/pull/86))
+* Remove duplicated circe-parser dependency ([#87](https://github.com/47degrees/github4s/pull/87))
+* Documentation for the status API ([#88](https://github.com/47degrees/github4s/pull/88))
+* PullRequest's head ([#90](https://github.com/47degrees/github4s/pull/90))
+* Upgrades Project ([#91](https://github.com/47degrees/github4s/pull/91))
 
 
 ## 04/17/2017 - Version 0.14.3
 
 Release changes:
 
-* Status API ([#83](https://github.com/47deg/github4s/pull/83))
-* Bumps library version ([#85](https://github.com/47deg/github4s/pull/85)) 
+* Status API ([#83](https://github.com/47degrees/github4s/pull/83))
+* Bumps library version ([#85](https://github.com/47degrees/github4s/pull/85)) 
       
 
 ## 04/10/2017 - Version 0.14.2
 
 Release changes:
 
-* Upgrades sbt-org-policies ([#81](https://github.com/47deg/github4s/pull/81))
-* Fixes BuildInfo Code Dependency ([#82](https://github.com/47deg/github4s/pull/82)) 
+* Upgrades sbt-org-policies ([#81](https://github.com/47degrees/github4s/pull/81))
+* Fixes BuildInfo Code Dependency ([#82](https://github.com/47degrees/github4s/pull/82)) 
       
 
 ## 04/05/2017 - Version 0.14.1
 
 Release changes:
 
-* Updates changelog ([#75](https://github.com/47deg/github4s/pull/75))
-* Bumps sbt-org-policies plugin version ([#76](https://github.com/47deg/github4s/pull/76))
-* Fixes Github token through env var ([#77](https://github.com/47deg/github4s/pull/77))
-* Upgrades sbt-org-policies plugin ([#78](https://github.com/47deg/github4s/pull/78))
-* Adds the get contents operation ([#80](https://github.com/47deg/github4s/pull/80)) 
+* Updates changelog ([#75](https://github.com/47degrees/github4s/pull/75))
+* Bumps sbt-org-policies plugin version ([#76](https://github.com/47degrees/github4s/pull/76))
+* Fixes Github token through env var ([#77](https://github.com/47degrees/github4s/pull/77))
+* Upgrades sbt-org-policies plugin ([#78](https://github.com/47degrees/github4s/pull/78))
+* Adds the get contents operation ([#80](https://github.com/47degrees/github4s/pull/80)) 
       
 
 ## 2017/04/03 - Version 0.14.0
@@ -370,7 +370,7 @@ libraryDependencies += "com.47deg" %% "github4s" % "0.11.0"
 
 This release adds two main changes:
 
-On one hand, it adds support for **Scala 2.10**. For this, the `RepoUrls` model has been changed by replacing all optional URL fields with a Map, avoiding the limit of 22 fields in case classes. Because of that, this release breaks the compatibility with all projects that are currently using the [Github Repository](https://github.com/47deg/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Repository.scala) model.
+On one hand, it adds support for **Scala 2.10**. For this, the `RepoUrls` model has been changed by replacing all optional URL fields with a Map, avoiding the limit of 22 fields in case classes. Because of that, this release breaks the compatibility with all projects that are currently using the [Github Repository](https://github.com/47degrees/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/Repository.scala) model.
 
 On the other hand, it adds some operations related to **GitHub Issues**:
 
