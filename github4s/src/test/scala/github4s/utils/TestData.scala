@@ -434,38 +434,36 @@ trait TestData extends DummyGithubUrls {
     parent = null
   )
 
-  val validProjectId   = 1903050
+  val validProjectId   = 4115271
   val invalidProjectId = 11111
 
   val project = Project(
     owner_url = "https://api.github.com/orgs/47degrees",
-    url = "https://api.github.com/projects/1903050",
+    url = s"https://api.github.com/projects/$validProjectId",
     html_url = "https://github.com/orgs/47degrees/projects/1",
-    columns_url = "https://api.github.com/projects/1903050/columns",
+    columns_url = s"https://api.github.com/projects/$validProjectId/columns",
     id = validProjectId,
-    node_id = "MDc6UHJvamVjdDE5MDMwNTA=",
-    name = "Team Asterism",
-    body = Some(
-      "Track all things related with the open source initiatives maintained by the Asterism internal tea"
-    ),
+    node_id = "MDc6UHJvamVjdDQxMTUyNzE=",
+    name = "OSS",
+    body = None,
     number = 4,
     creator = Creator(
-      login = "calvellido",
-      id = 7753447,
-      node_id = "MDQ6VXNlcjc3NTM0NDc=",
-      avatar_url = "https://avatars0.githubusercontent.com/u/7753447?v=4",
+      login = "juanpedromoreno",
+      id = 4879373,
+      node_id = "MDQ6VXNlcjQ4NzkzNzM",
+      avatar_url = "https://avatars0.githubusercontent.com/u/4879373?u=14c42c4477d6f407c17ad5275501f9347208a9df&v=4",
       gravatar_id = None,
-      url = "https://api.github.com/users/calvellido",
-      html_url = "https://github.com/calvellido",
-      followers_url = "https://api.github.com/users/calvellido/followers",
-      following_url = "https://api.github.com/users/calvellido/following{/other_user}",
-      gists_url = "https://api.github.com/users/calvellido/gists{/gist_id}",
-      starred_url = "https://api.github.com/users/calvellido/starred{/owner}{/repo}",
-      subscriptions_url = "https://api.github.com/users/calvellido/subscriptions",
-      organizations_url = "https://api.github.com/users/calvellido/orgs",
-      repos_url = "https://api.github.com/users/calvellido/repos",
-      events_url = "https://api.github.com/users/calvellido/events{/privacy}",
-      received_events_url = "https://api.github.com/users/calvellido/received_events",
+      url = "https://api.github.com/users/juanpedromoreno",
+      html_url = "https://github.com/juanpedromoreno",
+      followers_url = "https://api.github.com/users/juanpedromoreno/followers",
+      following_url = "https://api.github.com/users/juanpedromoreno/following{/other_user}",
+      gists_url = "https://api.github.com/users/juanpedromoreno/gists{/gist_id}",
+      starred_url = "https://api.github.com/users/juanpedromoreno/starred{/owner}{/repo}",
+      subscriptions_url = "https://api.github.com/users/juanpedromoreno/subscriptions",
+      organizations_url = "https://api.github.com/users/juanpedromoreno/orgs",
+      repos_url = "https://api.github.com/users/juanpedromoreno/repos",
+      events_url = "https://api.github.com/users/juanpedromoreno/events{/privacy}",
+      received_events_url = "https://api.github.com/users/juanpedromoreno/received_events",
       `type` = "User",
       site_admin = false
     ),
