@@ -70,7 +70,7 @@ trait GHActivitiesSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe okStatusCode
   }
 
-  it should "return error for invalid repo name" in {
+  it should "return error for invalid repo name" taggedAs Integration in {
     val response =
       Github[IO](accessToken).activities
         .listStargazers(invalidRepoName, validRepoName, false, None, headerUserAgent)
