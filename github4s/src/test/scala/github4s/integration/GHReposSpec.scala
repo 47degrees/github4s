@@ -25,48 +25,59 @@ import github4s.utils.{BaseIntegrationSpec, Integration}
 trait GHReposSpec extends BaseIntegrationSpec {
 
   "Repos >> Get" should "return the expected name when a valid repo is provided" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .get(validRepoOwner, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .get(validRepoOwner, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[Repository](response, r => r.name shouldBe validRepoName)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .get(validRepoOwner, invalidRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .get(validRepoOwner, invalidRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListOrgRepos" should "return the expected repos when a valid org is provided" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listOrgRepos(validRepoOwner, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listOrgRepos(validRepoOwner, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[Repository]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid org is passed" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listOrgRepos(invalidRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listOrgRepos(invalidRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListUserRepos" should "return the expected repos when a valid user is provided" taggedAs Integration in {
-    val response = Github[IO](accessToken).repos
-      .listUserRepos(validUsername, headers = headerUserAgent)
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listUserRepos(validUsername, headers = headerUserAgent)
+      }
       .unsafeRunSync()
 
     testIsRight[List[Repository]](response, r => r.nonEmpty shouldBe true)
@@ -74,8 +85,11 @@ trait GHReposSpec extends BaseIntegrationSpec {
   }
 
   it should "return error when an invalid user is passed" taggedAs Integration in {
-    val response = Github[IO](accessToken).repos
-      .listUserRepos(invalidUsername, headers = headerUserAgent)
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listUserRepos(invalidUsername, headers = headerUserAgent)
+      }
       .unsafeRunSync()
 
     testIsLeft(response)
@@ -83,103 +97,136 @@ trait GHReposSpec extends BaseIntegrationSpec {
   }
 
   "Repos >> GetContents" should "return the expected contents when valid path is provided" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .getContents(validRepoOwner, validRepoName, validFilePath, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .getContents(validRepoOwner, validRepoName, validFilePath, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[NonEmptyList[Content]](response, r => r.head.path shouldBe validFilePath)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid path is passed" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .getContents(validRepoOwner, validRepoName, invalidFilePath, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .getContents(validRepoOwner, validRepoName, invalidFilePath, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListCommits" should "return the expected list of commits for valid data" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listCommits(validRepoOwner, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listCommits(validRepoOwner, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[Commit]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listCommits(invalidRepoName, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listCommits(invalidRepoName, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListBranches" should "return the expected list of branches for valid data" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listBranches(validRepoOwner, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listBranches(validRepoOwner, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[Branch]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listBranches(invalidRepoName, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listBranches(invalidRepoName, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListContributors" should "return the expected list of contributors for valid data" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listContributors(validRepoOwner, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listContributors(validRepoOwner, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[User]](response, r => r shouldNot be(empty))
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listContributors(invalidRepoName, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listContributors(invalidRepoName, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListCollaborators" should "return the expected list of collaborators for valid data" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listCollaborators(validRepoOwner, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listCollaborators(validRepoOwner, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[User]](response, r => r shouldNot be(empty))
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for invalid repo name" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).repos
-        .listCollaborators(invalidRepoName, validRepoName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listCollaborators(invalidRepoName, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> GetStatus" should "return a combined status" taggedAs Integration in {
-    val response = Github[IO](accessToken).repos
-      .getCombinedStatus(validRepoOwner, validRepoName, validRefSingle, headers = headerUserAgent)
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .getCombinedStatus(
+            validRepoOwner,
+            validRepoName,
+            validRefSingle,
+            headers = headerUserAgent
+          )
+      }
       .unsafeRunSync()
 
     testIsRight[CombinedStatus](
@@ -190,16 +237,23 @@ trait GHReposSpec extends BaseIntegrationSpec {
   }
 
   it should "return an error when an invalid ref is passed" taggedAs Integration in {
-    val response = Github[IO](accessToken).repos
-      .getCombinedStatus(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .getCombinedStatus(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
+      }
       .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Repos >> ListStatus" should "return a non empty list when a valid ref is provided" taggedAs Integration in {
-    val response = Github[IO](accessToken).repos
-      .listStatuses(validRepoOwner, validRepoName, validCommitSha, headers = headerUserAgent)
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listStatuses(validRepoOwner, validRepoName, validCommitSha, headers = headerUserAgent)
+      }
       .unsafeRunSync()
 
     testIsRight[List[Status]](response, r => r.nonEmpty shouldBe true)
@@ -207,9 +261,13 @@ trait GHReposSpec extends BaseIntegrationSpec {
   }
 
   it should "return an error when an invalid ref is provided" taggedAs Integration in {
-    val response = Github[IO](accessToken).repos
-      .listStatuses(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listStatuses(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
+      }
       .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }

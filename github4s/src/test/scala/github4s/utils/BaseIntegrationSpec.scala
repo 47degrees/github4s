@@ -16,9 +16,11 @@
 
 package github4s.utils
 
-import cats.effect.IO
+import cats.effect.{ContextShift, IO, Resource}
 import github4s.GithubResponses.GHResponse
 import github4s.integration._
+import org.http4s.client.Client
+import org.http4s.client.blaze.BlazeClientBuilder
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.{Assertion, Ignore, Inspectors, Tag}
@@ -49,10 +51,13 @@ abstract class BaseIntegrationSpec
     with Matchers
     with Inspectors
     with TestData {
-  override implicit val executionContext: ExecutionContext =
+
+  override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  implicit val ioContextShift = IO.contextShift(executionContext)
+  implicit val ioContextShift: ContextShift[IO] = IO.contextShift(executionContext)
+
+  val clientResource: Resource[IO, Client[IO]] = BlazeClientBuilder[IO](executionContext).resource
 
   def accessToken: Option[String] = sys.env.get("GITHUB4S_ACCESS_TOKEN")
 

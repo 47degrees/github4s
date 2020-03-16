@@ -25,34 +25,49 @@ trait GHAuthSpec extends BaseIntegrationSpec {
 
   "Auth >> NewAuth" should "return error on Left when invalid credential is provided" taggedAs Integration in {
 
-    val response = Github[IO]().auth
-      .newAuth(
-        validUsername,
-        invalidPassword,
-        validScopes,
-        validNote,
-        validClientId,
-        invalidClientSecret,
-        headerUserAgent
-      )
+    val response = clientResource
+      .use { client =>
+        Github[IO](client).auth
+          .newAuth(
+            validUsername,
+            invalidPassword,
+            validScopes,
+            validNote,
+            validClientId,
+            invalidClientSecret,
+            headerUserAgent
+          )
+      }
       .unsafeRunSync()
 
     testIsLeft(response)
   }
 
   "Auth >> AuthorizeUrl" should "return the expected URL for valid username" taggedAs Integration in {
-    val response =
-      Github[IO]().auth
-        .authorizeUrl(validClientId, validRedirectUri, validScopes)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client).auth
+          .authorizeUrl(validClientId, validRedirectUri, validScopes)
+      }
+      .unsafeRunSync()
 
     testIsRight[Authorize](response, r => r.url.contains(validRedirectUri) shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   "Auth >> GetAccessToken" should "return error on Left for invalid code value" taggedAs Integration in {
-    val response = Github[IO]().auth
-      .getAccessToken(validClientId, invalidClientSecret, "", validRedirectUri, "", headerUserAgent)
+    val response = clientResource
+      .use { client =>
+        Github[IO](client).auth
+          .getAccessToken(
+            validClientId,
+            invalidClientSecret,
+            "",
+            validRedirectUri,
+            "",
+            headerUserAgent
+          )
+      }
       .unsafeRunSync()
 
     testIsLeft(response)

@@ -451,7 +451,8 @@ trait TestData extends DummyGithubUrls {
       login = "juanpedromoreno",
       id = 4879373,
       node_id = "MDQ6VXNlcjQ4NzkzNzM",
-      avatar_url = "https://avatars0.githubusercontent.com/u/4879373?u=14c42c4477d6f407c17ad5275501f9347208a9df&v=4",
+      avatar_url =
+        "https://avatars0.githubusercontent.com/u/4879373?u=14c42c4477d6f407c17ad5275501f9347208a9df&v=4",
       gravatar_id = None,
       url = "https://api.github.com/users/juanpedromoreno",
       html_url = "https://github.com/juanpedromoreno",

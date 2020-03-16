@@ -16,21 +16,18 @@
 
 package github4s.http
 
-import github4s.domain.Pagination
-import org.http4s.Request
-import org.http4s.client.blaze.BlazeClientBuilder
-import cats.effect.{ConcurrentEffect, Resource}
-import github4s.GithubResponses.{GHResponse, JsonParsingException}
-import cats.implicits._
+import cats.effect.Sync
+import cats.syntax.either._
+import cats.syntax.functor._
 import io.circe.{Decoder, Encoder}
-import org.http4s.circe.CirceEntityDecoder._
+import github4s.GithubResponses.{GHResponse, JsonParsingException}
+import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
+import org.http4s.Request
+import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.client.Client
 
-import scala.concurrent.ExecutionContext
-import scala.concurrent.duration.Duration
-
-class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: ExecutionContext) {
+class HttpClient[F[_]: Sync](client: Client[F]) {
 
   val urls: GithubAPIv3Config = GithubAPIv3Config()
 
@@ -132,33 +129,29 @@ class HttpClient[F[_]: ConcurrentEffect](connTimeout: Duration)(implicit ec: Exe
   val defaultPagination   = Pagination(1, 1000)
   val defaultPage: Int    = 1
   val defaultPerPage: Int = 30
-  val resource: Resource[F, Client[F]] = BlazeClientBuilder[F](ec)
-    .withConnectTimeout(connTimeout)
-    .resource
 
   private def buildURL(method: String): String = urls.baseUrl + method
 
-  private def run[Req: Encoder, Res: Decoder](request: RequestBuilder[Req]): F[GHResponse[Res]] =
-    resource
-      .use(
-        _.run(
-          Request[F]()
-            .withMethod(request.httpVerb)
-            .withUri(request.toUri(urls))
-            .withHeaders(request.toHeaderList: _*)
-            .withJsonBody(request.data)
-        ).use(response =>
-          response
-            .attemptAs[Res]
-            .value
-            .map { e =>
-              GHResponse(
-                e.leftMap(e => JsonParsingException(e.message, request.data.toString)),
-                response.status.code,
-                response.headers.toMap
-              )
-            }
-        )
+  private def run[Req: Encoder, Res: Decoder](request: RequestBuilder[Req]): F[GHResponse[Res]] = {
+    client
+      .run(
+        Request[F]()
+          .withMethod(request.httpVerb)
+          .withUri(request.toUri(urls))
+          .withHeaders(request.toHeaderList: _*)
+          .withJsonBody(request.data)
       )
-
+      .use { response =>
+        response
+          .attemptAs[Res]
+          .value
+          .map { e =>
+            GHResponse(
+              e.leftMap(e => JsonParsingException(e.message, request.data.toString)),
+              response.status.code,
+              response.headers.toMap
+            )
+          }
+      }
+  }
 }

@@ -24,63 +24,83 @@ import github4s.utils.{BaseIntegrationSpec, Integration}
 trait GHUsersSpec extends BaseIntegrationSpec {
 
   "Users >> Get" should "return the expected login for a valid username" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).users.get(validUsername, headerUserAgent).unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).users
+          .get(validUsername, headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[User](response, r => r.login shouldBe validUsername)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error on Left for invalid username" taggedAs Integration in {
-    val response = Github[IO](accessToken).users
-      .get(invalidUsername, headerUserAgent)
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).users
+          .get(invalidUsername, headerUserAgent)
+      }
       .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Users >> GetAuth" should "return error on Left when no accessToken is provided" taggedAs Integration in {
     val response =
-      Github[IO]().users.getAuth(headerUserAgent).unsafeRunSync()
+      clientResource
+        .use(client => Github[IO](client).users.getAuth(headerUserAgent))
+        .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe unauthorizedStatusCode
   }
 
   "Users >> GetUsers" should "return users for a valid since value" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).users
-        .getUsers(validSinceInt, None, headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).users
+          .getUsers(validSinceInt, None, headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[User]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return an empty list when a invalid since value is provided" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).users
-        .getUsers(invalidSinceInt, None, headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).users
+          .getUsers(invalidSinceInt, None, headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[User]](response, r => r.isEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   "Users >> GetFollowing" should "return the expected following list for a valid username" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).users
-        .getFollowing(validUsername, headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).users
+          .getFollowing(validUsername, headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[User]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error on Left for invalid username" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).users
-        .getFollowing(invalidUsername, headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).users
+          .getFollowing(invalidUsername, headerUserAgent)
+      }
+      .unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }

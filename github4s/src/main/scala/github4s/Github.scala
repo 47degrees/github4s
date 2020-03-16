@@ -16,19 +16,18 @@
 
 package github4s
 
-import java.util.concurrent.TimeUnit.MILLISECONDS
-import cats.effect.ConcurrentEffect
+import cats.effect.Sync
 import github4s.algebras._
 import github4s.modules._
-import scala.concurrent.ExecutionContext
-import scala.concurrent.duration.Duration
+import org.http4s.client.Client
 
-class Github[F[_]: ConcurrentEffect](accessToken: Option[String], timeout: Option[Duration])(
-    implicit ec: ExecutionContext
+class Github[F[_]: Sync](
+    client: Client[F],
+    accessToken: Option[String]
 ) {
 
   private lazy val module: GithubAPIs[F] =
-    new GithubAPIv3[F](accessToken, timeout.getOrElse(Duration(1000L, MILLISECONDS)))
+    new GithubAPIv3[F](client, accessToken)
 
   lazy val users: Users[F]                 = module.users
   lazy val repos: Repositories[F]          = module.repos
@@ -45,10 +44,10 @@ class Github[F[_]: ConcurrentEffect](accessToken: Option[String], timeout: Optio
 
 object Github {
 
-  def apply[F[_]: ConcurrentEffect](
-      accessToken: Option[String] = None,
-      timeout: Option[Duration] = None
-  )(implicit ec: ExecutionContext): Github[F] =
-    new Github[F](accessToken, timeout)
+  def apply[F[_]: Sync](
+      client: Client[F],
+      accessToken: Option[String] = None
+  ): Github[F] =
+    new Github[F](client, accessToken)
 
 }

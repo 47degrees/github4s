@@ -24,40 +24,48 @@ import github4s.utils.{BaseIntegrationSpec, Integration}
 trait GHOrganizationsSpec extends BaseIntegrationSpec {
 
   "Organization >> ListMembers" should "return the expected list of users" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).organizations
-        .listMembers(validRepoOwner, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).organizations
+          .listMembers(validRepoOwner, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[User]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for an invalid org" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).organizations
-        .listMembers(invalidUsername, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).organizations
+          .listMembers(invalidUsername, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
   "Organization >> ListOutsideCollaborators" should "return expected list of users" ignore {
-    val response =
-      Github[IO](accessToken).organizations
-        .listOutsideCollaborators(validOrganizationName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).organizations
+          .listOutsideCollaborators(validOrganizationName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsRight[List[User]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
   it should "return error for an invalid org" taggedAs Integration in {
-    val response =
-      Github[IO](accessToken).organizations
-        .listOutsideCollaborators(invalidOrganizationName, headers = headerUserAgent)
-        .unsafeRunSync()
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).organizations
+          .listOutsideCollaborators(invalidOrganizationName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
 
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode

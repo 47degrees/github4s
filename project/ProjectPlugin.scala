@@ -33,6 +33,7 @@ object ProjectPlugin extends AutoPlugin {
       val http4s: String     = "0.21.1"
       val scalamock: String  = "4.4.0"
       val scalaTest: String  = "3.1.1"
+      val silencer: String   = "1.6.0"
     }
 
     lazy val micrositeSettings = Seq(
@@ -84,7 +85,9 @@ object ProjectPlugin extends AutoPlugin {
         %%("scalatest", V.scalaTest) % Test,
         "org.mock-server"            % "mockserver-netty" % "5.9.0" % Test excludeAll ExclusionRule(
           "com.twitter"
-        )
+        ),
+        compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full),
+        "com.github.ghik" % "silencer-lib" % V.silencer % Provided cross CrossVersion.full
       ),
       libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
         case Some((2, 13)) => Seq.empty[ModuleID]

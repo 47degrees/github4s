@@ -16,13 +16,11 @@
 
 package github4s.modules
 
-import cats.effect.ConcurrentEffect
+import cats.effect.Sync
 import github4s.algebras._
 import github4s.http.HttpClient
 import github4s.interpreters._
-
-import scala.concurrent.ExecutionContext
-import scala.concurrent.duration.Duration
+import org.http4s.client.Client
 
 sealed trait GithubAPIs[F[_]] {
   def users: Users[F]
@@ -38,12 +36,11 @@ sealed trait GithubAPIs[F[_]] {
   def projects: Projects[F]
 }
 
-class GithubAPIv3[F[_]: ConcurrentEffect](accessToken: Option[String] = None, timeout: Duration)(
-    implicit ec: ExecutionContext
-) extends GithubAPIs[F] {
+class GithubAPIv3[F[_]: Sync](client: Client[F], accessToken: Option[String] = None)
+    extends GithubAPIs[F] {
 
-  implicit val client = new HttpClient[F](timeout)
-  implicit val at     = accessToken
+  implicit val httpClient = new HttpClient[F](client)
+  implicit val at         = accessToken
 
   override val users: Users[F]                 = new UsersInterpreter[F]
   override val repos: Repositories[F]          = new RepositoriesInterpreter[F]

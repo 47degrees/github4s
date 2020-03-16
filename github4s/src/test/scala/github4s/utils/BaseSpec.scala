@@ -16,24 +16,23 @@
 
 package github4s.utils
 
+import cats.effect.IO
 import github4s.GithubResponses.GHResponse
 import github4s.domain.Pagination
 import github4s.http.HttpClient
 import io.circe.{Decoder, Encoder}
+import org.http4s.client.Client
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpec
-
-import scala.concurrent.duration.Duration
-import java.util.concurrent.TimeUnit
 
 trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory {
 
   implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
   implicit val io = cats.effect.IO.contextShift(ec)
-  import cats.effect.IO
 
-  class HttpClientTest extends HttpClient[IO](Duration(1000, TimeUnit.MILLISECONDS))
+  @com.github.ghik.silencer.silent("deprecated")
+  class HttpClientTest extends HttpClient[IO](mock[Client[IO]])
 
   def httpClientMockGet[Out](
       url: String,

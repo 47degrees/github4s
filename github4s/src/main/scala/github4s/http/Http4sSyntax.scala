@@ -16,7 +16,6 @@
 
 package github4s.http
 
-import cats.effect.ConcurrentEffect
 import org.http4s._
 import org.http4s.MediaType
 import org.http4s.Headers
@@ -26,7 +25,7 @@ import org.http4s.headers.`Content-Type`
 
 object Http4sSyntax {
 
-  implicit class RequestOps[F[_]: ConcurrentEffect](self: Request[F]) {
+  implicit class RequestOps[F[_]](self: Request[F]) {
     def withJsonBody[T](maybeData: Option[T])(implicit enc: Encoder[T]): Request[F] =
       maybeData.fold(self)(data =>
         self
