@@ -22,21 +22,27 @@ with Github4s, you can:
 For more information on the Git object database,
 please read the [Git Internals](https://git-scm.com/book/en/v1/Git-Internals) chapter of the Pro Git book.
 
-The following examples assume the following imports and token:
+The following examples assume the following code:
 
 ```scala mdoc:silent
+import java.util.concurrent._
+
+import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
-import github4s.GithubIOSyntax._
-import cats.effect.IO
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.http4s.client.{Client, JavaNetClientBuilder}
 
-implicit val IOContextShift = IO.contextShift(global)
+import scala.concurrent.ExecutionContext.global
+
+val httpClient: Client[IO] = {
+  val blockingPool = Executors.newFixedThreadPool(5)
+  val blocker = Blocker.liftExecutorService(blockingPool)
+  implicit val cs: ContextShift[IO] = IO.contextShift(global)
+  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+}
+
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val gh = Github[IO](httpClient, accessToken)
 ```
-
-They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
-
-LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Git Data
 
@@ -57,7 +63,7 @@ You can get a reference using `getReference`, it takes as arguments:
 - `ref`: ref formatted as `heads/branch`.
 
 ```scala mdoc:compile-only
-val getReference = Github[IO](accessToken).gitData.getReference("47degrees", "github4s", "heads/master")
+val getReference = gh.gitData.getReference("47degrees", "github4s", "heads/master")
 val response = getReference.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -83,7 +89,7 @@ If it doesn't start with 'refs' and has at least two slashes, it will be rejecte
 - `sha`: the SHA1 value to set this reference.
 
 ```scala mdoc:compile-only
-val createReference = Github[IO](accessToken).gitData.createReference(
+val createReference = gh.gitData.createReference(
   "47deg",
   "github4s",
   "refs/heads/master",
@@ -111,7 +117,7 @@ You can update a reference using `updateReference`; it takes as arguments:
 Setting it to `false` will make sure you're not overwriting work. Default: `false`.
 
 ```scala mdoc:compile-only
-val updateReference = Github[IO](accessToken).gitData.updateReference(
+val updateReference = gh.gitData.updateReference(
   "47deg",
   "github4s",
   "heads/master",
@@ -138,7 +144,7 @@ You can get a commit using `getCommit`; it takes as arguments:
 - `sha`: the sha of the commit.
 
 ```scala mdoc:compile-only
-val getCommit = Github[IO](accessToken).gitData.getCommit("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
+val getCommit = gh.gitData.getCommit("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 val response = getCommit.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -164,7 +170,7 @@ for a merge commit, an array of more than one should be provided.
 - `author`: object containing information about the author.
 
 ```scala mdoc:compile-only
-val createCommit = Github[IO](accessToken).gitData.createCommit(
+val createCommit = gh.gitData.createCommit(
   "47deg",
   "github4s",
   "New access token",
@@ -193,7 +199,7 @@ You can create a blob using `createBlob`; it takes as arguments:
 - `encoding`: the encoding used for content. Currently, "utf-8" and "base64" are supported. Default: "utf-8".
 
 ```scala mdoc:compile-only
-val createBlob = Github[IO](accessToken).gitData.createBlob("47degrees", "github4s", "New access token", Some("utf-8"))
+val createBlob = gh.gitData.createBlob("47degrees", "github4s", "New access token", Some("utf-8"))
 val response = createBlob.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -224,7 +230,7 @@ You can get a tree using `getTree`; it takes as arguments:
 - `recursive`: flag whether to get the tree recursively.
 
 ```scala mdoc:compile-only
-val getTree = Github[IO](accessToken).gitData.getTree("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891", true)
+val getTree = gh.gitData.getTree("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891", true)
 val response = getTree.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -261,7 +267,7 @@ You can create a tree using `createTree`; it takes as arguments:
 
 ```scala mdoc:compile-only
 import github4s.domain.TreeDataSha
-val createTree = Github[IO](accessToken).gitData.createTree(
+val createTree = gh.gitData.createTree(
   "47deg",
   "github4s",
   Some("827efc6d56897b048c772eb4087f854f46256132"),
@@ -297,7 +303,7 @@ Normally this is a `commit`, but it can also be a `tree` or a `blob`.
 
 ```scala mdoc:compile-only
 import github4s.domain.RefAuthor
-val createTag = Github[IO](accessToken).gitData.createTag(
+val createTag = gh.gitData.createTag(
   "47deg",
   "github4s",
   "v0.1.1",

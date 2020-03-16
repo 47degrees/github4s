@@ -13,22 +13,29 @@ with Github4s, you can:
 - [Authorize a url](#authorize-a-url)
 - [Get an access token](#get-an-access-token)
 
-The following examples assume the following imports:
+The following examples assume the following code:
 
 ```scala mdoc:silent
+import java.util.concurrent._
+
+import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
-import github4s.GithubIOSyntax._
-import cats.effect.IO
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.http4s.client.{Client, JavaNetClientBuilder}
 
-implicit val IOContextShift = IO.contextShift(global)
+import scala.concurrent.ExecutionContext.global
+
+val httpClient: Client[IO] = {
+  val blockingPool = Executors.newFixedThreadPool(5)
+  val blocker = Blocker.liftExecutorService(blockingPool)
+  implicit val cs: ContextShift[IO] = IO.contextShift(global)
+  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+}
+
+val gh = Github[IO](httpClient, None)
 ```
-They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
 
-LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
-
-**NOTE**: In the examples you will see `Github(None)`
-because if you are authenticating for the first time you don't have any access token yet.
+**NOTE**: Above you can see `Github(httpClient, None)`. This is due to the fact that if you are
+authenticating for the first time you don't have any access token yet.
 
 ### Create a new authorization token
 
@@ -43,7 +50,7 @@ You can create a new authorization token using `newAuth`; it takes as arguments:
 - `client_secret`: the 40 character OAuth app client secret for which to create the token.
 
 ```scala mdoc:compile-only
-val newAuth = Github[IO](None).auth.newAuth(
+val newAuth = gh.auth.newAuth(
   "rafaparadela",
   "invalidPassword",
   List("public_repo"),
@@ -73,7 +80,7 @@ You can authorize a url using `authorizeUrl`; it takes as arguments:
 - `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
 
 ```scala mdoc:compile-only
-val authorizeUrl = Github[IO](None).auth.authorizeUrl(
+val authorizeUrl = gh.auth.authorizeUrl(
   "e8e39175648c9db8c280",
   "http://localhost:9000/_oauth-callback",
   List("public_repo"))
@@ -102,7 +109,7 @@ You can get an access token using `getAccessToken`; it takes as arguments:
 - `state`: the unguessable random string you optionally provided in [Create a new authorization token](#create-a-new-authorization-token).
 
 ```scala mdoc:compile-only
-val getAccessToken = Github[IO](None).auth.getAccessToken(
+val getAccessToken = gh.auth.getAccessToken(
   "e8e39175648c9db8c280",
   "1234567890",
   "code",

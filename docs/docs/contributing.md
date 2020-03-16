@@ -139,9 +139,10 @@ we'll be writing our tests in [GHReposSpec][repos-integ-spec]:
 
 ```scala
 "Repos >> ListStatus" should "return a non empty list when a valid ref is provided" taggedAs Integration in {
-    val response = Github[IO](accessToken).repos
-      .listStatuses(validRepoOwner, validRepoName, validCommitSha, headers = headerUserAgent)
-      .unsafeRunSync()
+    val response = client.use { client =>
+      Github[IO](client, accessToken).repos
+        .listStatuses(validRepoOwner, validRepoName, validCommitSha, headers = headerUserAgent)
+    }.unsafeRunSync()
 
     testIsRight[List[Status]](response, { r =>
       r.nonEmpty shouldBe true
@@ -150,9 +151,11 @@ we'll be writing our tests in [GHReposSpec][repos-integ-spec]:
   }
 
   it should "return an error when an invalid ref is provided" taggedAs Integration in {
-    val response = Github[IO](accessToken).repos
-      .listStatuses(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
-      .unsafeRunSync()
+    val response = client.use { client =>
+      Github[IO](client, accessToken).repos
+        .listStatuses(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
+    }.unsafeRunSync()
+
     testIsLeft(response)
     response.statusCode shouldBe notFoundStatusCode
   }
@@ -208,9 +211,7 @@ You can also list statuses through `listStatuses`; it take as arguments:
 To list the statuses for a specific ref:
 
 {triple backtick}scala mdoc:silent
-val listStatuses =
-  Github[IO](accessToken).repos.listStatuses("47degrees", "github4s", "heads/master")
-
+val listStatuses = gh.repos.listStatuses("47degrees", "github4s", "heads/master")
 val response = listStatuses.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

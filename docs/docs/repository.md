@@ -26,21 +26,27 @@ with Github4s, you can interact with:
   - [List statuses for a specific Ref](#list-statuses-for-a-specific-ref)
   - [Get the combined status of a specific Ref](#get-the-combined-status-for-a-specific-ref)
 
-The following examples assume the following imports and token:
+The following examples assume the following code:
 
 ```scala mdoc:silent
+import java.util.concurrent._
+
+import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
-import github4s.GithubIOSyntax._
-import cats.effect.IO
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.http4s.client.{Client, JavaNetClientBuilder}
 
-implicit val IOContextShift = IO.contextShift(global)
+import scala.concurrent.ExecutionContext.global
+
+val httpClient: Client[IO] = {
+  val blockingPool = Executors.newFixedThreadPool(5)
+  val blocker = Blocker.liftExecutorService(blockingPool)
+  implicit val cs: ContextShift[IO] = IO.contextShift(global)
+  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+}
+
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val gh = Github[IO](httpClient, accessToken)
 ```
-
-They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
-
-LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Repositories
 
@@ -53,8 +59,7 @@ You can get a repository using `get`; it takes as arguments:
 To get a repository:
 
 ```scala mdoc:compile-only
-val getRepo =
-  Github[IO](accessToken).repos.get("47degrees", "github4s")
+val getRepo = gh.repos.get("47degrees", "github4s")
 val response = getRepo.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -80,7 +85,7 @@ takes as arguments:
 To list the repositories for an organization:
 
 ```scala mdoc:compile-only
-val listOrgRepos = Github[IO](accessToken).repos.listOrgRepos("47deg")
+val listOrgRepos = gh.repos.listOrgRepos("47deg")
 val response = listOrgRepos.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -105,7 +110,7 @@ takes as arguments:
 To list the repositories for a user:
 
 ```scala mdoc:compile-only
-val listUserRepos = Github[IO](accessToken).repos.listUserRepos("rafaparadela")
+val listUserRepos = gh.repos.listUserRepos("rafaparadela")
 val response = listUserRepos.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -131,8 +136,7 @@ You can list contributors using `listContributors`, it takes as arguments:
 To list contributors:
 
 ```scala mdoc:compile-only
-val listContributors =
-  Github[IO](accessToken).repos.listContributors("47degrees", "github4s", Some("true"))
+val listContributors = gh.repos.listContributors("47degrees", "github4s", Some("true"))
 val response = listContributors.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -156,8 +160,7 @@ You can list collaborators using `listCollaborators`, it takes as arguments:
 For more information take a look at [the API doc](https://developer.github.com/v3/repos/collaborators/#parameters).
 
 ```scala mdoc:compile-only
-val listCollaborators =
-  Github[IO](accessToken).repos.listCollaborators("47degrees", "github4s", Some("all"))
+val listCollaborators = gh.repos.listCollaborators("47degrees", "github4s", Some("all"))
 val response = listCollaborators.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -188,7 +191,7 @@ To list commits:
 
 ```scala mdoc:compile-only
 val listCommits =
-  Github[IO](accessToken).repos.listCommits(
+  gh.repos.listCommits(
   "47deg",
   "github4s",
   Some("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"),
@@ -221,7 +224,7 @@ To list branches:
 
 ```scala mdoc:compile-only
 val listBranches =
-  Github[IO](accessToken).repos.listBranches(
+  gh.repos.listBranches(
   "47deg",
   "github4s")
 val response = listBranches.unsafeRunSync()
@@ -250,8 +253,7 @@ You can get contents using `getContents`, it takes as arguments:
 To get contents:
 
 ```scala mdoc:compile-only
-val getContents =
-  Github[IO](accessToken).repos.getContents("47degrees", "github4s", "README.md", Some("heads/master"))
+val getContents = gh.repos.getContents("47degrees", "github4s", "README.md", Some("heads/master"))
 val response = getContents.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -283,7 +285,7 @@ To create a release:
 
 ```scala mdoc:compile-only
 val createRelease =
-  Github[IO](accessToken).repos.createRelease("47degrees", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
+  gh.repos.createRelease("47degrees", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
 val response = createRelease.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -310,8 +312,7 @@ You can create a status using `createStatus`; it takes as arguments:
 To create a status:
 
 ```scala mdoc:compile-only
-val createStatus =
-  Github[IO](accessToken).repos.createStatus("47degrees", "github4s", "aaaaaa", "pending", None, None, None)
+val createStatus = gh.repos.createStatus("47degrees", "github4s", "aaaaaa", "pending", None, None, None)
 val response = createStatus.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -334,8 +335,7 @@ You can also list statuses through `listStatuses`; it take as arguments:
 To list the statuses for a specific ref:
 
 ```scala mdoc:compile-only
-val listStatuses =
-  Github[IO](accessToken).repos.listStatuses("47degrees", "github4s", "heads/master")
+val listStatuses = gh.repos.listStatuses("47degrees", "github4s", "heads/master")
 val response = listStatuses.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -354,8 +354,7 @@ Lastly, you can also get the combined status thanks to `getCombinedStatus`; it t
 arguments as the operation listing statuses:
 
 ```scala mdoc:compile-only
-val combinedStatus =
-  Github[IO](accessToken).repos.getCombinedStatus("47degrees", "github4s", "heads/master")
+val combinedStatus = gh.repos.getCombinedStatus("47degrees", "github4s", "heads/master")
 val response = combinedStatus.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

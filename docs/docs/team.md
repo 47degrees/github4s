@@ -12,21 +12,27 @@ with Github4s, you can interact with:
 - [Team](#team)
   - [List team](#list-team)
 
-The following examples assume the following imports and token:
+The following examples assume the following code:
 
 ```scala mdoc:silent
+import java.util.concurrent._
+
+import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
-import github4s.GithubIOSyntax._
-import cats.effect.IO
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.http4s.client.{Client, JavaNetClientBuilder}
 
-implicit val IOContextShift = IO.contextShift(global)
+import scala.concurrent.ExecutionContext.global
+
+val httpClient: Client[IO] = {
+  val blockingPool = Executors.newFixedThreadPool(5)
+  val blocker = Blocker.liftExecutorService(blockingPool)
+  implicit val cs: ContextShift[IO] = IO.contextShift(global)
+  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+}
+
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val gh = Github[IO](httpClient, accessToken)
 ```
-
-They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
-
-LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Team
 
@@ -40,7 +46,7 @@ You can list the teams for a particular organization with `listTeams`; it takes 
 To list the teams for organization `47deg`:
 
 ```scala mdoc:compile-only
-val listTeams = Github[IO](accessToken).teams.listTeams("47deg")
+val listTeams = gh.teams.listTeams("47deg")
 val response = listTeams.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

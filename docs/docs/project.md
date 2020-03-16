@@ -3,7 +3,7 @@ layout: docs
 title: Project API
 permalink: project
 ---
- 
+
 # Project API
 
 Note: The Projects API is currently available for developers to preview. During the preview period,
@@ -22,21 +22,27 @@ with Github4s, you can interact with:
   - [Cards](#cards)
     - [List project cards](#list-project-cards-by-column)
 
-The following examples assume the following imports and token:
+The following examples assume the following code:
 
 ```scala mdoc:silent
+import java.util.concurrent._
+
+import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
-import github4s.GithubIOSyntax._
-import cats.effect.IO
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.http4s.client.{Client, JavaNetClientBuilder}
 
-implicit val IOContextShift = IO.contextShift(global)
+import scala.concurrent.ExecutionContext.global
+
+val httpClient: Client[IO] = {
+  val blockingPool = Executors.newFixedThreadPool(5)
+  val blocker = Blocker.liftExecutorService(blockingPool)
+  implicit val cs: ContextShift[IO] = IO.contextShift(global)
+  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+}
+
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val gh = Github[IO](httpClient, accessToken)
 ```
-
-They also make use of `cats.effect.IO`, but any type container `F` implementing `ConcurrentEffect` will do.
-
-LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Project
 
@@ -53,7 +59,7 @@ You can list the projects for a particular repository with `listProjectsReposito
 To list the projects for owner `47deg` and repository `github4s`:
 
 ```scala mdoc:compile-only
-val listProjectsRepository = Github[IO](accessToken).projects.listProjectsRepository(
+val listProjectsRepository = gh.projects.listProjectsRepository(
     owner = "47deg",
     repo = "github4s",
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
@@ -83,7 +89,7 @@ You can list the project for a particular organization with `listProjects`; it t
 To list the projects for organization `47deg`:
 
 ```scala mdoc:compile-only
-val listProjects = Github[IO](accessToken).projects.listProjects(
+val listProjects = gh.projects.listProjects(
     org = "47deg",
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
 val response = listProjects.unsafeRunSync()
@@ -112,7 +118,7 @@ You can list the columns for a particular project with `listColumns`; it takes a
 To list the columns for project_id `1910444`:
 
 ```scala mdoc:compile-only
-val listColumns = Github[IO](accessToken).projects.listColumns(
+val listColumns = gh.projects.listColumns(
     project_id = 1910444,
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
 val response = listColumns.unsafeRunSync()
@@ -135,7 +141,7 @@ See [the API doc](https://developer.github.com/v3/projects/columns/#list-project
 You can list the cards for a particular column with `listCards`; it takes as arguments:
 
 - `column_id`: column id for which we want to retrieve the cards.
-- `archived_state`: filters the project cards that are returned by the card's state. 
+- `archived_state`: filters the project cards that are returned by the card's state.
 Can be one of `all`,`archived`, or `not_archived`. Default: `not_archived`, optional.
 - `pagination`: Limit and Offset for pagination, optional.
 - `header`: headers to include in the request, optional.
@@ -143,7 +149,7 @@ Can be one of `all`,`archived`, or `not_archived`. Default: `not_archived`, opti
 To list the columns for project_id `8271018`:
 
 ```scala mdoc:compile-only
-val listCards = Github[IO](accessToken).projects.listCards(
+val listCards = gh.projects.listCards(
     column_id = 8271018,
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
 val response = listCards.unsafeRunSync()

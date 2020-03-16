@@ -14,21 +14,27 @@ with Github4s, you can interact with:
 - [Outside Collaborators](#outside-collaborators)
   - [List outside collaborators](#list-outside-collaborators)
 
-The following examples assume the following imports and token:
+The following examples assume the following code:
 
 ```scala mdoc:silent
+import java.util.concurrent._
+
+import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
-import github4s.GithubIOSyntax._
-import cats.effect.IO
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.http4s.client.{Client, JavaNetClientBuilder}
 
-implicit val IOContextShift = IO.contextShift(global)
+import scala.concurrent.ExecutionContext.global
+
+val httpClient: Client[IO] = {
+  val blockingPool = Executors.newFixedThreadPool(5)
+  val blocker = Blocker.liftExecutorService(blockingPool)
+  implicit val cs: ContextShift[IO] = IO.contextShift(global)
+  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+}
+
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val gh = Github[IO](httpClient, accessToken)
 ```
-
-They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
-
-LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Members
 
@@ -44,7 +50,7 @@ You can list the members for a particular organization with `listMembers`; it ta
 To list the members for organization `47deg`:
 
 ```scala mdoc:compile-only
-val listMembers = Github[IO](accessToken).organizations.listMembers("47deg")
+val listMembers = gh.organizations.listMembers("47deg")
 val response = listMembers.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -69,7 +75,7 @@ You can list the outside collaborators of your organization with `listOutsideCol
 To list the outside collaborators for organization `47deg`:
 
 ```scala mdoc:compile-only
-val outsideCollaborators = Github[IO](accessToken).organizations.listOutsideCollaborators("47deg")
+val outsideCollaborators = gh.organizations.listOutsideCollaborators("47deg")
 val response = outsideCollaborators.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

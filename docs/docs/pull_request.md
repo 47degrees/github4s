@@ -18,20 +18,27 @@ with Github4s, you can interact with:
   - [List reviews](#list-pull-request-reviews)
   - [Get a review](#get-an-individual-review)
 
-The following examples assume the following imports and token:
+The following examples assume the following code:
 
 ```scala mdoc:silent
+import java.util.concurrent._
+
+import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
-import github4s.GithubIOSyntax._
-import cats.effect.IO
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.http4s.client.{Client, JavaNetClientBuilder}
 
-implicit val IOContextShift = IO.contextShift(global)
+import scala.concurrent.ExecutionContext.global
+
+val httpClient: Client[IO] = {
+  val blockingPool = Executors.newFixedThreadPool(5)
+  val blocker = Blocker.liftExecutorService(blockingPool)
+  implicit val cs: ContextShift[IO] = IO.contextShift(global)
+  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+}
+
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val gh = Github[IO](httpClient, accessToken)
 ```
-They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
-
-LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Pull requests
 
@@ -45,7 +52,7 @@ You can get a single pull request for a repository using `get`; it takes as argu
 To get a single pull request:
 
 ```scala mdoc:compile-only
-val getPullRequest = Github[IO](accessToken).pullRequests.getPullRequest("47degrees", "github4s", 102)
+val getPullRequest = gh.pullRequests.getPullRequest("47degrees", "github4s", 102)
 val response = getPullRequest.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -70,7 +77,7 @@ by popularity:
 ```scala mdoc:compile-only
 import github4s.domain._
 val prFilters = List(PRFilterOpen, PRFilterSortPopularity)
-val listPullRequests = Github[IO](accessToken).pullRequests.listPullRequests("scala", "scala", prFilters)
+val listPullRequests = gh.pullRequests.listPullRequests("scala", "scala", prFilters)
 val response = listPullRequests.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -92,7 +99,7 @@ You can also list the files for a pull request using `listFiles`; it takes as ar
 To list the files for a pull request:
 
 ```scala mdoc:compile-only
-val listPullRequestFiles = Github[IO](accessToken).pullRequests.listFiles("47degrees", "github4s", 102)
+val listPullRequestFiles = gh.pullRequests.listFiles("47degrees", "github4s", 102)
 val response = listPullRequestFiles.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -121,7 +128,7 @@ On the one hand, we can pass the following parameters:
 ```scala mdoc:compile-only
 import github4s.domain.NewPullRequestData
 
-val createPullRequestData = Github[IO](accessToken).pullRequests.createPullRequest(
+val createPullRequestData = gh.pullRequests.createPullRequest(
   "47deg",
   "github4s",
   NewPullRequestData("title", "body"),
@@ -142,7 +149,7 @@ instead of the title and body.
 
 ```scala mdoc:compile-only
 import github4s.domain.NewPullRequestIssue
-val createPullRequestIssue = Github[IO](accessToken).pullRequests.createPullRequest(
+val createPullRequestIssue = gh.pullRequests.createPullRequest(
   "47deg",
   "github4s",
   NewPullRequestIssue(105),
@@ -170,7 +177,7 @@ You can list the reviews for a pull request using `listReviews`; it takes as arg
 As an example, if we wanted to see all the reviews for pull request 139 of `47degrees/github4s`:
 
 ```scala mdoc:compile-only
-val listReviews = Github[IO](accessToken).pullRequests.listReviews(
+val listReviews = gh.pullRequests.listReviews(
   "47deg",
   "github4s",
   139)
@@ -196,7 +203,7 @@ You can get an individual review for a pull request using `getReview`; it takes 
 As an example, if we wanted to see review 39355613 for pull request 139 of `47degrees/github4s`:
 
 ```scala mdoc:compile-only
-val review = Github[IO](accessToken).pullRequests.getReview(
+val review = gh.pullRequests.getReview(
   "47deg",
   "github4s",
   139,

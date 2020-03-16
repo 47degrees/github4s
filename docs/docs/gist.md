@@ -13,20 +13,27 @@ with Github4s, you can:
 - [Get a single gist or specific revision of a gist](#get-a-single-gist-or-specific-revision-of-a-gist)
 - [Edit a gist](#edit-a-gist)
 
-The following examples assume the following imports and token:
+The following examples assume the following code:
 
 ```scala mdoc:silent
+import java.util.concurrent._
+
+import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
-import github4s.GithubIOSyntax._
-import cats.effect.IO
-import scala.concurrent.ExecutionContext.Implicits.global
+import org.http4s.client.{Client, JavaNetClientBuilder}
 
-implicit val IOContextShift = IO.contextShift(global)
+import scala.concurrent.ExecutionContext.global
+
+val httpClient: Client[IO] = {
+  val blockingPool = Executors.newFixedThreadPool(5)
+  val blocker = Blocker.liftExecutorService(blockingPool)
+  implicit val cs: ContextShift[IO] = IO.contextShift(global)
+  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+}
+
 val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val gh = Github[IO](httpClient, accessToken)
 ```
-They also make use of `cats.Id`, but any type container `F` implementing `ConcurrentEffect` will do.
-
-LiftIO syntax for `cats.Id` and `Future` are provided in `GithubIOSyntax`.
 
 ## Create a gist
 
@@ -45,7 +52,7 @@ val gistfiles = Map(
   "token.scala" -> GistFile("val accessToken = sys.env.get(\"GITHUB4S_ACCESS_TOKEN\")"),
   "gh4s.scala"  -> GistFile("val gh = Github(accessToken)")
 )
-val newGist = Github[IO](accessToken).gists.newGist("Github4s entry point", public = true, gistfiles)
+val newGist = gh.gists.newGist("Github4s entry point", public = true, gistfiles)
 val response = newGist.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -67,7 +74,7 @@ You can create a gist using `getGist`; it takes as arguments:
 To get a single gist:
 
 ```scala mdoc:compile-only
-val singleGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d")
+val singleGist = gh.gists.getGist("aa5a315d61ae9438b18d")
 val response = singleGist.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -78,7 +85,7 @@ response.result match {
 Similarly, to get a specific revision of a gist:
 
 ```scala mdoc:compile-only
-val sepcificRevisionGist = Github[IO](accessToken).gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
+val sepcificRevisionGist = gh.gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
 val response = sepcificRevisionGist.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -109,7 +116,7 @@ val editfiles = Map(
   "token.class"  -> None
 )
 
-val updatedGist = Github[IO](accessToken).gists.editGist("aa5a315d61ae9438b18d", "Updated github4s entry point", editfiles)
+val updatedGist = gh.gists.editGist("aa5a315d61ae9438b18d", "Updated github4s entry point", editfiles)
 val response = updatedGist.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
