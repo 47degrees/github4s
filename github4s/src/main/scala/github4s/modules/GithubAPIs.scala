@@ -36,11 +36,13 @@ sealed trait GithubAPIs[F[_]] {
   def projects: Projects[F]
 }
 
-class GithubAPIv3[F[_]: Sync](client: Client[F], accessToken: Option[String] = None)(
-    implicit config: GithubConfig
+class GithubAPIv3[F[_]: Sync](
+    client: Client[F],
+    config: GithubConfig,
+    accessToken: Option[String] = None
 ) extends GithubAPIs[F] {
 
-  implicit val httpClient = new HttpClient[F](client)
+  implicit val httpClient = new HttpClient[F](client, config)
   implicit val at         = accessToken
 
   override val users: Users[F]                 = new UsersInterpreter[F]

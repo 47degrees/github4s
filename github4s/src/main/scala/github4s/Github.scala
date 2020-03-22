@@ -27,8 +27,7 @@ class Github[F[_]: Sync](
     accessToken: Option[String]
 )(implicit config: GithubConfig) {
 
-  private lazy val module: GithubAPIs[F] =
-    new GithubAPIv3[F](client, accessToken)
+  private lazy val module: GithubAPIs[F] = new GithubAPIv3[F](client, config, accessToken)
 
   lazy val users: Users[F]                 = module.users
   lazy val repos: Repositories[F]          = module.repos
