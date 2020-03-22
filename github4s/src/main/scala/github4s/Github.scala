@@ -18,13 +18,14 @@ package github4s
 
 import cats.effect.Sync
 import github4s.algebras._
+import github4s.http.GithubConfig
 import github4s.modules._
 import org.http4s.client.Client
 
 class Github[F[_]: Sync](
     client: Client[F],
     accessToken: Option[String]
-) {
+)(implicit config: GithubConfig) {
 
   private lazy val module: GithubAPIs[F] =
     new GithubAPIv3[F](client, accessToken)
@@ -47,7 +48,6 @@ object Github {
   def apply[F[_]: Sync](
       client: Client[F],
       accessToken: Option[String] = None
-  ): Github[F] =
+  )(implicit urls: GithubConfig): Github[F] =
     new Github[F](client, accessToken)
-
 }

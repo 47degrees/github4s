@@ -49,7 +49,7 @@ object Http4sSyntax {
       (self.headers.map(kv => Header(kv._1, kv._2)) ++
         self.authHeader.map(kv => Header(kv._1, kv._2))).toList
 
-    def toUri(urls: GithubAPIv3Config): Uri =
+    def toUri(urls: GithubConfig): Uri =
       Uri.fromString(self.url).getOrElse(Uri.unsafeFromString(urls.baseUrl)) =?
         self.params.map(kv => (kv._1, List(kv._2)))
 

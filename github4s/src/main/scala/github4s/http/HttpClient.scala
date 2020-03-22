@@ -27,9 +27,9 @@ import org.http4s.Request
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.client.Client
 
-class HttpClient[F[_]: Sync](client: Client[F]) {
+class HttpClient[F[_]: Sync](client: Client[F])(implicit config: GithubConfig) {
 
-  val urls: GithubAPIv3Config = GithubAPIv3Config()
+  val urls: GithubConfig = config
 
   def get[Res: Decoder](
       accessToken: Option[String] = None,

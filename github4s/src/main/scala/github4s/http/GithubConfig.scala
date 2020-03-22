@@ -16,9 +16,14 @@
 
 package github4s.http
 
-case class GithubAPIv3Config(
-    baseUrl: String = "https://api.github.com/",
-    authorizeUrl: String =
-      "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s",
-    accessTokenUrl: String = "https://github.com/login/oauth/access_token"
-)
+final case class GithubConfig(baseUrl: String, authorizeUrl: String, accessTokenUrl: String)
+
+object GithubConfig {
+  implicit val default: GithubConfig =
+    GithubConfig(
+      baseUrl = "https://api.github.com/",
+      authorizeUrl =
+        "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s",
+      accessTokenUrl = "https://github.com/login/oauth/access_token"
+    )
+}
