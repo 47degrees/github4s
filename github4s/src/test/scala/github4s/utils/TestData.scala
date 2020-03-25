@@ -141,6 +141,8 @@ trait TestData extends DummyGithubUrls {
   val validAvatarUrl   = "https://github.com/images/error/hubot_happy.gif"
   val validNodeId      = "MDY6U3RhdHVzMQ=="
 
+  val validMilestoneTitle = "Sample Title"
+
   val treeDataList: List[TreeData] = List(
     TreeDataSha(validPath, validMode, validBlobType, validTreeSha)
   )
@@ -519,6 +521,44 @@ trait TestData extends DummyGithubUrls {
     updated_at = "2019-07-04T09:39:01Z",
     column_url = "https://api.github.com/projects/columns/8271018",
     content_url = None
+  )
+
+  val milestone = Milestone(
+    url = "https://api.github.com/repos/47deg/github4s/milestones/1",
+    html_url = "https://github.com/47deg/github4s/milestone/1",
+    labels_url = "https://api.github.com/repos/47deg/github4s/milestones/1/labels",
+    id = 5166230,
+    node_id = "MDk6TWlsZXN0b25lNTE2NjIzMA==",
+    number = 1,
+    title = "MVP",
+    description = "",
+    creator = Creator(
+      login = "rafaparadela",
+      id = 315070,
+      node_id = "MDQ6VXNlcjMxNTA3MA==",
+      avatar_url = "https://avatars3.githubusercontent.com/u/315070?v=4",
+      gravatar_id = None,
+      url = "https://api.github.com/users/rafaparadela",
+      html_url = "https://github.com/rafaparadela",
+      followers_url = "https://api.github.com/users/rafaparadela/followers",
+      following_url = "https://api.github.com/users/rafaparadela/following{/other_user}",
+      gists_url = "https://api.github.com/users/rafaparadela/gists{/gist_id}",
+      starred_url = "https://api.github.com/users/rafaparadela/starred{/owner}{/repo}",
+      subscriptions_url = "https://api.github.com/users/rafaparadela/subscriptions",
+      organizations_url = "https://api.github.com/users/rafaparadela/orgs",
+      repos_url = "https://api.github.com/users/rafaparadela/repos",
+      events_url = "https://api.github.com/users/rafaparadela/events{/privacy}",
+      received_events_url = "https://api.github.com/users/rafaparadela/received_events",
+      `type` = "User",
+      site_admin = false
+    ),
+    open_issues = 6,
+    closed_issues = 6,
+    state = "open",
+    created_at = "2020-03-04T06:02:13Z",
+    updated_at = "2020-03-25T15:59:06Z",
+    due_on = "2020-03-19T07:00:00Z",
+    closed_at = None
   )
 
 }
