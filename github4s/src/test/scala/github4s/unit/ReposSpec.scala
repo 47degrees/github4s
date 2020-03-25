@@ -120,6 +120,75 @@ class ReposSpec extends BaseSpec {
     )
   }
 
+  "Repos.updateFile" should "call to httpClient.put with the right parameters" in {
+    val response: IO[GHResponse[WriteFileResponse]] =
+      IO(GHResponse(writeFileResponse.asRight, okStatusCode, Map.empty))
+
+    val request = WriteFileContentRequest(
+      validNote,
+      validFileContent.getBytes.toBase64,
+      Some(validCommitSha),
+      Some(validBranchName),
+      Some(validCommitter),
+      Some(validCommitter)
+    )
+
+    implicit val httpClientMock = httpClientMockPut[WriteFileContentRequest, WriteFileResponse](
+      url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
+      req = request,
+      response = response
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos.updateFile(
+      validRepoOwner,
+      validRepoName,
+      validFilePath,
+      validNote,
+      validFileContent.getBytes.toBase64,
+      validCommitSha,
+      Some(validBranchName),
+      Some(validCommitter),
+      Some(validCommitter),
+      headerUserAgent
+    )
+  }
+
+  "Repos.deleteFile" should "call to httpClient.delete with the right parameters" in {
+    val response: IO[GHResponse[WriteFileResponse]] =
+      IO(GHResponse(writeFileResponse.asRight, okStatusCode, Map.empty))
+
+    val request = DeleteFileRequest(
+      validNote,
+      validCommitSha,
+      Some(validBranchName),
+      Some(validCommitter),
+      Some(validCommitter)
+    )
+
+    implicit val httpClientMock =
+      httpClientMockDeleteWithBody[DeleteFileRequest, WriteFileResponse](
+        url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
+        req = request,
+        response = response
+      )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos.deleteFile(
+      validRepoOwner,
+      validRepoName,
+      validFilePath,
+      validNote,
+      validCommitSha,
+      Some(validBranchName),
+      Some(validCommitter),
+      Some(validCommitter),
+      headerUserAgent
+    )
+  }
+
   "Repos.createRelease" should "call to httpClient.post with the right parameters" in {
     val response: IO[GHResponse[Release]] = IO(GHResponse(release.asRight, okStatusCode, Map.empty))
 

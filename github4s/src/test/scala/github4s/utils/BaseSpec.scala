@@ -158,4 +158,20 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
     httpClientMock
   }
 
+  def httpClientMockDeleteWithBody[In, Out](
+      url: String,
+      req: In,
+      response: IO[GHResponse[Out]]
+  ): HttpClient[IO] = {
+    val httpClientMock = mock[HttpClientTest]
+    (httpClientMock
+      .deleteWithBody[In, Out](_: Option[String], _: String, _: Map[String, String], _: In)(
+        _: Encoder[In],
+        _: Decoder[Out]
+      ))
+      .expects(sampleToken, url, headerUserAgent, req, *, *)
+      .returns(response)
+    httpClientMock
+  }
+
 }
