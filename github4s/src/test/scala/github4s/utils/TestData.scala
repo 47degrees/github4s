@@ -141,7 +141,9 @@ trait TestData extends DummyGithubUrls {
   val validAvatarUrl   = "https://github.com/images/error/hubot_happy.gif"
   val validNodeId      = "MDY6U3RhdHVzMQ=="
 
-  val validMilestoneTitle = "Sample Title"
+  val validMilestoneTitle    = "Sample Title"
+  val validMilestoneNumber   = "1"
+  val invalidMilestoneNumber = "00000"
 
   val treeDataList: List[TreeData] = List(
     TreeDataSha(validPath, validMode, validBlobType, validTreeSha)

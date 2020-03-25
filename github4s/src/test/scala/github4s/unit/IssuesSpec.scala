@@ -338,4 +338,19 @@ class IssuesSpec extends BaseSpec {
 
   }
 
+  "Issues.getMilestone" should "call httpClient.get with the right parameters" in {
+    val response: IO[GHResponse[Milestone]] =
+      IO(GHResponse(milestone.asRight, okStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockGet[Milestone](
+      url = s"repos/$validRepoOwner/$validRepoName/milestones/$validMilestoneNumber",
+      response = response
+    )
+
+    val issues = new IssuesInterpreter[IO]
+
+    issues.getMilestone(validRepoOwner, validRepoName, validMilestoneNumber, headerUserAgent)
+
+  }
+
 }

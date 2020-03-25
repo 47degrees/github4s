@@ -273,4 +273,21 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
+  "GHIssues >> GetMilestone" should "return error for an invalid number" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues
+          .getMilestone(
+            validRepoOwner,
+            validRepoName,
+            invalidMilestoneNumber,
+            headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsLeft(response)
+    response.statusCode shouldBe notFoundStatusCode
+  }
+
 }
