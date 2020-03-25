@@ -103,3 +103,10 @@ case class Milestone(
     closed_at: Option[String],
     due_on: String
 )
+
+case class MilestoneData(
+    title: String,
+    state: Option[String],
+    description: Option[String],
+    due_on: Option[String]
+)

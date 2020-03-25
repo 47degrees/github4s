@@ -314,4 +314,24 @@ trait Issues[F[_]] {
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Milestone]]]
 
+  /**
+   *
+   * @param owner repo owner
+   * @param repo repo name
+   * @param title The title of the milestone.
+   * @param state The state of the milestone. Either open or closed. Default: open
+   * @param description A description of the milestone.
+   * @param due_on 	The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the created Milestone
+   */
+  def createMilestone(
+      owner: String,
+      repo: String,
+      title: String,
+      state: Option[String],
+      description: Option[String],
+      due_on: Option[String],
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Milestone]]
 }

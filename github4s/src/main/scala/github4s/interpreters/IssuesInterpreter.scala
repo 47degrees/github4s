@@ -214,4 +214,20 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       params =
         List(state.map("state" -> _), sort.map("sort" -> _), direction.map("direction" -> _)).flatten.toMap
     )
+
+  override def createMilestone(
+      owner: String,
+      repo: String,
+      title: String,
+      state: Option[String],
+      description: Option[String],
+      due_on: Option[String],
+      headers: Map[String, String]
+  ): F[GHResponse[Milestone]] =
+    client.post[MilestoneData, Milestone](
+      accessToken,
+      s"repos/$owner/$repo/milestones",
+      headers,
+      MilestoneData(title, state, description, due_on)
+    )
 }
