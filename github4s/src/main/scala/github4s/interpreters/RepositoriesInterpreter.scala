@@ -75,6 +75,61 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       ref.fold(Map.empty[String, String])(r => Map("ref" -> r))
     )
 
+  override def createFile(
+      owner: String,
+      repo: String,
+      path: String,
+      message: String,
+      content: String,
+      branch: Option[String],
+      committer: Option[Committer],
+      author: Option[Committer],
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[WriteFileResponse]] =
+    client.put[WriteFileContentRequest, WriteFileResponse](
+      accessToken,
+      s"repos/$owner/$repo/contents/$path",
+      headers,
+      WriteFileContentRequest(message, content, None, branch, committer, author)
+    )
+
+  override def updateFile(
+      owner: String,
+      repo: String,
+      path: String,
+      message: String,
+      content: String,
+      sha: String,
+      branch: Option[String],
+      committer: Option[Committer],
+      author: Option[Committer],
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[WriteFileResponse]] =
+    client.put[WriteFileContentRequest, WriteFileResponse](
+      accessToken,
+      s"repos/$owner/$repo/contents/$path",
+      headers,
+      WriteFileContentRequest(message, content, Some(sha), branch, committer, author)
+    )
+
+  override def deleteFile(
+      owner: String,
+      repo: String,
+      path: String,
+      message: String,
+      sha: String,
+      branch: Option[String],
+      committer: Option[Committer],
+      author: Option[Committer],
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[WriteFileResponse]] =
+    client.deleteWithBody[DeleteFileRequest, WriteFileResponse](
+      accessToken,
+      s"repos/$owner/$repo/contents/$path",
+      headers,
+      DeleteFileRequest(message, sha, branch, committer, author)
+    )
+
   override def listCommits(
       owner: String,
       repo: String,

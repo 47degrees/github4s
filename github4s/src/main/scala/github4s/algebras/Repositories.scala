@@ -104,6 +104,82 @@ trait Repositories[F[_]] {
   ): F[GHResponse[NonEmptyList[Content]]]
 
   /**
+   * Creates a new file in a repository.
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param path the content path
+   * @param message the message to be included in the commit.
+   * @param branch the branch name (defaults to the repository's default branch)
+   * @param committer object containing information about the committer (filled in with authenticate user if omitted)
+   * @param author object containing information about the author (filled in with committer information if omitted)
+   * @return GHResponse[WriteFileResponse] with details about the content created and the commit
+   */
+  def createFile(
+      owner: String,
+      repo: String,
+      path: String,
+      message: String,
+      content: String,
+      branch: Option[String] = None,
+      committer: Option[Committer] = None,
+      author: Option[Committer] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[WriteFileResponse]]
+
+  /**
+   * Updates an existing file in a repository.
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param path the content path
+   * @param message the message to be included in the commit.
+   * @param content the content of the file in Base64 Encoding
+   * @param sha the blob sha of the file being replaced.
+   * @param branch the branch name (defaults to the repository's default branch)
+   * @param committer object containing information about the committer (filled in with authenticate user if omitted)
+   * @param author object containing information about the author (filled in with committer information if omitted)
+   * @return GHResponse[WriteFileResponse] with details about the content updated and the commit
+   */
+  def updateFile(
+      owner: String,
+      repo: String,
+      path: String,
+      message: String,
+      content: String,
+      sha: String,
+      branch: Option[String] = None,
+      committer: Option[Committer] = None,
+      author: Option[Committer] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[WriteFileResponse]]
+
+  /**
+   * Deletes a file in a particular repo, resulting in a new commit.
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param path the content path
+   * @param message the message to be included in the commit.
+   * @param sha the blob sha of the file being replaced.
+   * @param branch the branch name (defaults to the repository's default branch)
+   * @param committer object containing information about the committer (filled in with authenticate user if omitted)
+   * @param author object containing information about the author (filled in with committer information if omitted)
+   * @return GHResponse[WriteFileResponse] with no content and details about the commit which was added.
+   */
+  def deleteFile(
+      owner: String,
+      repo: String,
+      path: String,
+      message: String,
+      sha: String,
+      branch: Option[String] = None,
+      committer: Option[Committer] = None,
+      author: Option[Committer] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[WriteFileResponse]]
+
+  /**
    * Retrieve the list of commits for a particular repo
    *
    * @param owner of the repo

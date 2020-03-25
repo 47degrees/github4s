@@ -108,11 +108,11 @@ class HttpClient[F[_]: Sync](client: Client[F]) {
 
   def delete(
       accessToken: Option[String] = None,
-      method: String,
+      url: String,
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Unit]] =
     run[Unit, Unit](
-      RequestBuilder(buildURL(method)).deleteMethod.withHeaders(headers).withAuth(accessToken)
+      RequestBuilder(buildURL(url)).deleteMethod.withHeaders(headers).withAuth(accessToken)
     )
 
   def deleteWithResponse[Res: Decoder](
@@ -124,6 +124,19 @@ class HttpClient[F[_]: Sync](client: Client[F]) {
       RequestBuilder(buildURL(url)).deleteMethod
         .withAuth(accessToken)
         .withHeaders(headers)
+    )
+
+  def deleteWithBody[Req: Encoder, Res: Decoder](
+      accessToken: Option[String] = None,
+      url: String,
+      headers: Map[String, String] = Map.empty,
+      data: Req
+  ): F[GHResponse[Res]] =
+    run[Req, Res](
+      RequestBuilder(buildURL(url)).deleteMethod
+        .withAuth(accessToken)
+        .withHeaders(headers)
+        .withData(data)
     )
 
   val defaultPagination   = Pagination(1, 1000)

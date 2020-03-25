@@ -241,6 +241,8 @@ object Decoders {
     }
   }
 
+  implicit val decoderWriteFileResponse: Decoder[WriteFileResponse] =
+    deriveDecoder[WriteFileResponse]
   implicit val decoderPullRequestFile: Decoder[PullRequestFile] = deriveDecoder[PullRequestFile]
   implicit val decoderPullRequestReview: Decoder[PullRequestReview] =
     deriveDecoder[PullRequestReview]

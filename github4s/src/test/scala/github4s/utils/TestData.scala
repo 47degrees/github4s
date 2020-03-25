@@ -86,6 +86,8 @@ trait TestData extends DummyGithubUrls {
   val validGistOldFilename     = "fest.scala"
   val validGistDeletedFilename = "rest.scala"
 
+  val validFileContent = "def hack(target: String): Option[Int] = None"
+
   val validSearchQuery       = "Scala 2.12"
   val nonExistentSearchQuery = "nonExistentSearchQueryString"
   val validSearchParams = List(
@@ -414,6 +416,16 @@ trait TestData extends DummyGithubUrls {
     state = PRRStateCommented,
     html_url = "",
     pull_request_url = ""
+  )
+
+  val writeFileResponse = WriteFileResponse(
+    Some(content),
+    commit
+  )
+
+  val validCommitter = Committer(
+    validUsername,
+    "email@example.com"
   )
 
   val validNameTeam = "47 Devs"
