@@ -19,6 +19,9 @@ with Github4s, you can interact with:
   - [List commits on a repository](#list-commits-on-a-repository)
 - [Contents](#contents)
   - [Get contents](#get-contents)
+  - [Create a File](#create-a-file)
+  - [Update a File](#update-a-file)
+  - [Delete a File](#delete-a-file)
 - [Releases](#releases)
   - [Create a release](#create-a-release)
 - [Statuses](#statuses)
@@ -265,6 +268,85 @@ The `result` on the right is the corresponding [NonEmptyList[Content]][repositor
 
 See [the API doc](https://developer.github.com/v3/repos/contents/#get-contents) for full
 reference.
+
+### Create a File
+
+This method creates a new file in an existing repository.
+
+You can create a new file using `createFile`, it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- `path`: The path of the new file to be created, *without* a leading slash.
+- `message`: The message to use for creating the commit.
+- `content`: The content of the new file, as an array of bytes.
+- `branch`: The branch to add the commit to. If omitted, this defaults to the repository's default branch.
+- `committer`: An optional committer to associate with the commit. If omitted, the authenticated user's information is used for the commit.
+- `author`: An optional author to associate with the commit. If omitted, the committer is used (if present).
+
+To create a file:
+```scala mdoc:compile-only
+val getContents = gh.repos.createFile("47degrees", "github4s", "new-file.txt", "create a new file", "file contents".getBytes)
+
+getContents.unsafeRunSync().result match {
+  case Left(e) => println(s"We could not create your file because ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+See [the API doc](https://developer.github.com/v3/repos/contents/#create-or-update-a-file) for full reference.
+
+### Update a File
+
+This method updates an existing file in a repository.
+
+You can create a new file using `createFile`, it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- `path`: The path of the new file to be created, *without* a leading slash.
+- `message`: The message to use for creating the commit.
+- `content`: The content of the new file, as an array of bytes.
+- `sha`: The blob SHA of the file being replaced. (This is returned as part of a `getContents` call). GitHub uses this value to perform optimistic locking. If the file has been updated since, the update call will fail.
+- `branch`: The branch to add the commit to. If omitted, this defaults to the repository's default branch.
+- `committer`: An optional committer to associate with the commit. If omitted, the authenticated user's information is used for the commit.
+- `author`: An optional author to associate with the commit. If omitted, the committer is used (if present).
+
+To create a file:
+```scala mdoc:compile-only
+val getContents = gh.repos.updateFile("47degrees", "github4s", "README.md", "A terser README.", "You read me right.".getBytes,"a52d080d2cf85e08bfcb441b437d3982398e8f8f6a58388f55d6b6cf51cb5365")
+
+getContents.unsafeRunSync().result match {
+  case Left(e) => println(s"We could not update your file because ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+See [the API doc](https://developer.github.com/v3/repos/contents/#create-or-update-a-file) for full reference.
+
+### Delete a File
+
+This method deletes an existing file in a repository.
+
+You can create a new file using `deleteFile`, it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- `path`: The path of the new file to be created, *without* a leading slash.
+- `message`: The message to use for creating the commit.
+- `sha`: The blob SHA of the file being replaced. (This is returned as part of a `getContents` call). GitHub uses this value to perform optimistic locking. If the file has been updated since, the update call will fail.
+- `branch`: The branch to add the commit to. If omitted, this defaults to the repository's default branch.
+- `committer`: An optional committer to associate with the commit. If omitted, the authenticated user's information is used for the commit.
+- `author`: An optional author to associate with the commit. If omitted, the committer is used (if present).
+
+To create a file:
+```scala mdoc:compile-only
+val getContents = gh.repos.deleteFile("47degrees", "github4s", "README.md", "Actually, we don't need a README.", "a52d080d2cf85e08bfcb441b437d3982398e8f8f6a58388f55d6b6cf51cb5365")
+
+getContents.unsafeRunSync().result match {
+  case Left(e) => println(s"We could not delete this file because ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+See [the API doc](https://developer.github.com/v3/repos/contents/#delete-a-file) for full reference.
 
 ## Releases
 
