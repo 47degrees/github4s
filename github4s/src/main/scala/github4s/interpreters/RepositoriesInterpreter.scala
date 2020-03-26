@@ -23,6 +23,7 @@ import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import github4s.Decoders._
 import github4s.Encoders._
+import com.github.marklister.base64.Base64._
 
 class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Repositories[F] {
@@ -80,7 +81,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       path: String,
       message: String,
-      content: String,
+      content: Array[Byte],
       branch: Option[String],
       committer: Option[Committer],
       author: Option[Committer],
@@ -90,7 +91,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       accessToken,
       s"repos/$owner/$repo/contents/$path",
       headers,
-      WriteFileContentRequest(message, content, None, branch, committer, author)
+      WriteFileContentRequest(message, content.toBase64, None, branch, committer, author)
     )
 
   override def updateFile(
@@ -98,7 +99,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       path: String,
       message: String,
-      content: String,
+      content: Array[Byte],
       sha: String,
       branch: Option[String],
       committer: Option[Committer],
@@ -109,7 +110,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       accessToken,
       s"repos/$owner/$repo/contents/$path",
       headers,
-      WriteFileContentRequest(message, content, Some(sha), branch, committer, author)
+      WriteFileContentRequest(message, content.toBase64, Some(sha), branch, committer, author)
     )
 
   override def deleteFile(

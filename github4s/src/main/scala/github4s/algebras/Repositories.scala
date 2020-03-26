@@ -109,6 +109,7 @@ trait Repositories[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param path the content path
+   * @param content content in bytes, as they should be written to GitHub.
    * @param message the message to be included in the commit.
    * @param branch the branch name (defaults to the repository's default branch)
    * @param committer object containing information about the committer (filled in with authenticate user if omitted)
@@ -120,7 +121,7 @@ trait Repositories[F[_]] {
       repo: String,
       path: String,
       message: String,
-      content: String,
+      content: Array[Byte],
       branch: Option[String] = None,
       committer: Option[Committer] = None,
       author: Option[Committer] = None,
@@ -134,7 +135,7 @@ trait Repositories[F[_]] {
    * @param repo name of the repo
    * @param path the content path
    * @param message the message to be included in the commit.
-   * @param content the content of the file in Base64 Encoding
+   * @param content the content of the file as it should be written to GitHub
    * @param sha the blob sha of the file being replaced.
    * @param branch the branch name (defaults to the repository's default branch)
    * @param committer object containing information about the committer (filled in with authenticate user if omitted)
@@ -146,7 +147,7 @@ trait Repositories[F[_]] {
       repo: String,
       path: String,
       message: String,
-      content: String,
+      content: Array[Byte],
       sha: String,
       branch: Option[String] = None,
       committer: Option[Committer] = None,
