@@ -138,7 +138,7 @@ trait Repositories[F[_]] {
    * @param content the content of the file as it should be written to GitHub
    * @param sha the blob sha of the file being replaced.
    * @param branch the branch name (defaults to the repository's default branch)
-   * @param committer object containing information about the committer (filled in with authenticate user if omitted)
+   * @param committer object containing information about the committer (filled in with authenticated user information if omitted)
    * @param author object containing information about the author (filled in with committer information if omitted)
    * @return GHResponse[WriteFileResponse] with details about the content updated and the commit
    */
