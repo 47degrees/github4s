@@ -21,6 +21,8 @@ import github4s.algebras.Issues
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import java.net.URLEncoder.encode
+import java.time.ZonedDateTime
+
 import github4s.Decoders._
 import github4s.Encoders._
 
@@ -221,7 +223,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       title: String,
       state: Option[String],
       description: Option[String],
-      due_on: Option[String],
+      due_on: Option[ZonedDateTime],
       headers: Map[String, String]
   ): F[GHResponse[Milestone]] =
     client.post[MilestoneData, Milestone](

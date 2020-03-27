@@ -16,6 +16,9 @@
 
 package github4s.unit
 
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
 import cats.effect.IO
 import cats.syntax.either._
 import github4s.GithubResponses.GHResponse
@@ -316,7 +319,12 @@ class IssuesSpec extends BaseSpec {
     val response: IO[GHResponse[Milestone]] =
       IO(GHResponse(milestone.asRight, createdStatusCode, Map.empty))
 
-    val request = MilestoneData(validIssueTitle, None, None, None)
+    val request = MilestoneData(
+      validIssueTitle,
+      None,
+      None,
+      Some(ZonedDateTime.parse(validMilestoneDueOn, DateTimeFormatter.ISO_ZONED_DATE_TIME))
+    )
 
     implicit val httpClientMock = httpClientMockPost[MilestoneData, Milestone](
       url = s"repos/$validRepoOwner/$validRepoName/milestones",
@@ -329,10 +337,10 @@ class IssuesSpec extends BaseSpec {
     issues.createMilestone(
       validRepoOwner,
       validRepoName,
-      validIssueTitle,
+      validMilestoneTitle,
       None,
       None,
-      None,
+      Some(ZonedDateTime.parse(validMilestoneDueOn, DateTimeFormatter.ISO_ZONED_DATE_TIME)),
       headerUserAgent
     )
 

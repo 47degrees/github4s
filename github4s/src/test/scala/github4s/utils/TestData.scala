@@ -16,11 +16,10 @@
 
 package github4s.utils
 
-import com.github.marklister.base64.Base64._
-import github4s.domain._
 import java.util.UUID
 
-import github4s.domain.{Stargazer, StarredRepository, Subscription}
+import com.github.marklister.base64.Base64._
+import github4s.domain.{Stargazer, StarredRepository, Subscription, _}
 
 trait TestData extends DummyGithubUrls {
 
@@ -142,6 +141,7 @@ trait TestData extends DummyGithubUrls {
   val validNodeId      = "MDY6U3RhdHVzMQ=="
 
   val validMilestoneTitle = "Sample Title"
+  val validMilestoneDueOn = "2012-10-09T23:39:01Z"
 
   val treeDataList: List[TreeData] = List(
     TreeDataSha(validPath, validMode, validBlobType, validTreeSha)
@@ -557,7 +557,7 @@ trait TestData extends DummyGithubUrls {
     state = "open",
     created_at = "2020-03-04T06:02:13Z",
     updated_at = "2020-03-25T15:59:06Z",
-    due_on = "2020-03-19T07:00:00Z",
+    due_on = "2012-10-09T23:39:01Z",
     closed_at = None
   )
 
