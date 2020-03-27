@@ -27,7 +27,7 @@ import org.http4s.Request
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.client.Client
 
-class HttpClient[F[_]: Sync](client: Client[F], val urls: GithubConfig) {
+class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
 
   def get[Res: Decoder](
       accessToken: Option[String] = None,
@@ -128,14 +128,14 @@ class HttpClient[F[_]: Sync](client: Client[F], val urls: GithubConfig) {
   val defaultPage: Int    = 1
   val defaultPerPage: Int = 30
 
-  private def buildURL(method: String): String = urls.baseUrl + method
+  private def buildURL(method: String): String = config.baseUrl + method
 
   private def run[Req: Encoder, Res: Decoder](request: RequestBuilder[Req]): F[GHResponse[Res]] = {
     client
       .run(
         Request[F]()
           .withMethod(request.httpVerb)
-          .withUri(request.toUri(urls))
+          .withUri(request.toUri(config))
           .withHeaders(request.toHeaderList: _*)
           .withJsonBody(request.data)
       )

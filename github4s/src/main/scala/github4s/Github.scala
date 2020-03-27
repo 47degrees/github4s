@@ -47,6 +47,6 @@ object Github {
   def apply[F[_]: Sync](
       client: Client[F],
       accessToken: Option[String] = None
-  )(implicit urls: GithubConfig): Github[F] =
+  )(implicit config: GithubConfig): Github[F] =
     new Github[F](client, accessToken)
 }
