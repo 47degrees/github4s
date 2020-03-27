@@ -131,7 +131,7 @@ object ProjectPlugin extends AutoPlugin {
           case _             => withStripedLinter
         }) :+ "-language:higherKinds"
       },
-      orgGithubTokenSetting := "GITHUB4S_ACCESS_TOKEN",
+      orgGithubTokenSetting := "GITHUB_TOKEN",
       orgBadgeListSetting := List(
         TravisBadge.apply(_),
         GitterBadge.apply(_),

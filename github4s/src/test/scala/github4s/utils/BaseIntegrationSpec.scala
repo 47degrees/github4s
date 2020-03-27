@@ -42,7 +42,7 @@ class IntegrationSpec
 
 object Integration
     extends Tag(
-      if (sys.env.get("GITHUB4S_ACCESS_TOKEN").isDefined) ""
+      if (sys.env.get("GITHUB_TOKEN").isDefined) ""
       else classOf[Ignore].getName
     )
 
@@ -59,7 +59,7 @@ abstract class BaseIntegrationSpec
 
   val clientResource: Resource[IO, Client[IO]] = BlazeClientBuilder[IO](executionContext).resource
 
-  def accessToken: Option[String] = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+  def accessToken: Option[String] = sys.env.get("GITHUB_TOKEN")
 
   def testIsRight[A](response: GHResponse[A], f: A => Assertion = (_: A) => succeed): Assertion = {
     response.result.isRight shouldBe true
