@@ -16,6 +16,8 @@
 
 package github4s.domain
 
+import java.time.ZonedDateTime
+
 case class Issue(
     id: Int,
     title: String,
@@ -108,5 +110,5 @@ case class MilestoneData(
     title: String,
     state: Option[String],
     description: Option[String],
-    due_on: Option[String]
+    due_on: Option[ZonedDateTime]
 )

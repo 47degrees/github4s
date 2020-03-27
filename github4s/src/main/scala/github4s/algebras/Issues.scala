@@ -16,6 +16,8 @@
 
 package github4s.algebras
 
+import java.time.ZonedDateTime
+
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
 
@@ -315,6 +317,7 @@ trait Issues[F[_]] {
   ): F[GHResponse[List[Milestone]]]
 
   /**
+   * Create a milestone
    *
    * @param owner repo owner
    * @param repo repo name
@@ -331,7 +334,7 @@ trait Issues[F[_]] {
       title: String,
       state: Option[String],
       description: Option[String],
-      due_on: Option[String],
+      due_on: Option[ZonedDateTime],
       headers: Map[String, String] = Map()
   ): F[GHResponse[Milestone]]
 

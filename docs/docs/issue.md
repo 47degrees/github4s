@@ -464,17 +464,17 @@ See [the API doc](https://developer.github.com/v3/issues/milestones/#get-a-singl
 
 ### Create milestone
 
-You can create a milestone for a particular organization and repository with `listMilestones`; it takes arguments:
+You can create a milestone for a particular organization and repository with `createMilestone`; it takes arguments:
 
- - `owner`: name of the owner for which we want to retrieve the milestones.
- - `repo`: name of the repository for which we want to retrieve the milestones.
- - `state`: , optional
+ - `owner`: name of the owner for which we want to create the milestones.
+ - `repo`: name of the repository for which we want to create the milestones.
+ - `state`: The state of the milestone. Either `open` or `closed`. Default: `open`, optional
  - `title`: The title of the milestone.
  - `description`: A description of the milestone, optional
  - `due_on`: The milestone due date. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`, optional.
  - `header`: headers to include in the request, optional.
 
- To list the milestone for owner `47deg` and repository `github4s`:
+ To create a milestone for owner `47deg` and repository `github4s`:
 
 ```scala mdoc:compile-only
 val milestone = gh.issues.createMilestone("47degrees", "github4s", "New milestone",Some("open"), None, None, None)
