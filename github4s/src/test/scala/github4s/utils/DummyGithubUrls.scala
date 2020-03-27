@@ -16,7 +16,7 @@
 
 package github4s.utils
 
-import github4s.http.GithubConfig
+import github4s.GithubConfig
 
 trait DummyGithubUrls {
 

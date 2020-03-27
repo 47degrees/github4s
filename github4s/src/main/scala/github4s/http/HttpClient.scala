@@ -19,10 +19,11 @@ package github4s.http
 import cats.effect.Sync
 import cats.syntax.either._
 import cats.syntax.functor._
-import io.circe.{Decoder, Encoder}
+import github4s.GithubConfig
 import github4s.GithubResponses.{GHResponse, JsonParsingException}
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
+import io.circe.{Decoder, Encoder}
 import org.http4s.Request
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.client.Client

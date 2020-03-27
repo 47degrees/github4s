@@ -16,11 +16,10 @@
 
 package github4s.http
 
-import org.http4s._
-import org.http4s.MediaType
-import org.http4s.Headers
-import io.circe.{Encoder, Json, Printer}
+import github4s.GithubConfig
 import io.circe.syntax._
+import io.circe.{Encoder, Json, Printer}
+import org.http4s._
 import org.http4s.headers.`Content-Type`
 
 object Http4sSyntax {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package github4s.http
+package github4s
 
 final case class GithubConfig(baseUrl: String, authorizeUrl: String, accessTokenUrl: String)
 

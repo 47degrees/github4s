@@ -18,7 +18,6 @@ package github4s
 
 import cats.effect.Sync
 import github4s.algebras._
-import github4s.http.GithubConfig
 import github4s.modules._
 import org.http4s.client.Client
 
