@@ -90,7 +90,7 @@ class ReposSpec extends BaseSpec {
     val response: IO[GHResponse[WriteFileResponse]] =
       IO(GHResponse(writeFileResponse.asRight, okStatusCode, Map.empty))
 
-    val request = WriteFileContentRequest(
+    val request = WriteFileRequest(
       validNote,
       validFileContent.getBytes.toBase64,
       None,
@@ -99,7 +99,7 @@ class ReposSpec extends BaseSpec {
       Some(validCommitter)
     )
 
-    implicit val httpClientMock = httpClientMockPut[WriteFileContentRequest, WriteFileResponse](
+    implicit val httpClientMock = httpClientMockPut[WriteFileRequest, WriteFileResponse](
       url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
       req = request,
       response = response
@@ -124,7 +124,7 @@ class ReposSpec extends BaseSpec {
     val response: IO[GHResponse[WriteFileResponse]] =
       IO(GHResponse(writeFileResponse.asRight, okStatusCode, Map.empty))
 
-    val request = WriteFileContentRequest(
+    val request = WriteFileRequest(
       validNote,
       validFileContent.getBytes.toBase64,
       Some(validCommitSha),
@@ -133,7 +133,7 @@ class ReposSpec extends BaseSpec {
       Some(validCommitter)
     )
 
-    implicit val httpClientMock = httpClientMockPut[WriteFileContentRequest, WriteFileResponse](
+    implicit val httpClientMock = httpClientMockPut[WriteFileRequest, WriteFileResponse](
       url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
       req = request,
       response = response

@@ -418,14 +418,24 @@ trait TestData extends DummyGithubUrls {
     pull_request_url = ""
   )
 
-  val writeFileResponse = WriteFileResponse(
-    Some(content),
-    commit
-  )
-
   val validCommitter = Committer(
     validUsername,
     "email@example.com"
+  )
+
+  val writeResponseCommit = WriteResponseCommit(
+    sha = validCommitSha,
+    url =
+      "https://api.github.com/repos/47degrees/test-repo2/contents/metrics/calc/test?ref=m3-changes",
+    html_url = "https://github.com/47degrees/test-repo2/blob/m3-changes/metrics/calc/test",
+    author = Some(validCommitter),
+    committer = Some(validCommitter),
+    message = validNote
+  )
+
+  val writeFileResponse = WriteFileResponse(
+    Some(content),
+    writeResponseCommit
   )
 
   val validNameTeam = "47 Devs"

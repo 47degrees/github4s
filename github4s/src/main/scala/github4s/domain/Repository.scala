@@ -167,7 +167,7 @@ case class CombinedStatus(
     repository: StatusRepository
 )
 
-case class WriteFileContentRequest(
+case class WriteFileRequest(
     message: String,
     content: String,
     sha: Option[String] = None,
@@ -184,9 +184,18 @@ case class DeleteFileRequest(
     author: Option[Committer] = None
 )
 
+case class WriteResponseCommit(
+    sha: String,
+    url: String,
+    html_url: String,
+    author: Option[Committer],
+    committer: Option[Committer],
+    message: String
+)
+
 case class WriteFileResponse(
     content: Option[Content],
-    commit: Commit
+    commit: WriteResponseCommit
 )
 
 case class Committer(

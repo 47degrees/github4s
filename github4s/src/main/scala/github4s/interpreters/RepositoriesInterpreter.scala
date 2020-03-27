@@ -87,11 +87,11 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       author: Option[Committer],
       headers: Map[String, String] = Map()
   ): F[GHResponse[WriteFileResponse]] =
-    client.put[WriteFileContentRequest, WriteFileResponse](
+    client.put[WriteFileRequest, WriteFileResponse](
       accessToken,
       s"repos/$owner/$repo/contents/$path",
       headers,
-      WriteFileContentRequest(message, content.toBase64, None, branch, committer, author)
+      WriteFileRequest(message, content.toBase64, None, branch, committer, author)
     )
 
   override def updateFile(
@@ -106,11 +106,11 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       author: Option[Committer],
       headers: Map[String, String] = Map()
   ): F[GHResponse[WriteFileResponse]] =
-    client.put[WriteFileContentRequest, WriteFileResponse](
+    client.put[WriteFileRequest, WriteFileResponse](
       accessToken,
       s"repos/$owner/$repo/contents/$path",
       headers,
-      WriteFileContentRequest(message, content.toBase64, Some(sha), branch, committer, author)
+      WriteFileRequest(message, content.toBase64, Some(sha), branch, committer, author)
     )
 
   override def deleteFile(
