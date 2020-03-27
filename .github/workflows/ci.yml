@@ -22,4 +22,4 @@ jobs:
       - name: Setup Scala
         uses: olafurpg/setup-scala@v7
       - name: Run checks
-        run: sbt ci-test
+        run: sbt +ci-test

@@ -2,8 +2,8 @@ pgpPassphrase := Some(getEnvVar("PGP_PASSPHRASE").getOrElse("").toCharArray)
 
 lazy val root = (project in file("."))
   .settings(moduleName := "github4s-root")
-  .aggregate(allModules: _*)
-  .dependsOn(allModulesDeps: _*)
+  .aggregate(github4s)
+  .dependsOn(github4s)
   .settings(noPublishSettings: _*)
 
 lazy val github4s =
@@ -20,26 +20,18 @@ lazy val github4s =
     )
     .settings(coreDeps: _*)
 
-/////////////////////
-//// ALL MODULES ////
-/////////////////////
-
-lazy val allModules: Seq[ProjectReference] = Seq(github4s)
-
-lazy val allModulesDeps: Seq[ClasspathDependency] =
-  allModules.map(ClasspathDependency(_, None))
-
 //////////
 // DOCS //
 //////////
 
 lazy val docs = (project in file("docs"))
-  .dependsOn(allModulesDeps: _*)
+  .aggregate(github4s)
+  .dependsOn(github4s)
   .settings(moduleName := "github4s-docs")
   .settings(micrositeSettings: _*)
   .settings(docsDependencies: _*)
   .settings(noPublishSettings: _*)
   .enablePlugins(MicrositesPlugin)
 
-addCommandAlias("ci-test", "scalafmtCheck; scalafmtSbtCheck; docs/mdoc; +test")
+addCommandAlias("ci-test", "scalafmtCheck; scalafmtSbtCheck; docs/mdoc; test")
 addCommandAlias("ci-docs", "docs/mdoc")
