@@ -450,7 +450,7 @@ You can create a milestone for a particular organization and repository with `cr
  To create a milestone for owner `47deg` and repository `github4s`:
 
 ```scala mdoc:compile-only
-val milestone = gh.issues.createMilestone("47degrees", "github4s", "New milestone",Some("open"), None, None, None)
+val milestone = gh.issues.createMilestone("47degrees", "github4s", "New milestone",Some("open"), None, None)
 val response = milestone.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
