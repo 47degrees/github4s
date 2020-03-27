@@ -59,6 +59,21 @@ val user1 = Github[IO](httpClient, accessToken).users.get("rafaparadela")
 
 `user1` in this case is a `IO[GHResponse[User]]`.
 
+It is also possible to pass a custom GitHub configuration (e.g. a GitHub Enterprise server endpoint)
+by declaring an implicit `GithubConfig` value in the scope:
+
+```scala mdoc:silent
+import github4s.{Github, GithubConfig}
+
+implicit val config =
+  GithubConfig(baseUrl = "custom GitHub server API endpoint",  authorizeUrl = ???, accessTokenUrl = ???)
+
+val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val github = Github[IO](httpClient, accessToken)
+
+```
+Please refer your GitHub server docs for exact configuration values.
+
 ### Using `F[_]: cats.effect.Sync`
 
 Any type with a `cats.effect.Sync` instance can be used with this example, such as
