@@ -40,3 +40,6 @@ lazy val docs = (project in file("docs"))
   .settings(docsDependencies: _*)
   .settings(noPublishSettings: _*)
   .enablePlugins(MicrositesPlugin)
+
+addCommandAlias("ci-test", "scalafmtCheck; scalafmtSbtCheck; docs/mdoc; test")
+addCommandAlias("ci-docs", "docs/mdoc")
