@@ -53,7 +53,7 @@ As an introductory example, we can get a user with the following:
 
 ```scala mdoc:silent
 import github4s.Github
-val accessToken = sys.env.get("GITHUB_TOKEN")
+val accessToken = sys.env.get("G4S_TOKEN")
 val user1 = Github[IO](httpClient, accessToken).users.get("rafaparadela")
 ```
 

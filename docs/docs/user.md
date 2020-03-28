@@ -31,7 +31,7 @@ val httpClient: Client[IO] = {
   JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
 }
 
-val accessToken = sys.env.get("GITHUB_TOKEN")
+val accessToken = sys.env.get("G4S_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
 ```
 
