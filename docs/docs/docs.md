@@ -194,9 +194,9 @@ scope:
 import github4s.{Github, GithubConfig}
 
 implicit val config = GithubConfig(
-  baseUrl = ???,       // default: "https://api.github.com/"
-  authorizeUrl = ???,  // default: "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s"
-  accessTokenUrl = ??? // default: "https://github.com/login/oauth/access_token"
+  baseUrl = "",       // default: "https://api.github.com/"
+  authorizeUrl = "",  // default: "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s"
+  accessTokenUrl = "" // default: "https://github.com/login/oauth/access_token"
 )
 
 val github = Github[IO](httpClient, None)
