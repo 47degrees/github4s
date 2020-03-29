@@ -199,7 +199,7 @@ implicit val config = GithubConfig(
   accessTokenUrl = ??? // default: "https://github.com/login/oauth/access_token"
 )
 
-val github = Github[IO](httpClient, "")
+val github = Github[IO](httpClient, None)
 ```
 Please refer your GitHub Enterprise server docs for exact URL values for `baseUrl`, `authorizeUrl` and `accessTokenUrl`.
 
