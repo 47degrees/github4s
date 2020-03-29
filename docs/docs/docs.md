@@ -59,21 +59,6 @@ val user1 = Github[IO](httpClient, accessToken).users.get("rafaparadela")
 
 `user1` in this case is a `IO[GHResponse[User]]`.
 
-It is also possible to pass a custom GitHub configuration (e.g. a GitHub Enterprise server endpoint)
-by declaring an implicit `GithubConfig` value in the scope:
-
-```scala mdoc:silent
-import github4s.{Github, GithubConfig}
-
-implicit val config =
-  GithubConfig(baseUrl = "custom GitHub server API endpoint",  authorizeUrl = ???, accessTokenUrl = ???)
-
-val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
-val github = Github[IO](httpClient, accessToken)
-
-```
-Please refer your GitHub server docs for exact configuration values.
-
 ### Using `F[_]: cats.effect.Sync`
 
 Any type with a `cats.effect.Sync` instance can be used with this example, such as
@@ -197,7 +182,30 @@ object ProgramEvalWithHeaders {
 }
 ```
 
+## Using github4s with GitHub Enterprise
+
+By default `Github` instances are configured for the [public GitHub][public-github] endpoints via a fallback
+`GithubConfig` instance which is picked up by the `Github` constructor if there's no other `GithubConfig` in the scope. 
+
+It is also possible to pass a custom GitHub configuration (e.g. for a particular [GitHub Enterprise][github-enterprise]
+server). To override the default configuration values declare a custom `GithubConfig` instance in an appropriate
+scope:
+```scala mdoc:silent
+import github4s.{Github, GithubConfig}
+
+implicit val config = GithubConfig(
+  baseUrl = ???,       // default: "https://api.github.com/"
+  authorizeUrl = ???,  // default: "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s"
+  accessTokenUrl = ??? // default: "https://github.com/login/oauth/access_token"
+)
+
+val github = Github[IO](httpClient, "")
+```
+Please refer your GitHub Enterprise server docs for exact URL values for `baseUrl`, `authorizeUrl` and `accessTokenUrl`.
+
 [access-token]: https://github.com/settings/tokens
 [cats-sync]: https://typelevel.org/cats-effect/typeclasses/sync.html
 [monix-task]: https://monix.io/docs/3x/eval/task.html
 [http4s-client]: https://http4s.org/v0.21/client/
+[public-github]: https://github.com
+[github-enterprise]: https://github.com/enterprise
