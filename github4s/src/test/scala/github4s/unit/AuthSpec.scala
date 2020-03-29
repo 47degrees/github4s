@@ -71,7 +71,7 @@ class AuthSpec extends BaseSpec {
     )
 
     implicit val httpClientMock = httpClientMockPostOAuth[NewOAuthRequest, OAuthToken](
-      url = "https://github.com/login/oauth/access_token",
+      url = dummyUrls.accessTokenUrl,
       req = request,
       response = response
     )

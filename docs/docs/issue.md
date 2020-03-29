@@ -50,7 +50,7 @@ val httpClient: Client[IO] = {
   JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
 }
 
-val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val accessToken = sys.env.get("G4S_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
 ```
 
@@ -436,6 +436,35 @@ See [the API doc](https://developer.github.com/v3/issues/milestones/#list-milest
 
 [milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
 
+### Create milestone
+
+You can create a milestone for a particular organization and repository with `createMilestone`; it takes arguments:
+
+ - `owner`: name of the owner for which we want to create the milestones.
+ - `repo`: name of the repository for which we want to create the milestones.
+ - `state`: The state of the milestone. Either `open` or `closed`. Default: `open`, optional
+ - `title`: The title of the milestone.
+ - `description`: A description of the milestone, optional
+ - `due_on`: The milestone due date. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`, optional.
+ - `header`: headers to include in the request, optional.
+
+ To create a milestone for owner `47deg` and repository `github4s`:
+
+```scala mdoc:compile-only
+val milestone = gh.issues.createMilestone("47degrees", "github4s", "New milestone",Some("open"), None, None)
+val response = milestone.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding [Milestone][milestone-scala]
+
+See [the API doc](https://developer.github.com/v3/issues/milestones/#create-a-milestone) for full reference.
+
+[milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
+
 ### Get a single milestone
 
 You can also get a single milestone of a repository through `getMilestone`; it takes as arguments:
@@ -459,34 +488,5 @@ response.result match {
 The `result` on the right is the corresponding [Milestone][milestone-scala]
 
 See [the API doc](https://developer.github.com/v3/issues/milestones/#get-a-single-milestone) for full reference.
-
-[milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
-
-### Create milestone
-
-You can create a milestone for a particular organization and repository with `createMilestone`; it takes arguments:
-
- - `owner`: name of the owner for which we want to create the milestones.
- - `repo`: name of the repository for which we want to create the milestones.
- - `state`: The state of the milestone. Either `open` or `closed`. Default: `open`, optional
- - `title`: The title of the milestone.
- - `description`: A description of the milestone, optional
- - `due_on`: The milestone due date. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`, optional.
- - `header`: headers to include in the request, optional.
-
- To create a milestone for owner `47deg` and repository `github4s`:
-
-```scala mdoc:compile-only
-val milestone = gh.issues.createMilestone("47degrees", "github4s", "New milestone",Some("open"), None, None, None)
-val response = milestone.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
-```
-
-The `result` on the right is the corresponding [Milestone][milestone-scala]
-
-See [the API doc](https://developer.github.com/v3/issues/milestones/#create-a-milestone) for full reference.
 
 [milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala

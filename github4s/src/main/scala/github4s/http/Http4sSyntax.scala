@@ -16,11 +16,10 @@
 
 package github4s.http
 
-import org.http4s._
-import org.http4s.MediaType
-import org.http4s.Headers
-import io.circe.{Encoder, Json, Printer}
+import github4s.GithubConfig
 import io.circe.syntax._
+import io.circe.{Encoder, Json, Printer}
+import org.http4s._
 import org.http4s.headers.`Content-Type`
 
 object Http4sSyntax {
@@ -49,8 +48,8 @@ object Http4sSyntax {
       (self.headers.map(kv => Header(kv._1, kv._2)) ++
         self.authHeader.map(kv => Header(kv._1, kv._2))).toList
 
-    def toUri(urls: GithubAPIv3Config): Uri =
-      Uri.fromString(self.url).getOrElse(Uri.unsafeFromString(urls.baseUrl)) =?
+    def toUri(config: GithubConfig): Uri =
+      Uri.fromString(self.url).getOrElse(Uri.unsafeFromString(config.baseUrl)) =?
         self.params.map(kv => (kv._1, List(kv._2)))
 
   }

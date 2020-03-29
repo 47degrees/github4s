@@ -17,14 +17,15 @@
 package github4s.utils
 
 import cats.effect.IO
+import github4s.GithubConfig
 import github4s.GithubResponses.GHResponse
 import github4s.domain.Pagination
 import github4s.http.HttpClient
 import io.circe.{Decoder, Encoder}
 import org.http4s.client.Client
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory {
 
@@ -32,7 +33,7 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
   implicit val io = cats.effect.IO.contextShift(ec)
 
   @com.github.ghik.silencer.silent("deprecated")
-  class HttpClientTest extends HttpClient[IO](mock[Client[IO]])
+  class HttpClientTest extends HttpClient[IO](mock[Client[IO]], implicitly[GithubConfig])
 
   def httpClientMockGet[Out](
       url: String,

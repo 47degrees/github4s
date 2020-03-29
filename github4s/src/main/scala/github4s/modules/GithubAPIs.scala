@@ -17,6 +17,7 @@
 package github4s.modules
 
 import cats.effect.Sync
+import github4s.GithubConfig
 import github4s.algebras._
 import github4s.http.HttpClient
 import github4s.interpreters._
@@ -36,10 +37,13 @@ sealed trait GithubAPIs[F[_]] {
   def projects: Projects[F]
 }
 
-class GithubAPIv3[F[_]: Sync](client: Client[F], accessToken: Option[String] = None)
-    extends GithubAPIs[F] {
+class GithubAPIv3[F[_]: Sync](
+    client: Client[F],
+    config: GithubConfig,
+    accessToken: Option[String] = None
+) extends GithubAPIs[F] {
 
-  implicit val httpClient = new HttpClient[F](client)
+  implicit val httpClient = new HttpClient[F](client, config)
   implicit val at         = accessToken
 
   override val users: Users[F]                 = new UsersInterpreter[F]

@@ -1,16 +1,63 @@
-_site/
-target/
-*.sc
+### Intellij ###
+
 .idea
-docs/src/jekyll/_site/
-docs/src/jekyll/*.md
+out/
+
+### Java ###
+
+*.class
+*.log
+
+### macOS ###
+
 .DS_Store
 
-# Auto-copied from CHANGELOG.md in the project's root
-docs/src/main/tut/changelog.md
+### SBT ###
 
-# PGP keys
-secret_key.asc
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
 
-.metals/
-project/.bloop/
+### Scala ###
+
+*.metals
+
+### Vim ###
+
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+Sessionx.vim
+
+# Temporary
+.netrwhist
+
+# Auto-generated tag files
+tags
+
+# Persistent undo
+[._]*.un~
+
+# Coc configuration directory
+.vim
+
+### VisualStudioCode ###
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+

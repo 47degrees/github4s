@@ -141,6 +141,7 @@ trait TestData extends DummyGithubUrls {
   val validNodeId      = "MDY6U3RhdHVzMQ=="
 
   val validMilestoneTitle = "Sample Title"
+  val validMilestoneDueOn = "2012-10-09T23:39:01Z"
 
   val treeDataList: List[TreeData] = List(
     TreeDataSha(validPath, validMode, validBlobType, validTreeSha)
