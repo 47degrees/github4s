@@ -31,9 +31,14 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
 
   implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
   implicit val io = cats.effect.IO.contextShift(ec)
+  implicit val dummyConfig: GithubConfig = GithubConfig(
+    baseUrl = "http://127.0.0.1:9999/",
+    authorizeUrl = "http://127.0.0.1:9999/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s",
+    accessTokenUrl = "http://127.0.0.1:9999/login/oauth/access_token"
+  )
 
   @com.github.ghik.silencer.silent("deprecated")
-  class HttpClientTest extends HttpClient[IO](mock[Client[IO]], implicitly[GithubConfig])
+  class HttpClientTest extends HttpClient[IO](mock[Client[IO]], implicitly)
 
   def httpClientMockGet[Out](
       url: String,

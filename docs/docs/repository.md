@@ -120,7 +120,7 @@ response.result match {
 
 The `result` on the right is the corresponding [List[Repository]][repository-scala].
 
-See [the API doc](https://developer.github.com/v3/repos/#list-user-repositories) for full
+See [the API doc](https://developer.github.com/v3/repos/#list-repositories-for-a-user) for full
 reference.
 
 ### List contributors
