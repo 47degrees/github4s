@@ -474,7 +474,7 @@ You can also get a single milestone of a repository through `getMilestone`; it t
 - `number`: The milestone number.
 - `header`: headers to include in the request, optional.
 
- The milestone for owner `47deg` and repository `github4s`:
+ To get milestone number 3254 for owner `47deg` and repository `github4s`:
 
 ```scala mdoc:compile-only
 val milestone = gh.issues.getMilestone("47degrees", "github4s", "3254")
