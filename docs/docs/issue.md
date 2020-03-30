@@ -469,9 +469,9 @@ See [the API doc](https://developer.github.com/v3/issues/milestones/#create-a-mi
 
 You can also get a single milestone of a repository through `getMilestone`; it takes as arguments:
 
-- `number`: The milestone number.
 - `owner`: name of the owner for which we want to retrieve the milestones.
 - `repo`: name of the repository for which we want to retrieve the milestones.
+- `number`: The milestone number.
 - `header`: headers to include in the request, optional.
 
  The milestone for owner `47deg` and repository `github4s`:
