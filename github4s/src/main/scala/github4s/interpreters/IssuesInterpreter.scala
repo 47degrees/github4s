@@ -236,7 +236,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
   override def getMilestone(
       owner: String,
       repo: String,
-      number: String,
+      number: Int,
       headers: Map[String, String]
   ): F[GHResponse[Milestone]] =
     client.get[Milestone](accessToken, s"repos/$owner/$repo/milestones/$number", headers)

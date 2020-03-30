@@ -477,7 +477,7 @@ You can also get a single milestone of a repository through `getMilestone`; it t
  The milestone for owner `47deg` and repository `github4s`:
 
 ```scala mdoc:compile-only
-val milestone = gh.issues.getMilestone("47degrees", "github4s", "3254")
+val milestone = gh.issues.getMilestone("47degrees", "github4s", 32)
 val response = milestone.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

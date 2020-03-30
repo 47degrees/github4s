@@ -103,7 +103,7 @@ case class Milestone(
     created_at: String,
     updated_at: String,
     closed_at: Option[String],
-    due_on: String
+    due_on: Option[String]
 )
 
 case class MilestoneData(

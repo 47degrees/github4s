@@ -350,7 +350,7 @@ trait Issues[F[_]] {
   def getMilestone(
       owner: String,
       repo: String,
-      number: String,
+      number: Int,
       headers: Map[String, String] = Map()
   ): F[GHResponse[Milestone]]
 

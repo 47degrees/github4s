@@ -142,8 +142,8 @@ trait TestData {
 
   val validMilestoneTitle    = "Sample Title"
   val validMilestoneDueOn    = "2012-10-09T23:39:01Z"
-  val validMilestoneNumber   = "1"
-  val invalidMilestoneNumber = "00000"
+  val validMilestoneNumber   = 1
+  val invalidMilestoneNumber = 9999999
 
   val treeDataList: List[TreeData] = List(
     TreeDataSha(validPath, validMode, validBlobType, validTreeSha)
@@ -526,40 +526,40 @@ trait TestData {
   )
 
   val milestone = Milestone(
-    url = "https://api.github.com/repos/47deg/github4s/milestones/1",
-    html_url = "https://github.com/47deg/github4s/milestone/1",
-    labels_url = "https://api.github.com/repos/47deg/github4s/milestones/1/labels",
-    id = 5166230,
-    node_id = "MDk6TWlsZXN0b25lNTE2NjIzMA==",
+    url = "https://api.github.com/repos/47degrees/github4s/milestones/1",
+    html_url = "https://github.com/47degrees/github4s/milestone/1",
+    labels_url = "https://api.github.com/repos/47degrees/github4s/milestones/1/labels",
+    id = 5254186,
+    node_id = "MDk6TWlsZXN0b25lNTI1NDE4Ng==",
     number = 1,
-    title = "MVP",
+    title = "Placeholder",
     description = "",
     creator = Creator(
-      login = "rafaparadela",
-      id = 315070,
-      node_id = "MDQ6VXNlcjMxNTA3MA==",
-      avatar_url = "https://avatars3.githubusercontent.com/u/315070?v=4",
+      login = "BenFradet",
+      id = 1737211,
+      node_id = "MDQ6VXNlcjE3MzcyMTE=",
+      avatar_url = "https://avatars2.githubusercontent.com/u/1737211?v=4",
       gravatar_id = None,
-      url = "https://api.github.com/users/rafaparadela",
-      html_url = "https://github.com/rafaparadela",
-      followers_url = "https://api.github.com/users/rafaparadela/followers",
-      following_url = "https://api.github.com/users/rafaparadela/following{/other_user}",
-      gists_url = "https://api.github.com/users/rafaparadela/gists{/gist_id}",
-      starred_url = "https://api.github.com/users/rafaparadela/starred{/owner}{/repo}",
-      subscriptions_url = "https://api.github.com/users/rafaparadela/subscriptions",
-      organizations_url = "https://api.github.com/users/rafaparadela/orgs",
-      repos_url = "https://api.github.com/users/rafaparadela/repos",
-      events_url = "https://api.github.com/users/rafaparadela/events{/privacy}",
-      received_events_url = "https://api.github.com/users/rafaparadela/received_events",
+      url = "https://api.github.com/users/BenFradet",
+      html_url = "https://github.com/BenFradet",
+      followers_url = "https://api.github.com/users/BenFradet/followers",
+      following_url = "https://api.github.com/users/BenFradet/following{/other_user}",
+      gists_url = "https://api.github.com/users/BenFradet/gists{/gist_id}",
+      starred_url = "https://api.github.com/users/BenFradet/starred{/owner}{/repo}",
+      subscriptions_url = "https://api.github.com/users/BenFradet/subscriptions",
+      organizations_url = "https://api.github.com/users/BenFradet/orgs",
+      repos_url = "https://api.github.com/users/BenFradet/repos",
+      events_url = "https://api.github.com/users/BenFradet/events{/privacy}",
+      received_events_url = "https://api.github.com/users/BenFradet/received_events",
       `type` = "User",
       site_admin = false
     ),
-    open_issues = 6,
-    closed_issues = 6,
+    open_issues = 0,
+    closed_issues = 0,
     state = "open",
-    created_at = "2020-03-04T06:02:13Z",
-    updated_at = "2020-03-25T15:59:06Z",
-    due_on = "2012-10-09T23:39:01Z",
+    created_at = "2020-03-30T19:54:21Z",
+    updated_at = "2020-03-30T19:54:21Z",
+    due_on = None,
     closed_at = None
   )
 

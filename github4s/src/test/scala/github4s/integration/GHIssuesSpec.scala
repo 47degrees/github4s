@@ -238,7 +238,7 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[List[Milestone]](response)
+    testIsRight[List[Milestone]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
 
@@ -273,7 +273,24 @@ trait GHIssuesSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
-  "GHIssues >> GetMilestone" should "return error for an invalid number" taggedAs Integration in {
+  "GHIssues >> GetMilestone" should "return a milestone for a valid number" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues
+          .getMilestone(
+            validRepoOwner,
+            validRepoName,
+            validMilestoneNumber,
+            headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[Milestone](response, r => r.number shouldBe validMilestoneNumber)
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return error for an invalid number" taggedAs Integration in {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
