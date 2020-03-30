@@ -21,7 +21,7 @@ import java.util.UUID
 import com.github.marklister.base64.Base64._
 import github4s.domain.{Stargazer, StarredRepository, Subscription, _}
 
-trait TestData extends DummyGithubUrls {
+trait TestData {
 
   val sampleToken: Option[String]          = Some("token")
   val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
