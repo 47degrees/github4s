@@ -557,7 +557,6 @@
 - Adds some git methods [\#67](https://github.com/47degrees/github4s/pull/67) ([fedefernandez](https://github.com/fedefernandez))
 - Bumps sbt-org-policies plugin version [\#66](https://github.com/47degrees/github4s/pull/66) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Excludes BuildInfo class from packaging [\#65](https://github.com/47degrees/github4s/pull/65) ([juanpedromoreno](https://github.com/juanpedromoreno))
-- Adds some optional fields to the User model [\#61](https://github.com/47degrees/github4s/pull/61) ([fedefernandez](https://github.com/fedefernandez))
 
 ## [v0.12.0](https://github.com/47degrees/github4s/tree/v0.12.0) (2017-03-22)
 
@@ -582,6 +581,7 @@
 **Merged pull requests:**
 
 - Adds rings for publish artifacts [\#62](https://github.com/47degrees/github4s/pull/62) ([fedefernandez](https://github.com/fedefernandez))
+- Adds some optional fields to the User model [\#61](https://github.com/47degrees/github4s/pull/61) ([fedefernandez](https://github.com/fedefernandez))
 - Update CHANGELOG.md [\#60](https://github.com/47degrees/github4s/pull/60) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Fixes Docs in Travis [\#59](https://github.com/47degrees/github4s/pull/59) ([juanpedromoreno](https://github.com/juanpedromoreno))
 
