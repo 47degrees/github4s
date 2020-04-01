@@ -127,7 +127,7 @@ The first step we need to take in order to run the tests is a valid token which 
 environment variable:
 
 ```bash
-export G4S_TOKEN=aaaa
+export GITHUB_TOKEN=aaaa
 ```
 
 You can create a token on Github: <https://github.com/settings/tokens>.

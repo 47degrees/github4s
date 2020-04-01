@@ -14,7 +14,7 @@ lazy val github4s =
       buildInfoKeys := Seq[BuildInfoKey](
         name,
         version,
-        "token" -> sys.env.getOrElse("G4S_TOKEN", "")
+        "token" -> sys.env.getOrElse("GITHUB_TOKEN", "")
       ),
       buildInfoPackage := "github4s"
     )

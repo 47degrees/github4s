@@ -13,7 +13,7 @@ jobs:
   documentation:
     runs-on: ubuntu-latest
     env:
-      G4S_TOKEN: ${{ secrets.ADMIN_GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.ADMIN_GITHUB_TOKEN }}
     steps:
       - name: Checkout project
         uses: actions/checkout@v2

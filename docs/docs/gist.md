@@ -31,7 +31,7 @@ val httpClient: Client[IO] = {
   JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
 }
 
-val accessToken = sys.env.get("G4S_TOKEN")
+val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
 ```
 
@@ -49,7 +49,7 @@ To create a gist:
 ```scala mdoc:compile-only
 import github4s.domain.GistFile
 val gistfiles = Map(
-  "token.scala" -> GistFile("val accessToken = sys.env.get(\"G4S_TOKEN\")"),
+  "token.scala" -> GistFile("val accessToken = sys.env.get(\"GITHUB_TOKEN\")"),
   "gh4s.scala"  -> GistFile("val gh = Github(accessToken)")
 )
 val newGist = gh.gists.newGist("Github4s entry point", public = true, gistfiles)
@@ -111,7 +111,7 @@ To edit a gist (change description, update content of _token.scala_, rename _gh4
 ```scala mdoc:compile-only
 import github4s.domain.EditGistFile
 val editfiles = Map(
-  "token.scala" -> Some(EditGistFile("lazy val accessToken = sys.env.get(\"G4S_TOKEN\")")),
+  "token.scala" -> Some(EditGistFile("lazy val accessToken = sys.env.get(\"GITHUB_TOKEN\")")),
   "gh4s.scala"  -> Some(EditGistFile("val gh = Github(accessToken)", Some("GH4s.scala"))),
   "token.class"  -> None
 )
