@@ -21,6 +21,7 @@
 
 **Merged pull requests:**
 
+- Renames GH token env var [\#405](https://github.com/47degrees/github4s/pull/405) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Updated and delete milestone [\#402](https://github.com/47degrees/github4s/pull/402) ([anamariamv](https://github.com/anamariamv))
 - Don't propagate dummy configuration to integration tests [\#401](https://github.com/47degrees/github4s/pull/401) ([BenFradet](https://github.com/BenFradet))
 - Get single milestone [\#400](https://github.com/47degrees/github4s/pull/400) ([anamariamv](https://github.com/anamariamv))
