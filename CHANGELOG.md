@@ -14,7 +14,6 @@
 - Support for private GitHub Enterprise installations [\#379](https://github.com/47degrees/github4s/issues/379)
 - Shutting down connection pool info messages [\#371](https://github.com/47degrees/github4s/issues/371)
 - Clarify error handling design [\#363](https://github.com/47degrees/github4s/issues/363)
-- Include an example using F in the docs [\#356](https://github.com/47degrees/github4s/issues/356)
 - Remove list statuses test flakiness [\#300](https://github.com/47degrees/github4s/issues/300)
 - Traversing with Pagination [\#285](https://github.com/47degrees/github4s/issues/285)
 - Wrong API endpoint for listUserRepos [\#255](https://github.com/47degrees/github4s/issues/255)
@@ -57,6 +56,7 @@
 **Closed issues:**
 
 - Remove unnecessary folder structure [\#357](https://github.com/47degrees/github4s/issues/357)
+- Include an example using F in the docs [\#356](https://github.com/47degrees/github4s/issues/356)
 - Integrate a new API: Get the list of labels in a project [\#341](https://github.com/47degrees/github4s/issues/341)
 
 **Merged pull requests:**
@@ -66,6 +66,7 @@
 - Update sbt-mdoc to 2.1.3 [\#369](https://github.com/47degrees/github4s/pull/369) ([scala-steward](https://github.com/scala-steward))
 - Introduce sbt-tpolecat [\#368](https://github.com/47degrees/github4s/pull/368) ([BenFradet](https://github.com/BenFradet))
 - Rework GHResponse to incorporate useful data on unhappy path [\#367](https://github.com/47degrees/github4s/pull/367) ([BenFradet](https://github.com/BenFradet))
+- Update sbt-microsites to 1.1.3 [\#366](https://github.com/47degrees/github4s/pull/366) ([scala-steward](https://github.com/scala-steward))
 - List repository projects  [\#365](https://github.com/47degrees/github4s/pull/365) ([anamariamv](https://github.com/anamariamv))
 - List cards [\#364](https://github.com/47degrees/github4s/pull/364) ([bond15](https://github.com/bond15))
 - List milestone and List Labels in a project [\#359](https://github.com/47degrees/github4s/pull/359) ([anamariamv](https://github.com/anamariamv))
@@ -93,7 +94,6 @@
 
 **Merged pull requests:**
 
-- Update sbt-microsites to 1.1.3 [\#366](https://github.com/47degrees/github4s/pull/366) ([scala-steward](https://github.com/scala-steward))
 - Releases 0.22.0 [\#355](https://github.com/47degrees/github4s/pull/355) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Lower the minimum code coverage threshold to 75% [\#353](https://github.com/47degrees/github4s/pull/353) ([BenFradet](https://github.com/BenFradet))
 - Update sbt-org-policies to 0.13.1 [\#352](https://github.com/47degrees/github4s/pull/352) ([BenFradet](https://github.com/BenFradet))
