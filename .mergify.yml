@@ -1,7 +1,8 @@
 pull_request_rules:
-  - name: automatically merge & label scala-steward's PRs
+  - name: automatically merge & label bots' PRs
     conditions:
       - author=scala-steward
+      - author=developer47deg
       - status-success=test
     actions:
       merge:
