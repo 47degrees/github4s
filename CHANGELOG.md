@@ -28,6 +28,7 @@
 - Fix API documentation link for the user repos endpoint [\#399](https://github.com/47degrees/github4s/pull/399) ([BenFradet](https://github.com/BenFradet))
 - Renames Token Env Var [\#397](https://github.com/47degrees/github4s/pull/397) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - API: Create milestone [\#391](https://github.com/47degrees/github4s/pull/391) ([anamariamv](https://github.com/anamariamv))
+- feat: add Create / Update / Delete requests [\#390](https://github.com/47degrees/github4s/pull/390) ([kalexmills](https://github.com/kalexmills))
 - Update http4s-blaze-client, http4s-circe to 0.21.2 [\#387](https://github.com/47degrees/github4s/pull/387) ([scala-steward](https://github.com/scala-steward))
 - Update mockserver-netty to 5.10 [\#386](https://github.com/47degrees/github4s/pull/386) ([scala-steward](https://github.com/scala-steward))
 - Introduces custom GitHub configuration [\#384](https://github.com/47degrees/github4s/pull/384) ([satorg](https://github.com/satorg))
