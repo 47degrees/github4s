@@ -16,13 +16,12 @@
 
 package github4s.utils
 
-import com.github.marklister.base64.Base64._
-import github4s.domain._
 import java.util.UUID
 
-import github4s.domain.{Stargazer, StarredRepository, Subscription}
+import com.github.marklister.base64.Base64._
+import github4s.domain.{Stargazer, StarredRepository, Subscription, _}
 
-trait TestData extends DummyGithubUrls {
+trait TestData {
 
   val sampleToken: Option[String]          = Some("token")
   val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
@@ -142,6 +141,11 @@ trait TestData extends DummyGithubUrls {
   val validBlobType    = "blob"
   val validAvatarUrl   = "https://github.com/images/error/hubot_happy.gif"
   val validNodeId      = "MDY6U3RhdHVzMQ=="
+
+  val validMilestoneTitle    = "Sample Title"
+  val validMilestoneDueOn    = "2012-10-09T23:39:01Z"
+  val validMilestoneNumber   = 1
+  val invalidMilestoneNumber = 9999999
 
   val treeDataList: List[TreeData] = List(
     TreeDataSha(validPath, validMode, validBlobType, validTreeSha)
@@ -541,6 +545,44 @@ trait TestData extends DummyGithubUrls {
     updated_at = "2019-07-04T09:39:01Z",
     column_url = "https://api.github.com/projects/columns/8271018",
     content_url = None
+  )
+
+  val milestone = Milestone(
+    url = "https://api.github.com/repos/47degrees/github4s/milestones/1",
+    html_url = "https://github.com/47degrees/github4s/milestone/1",
+    labels_url = "https://api.github.com/repos/47degrees/github4s/milestones/1/labels",
+    id = 5254186,
+    node_id = "MDk6TWlsZXN0b25lNTI1NDE4Ng==",
+    number = 1,
+    title = "Placeholder",
+    description = "",
+    creator = Creator(
+      login = "BenFradet",
+      id = 1737211,
+      node_id = "MDQ6VXNlcjE3MzcyMTE=",
+      avatar_url = "https://avatars2.githubusercontent.com/u/1737211?v=4",
+      gravatar_id = None,
+      url = "https://api.github.com/users/BenFradet",
+      html_url = "https://github.com/BenFradet",
+      followers_url = "https://api.github.com/users/BenFradet/followers",
+      following_url = "https://api.github.com/users/BenFradet/following{/other_user}",
+      gists_url = "https://api.github.com/users/BenFradet/gists{/gist_id}",
+      starred_url = "https://api.github.com/users/BenFradet/starred{/owner}{/repo}",
+      subscriptions_url = "https://api.github.com/users/BenFradet/subscriptions",
+      organizations_url = "https://api.github.com/users/BenFradet/orgs",
+      repos_url = "https://api.github.com/users/BenFradet/repos",
+      events_url = "https://api.github.com/users/BenFradet/events{/privacy}",
+      received_events_url = "https://api.github.com/users/BenFradet/received_events",
+      `type` = "User",
+      site_admin = false
+    ),
+    open_issues = 0,
+    closed_issues = 0,
+    state = "open",
+    created_at = "2020-03-30T19:54:21Z",
+    updated_at = "2020-03-30T19:54:21Z",
+    due_on = None,
+    closed_at = None
   )
 
 }

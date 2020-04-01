@@ -21,6 +21,8 @@ import github4s.algebras.Issues
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
 import java.net.URLEncoder.encode
+import java.time.ZonedDateTime
+
 import github4s.Decoders._
 import github4s.Encoders._
 
@@ -214,4 +216,52 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       params =
         List(state.map("state" -> _), sort.map("sort" -> _), direction.map("direction" -> _)).flatten.toMap
     )
+
+  override def createMilestone(
+      owner: String,
+      repo: String,
+      title: String,
+      state: Option[String],
+      description: Option[String],
+      due_on: Option[ZonedDateTime],
+      headers: Map[String, String]
+  ): F[GHResponse[Milestone]] =
+    client.post[MilestoneData, Milestone](
+      accessToken,
+      s"repos/$owner/$repo/milestones",
+      headers,
+      MilestoneData(title, state, description, due_on)
+    )
+
+  override def getMilestone(
+      owner: String,
+      repo: String,
+      number: Int,
+      headers: Map[String, String]
+  ): F[GHResponse[Milestone]] =
+    client.get[Milestone](accessToken, s"repos/$owner/$repo/milestones/$number", headers)
+
+  override def updateMilestone(
+      owner: String,
+      repo: String,
+      milestone_number: Int,
+      title: String,
+      state: Option[String],
+      description: Option[String],
+      due_on: Option[ZonedDateTime],
+      headers: Map[String, String]
+  ): F[GHResponse[Milestone]] = client.patch[MilestoneData, Milestone](
+    accessToken,
+    s"repos/$owner/$repo/milestones/$milestone_number",
+    headers,
+    data = MilestoneData(title, state, description, due_on)
+  )
+
+  override def deleteMilestone(
+      owner: String,
+      repo: String,
+      milestone_number: Int,
+      headers: Map[String, String]
+  ): F[GHResponse[Unit]] =
+    client.delete(accessToken, s"repos/$owner/$repo/milestones/$milestone_number", headers)
 }

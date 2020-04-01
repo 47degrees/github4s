@@ -56,7 +56,7 @@ class AuthInterpreter[F[_]: Applicative](
     val result: GHResponse[Authorize] =
       GHResponse(
         result = Authorize(
-          client.urls.authorizeUrl.format(client_id, redirect_uri, scopes.mkString(","), state),
+          client.config.authorizeUrl.format(client_id, redirect_uri, scopes.mkString(","), state),
           state
         ).asRight,
         statusCode = 200,
@@ -74,7 +74,7 @@ class AuthInterpreter[F[_]: Applicative](
       headers: Map[String, String] = Map()
   ): F[GHResponse[OAuthToken]] =
     client.postOAuth[NewOAuthRequest, OAuthToken](
-      url = client.urls.accessTokenUrl,
+      url = client.config.accessTokenUrl,
       headers = headers,
       data = NewOAuthRequest(client_id, client_secret, code, redirect_uri, state)
     )

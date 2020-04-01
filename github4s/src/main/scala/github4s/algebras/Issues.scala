@@ -16,6 +16,8 @@
 
 package github4s.algebras
 
+import java.time.ZonedDateTime
+
 import github4s.GithubResponses.GHResponse
 import github4s.domain._
 
@@ -314,4 +316,81 @@ trait Issues[F[_]] {
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Milestone]]]
 
+  /**
+   * Create a milestone
+   *
+   * @param owner repo owner
+   * @param repo repo name
+   * @param title The title of the milestone.
+   * @param state The state of the milestone. Either open or closed. Default: open
+   * @param description A description of the milestone.
+   * @param due_on 	The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the created Milestone
+   */
+  def createMilestone(
+      owner: String,
+      repo: String,
+      title: String,
+      state: Option[String],
+      description: Option[String],
+      due_on: Option[ZonedDateTime],
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Milestone]]
+
+  /**
+   * Get a single milestone
+   *
+   * @param owner repo owner
+   * @param repo repo name
+   * @param number Milestone number
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with a Milestone
+   */
+  def getMilestone(
+      owner: String,
+      repo: String,
+      number: Int,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Milestone]]
+
+  /**
+   * Update a milestone
+   *
+   * @param owner repo owner
+   * @param repo repo name
+   * @param milestone_number number of milestone
+   * @param title The title of the milestone.
+   * @param state The state of the milestone. Either open or closed. Default: open
+   * @param description A description of the milestone.
+   * @param due_on 	The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the updated Milestone
+   */
+  def updateMilestone(
+      owner: String,
+      repo: String,
+      milestone_number: Int,
+      title: String,
+      state: Option[String],
+      description: Option[String],
+      due_on: Option[ZonedDateTime],
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Milestone]]
+
+  /**
+   * Delete a milestone
+   *
+   * @param owner repo owner
+   * @param repo repo name
+   * @param milestone_number number of milestone
+   * @param headers optional user headers to include in the request
+   * @return a Unit GHResponse
+   */
+  def deleteMilestone(
+      owner: String,
+      repo: String,
+      milestone_number: Int,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Unit]]
 }

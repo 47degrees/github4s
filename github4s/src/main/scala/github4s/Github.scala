@@ -24,10 +24,9 @@ import org.http4s.client.Client
 class Github[F[_]: Sync](
     client: Client[F],
     accessToken: Option[String]
-) {
+)(implicit config: GithubConfig) {
 
-  private lazy val module: GithubAPIs[F] =
-    new GithubAPIv3[F](client, accessToken)
+  private lazy val module: GithubAPIs[F] = new GithubAPIv3[F](client, config, accessToken)
 
   lazy val users: Users[F]                 = module.users
   lazy val repos: Repositories[F]          = module.repos
@@ -47,7 +46,6 @@ object Github {
   def apply[F[_]: Sync](
       client: Client[F],
       accessToken: Option[String] = None
-  ): Github[F] =
+  )(implicit config: GithubConfig): Github[F] =
     new Github[F](client, accessToken)
-
 }

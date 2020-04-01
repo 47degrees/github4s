@@ -17,22 +17,28 @@
 package github4s.utils
 
 import cats.effect.IO
+import github4s.GithubConfig
 import github4s.GithubResponses.GHResponse
 import github4s.domain.Pagination
 import github4s.http.HttpClient
 import io.circe.{Decoder, Encoder}
 import org.http4s.client.Client
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory {
 
   implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
   implicit val io = cats.effect.IO.contextShift(ec)
+  implicit val dummyConfig: GithubConfig = GithubConfig(
+    baseUrl = "http://127.0.0.1:9999/",
+    authorizeUrl = "http://127.0.0.1:9999/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s",
+    accessTokenUrl = "http://127.0.0.1:9999/login/oauth/access_token"
+  )
 
   @com.github.ghik.silencer.silent("deprecated")
-  class HttpClientTest extends HttpClient[IO](mock[Client[IO]])
+  class HttpClientTest extends HttpClient[IO](mock[Client[IO]], implicitly)
 
   def httpClientMockGet[Out](
       url: String,

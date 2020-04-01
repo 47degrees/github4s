@@ -47,7 +47,7 @@ val httpClient: Client[IO] = {
   JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
 }
 
-val accessToken = sys.env.get("GITHUB4S_ACCESS_TOKEN")
+val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
 ```
 
@@ -123,7 +123,7 @@ response.result match {
 
 The `result` on the right is the corresponding [List[Repository]][repository-scala].
 
-See [the API doc](https://developer.github.com/v3/repos/#list-user-repositories) for full
+See [the API doc](https://developer.github.com/v3/repos/#list-repositories-for-a-user) for full
 reference.
 
 ### List contributors

@@ -16,6 +16,9 @@
 
 package github4s.unit
 
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
 import cats.effect.IO
 import cats.syntax.either._
 import github4s.GithubResponses.GHResponse
@@ -312,4 +315,92 @@ class IssuesSpec extends BaseSpec {
     )
   }
 
+  "Issues.createMilestone" should "call httpClient.post with the right parameters" in {
+    val response: IO[GHResponse[Milestone]] =
+      IO(GHResponse(milestone.asRight, createdStatusCode, Map.empty))
+
+    val request = MilestoneData(
+      validIssueTitle,
+      None,
+      None,
+      Some(ZonedDateTime.parse(validMilestoneDueOn, DateTimeFormatter.ISO_ZONED_DATE_TIME))
+    )
+
+    implicit val httpClientMock = httpClientMockPost[MilestoneData, Milestone](
+      url = s"repos/$validRepoOwner/$validRepoName/milestones",
+      req = request,
+      response = response
+    )
+
+    val issues = new IssuesInterpreter[IO]
+
+    issues.createMilestone(
+      validRepoOwner,
+      validRepoName,
+      validMilestoneTitle,
+      None,
+      None,
+      Some(ZonedDateTime.parse(validMilestoneDueOn, DateTimeFormatter.ISO_ZONED_DATE_TIME)),
+      headerUserAgent
+    )
+
+  }
+
+  "Issues.getMilestone" should "call httpClient.get with the right parameters" in {
+    val response: IO[GHResponse[Milestone]] =
+      IO(GHResponse(milestone.asRight, okStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockGet[Milestone](
+      url = s"repos/$validRepoOwner/$validRepoName/milestones/$validMilestoneNumber",
+      response = response
+    )
+
+    val issues = new IssuesInterpreter[IO]
+
+    issues.getMilestone(validRepoOwner, validRepoName, validMilestoneNumber, headerUserAgent)
+
+  }
+  "Issues.updateMilestone" should "call httpClient.patch with the right parameters" in {
+    val response: IO[GHResponse[Milestone]] =
+      IO(GHResponse(milestone.asRight, okStatusCode, Map.empty))
+
+    val request = MilestoneData(
+      validMilestoneTitle,
+      None,
+      None,
+      None
+    )
+
+    implicit val httpClientMock = httpClientMockPatch[MilestoneData, Milestone](
+      url = s"repos/$validRepoOwner/$validRepoName/milestones/$validMilestoneNumber",
+      req = request,
+      response = response
+    )
+
+    val issues = new IssuesInterpreter[IO]
+    issues.updateMilestone(
+      validRepoOwner,
+      validRepoName,
+      validMilestoneNumber,
+      validMilestoneTitle,
+      None,
+      None,
+      None,
+      headerUserAgent
+    )
+  }
+
+  "Issue.DeleteMilestone" should "call to httpClient.delete with the right parameters" in {
+
+    val response: IO[GHResponse[Unit]] =
+      IO(GHResponse(().asRight, deletedStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockDelete(
+      url = s"repos/$validRepoOwner/$validRepoName/milestones/$validMilestoneNumber",
+      response = response
+    )
+
+    val issues = new IssuesInterpreter[IO]
+    issues.deleteMilestone(validRepoOwner, validRepoName, validMilestoneNumber, headerUserAgent)
+  }
 }

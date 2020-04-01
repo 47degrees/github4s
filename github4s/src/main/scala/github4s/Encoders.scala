@@ -68,4 +68,5 @@ object Encoders {
   implicit val encoderNewReleaseRequest: Encoder[NewReleaseRequest] =
     deriveEncoder[NewReleaseRequest]
   implicit val encoderNewStatusRequest: Encoder[NewStatusRequest] = deriveEncoder[NewStatusRequest]
+  implicit val encoderMilestoneData: Encoder[MilestoneData]       = deriveEncoder[MilestoneData]
 }
