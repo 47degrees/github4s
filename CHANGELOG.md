@@ -399,6 +399,7 @@
 
 **Merged pull requests:**
 
+- Releases 0.15.0 [\#150](https://github.com/47degrees/github4s/pull/150) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Rename Authentication to Authorization in the doc [\#148](https://github.com/47degrees/github4s/pull/148) ([BenFradet](https://github.com/BenFradet))
 - Fix string interpolation in docs [\#147](https://github.com/47degrees/github4s/pull/147) ([BenFradet](https://github.com/BenFradet))
 - Super minor lang edits [\#146](https://github.com/47degrees/github4s/pull/146) ([MaureenElsberry](https://github.com/MaureenElsberry))
