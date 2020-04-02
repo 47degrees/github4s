@@ -35,7 +35,6 @@
 - Update sbt-microsites to 1.1.5 [\#383](https://github.com/47degrees/github4s/pull/383) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-mdoc to 2.1.5 [\#382](https://github.com/47degrees/github4s/pull/382) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-microsites to 1.1.4 [\#380](https://github.com/47degrees/github4s/pull/380) ([scala-steward](https://github.com/scala-steward))
-- Mergify: configuration update [\#378](https://github.com/47degrees/github4s/pull/378) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Tag test for listing starrers as integration [\#376](https://github.com/47degrees/github4s/pull/376) ([BenFradet](https://github.com/BenFradet))
 - Update sbt-mdoc to 2.1.4 [\#375](https://github.com/47degrees/github4s/pull/375) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-org-policies to 0.13.2 [\#374](https://github.com/47degrees/github4s/pull/374) ([scala-steward](https://github.com/scala-steward))
@@ -61,6 +60,7 @@
 
 **Merged pull requests:**
 
+- Mergify: configuration update [\#378](https://github.com/47degrees/github4s/pull/378) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Releases 0.23.0 [\#372](https://github.com/47degrees/github4s/pull/372) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Migrates from 47deg to 47degrees GH organization [\#370](https://github.com/47degrees/github4s/pull/370) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Update sbt-mdoc to 2.1.3 [\#369](https://github.com/47degrees/github4s/pull/369) ([scala-steward](https://github.com/scala-steward))
@@ -414,7 +414,6 @@
 - Missing Test and Docs [\#132](https://github.com/47degrees/github4s/pull/132) ([AdrianRaFo](https://github.com/AdrianRaFo))
 - Refactor Algebras [\#130](https://github.com/47degrees/github4s/pull/130) ([AdrianRaFo](https://github.com/AdrianRaFo))
 - Remove integration tests creating statuses [\#128](https://github.com/47degrees/github4s/pull/128) ([BenFradet](https://github.com/BenFradet))
-- Support Comment API [\#127](https://github.com/47degrees/github4s/pull/127) ([AdrianRaFo](https://github.com/AdrianRaFo))
 - Streamlined the getting started [\#126](https://github.com/47degrees/github4s/pull/126) ([BenFradet](https://github.com/BenFradet))
 
 ## [v0.14.7](https://github.com/47degrees/github4s/tree/v0.14.7) (2017-05-08)
@@ -431,6 +430,7 @@
 
 **Merged pull requests:**
 
+- Support Comment API [\#127](https://github.com/47degrees/github4s/pull/127) ([AdrianRaFo](https://github.com/AdrianRaFo))
 - Upgrades sbt org policies plugin [\#125](https://github.com/47degrees/github4s/pull/125) ([fedefernandez](https://github.com/fedefernandez))
 - Releases 0.14.7 [\#124](https://github.com/47degrees/github4s/pull/124) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Arf 97 support notifications api [\#123](https://github.com/47degrees/github4s/pull/123) ([AdrianRaFo](https://github.com/AdrianRaFo))
@@ -504,10 +504,6 @@
 
 [Full Changelog](https://github.com/47degrees/github4s/compare/v0.14.1...v0.14.2)
 
-**Merged pull requests:**
-
-- Upgrades sbt-org-policies [\#81](https://github.com/47degrees/github4s/pull/81) ([fedefernandez](https://github.com/fedefernandez))
-
 ## [v0.14.1](https://github.com/47degrees/github4s/tree/v0.14.1) (2017-04-05)
 
 [Full Changelog](https://github.com/47degrees/github4s/compare/v0.14.0...v0.14.1)
@@ -518,6 +514,7 @@
 
 **Merged pull requests:**
 
+- Upgrades sbt-org-policies [\#81](https://github.com/47degrees/github4s/pull/81) ([fedefernandez](https://github.com/fedefernandez))
 - Adds the get contents operation [\#80](https://github.com/47degrees/github4s/pull/80) ([fedefernandez](https://github.com/fedefernandez))
 - Upgrades sbt-org-policies plugin [\#78](https://github.com/47degrees/github4s/pull/78) ([fedefernandez](https://github.com/fedefernandez))
 - Fixes Github token through env var [\#77](https://github.com/47degrees/github4s/pull/77) ([juanpedromoreno](https://github.com/juanpedromoreno))
@@ -600,6 +597,7 @@
 - Migrates group ID [\#58](https://github.com/47degrees/github4s/pull/58) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Update dependencies [\#54](https://github.com/47degrees/github4s/pull/54) ([ghost](https://github.com/ghost))
 - Update CHANGELOG.md [\#52](https://github.com/47degrees/github4s/pull/52) ([juanpedromoreno](https://github.com/juanpedromoreno))
+- Makes mandatory some fields when creating issues [\#51](https://github.com/47degrees/github4s/pull/51) ([fedefernandez](https://github.com/fedefernandez))
 
 ## [v0.10.0](https://github.com/47degrees/github4s/tree/v0.10.0) (2017-01-09)
 
@@ -611,7 +609,6 @@
 
 **Merged pull requests:**
 
-- Makes mandatory some fields when creating issues [\#51](https://github.com/47degrees/github4s/pull/51) ([fedefernandez](https://github.com/fedefernandez))
 - Adds a new root project to set Scala version [\#50](https://github.com/47degrees/github4s/pull/50) ([fedefernandez](https://github.com/fedefernandez))
 - Adds create and edit methods for issues [\#49](https://github.com/47degrees/github4s/pull/49) ([fedefernandez](https://github.com/fedefernandez))
 - Adds list and search methods for issues [\#47](https://github.com/47degrees/github4s/pull/47) ([fedefernandez](https://github.com/fedefernandez))
