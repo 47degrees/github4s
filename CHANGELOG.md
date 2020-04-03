@@ -112,6 +112,7 @@
 - Update sbt to 1.3.8 [\#336](https://github.com/47degrees/github4s/pull/336) ([scala-steward](https://github.com/scala-steward))
 - Update mockserver-netty to 5.9.0 [\#335](https://github.com/47degrees/github4s/pull/335) ([scala-steward](https://github.com/scala-steward))
 - Replace tut by mdoc and other clean ups [\#330](https://github.com/47degrees/github4s/pull/330) ([BenFradet](https://github.com/BenFradet))
+- Removes unused parameter [\#327](https://github.com/47degrees/github4s/pull/327) ([rafaparadela](https://github.com/rafaparadela))
 - Re-formats for 2020 copyright [\#326](https://github.com/47degrees/github4s/pull/326) ([rafaparadela](https://github.com/rafaparadela))
 - Update sbt to 1.3.7 [\#325](https://github.com/47degrees/github4s/pull/325) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-microsites to 1.1.0 [\#324](https://github.com/47degrees/github4s/pull/324) ([scala-steward](https://github.com/scala-steward))
@@ -318,7 +319,6 @@
 
 **Merged pull requests:**
 
-- Releases 0.18.2 [\#199](https://github.com/47degrees/github4s/pull/199) ([fedefernandez](https://github.com/fedefernandez))
 - Add pagination support for PullRequest ops [\#198](https://github.com/47degrees/github4s/pull/198) ([lloydmeta](https://github.com/lloydmeta))
 
 ## [v0.18.1](https://github.com/47degrees/github4s/tree/v0.18.1) (2018-02-14)
@@ -344,6 +344,7 @@
 
 **Merged pull requests:**
 
+- Releases 0.18.2 [\#199](https://github.com/47degrees/github4s/pull/199) ([fedefernandez](https://github.com/fedefernandez))
 - Release version 0.18.0 [\#193](https://github.com/47degrees/github4s/pull/193) ([BenFradet](https://github.com/BenFradet))
 - Bump sbt-org-policies to 0.8.22 to benefit from cats 1.0.1 and circe 0.9.1 [\#192](https://github.com/47degrees/github4s/pull/192) ([BenFradet](https://github.com/BenFradet))
 - Get a single issue [\#191](https://github.com/47degrees/github4s/pull/191) ([GRBurst](https://github.com/GRBurst))
@@ -622,6 +623,7 @@
 - Adds crossover for Scala 2.10 and upgrades libraries [\#46](https://github.com/47degrees/github4s/pull/46) ([fedefernandez](https://github.com/fedefernandez))
 - Fix forced user agent in js side [\#43](https://github.com/47degrees/github4s/pull/43) ([jdesiloniz](https://github.com/jdesiloniz))
 - Updates Footer Descriptions. Bumps new version. [\#41](https://github.com/47degrees/github4s/pull/41) ([juanpedromoreno](https://github.com/juanpedromoreno))
+- Compatibility with scala-js [\#38](https://github.com/47degrees/github4s/pull/38) ([jdesiloniz](https://github.com/jdesiloniz))
 
 ## [v0.9.0](https://github.com/47degrees/github4s/tree/v0.9.0) (2016-11-04)
 
@@ -634,7 +636,6 @@
 **Merged pull requests:**
 
 - Adding custom user headers at exec time [\#39](https://github.com/47degrees/github4s/pull/39) ([jdesiloniz](https://github.com/jdesiloniz))
-- Compatibility with scala-js [\#38](https://github.com/47degrees/github4s/pull/38) ([jdesiloniz](https://github.com/jdesiloniz))
 
 ## [v0.8.1](https://github.com/47degrees/github4s/tree/v0.8.1) (2016-10-24)
 
