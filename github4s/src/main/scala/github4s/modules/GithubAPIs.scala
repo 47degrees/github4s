@@ -23,20 +23,6 @@ import github4s.http.HttpClient
 import github4s.interpreters._
 import org.http4s.client.Client
 
-sealed trait GithubAPIs[F[_]] {
-  def users: Users[F]
-  def repos: Repositories[F]
-  def auth: Auth[F]
-  def gists: Gists[F]
-  def issues: Issues[F]
-  def activities: Activities[F]
-  def gitData: GitData[F]
-  def pullRequests: PullRequests[F]
-  def organizations: Organizations[F]
-  def teams: Teams[F]
-  def projects: Projects[F]
-}
-
 class GithubAPIv3[F[_]: Sync](
     client: Client[F],
     config: GithubConfig,
