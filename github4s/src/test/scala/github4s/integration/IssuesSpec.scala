@@ -21,7 +21,7 @@ import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
-trait GHIssuesSpec extends BaseIntegrationSpec {
+trait IssuesSpec extends BaseIntegrationSpec {
 
   "Issues >> List" should "return a list of issues" taggedAs Integration in {
     val response = clientResource

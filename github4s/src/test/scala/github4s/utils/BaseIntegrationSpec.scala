@@ -29,16 +29,16 @@ import scala.concurrent.ExecutionContext
 
 class IntegrationSpec
     extends BaseIntegrationSpec
-    with GHActivitiesSpec
-    with GHAuthSpec
-    with GHGitDataSpec
-    with GHIssuesSpec
-    with GHOrganizationsSpec
-    with GHPullRequestsSpec
-    with GHReposSpec
-    with GHUsersSpec
-    with GHTeamsSpec
-    with GHProjectsSpec
+    with ActivitiesSpec
+    with AuthSpec
+    with GitDataSpec
+    with IssuesSpec
+    with OrganizationsSpec
+    with PullRequestsSpec
+    with ReposSpec
+    with UsersSpec
+    with TeamsSpec
+    with ProjectsSpec
 
 object Integration
     extends Tag(

@@ -21,7 +21,7 @@ import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
-trait GHOrganizationsSpec extends BaseIntegrationSpec {
+trait OrganizationsSpec extends BaseIntegrationSpec {
 
   "Organization >> ListMembers" should "return the expected list of users" taggedAs Integration in {
     val response = clientResource

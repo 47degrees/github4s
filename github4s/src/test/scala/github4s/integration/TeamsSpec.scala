@@ -21,7 +21,7 @@ import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
-trait GHTeamsSpec extends BaseIntegrationSpec {
+trait TeamsSpec extends BaseIntegrationSpec {
   "Team >> ListTeams" should "return the expected teams when a valid org is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>

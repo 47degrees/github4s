@@ -21,7 +21,7 @@ import github4s.Github
 import github4s.domain.{Card, Column, Project}
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
-trait GHProjectsSpec extends BaseIntegrationSpec {
+trait ProjectsSpec extends BaseIntegrationSpec {
 
   "Project >> ListProjects" should "return the expected projects when a valid org is provided" taggedAs Integration in {
     val response = clientResource

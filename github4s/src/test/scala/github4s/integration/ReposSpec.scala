@@ -22,7 +22,7 @@ import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
-trait GHReposSpec extends BaseIntegrationSpec {
+trait ReposSpec extends BaseIntegrationSpec {
 
   "Repos >> Get" should "return the expected name when a valid repo is provided" taggedAs Integration in {
     val response = clientResource

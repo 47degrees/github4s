@@ -22,7 +22,7 @@ import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
-trait GHGitDataSpec extends BaseIntegrationSpec {
+trait GitDataSpec extends BaseIntegrationSpec {
 
   "GitData >> GetReference" should "return a list of references" taggedAs Integration in {
     val response = clientResource

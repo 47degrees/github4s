@@ -21,7 +21,7 @@ import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
-trait GHUsersSpec extends BaseIntegrationSpec {
+trait UsersSpec extends BaseIntegrationSpec {
 
   "Users >> Get" should "return the expected login for a valid username" taggedAs Integration in {
     val response = clientResource

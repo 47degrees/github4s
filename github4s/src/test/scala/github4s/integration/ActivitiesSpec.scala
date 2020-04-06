@@ -21,7 +21,7 @@ import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
-trait GHActivitiesSpec extends BaseIntegrationSpec {
+trait ActivitiesSpec extends BaseIntegrationSpec {
 
   "Activity >> Set a thread subscription" should "return expected response when a valid thread id is provided" taggedAs Integration in {
     val response = clientResource
