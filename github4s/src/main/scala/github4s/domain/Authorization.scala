@@ -16,31 +16,31 @@
 
 package github4s.domain
 
-case class Authorization(
+final case class Authorization(
     id: Int,
     url: String,
     token: String
 )
 
-case class NewAuthRequest(
+final case class NewAuthRequest(
     scopes: List[String],
     note: String,
     client_id: String,
     client_secret: String
 )
 
-case class Authorize(
+final case class Authorize(
     url: String,
     state: String
 )
 
-case class OAuthToken(
+final case class OAuthToken(
     access_token: String,
     token_type: String,
     scope: String
 )
 
-case class NewOAuthRequest(
+final case class NewOAuthRequest(
     client_id: String,
     client_secret: String,
     code: String,

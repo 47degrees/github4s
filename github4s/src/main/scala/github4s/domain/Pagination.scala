@@ -16,7 +16,7 @@
 
 package github4s.domain
 
-case class Pagination(
+final case class Pagination(
     page: Int,
     per_page: Int
 )

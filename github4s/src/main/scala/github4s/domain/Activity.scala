@@ -16,7 +16,7 @@
 
 package github4s.domain
 
-case class Subscription(
+final case class Subscription(
     subscribed: Boolean,
     ignored: Boolean,
     reason: Option[String],
@@ -25,17 +25,17 @@ case class Subscription(
     thread_url: String
 )
 
-case class SubscriptionRequest(
+final case class SubscriptionRequest(
     subscribed: Boolean,
     ignored: Boolean
 )
 
-case class Stargazer(
+final case class Stargazer(
     starred_at: Option[String],
     user: User
 )
 
-case class StarredRepository(
+final case class StarredRepository(
     starred_at: Option[String],
     repo: Repository
 )

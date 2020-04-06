@@ -16,7 +16,7 @@
 
 package github4s.domain
 
-case class Gist(
+final case class Gist(
     url: String,
     id: String,
     description: String,
@@ -24,22 +24,22 @@ case class Gist(
     files: Map[String, GistFile]
 )
 
-case class GistFile(
+final case class GistFile(
     content: String
 )
 
-case class NewGistRequest(
+final case class NewGistRequest(
     description: String,
     public: Boolean,
     files: Map[String, GistFile]
 )
 
-case class EditGistFile(
+final case class EditGistFile(
     content: String,
     filename: Option[String] = None
 )
 
-case class EditGistRequest(
+final case class EditGistRequest(
     description: String,
     files: Map[String, Option[EditGistFile]]
 )

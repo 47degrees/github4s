@@ -26,15 +26,15 @@ sealed trait IssueType extends SearchParam {
   override def paramName: String = "type"
 }
 
-case object IssueTypeIssue extends IssueType {
+final case object IssueTypeIssue extends IssueType {
   override def paramValue: String = "issue"
 }
 
-case object IssueTypePullRequest extends IssueType {
+final case object IssueTypePullRequest extends IssueType {
   override def paramValue: String = "pr"
 }
 
-case class SearchIn(values: Set[SearchInValue]) extends SearchParam {
+final case class SearchIn(values: Set[SearchInValue]) extends SearchParam {
   override def paramName: String  = "in"
   override def paramValue: String = values.map(_.value).mkString(",")
 }
@@ -43,15 +43,15 @@ sealed trait SearchInValue {
   def value: String
 }
 
-case object SearchInTitle extends SearchInValue {
+final case object SearchInTitle extends SearchInValue {
   override def value: String = "title"
 }
 
-case object SearchInBody extends SearchInValue {
+final case object SearchInBody extends SearchInValue {
   override def value: String = "body"
 }
 
-case object SearchInComments extends SearchInValue {
+final case object SearchInComments extends SearchInValue {
   override def value: String = "comments"
 }
 
@@ -59,15 +59,15 @@ sealed trait IssueState extends SearchParam {
   override def paramName: String = "state"
 }
 
-case object IssueStateOpen extends IssueState {
+final case object IssueStateOpen extends IssueState {
   override def paramValue: String = "open"
 }
 
-case object IssueStateClosed extends IssueState {
+final case object IssueStateClosed extends IssueState {
   override def paramValue: String = "closed"
 }
 
-case class LabelParam(label: String, exclude: Boolean = false) extends SearchParam {
+final case class LabelParam(label: String, exclude: Boolean = false) extends SearchParam {
   override def paramName: String = s"${if (exclude) "-" else ""}label"
 
   override def paramValue: String = label
@@ -75,13 +75,13 @@ case class LabelParam(label: String, exclude: Boolean = false) extends SearchPar
 
 sealed trait OwnerParam extends SearchParam
 
-case class OwnerParamOwnedByUser(user: String) extends OwnerParam {
+final case class OwnerParamOwnedByUser(user: String) extends OwnerParam {
   override def paramName: String = "user"
 
   override def paramValue: String = user
 }
 
-case class OwnerParamInRepository(repo: String) extends OwnerParam {
+final case class OwnerParamInRepository(repo: String) extends OwnerParam {
   override def paramName: String = "repo"
 
   override def paramValue: String = repo

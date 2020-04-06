@@ -16,7 +16,7 @@
 
 package github4s.domain
 
-case class Repository(
+final case class Repository(
     id: Int,
     name: String,
     full_name: String,
@@ -34,7 +34,7 @@ case class Repository(
     organization: Option[User] = None
 )
 
-case class RepoStatus(
+final case class RepoStatus(
     size: Int,
     stargazers_count: Int,
     watchers_count: Int,
@@ -50,7 +50,7 @@ case class RepoStatus(
     has_pages: Boolean
 )
 
-case class RepoUrls(
+final case class RepoUrls(
     url: String,
     html_url: String,
     git_url: String,
@@ -60,7 +60,7 @@ case class RepoUrls(
     otherUrls: Map[String, String]
 )
 
-case class Release(
+final case class Release(
     id: Int,
     tag_name: String,
     target_commitish: String,
@@ -79,7 +79,7 @@ case class Release(
     zipball_url: String
 )
 
-case class Content(
+final case class Content(
     `type`: String,
     encoding: Option[String],
     target: Option[String],
@@ -95,7 +95,7 @@ case class Content(
     download_url: Option[String]
 )
 
-case class Commit(
+final case class Commit(
     sha: String,
     message: String,
     date: String,
@@ -105,19 +105,19 @@ case class Commit(
     author_url: Option[String]
 )
 
-case class Branch(
+final case class Branch(
     name: String,
     commit: BranchCommit,
     `protected`: Option[Boolean],
     protection_url: Option[String]
 )
 
-case class BranchCommit(
+final case class BranchCommit(
     sha: String,
     url: String
 )
 
-case class NewReleaseRequest(
+final case class NewReleaseRequest(
     tag_name: String,
     name: String,
     body: String,
@@ -126,7 +126,7 @@ case class NewReleaseRequest(
     prerelease: Option[Boolean]
 )
 
-case class Status(
+final case class Status(
     url: String,
     avatar_url: String,
     id: Long,
@@ -139,14 +139,14 @@ case class Status(
     updated_at: String
 )
 
-case class NewStatusRequest(
+final case class NewStatusRequest(
     state: String,
     target_url: Option[String],
     description: Option[String],
     context: Option[String]
 )
 
-case class StatusRepository(
+final case class StatusRepository(
     id: Int,
     name: String,
     full_name: String,
@@ -157,7 +157,7 @@ case class StatusRepository(
     urls: Map[String, String]
 )
 
-case class CombinedStatus(
+final case class CombinedStatus(
     url: String,
     state: String,
     commit_url: String,
@@ -167,7 +167,7 @@ case class CombinedStatus(
     repository: StatusRepository
 )
 
-case class WriteFileRequest(
+final case class WriteFileRequest(
     message: String,
     content: String,
     sha: Option[String] = None,
@@ -176,7 +176,7 @@ case class WriteFileRequest(
     author: Option[Committer] = None
 )
 
-case class DeleteFileRequest(
+final case class DeleteFileRequest(
     message: String,
     sha: String,
     branch: Option[String] = None,
@@ -184,7 +184,7 @@ case class DeleteFileRequest(
     author: Option[Committer] = None
 )
 
-case class WriteResponseCommit(
+final case class WriteResponseCommit(
     sha: String,
     url: String,
     html_url: String,
@@ -193,12 +193,12 @@ case class WriteResponseCommit(
     message: String
 )
 
-case class WriteFileResponse(
+final case class WriteFileResponse(
     content: Option[Content],
     commit: WriteResponseCommit
 )
 
-case class Committer(
+final case class Committer(
     name: String,
     email: String
 )

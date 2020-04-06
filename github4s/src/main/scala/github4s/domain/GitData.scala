@@ -25,9 +25,9 @@ final case class RefInfo(sha: String, url: String) extends RefMetadata
 
 final case class RefObject(`type`: String, sha: String, url: String) extends RefMetadata
 
-case class Ref(ref: String, node_id: String, url: String, `object`: RefObject)
+final case class Ref(ref: String, node_id: String, url: String, `object`: RefObject)
 
-case class RefCommit(
+final case class RefCommit(
     sha: String,
     url: String,
     author: RefAuthor,
@@ -37,7 +37,7 @@ case class RefCommit(
     parents: List[RefInfo]
 )
 
-case class Tag(
+final case class Tag(
     tag: String,
     sha: String,
     url: String,
@@ -46,7 +46,7 @@ case class Tag(
     `object`: RefObject
 )
 
-case class RefAuthor(date: String, name: String, email: String)
+final case class RefAuthor(date: String, name: String, email: String)
 
 sealed abstract class TreeData extends Product with Serializable {
   def path: String
@@ -54,19 +54,20 @@ sealed abstract class TreeData extends Product with Serializable {
   def `type`: String
 }
 
-case class TreeDataSha(path: String, mode: String, `type`: String, sha: String) extends TreeData
-
-case class TreeDataBlob(path: String, mode: String, `type`: String, content: String)
+final case class TreeDataSha(path: String, mode: String, `type`: String, sha: String)
     extends TreeData
 
-case class TreeResult(
+final case class TreeDataBlob(path: String, mode: String, `type`: String, content: String)
+    extends TreeData
+
+final case class TreeResult(
     sha: String,
     url: String,
     tree: List[TreeDataResult],
     truncated: Option[Boolean] = None
 ) extends RefMetadata
 
-case class TreeDataResult(
+final case class TreeDataResult(
     path: String,
     mode: String,
     `type`: String,
@@ -75,22 +76,22 @@ case class TreeDataResult(
     url: String
 )
 
-case class NewCommitRequest(
+final case class NewCommitRequest(
     message: String,
     tree: String,
     parents: List[String],
     author: Option[RefAuthor]
 )
 
-case class NewBlobRequest(content: String, encoding: Option[String])
+final case class NewBlobRequest(content: String, encoding: Option[String])
 
-case class NewTreeRequest(base_tree: Option[String], tree: List[TreeData])
+final case class NewTreeRequest(base_tree: Option[String], tree: List[TreeData])
 
-case class CreateReferenceRequest(ref: String, sha: String)
+final case class CreateReferenceRequest(ref: String, sha: String)
 
-case class UpdateReferenceRequest(sha: String, force: Boolean)
+final case class UpdateReferenceRequest(sha: String, force: Boolean)
 
-case class NewTagRequest(
+final case class NewTagRequest(
     tag: String,
     message: String,
     `object`: String,

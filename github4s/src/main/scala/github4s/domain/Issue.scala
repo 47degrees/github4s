@@ -18,7 +18,7 @@ package github4s.domain
 
 import java.time.ZonedDateTime
 
-case class Issue(
+final case class Issue(
     id: Int,
     title: String,
     body: Option[String],
@@ -41,7 +41,7 @@ case class Issue(
     updated_at: String
 )
 
-case class Label(
+final case class Label(
     id: Option[Int],
     name: String,
     url: String,
@@ -49,16 +49,20 @@ case class Label(
     default: Option[Boolean]
 )
 
-case class IssuePullRequest(
+final case class IssuePullRequest(
     url: Option[String],
     html_url: Option[String],
     diff_url: Option[String],
     patch_url: Option[String]
 )
 
-case class SearchIssuesResult(total_count: Int, incomplete_results: Boolean, items: List[Issue])
+final case class SearchIssuesResult(
+    total_count: Int,
+    incomplete_results: Boolean,
+    items: List[Issue]
+)
 
-case class NewIssueRequest(
+final case class NewIssueRequest(
     title: String,
     body: String,
     milestone: Option[Int],
@@ -66,7 +70,7 @@ case class NewIssueRequest(
     assignees: List[String]
 )
 
-case class EditIssueRequest(
+final case class EditIssueRequest(
     state: String,
     title: String,
     body: String,
@@ -75,7 +79,7 @@ case class EditIssueRequest(
     assignees: List[String]
 )
 
-case class Comment(
+final case class Comment(
     id: Int,
     url: String,
     html_url: String,
@@ -85,9 +89,9 @@ case class Comment(
     updated_at: String
 )
 
-case class CommentData(body: String)
+final case class CommentData(body: String)
 
-case class Milestone(
+final case class Milestone(
     url: String,
     html_url: String,
     labels_url: String,
@@ -106,7 +110,7 @@ case class Milestone(
     due_on: Option[String]
 )
 
-case class MilestoneData(
+final case class MilestoneData(
     title: String,
     state: Option[String],
     description: Option[String],

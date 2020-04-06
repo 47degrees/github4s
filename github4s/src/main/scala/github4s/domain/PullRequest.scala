@@ -16,7 +16,7 @@
 
 package github4s.domain
 
-case class PullRequest(
+final case class PullRequest(
     id: Int,
     number: Int,
     state: String,
@@ -35,7 +35,7 @@ case class PullRequest(
     assignee: Option[User]
 )
 
-case class PullRequestBase(
+final case class PullRequestBase(
     label: Option[String],
     ref: String,
     sha: String,
@@ -43,7 +43,7 @@ case class PullRequestBase(
     repo: Option[Repository]
 )
 
-case class PullRequestFile(
+final case class PullRequestFile(
     sha: String,
     filename: String,
     status: String,
@@ -61,7 +61,7 @@ sealed trait CreatePullRequest {
   def base: String
   def maintainer_can_modify: Option[Boolean]
 }
-case class CreatePullRequestData(
+final case class CreatePullRequestData(
     title: String,
     head: String,
     base: String,
@@ -69,7 +69,7 @@ case class CreatePullRequestData(
     maintainer_can_modify: Option[Boolean] = Some(true)
 ) extends CreatePullRequest
 
-case class CreatePullRequestIssue(
+final case class CreatePullRequestIssue(
     issue: Int,
     head: String,
     base: String,
@@ -83,30 +83,30 @@ sealed abstract class PRFilter(val name: String, val value: String)
 }
 
 sealed abstract class PRFilterState(override val value: String) extends PRFilter("state", value)
-case object PRFilterOpen                                        extends PRFilterState("open")
-case object PRFilterClosed                                      extends PRFilterState("closed")
-case object PRFilterAll                                         extends PRFilterState("all")
+final case object PRFilterOpen                                  extends PRFilterState("open")
+final case object PRFilterClosed                                extends PRFilterState("closed")
+final case object PRFilterAll                                   extends PRFilterState("all")
 
-case class PRFilterHead(override val value: String) extends PRFilter("head", value)
+final case class PRFilterHead(override val value: String) extends PRFilter("head", value)
 
-case class PRFilterBase(override val value: String) extends PRFilter("base", value)
+final case class PRFilterBase(override val value: String) extends PRFilter("base", value)
 
 sealed abstract class PRFilterSort(override val value: String) extends PRFilter("sort", value)
-case object PRFilterSortCreated                                extends PRFilterSort("created")
-case object PRFilterSortUpdated                                extends PRFilterSort("updated")
-case object PRFilterSortPopularity                             extends PRFilterSort("popularity")
-case object PRFilterSortLongRunning                            extends PRFilterSort("long-running")
+final case object PRFilterSortCreated                          extends PRFilterSort("created")
+final case object PRFilterSortUpdated                          extends PRFilterSort("updated")
+final case object PRFilterSortPopularity                       extends PRFilterSort("popularity")
+final case object PRFilterSortLongRunning                      extends PRFilterSort("long-running")
 
 sealed abstract class PRFilterDirection(override val value: String)
     extends PRFilter("direction", value)
-case object PRFilterOrderAsc  extends PRFilterDirection("asc")
-case object PRFilterOrderDesc extends PRFilterDirection("desc")
+final case object PRFilterOrderAsc  extends PRFilterDirection("asc")
+final case object PRFilterOrderDesc extends PRFilterDirection("desc")
 
 sealed trait NewPullRequest
-case class NewPullRequestData(title: String, body: String) extends NewPullRequest
-case class NewPullRequestIssue(issue: Int)                 extends NewPullRequest
+final case class NewPullRequestData(title: String, body: String) extends NewPullRequest
+final case class NewPullRequestIssue(issue: Int)                 extends NewPullRequest
 
-case class PullRequestReview(
+final case class PullRequestReview(
     id: Int,
     user: Option[User],
     body: String,
@@ -117,8 +117,8 @@ case class PullRequestReview(
 )
 
 sealed abstract class PullRequestReviewState(val value: String)
-case object PRRStateApproved         extends PullRequestReviewState("APPROVED")
-case object PRRStateChangesRequested extends PullRequestReviewState("CHANGES_REQUESTED")
-case object PRRStateCommented        extends PullRequestReviewState("COMMENTED")
-case object PRRStatePending          extends PullRequestReviewState("PENDING")
-case object PRRStateDismissed        extends PullRequestReviewState("DISMISSED")
+final case object PRRStateApproved         extends PullRequestReviewState("APPROVED")
+final case object PRRStateChangesRequested extends PullRequestReviewState("CHANGES_REQUESTED")
+final case object PRRStateCommented        extends PullRequestReviewState("COMMENTED")
+final case object PRRStatePending          extends PullRequestReviewState("PENDING")
+final case object PRRStateDismissed        extends PullRequestReviewState("DISMISSED")
