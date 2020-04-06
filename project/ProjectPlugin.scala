@@ -83,9 +83,6 @@ object ProjectPlugin extends AutoPlugin {
         %%("circe-parser", V.circe)  % Test,
         %%("scalamock", V.scalamock) % Test,
         %%("scalatest", V.scalaTest) % Test,
-        "org.mock-server"            % "mockserver-netty" % "5.10" % Test excludeAll ExclusionRule(
-          "com.twitter"
-        ),
         compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full),
         "com.github.ghik" % "silencer-lib" % V.silencer % Provided cross CrossVersion.full
       ),
