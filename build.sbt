@@ -29,7 +29,6 @@ lazy val docs = (project in file("docs"))
   .dependsOn(github4s)
   .settings(moduleName := "github4s-docs")
   .settings(micrositeSettings: _*)
-  .settings(docsDependencies: _*)
   .settings(noPublishSettings: _*)
   .enablePlugins(MicrositesPlugin)
 

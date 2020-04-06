@@ -22,17 +22,16 @@ object ProjectPlugin extends AutoPlugin {
   object autoImport {
 
     lazy val V = new {
+      val scala212: String   = "2.12.10"
+      val scala213: String   = "2.13.1"
       val base64: String     = "0.2.9"
       val cats: String       = "2.1.1"
       val catsEffect: String = "2.1.1"
       val circe: String      = "0.13.0"
-      val paradise: String   = "2.1.1"
-      val simulacrum: String = "0.19.0"
-      val scala212: String   = "2.12.10"
-      val scala213: String   = "2.13.1"
       val http4s: String     = "0.21.3"
+      val paradise: String   = "2.1.1"
       val scalamock: String  = "4.4.0"
-      val scalaTest: String  = "3.1.1"
+      val scalatest: String  = "3.1.1"
       val silencer: String   = "1.6.0"
     }
 
@@ -71,29 +70,25 @@ object ProjectPlugin extends AutoPlugin {
 
     lazy val coreDeps = Seq(
       libraryDependencies ++= Seq(
-        %%("cats-core", V.cats),
-        %%("cats-free", V.cats),
-        %%("simulacrum", V.simulacrum),
-        %%("circe-core", V.circe),
-        %%("circe-generic", V.circe),
-        "io.circe" %% "circe-literal" % V.circe,
-        %%("base64", V.base64),
-        "org.http4s"                 %% "http4s-blaze-client" % V.http4s,
-        "org.http4s"                 %% "http4s-circe" % V.http4s,
-        %%("circe-parser", V.circe)  % Test,
-        %%("scalamock", V.scalamock) % Test,
-        %%("scalatest", V.scalaTest) % Test,
-        compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full),
-        "com.github.ghik" % "silencer-lib" % V.silencer % Provided cross CrossVersion.full
+        "org.typelevel"         %% "cats-core"           % V.cats,
+        "io.circe"              %% "circe-core"          % V.circe,
+        "io.circe"              %% "circe-generic"       % V.circe,
+        "io.circe"              %% "circe-literal"       % V.circe,
+        "com.github.marklister" %% "base64"              % V.base64,
+        "org.http4s"            %% "http4s-blaze-client" % V.http4s,
+        "org.http4s"            %% "http4s-circe"        % V.http4s,
+        "io.circe"              %% "circe-parser"        % V.circe % Test,
+        "org.scalamock"         %% "scalamock"           % V.scalamock % Test,
+        "org.scalatest"         %% "scalatest"           % V.scalatest % Test,
+        "com.github.ghik"       % "silencer-lib"         % V.silencer % Provided cross CrossVersion.full,
+        compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full)
       ),
       libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
         case Some((2, 13)) => Seq.empty[ModuleID]
-        case _             => Seq(compilerPlugin(%%("paradise", V.paradise) cross CrossVersion.full))
+        case _ =>
+          Seq(compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full))
       })
     )
-
-    lazy val docsDependencies: Def.Setting[Seq[ModuleID]] =
-      libraryDependencies += %%("scalatest", V.scalaTest)
 
     def toCompileTestList(sequence: Seq[ProjectReference]): List[String] = sequence.toList.map {
       p =>
