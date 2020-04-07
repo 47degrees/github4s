@@ -1,5 +1,3 @@
-pgpPassphrase := Some(getEnvVar("PGP_PASSPHRASE").getOrElse("").toCharArray)
-
 lazy val root = (project in file("."))
   .settings(moduleName := "github4s-root")
   .aggregate(github4s)
@@ -33,4 +31,4 @@ lazy val docs = (project in file("docs"))
   .enablePlugins(MicrositesPlugin)
 
 addCommandAlias("ci-test", "+scalafmtCheck; +scalafmtSbtCheck; +docs/mdoc; +test")
-addCommandAlias("ci-docs", "docs/mdoc")
+addCommandAlias("ci-docs", "docs/mdoc; headerCreateAll")

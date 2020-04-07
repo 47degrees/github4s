@@ -3,21 +3,16 @@ import microsites._
 import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
 import sbt._
-import sbtorgpolicies.OrgPoliciesKeys.orgBadgeListSetting
-import sbtorgpolicies.OrgPoliciesPlugin
-import sbtorgpolicies.OrgPoliciesPlugin.autoImport._
-import sbtorgpolicies.templates.badges._
-import sbtorgpolicies.runnable.syntax._
 import scoverage.ScoverageKeys
 import scoverage.ScoverageKeys._
+import com.alejandrohdezma.sbt.github.SbtGithubPlugin
 import mdoc.MdocPlugin.autoImport._
-import sbtorgpolicies.model.GitHubSettings
 
 object ProjectPlugin extends AutoPlugin {
 
   override def trigger: PluginTrigger = allRequirements
 
-  override def requires: Plugins = OrgPoliciesPlugin
+  override def requires: Plugins = SbtGithubPlugin
 
   object autoImport {
 
@@ -34,6 +29,13 @@ object ProjectPlugin extends AutoPlugin {
       val scalatest: String  = "3.1.1"
       val silencer: String   = "1.6.0"
     }
+
+    lazy val noPublishSettings = Seq(
+      publish := ((): Unit),
+      publishLocal := ((): Unit),
+      publishArtifact := false,
+      publishMavenStyle := false // suppress warnings about intransitive deps (not published anyway)
+    )
 
     lazy val micrositeSettings = Seq(
       micrositeName := "Github4s",
@@ -102,19 +104,13 @@ object ProjectPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
       name := "github4s",
-      orgGithubSetting := GitHubSettings(
-        organization = "47degrees",
-        project = (name in LocalRootProject).value,
-        organizationName = "47 Degrees",
-        groupId = "com.47deg",
-        organizationHomePage = url("http://47deg.com"),
-        organizationEmail = "hello@47deg.com"
-      ),
-      orgProjectName := "Github4s",
+      organization := "com.47deg",
+      organizationName := "47 Degrees",
+      organizationHomepage := Some(url("https://www.47deg.com")),
+      homepage := Option(url("https://47degrees.github.io/github4s/")),
       description := "Github API wrapper written in Scala",
       startYear := Option(2016),
       resolvers += Resolver.sonatypeRepo("snapshots"),
-      scalaVersion := V.scala213,
       crossScalaVersions := Seq(V.scala212, V.scala213),
       scalacOptions := {
         val withStripedLinter = scalacOptions.value filterNot Set("-Xlint", "-Xfuture").contains
@@ -123,20 +119,8 @@ object ProjectPlugin extends AutoPlugin {
           case _             => withStripedLinter
         }) :+ "-language:higherKinds"
       },
-      orgGithubTokenSetting := "GITHUB_TOKEN",
-      orgBadgeListSetting := List(
-        TravisBadge.apply(_),
-        GitterBadge.apply(_),
-        CodecovBadge.apply(_),
-        MavenCentralBadge.apply(_),
-        LicenseBadge.apply(_),
-        ScalaLangBadge.apply(_),
-        GitHubIssuesBadge.apply(_)
-      ),
-      orgScriptTaskListSetting ++= List(
-        (ScoverageKeys.coverageAggregate in Test).asRunnableItemFull,
-        "docs/mdoc".asRunnableItem
-      ),
+      coverageMinimum := 70d,
+      coverageFailOnMinimum := true,
       coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
       // This is necessary to prevent packaging the BuildInfo with
       // sensible information like the Github token. Do not remove.
@@ -146,5 +130,5 @@ object ProjectPlugin extends AutoPlugin {
             !toPath.startsWith("github4s/BuildInfo")
         }
       }
-    ) ++ shellPromptSettings ++ sharedScoverageSettings(70d)
+    )
 }
