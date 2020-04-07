@@ -358,6 +358,7 @@
 - Fixes Travis file [\#190](https://github.com/47degrees/github4s/pull/190) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Fetch issue comments [\#188](https://github.com/47degrees/github4s/pull/188) ([GRBurst](https://github.com/GRBurst))
 - Make status' id a Long [\#183](https://github.com/47degrees/github4s/pull/183) ([BenFradet](https://github.com/BenFradet))
+- Bump ruby version in travis to fix travis build [\#182](https://github.com/47degrees/github4s/pull/182) ([guersam](https://github.com/guersam))
 - Make PullRequestFile\#patch an Option\[String\] [\#181](https://github.com/47degrees/github4s/pull/181) ([lloydmeta](https://github.com/lloydmeta))
 
 ## [v0.17.0](https://github.com/47degrees/github4s/tree/v0.17.0) (2017-11-08)
@@ -370,7 +371,6 @@
 
 **Merged pull requests:**
 
-- Bump ruby version in travis to fix travis build [\#182](https://github.com/47degrees/github4s/pull/182) ([guersam](https://github.com/guersam))
 - Bump Travis' Scala version to 2.12.4 [\#177](https://github.com/47degrees/github4s/pull/177) ([BenFradet](https://github.com/BenFradet))
 - Bump sbt-org-policies to 0.8.7 to benefit from cats 1.0.0-RC1 & co [\#176](https://github.com/47degrees/github4s/pull/176) ([BenFradet](https://github.com/BenFradet))
 - Bumps sbt-org-policies in order to fix docs autopublishing issue [\#168](https://github.com/47degrees/github4s/pull/168) ([juanpedromoreno](https://github.com/juanpedromoreno))
