@@ -25,7 +25,6 @@
 - GHException extends Throwable [\#362](https://github.com/47degrees/github4s/issues/362)
 - Remove list statuses test flakiness [\#300](https://github.com/47degrees/github4s/issues/300)
 - Traversing with Pagination [\#285](https://github.com/47degrees/github4s/issues/285)
-- Wrong API endpoint for listUserRepos [\#255](https://github.com/47degrees/github4s/issues/255)
 - Add create milestone [\#248](https://github.com/47degrees/github4s/issues/248)
 
 **Merged pull requests:**
@@ -145,6 +144,7 @@
 - Migrate Unicode Arrows [\#296](https://github.com/47degrees/github4s/issues/296)
 - Deploy travis stage fails with stack overflow [\#294](https://github.com/47degrees/github4s/issues/294)
 - Scala 2.13 Release [\#261](https://github.com/47degrees/github4s/issues/261)
+- Wrong API endpoint for listUserRepos [\#255](https://github.com/47degrees/github4s/issues/255)
 - Update dependency org.spire-math:kind-projector:plugin-\>default\(compile\) [\#184](https://github.com/47degrees/github4s/issues/184)
 - Make the integration tests skippable [\#178](https://github.com/47degrees/github4s/issues/178)
 - Possible duplicity [\#136](https://github.com/47degrees/github4s/issues/136)
@@ -305,6 +305,7 @@
 
 - Release 0.18.4 [\#205](https://github.com/47degrees/github4s/pull/205) ([BenFradet](https://github.com/BenFradet))
 - Change param so we are filtering by label [\#204](https://github.com/47degrees/github4s/pull/204) ([drwlrsn](https://github.com/drwlrsn))
+- Keep circe decoders dry [\#202](https://github.com/47degrees/github4s/pull/202) ([BenFradet](https://github.com/BenFradet))
 
 ## [v0.18.3](https://github.com/47degrees/github4s/tree/v0.18.3) (2018-03-11)
 
@@ -325,7 +326,6 @@
 
 **Merged pull requests:**
 
-- Keep circe decoders dry [\#202](https://github.com/47degrees/github4s/pull/202) ([BenFradet](https://github.com/BenFradet))
 - Releases 0.18.2 [\#199](https://github.com/47degrees/github4s/pull/199) ([fedefernandez](https://github.com/fedefernandez))
 - Add pagination support for PullRequest ops [\#198](https://github.com/47degrees/github4s/pull/198) ([lloydmeta](https://github.com/lloydmeta))
 
@@ -465,6 +465,7 @@
 **Merged pull requests:**
 
 - Fixes head repo decode failure [\#100](https://github.com/47degrees/github4s/pull/100) ([fedefernandez](https://github.com/fedefernandez))
+- List pull request files endpoint [\#99](https://github.com/47degrees/github4s/pull/99) ([BenFradet](https://github.com/BenFradet))
 
 ## [v0.14.5](https://github.com/47degrees/github4s/tree/v0.14.5) (2017-04-24)
 
@@ -556,7 +557,6 @@
 **Merged pull requests:**
 
 - Updates the headers and formatting [\#72](https://github.com/47degrees/github4s/pull/72) ([fedefernandez](https://github.com/fedefernandez))
-- Git tag feature [\#71](https://github.com/47degrees/github4s/pull/71) ([fedefernandez](https://github.com/fedefernandez))
 - Pull request list [\#70](https://github.com/47degrees/github4s/pull/70) ([fedefernandez](https://github.com/fedefernandez))
 - Update License [\#64](https://github.com/47degrees/github4s/pull/64) ([anamariamv](https://github.com/anamariamv))
 
@@ -566,6 +566,7 @@
 
 **Merged pull requests:**
 
+- Git tag feature [\#71](https://github.com/47degrees/github4s/pull/71) ([fedefernandez](https://github.com/fedefernandez))
 - Adds some git methods [\#67](https://github.com/47degrees/github4s/pull/67) ([fedefernandez](https://github.com/fedefernandez))
 - Bumps sbt-org-policies plugin version [\#66](https://github.com/47degrees/github4s/pull/66) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Excludes BuildInfo class from packaging [\#65](https://github.com/47degrees/github4s/pull/65) ([juanpedromoreno](https://github.com/juanpedromoreno))
