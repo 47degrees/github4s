@@ -24,14 +24,15 @@ object GithubResponses {
       headers: Map[String, String]
   )
 
-  sealed abstract class GHException(msg: String, cause: Option[Throwable] = None)
-      extends Throwable(msg) {
-    cause foreach initCause
+  sealed abstract class GHException extends Exception {
+    final override def fillInStackTrace(): Throwable = this
   }
 
   final case class JsonParsingException(
       msg: String,
       json: String
-  ) extends GHException(msg)
+  ) extends GHException {
+    final override def getMessage: String = msg
+  }
 
 }
