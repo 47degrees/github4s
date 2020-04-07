@@ -305,7 +305,6 @@
 
 - Release 0.18.4 [\#205](https://github.com/47degrees/github4s/pull/205) ([BenFradet](https://github.com/BenFradet))
 - Change param so we are filtering by label [\#204](https://github.com/47degrees/github4s/pull/204) ([drwlrsn](https://github.com/drwlrsn))
-- Keep circe decoders dry [\#202](https://github.com/47degrees/github4s/pull/202) ([BenFradet](https://github.com/BenFradet))
 
 ## [v0.18.3](https://github.com/47degrees/github4s/tree/v0.18.3) (2018-03-11)
 
@@ -326,6 +325,7 @@
 
 **Merged pull requests:**
 
+- Keep circe decoders dry [\#202](https://github.com/47degrees/github4s/pull/202) ([BenFradet](https://github.com/BenFradet))
 - Releases 0.18.2 [\#199](https://github.com/47degrees/github4s/pull/199) ([fedefernandez](https://github.com/fedefernandez))
 - Add pagination support for PullRequest ops [\#198](https://github.com/47degrees/github4s/pull/198) ([lloydmeta](https://github.com/lloydmeta))
 
@@ -465,7 +465,6 @@
 **Merged pull requests:**
 
 - Fixes head repo decode failure [\#100](https://github.com/47degrees/github4s/pull/100) ([fedefernandez](https://github.com/fedefernandez))
-- List pull request files endpoint [\#99](https://github.com/47degrees/github4s/pull/99) ([BenFradet](https://github.com/BenFradet))
 
 ## [v0.14.5](https://github.com/47degrees/github4s/tree/v0.14.5) (2017-04-24)
 
