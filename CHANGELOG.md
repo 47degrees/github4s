@@ -7,6 +7,8 @@
 ⚠️ **Breaking changes**
 
 - Unseal GithubAPIs and make it part of the algebra \[fixes \#392\] [\#421](https://github.com/47degrees/github4s/pull/421) ([dcsobral](https://github.com/dcsobral))
+- Introduces custom GitHub configuration [\#384](https://github.com/47degrees/github4s/pull/384) ([satorg](https://github.com/satorg))
+- Require an http4s client to provide more flexibility [\#373](https://github.com/47degrees/github4s/pull/373) ([BenFradet](https://github.com/BenFradet))
 
 🚀 **Features**
 
@@ -16,9 +18,11 @@
 
 - Integration tests are run when the token is not present [\#396](https://github.com/47degrees/github4s/issues/396)
 - Sealed GithubAPIs prevents extension [\#392](https://github.com/47degrees/github4s/issues/392)
+- Add support for create / update / delete file [\#388](https://github.com/47degrees/github4s/issues/388)
 - Support for private GitHub Enterprise installations [\#379](https://github.com/47degrees/github4s/issues/379)
 - Shutting down connection pool info messages [\#371](https://github.com/47degrees/github4s/issues/371)
 - Clarify error handling design [\#363](https://github.com/47degrees/github4s/issues/363)
+- GHException extends Throwable [\#362](https://github.com/47degrees/github4s/issues/362)
 - Remove list statuses test flakiness [\#300](https://github.com/47degrees/github4s/issues/300)
 - Traversing with Pagination [\#285](https://github.com/47degrees/github4s/issues/285)
 - Wrong API endpoint for listUserRepos [\#255](https://github.com/47degrees/github4s/issues/255)
@@ -26,6 +30,11 @@
 
 **Merged pull requests:**
 
+- Make GHException extend Exception [\#430](https://github.com/47degrees/github4s/pull/430) ([BenFradet](https://github.com/BenFradet))
+- Remove sbt-org-policies dependency syntax [\#429](https://github.com/47degrees/github4s/pull/429) ([BenFradet](https://github.com/BenFradet))
+- Rename integration specs [\#428](https://github.com/47degrees/github4s/pull/428) ([BenFradet](https://github.com/BenFradet))
+- Remove mockserver dependency [\#427](https://github.com/47degrees/github4s/pull/427) ([BenFradet](https://github.com/BenFradet))
+- Make all case classes final [\#426](https://github.com/47degrees/github4s/pull/426) ([BenFradet](https://github.com/BenFradet))
 - Renames GH token env var [\#405](https://github.com/47degrees/github4s/pull/405) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Updated and delete milestone [\#402](https://github.com/47degrees/github4s/pull/402) ([anamariamv](https://github.com/anamariamv))
 - Don't propagate dummy configuration to integration tests [\#401](https://github.com/47degrees/github4s/pull/401) ([BenFradet](https://github.com/BenFradet))
@@ -36,7 +45,6 @@
 - feat: add Create / Update / Delete requests [\#390](https://github.com/47degrees/github4s/pull/390) ([kalexmills](https://github.com/kalexmills))
 - Update http4s-blaze-client, http4s-circe to 0.21.2 [\#387](https://github.com/47degrees/github4s/pull/387) ([scala-steward](https://github.com/scala-steward))
 - Update mockserver-netty to 5.10 [\#386](https://github.com/47degrees/github4s/pull/386) ([scala-steward](https://github.com/scala-steward))
-- Introduces custom GitHub configuration [\#384](https://github.com/47degrees/github4s/pull/384) ([satorg](https://github.com/satorg))
 - Update sbt-microsites to 1.1.5 [\#383](https://github.com/47degrees/github4s/pull/383) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-mdoc to 2.1.5 [\#382](https://github.com/47degrees/github4s/pull/382) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-microsites to 1.1.4 [\#380](https://github.com/47degrees/github4s/pull/380) ([scala-steward](https://github.com/scala-steward))
@@ -44,7 +52,6 @@
 - Tag test for listing starrers as integration [\#376](https://github.com/47degrees/github4s/pull/376) ([BenFradet](https://github.com/BenFradet))
 - Update sbt-mdoc to 2.1.4 [\#375](https://github.com/47degrees/github4s/pull/375) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-org-policies to 0.13.2 [\#374](https://github.com/47degrees/github4s/pull/374) ([scala-steward](https://github.com/scala-steward))
-- Require an http4s client to provide more flexibility [\#373](https://github.com/47degrees/github4s/pull/373) ([BenFradet](https://github.com/BenFradet))
 
 ## [v0.23.0](https://github.com/47degrees/github4s/tree/v0.23.0) (2020-03-16)
 
@@ -319,6 +326,7 @@
 
 **Merged pull requests:**
 
+- Releases 0.18.2 [\#199](https://github.com/47degrees/github4s/pull/199) ([fedefernandez](https://github.com/fedefernandez))
 - Add pagination support for PullRequest ops [\#198](https://github.com/47degrees/github4s/pull/198) ([lloydmeta](https://github.com/lloydmeta))
 
 ## [v0.18.1](https://github.com/47degrees/github4s/tree/v0.18.1) (2018-02-14)
@@ -344,14 +352,12 @@
 
 **Merged pull requests:**
 
-- Releases 0.18.2 [\#199](https://github.com/47degrees/github4s/pull/199) ([fedefernandez](https://github.com/fedefernandez))
 - Release version 0.18.0 [\#193](https://github.com/47degrees/github4s/pull/193) ([BenFradet](https://github.com/BenFradet))
 - Bump sbt-org-policies to 0.8.22 to benefit from cats 1.0.1 and circe 0.9.1 [\#192](https://github.com/47degrees/github4s/pull/192) ([BenFradet](https://github.com/BenFradet))
 - Get a single issue [\#191](https://github.com/47degrees/github4s/pull/191) ([GRBurst](https://github.com/GRBurst))
 - Fixes Travis file [\#190](https://github.com/47degrees/github4s/pull/190) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Fetch issue comments [\#188](https://github.com/47degrees/github4s/pull/188) ([GRBurst](https://github.com/GRBurst))
 - Make status' id a Long [\#183](https://github.com/47degrees/github4s/pull/183) ([BenFradet](https://github.com/BenFradet))
-- Bump ruby version in travis to fix travis build [\#182](https://github.com/47degrees/github4s/pull/182) ([guersam](https://github.com/guersam))
 - Make PullRequestFile\#patch an Option\[String\] [\#181](https://github.com/47degrees/github4s/pull/181) ([lloydmeta](https://github.com/lloydmeta))
 
 ## [v0.17.0](https://github.com/47degrees/github4s/tree/v0.17.0) (2017-11-08)
@@ -364,6 +370,7 @@
 
 **Merged pull requests:**
 
+- Bump ruby version in travis to fix travis build [\#182](https://github.com/47degrees/github4s/pull/182) ([guersam](https://github.com/guersam))
 - Bump Travis' Scala version to 2.12.4 [\#177](https://github.com/47degrees/github4s/pull/177) ([BenFradet](https://github.com/BenFradet))
 - Bump sbt-org-policies to 0.8.7 to benefit from cats 1.0.0-RC1 & co [\#176](https://github.com/47degrees/github4s/pull/176) ([BenFradet](https://github.com/BenFradet))
 - Bumps sbt-org-policies in order to fix docs autopublishing issue [\#168](https://github.com/47degrees/github4s/pull/168) ([juanpedromoreno](https://github.com/juanpedromoreno))
@@ -623,7 +630,6 @@
 - Adds crossover for Scala 2.10 and upgrades libraries [\#46](https://github.com/47degrees/github4s/pull/46) ([fedefernandez](https://github.com/fedefernandez))
 - Fix forced user agent in js side [\#43](https://github.com/47degrees/github4s/pull/43) ([jdesiloniz](https://github.com/jdesiloniz))
 - Updates Footer Descriptions. Bumps new version. [\#41](https://github.com/47degrees/github4s/pull/41) ([juanpedromoreno](https://github.com/juanpedromoreno))
-- Compatibility with scala-js [\#38](https://github.com/47degrees/github4s/pull/38) ([jdesiloniz](https://github.com/jdesiloniz))
 
 ## [v0.9.0](https://github.com/47degrees/github4s/tree/v0.9.0) (2016-11-04)
 
@@ -636,6 +642,7 @@
 **Merged pull requests:**
 
 - Adding custom user headers at exec time [\#39](https://github.com/47degrees/github4s/pull/39) ([jdesiloniz](https://github.com/jdesiloniz))
+- Compatibility with scala-js [\#38](https://github.com/47degrees/github4s/pull/38) ([jdesiloniz](https://github.com/jdesiloniz))
 
 ## [v0.8.1](https://github.com/47degrees/github4s/tree/v0.8.1) (2016-10-24)
 
