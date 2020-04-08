@@ -16,18 +16,19 @@
 
 package github4s.http
 
+import cats.data.EitherT
 import cats.effect.Sync
-import cats.syntax.either._
+import cats.instances.string._
+import cats.syntax.applicative._
 import cats.syntax.functor._
-import github4s.GithubConfig
-import github4s.GHException._
-import github4s.GHResponse
+import github4s._
+import github4s.GHError._
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
-import io.circe.{Decoder, Encoder}
-import org.http4s.Request
-import org.http4s.circe.CirceEntityDecoder._
+import org.http4s.{Request, Response}
 import org.http4s.client.Client
+import org.http4s.circe.CirceEntityDecoder._
+import io.circe.{Decoder, Encoder}
 
 class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
 
@@ -154,17 +155,31 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
           .withHeaders(request.toHeaderList: _*)
           .withJsonBody(request.data)
       )
-      .use { response =>
-        response
-          .attemptAs[Res]
-          .value
-          .map { e =>
-            GHResponse(
-              e.leftMap(e => UnknownException(e.message, request.data.toString)),
-              response.status.code,
-              response.headers.toMap
-            )
-          }
-      }
+      .use { response => buildResponse(response) }
   }
+
+  private def buildResponse[A: Decoder](response: Response[F]): F[GHResponse[A]] = {
+    val res: EitherT[F, GHError, A] = if (response.status.isSuccess) {
+      response.attemptAs[A].leftSemiflatMap { e =>
+        responseBody(response).map(UnknownError(e.message, _))
+      }
+    } else {
+      EitherT.left(routeError(response))
+    }
+    res.value.map(GHResponse(_, response.status.code, response.headers.toMap))
+  }
+
+  private def routeError(response: Response[F]): F[GHError] = (response.status.code match {
+    case 400 => response.attemptAs[BadRequestError]
+    case 401 => response.attemptAs[UnauthorizedError]
+    case 403 => response.attemptAs[ForbiddenError]
+    case 404 => response.attemptAs[NotFoundError]
+    case 422 => response.attemptAs[UnprocessableEntityError]
+    case 423 => response.attemptAs[RateLimitExceededError]
+    case _   => EitherT.right(responseBody(response)).map(s =>
+      UnknownError(s"Could not route error with code ${response.status.code}", s))
+  }).foldF(e => responseBody(response).map(UnknownError(e.message, _)), e => (e: GHError).pure[F])
+
+  private def responseBody(response: Response[F]): F[String] =
+    response.bodyAsText.compile.foldMonoid
 }
