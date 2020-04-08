@@ -20,7 +20,7 @@ import github4s.algebras.Activities
 import github4s.Decoders._
 import github4s.domain._
 import github4s.Encoders._
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.http.HttpClient
 
 class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])

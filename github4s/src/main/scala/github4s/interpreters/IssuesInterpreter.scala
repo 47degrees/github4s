@@ -18,7 +18,7 @@ package github4s.interpreters
 
 import github4s.http.HttpClient
 import github4s.algebras.Issues
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.domain._
 import java.net.URLEncoder.encode
 import java.time.ZonedDateTime

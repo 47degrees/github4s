@@ -17,7 +17,7 @@
 package github4s.utils
 
 import cats.effect.{ContextShift, IO, Resource}
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.integration._
 import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder

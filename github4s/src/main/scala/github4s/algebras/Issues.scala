@@ -18,7 +18,7 @@ package github4s.algebras
 
 import java.time.ZonedDateTime
 
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.domain._
 
 trait Issues[F[_]] {

@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter
 
 import cats.effect.IO
 import cats.syntax.either._
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.domain._
 import github4s.interpreters.IssuesInterpreter
 import github4s.utils.BaseSpec

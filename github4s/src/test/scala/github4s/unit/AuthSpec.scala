@@ -19,7 +19,7 @@ package github4s.unit
 import cats.effect.IO
 import cats.syntax.either._
 import com.github.marklister.base64.Base64.Encoder
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.utils.BaseSpec
 import github4s.domain._
 import github4s.interpreters.AuthInterpreter

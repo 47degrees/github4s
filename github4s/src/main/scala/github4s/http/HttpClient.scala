@@ -20,7 +20,8 @@ import cats.effect.Sync
 import cats.syntax.either._
 import cats.syntax.functor._
 import github4s.GithubConfig
-import github4s.GithubResponses.{GHResponse, JsonParsingException}
+import github4s.GHException._
+import github4s.GHResponse
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
 import io.circe.{Decoder, Encoder}
@@ -159,7 +160,7 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
           .value
           .map { e =>
             GHResponse(
-              e.leftMap(e => JsonParsingException(e.message, request.data.toString)),
+              e.leftMap(e => UnknownException(e.message, request.data.toString)),
               response.status.code,
               response.headers.toMap
             )

@@ -18,7 +18,7 @@ package github4s.utils
 
 import cats.effect.IO
 import github4s.GithubConfig
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.domain.Pagination
 import github4s.http.HttpClient
 import io.circe.{Decoder, Encoder}

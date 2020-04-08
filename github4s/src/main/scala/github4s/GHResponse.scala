@@ -16,23 +16,8 @@
 
 package github4s
 
-object GithubResponses {
-
-  final case class GHResponse[A](
-      result: Either[GHException, A],
-      statusCode: Int,
-      headers: Map[String, String]
-  )
-
-  sealed abstract class GHException extends Exception {
-    final override def fillInStackTrace(): Throwable = this
-  }
-
-  final case class JsonParsingException(
-      msg: String,
-      json: String
-  ) extends GHException {
-    final override def getMessage: String = msg
-  }
-
-}
+final case class GHResponse[A](
+    result: Either[GHException, A],
+    statusCode: Int,
+    headers: Map[String, String]
+)

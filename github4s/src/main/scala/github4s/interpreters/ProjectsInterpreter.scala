@@ -16,7 +16,7 @@
 
 package github4s.interpreters
 
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.algebras.Projects
 import github4s.domain.{Card, Column, Pagination, Project}
 import github4s.http.HttpClient

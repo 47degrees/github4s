@@ -17,7 +17,7 @@
 package github4s.interpreters
 
 import github4s.Decoders._
-import github4s.GithubResponses.GHResponse
+import github4s.GHResponse
 import github4s.algebras.Teams
 import github4s.domain._
 import github4s.http.HttpClient
