@@ -20,9 +20,9 @@ import io.circe.Decoder
 import io.circe.generic.semiauto._
 
 /**
-  * Top-level exception returned by github4s when an error occurred.
-  * @param message that is common to all exceptions
-  */
+ * Top-level exception returned by github4s when an error occurred.
+ * @param message that is common to all exceptions
+ */
 sealed abstract class GHError(
     message: String
 ) extends Exception {
@@ -31,20 +31,21 @@ sealed abstract class GHError(
 }
 
 object GHError {
+
   /**
-    * Fallback exception, used when a more specific error couldn't be found.
-    * @param message placholder message
-    * @param json body of the response
-    */
+   * Fallback exception, used when a more specific error couldn't be found.
+   * @param message placholder message
+   * @param json body of the response
+   */
   final case class UnknownError(
       message: String,
       json: String
   ) extends GHError(message)
 
   /**
-    * Corresponds to a 400 status code.
-    * @param message that was given in the response body
-    */
+   * Corresponds to a 400 status code.
+   * @param message that was given in the response body
+   */
   final case class BadRequestError(
       message: String
   ) extends GHError(message)
@@ -54,10 +55,10 @@ object GHError {
   }
 
   /**
-    * Corresponds to a 401 status code
-    * @param message that was given in the response body
-    * @param documentation_url associated documentation URL for this endpoint
-    */
+   * Corresponds to a 401 status code
+   * @param message that was given in the response body
+   * @param documentation_url associated documentation URL for this endpoint
+   */
   final case class UnauthorizedError(
       message: String,
       documentation_url: String
@@ -68,10 +69,10 @@ object GHError {
   }
 
   /**
-    * Corresponds to a 403 status code
-    * @param message that was given in the response body
-    * @param documentation_url associated documentation URL for this endpoint
-    */
+   * Corresponds to a 403 status code
+   * @param message that was given in the response body
+   * @param documentation_url associated documentation URL for this endpoint
+   */
   final case class ForbiddenError(
       message: String,
       documentation_url: String
@@ -82,10 +83,10 @@ object GHError {
   }
 
   /**
-    * Corresponds to a 404 status code
-    * @param message that was given in the response body
-    * @param documentation_url associated documentation URL for this endpoint
-    */
+   * Corresponds to a 404 status code
+   * @param message that was given in the response body
+   * @param documentation_url associated documentation URL for this endpoint
+   */
   final case class NotFoundError(
       message: String,
       documentation_url: String
@@ -104,19 +105,20 @@ object GHError {
     final case object Custom                extends ErrorCode
     private[github4s] implicit val errorCodeDecoder: Decoder[ErrorCode] =
       Decoder.decodeString.map {
-        case "missing" => MissingResource
-        case "missing_field" => MissingField
-        case "invalid" => InvalidFormatting
+        case "missing"        => MissingResource
+        case "missing_field"  => MissingField
+        case "invalid"        => InvalidFormatting
         case "already_exists" => ResourceAlreadyExists
-        case _ => Custom
+        case _                => Custom
       }
   }
+
   /**
-    * Error given when a 422 status code is returned
-    * @param resource github resource on which the error occurred (issue, pull request, etc)
-    * @param field for which the error occurred
-    * @param code error code to debug the problem
-    */
+   * Error given when a 422 status code is returned
+   * @param resource github resource on which the error occurred (issue, pull request, etc)
+   * @param field for which the error occurred
+   * @param code error code to debug the problem
+   */
   final case class UnprocessableEntity(
       resource: String,
       field: String,
@@ -126,11 +128,12 @@ object GHError {
     private[github4s] implicit val unprocessableEntityDecoder: Decoder[UnprocessableEntity] =
       deriveDecoder[UnprocessableEntity]
   }
+
   /**
-    * Corresponds to a 422 status code
-    * @param message that was given in the response body
-    * @param errors list of validation errors
-    */
+   * Corresponds to a 422 status code
+   * @param message that was given in the response body
+   * @param errors list of validation errors
+   */
   final case class UnprocessableEntityError(
       message: String,
       errors: List[UnprocessableEntityError]
@@ -141,10 +144,10 @@ object GHError {
   }
 
   /**
-    * Corresponds to a 423 status code
-    * @param message that was given in the response body
-    * @param documentation_url associated documentation URL for this endpoint
-    */
+   * Corresponds to a 423 status code
+   * @param message that was given in the response body
+   * @param documentation_url associated documentation URL for this endpoint
+   */
   final case class RateLimitExceededError(
       message: String,
       documentation_url: String
