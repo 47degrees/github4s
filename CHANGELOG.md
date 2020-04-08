@@ -25,10 +25,12 @@
 - GHException extends Throwable [\#362](https://github.com/47degrees/github4s/issues/362)
 - Remove list statuses test flakiness [\#300](https://github.com/47degrees/github4s/issues/300)
 - Traversing with Pagination [\#285](https://github.com/47degrees/github4s/issues/285)
+- Wrong API endpoint for listUserRepos [\#255](https://github.com/47degrees/github4s/issues/255)
 - Add create milestone [\#248](https://github.com/47degrees/github4s/issues/248)
 
 **Merged pull requests:**
 
+- Removes sbt-org-policies [\#436](https://github.com/47degrees/github4s/pull/436) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Make GHException extend Exception [\#430](https://github.com/47degrees/github4s/pull/430) ([BenFradet](https://github.com/BenFradet))
 - Remove sbt-org-policies dependency syntax [\#429](https://github.com/47degrees/github4s/pull/429) ([BenFradet](https://github.com/BenFradet))
 - Rename integration specs [\#428](https://github.com/47degrees/github4s/pull/428) ([BenFradet](https://github.com/BenFradet))
@@ -144,7 +146,6 @@
 - Migrate Unicode Arrows [\#296](https://github.com/47degrees/github4s/issues/296)
 - Deploy travis stage fails with stack overflow [\#294](https://github.com/47degrees/github4s/issues/294)
 - Scala 2.13 Release [\#261](https://github.com/47degrees/github4s/issues/261)
-- Wrong API endpoint for listUserRepos [\#255](https://github.com/47degrees/github4s/issues/255)
 - Update dependency org.spire-math:kind-projector:plugin-\>default\(compile\) [\#184](https://github.com/47degrees/github4s/issues/184)
 - Make the integration tests skippable [\#178](https://github.com/47degrees/github4s/issues/178)
 - Possible duplicity [\#136](https://github.com/47degrees/github4s/issues/136)
@@ -557,6 +558,7 @@
 **Merged pull requests:**
 
 - Updates the headers and formatting [\#72](https://github.com/47degrees/github4s/pull/72) ([fedefernandez](https://github.com/fedefernandez))
+- Git tag feature [\#71](https://github.com/47degrees/github4s/pull/71) ([fedefernandez](https://github.com/fedefernandez))
 - Pull request list [\#70](https://github.com/47degrees/github4s/pull/70) ([fedefernandez](https://github.com/fedefernandez))
 - Update License [\#64](https://github.com/47degrees/github4s/pull/64) ([anamariamv](https://github.com/anamariamv))
 
@@ -566,7 +568,6 @@
 
 **Merged pull requests:**
 
-- Git tag feature [\#71](https://github.com/47degrees/github4s/pull/71) ([fedefernandez](https://github.com/fedefernandez))
 - Adds some git methods [\#67](https://github.com/47degrees/github4s/pull/67) ([fedefernandez](https://github.com/fedefernandez))
 - Bumps sbt-org-policies plugin version [\#66](https://github.com/47degrees/github4s/pull/66) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Excludes BuildInfo class from packaging [\#65](https://github.com/47degrees/github4s/pull/65) ([juanpedromoreno](https://github.com/juanpedromoreno))
