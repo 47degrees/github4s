@@ -16,6 +16,13 @@
 
 package github4s
 
+import io.circe.Decoder
+import io.circe.generic.semiauto._
+
+/**
+  * Top-level exception returned by github4s when an error occurred.
+  * @param message that is common to all exceptions
+  */
 sealed abstract class GHException(
     message: String
 ) extends Exception {
@@ -24,49 +31,102 @@ sealed abstract class GHException(
 }
 
 object GHException {
+  /**
+    * Fallback exception, used when a more specific error couldn't be found.
+    * @param message placholder message
+    * @param json body of the response
+    */
   final case class UnknownException(
       message: String,
       json: String
   ) extends GHException(message)
 
-  final case class RateLimitExceededException(
-      message: String,
-      documentation_url: String
+  /**
+    * Corresponds to a 400 status code.
+    * @param message that was given in the response body
+    */
+  final case class BadRequestException(
+      message: String
   ) extends GHException(message)
 
+  /**
+    * Corresponds to a 401 status code
+    * @param message that was given in the response body
+    * @param documentation_url associated documentation URL for this endpoint
+    */
   final case class UnauthorizedException(
       message: String,
       documentation_url: String
   ) extends GHException(message)
 
-  final case class NotFoundException(
-      message: String,
-      documentation_url: String
-  ) extends GHException(message)
-
+  /**
+    * Corresponds to a 403 status code
+    * @param message that was given in the response body
+    * @param documentation_url associated documentation URL for this endpoint
+    */
   final case class ForbiddenException(
       message: String,
       documentation_url: String
   )
 
-  final case class BadRequestException(
-      message: String
+  /**
+    * Corresponds to a 404 status code
+    * @param message that was given in the response body
+    * @param documentation_url associated documentation URL for this endpoint
+    */
+  final case class NotFoundException(
+      message: String,
+      documentation_url: String
   ) extends GHException(message)
 
   sealed trait ErrorCode
   object ErrorCode {
-    final case object Missing       extends ErrorCode
-    final case object MissingField  extends ErrorCode
-    final case object Invalid       extends ErrorCode
-    final case object AlreadyExists extends ErrorCode
+    final case object MissingResource       extends ErrorCode
+    final case object MissingField          extends ErrorCode
+    final case object InvalidFormatting     extends ErrorCode
+    final case object ResourceAlreadyExists extends ErrorCode
+    final case object Custom                extends ErrorCode
+    private[github4s] implicit val errorCodeDecoder: Decoder[ErrorCode] =
+      Decoder.decodeString.map {
+        case "missing" => MissingResource
+        case "missing_field" => MissingField
+        case "invalid" => InvalidFormatting
+        case "already_exists" => ResourceAlreadyExists
+        case _ => Custom
+      }
   }
+  /**
+    * Error given when a 422 status code is returned
+    * @param resource github resource on which the error occurred (issue, pull request, etc)
+    * @param field for which the error occurred
+    * @param code error code to debug the problem
+    */
   final case class UnprocessableEntityError(
       resource: String,
       field: String,
       code: ErrorCode
   )
+  object UnprocessableEntityError {
+    private[github4s] implicit val uEntityErrorDecoder: Decoder[UnprocessableEntityError] =
+      deriveDecoder[UnprocessableEntityError]
+  }
+  /**
+    * Corresponds to a 422 status code
+    * @param message that was given in the response body
+    * @param errors list of validation errors
+    */
   final case class UnprocessableEntityException(
       message: String,
       errors: List[UnprocessableEntityError]
+  ) extends GHException(message)
+
+  /**
+    * Corresponds to a 423 status code
+    * @param message that was given in the response body
+    * @param documentation_url associated documentation URL for this endpoint
+    */
+  final case class RateLimitExceededException(
+      message: String,
+      documentation_url: String
   ) extends GHException(message)
 }
