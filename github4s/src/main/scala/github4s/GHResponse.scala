@@ -17,7 +17,7 @@
 package github4s
 
 final case class GHResponse[A](
-    result: Either[GHException, A],
+    result: Either[GHError, A],
     statusCode: Int,
     headers: Map[String, String]
 )
