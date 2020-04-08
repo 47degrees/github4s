@@ -16,7 +16,7 @@
 
 package github4s
 
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 
 /**
@@ -27,7 +27,7 @@ sealed abstract class GHError(
     message: String
 ) extends Exception {
   final override def fillInStackTrace(): Throwable = this
-  final override def getMessage: String            = message
+  final override def getMessage(): String          = message
 }
 
 object GHError {
@@ -35,12 +35,14 @@ object GHError {
   /**
    * Fallback exception, used when a more specific error couldn't be found.
    * @param message placholder message
-   * @param json body of the response
+   * @param body of the response
    */
   final case class UnknownError(
       message: String,
-      json: String
-  ) extends GHError(message)
+      body: String
+  ) extends GHError(message) {
+    final override def toString(): String = s"UnknownError($message, $body)"
+  }
 
   /**
    * Corresponds to a 400 status code.
@@ -48,7 +50,9 @@ object GHError {
    */
   final case class BadRequestError(
       message: String
-  ) extends GHError(message)
+  ) extends GHError(message) {
+    final override def toString(): String = s"BadRequestError($message)"
+  }
   object BadRequestError {
     private[github4s] implicit val badRequestErrorDecoder: Decoder[BadRequestError] =
       deriveDecoder[BadRequestError]
@@ -62,7 +66,9 @@ object GHError {
   final case class UnauthorizedError(
       message: String,
       documentation_url: String
-  ) extends GHError(message)
+  ) extends GHError(message) {
+    final override def toString(): String = s"UnauthorizedError($message, $documentation_url)"
+  }
   object UnauthorizedError {
     private[github4s] implicit val unauthorizedErrorDecoder: Decoder[UnauthorizedError] =
       deriveDecoder[UnauthorizedError]
@@ -76,7 +82,9 @@ object GHError {
   final case class ForbiddenError(
       message: String,
       documentation_url: String
-  ) extends GHError(message)
+  ) extends GHError(message) {
+    final override def toString(): String = s"ForbiddenError($message, $documentation_url)"
+  }
   object ForbiddenError {
     private[github4s] implicit val forbiddenErrorDecoder: Decoder[ForbiddenError] =
       deriveDecoder[ForbiddenError]
@@ -90,7 +98,9 @@ object GHError {
   final case class NotFoundError(
       message: String,
       documentation_url: String
-  ) extends GHError(message)
+  ) extends GHError(message) {
+    final override def toString(): String = s"NotFoundError($message, $documentation_url)"
+  }
   object NotFoundError {
     private[github4s] implicit val notFoundErrorDecoder: Decoder[NotFoundError] =
       deriveDecoder[NotFoundError]
@@ -110,6 +120,14 @@ object GHError {
         case "invalid"        => InvalidFormatting
         case "already_exists" => ResourceAlreadyExists
         case _                => Custom
+      }
+    private[github4s] implicit val errorCodeEncoder: Encoder[ErrorCode] =
+      Encoder.encodeString.contramap[ErrorCode] {
+        case ErrorCode.MissingResource       => "missing"
+        case ErrorCode.MissingField          => "missing_field"
+        case ErrorCode.InvalidFormatting     => "invalid"
+        case ErrorCode.ResourceAlreadyExists => "already_exists"
+        case ErrorCode.Custom                => "custom"
       }
   }
 
@@ -136,8 +154,10 @@ object GHError {
    */
   final case class UnprocessableEntityError(
       message: String,
-      errors: List[UnprocessableEntityError]
-  ) extends GHError(message)
+      errors: List[UnprocessableEntity]
+  ) extends GHError(message) {
+    final override def toString(): String = s"UnprocessableEntityError($message, $errors)"
+  }
   object UnprocessableEntityError {
     private[github4s] implicit val uEntityErrorDecoder: Decoder[UnprocessableEntityError] =
       deriveDecoder[UnprocessableEntityError]
@@ -151,7 +171,9 @@ object GHError {
   final case class RateLimitExceededError(
       message: String,
       documentation_url: String
-  ) extends GHError(message)
+  ) extends GHError(message) {
+    final override def toString(): String = s"RateLimitExceededError($message, $documentation_url)"
+  }
   object RateLimitExceededError {
     private[github4s] implicit val rleErrorDecoder: Decoder[RateLimitExceededError] =
       deriveDecoder[RateLimitExceededError]

@@ -32,6 +32,7 @@ import org.http4s.circe.CirceEntityDecoder._
 import io.circe.{Decoder, Encoder}
 
 class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
+  import HttpClient._
 
   def get[Res: Decoder](
       accessToken: Option[String] = None,
@@ -141,10 +142,6 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
         .withData(data)
     )
 
-  val defaultPagination   = Pagination(1, 1000)
-  val defaultPage: Int    = 1
-  val defaultPerPage: Int = 30
-
   private def buildURL(method: String): String = s"${config.baseUrl}$method"
 
   private def run[Req: Encoder, Res: Decoder](request: RequestBuilder[Req]): F[GHResponse[Res]] = {
@@ -160,8 +157,12 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
         buildResponse(response).map(GHResponse(_, response.status.code, response.headers.toMap))
       }
   }
+}
 
-  private def buildResponse[A: Decoder](response: Response[F]): F[Either[GHError, A]] =
+object HttpClient {
+  private[github4s] def buildResponse[F[_]: Sync, A: Decoder](
+      response: Response[F]
+  ): F[Either[GHError, A]] =
     (response.status.code match {
       case i if Status(i).isSuccess => response.attemptAs[A].map(_.asRight)
       case 400                      => response.attemptAs[BadRequestError].map(_.asLeft)
@@ -173,14 +174,12 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
       case _ =>
         EitherT
           .right(responseBody(response))
-          .map(s =>
-            UnknownError(s"Could not build response with code ${response.status.code}", s).asLeft
-          )
+          .map(s => UnknownError(s"Unhandled status code ${response.status.code}", s).asLeft)
     }).foldF(
       e => responseBody(response).map(UnknownError(e.message, _).asLeft),
       _.leftMap(e => e: GHError).pure[F]
     )
 
-  private def responseBody(response: Response[F]): F[String] =
+  private def responseBody[F[_]: Sync](response: Response[F]): F[String] =
     response.bodyAsText.compile.foldMonoid
 }
