@@ -19,17 +19,16 @@ package github4s.http
 import cats.data.EitherT
 import cats.effect.Sync
 import cats.instances.string._
-import cats.syntax.applicative._
 import cats.syntax.either._
 import cats.syntax.functor._
 import github4s._
 import github4s.GHError._
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
+import io.circe.{Decoder, Encoder}
 import org.http4s.{Request, Response, Status}
 import org.http4s.client.Client
 import org.http4s.circe.CirceEntityDecoder._
-import io.circe.{Decoder, Encoder}
 
 class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
   import HttpClient._
@@ -174,10 +173,10 @@ object HttpClient {
       case _ =>
         EitherT
           .right(responseBody(response))
-          .map(s => UnknownError(s"Unhandled status code ${response.status.code}", s).asLeft)
-    }).foldF(
-      e => responseBody(response).map(UnknownError(e.message, _).asLeft),
-      _.leftMap(e => e: GHError).pure[F]
+          .map(s => UnhandledResponseError(s"Unhandled status code ${response.status.code}", s).asLeft)
+    }).fold(
+      e => (JsonParsingError(e): GHError).asLeft,
+      _.leftMap(e => e: GHError)
     )
 
   private def responseBody[F[_]: Sync](response: Response[F]): F[String] =

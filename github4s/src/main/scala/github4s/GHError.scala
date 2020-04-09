@@ -18,6 +18,7 @@ package github4s
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
+import org.http4s.DecodeFailure
 
 /**
  * Top-level exception returned by github4s when an error occurred.
@@ -33,15 +34,31 @@ sealed abstract class GHError(
 object GHError {
 
   /**
-   * Fallback exception, used when a more specific error couldn't be found.
-   * @param message placholder message
+   * Corresponds to a response for which the status code couldn't be handled.
+   * @param message indicating what happened
    * @param body of the response
    */
-  final case class UnknownError(
+  final case class UnhandledResponseError(
       message: String,
       body: String
   ) extends GHError(message) {
     final override def toString(): String = s"UnknownError($message, $body)"
+  }
+
+  /**
+    * Corresponds to the case when an issue occurred during JSON parsing.
+    * @param message indicating what happened
+    * @param cause root cause
+    */
+  final case class JsonParsingError(
+    message: String,
+    cause: Option[Throwable]
+  ) extends GHError(message) {
+    final override def toString(): String = s"JsonParsingError($message, $cause)"
+    final override def getCause(): Throwable = cause.orNull
+  }
+  object JsonParsingError {
+    def apply(df: DecodeFailure): JsonParsingError = JsonParsingError(df.message, df.cause)
   }
 
   /**
