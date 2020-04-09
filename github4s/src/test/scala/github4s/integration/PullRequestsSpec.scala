@@ -17,6 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
+import github4s.GHError.NotFoundError
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -53,7 +54,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, PullRequest](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -70,7 +71,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, PullRequest](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -133,7 +134,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[PullRequest]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -179,7 +180,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[PullRequestFile]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -213,7 +214,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[PullRequestReview]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -249,7 +250,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, PullRequestReview](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 

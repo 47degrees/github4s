@@ -17,6 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
+import github4s.GHError.NotFoundError
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -126,6 +127,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     testIsRight[List[Label]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
   }
+
   it should "return error for an invalid repo owner" taggedAs Integration in {
     val response = clientResource
       .use { client =>
@@ -134,7 +136,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Label]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -146,7 +148,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Label]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -206,7 +208,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[User]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -218,7 +220,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[User]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -258,7 +260,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Milestone]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -269,7 +271,8 @@ trait IssuesSpec extends BaseIntegrationSpec {
           .listMilestones(validRepoOwner, invalidRepoName, None, None, None, None, headerUserAgent)
       }
       .unsafeRunSync()
-    testIsLeft(response)
+
+    testIsLeft[NotFoundError, List[Milestone]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -303,7 +306,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, Milestone](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 

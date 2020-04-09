@@ -59,10 +59,16 @@ class HttpClientSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "build a left if 404" in {
-    val nfe      = NotFoundError("msg", "")
-    val response = Response[IO](status = Status(404), body = createBody(nfe.asJson))
-    val res      = HttpClient.buildResponse[IO, Foo](response)
-    res.unsafeRunSync() shouldBe Left(nfe)
+    val nfe       = NotFoundError("msg", "")
+    val response1 = Response[IO](status = Status(404), body = createBody(nfe.asJson))
+    val res1      = HttpClient.buildResponse[IO, Foo](response1)
+    res1.unsafeRunSync() shouldBe Left(nfe)
+
+    // TODO: Make this work
+    //val be        = BasicError("not found")
+    //val response2 = Response[IO](status = Status(404), body = createBody(be.asJson))
+    //val res2      = HttpClient.buildResponse[IO, Foo](response2)
+    //res2.unsafeRunSync() shouldBe Left(be)
   }
 
   it should "build a left if 422" in {

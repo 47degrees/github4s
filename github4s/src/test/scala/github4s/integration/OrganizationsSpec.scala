@@ -17,6 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
+import github4s.GHError.NotFoundError
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -43,7 +44,7 @@ trait OrganizationsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[User]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -67,7 +68,7 @@ trait OrganizationsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[User]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 

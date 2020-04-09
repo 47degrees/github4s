@@ -18,6 +18,7 @@ package github4s.integration
 
 import cats.effect.IO
 import cats.data.NonEmptyList
+import github4s.GHError.NotFoundError
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -44,7 +45,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, Repository](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -68,7 +69,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Repository]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -92,7 +93,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Repository]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -116,7 +117,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, NonEmptyList[Content]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -140,7 +141,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Commit]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -164,7 +165,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Branch]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -188,7 +189,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[User]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -212,7 +213,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[User]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -244,7 +245,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, CombinedStatus](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -268,7 +269,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Status]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 }

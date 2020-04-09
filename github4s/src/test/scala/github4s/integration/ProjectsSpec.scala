@@ -17,6 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
+import github4s.GHError.NotFoundError
 import github4s.Github
 import github4s.domain.{Card, Column, Project}
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -43,7 +44,8 @@ trait ProjectsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Project]](response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   "Project >> ListProjectsRepository" should "return the expected projects when a valid owner and repo are provided" taggedAs Integration in {
@@ -74,7 +76,8 @@ trait ProjectsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Project]](response)
+    response.statusCode shouldBe notFoundStatusCode
   }
 
   it should "return error when an invalid owner is passed" taggedAs Integration in {
@@ -89,7 +92,7 @@ trait ProjectsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Project]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -113,7 +116,7 @@ trait ProjectsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Column]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -137,7 +140,7 @@ trait ProjectsSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, List[Card]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 }

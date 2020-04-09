@@ -17,6 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
+import github4s.GHError
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -43,7 +44,7 @@ trait UsersSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[GHError.NotFoundError, User](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -53,7 +54,7 @@ trait UsersSpec extends BaseIntegrationSpec {
         .use(client => Github[IO](client).users.getAuth(headerUserAgent))
         .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[GHError.UnauthorizedError, User](response)
     response.statusCode shouldBe unauthorizedStatusCode
   }
 
@@ -101,7 +102,7 @@ trait UsersSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[GHError.NotFoundError, List[User]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 

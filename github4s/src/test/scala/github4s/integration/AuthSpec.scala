@@ -17,14 +17,13 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.Github
+import github4s.{GHError, Github}
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
 trait AuthSpec extends BaseIntegrationSpec {
 
   "Auth >> NewAuth" should "return error on Left when invalid credential is provided" taggedAs Integration in {
-
     val response = clientResource
       .use { client =>
         Github[IO](client).auth
@@ -40,7 +39,8 @@ trait AuthSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[GHError.UnauthorizedError, Authorization](response)
+    response.statusCode shouldBe unauthorizedStatusCode
   }
 
   "Auth >> AuthorizeUrl" should "return the expected URL for valid username" taggedAs Integration in {
@@ -70,7 +70,8 @@ trait AuthSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    // TODO: Make this work, this should be a basic error
+    testIsLeft[GHError.JsonParsingError, OAuthToken](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 

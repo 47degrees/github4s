@@ -19,6 +19,7 @@ package github4s
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 import org.http4s.DecodeFailure
+import io.circe.HCursor
 
 /**
  * Top-level exception returned by github4s when an error occurred.
@@ -42,7 +43,7 @@ object GHError {
       message: String,
       body: String
   ) extends GHError(message) {
-    final override def toString(): String = s"UnknownError($message, $body)"
+    final override def toString(): String = s"UnhandledResponseError($message, $body)"
   }
 
   /**
@@ -59,6 +60,23 @@ object GHError {
   }
   object JsonParsingError {
     def apply(df: DecodeFailure): JsonParsingError = JsonParsingError(df.message, df.cause)
+  }
+
+  /**
+   * Exotic error sometimes used by GitHub.
+   * @param message indicating what happened
+   */
+  final case class BasicError(
+      message: String
+  ) extends GHError(message) {
+    final override def toString(): String = s"BasicError($message)"
+  }
+  object BasicError {
+    private[github4s] implicit val basicErrorDecoder: Decoder[BasicError] =
+      new Decoder[BasicError] {
+        final override def apply(c: HCursor): Decoder.Result[BasicError] =
+          c.downField("error").as[String].map(BasicError.apply)
+      }
   }
 
   /**

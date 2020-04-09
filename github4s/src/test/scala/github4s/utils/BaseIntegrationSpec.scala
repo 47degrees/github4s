@@ -17,7 +17,7 @@
 package github4s.utils
 
 import cats.effect.{ContextShift, IO, Resource}
-import github4s.GHResponse
+import github4s.{GHError, GHResponse}
 import github4s.integration._
 import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder
@@ -26,6 +26,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.{Assertion, Ignore, Inspectors, Tag}
 
 import scala.concurrent.ExecutionContext
+import scala.reflect.ClassTag
 
 class IntegrationSpec
     extends BaseIntegrationSpec
@@ -68,7 +69,12 @@ abstract class BaseIntegrationSpec
     }
   }
 
-  def testIsLeft[A](response: GHResponse[A]): Assertion =
-    response.result.isLeft shouldBe true
-
+  def testIsLeft[E <: GHError: ClassTag, A](response: GHResponse[A]): Assertion = {
+    val ct = implicitly[ClassTag[E]]
+    response.result match {
+      case Left(ct(_)) => succeed
+      case Left(l)     => fail(s"Left-side is not of type $ct, but of type ${l.getClass}")
+      case Right(r)    => fail(s"It should be a left but was right $r")
+    }
+  }
 }

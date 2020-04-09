@@ -18,6 +18,7 @@ package github4s.integration
 
 import cats.data.NonEmptyList
 import cats.effect.IO
+import github4s.GHError.NotFoundError
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -56,7 +57,7 @@ trait GitDataSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, NonEmptyList[Ref]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -80,7 +81,7 @@ trait GitDataSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, RefCommit](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -143,7 +144,7 @@ trait GitDataSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft(response)
+    testIsLeft[NotFoundError, TreeResult](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 

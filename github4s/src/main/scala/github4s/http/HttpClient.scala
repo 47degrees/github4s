@@ -159,6 +159,11 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
 }
 
 object HttpClient {
+  // TODO: Make this work
+  //private def basicDecoder[F[_]: Sync]: EntityDecoder[F, GHError] = jsonOf[F, BasicError].widen
+  //private def notFoundDecoder[F[_]: Sync]: EntityDecoder[F, GHError] =
+  //  jsonOf[F, NotFoundError].widen.orElse(basicDecoder)
+
   private[github4s] def buildResponse[F[_]: Sync, A: Decoder](
       response: Response[F]
   ): F[Either[GHError, A]] =
@@ -178,7 +183,7 @@ object HttpClient {
           )
     }).fold(
       e => (JsonParsingError(e): GHError).asLeft,
-      _.leftMap(e => e: GHError)
+      _.leftMap[GHError](identity)
     )
 
   private def responseBody[F[_]: Sync](response: Response[F]): F[String] =
