@@ -46,15 +46,15 @@ object GHError {
   }
 
   /**
-    * Corresponds to the case when an issue occurred during JSON parsing.
-    * @param message indicating what happened
-    * @param cause root cause
-    */
+   * Corresponds to the case when an issue occurred during JSON parsing.
+   * @param message indicating what happened
+   * @param cause root cause
+   */
   final case class JsonParsingError(
-    message: String,
-    cause: Option[Throwable]
+      message: String,
+      cause: Option[Throwable]
   ) extends GHError(message) {
-    final override def toString(): String = s"JsonParsingError($message, $cause)"
+    final override def toString(): String    = s"JsonParsingError($message, $cause)"
     final override def getCause(): Throwable = cause.orNull
   }
   object JsonParsingError {

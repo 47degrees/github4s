@@ -173,7 +173,9 @@ object HttpClient {
       case _ =>
         EitherT
           .right(responseBody(response))
-          .map(s => UnhandledResponseError(s"Unhandled status code ${response.status.code}", s).asLeft)
+          .map(s =>
+            UnhandledResponseError(s"Unhandled status code ${response.status.code}", s).asLeft
+          )
     }).fold(
       e => (JsonParsingError(e): GHError).asLeft,
       _.leftMap(e => e: GHError)

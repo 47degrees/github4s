@@ -19,7 +19,8 @@ package github4s.http
 import cats.effect.IO
 import fs2.Stream
 import github4s.GHError._
-import io.circe.Json
+import io.circe.{DecodingFailure, Json}
+import io.circe.CursorOp.DownField
 import io.circe.syntax._
 import io.circe.generic.auto._
 import org.http4s.{EntityEncoder, Response, Status}
@@ -84,7 +85,7 @@ class HttpClientSpec extends AnyFlatSpec with Matchers {
     val response = Response[IO](status = Status(402), body = createBody(rlee.asJson))
     val res      = HttpClient.buildResponse[IO, Foo](response)
     res.unsafeRunSync() shouldBe Left(
-      UnknownError("Unhandled status code 402", rlee.asJson.noSpaces)
+      UnhandledResponseError("Unhandled status code 402", rlee.asJson.noSpaces)
     )
   }
 
@@ -93,9 +94,9 @@ class HttpClientSpec extends AnyFlatSpec with Matchers {
     val response = Response[IO](body = createBody(rlee.asJson))
     val res      = HttpClient.buildResponse[IO, Foo](response)
     res.unsafeRunSync() shouldBe Left(
-      UnknownError(
+      JsonParsingError(
         s"Invalid message body: Could not decode JSON: ${rlee.asJson.spaces2}",
-        rlee.asJson.noSpaces
+        Some(DecodingFailure("Attempt to decode value on failed cursor", List(DownField("a"))))
       )
     )
   }
@@ -105,9 +106,11 @@ class HttpClientSpec extends AnyFlatSpec with Matchers {
     val response = Response[IO](status = Status(401), body = createBody(foo.asJson))
     val res      = HttpClient.buildResponse[IO, Foo](response)
     res.unsafeRunSync() shouldBe Left(
-      UnknownError(
+      JsonParsingError(
         s"Invalid message body: Could not decode JSON: ${foo.asJson.spaces2}",
-        foo.asJson.noSpaces
+        Some(
+          DecodingFailure("Attempt to decode value on failed cursor", List(DownField("message")))
+        )
       )
     )
   }
