@@ -19,7 +19,7 @@ package github4s.http
 import cats.effect.IO
 import fs2.Stream
 import github4s.GHError._
-import io.circe.{DecodingFailure, Json}
+import io.circe.{DecodingFailure, Encoder, Json}
 import io.circe.CursorOp.DownField
 import io.circe.syntax._
 import io.circe.generic.auto._
@@ -64,11 +64,13 @@ class HttpClientSpec extends AnyFlatSpec with Matchers {
     val res1      = HttpClient.buildResponse[IO, Foo](response1)
     res1.unsafeRunSync() shouldBe Left(nfe)
 
-    // TODO: Make this work
-    //val be        = BasicError("not found")
-    //val response2 = Response[IO](status = Status(404), body = createBody(be.asJson))
-    //val res2      = HttpClient.buildResponse[IO, Foo](response2)
-    //res2.unsafeRunSync() shouldBe Left(be)
+    implicit val basicErrorEncoder: Encoder[BasicError] = new Encoder[BasicError] {
+      final override def apply(b: BasicError): Json = Json.obj(("error", Json.fromString(b.message)))
+    }
+    val be        = BasicError("not found")
+    val response2 = Response[IO](status = Status(404), body = createBody(be.asJson))
+    val res2      = HttpClient.buildResponse[IO, Foo](response2)
+    res2.unsafeRunSync() shouldBe Left(be)
   }
 
   it should "build a left if 422" in {

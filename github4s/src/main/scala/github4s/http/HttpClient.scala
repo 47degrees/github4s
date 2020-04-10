@@ -26,9 +26,10 @@ import github4s.GHError._
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
 import io.circe.{Decoder, Encoder}
-import org.http4s.{Request, Response, Status}
+import org.http4s.{EntityDecoder, Request, Response, Status}
 import org.http4s.client.Client
 import org.http4s.circe.CirceEntityDecoder._
+import org.http4s.circe.jsonOf
 
 class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
   import HttpClient._
@@ -159,10 +160,11 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
 }
 
 object HttpClient {
-  // TODO: Make this work
-  //private def basicDecoder[F[_]: Sync]: EntityDecoder[F, GHError] = jsonOf[F, BasicError].widen
-  //private def notFoundDecoder[F[_]: Sync]: EntityDecoder[F, GHError] =
-  //  jsonOf[F, NotFoundError].widen.orElse(basicDecoder)
+  // the GitHub API sometimes returns [[BasicError]] when 404.
+  private[github4s] val notFoundDecoder: Decoder[GHError] =
+    implicitly[Decoder[NotFoundError]].widen.or(BasicError.basicErrorDecoder.widen)
+  private def notFoundEntityDecoder[F[_]: Sync]: EntityDecoder[F, GHError] =
+    jsonOf(implicitly, notFoundDecoder)
 
   private[github4s] def buildResponse[F[_]: Sync, A: Decoder](
       response: Response[F]
@@ -172,7 +174,7 @@ object HttpClient {
       case 400                      => response.attemptAs[BadRequestError].map(_.asLeft)
       case 401                      => response.attemptAs[UnauthorizedError].map(_.asLeft)
       case 403                      => response.attemptAs[ForbiddenError].map(_.asLeft)
-      case 404                      => response.attemptAs[NotFoundError].map(_.asLeft)
+      case 404                      => response.attemptAs[GHError](notFoundEntityDecoder).map(_.asLeft)
       case 422                      => response.attemptAs[UnprocessableEntityError].map(_.asLeft)
       case 423                      => response.attemptAs[RateLimitExceededError].map(_.asLeft)
       case _ =>
