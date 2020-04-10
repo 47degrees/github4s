@@ -39,7 +39,7 @@ class GitDataSpec extends BaseSpec {
     )
 
     val gitData = new GitDataInterpreter[IO]
-    gitData.getReference(validRepoOwner, validRepoName, validRefSingle, headerUserAgent)
+    gitData.getReference(validRepoOwner, validRepoName, validRefSingle, None, headerUserAgent)
   }
 
   "GitData.createReference" should "call to httpClient.post with the right parameters" in {

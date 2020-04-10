@@ -41,7 +41,7 @@ class IssuesSpec extends BaseSpec {
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.listIssues(validRepoOwner, validRepoName, headerUserAgent)
+    issues.listIssues(validRepoOwner, validRepoName, None, headerUserAgent)
 
   }
 
@@ -145,7 +145,7 @@ class IssuesSpec extends BaseSpec {
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listComments(validRepoOwner, validRepoName, validIssueNumber, headerUserAgent)
+    issues.listComments(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
   }
 
   "Issue.CreateComment" should "call to httpClient.post with the right parameters" in {
@@ -218,7 +218,7 @@ class IssuesSpec extends BaseSpec {
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listLabelsRepository(validRepoOwner, validRepoName, headerUserAgent)
+    issues.listLabelsRepository(validRepoOwner, validRepoName, None, headerUserAgent)
   }
 
   "Issues.ListLabels" should "call httpClient.get with the right parameters" in {
@@ -231,7 +231,7 @@ class IssuesSpec extends BaseSpec {
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listLabels(validRepoOwner, validRepoName, validIssueNumber, headerUserAgent)
+    issues.listLabels(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
   }
 
   "Issues.AddLabels" should "call httpClient.post with the right parameters" in {
@@ -252,6 +252,7 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validIssueNumber,
       validIssueLabel,
+      None,
       headerUserAgent
     )
   }
@@ -272,6 +273,7 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validIssueNumber,
       validIssueLabel.head,
+      None,
       headerUserAgent
     )
   }

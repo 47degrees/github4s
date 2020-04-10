@@ -83,7 +83,7 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.getContents(validRepoOwner, validRepoName, validFilePath, Some("master"), headerUserAgent)
+    repos.getContents(validRepoOwner, validRepoName, validFilePath, Some("master"), None, headerUserAgent)
   }
 
   "Repos.createFile" should "call to httpClient.put with the right parameters" in {
@@ -262,7 +262,7 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listBranches(validRepoOwner, validRepoName, Some(true), headerUserAgent)
+    repos.listBranches(validRepoOwner, validRepoName, Some(true), None, headerUserAgent)
   }
 
   "Repos.listContributors" should "call to httpClient.get with the right parameters" in {
@@ -318,7 +318,7 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listStatuses(validRepoOwner, validRepoName, validRefSingle, headerUserAgent)
+    repos.listStatuses(validRepoOwner, validRepoName, validRefSingle, None, headerUserAgent)
   }
 
   "Repos.createStatus" should "call httpClient.post with the right parameters" in {

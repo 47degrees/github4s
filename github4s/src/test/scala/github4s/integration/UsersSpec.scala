@@ -86,7 +86,7 @@ trait UsersSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).users
-          .getFollowing(validUsername, headerUserAgent)
+          .getFollowing(validUsername, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -98,7 +98,7 @@ trait UsersSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).users
-          .getFollowing(invalidUsername, headerUserAgent)
+          .getFollowing(invalidUsername, None, headerUserAgent)
       }
       .unsafeRunSync()
 

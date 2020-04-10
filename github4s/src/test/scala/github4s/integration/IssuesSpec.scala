@@ -28,7 +28,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .listIssues(validRepoOwner, validRepoName, headerUserAgent)
+          .listIssues(validRepoOwner, validRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -108,7 +108,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .listLabels(validRepoOwner, validRepoName, validIssueNumber, headerUserAgent)
+          .listLabels(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -120,7 +120,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .listLabelsRepository(validRepoOwner, validRepoName, headerUserAgent, None)
+          .listLabelsRepository(validRepoOwner, validRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -132,7 +132,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .listLabelsRepository(invalidRepoOwner, validRepoName, headerUserAgent, None)
+          .listLabelsRepository(invalidRepoOwner, validRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -144,7 +144,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .listLabelsRepository(validRepoOwner, invalidRepoName, headerUserAgent, None)
+          .listLabelsRepository(validRepoOwner, invalidRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -161,6 +161,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
             validRepoName,
             validIssueNumber,
             validIssueLabel.head,
+            None,
             headerUserAgent
           )
       }
@@ -179,6 +180,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
             validRepoName,
             validIssueNumber,
             validIssueLabel,
+            None,
             headerUserAgent
           )
       }

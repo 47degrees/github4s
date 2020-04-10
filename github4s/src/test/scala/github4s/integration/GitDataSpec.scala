@@ -29,7 +29,7 @@ trait GitDataSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).gitData
-          .getReference(validRepoOwner, validRepoName, "heads", headerUserAgent)
+          .getReference(validRepoOwner, validRepoName, "heads", None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -41,7 +41,7 @@ trait GitDataSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).gitData
-          .getReference(validRepoOwner, validRepoName, validRefSingle, headerUserAgent)
+          .getReference(validRepoOwner, validRepoName, validRefSingle, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -53,7 +53,7 @@ trait GitDataSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).gitData
-          .getReference(validRepoOwner, invalidRepoName, validRefSingle, headerUserAgent)
+          .getReference(validRepoOwner, invalidRepoName, validRefSingle, None, headerUserAgent)
       }
       .unsafeRunSync()
 

@@ -79,7 +79,7 @@ class UserSpec extends BaseSpec {
     )
 
     val users = new UsersInterpreter[IO]
-    users.getFollowing(validUsername, headerUserAgent)
+    users.getFollowing(validUsername, None, headerUserAgent)
   }
 
 }
