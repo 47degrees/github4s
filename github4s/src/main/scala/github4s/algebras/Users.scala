@@ -43,7 +43,7 @@ trait Users[F[_]] {
    * @param since The integer ID of the last User that you've seen.
    * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
-   * @return GHResponse[List[User] ] List of user's details
+   * @return GHResponse[List[User]] List of user's details
    */
   def getUsers(
       since: Int,
@@ -55,11 +55,13 @@ trait Users[F[_]] {
    * Get information for a particular user's list of users they follow
    *
    * @param username of the user to retrieve
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return GHResponse[User] User details
    */
   def getFollowing(
       username: String,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]]
 }

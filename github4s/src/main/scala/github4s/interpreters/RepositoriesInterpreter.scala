@@ -37,7 +37,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
   override def listOrgRepos(
       org: String,
       `type`: Option[String],
-      pagination: Option[Pagination],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Repository]]] =
     client.get[List[Repository]](
@@ -51,7 +51,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
   override def listUserRepos(
       user: String,
       `type`: Option[String],
-      pagination: Option[Pagination],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Repository]]] =
     client.get[List[Repository]](
@@ -67,6 +67,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       path: String,
       ref: Option[String],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[NonEmptyList[Content]]] =
     client.get[NonEmptyList[Content]](
@@ -139,7 +140,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       author: Option[String],
       since: Option[String],
       until: Option[String],
-      pagination: Option[Pagination],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Commit]]] =
     client.get[List[Commit]](
@@ -162,6 +163,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       onlyProtected: Option[Boolean],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Branch]]] =
     client.get[List[Branch]](
@@ -179,6 +181,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       anon: Option[String],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]] =
     client.get[List[User]](
@@ -196,6 +199,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       affiliation: Option[String],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]] =
     client.get[List[User]](
@@ -239,6 +243,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       ref: String,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Status]]] =
     client.get[List[Status]](accessToken, s"repos/$owner/$repo/commits/$ref/statuses", headers)

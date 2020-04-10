@@ -117,6 +117,7 @@ See [the API doc](https://developer.github.com/v3/issues/#edit-an-issue) for ful
 You can also list issues for a repository through `listIssues`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
+- `pagination`: Limit and Offset for pagination, optional.
 
 To list the issues for a repository:
 
@@ -197,6 +198,7 @@ You can list comments of an issue with the following parameters:
 
  - the repository coordinates (`owner` and `name` of the repository).
  - `number`: The issue number.
+ - `pagination`: Limit and Offset for pagination, optional.
 
  To list comments:
 
@@ -314,6 +316,7 @@ You can list labels for an issue with the following parameters:
 
  - the repository coordinates (`owner` and `name` of the repository).
  - `number`: The issue number.
+ - `pagination`: Limit and Offset for pagination, optional.
 
  To list labels:
 
@@ -337,6 +340,7 @@ You can add existing labels to an issue with the following parameters:
  - the repository coordinates (`owner` and `name` of the repository).
  - `number`: The issue number.
  - `labels`: The existing labels that require adding.
+ - `pagination`: Limit and Offset for pagination, optional.
 
  To add existing labels to an issue:
 

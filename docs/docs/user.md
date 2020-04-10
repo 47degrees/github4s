@@ -108,6 +108,7 @@ As a result, if you'd like to see a feature supported, feel free to create an is
 You can get a list of users followed by another user using `getFollowing`, it takes as argument:
 
 - `username`: of the user to retrieve.
+- `pagination`: Limit and Offset for pagination, optional.
 
 ```scala mdoc:compile-only
 val getFollowing = gh.users.getFollowing("rafaparadela")

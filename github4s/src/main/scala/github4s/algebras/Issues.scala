@@ -35,12 +35,14 @@ trait Issues[F[_]] {
    *
    * @param owner of the repo
    * @param repo name of the repo
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the issue list.
    */
   def listIssues(
       owner: String,
       repo: String,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Issue]]]
 
@@ -148,6 +150,7 @@ trait Issues[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param number Issue number
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the comment list of the Issue.
    */
@@ -155,6 +158,7 @@ trait Issues[F[_]] {
       owner: String,
       repo: String,
       number: Int,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Comment]]]
 
@@ -215,15 +219,15 @@ trait Issues[F[_]] {
    *
    * @param owner of the repo
    * @param repo name of the repo
-   * @param headers optional user headers to include in the request
    * @param pagination Limit and Offset for pagination, optional.
+   * @param headers optional user headers to include in the request
    * @return a GHResponse with the list of labels for the Repository.
    */
   def listLabelsRepository(
       owner: String,
       repo: String,
-      headers: Map[String, String] = Map(),
-      pagination: Option[Pagination] = None
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
   ): F[GHResponse[List[Label]]]
 
   /**
@@ -232,6 +236,7 @@ trait Issues[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param number Issue number
+   * @param pagination Limit and Offset for pagination, optional.
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the list of labels for the Issue.
    */
@@ -239,6 +244,7 @@ trait Issues[F[_]] {
       owner: String,
       repo: String,
       number: Int,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Label]]]
 
@@ -249,6 +255,7 @@ trait Issues[F[_]] {
    * @param repo name of the repo
    * @param number Issue number
    * @param labels the list of labels to add to the issue
+   * @param pagination Limit and Offset for pagination, optional.
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the list of labels added to the Issue.
    */
@@ -257,6 +264,7 @@ trait Issues[F[_]] {
       repo: String,
       number: Int,
       labels: List[String],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Label]]]
 
@@ -275,6 +283,7 @@ trait Issues[F[_]] {
       repo: String,
       number: Int,
       label: String,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Label]]]
 

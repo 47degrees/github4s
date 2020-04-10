@@ -135,6 +135,7 @@ You can list contributors using `listContributors`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `anon` Set to 1 or true to include anonymous contributors in results.
+- `pagination`: Limit and Offset for pagination, optional.
 
 To list contributors:
 
@@ -161,6 +162,7 @@ You can list collaborators using `listCollaborators`, it takes as arguments:
 - the repository coordinates (`owner` and `name` of the repository).
 - `affiliation`, one of `outside`, `direct`, or `all` (default `all`).
 For more information take a look at [the API doc](https://developer.github.com/v3/repos/collaborators/#parameters).
+- `pagination`: Limit and Offset for pagination, optional.
 
 ```scala mdoc:compile-only
 val listCollaborators = gh.repos.listCollaborators("47degrees", "github4s", Some("all"))
@@ -222,6 +224,7 @@ You can list branches using `listBranches`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `protected` Only protected branches.
+- `pagination`: Limit and Offset for pagination, optional.
 
 To list branches:
 
@@ -252,6 +255,7 @@ You can get contents using `getContents`, it takes as arguments:
 - the repository coordinates (`owner` and `name` of the repository).
 - `path`: The content path.
 - `ref`: The name of the `commit/branch/tag`. Default: the repository’s default branch (usually `master`).
+- `pagination`: Limit and Offset for pagination, optional.
 
 To get contents:
 
@@ -413,6 +417,7 @@ You can also list statuses through `listStatuses`; it take as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - a git ref (a `SHA`, a branch `name` or a tag `name`).
+- `pagination`: Limit and Offset for pagination, optional.
 
 To list the statuses for a specific ref:
 

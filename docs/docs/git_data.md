@@ -61,6 +61,7 @@ You can get a reference using `getReference`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `ref`: ref formatted as `heads/branch`.
+- `pagination`: Limit and Offset for pagination, optional.
 
 ```scala mdoc:compile-only
 val getReference = gh.gitData.getReference("47degrees", "github4s", "heads/master")

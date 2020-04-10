@@ -42,6 +42,7 @@ trait Repositories[F[_]] {
    * @param org organization for which we wish to retrieve the repositories
    * @param `type` visibility of the retrieved repositories, can be "all", "public", "private",
    * "forks", "sources" or "member"
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return GHResponse[List[Repository]] the list of repositories for this organization
    */
@@ -92,6 +93,7 @@ trait Repositories[F[_]] {
    * @param repo name of the repo
    * @param path the content path
    * @param ref the name of the commit/branch/tag. Default: the repository’s default branch (usually `master`)
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return GHResponse with the content defails
    */
@@ -100,6 +102,7 @@ trait Repositories[F[_]] {
       repo: String,
       path: String,
       ref: Option[String] = None,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[NonEmptyList[Content]]]
 
@@ -212,6 +215,7 @@ trait Repositories[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param onlyProtected Setting to true returns only protected branches
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return GHResponse[List[Branch]\] List of branches
    */
@@ -219,6 +223,7 @@ trait Repositories[F[_]] {
       owner: String,
       repo: String,
       onlyProtected: Option[Boolean] = None,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Branch]]]
 
@@ -229,6 +234,7 @@ trait Repositories[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param anon Set to 1 or true to include anonymous contributors in results
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return GHResponse[List[User]\] List of contributors associated with the specified repository.
    */
@@ -236,6 +242,7 @@ trait Repositories[F[_]] {
       owner: String,
       repo: String,
       anon: Option[String] = None,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]]
 
@@ -249,6 +256,7 @@ trait Repositories[F[_]] {
    * @param repo name of the repo
    * @param affiliation Filter collaborators returned by their affiliation. Can be one of `outside`, `direct`, `all`.
    *                    Default: `all`
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return GHResponse[List[User]\] List of collaborators within the specified repository
    */
@@ -256,6 +264,7 @@ trait Repositories[F[_]] {
       owner: String,
       repo: String,
       affiliation: Option[String] = None,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]]
 
@@ -312,6 +321,7 @@ trait Repositories[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param ref commit SHA, branch name or tag name
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the status list
    */
@@ -319,6 +329,7 @@ trait Repositories[F[_]] {
       owner: String,
       repo: String,
       ref: String,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Status]]]
 

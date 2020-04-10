@@ -35,6 +35,7 @@ trait GitData[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param ref ref formatted as heads/branch
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the Ref list
    */
@@ -42,6 +43,7 @@ trait GitData[F[_]] {
       owner: String,
       repo: String,
       ref: String,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[NonEmptyList[Ref]]]
 

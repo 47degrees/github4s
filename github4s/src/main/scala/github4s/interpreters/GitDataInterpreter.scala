@@ -30,6 +30,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       owner: String,
       repo: String,
       ref: String,
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[NonEmptyList[Ref]]] =
     client.get[NonEmptyList[Ref]](accessToken, s"repos/$owner/$repo/git/refs/$ref", headers)
