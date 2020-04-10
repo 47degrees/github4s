@@ -523,7 +523,7 @@ See [the API doc](https://developer.github.com/v3/issues/milestones/#update-a-mi
 
 [milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
 
-### Delete milestone
+### Delete a milestone
 
 You can delete a milestone for a particular organization and repository with `deleteMilestone`; it takes arguments:
 

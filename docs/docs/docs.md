@@ -68,7 +68,7 @@ Any type with a `cats.effect.Sync` instance can be used with this example, such 
 object ProgramF {
   import cats.effect.Sync
   import github4s.Github
-  import github4s.GithubResponses.GHResponse
+  import github4s.GHResponse
   import github4s.domain.User
   import org.http4s.client.Client
 
@@ -185,7 +185,7 @@ object ProgramEvalWithHeaders {
 ## Using github4s with GitHub Enterprise
 
 By default `Github` instances are configured for the [public GitHub][public-github] endpoints via a fallback
-`GithubConfig` instance which is picked up by the `Github` constructor if there's no other `GithubConfig` in the scope. 
+`GithubConfig` instance which is picked up by the `Github` constructor if there's no other `GithubConfig` in the scope.
 
 It is also possible to pass a custom GitHub configuration (e.g. for a particular [GitHub Enterprise][github-enterprise]
 server). To override the default configuration values declare a custom `GithubConfig` instance in an appropriate
