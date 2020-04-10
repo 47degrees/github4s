@@ -471,7 +471,6 @@
 
 - Fixes head repo decode failure [\#100](https://github.com/47degrees/github4s/pull/100) ([fedefernandez](https://github.com/fedefernandez))
 - List pull request files endpoint [\#99](https://github.com/47degrees/github4s/pull/99) ([BenFradet](https://github.com/BenFradet))
-- Releases 0.14.5 [\#98](https://github.com/47degrees/github4s/pull/98) ([juanpedromoreno](https://github.com/juanpedromoreno))
 
 ## [v0.14.5](https://github.com/47degrees/github4s/tree/v0.14.5) (2017-04-24)
 
@@ -488,9 +487,11 @@
 
 **Merged pull requests:**
 
+- Releases 0.14.5 [\#98](https://github.com/47degrees/github4s/pull/98) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Avoids executing create and edit issue operations [\#95](https://github.com/47degrees/github4s/pull/95) ([fedefernandez](https://github.com/fedefernandez))
 - Doc for the issue api [\#93](https://github.com/47degrees/github4s/pull/93) ([BenFradet](https://github.com/BenFradet))
 - Tries to fix OOM issues. Bumps sbt version [\#92](https://github.com/47degrees/github4s/pull/92) ([juanpedromoreno](https://github.com/juanpedromoreno))
+- Upgrades Project [\#91](https://github.com/47degrees/github4s/pull/91) ([juanpedromoreno](https://github.com/juanpedromoreno))
 
 ## [v0.14.4](https://github.com/47degrees/github4s/tree/v0.14.4) (2017-04-21)
 
@@ -502,7 +503,6 @@
 
 **Merged pull requests:**
 
-- Upgrades Project [\#91](https://github.com/47degrees/github4s/pull/91) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - PullRequest's head [\#90](https://github.com/47degrees/github4s/pull/90) ([BenFradet](https://github.com/BenFradet))
 - Documentation for the status API [\#88](https://github.com/47degrees/github4s/pull/88) ([BenFradet](https://github.com/BenFradet))
 - Remove duplicated circe-parser dependency [\#87](https://github.com/47degrees/github4s/pull/87) ([BenFradet](https://github.com/BenFradet))
