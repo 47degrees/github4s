@@ -14,6 +14,10 @@
 
 - Better exception messages/classes [\#118](https://github.com/47degrees/github4s/issues/118)
 
+📈 **Dependency updates**
+
+- Update sbt-scalafmt to 2.3.3 [\#445](https://github.com/47degrees/github4s/pull/445) ([scala-steward](https://github.com/scala-steward))
+
 **Closed issues:**
 
 - Integration tests are run when the token is not present [\#396](https://github.com/47degrees/github4s/issues/396)
@@ -467,6 +471,7 @@
 
 - Fixes head repo decode failure [\#100](https://github.com/47degrees/github4s/pull/100) ([fedefernandez](https://github.com/fedefernandez))
 - List pull request files endpoint [\#99](https://github.com/47degrees/github4s/pull/99) ([BenFradet](https://github.com/BenFradet))
+- Releases 0.14.5 [\#98](https://github.com/47degrees/github4s/pull/98) ([juanpedromoreno](https://github.com/juanpedromoreno))
 
 ## [v0.14.5](https://github.com/47degrees/github4s/tree/v0.14.5) (2017-04-24)
 
@@ -483,7 +488,6 @@
 
 **Merged pull requests:**
 
-- Releases 0.14.5 [\#98](https://github.com/47degrees/github4s/pull/98) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Avoids executing create and edit issue operations [\#95](https://github.com/47degrees/github4s/pull/95) ([fedefernandez](https://github.com/fedefernandez))
 - Doc for the issue api [\#93](https://github.com/47degrees/github4s/pull/93) ([BenFradet](https://github.com/BenFradet))
 - Tries to fix OOM issues. Bumps sbt version [\#92](https://github.com/47degrees/github4s/pull/92) ([juanpedromoreno](https://github.com/juanpedromoreno))
