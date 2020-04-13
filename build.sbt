@@ -1,11 +1,7 @@
 addCommandAlias("ci-test", "+scalafmtCheck; +scalafmtSbtCheck; +docs/mdoc; +test")
 addCommandAlias("ci-docs", "project-docs/mdoc; headerCreateAll")
 
-lazy val root = (project in file("."))
-  .settings(moduleName := "github4s-root")
-  .aggregate(github4s)
-  .dependsOn(github4s)
-  .settings(skip in publish := true)
+skip in publish := true
 
 lazy val github4s = project
     .enablePlugins(BuildInfoPlugin)
