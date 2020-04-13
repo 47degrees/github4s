@@ -92,11 +92,6 @@ object ProjectPlugin extends AutoPlugin {
       })
     )
 
-    def toCompileTestList(sequence: Seq[ProjectReference]): List[String] = sequence.toList.map {
-      p =>
-        val project: String = p.asInstanceOf[LocalProject].project
-        s"$project/test"
-    }
   }
 
   import autoImport.V
