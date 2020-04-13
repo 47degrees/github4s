@@ -103,14 +103,7 @@ object ProjectPlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
-      name := "github4s",
       organization := "com.47deg",
-      organizationName := "47 Degrees",
-      organizationHomepage := Some(url("https://www.47deg.com")),
-      homepage := Option(url("https://47degrees.github.io/github4s/")),
-      description := "Github API wrapper written in Scala",
-      startYear := Option(2016),
-      resolvers += Resolver.sonatypeRepo("snapshots"),
       crossScalaVersions := Seq(V.scala212, V.scala213),
       scalacOptions := {
         val withStripedLinter = scalacOptions.value filterNot Set("-Xlint", "-Xfuture").contains
