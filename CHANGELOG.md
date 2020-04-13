@@ -462,6 +462,7 @@
 - Removes annoying compiler warnings reported by -Xlint flag [\#104](https://github.com/47degrees/github4s/pull/104) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Publish Microsite automatically when merging in master branch [\#103](https://github.com/47degrees/github4s/pull/103) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Documentation for the PR API [\#102](https://github.com/47degrees/github4s/pull/102) ([BenFradet](https://github.com/BenFradet))
+- Replace foldLeft with traverse in Decoders [\#101](https://github.com/47degrees/github4s/pull/101) ([peterneyens](https://github.com/peterneyens))
 
 ## [v0.14.6](https://github.com/47degrees/github4s/tree/v0.14.6) (2017-04-25)
 
@@ -487,7 +488,6 @@
 
 **Merged pull requests:**
 
-- Replace foldLeft with traverse in Decoders [\#101](https://github.com/47degrees/github4s/pull/101) ([peterneyens](https://github.com/peterneyens))
 - Releases 0.14.5 [\#98](https://github.com/47degrees/github4s/pull/98) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Avoids executing create and edit issue operations [\#95](https://github.com/47degrees/github4s/pull/95) ([fedefernandez](https://github.com/fedefernandez))
 - Doc for the issue api [\#93](https://github.com/47degrees/github4s/pull/93) ([BenFradet](https://github.com/BenFradet))
