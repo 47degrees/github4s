@@ -34,6 +34,7 @@
 
 **Merged pull requests:**
 
+- Fixes mdoc docs settings [\#451](https://github.com/47degrees/github4s/pull/451) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Removes sbt-org-policies [\#436](https://github.com/47degrees/github4s/pull/436) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Make GHException extend Exception [\#430](https://github.com/47degrees/github4s/pull/430) ([BenFradet](https://github.com/BenFradet))
 - Remove sbt-org-policies dependency syntax [\#429](https://github.com/47degrees/github4s/pull/429) ([BenFradet](https://github.com/BenFradet))
@@ -461,7 +462,6 @@
 - Removes annoying compiler warnings reported by -Xlint flag [\#104](https://github.com/47degrees/github4s/pull/104) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Publish Microsite automatically when merging in master branch [\#103](https://github.com/47degrees/github4s/pull/103) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Documentation for the PR API [\#102](https://github.com/47degrees/github4s/pull/102) ([BenFradet](https://github.com/BenFradet))
-- Replace foldLeft with traverse in Decoders [\#101](https://github.com/47degrees/github4s/pull/101) ([peterneyens](https://github.com/peterneyens))
 
 ## [v0.14.6](https://github.com/47degrees/github4s/tree/v0.14.6) (2017-04-25)
 
@@ -487,11 +487,11 @@
 
 **Merged pull requests:**
 
+- Replace foldLeft with traverse in Decoders [\#101](https://github.com/47degrees/github4s/pull/101) ([peterneyens](https://github.com/peterneyens))
 - Releases 0.14.5 [\#98](https://github.com/47degrees/github4s/pull/98) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Avoids executing create and edit issue operations [\#95](https://github.com/47degrees/github4s/pull/95) ([fedefernandez](https://github.com/fedefernandez))
 - Doc for the issue api [\#93](https://github.com/47degrees/github4s/pull/93) ([BenFradet](https://github.com/BenFradet))
 - Tries to fix OOM issues. Bumps sbt version [\#92](https://github.com/47degrees/github4s/pull/92) ([juanpedromoreno](https://github.com/juanpedromoreno))
-- Upgrades Project [\#91](https://github.com/47degrees/github4s/pull/91) ([juanpedromoreno](https://github.com/juanpedromoreno))
 
 ## [v0.14.4](https://github.com/47degrees/github4s/tree/v0.14.4) (2017-04-21)
 
@@ -503,6 +503,7 @@
 
 **Merged pull requests:**
 
+- Upgrades Project [\#91](https://github.com/47degrees/github4s/pull/91) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - PullRequest's head [\#90](https://github.com/47degrees/github4s/pull/90) ([BenFradet](https://github.com/BenFradet))
 - Documentation for the status API [\#88](https://github.com/47degrees/github4s/pull/88) ([BenFradet](https://github.com/BenFradet))
 - Remove duplicated circe-parser dependency [\#87](https://github.com/47degrees/github4s/pull/87) ([BenFradet](https://github.com/BenFradet))
