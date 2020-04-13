@@ -1,0 +1,36 @@
+options:
+  - title: Getting Started
+    url: docs
+
+  - title: Authorization API
+    url: auth
+
+  - title: Gist API
+    url: gist
+
+  - title: Git Data API
+    url: git_data
+
+  - title: Issue API
+    url: issue
+
+  - title: Pull Request API
+    url: pull_request
+
+  - title: User API
+    url: user
+
+  - title: Repository API
+    url: repository
+
+  - title: Activity API
+    url: activity
+
+  - title: Organization API
+    url: organization
+
+  - title: Team API
+    url: team
+
+  - title: Project API
+    url: project
