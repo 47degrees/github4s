@@ -34,6 +34,7 @@
 
 **Merged pull requests:**
 
+- Simplify SBT build and fix docs generation [\#456](https://github.com/47degrees/github4s/pull/456) ([alejandrohdezma](https://github.com/alejandrohdezma))
 - Fixes mdoc docs settings [\#451](https://github.com/47degrees/github4s/pull/451) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Removes sbt-org-policies [\#436](https://github.com/47degrees/github4s/pull/436) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Make GHException extend Exception [\#430](https://github.com/47degrees/github4s/pull/430) ([BenFradet](https://github.com/BenFradet))
@@ -134,7 +135,6 @@
 - Update cats-core, cats-free to 2.1.0 [\#320](https://github.com/47degrees/github4s/pull/320) ([BenFradet](https://github.com/BenFradet))
 - Active sidebar items [\#319](https://github.com/47degrees/github4s/pull/319) ([AntonioMateoGomez](https://github.com/AntonioMateoGomez))
 - Sbt microsite adaptation [\#317](https://github.com/47degrees/github4s/pull/317) ([AntonioMateoGomez](https://github.com/AntonioMateoGomez))
-- Avoid gem system update [\#316](https://github.com/47degrees/github4s/pull/316) ([calvellido](https://github.com/calvellido))
 - Publish microsite with G4S [\#313](https://github.com/47degrees/github4s/pull/313) ([juanpedromoreno](https://github.com/juanpedromoreno))
 
 ## [v0.21.0](https://github.com/47degrees/github4s/tree/v0.21.0) (2019-12-18)
@@ -158,6 +158,7 @@
 
 **Merged pull requests:**
 
+- Avoid gem system update [\#316](https://github.com/47degrees/github4s/pull/316) ([calvellido](https://github.com/calvellido))
 - Release 0.21.0 [\#312](https://github.com/47degrees/github4s/pull/312) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Cross-build Scala 2.13 [\#311](https://github.com/47degrees/github4s/pull/311) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Upgrades build [\#310](https://github.com/47degrees/github4s/pull/310) ([juanpedromoreno](https://github.com/juanpedromoreno))
@@ -364,7 +365,6 @@
 - Fixes Travis file [\#190](https://github.com/47degrees/github4s/pull/190) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Fetch issue comments [\#188](https://github.com/47degrees/github4s/pull/188) ([GRBurst](https://github.com/GRBurst))
 - Make status' id a Long [\#183](https://github.com/47degrees/github4s/pull/183) ([BenFradet](https://github.com/BenFradet))
-- Bump ruby version in travis to fix travis build [\#182](https://github.com/47degrees/github4s/pull/182) ([guersam](https://github.com/guersam))
 - Make PullRequestFile\#patch an Option\[String\] [\#181](https://github.com/47degrees/github4s/pull/181) ([lloydmeta](https://github.com/lloydmeta))
 
 ## [v0.17.0](https://github.com/47degrees/github4s/tree/v0.17.0) (2017-11-08)
@@ -391,6 +391,7 @@
 
 **Merged pull requests:**
 
+- Bump ruby version in travis to fix travis build [\#182](https://github.com/47degrees/github4s/pull/182) ([guersam](https://github.com/guersam))
 - Bump travis 2.12 version to 2.12.3 [\#166](https://github.com/47degrees/github4s/pull/166) ([suhasgaddam](https://github.com/suhasgaddam))
 - Release 0.16.0 [\#165](https://github.com/47degrees/github4s/pull/165) ([BenFradet](https://github.com/BenFradet))
 - Bump sbt-org-policies to 0.7.4 [\#164](https://github.com/47degrees/github4s/pull/164) ([BenFradet](https://github.com/BenFradet))
@@ -454,6 +455,7 @@
 - Arf 97 support notifications api [\#123](https://github.com/47degrees/github4s/pull/123) ([AdrianRaFo](https://github.com/AdrianRaFo))
 - Make sure sbt is executable in travis [\#122](https://github.com/47degrees/github4s/pull/122) ([BenFradet](https://github.com/BenFradet))
 - Documentation for the gist API [\#121](https://github.com/47degrees/github4s/pull/121) ([BenFradet](https://github.com/BenFradet))
+- Tries to fix travis Builds [\#117](https://github.com/47degrees/github4s/pull/117) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Issues API unit tests [\#116](https://github.com/47degrees/github4s/pull/116) ([BenFradet](https://github.com/BenFradet))
 - Unify JVM and JS tests [\#115](https://github.com/47degrees/github4s/pull/115) ([fedefernandez](https://github.com/fedefernandez))
 - Replace issue id by issue number in the doc [\#114](https://github.com/47degrees/github4s/pull/114) ([BenFradet](https://github.com/BenFradet))
@@ -505,7 +507,6 @@
 
 - Upgrades Project [\#91](https://github.com/47degrees/github4s/pull/91) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - PullRequest's head [\#90](https://github.com/47degrees/github4s/pull/90) ([BenFradet](https://github.com/BenFradet))
-- Documentation for the status API [\#88](https://github.com/47degrees/github4s/pull/88) ([BenFradet](https://github.com/BenFradet))
 - Remove duplicated circe-parser dependency [\#87](https://github.com/47degrees/github4s/pull/87) ([BenFradet](https://github.com/BenFradet))
 - Updated advertised version in the readme to 0.14.3 [\#86](https://github.com/47degrees/github4s/pull/86) ([BenFradet](https://github.com/BenFradet))
 
@@ -524,6 +525,7 @@
 
 **Merged pull requests:**
 
+- Documentation for the status API [\#88](https://github.com/47degrees/github4s/pull/88) ([BenFradet](https://github.com/BenFradet))
 - Upgrades sbt-org-policies [\#81](https://github.com/47degrees/github4s/pull/81) ([fedefernandez](https://github.com/fedefernandez))
 
 ## [v0.14.1](https://github.com/47degrees/github4s/tree/v0.14.1) (2017-04-05)
