@@ -4,16 +4,16 @@ addCommandAlias("ci-docs", "project-docs/mdoc; headerCreateAll")
 skip in publish := true
 
 lazy val github4s = project
-    .enablePlugins(BuildInfoPlugin)
-    .settings(
-      buildInfoKeys := Seq[BuildInfoKey](
-        name,
-        version,
-        "token" -> sys.env.getOrElse("GITHUB_TOKEN", "")
-      ),
-      buildInfoPackage := "github4s"
-    )
-    .settings(coreDeps: _*)
+  .enablePlugins(BuildInfoPlugin)
+  .settings(
+    buildInfoKeys := Seq[BuildInfoKey](
+      name,
+      version,
+      "token" -> sys.env.getOrElse("GITHUB_TOKEN", "")
+    ),
+    buildInfoPackage := "github4s"
+  )
+  .settings(coreDeps: _*)
 
 //////////
 // DOCS //
