@@ -30,13 +30,6 @@ object ProjectPlugin extends AutoPlugin {
       val silencer: String   = "1.6.0"
     }
 
-    lazy val noPublishSettings = Seq(
-      publish := ((): Unit),
-      publishLocal := ((): Unit),
-      publishArtifact := false,
-      publishMavenStyle := false // suppress warnings about intransitive deps (not published anyway)
-    )
-
     lazy val micrositeSettings = Seq(
       micrositeName := "Github4s",
       micrositeDescription := "Github API wrapper written in Scala",
