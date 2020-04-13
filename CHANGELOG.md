@@ -34,6 +34,7 @@
 
 **Merged pull requests:**
 
+- Simplify SBT build and fix docs generation [\#456](https://github.com/47degrees/github4s/pull/456) ([alejandrohdezma](https://github.com/alejandrohdezma))
 - Fixes mdoc docs settings [\#451](https://github.com/47degrees/github4s/pull/451) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Removes sbt-org-policies [\#436](https://github.com/47degrees/github4s/pull/436) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Make GHException extend Exception [\#430](https://github.com/47degrees/github4s/pull/430) ([BenFradet](https://github.com/BenFradet))
@@ -541,6 +542,7 @@
 - Fixes Github token through env var [\#77](https://github.com/47degrees/github4s/pull/77) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Bumps sbt-org-policies plugin version [\#76](https://github.com/47degrees/github4s/pull/76) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Updates changelog [\#75](https://github.com/47degrees/github4s/pull/75) ([fedefernandez](https://github.com/fedefernandez))
+- Bumps sbt-org-policies plugin version [\#66](https://github.com/47degrees/github4s/pull/66) ([juanpedromoreno](https://github.com/juanpedromoreno))
 
 ## [v0.14.0](https://github.com/47degrees/github4s/tree/v0.14.0) (2017-04-03)
 
@@ -574,7 +576,6 @@
 **Merged pull requests:**
 
 - Adds some git methods [\#67](https://github.com/47degrees/github4s/pull/67) ([fedefernandez](https://github.com/fedefernandez))
-- Bumps sbt-org-policies plugin version [\#66](https://github.com/47degrees/github4s/pull/66) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Excludes BuildInfo class from packaging [\#65](https://github.com/47degrees/github4s/pull/65) ([juanpedromoreno](https://github.com/juanpedromoreno))
 
 ## [v0.12.0](https://github.com/47degrees/github4s/tree/v0.12.0) (2017-03-22)
