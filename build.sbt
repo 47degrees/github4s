@@ -7,9 +7,7 @@ lazy val root = (project in file("."))
   .dependsOn(github4s)
   .settings(skip in publish := true)
 
-lazy val github4s =
-  (project in file("github4s"))
-    .settings(moduleName := "github4s")
+lazy val github4s = project
     .enablePlugins(BuildInfoPlugin)
     .settings(
       buildInfoKeys := Seq[BuildInfoKey](
@@ -25,10 +23,9 @@ lazy val github4s =
 // DOCS //
 //////////
 
-lazy val docs = (project in file("docs"))
+lazy val docs = project
   .aggregate(github4s)
   .dependsOn(github4s)
-  .settings(moduleName := "github4s-docs")
   .settings(micrositeSettings: _*)
   .settings(skip in publish := true)
   .enablePlugins(MicrositesPlugin)
