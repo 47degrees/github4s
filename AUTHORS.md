@@ -41,6 +41,7 @@ These are the people that have contributed to the _github4s_ project:
 - [![YarekTyshchenko](https://avatars0.githubusercontent.com/u/185304?v=4&s=20) **YarekTyshchenko**](https://github.com/YarekTyshchenko)
 - [![bond15](https://avatars1.githubusercontent.com/u/9124653?v=4&s=20) **bond15**](https://github.com/bond15)
 - [![pepegar](https://avatars0.githubusercontent.com/u/694179?v=4&s=20) **pepegar**](https://github.com/pepegar)
+- [![alejandrohdezma](https://avatars0.githubusercontent.com/u/9027541?v=4&s=20) **alejandrohdezma**](https://github.com/alejandrohdezma)
 - [![asoltysik](https://avatars2.githubusercontent.com/u/17353292?v=4&s=20) **asoltysik**](https://github.com/asoltysik)
 - [![dcsobral](https://avatars2.githubusercontent.com/u/141079?v=4&s=20) **dcsobral**](https://github.com/dcsobral)
 - [![drwlrsn](https://avatars3.githubusercontent.com/u/981387?v=4&s=20) **drwlrsn**](https://github.com/drwlrsn)
@@ -48,4 +49,3 @@ These are the people that have contributed to the _github4s_ project:
 - [![kalexmills](https://avatars0.githubusercontent.com/u/22620342?v=4&s=20) **kalexmills**](https://github.com/kalexmills)
 - [![mscharley](https://avatars0.githubusercontent.com/u/336509?v=4&s=20) **mscharley**](https://github.com/mscharley)
 - [![MaureenElsberry](https://avatars0.githubusercontent.com/u/17556002?v=4&s=20) **MaureenElsberry**](https://github.com/MaureenElsberry)
-- [![mikegirkin](https://avatars1.githubusercontent.com/u/4907402?v=4&s=20) **mikegirkin**](https://github.com/mikegirkin)
