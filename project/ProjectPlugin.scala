@@ -6,6 +6,7 @@ import sbt._
 import scoverage.ScoverageKeys
 import scoverage.ScoverageKeys._
 import com.alejandrohdezma.sbt.github.SbtGithubPlugin
+import sbtunidoc.ScalaUnidocPlugin.autoImport._
 import mdoc.MdocPlugin.autoImport._
 
 object ProjectPlugin extends AutoPlugin {
@@ -29,6 +30,9 @@ object ProjectPlugin extends AutoPlugin {
       val scalatest: String  = "3.1.1"
       val silencer: String   = "1.6.0"
     }
+
+    lazy val docsMappingsAPIDir: SettingKey[String] =
+      settingKey[String]("Name of subdirectory in site target directory for api docs")
 
     lazy val micrositeSettings = Seq(
       micrositeName := "Github4s",
@@ -60,7 +64,9 @@ object ProjectPlugin extends AutoPlugin {
       ),
       micrositeExtraMdFilesOutput := mdocIn.value,
       includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md" | "*.svg",
-      scalacOptions ~= (_ filterNot Set("-Ywarn-unused-import", "-Xlint", "-Xfatal-warnings").contains)
+      scalacOptions ~= (_ filterNot Set("-Ywarn-unused-import", "-Xlint", "-Xfatal-warnings").contains),
+      docsMappingsAPIDir in ScalaUnidoc := "api",
+      addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir in ScalaUnidoc)
     )
 
     lazy val coreDeps = Seq(

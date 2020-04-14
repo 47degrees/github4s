@@ -19,12 +19,16 @@ lazy val github4s = project
 // DOCS //
 //////////
 
-lazy val docs = project
+lazy val docs: Project = project
   .aggregate(github4s)
   .dependsOn(github4s)
   .settings(micrositeSettings: _*)
   .settings(skip in publish := true)
   .enablePlugins(MicrositesPlugin)
+  .enablePlugins(ScalaUnidocPlugin)
+  .settings(
+    unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(github4s, docs)
+  )
 
 lazy val `project-docs` = (project in file(".docs"))
   .aggregate(github4s)

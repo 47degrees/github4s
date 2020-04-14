@@ -2,6 +2,9 @@ options:
   - title: Getting Started
     url: docs
 
+  - title: Scaladoc
+    url: api/github4s
+
   - title: Authorization API
     url: auth
 
