@@ -161,7 +161,6 @@ trait IssuesSpec extends BaseIntegrationSpec {
             validRepoName,
             validIssueNumber,
             validIssueLabel.head,
-            None,
             headerUserAgent
           )
       }
@@ -180,7 +179,6 @@ trait IssuesSpec extends BaseIntegrationSpec {
             validRepoName,
             validIssueNumber,
             validIssueLabel,
-            None,
             headerUserAgent
           )
       }

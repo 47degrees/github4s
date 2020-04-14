@@ -44,5 +44,6 @@ class UsersInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]] =
-    client.get[List[User]](accessToken, s"users/$username/following", headers)
+    client
+      .get[List[User]](accessToken, s"users/$username/following", headers, pagination = pagination)
 }

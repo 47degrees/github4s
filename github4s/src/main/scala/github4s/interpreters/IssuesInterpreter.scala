@@ -35,7 +35,8 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Issue]]] =
-    client.get[List[Issue]](accessToken, s"repos/$owner/$repo/issues", headers)
+    client
+      .get[List[Issue]](accessToken, s"repos/$owner/$repo/issues", headers, pagination = pagination)
 
   override def getIssue(
       owner: String,
@@ -101,7 +102,12 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Comment]]] =
     client
-      .get[List[Comment]](accessToken, s"repos/$owner/$repo/issues/$number/comments", headers)
+      .get[List[Comment]](
+        accessToken,
+        s"repos/$owner/$repo/issues/$number/comments",
+        headers,
+        pagination = pagination
+      )
 
   override def createComment(
       owner: String,
@@ -160,14 +166,18 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Label]]] =
-    client.get[List[Label]](accessToken, s"repos/$owner/$repo/issues/$number/labels", headers)
+    client.get[List[Label]](
+      accessToken,
+      s"repos/$owner/$repo/issues/$number/labels",
+      headers,
+      pagination = pagination
+    )
 
   override def addLabels(
       owner: String,
       repo: String,
       number: Int,
       labels: List[String],
-      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Label]]] =
     client.post[List[String], List[Label]](
@@ -182,7 +192,6 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       repo: String,
       number: Int,
       label: String,
-      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Label]]] =
     client.deleteWithResponse[List[Label]](

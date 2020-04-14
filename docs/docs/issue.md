@@ -340,7 +340,6 @@ You can add existing labels to an issue with the following parameters:
  - the repository coordinates (`owner` and `name` of the repository).
  - `number`: The issue number.
  - `labels`: The existing labels that require adding.
- - `pagination`: Limit and Offset for pagination, optional.
 
  To add existing labels to an issue:
 

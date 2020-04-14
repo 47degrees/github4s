@@ -74,7 +74,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       accessToken,
       s"repos/$owner/$repo/contents/$path",
       headers,
-      ref.fold(Map.empty[String, String])(r => Map("ref" -> r))
+      ref.fold(Map.empty[String, String])(r => Map("ref" -> r)),
+      pagination
     )
 
   override def createFile(
@@ -174,7 +175,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
         "protected" -> onlyProtected.map(_.toString)
       ).collect {
         case (key, Some(value)) => key -> value
-      }
+      },
+      pagination
     )
 
   override def listContributors(
@@ -192,7 +194,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
         "anon" -> anon
       ).collect {
         case (key, Some(value)) => key -> value
-      }
+      },
+      pagination
     )
 
   override def listCollaborators(
@@ -210,7 +213,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
         "affiliation" -> affiliation
       ).collect {
         case (key, Some(value)) => key -> value
-      }
+      },
+      pagination
     )
 
   override def createRelease(
@@ -246,7 +250,12 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Status]]] =
-    client.get[List[Status]](accessToken, s"repos/$owner/$repo/commits/$ref/statuses", headers)
+    client.get[List[Status]](
+      accessToken,
+      s"repos/$owner/$repo/commits/$ref/statuses",
+      headers,
+      pagination = pagination
+    )
 
   override def createStatus(
       owner: String,

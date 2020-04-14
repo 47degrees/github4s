@@ -252,7 +252,6 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validIssueNumber,
       validIssueLabel,
-      None,
       headerUserAgent
     )
   }
@@ -273,7 +272,6 @@ class IssuesSpec extends BaseSpec {
       validRepoName,
       validIssueNumber,
       validIssueLabel.head,
-      None,
       headerUserAgent
     )
   }
