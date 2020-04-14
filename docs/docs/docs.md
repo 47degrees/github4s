@@ -190,18 +190,26 @@ By default `Github` instances are configured for the [public GitHub][public-gith
 It is also possible to pass a custom GitHub configuration (e.g. for a particular [GitHub Enterprise][github-enterprise]
 server). To override the default configuration values declare a custom `GithubConfig` instance in an appropriate
 scope:
+
 ```scala mdoc:silent
 import github4s.{Github, GithubConfig}
 
 implicit val config = GithubConfig(
   baseUrl = "",       // default: "https://api.github.com/"
   authorizeUrl = "",  // default: "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s"
-  accessTokenUrl = "" // default: "https://github.com/login/oauth/access_token"
+  accessTokenUrl = "", // default: "https://github.com/login/oauth/access_token"
+  headers = Map.empty // default: Map("User-Agent" -> "github4s")
 )
 
 val github = Github[IO](httpClient, None)
 ```
 Please refer your GitHub Enterprise server docs for exact URL values for `baseUrl`, `authorizeUrl` and `accessTokenUrl`.
+
+## Passing specific headers to the GitHub API
+
+Thanks to the aforementioned `GithubConfig`, it is also possible to specify custom headers which
+will be added to every request sent to the GitHub API. The user agent `github4s` is added by
+default.
 
 [access-token]: https://github.com/settings/tokens
 [cats-sync]: https://typelevel.org/cats-effect/typeclasses/sync.html

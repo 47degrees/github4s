@@ -65,7 +65,8 @@ class HttpClientSpec extends AnyFlatSpec with Matchers {
     res1.unsafeRunSync() shouldBe Left(nfe)
 
     implicit val basicErrorEncoder: Encoder[BasicError] = new Encoder[BasicError] {
-      final override def apply(b: BasicError): Json = Json.obj(("error", Json.fromString(b.message)))
+      final override def apply(b: BasicError): Json =
+        Json.obj(("error", Json.fromString(b.message)))
     }
     val be        = BasicError("not found")
     val response2 = Response[IO](status = Status(404), body = createBody(be.asJson))

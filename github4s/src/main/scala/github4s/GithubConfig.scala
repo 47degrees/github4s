@@ -16,7 +16,19 @@
 
 package github4s
 
-final case class GithubConfig(baseUrl: String, authorizeUrl: String, accessTokenUrl: String)
+/**
+ * Configuration for github4s
+ * @param baseUrl of the GitHub API. If you use GitHub enterprise, you'll need to modify this.
+ * @param authorizeUrl for the first step of the oAuth process. If you use GitHub enterprise, you'll need to modify this.
+ * @param accessTokenUrl for the second step of the oAuth process. If you use GitHub enterprise, you'll need to modify this.
+ * @param headers to add to all requests sent to the GitHub API. Defaults to "github4s" as user agent.
+ */
+final case class GithubConfig(
+    baseUrl: String,
+    authorizeUrl: String,
+    accessTokenUrl: String,
+    headers: Map[String, String]
+)
 
 object GithubConfig {
   implicit val default: GithubConfig =
@@ -24,6 +36,7 @@ object GithubConfig {
       baseUrl = "https://api.github.com/",
       authorizeUrl =
         "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s",
-      accessTokenUrl = "https://github.com/login/oauth/access_token"
+      accessTokenUrl = "https://github.com/login/oauth/access_token",
+      headers = Map("User-Agent" -> "github4s")
     )
 }
