@@ -32,7 +32,7 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: O
       id: Int,
       subscribed: Boolean,
       ignored: Boolean,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Subscription]] =
     client.put[SubscriptionRequest, Subscription](
       accessToken = accessToken,
@@ -46,7 +46,7 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: O
       repo: String,
       timeline: Boolean,
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[List[Stargazer]]] =
     client.get[List[Stargazer]](
       accessToken,
@@ -61,7 +61,7 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: O
       sort: Option[String],
       direction: Option[String],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[List[StarredRepository]]] =
     client.get[List[StarredRepository]](
       accessToken,

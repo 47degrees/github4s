@@ -83,7 +83,14 @@ class ReposSpec extends BaseSpec {
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.getContents(validRepoOwner, validRepoName, validFilePath, Some("master"), None, headerUserAgent)
+    repos.getContents(
+      validRepoOwner,
+      validRepoName,
+      validFilePath,
+      Some("master"),
+      None,
+      headerUserAgent
+    )
   }
 
   "Repos.createFile" should "call to httpClient.put with the right parameters" in {

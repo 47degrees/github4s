@@ -117,6 +117,7 @@ trait Repositories[F[_]] {
    * @param branch the branch name (defaults to the repository's default branch)
    * @param committer object containing information about the committer (filled in with authenticated user information if omitted)
    * @param author object containing information about the author (filled in with committer information if omitted)
+   * @param headers optional user headers to include in the request
    * @return GHResponse[WriteFileResponse] with details about the content created and the commit
    */
   def createFile(
@@ -143,6 +144,7 @@ trait Repositories[F[_]] {
    * @param branch the branch name (defaults to the repository's default branch)
    * @param committer object containing information about the committer (filled in with authenticated user information if omitted)
    * @param author object containing information about the author (filled in with committer information if omitted)
+   * @param headers optional user headers to include in the request
    * @return GHResponse[WriteFileResponse] with details about the content updated and the commit
    */
   def updateFile(
@@ -169,6 +171,7 @@ trait Repositories[F[_]] {
    * @param branch the branch name (defaults to the repository's default branch)
    * @param committer object containing information about the committer (filled in with authenticated user information if omitted)
    * @param author object containing information about the author (filled in with committer information if omitted)
+   * @param headers optional user headers to include in the request
    * @return GHResponse[WriteFileResponse] with no content and details about the commit which was added.
    */
   def deleteFile(

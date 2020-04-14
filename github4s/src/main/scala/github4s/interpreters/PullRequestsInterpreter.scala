@@ -30,7 +30,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[PullRequest]] =
     client.get[PullRequest](accessToken, s"repos/$owner/$repo/pulls/$number", headers)
 
@@ -39,7 +39,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       filters: List[PRFilter],
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[List[PullRequest]]] =
     client.get[List[PullRequest]](
       accessToken,
@@ -54,7 +54,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       number: Int,
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[List[PullRequestFile]]] =
     client
       .get[List[PullRequestFile]](
@@ -72,7 +72,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       head: String,
       base: String,
       maintainerCanModify: Option[Boolean],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[PullRequest]] = {
     val data: CreatePullRequest = newPullRequest match {
       case NewPullRequestData(title, body) =>
@@ -89,7 +89,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       pullRequest: Int,
       pagination: Option[Pagination],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[List[PullRequestReview]]] =
     client.get[List[PullRequestReview]](
       accessToken,
@@ -104,7 +104,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       pullRequest: Int,
       review: Int,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[PullRequestReview]] =
     client.get[PullRequestReview](
       accessToken,

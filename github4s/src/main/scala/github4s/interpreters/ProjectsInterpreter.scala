@@ -30,8 +30,8 @@ class ProjectsInterpreter[F[_]](
   override def listProjects(
       org: String,
       state: Option[String],
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[Project]]] =
     client.get[List[Project]](
       accessToken,

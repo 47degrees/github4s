@@ -32,8 +32,8 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
   override def listIssues(
       owner: String,
       repo: String,
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[Issue]]] =
     client
       .get[List[Issue]](accessToken, s"repos/$owner/$repo/issues", headers, pagination = pagination)
@@ -42,14 +42,14 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Issue]] =
     client.get[Issue](accessToken, s"repos/$owner/$repo/issues/$number", headers)
 
   override def searchIssues(
       query: String,
       searchParams: List[SearchParam],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[SearchIssuesResult]] =
     client.get[SearchIssuesResult](
       accessToken = accessToken,
@@ -66,7 +66,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       milestone: Option[Int],
       labels: List[String],
       assignees: List[String],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Issue]] =
     client.post[NewIssueRequest, Issue](
       accessToken,
@@ -85,7 +85,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       milestone: Option[Int],
       labels: List[String],
       assignees: List[String],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Issue]] =
     client.patch[EditIssueRequest, Issue](
       accessToken,
@@ -98,8 +98,8 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       owner: String,
       repo: String,
       number: Int,
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[Comment]]] =
     client
       .get[List[Comment]](
@@ -114,7 +114,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       repo: String,
       number: Int,
       body: String,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Comment]] =
     client.post[CommentData, Comment](
       accessToken,
@@ -128,7 +128,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       repo: String,
       id: Int,
       body: String,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Comment]] =
     client
       .patch[CommentData, Comment](
@@ -142,15 +142,15 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       owner: String,
       repo: String,
       id: Int,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Unit]] =
     client.delete(accessToken, s"repos/$owner/$repo/issues/comments/$id", headers)
 
   override def listLabelsRepository(
       owner: String,
       repo: String,
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[Label]]] =
     client.get[List[Label]](
       accessToken,
@@ -163,8 +163,8 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       owner: String,
       repo: String,
       number: Int,
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[Label]]] =
     client.get[List[Label]](
       accessToken,
@@ -178,7 +178,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       repo: String,
       number: Int,
       labels: List[String],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[List[Label]]] =
     client.post[List[String], List[Label]](
       accessToken,
@@ -192,7 +192,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       repo: String,
       number: Int,
       label: String,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[List[Label]]] =
     client.deleteWithResponse[List[Label]](
       accessToken,
@@ -203,8 +203,8 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
   override def listAvailableAssignees(
       owner: String,
       repo: String,
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[User]]] =
     client.get[List[User]](
       accessToken,
@@ -219,8 +219,8 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       state: Option[String],
       sort: Option[String],
       direction: Option[String],
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[Milestone]]] =
     client.get[List[Milestone]](
       accessToken,
@@ -238,7 +238,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       state: Option[String],
       description: Option[String],
       due_on: Option[ZonedDateTime],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Milestone]] =
     client.post[MilestoneData, Milestone](
       accessToken,
@@ -251,7 +251,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       owner: String,
       repo: String,
       number: Int,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Milestone]] =
     client.get[Milestone](accessToken, s"repos/$owner/$repo/milestones/$number", headers)
 
@@ -263,7 +263,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       state: Option[String],
       description: Option[String],
       due_on: Option[ZonedDateTime],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Milestone]] = client.patch[MilestoneData, Milestone](
     accessToken,
     s"repos/$owner/$repo/milestones/$milestone_number",

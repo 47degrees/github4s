@@ -30,8 +30,8 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       owner: String,
       repo: String,
       ref: String,
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[NonEmptyList[Ref]]] =
     client.get[NonEmptyList[Ref]](
       accessToken,
@@ -45,7 +45,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       repo: String,
       ref: String,
       sha: String,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Ref]] =
     client.post[CreateReferenceRequest, Ref](
       accessToken,
@@ -60,7 +60,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       ref: String,
       sha: String,
       force: Boolean,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Ref]] =
     client.patch[UpdateReferenceRequest, Ref](
       accessToken,
@@ -73,7 +73,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       owner: String,
       repo: String,
       sha: String,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[RefCommit]] =
     client.get[RefCommit](accessToken, s"repos/$owner/$repo/git/commits/$sha", headers)
 
@@ -84,7 +84,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       tree: String,
       parents: List[String],
       author: Option[RefAuthor],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[RefCommit]] =
     client.post[NewCommitRequest, RefCommit](
       accessToken,
@@ -98,7 +98,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       repo: String,
       content: String,
       encoding: Option[String],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[RefInfo]] =
     client.post[NewBlobRequest, RefInfo](
       accessToken,
@@ -112,7 +112,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       repo: String,
       sha: String,
       recursive: Boolean,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[TreeResult]] =
     client.get[TreeResult](
       accessToken,
@@ -126,7 +126,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       repo: String,
       baseTree: Option[String],
       treeDataList: List[TreeData],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[TreeResult]] =
     client.post[NewTreeRequest, TreeResult](
       accessToken,
@@ -143,7 +143,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       objectSha: String,
       objectType: String,
       author: Option[RefAuthor],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Tag]] =
     client.post[NewTagRequest, Tag](
       accessToken,

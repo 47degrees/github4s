@@ -30,7 +30,7 @@ class GistsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
       description: String,
       public: Boolean,
       files: Map[String, GistFile],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Gist]] =
     client.post[NewGistRequest, Gist](
       accessToken,
@@ -42,7 +42,7 @@ class GistsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
   override def getGist(
       gistId: String,
       sha: Option[String],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Gist]] =
     client.get[Gist](
       accessToken,
@@ -54,7 +54,7 @@ class GistsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
       gistId: String,
       description: String,
       files: Map[String, Option[EditGistFile]],
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Gist]] =
     client.patch[EditGistRequest, Gist](
       accessToken,

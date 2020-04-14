@@ -38,7 +38,7 @@ class AuthInterpreter[F[_]: Applicative](
       note: String,
       client_id: String,
       client_secret: String,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[Authorization]] =
     client.postAuth[NewAuthRequest, Authorization](
       method = "authorizations",
@@ -71,7 +71,7 @@ class AuthInterpreter[F[_]: Applicative](
       code: String,
       redirect_uri: String,
       state: String,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String]
   ): F[GHResponse[OAuthToken]] =
     client.postOAuth[NewOAuthRequest, OAuthToken](
       url = client.config.accessTokenUrl,

@@ -25,24 +25,24 @@ import github4s.Decoders._
 class UsersInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Users[F] {
 
-  override def get(username: String, headers: Map[String, String] = Map()): F[GHResponse[User]] =
+  override def get(username: String, headers: Map[String, String]): F[GHResponse[User]] =
     client.get[User](accessToken, s"users/$username", headers)
 
-  override def getAuth(headers: Map[String, String] = Map()): F[GHResponse[User]] =
+  override def getAuth(headers: Map[String, String]): F[GHResponse[User]] =
     client.get[User](accessToken, "user", headers)
 
   override def getUsers(
       since: Int,
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[User]]] =
     client
       .get[List[User]](accessToken, "users", headers, Map("since" -> since.toString), pagination)
 
   override def getFollowing(
       username: String,
-      pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[User]]] =
     client
       .get[List[User]](accessToken, s"users/$username/following", headers, pagination = pagination)
