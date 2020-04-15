@@ -59,6 +59,37 @@ val user1 = Github[IO](httpClient, accessToken).users.get("rafaparadela")
 
 `user1` in this case is a `IO[GHResponse[User]]`.
 
+## Error handling
+
+Depending on the response issued by GitHub, you might find yourself in the unhappy path of
+`GHResponse`. In this case you will have a `Left` as `GHResponse#result` which contains a `GHError`.
+
+The `GHError` ADT defines different cases based on the response's status code:
+- 400 maps to `BadRequestError`
+- 401   ->    `UnauthorizedError`
+- 403   ->    `ForbiddenError`
+- 404   ->    `NotFoundError`
+- 422   ->    `UnprocessableEntityError`
+- 423   ->    `RateLimitExceededError`
+
+Thanks to these, you can fine-grain your logic according to your needs. E.g. if you're hitting a
+`RateLimitExceededError`, it might be worth it to inspect the headers and wait accordingly before
+retrying your request.
+
+We support an extensive set of errors. However, since GitHub's documentation regarding
+errors is sparse, it's definitely possible, or rather extremly likely, that this set of supported
+errors is not exhaustive.
+
+If you find an unsupported error, which translates into either:
+- `UnhandledResponseError` which corresponds to a status code which was not handled, or
+- `JsonParsingError` which indicates that the JSON sent back by GitHub couldn't be decoded into
+the case classes defined by github4s,
+please create an issue at https://github.com/47degrees/github4s/issues.
+
+## Using different effect types
+
+Github4s supports different effect types which we will go through next.
+
 ### Using `F[_]: cats.effect.Sync`
 
 Any type with a `cats.effect.Sync` instance can be used with this example, such as
