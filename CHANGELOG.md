@@ -244,6 +244,7 @@
 - Add missing links to issue table of contents [\#228](https://github.com/47degrees/github4s/pull/228) ([mkobzik](https://github.com/mkobzik))
 - Fix documentation for the list available assignees endpoint [\#227](https://github.com/47degrees/github4s/pull/227) ([BenFradet](https://github.com/BenFradet))
 - Add support for the list available assignees endpoint [\#226](https://github.com/47degrees/github4s/pull/226) ([mkobzik](https://github.com/mkobzik))
+- Add support for the list outside collaborators endpoint [\#225](https://github.com/47degrees/github4s/pull/225) ([mkobzik](https://github.com/mkobzik))
 - List user repositories api [\#224](https://github.com/47degrees/github4s/pull/224) ([pgabara](https://github.com/pgabara))
 
 ## [v0.19.0](https://github.com/47degrees/github4s/tree/v0.19.0) (2018-10-04)
@@ -264,7 +265,6 @@
 
 **Merged pull requests:**
 
-- Add support for the list outside collaborators endpoint [\#225](https://github.com/47degrees/github4s/pull/225) ([mkobzik](https://github.com/mkobzik))
 - Release 0.18.8 [\#221](https://github.com/47degrees/github4s/pull/221) ([BenFradet](https://github.com/BenFradet))
 - Add cla-bot to the Github4s in the wild section [\#220](https://github.com/47degrees/github4s/pull/220) ([BenFradet](https://github.com/BenFradet))
 
