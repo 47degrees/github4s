@@ -26,7 +26,7 @@ import github4s.GHError._
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
 import io.circe.{Decoder, Encoder}
-import org.http4s.{EntityDecoder, Header, Request, Response, Status}
+import org.http4s.{EntityDecoder, Request, Response, Status}
 import org.http4s.client.Client
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe.jsonOf
@@ -150,9 +150,7 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
         Request[F]()
           .withMethod(request.httpVerb)
           .withUri(request.toUri(config))
-          .withHeaders(
-            (config.headers.map { case (k, v) => Header(k, v) }.toList ++ request.toHeaderList): _*
-          )
+          .withHeaders((config.toHeaderList ++ request.toHeaderList): _*)
           .withJsonBody(request.data)
       )
       .use { response =>

@@ -16,6 +16,8 @@
 
 package github4s
 
+import org.http4s.Header
+
 /**
  * Configuration for github4s
  * @param baseUrl of the GitHub API. If you use GitHub enterprise, you'll need to modify this.
@@ -28,7 +30,9 @@ final case class GithubConfig(
     authorizeUrl: String,
     accessTokenUrl: String,
     headers: Map[String, String]
-)
+) {
+  def toHeaderList: List[Header] = headers.map { case (k, v) => Header(k, v) }.toList
+}
 
 object GithubConfig {
   implicit val default: GithubConfig =
