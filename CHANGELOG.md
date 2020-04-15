@@ -22,6 +22,7 @@
 
 **Closed issues:**
 
+- HttpClient should support default headers [\#447](https://github.com/47degrees/github4s/issues/447)
 - Integration tests are run when the token is not present [\#396](https://github.com/47degrees/github4s/issues/396)
 - Most GH error bodies are returned as JsonProcessingException. [\#394](https://github.com/47degrees/github4s/issues/394)
 - Sealed GithubAPIs prevents extension [\#392](https://github.com/47degrees/github4s/issues/392)
@@ -38,6 +39,7 @@
 **Merged pull requests:**
 
 - Add Scaladoc to the microsite [\#463](https://github.com/47degrees/github4s/pull/463) ([BenFradet](https://github.com/BenFradet))
+- Add support for default headers [\#461](https://github.com/47degrees/github4s/pull/461) ([BenFradet](https://github.com/BenFradet))
 - Simplify SBT build and fix docs generation [\#456](https://github.com/47degrees/github4s/pull/456) ([alejandrohdezma](https://github.com/alejandrohdezma))
 - Fixes mdoc docs settings [\#451](https://github.com/47degrees/github4s/pull/451) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Removes sbt-org-policies [\#436](https://github.com/47degrees/github4s/pull/436) ([juanpedromoreno](https://github.com/juanpedromoreno))
@@ -194,6 +196,7 @@
 - Update simulacrum to 0.19.0 [\#266](https://github.com/47degrees/github4s/pull/266) ([scala-steward](https://github.com/scala-steward))
 - Update base64 to 0.2.9 [\#265](https://github.com/47degrees/github4s/pull/265) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-buildinfo to 0.9.0 [\#264](https://github.com/47degrees/github4s/pull/264) ([scala-steward](https://github.com/scala-steward))
+- Adding merge\_commit\_sha field to PullRequest model [\#260](https://github.com/47degrees/github4s/pull/260) ([jdesiloniz](https://github.com/jdesiloniz))
 - Added contributions field [\#258](https://github.com/47degrees/github4s/pull/258) ([oybek](https://github.com/oybek))
 - Make the integration tests skippable [\#257](https://github.com/47degrees/github4s/pull/257) ([BenFradet](https://github.com/BenFradet))
 - GetFollowing added to the algebra [\#251](https://github.com/47degrees/github4s/pull/251) ([mfirry](https://github.com/mfirry))
@@ -208,7 +211,6 @@
 
 **Merged pull requests:**
 
-- Adding merge\_commit\_sha field to PullRequest model [\#260](https://github.com/47degrees/github4s/pull/260) ([jdesiloniz](https://github.com/jdesiloniz))
 - Releases 0.20.1 [\#254](https://github.com/47degrees/github4s/pull/254) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Replaces circe-jawn by circe-jackson Parser [\#253](https://github.com/47degrees/github4s/pull/253) ([juanpedromoreno](https://github.com/juanpedromoreno))
 - Add cla-bot to the github4s in the wild section [\#252](https://github.com/47degrees/github4s/pull/252) ([BenFradet](https://github.com/BenFradet))
@@ -242,7 +244,6 @@
 - Add missing links to issue table of contents [\#228](https://github.com/47degrees/github4s/pull/228) ([mkobzik](https://github.com/mkobzik))
 - Fix documentation for the list available assignees endpoint [\#227](https://github.com/47degrees/github4s/pull/227) ([BenFradet](https://github.com/BenFradet))
 - Add support for the list available assignees endpoint [\#226](https://github.com/47degrees/github4s/pull/226) ([mkobzik](https://github.com/mkobzik))
-- Add support for the list outside collaborators endpoint [\#225](https://github.com/47degrees/github4s/pull/225) ([mkobzik](https://github.com/mkobzik))
 - List user repositories api [\#224](https://github.com/47degrees/github4s/pull/224) ([pgabara](https://github.com/pgabara))
 
 ## [v0.19.0](https://github.com/47degrees/github4s/tree/v0.19.0) (2018-10-04)
@@ -263,6 +264,7 @@
 
 **Merged pull requests:**
 
+- Add support for the list outside collaborators endpoint [\#225](https://github.com/47degrees/github4s/pull/225) ([mkobzik](https://github.com/mkobzik))
 - Release 0.18.8 [\#221](https://github.com/47degrees/github4s/pull/221) ([BenFradet](https://github.com/BenFradet))
 - Add cla-bot to the Github4s in the wild section [\#220](https://github.com/47degrees/github4s/pull/220) ([BenFradet](https://github.com/BenFradet))
 
