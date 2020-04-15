@@ -6,6 +6,8 @@
 
 ⚠️ **Breaking changes**
 
+- Remove default parameters from interpreters [\#462](https://github.com/47degrees/github4s/pull/462) ([BenFradet](https://github.com/BenFradet))
+- Uniformize pagination usage [\#443](https://github.com/47degrees/github4s/pull/443) ([BenFradet](https://github.com/BenFradet))
 - Error refactor [\#440](https://github.com/47degrees/github4s/pull/440) ([BenFradet](https://github.com/BenFradet))
 - Unseal GithubAPIs and make it part of the algebra \[fixes \#392\] [\#421](https://github.com/47degrees/github4s/pull/421) ([dcsobral](https://github.com/dcsobral))
 - Introduces custom GitHub configuration [\#384](https://github.com/47degrees/github4s/pull/384) ([satorg](https://github.com/satorg))
@@ -18,11 +20,14 @@
 
 📈 **Dependency updates**
 
+- Update sbt to 1.3.10 [\#468](https://github.com/47degrees/github4s/pull/468) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-scalafmt to 2.3.3 [\#445](https://github.com/47degrees/github4s/pull/445) ([scala-steward](https://github.com/scala-steward))
 
 **Closed issues:**
 
+- Interpreters shouldn't have default parameters [\#449](https://github.com/47degrees/github4s/issues/449)
 - HttpClient should support default headers [\#447](https://github.com/47degrees/github4s/issues/447)
+- Missing pagination parameter [\#441](https://github.com/47degrees/github4s/issues/441)
 - Integration tests are run when the token is not present [\#396](https://github.com/47degrees/github4s/issues/396)
 - Most GH error bodies are returned as JsonProcessingException. [\#394](https://github.com/47degrees/github4s/issues/394)
 - Sealed GithubAPIs prevents extension [\#392](https://github.com/47degrees/github4s/issues/392)
