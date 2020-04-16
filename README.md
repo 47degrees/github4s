@@ -1,7 +1,7 @@
 
 [comment]: # (Start Badges)
 
-[![Join the chat at https://gitter.im/47degrees/github4s](https://badges.gitter.im/47degrees/github4s.svg)](https://gitter.im/47degrees/github4s?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![codecov.io](http://codecov.io/gh/47degrees/github4s/branch/master/graph/badge.svg)](http://codecov.io/gh/47degrees/github4s) [![Maven Central](https://img.shields.io/badge/maven%20central-0.23.0-green.svg)](https://oss.sonatype.org/#nexus-search;gav~com.47deg~github4s*) [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/47degrees/github4s/master/LICENSE) [![Latest version](https://img.shields.io/badge/github4s-0.23.0-green.svg)](https://index.scala-lang.org/47degrees/github4s) [![GitHub Issues](https://img.shields.io/github/issues/47degrees/github4s.svg)](https://github.com/47degrees/github4s/issues)
+[![Join the chat at https://gitter.im/47degrees/github4s](https://badges.gitter.im/47degrees/github4s.svg)](https://gitter.im/47degrees/github4s?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![codecov.io](http://codecov.io/gh/47degrees/github4s/branch/master/graph/badge.svg)](http://codecov.io/gh/47degrees/github4s) [![Maven Central](https://img.shields.io/badge/maven%20central-0.24.0-green.svg)](https://oss.sonatype.org/#nexus-search;gav~com.47deg~github4s*) [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/47degrees/github4s/master/LICENSE) [![Latest version](https://img.shields.io/badge/github4s-0.24.0-green.svg)](https://index.scala-lang.org/47degrees/github4s) [![GitHub Issues](https://img.shields.io/github/issues/47degrees/github4s.svg)](https://github.com/47degrees/github4s/issues)
 
 [comment]: # (End Badges)
 
@@ -17,7 +17,7 @@ To get started with SBT, simply add the following to your build.sbt file.
 [comment]: # (Start Replace)
 
 ```scala
-libraryDependencies += "com.47deg" %% "github4s" % "0.23.0"
+libraryDependencies += "com.47deg" %% "github4s" % "0.24.0"
 ```
 
 [comment]: # (End Replace)
