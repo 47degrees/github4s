@@ -42,6 +42,7 @@ object ProjectPlugin extends AutoPlugin {
       micrositeGithubOwner := "47degrees",
       micrositeGithubRepo := "github4s",
       micrositeAuthor := "Github4s contributors",
+      micrositeGithubToken := Option(System.getenv().get("GITHUB_TOKEN")),
       micrositeCompilingDocsTool := WithMdoc,
       micrositePushSiteWith := GitHub4s,
       micrositeOrganizationHomepage := "https://github.com/47degrees/github4s/blob/master/AUTHORS.md",
