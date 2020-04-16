@@ -1,5 +1,5 @@
 addCommandAlias("ci-test", "+scalafmtCheck; +scalafmtSbtCheck; +docs/mdoc; +test")
-addCommandAlias("ci-docs", "project-docs/mdoc; headerCreateAll")
+addCommandAlias("ci-docs", "project-docs/mdoc; docs/mdoc; headerCreateAll")
 addCommandAlias("ci-microsite", "docs/publishMicrosite")
 
 skip in publish := true
