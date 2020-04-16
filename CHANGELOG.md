@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/47degrees/github4s/tree/HEAD)
+## [v0.24.0](https://github.com/47degrees/github4s/tree/v0.24.0) (2020-04-16)
 
-[Full Changelog](https://github.com/47degrees/github4s/compare/v0.23.0...HEAD)
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.23.0...v0.24.0)
 
 ⚠️ **Breaking changes**
 
@@ -43,6 +43,8 @@
 
 **Merged pull requests:**
 
+- Add README to the managed docs folder [\#474](https://github.com/47degrees/github4s/pull/474) ([BenFradet](https://github.com/BenFradet))
+- Document error handling [\#472](https://github.com/47degrees/github4s/pull/472) ([BenFradet](https://github.com/BenFradet))
 - Add Scaladoc to the microsite [\#463](https://github.com/47degrees/github4s/pull/463) ([BenFradet](https://github.com/BenFradet))
 - Add support for default headers [\#461](https://github.com/47degrees/github4s/pull/461) ([BenFradet](https://github.com/BenFradet))
 - Simplify SBT build and fix docs generation [\#456](https://github.com/47degrees/github4s/pull/456) ([alejandrohdezma](https://github.com/alejandrohdezma))
