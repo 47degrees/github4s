@@ -77,11 +77,12 @@ object ProjectPlugin extends AutoPlugin {
         "io.circe"              %% "circe-generic"       % V.circe,
         "io.circe"              %% "circe-literal"       % V.circe,
         "com.github.marklister" %% "base64"              % V.base64,
-        "org.http4s"            %% "http4s-blaze-client" % V.http4s,
+        "org.http4s"            %% "http4s-client"       % V.http4s,
         "org.http4s"            %% "http4s-circe"        % V.http4s,
         "io.circe"              %% "circe-parser"        % V.circe % Test,
         "org.scalamock"         %% "scalamock"           % V.scalamock % Test,
         "org.scalatest"         %% "scalatest"           % V.scalatest % Test,
+        "org.http4s"            %% "http4s-blaze-client" % V.http4s % Test,
         "com.github.ghik"       % "silencer-lib"         % V.silencer % Provided cross CrossVersion.full,
         compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full)
       ),
