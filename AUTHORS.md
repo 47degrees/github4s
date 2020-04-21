@@ -22,9 +22,9 @@ These are the people that have contributed to the _github4s_ project:
 
 - [![BenFradet](https://avatars2.githubusercontent.com/u/1737211?v=4&s=20) **BenFradet**](https://github.com/BenFradet)
 - [![rafaparadela](https://avatars3.githubusercontent.com/u/315070?v=4&s=20) **rafaparadela**](https://github.com/rafaparadela)
-- [![47degdev](https://avatars3.githubusercontent.com/u/5580770?v=4&s=20) **47degdev**](https://github.com/47degdev)
 - [![juanpedromoreno](https://avatars2.githubusercontent.com/u/4879373?v=4&s=20) **juanpedromoreno**](https://github.com/juanpedromoreno)
-- [![developer47deg](https://avatars1.githubusercontent.com/u/24799081?v=4&s=20) **developer47deg**](https://github.com/developer47deg)
+- [![47degdev](https://avatars3.githubusercontent.com/u/5580770?v=4&s=20) **47degdev**](https://github.com/47degdev)
+- [![47erbot](https://avatars1.githubusercontent.com/u/24799081?v=4&s=20) **47erbot**](https://github.com/47erbot)
 - [![fedefernandez](https://avatars0.githubusercontent.com/u/720923?v=4&s=20) **fedefernandez**](https://github.com/fedefernandez)
 - [![jdesiloniz](https://avatars2.githubusercontent.com/u/2835739?v=4&s=20) **jdesiloniz**](https://github.com/jdesiloniz)
 - [![anamariamv](https://avatars0.githubusercontent.com/u/2183589?v=4&s=20) **anamariamv**](https://github.com/anamariamv)
