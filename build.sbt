@@ -1,4 +1,4 @@
-addCommandAlias("ci-test", "+scalafmtCheck; +scalafmtSbtCheck; +docs/mdoc; +test")
+addCommandAlias("ci-test", "+scalafmtCheckAll; +scalafmtSbtCheck; +docs/mdoc; +test")
 addCommandAlias("ci-docs", "project-docs/mdoc; docs/mdoc; headerCreateAll")
 addCommandAlias("ci-microsite", "docs/publishMicrosite")
 
