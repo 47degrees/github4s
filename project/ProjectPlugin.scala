@@ -65,7 +65,11 @@ object ProjectPlugin extends AutoPlugin {
       ),
       micrositeExtraMdFilesOutput := mdocIn.value,
       includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md" | "*.svg",
-      scalacOptions ~= (_ filterNot Set("-Ywarn-unused-import", "-Xlint", "-Xfatal-warnings").contains),
+      scalacOptions ~= (_ filterNot Set(
+        "-Ywarn-unused-import",
+        "-Xlint",
+        "-Xfatal-warnings"
+      ).contains),
       docsMappingsAPIDir in ScalaUnidoc := "api",
       addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir in ScalaUnidoc)
     )
@@ -79,11 +83,11 @@ object ProjectPlugin extends AutoPlugin {
         "com.github.marklister" %% "base64"              % V.base64,
         "org.http4s"            %% "http4s-client"       % V.http4s,
         "org.http4s"            %% "http4s-circe"        % V.http4s,
-        "io.circe"              %% "circe-parser"        % V.circe % Test,
+        "io.circe"              %% "circe-parser"        % V.circe     % Test,
         "org.scalamock"         %% "scalamock"           % V.scalamock % Test,
         "org.scalatest"         %% "scalatest"           % V.scalatest % Test,
-        "org.http4s"            %% "http4s-blaze-client" % V.http4s % Test,
-        "com.github.ghik"       % "silencer-lib"         % V.silencer % Provided cross CrossVersion.full,
+        "org.http4s"            %% "http4s-blaze-client" % V.http4s    % Test,
+        "com.github.ghik"        % "silencer-lib"        % V.silencer  % Provided cross CrossVersion.full,
         compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full)
       ),
       libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {

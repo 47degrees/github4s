@@ -27,8 +27,8 @@ import github4s.GHResponse
 import github4s.http.HttpClient
 import java.util.UUID
 
-class AuthInterpreter[F[_]: Applicative](
-    implicit client: HttpClient[F]
+class AuthInterpreter[F[_]: Applicative](implicit
+    client: HttpClient[F]
 ) extends Auth[F] {
 
   override def newAuth(

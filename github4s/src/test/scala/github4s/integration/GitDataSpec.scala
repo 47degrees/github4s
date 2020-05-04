@@ -100,7 +100,8 @@ trait GitDataSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsRight[TreeResult](
-      response, { r =>
+      response,
+      { r =>
         r.tree.map(_.path) shouldBe List(".gitignore", "build.sbt", "project")
         r.truncated shouldBe Some(false)
       }
@@ -117,7 +118,8 @@ trait GitDataSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsRight[TreeResult](
-      response, { r =>
+      response,
+      { r =>
         r.tree.map(_.path) shouldBe List(
           ".gitignore",
           "build.sbt",

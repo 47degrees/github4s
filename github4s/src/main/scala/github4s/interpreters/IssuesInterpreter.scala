@@ -227,8 +227,11 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       s"repos/$owner/$repo/milestones",
       headers,
       pagination = pagination,
-      params =
-        List(state.map("state" -> _), sort.map("sort" -> _), direction.map("direction" -> _)).flatten.toMap
+      params = List(
+        state.map("state"         -> _),
+        sort.map("sort"           -> _),
+        direction.map("direction" -> _)
+      ).flatten.toMap
     )
 
   override def createMilestone(
@@ -264,12 +267,13 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       description: Option[String],
       due_on: Option[ZonedDateTime],
       headers: Map[String, String]
-  ): F[GHResponse[Milestone]] = client.patch[MilestoneData, Milestone](
-    accessToken,
-    s"repos/$owner/$repo/milestones/$milestone_number",
-    headers,
-    data = MilestoneData(title, state, description, due_on)
-  )
+  ): F[GHResponse[Milestone]] =
+    client.patch[MilestoneData, Milestone](
+      accessToken,
+      s"repos/$owner/$repo/milestones/$milestone_number",
+      headers,
+      data = MilestoneData(title, state, description, due_on)
+    )
 
   override def deleteMilestone(
       owner: String,

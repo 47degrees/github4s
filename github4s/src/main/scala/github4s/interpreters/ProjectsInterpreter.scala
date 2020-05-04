@@ -22,8 +22,8 @@ import github4s.domain.{Card, Column, Pagination, Project}
 import github4s.http.HttpClient
 import github4s.Decoders._
 
-class ProjectsInterpreter[F[_]](
-    implicit client: HttpClient[F],
+class ProjectsInterpreter[F[_]](implicit
+    client: HttpClient[F],
     accessToken: Option[String]
 ) extends Projects[F] {
 
@@ -60,13 +60,14 @@ class ProjectsInterpreter[F[_]](
       project_id: Int,
       pagination: Option[Pagination],
       headers: Map[String, String]
-  ): F[GHResponse[List[Column]]] = client.get[List[Column]](
-    accessToken,
-    s"projects/$project_id/columns",
-    headers,
-    Map(),
-    pagination
-  )
+  ): F[GHResponse[List[Column]]] =
+    client.get[List[Column]](
+      accessToken,
+      s"projects/$project_id/columns",
+      headers,
+      Map(),
+      pagination
+    )
 
   override def listCards(
       column_id: Int,

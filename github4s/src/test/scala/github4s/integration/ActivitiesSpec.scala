@@ -56,10 +56,13 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[List[Stargazer]](response, { r =>
-      r.nonEmpty shouldBe true
-      forAll(r)(s => s.starred_at shouldBe None)
-    })
+    testIsRight[List[Stargazer]](
+      response,
+      { r =>
+        r.nonEmpty shouldBe true
+        forAll(r)(s => s.starred_at shouldBe None)
+      }
+    )
     response.statusCode shouldBe okStatusCode
   }
 
@@ -71,10 +74,13 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[List[Stargazer]](response, { r =>
-      r.nonEmpty shouldBe true
-      forAll(r)(s => s.starred_at shouldBe defined)
-    })
+    testIsRight[List[Stargazer]](
+      response,
+      { r =>
+        r.nonEmpty shouldBe true
+        forAll(r)(s => s.starred_at shouldBe defined)
+      }
+    )
     response.statusCode shouldBe okStatusCode
   }
 
@@ -98,10 +104,13 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[List[StarredRepository]](response, { r =>
-      r.nonEmpty shouldBe true
-      forAll(r)(s => s.starred_at shouldBe None)
-    })
+    testIsRight[List[StarredRepository]](
+      response,
+      { r =>
+        r.nonEmpty shouldBe true
+        forAll(r)(s => s.starred_at shouldBe None)
+      }
+    )
     response.statusCode shouldBe okStatusCode
   }
 
@@ -113,10 +122,13 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[List[StarredRepository]](response, { r =>
-      r.nonEmpty shouldBe true
-      forAll(r)(s => s.starred_at shouldBe defined)
-    })
+    testIsRight[List[StarredRepository]](
+      response,
+      { r =>
+        r.nonEmpty shouldBe true
+        forAll(r)(s => s.starred_at shouldBe defined)
+      }
+    )
     response.statusCode shouldBe okStatusCode
   }
 

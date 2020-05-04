@@ -56,10 +56,13 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[SearchIssuesResult](response, { r =>
-      r.total_count > 0 shouldBe true
-      r.items.nonEmpty shouldBe true
-    })
+    testIsRight[SearchIssuesResult](
+      response,
+      { r =>
+        r.total_count > 0 shouldBe true
+        r.items.nonEmpty shouldBe true
+      }
+    )
     response.statusCode shouldBe okStatusCode
   }
 
@@ -71,10 +74,13 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[SearchIssuesResult](response, { r =>
-      r.total_count shouldBe 0
-      r.items.nonEmpty shouldBe false
-    })
+    testIsRight[SearchIssuesResult](
+      response,
+      { r =>
+        r.total_count shouldBe 0
+        r.items.nonEmpty shouldBe false
+      }
+    )
     response.statusCode shouldBe okStatusCode
   }
 
@@ -97,10 +103,13 @@ trait IssuesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[Issue](response, { r =>
-      r.state shouldBe validIssueState
-      r.title shouldBe validIssueTitle
-    })
+    testIsRight[Issue](
+      response,
+      { r =>
+        r.state shouldBe validIssueState
+        r.title shouldBe validIssueTitle
+      }
+    )
     response.statusCode shouldBe okStatusCode
   }
 
