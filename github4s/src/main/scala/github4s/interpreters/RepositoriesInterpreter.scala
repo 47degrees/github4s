@@ -217,6 +217,17 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       pagination
     )
 
+  override def latestRelease(
+      owner: String,
+      repo: String,
+      headers: Map[String, String]
+  ): F[GHResponse[Option[Release]]] =
+    client.get[Option[Release]](
+      accessToken,
+      s"repos/$owner/$repo/releases/latest",
+      headers,
+      Map.empty)
+
   override def listReleases(
       owner: String,
       repo: String,

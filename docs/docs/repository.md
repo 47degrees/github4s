@@ -379,6 +379,29 @@ response.result match {
 
 The `result` on the right is the corresponding [List[Release]][repository-scala].
 
+### The latest release
+
+You can get the latest release using `latestRelease`, it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+
+Get the latest release:
+
+```scala mdoc:compile-only
+val latestReleases =
+  gh.repos.latestReleases(
+  "47deg",
+  "github4s",
+   Map.empty)
+val response = latestReleases.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding [Option[Release]][repository-scala].
+
 ### Create a release
 
 Users with push access to the repository can create a release using `createRelease`; it takes as arguments:
