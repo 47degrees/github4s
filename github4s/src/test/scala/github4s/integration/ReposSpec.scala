@@ -49,6 +49,18 @@ trait ReposSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
+  "Repos >> ListReleases" should "return the expected repos when a valid org is provided" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .listReleases(validRepoOwner, validRepoName, None, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsRight[List[Release]](response, r => r.nonEmpty shouldBe true)
+    response.statusCode shouldBe okStatusCode
+  }
+
   "Repos >> ListOrgRepos" should "return the expected repos when a valid org is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>

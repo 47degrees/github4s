@@ -272,6 +272,21 @@ trait Repositories[F[_]] {
   ): F[GHResponse[List[User]]]
 
   /**
+   * List of releases
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with List[Release]
+   */
+  def listReleases(
+      owner: String,
+      repo: String,
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[Release]]]
+
+  /**
    * Create a new release
    *
    * @param owner of the repo
