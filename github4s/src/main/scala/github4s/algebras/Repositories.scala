@@ -276,6 +276,7 @@ trait Repositories[F[_]] {
    *
    * @param owner of the repo
    * @param repo name of the repo
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return a GHResponse with List[Release]
    */
