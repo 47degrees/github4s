@@ -388,12 +388,12 @@ You can get the latest release using `latestRelease`, it takes as arguments:
 Get the latest release:
 
 ```scala mdoc:compile-only
-val latestReleases =
-  gh.repos.latestReleases(
+val latestRelease =
+  gh.repos.latestRelease(
   "47deg",
   "github4s",
    Map.empty)
-val response = latestReleases.unsafeRunSync()
+val response = latestRelease.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r)
