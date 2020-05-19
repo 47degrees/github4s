@@ -354,6 +354,31 @@ See [the API doc](https://developer.github.com/v3/repos/contents/#delete-a-file)
 
 ## Releases
 
+### List of releases
+
+You can list releases using `listReleases`, it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- `pagination` Limit and Offset for pagination, optional.
+
+To list releases:
+
+```scala mdoc:compile-only
+val listReleases =
+  gh.repos.listReleases(
+  "47deg",
+  "github4s",
+   None,
+   Map.empty)
+val response = listReleases.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding [List[Release]][repository-scala].
+
 ### Create a release
 
 Users with push access to the repository can create a release using `createRelease`; it takes as arguments:
