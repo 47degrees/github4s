@@ -222,11 +222,8 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       repo: String,
       headers: Map[String, String]
   ): F[GHResponse[Option[Release]]] =
-    client.get[Option[Release]](
-      accessToken,
-      s"repos/$owner/$repo/releases/latest",
-      headers,
-      Map.empty)
+    client
+      .get[Option[Release]](accessToken, s"repos/$owner/$repo/releases/latest", headers, Map.empty)
 
   override def listReleases(
       owner: String,

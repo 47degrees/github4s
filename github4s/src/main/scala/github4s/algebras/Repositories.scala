@@ -271,7 +271,6 @@ trait Repositories[F[_]] {
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]]
 
-
   /**
    * Latest release
    *
