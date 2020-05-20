@@ -209,6 +209,8 @@ response.result match {
 
 The `result` on the right is the corresponding [BlobContent][gitdata-scala].
 
+See [the API doc](https://developer.github.com/v3/git/blobs/#get-a-blob) for full reference.
+
 ### Create a Blob
 
 You can create a blob using `createBlob`; it takes as arguments:
@@ -228,7 +230,7 @@ response.result match {
 
 The `result` on the right is the created [RefObject][gitdata-scala].
 
-See [the API doc](https://developer.github.com/v3/git/blobs/#get-a-blob) for full reference.
+See [the API doc](https://developer.github.com/v3/git/blobs/#create-a-blob) for full reference.
 
 ## Trees
 
