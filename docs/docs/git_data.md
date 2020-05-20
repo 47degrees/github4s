@@ -209,8 +209,6 @@ response.result match {
 
 The `result` on the right is the corresponding [BlobContent][gitdata-scala].
 
-See [the API doc](https://developer.github.com/v3/git/commits/#get-a-commit) for full reference.
-
 ### Create a Blob
 
 You can create a blob using `createBlob`; it takes as arguments:
