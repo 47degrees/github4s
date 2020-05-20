@@ -83,6 +83,14 @@ final case class NewCommitRequest(
     author: Option[RefAuthor]
 )
 
+final case class BlobContent(
+    content: Option[String],
+    encoding: Option[String],
+    url: String,
+    sha: String,
+    size: Int
+)
+
 final case class NewBlobRequest(content: String, encoding: Option[String])
 
 final case class NewTreeRequest(base_tree: Option[String], tree: List[TreeData])

@@ -19,7 +19,7 @@ package github4s.integration
 import cats.effect.IO
 import cats.data.NonEmptyList
 import github4s.GHError.NotFoundError
-import github4s.Github
+import github4s.{GHResponse, Github}
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -118,6 +118,38 @@ trait ReposSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsRight[NonEmptyList[Content]](response, r => r.head.path shouldBe validFilePath)
+    response.statusCode shouldBe okStatusCode
+  }
+
+  "Repos >> GetContents" should "have the same contents with getBlob using fileSha" taggedAs Integration in {
+    val gh = clientResource.map { client =>
+      Github[IO](client, accessToken)
+    }
+
+    val response: GHResponse[NonEmptyList[Content]] = gh
+      .use(
+        _.repos.getContents(validRepoOwner, validRepoName, validFilePath, headers = headerUserAgent)
+      )
+      .unsafeRunSync()
+
+    val fileContentO = for {
+      res     <- response.result.toOption
+      content <- res.head.content
+    } yield content
+
+    fileContentO.isDefined shouldBe true
+
+    val blobResponse = for {
+      res <- response.result.toOption
+    } yield gh.use(
+      _.gitData.getBlob(validRepoOwner, validRepoName, res.head.sha, headers = headerUserAgent)
+    )
+
+    blobResponse.isDefined shouldBe true
+
+    val responseBlob = blobResponse.get.unsafeRunSync()
+
+    testIsRight[BlobContent](responseBlob, r => r.content shouldBe fileContentO)
     response.statusCode shouldBe okStatusCode
   }
 

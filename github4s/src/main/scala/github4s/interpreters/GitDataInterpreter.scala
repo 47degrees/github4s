@@ -93,6 +93,14 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       NewCommitRequest(message, tree, parents, author)
     )
 
+  override def getBlob(
+      owner: String,
+      repo: String,
+      fileSha: String,
+      headers: Map[String, String]
+  ): F[GHResponse[BlobContent]] =
+    client.get[BlobContent](accessToken, s"repos/$owner/$repo/git/blobs/$fileSha", headers)
+
   override def createBlob(
       owner: String,
       repo: String,

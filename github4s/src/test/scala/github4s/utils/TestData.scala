@@ -113,6 +113,7 @@ trait TestData {
 
   val validTreeSha   = "827efc6d56897b048c772eb4087f854f46256132"
   val invalidTreeSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  val invalidFileSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
   val validTagTitle = "v0.1.1"
   val validTagSha   = "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c"
