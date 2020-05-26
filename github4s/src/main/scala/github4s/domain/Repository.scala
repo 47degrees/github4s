@@ -69,14 +69,14 @@ final case class Release(
     draft: Boolean,
     prerelease: Boolean,
     created_at: String,
-    published_at: String,
+    published_at: Option[String],
     author: Option[User],
     url: String,
     html_url: String,
     assets_url: String,
     upload_url: String,
-    tarball_url: String,
-    zipball_url: String
+    tarball_url: Option[String],
+    zipball_url: Option[String]
 )
 
 final case class Content(

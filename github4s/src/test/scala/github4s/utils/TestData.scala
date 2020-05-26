@@ -265,14 +265,14 @@ trait TestData {
     draft = false,
     prerelease = false,
     created_at = "2011-04-10T20:09:31Z",
-    published_at = "2011-04-10T20:09:31Z",
+    published_at = Some("2011-04-10T20:09:31Z"),
     author = Some(user),
     url = githubApiUrl,
     html_url = githubApiUrl,
     assets_url = githubApiUrl,
     upload_url = githubApiUrl,
-    tarball_url = githubApiUrl,
-    zipball_url = githubApiUrl
+    tarball_url = Some(githubApiUrl),
+    zipball_url = Some(githubApiUrl)
   )
 
   val content = Content(
