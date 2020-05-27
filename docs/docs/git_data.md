@@ -14,6 +14,7 @@ with Github4s, you can:
 - [Update a Reference](#update-a-reference)
 - [Get a Commit](#get-a-commit)
 - [Create a Commit](#create-a-commit)
+- [Get a Blob](#get-a-blob)
 - [Create a Blob](#create-a-blob)
 - [Get a Tree](#get-a-tree)
 - [Create a Tree](#create-a-tree)
