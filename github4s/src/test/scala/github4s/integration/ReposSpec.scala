@@ -16,13 +16,12 @@
 
 package github4s.integration
 
-import cats.effect.{IO, Resource}
 import cats.data.NonEmptyList
+import cats.effect.{IO, Resource}
 import github4s.GHError.NotFoundError
-import github4s.{GHResponse, Github}
+import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
-import org.scalatest.Assertion
 
 trait ReposSpec extends BaseIntegrationSpec {
 
