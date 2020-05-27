@@ -152,7 +152,7 @@ trait ReposSpec extends BaseIntegrationSpec {
     } yield (blobContentResponse, fileContents.head)
 
     val (blobContentResponse, fileContent) = blobResponseFileContent
-      .use(IO.apply)
+      .use(a => IO.apply(a))
       .unsafeRunSync()
 
     testIsRight[BlobContent](blobContentResponse, _.content.shouldBe(fileContent.content))
