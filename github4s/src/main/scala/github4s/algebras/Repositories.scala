@@ -282,7 +282,7 @@ trait Repositories[F[_]] {
   def latestRelease(
       owner: String,
       repo: String,
-      headers: Map[String, String]
+      headers: Map[String, String] = Map()
   ): F[GHResponse[Option[Release]]]
 
   /**
