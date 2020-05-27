@@ -143,7 +143,7 @@ trait GitData[F[_]] {
       owner: String,
       repo: String,
       fileSha: String,
-      headers: Map[String, String]
+      headers: Map[String, String] = Map()
   ): F[GHResponse[BlobContent]]
 
   /**
