@@ -23,6 +23,8 @@ with Github4s, you can interact with:
   - [Update a File](#update-a-file)
   - [Delete a File](#delete-a-file)
 - [Releases](#releases)
+  - [List of releases](#list-of-releases)
+  - [The latest release](#the-latest-release)
   - [Create a release](#create-a-release)
 - [Statuses](#statuses)
   - [Create a status](#create-a-status)
