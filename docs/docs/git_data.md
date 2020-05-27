@@ -199,7 +199,7 @@ You can get a blob using `getBlob`; it takes as arguments:
 - `sha`: the sha of the blob.
 
 ```scala mdoc:compile-only
-val getBlob = gh.gitData.getBlob("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891", Map.empty)
+val getBlob = gh.gitData.getBlob("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 val response = getBlob.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
