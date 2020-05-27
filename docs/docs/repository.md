@@ -391,8 +391,7 @@ Get the latest release:
 val latestRelease =
   gh.repos.latestRelease(
   "47deg",
-  "github4s",
-   Map.empty)
+  "github4s")
 val response = latestRelease.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
