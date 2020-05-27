@@ -16,12 +16,13 @@
 
 package github4s.integration
 
-import cats.effect.IO
+import cats.effect.{IO, Resource}
 import cats.data.NonEmptyList
 import github4s.GHError.NotFoundError
 import github4s.{GHResponse, Github}
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
+import org.scalatest.Assertion
 
 trait ReposSpec extends BaseIntegrationSpec {
 
@@ -122,35 +123,41 @@ trait ReposSpec extends BaseIntegrationSpec {
   }
 
   "Repos >> GetContents" should "have the same contents with getBlob using fileSha" taggedAs Integration in {
-    val gh = clientResource.map { client =>
-      Github[IO](client, accessToken)
-    }
 
-    val response: GHResponse[NonEmptyList[Content]] = gh
-      .use(
-        _.repos.getContents(validRepoOwner, validRepoName, validFilePath, headers = headerUserAgent)
+    val blobResponseFileContent = for {
+      client <- clientResource
+      res = Github[IO](client, accessToken)
+
+      fileContentsIO = res.repos.getContents(
+        owner = validRepoOwner,
+        repo = validRepoName,
+        path = validFilePath,
+        headers = headerUserAgent
       )
+
+      fileContentsResponse <- Resource.liftF(fileContentsIO)
+
+      fileContentsEither = fileContentsResponse.result
+
+      fileContents <- Resource.liftF(IO.fromEither(fileContentsEither))
+
+      blobContentIO = res.gitData.getBlob(
+        owner = validRepoOwner,
+        repo = validRepoName,
+        fileSha = fileContents.head.sha,
+        headers = headerUserAgent
+      )
+
+      blobContentResponse <- Resource.liftF(blobContentIO)
+
+    } yield (blobContentResponse, fileContents.head)
+
+    val (blobContentResponse, fileContent) = blobResponseFileContent
+      .use(IO.apply)
       .unsafeRunSync()
 
-    val fileContentO = for {
-      res     <- response.result.toOption
-      content <- res.head.content
-    } yield content
-
-    fileContentO.isDefined shouldBe true
-
-    val blobResponse = for {
-      res <- response.result.toOption
-    } yield gh.use(
-      _.gitData.getBlob(validRepoOwner, validRepoName, res.head.sha, headers = headerUserAgent)
-    )
-
-    blobResponse.isDefined shouldBe true
-
-    val responseBlob = blobResponse.get.unsafeRunSync()
-
-    testIsRight[BlobContent](responseBlob, r => r.content shouldBe fileContentO)
-    response.statusCode shouldBe okStatusCode
+    testIsRight[BlobContent](blobContentResponse, _.content.shouldBe(fileContent.content))
+    blobContentResponse.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid path is passed" taggedAs Integration in {
