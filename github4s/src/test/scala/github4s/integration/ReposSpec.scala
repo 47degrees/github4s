@@ -18,10 +18,11 @@ package github4s.integration
 
 import cats.data.NonEmptyList
 import cats.effect.{IO, Resource}
+import cats.implicits._
 import github4s.GHError.NotFoundError
-import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
+import github4s.{GHResponse, Github}
 
 trait ReposSpec extends BaseIntegrationSpec {
 
@@ -59,6 +60,39 @@ trait ReposSpec extends BaseIntegrationSpec {
 
     testIsRight[List[Release]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
+  }
+
+  "Repos >> getASingleRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {
+
+    val responseResource = for {
+      client <- clientResource
+
+      gh: Github[IO] = Github[IO](client, accessToken)
+      releasesIO =
+        gh.repos.listReleases(validRepoOwner, validRepoName, None, headers = headerUserAgent)
+
+      releasesResponse <- Resource.liftF(releasesIO)
+
+      releases <- Resource.liftF(IO.fromEither(releasesResponse.result))
+
+      releasesAreFoundCheck: IO[List[(Release, GHResponse[Option[Release]])]] = releases.map {
+        release =>
+          val releaseIO = gh.repos
+            .getASingleRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
+          releaseIO.map(r => release -> r)
+      }.sequence
+
+    } yield releasesAreFoundCheck
+
+    val responseList: List[(Release, GHResponse[Option[Release]])] = responseResource
+      .use(identity)
+      .unsafeRunSync()
+
+    forAll(responseList) {
+      case (release, response) =>
+        testIsRight[Option[Release]](response, r => r should contain(release))
+        response.statusCode shouldBe okStatusCode
+    }
   }
 
   "Repos >> LatestRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {

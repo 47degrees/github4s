@@ -272,6 +272,22 @@ trait Repositories[F[_]] {
   ): F[GHResponse[List[User]]]
 
   /**
+   * Get a single release
+   *
+   * @param releaseId id of the release
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with List[Release]
+   */
+  def getASingleRelease(
+      releaseId: Int,
+      owner: String,
+      repo: String,
+      headers: Map[String, String]
+  ): F[GHResponse[Option[Release]]]
+
+  /**
    * Latest release
    *
    * @param owner of the repo

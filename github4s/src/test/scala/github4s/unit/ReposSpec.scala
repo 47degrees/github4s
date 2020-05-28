@@ -71,6 +71,20 @@ class ReposSpec extends BaseSpec {
     repos.latestRelease(validRepoOwner, validRepoName, headers = headerUserAgent)
   }
 
+  "Repos.getASingleRelease" should "call to httpClient.get with the right parameters" in {
+    val response: IO[GHResponse[Option[Release]]] =
+      IO(GHResponse(Option(release).asRight, okStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockGet[Option[Release]](
+      url = s"repos/$validRepoOwner/$validRepoName/releases/${release.id}",
+      response = response
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos.getASingleRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
+  }
+
   "Repos.listOrgRepos" should "call to httpClient.get with the right parameters" in {
     val response: IO[GHResponse[List[Repository]]] =
       IO(GHResponse(List(repo).asRight, okStatusCode, Map.empty))

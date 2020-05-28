@@ -16,14 +16,14 @@
 
 package github4s.interpreters
 
-import github4s.http.HttpClient
-import github4s.algebras.Repositories
 import cats.data.NonEmptyList
-import github4s.GHResponse
-import github4s.domain._
+import com.github.marklister.base64.Base64._
 import github4s.Decoders._
 import github4s.Encoders._
-import com.github.marklister.base64.Base64._
+import github4s.GHResponse
+import github4s.algebras.Repositories
+import github4s.domain._
+import github4s.http.HttpClient
 
 class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
     extends Repositories[F] {
@@ -224,6 +224,20 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
   ): F[GHResponse[Option[Release]]] =
     client
       .get[Option[Release]](accessToken, s"repos/$owner/$repo/releases/latest", headers, Map.empty)
+
+  override def getASingleRelease(
+      releaseId: Int,
+      owner: String,
+      repo: String,
+      headers: Map[String, String]
+  ): F[GHResponse[Option[Release]]] =
+    client
+      .get[Option[Release]](
+        accessToken,
+        s"repos/$owner/$repo/releases/$releaseId",
+        headers,
+        Map.empty
+      )
 
   override def listReleases(
       owner: String,
