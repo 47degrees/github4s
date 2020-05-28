@@ -144,6 +144,22 @@ class GitDataSpec extends BaseSpec {
 
   }
 
+  "GitData.getBlob" should "call to httpClient.post with the right parameters" in {
+
+    val response: IO[GHResponse[BlobContent]] =
+      IO(
+        GHResponse(BlobContent(None, None, "", invalidFileSha, 0).asRight, okStatusCode, Map.empty)
+      )
+
+    implicit val httpClientMock = httpClientMockGet[BlobContent](
+      url = s"repos/$validRepoOwner/$validRepoName/git/blobs/$invalidFileSha",
+      response = response
+    )
+    val gitData = new GitDataInterpreter[IO]
+    gitData.getBlob(validRepoOwner, validRepoName, invalidFileSha, headerUserAgent)
+
+  }
+
   "GitData.getTree" should "call to httpClient.get with the right parameters" in {
 
     val response: IO[GHResponse[TreeResult]] =

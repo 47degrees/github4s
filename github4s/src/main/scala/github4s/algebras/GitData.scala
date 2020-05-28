@@ -131,6 +131,22 @@ trait GitData[F[_]] {
   ): F[GHResponse[RefCommit]]
 
   /**
+   * Get a Blob by sha
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param fileSha to identify the blob
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with BlobContent
+   */
+  def getBlob(
+      owner: String,
+      repo: String,
+      fileSha: String,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[BlobContent]]
+
+  /**
    * Create a new Blob
    *
    * @param owner of the repo

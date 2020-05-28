@@ -14,6 +14,7 @@ with Github4s, you can:
 - [Update a Reference](#update-a-reference)
 - [Get a Commit](#get-a-commit)
 - [Create a Commit](#create-a-commit)
+- [Get a Blob](#get-a-blob)
 - [Create a Blob](#create-a-blob)
 - [Get a Tree](#get-a-tree)
 - [Create a Tree](#create-a-tree)
@@ -190,6 +191,26 @@ The `result` on the right is the created [RefCommit][gitdata-scala].
 See [the API doc](https://developer.github.com/v3/git/commits/#create-a-commit) for full reference.
 
 ## Blobs
+
+### Get a Blob
+
+You can get a blob using `getBlob`; it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- `sha`: the sha of the blob.
+
+```scala mdoc:compile-only
+val getBlob = gh.gitData.getBlob("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
+val response = getBlob.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding [BlobContent][gitdata-scala].
+
+See [the API doc](https://developer.github.com/v3/git/blobs/#get-a-blob) for full reference.
 
 ### Create a Blob
 

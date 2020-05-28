@@ -113,6 +113,7 @@ trait TestData {
 
   val validTreeSha   = "827efc6d56897b048c772eb4087f854f46256132"
   val invalidTreeSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  val invalidFileSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
   val validTagTitle = "v0.1.1"
   val validTagSha   = "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c"
@@ -265,14 +266,14 @@ trait TestData {
     draft = false,
     prerelease = false,
     created_at = "2011-04-10T20:09:31Z",
-    published_at = "2011-04-10T20:09:31Z",
+    published_at = Some("2011-04-10T20:09:31Z"),
     author = Some(user),
     url = githubApiUrl,
     html_url = githubApiUrl,
     assets_url = githubApiUrl,
     upload_url = githubApiUrl,
-    tarball_url = githubApiUrl,
-    zipball_url = githubApiUrl
+    tarball_url = Some(githubApiUrl),
+    zipball_url = Some(githubApiUrl)
   )
 
   val content = Content(

@@ -16,8 +16,8 @@
 
 package github4s.integration
 
-import cats.effect.IO
 import cats.data.NonEmptyList
+import cats.effect.{IO, Resource}
 import github4s.GHError.NotFoundError
 import github4s.Github
 import github4s.domain._
@@ -131,6 +131,44 @@ trait ReposSpec extends BaseIntegrationSpec {
 
     testIsRight[NonEmptyList[Content]](response, r => r.head.path shouldBe validFilePath)
     response.statusCode shouldBe okStatusCode
+  }
+
+  "Repos >> GetContents" should "have the same contents with getBlob using fileSha" taggedAs Integration in {
+
+    val blobResponseFileContent = for {
+      client <- clientResource
+      res = Github[IO](client, accessToken)
+
+      fileContentsIO = res.repos.getContents(
+        owner = validRepoOwner,
+        repo = validRepoName,
+        path = validFilePath,
+        headers = headerUserAgent
+      )
+
+      fileContentsResponse <- Resource.liftF(fileContentsIO)
+
+      fileContentsEither = fileContentsResponse.result
+
+      fileContents <- Resource.liftF(IO.fromEither(fileContentsEither))
+
+      blobContentIO = res.gitData.getBlob(
+        owner = validRepoOwner,
+        repo = validRepoName,
+        fileSha = fileContents.head.sha,
+        headers = headerUserAgent
+      )
+
+      blobContentResponse <- Resource.liftF(blobContentIO)
+
+    } yield (blobContentResponse, fileContents.head)
+
+    val (blobContentResponse, fileContent) = blobResponseFileContent
+      .use(a => IO.apply(a))
+      .unsafeRunSync()
+
+    testIsRight[BlobContent](blobContentResponse, _.content.shouldBe(fileContent.content))
+    blobContentResponse.statusCode shouldBe okStatusCode
   }
 
   it should "return error when an invalid path is passed" taggedAs Integration in {
