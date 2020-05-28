@@ -24,6 +24,7 @@ with Github4s, you can interact with:
   - [Delete a File](#delete-a-file)
 - [Releases](#releases)
   - [List of releases](#list-of-releases)
+  - [Get a single release](#get-a-single-release)
   - [The latest release](#the-latest-release)
   - [Create a release](#create-a-release)
 - [Statuses](#statuses)
@@ -380,6 +381,31 @@ response.result match {
 ```
 
 The `result` on the right is the corresponding [List[Release]][repository-scala].
+
+### Get a single release
+
+You can get a release using `getASingleRelease`, it takes as arguments:
+
+- the release coordinates (`releaseId` the id of the release)
+- the repository coordinates (`owner` and `name` of the repository).
+
+Get a release by release id:
+
+```scala mdoc:compile-only
+val getASingleRelease =
+  gh.repos.getASingleRelease(
+  123,
+  "47deg",
+  "github4s")
+val response = getASingleRelease.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding [Option[Release]][repository-scala].
+
 
 ### The latest release
 

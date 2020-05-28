@@ -284,7 +284,7 @@ trait Repositories[F[_]] {
       releaseId: Int,
       owner: String,
       repo: String,
-      headers: Map[String, String]
+      headers: Map[String, String] = Map()
   ): F[GHResponse[Option[Release]]]
 
   /**
