@@ -280,7 +280,7 @@ trait Repositories[F[_]] {
    * @param headers optional user headers to include in the request
    * @return a GHResponse with List[Release]
    */
-  def getASingleRelease(
+  def getRelease(
       releaseId: Int,
       owner: String,
       repo: String,

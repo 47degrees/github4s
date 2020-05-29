@@ -62,7 +62,7 @@ trait ReposSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe okStatusCode
   }
 
-  "Repos >> getASingleRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {
+  "Repos >> getRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {
 
     val responseResource = for {
       client <- clientResource
@@ -78,7 +78,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       releasesAreFoundCheck: IO[List[(Release, GHResponse[Option[Release]])]] = releases.map {
         release =>
           val releaseIO = gh.repos
-            .getASingleRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
+            .getRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
           releaseIO.map(r => release -> r)
       }.sequence
 

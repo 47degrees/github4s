@@ -384,7 +384,7 @@ The `result` on the right is the corresponding [List[Release]][repository-scala]
 
 ### Get a single release
 
-You can get a release using `getASingleRelease`, it takes as arguments:
+You can get a release using `getRelease`, it takes as arguments:
 
 - the release coordinates (`releaseId` the id of the release)
 - the repository coordinates (`owner` and `name` of the repository).
@@ -392,12 +392,12 @@ You can get a release using `getASingleRelease`, it takes as arguments:
 Get a release by release id:
 
 ```scala mdoc:compile-only
-val getASingleRelease =
-  gh.repos.getASingleRelease(
+val getRelease =
+  gh.repos.getRelease(
   123,
   "47deg",
   "github4s")
-val response = getASingleRelease.unsafeRunSync()
+val response = getRelease.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => println(r)
