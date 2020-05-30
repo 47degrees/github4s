@@ -25,6 +25,7 @@ with Github4s, you can interact with:
 - [Releases](#releases)
   - [List of releases](#list-of-releases)
   - [Get a single release](#get-a-single-release)
+  - [Get a release by tag name](#get-a-release-by-tag-name)
   - [The latest release](#the-latest-release)
   - [Create a release](#create-a-release)
 - [Statuses](#statuses)
@@ -405,6 +406,32 @@ response.result match {
 ```
 
 The `result` on the right is the corresponding [Option[Release]][repository-scala].
+
+### Get a release by tag name
+
+You can get a release by tag name using `getReleaseByTagName`, it takes as arguments:
+
+- the release coordinates (`tagName` of the release)
+- the repository coordinates (`owner` and `name` of the repository).
+
+Get a release by tag name:
+
+```scala mdoc:compile-only
+val getRelease =
+  gh.repos.getReleaseByTagName(
+  "v0.24.0",
+  "47deg",
+  "github4s")
+val response = getRelease.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding [Option[Release]][repository-scala].
+
+
 
 
 ### The latest release

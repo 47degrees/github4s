@@ -23,6 +23,7 @@ import github4s.GHError.NotFoundError
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 import github4s.{GHResponse, Github}
+import org.scalatest.Assertion
 
 trait ReposSpec extends BaseIntegrationSpec {
 
@@ -64,6 +65,30 @@ trait ReposSpec extends BaseIntegrationSpec {
 
   "Repos >> getRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {
 
+    def getReleaseIO(gh: Github[IO], release: Release): IO[GHResponse[Option[Release]]] =
+      gh.repos
+        .getRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
+
+    testAllReleases(getReleaseIO _)
+  }
+
+  "Repos >> getReleaseByTagName" should "return the expected repos when a valid org is provided" taggedAs Integration in {
+
+    def getReleaseByTagName(gh: Github[IO], release: Release): IO[GHResponse[Option[Release]]] =
+      gh.repos
+        .getReleaseByTagName(
+          release.tag_name,
+          validRepoOwner,
+          validRepoName,
+          headers = headerUserAgent
+        )
+
+    testAllReleases(getReleaseByTagName _)
+  }
+
+  private def testAllReleases(
+      getReleaseIO: (Github[IO], Release) => IO[GHResponse[Option[Release]]]
+  ): Assertion = {
     val responseResource = for {
       client <- clientResource
 
@@ -77,8 +102,7 @@ trait ReposSpec extends BaseIntegrationSpec {
 
       releasesAreFoundCheck: IO[List[(Release, GHResponse[Option[Release]])]] = releases.map {
         release =>
-          val releaseIO = gh.repos
-            .getRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
+          val releaseIO = getReleaseIO(gh, release)
           releaseIO.map(r => release -> r)
       }.sequence
 

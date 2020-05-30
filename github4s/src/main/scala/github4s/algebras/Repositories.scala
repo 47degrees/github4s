@@ -288,6 +288,22 @@ trait Repositories[F[_]] {
   ): F[GHResponse[Option[Release]]]
 
   /**
+   * Get release by tag name
+   *
+   * @param tagName of the release
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with List[Release]
+   */
+  def getReleaseByTagName(
+      tagName: String,
+      owner: String,
+      repo: String,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Option[Release]]]
+
+  /**
    * Latest release
    *
    * @param owner of the repo
