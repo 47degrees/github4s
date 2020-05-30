@@ -244,13 +244,14 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       headers: Map[String, String]
-  ): F[GHResponse[Option[Release]]] = client
-    .get[Option[Release]](
-      accessToken,
-      s"repos/$owner/$repo/releases/tags/$tagName",
-      headers,
-      Map.empty
-    )
+  ): F[GHResponse[Option[Release]]] =
+    client
+      .get[Option[Release]](
+        accessToken,
+        s"repos/$owner/$repo/releases/tags/$tagName",
+        headers,
+        Map.empty
+      )
 
   override def listReleases(
       owner: String,
