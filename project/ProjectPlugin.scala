@@ -83,26 +83,26 @@ object ProjectPlugin extends AutoPlugin {
         "com.github.ghik"        % "silencer-lib"        % V.silencer  % Provided cross CrossVersion.full,
         compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full)
       ),
-      libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
-        case Some((2, 13)) => Seq.empty[ModuleID]
-        case _ =>
-          Seq(compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full))
-      })
+      libraryDependencies ++= on(2, 12)(
+        compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full)
+      ).value
     )
 
   }
 
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
-      scalacOptions := {
-        val withStripedLinter = scalacOptions.value filterNot Set("-Xlint", "-Xfuture").contains
-        (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
-          case Some((2, 13)) => withStripedLinter :+ "-Ymacro-annotations"
-          case _             => withStripedLinter
-        }) :+ "-language:higherKinds"
-      },
+      scalacOptions ++= on(2, 13)("-Ymacro-annotations").value,
       coverageMinimum := 70d,
       coverageFailOnMinimum := true,
       coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*"
     )
+
+  def on[A](major: Int, minor: Int)(a: A): Def.Initialize[Seq[A]] =
+    Def.setting {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some(v) if v == (major, minor) => Seq(a)
+        case _                              => Nil
+      }
+    }
 }
