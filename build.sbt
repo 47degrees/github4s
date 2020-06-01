@@ -1,6 +1,6 @@
-addCommandAlias("ci-test", "+scalafmtCheckAll; +scalafmtSbtCheck; +docs/mdoc; +test")
-addCommandAlias("ci-docs", "project-docs/mdoc; docs/mdoc; headerCreateAll")
-addCommandAlias("ci-microsite", "docs/publishMicrosite")
+addCommandAlias("ci-test", "+scalafmtCheckAll; +scalafmtSbtCheck; +mdoc; +test")
+addCommandAlias("ci-docs", "+mdoc; headerCreateAll")
+addCommandAlias("ci-microsite", "publishMicrosite")
 
 skip in publish := true
 
@@ -20,16 +20,13 @@ lazy val github4s = project
 // DOCS //
 //////////
 
-lazy val docs: Project = project
-  .aggregate(github4s)
+lazy val microsite: Project = project
   .dependsOn(github4s)
-  .settings(micrositeSettings: _*)
-  .settings(skip in publish := true)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(ScalaUnidocPlugin)
-  .settings(
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(github4s, docs)
-  )
+  .settings(micrositeSettings: _*)
+  .settings(skip in publish := true)
+  .settings(unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(github4s, microsite))
 
 lazy val `project-docs` = (project in file(".docs"))
   .aggregate(github4s)
