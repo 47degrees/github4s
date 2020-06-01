@@ -1,6 +1,6 @@
 ThisBuild / organization := "com.47deg"
-ThisBuild / scalaVersion := "2.13.1"
-ThisBuild / crossScalaVersions := Seq("2.12.10", "2.13.1")
+ThisBuild / scalaVersion := "2.13.2"
+ThisBuild / crossScalaVersions := Seq("2.12.11", "2.13.2")
 
 addCommandAlias("ci-test", "+scalafmtCheckAll; +scalafmtSbtCheck; +mdoc; +test")
 addCommandAlias("ci-docs", "+mdoc; headerCreateAll")
