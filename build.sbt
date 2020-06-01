@@ -2,8 +2,8 @@ ThisBuild / organization := "com.47deg"
 ThisBuild / scalaVersion := "2.13.2"
 ThisBuild / crossScalaVersions := Seq("2.12.11", "2.13.2")
 
-addCommandAlias("ci-test", "scalafmtCheckAll; scalafmtSbtCheck; +mdoc; +test")
-addCommandAlias("ci-docs", "github; +mdoc; headerCreateAll; publishMicrosite")
+addCommandAlias("ci-test", "scalafmtCheckAll; scalafmtSbtCheck; mdoc; +test")
+addCommandAlias("ci-docs", "github; mdoc; headerCreateAll; publishMicrosite")
 addCommandAlias("ci-publish", "github; ci-release")
 
 skip in publish := true
