@@ -3,7 +3,6 @@ import microsites._
 import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
 import sbt._
-import scoverage.ScoverageKeys
 import scoverage.ScoverageKeys._
 import com.alejandrohdezma.sbt.github.SbtGithubPlugin
 import sbtunidoc.ScalaUnidocPlugin.autoImport._
@@ -115,13 +114,5 @@ object ProjectPlugin extends AutoPlugin {
       coverageMinimum := 70d,
       coverageFailOnMinimum := true,
       coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
-      // This is necessary to prevent packaging the BuildInfo with
-      // sensible information like the Github token. Do not remove.
-      mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>
-        ms filter {
-          case (_, toPath) =>
-            !toPath.startsWith("github4s/BuildInfo")
-        }
-      }
     )
 }

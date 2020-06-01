@@ -4,17 +4,7 @@ addCommandAlias("ci-microsite", "publishMicrosite")
 
 skip in publish := true
 
-lazy val github4s = project
-  .enablePlugins(BuildInfoPlugin)
-  .settings(
-    buildInfoKeys := Seq[BuildInfoKey](
-      name,
-      version,
-      "token" -> sys.env.getOrElse("GITHUB_TOKEN", "")
-    ),
-    buildInfoPackage := "github4s"
-  )
-  .settings(coreDeps: _*)
+lazy val github4s = project.settings(coreDeps: _*)
 
 //////////
 // DOCS //
