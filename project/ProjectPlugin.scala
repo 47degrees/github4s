@@ -17,15 +17,14 @@ object ProjectPlugin extends AutoPlugin {
   object autoImport {
 
     lazy val V = new {
-      val base64: String     = "0.2.9"
-      val cats: String       = "2.1.1"
-      val catsEffect: String = "2.1.1"
-      val circe: String      = "0.13.0"
-      val http4s: String     = "0.21.4"
-      val paradise: String   = "2.1.1"
-      val scalamock: String  = "4.4.0"
-      val scalatest: String  = "3.1.2"
-      val silencer: String   = "1.6.0"
+      val base64: String    = "0.2.9"
+      val cats: String      = "2.1.1"
+      val circe: String     = "0.13.0"
+      val http4s: String    = "0.21.4"
+      val paradise: String  = "2.1.1"
+      val scalamock: String = "4.4.0"
+      val scalatest: String = "3.1.2"
+      val silencer: String  = "1.6.0"
     }
 
     lazy val docsMappingsAPIDir: SettingKey[String] =
