@@ -1,3 +1,6 @@
+ThisBuild / organization := "com.47deg"
+ThisBuild / crossScalaVersions := Seq("2.12.10", "2.13.1")
+
 addCommandAlias("ci-test", "+scalafmtCheckAll; +scalafmtSbtCheck; +mdoc; +test")
 addCommandAlias("ci-docs", "+mdoc; headerCreateAll")
 addCommandAlias("ci-microsite", "publishMicrosite")

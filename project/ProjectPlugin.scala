@@ -17,8 +17,6 @@ object ProjectPlugin extends AutoPlugin {
   object autoImport {
 
     lazy val V = new {
-      val scala212: String   = "2.12.10"
-      val scala213: String   = "2.13.1"
       val base64: String     = "0.2.9"
       val cats: String       = "2.1.1"
       val catsEffect: String = "2.1.1"
@@ -98,12 +96,8 @@ object ProjectPlugin extends AutoPlugin {
 
   }
 
-  import autoImport.V
-
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
-      organization := "com.47deg",
-      crossScalaVersions := Seq(V.scala212, V.scala213),
       scalacOptions := {
         val withStripedLinter = scalacOptions.value filterNot Set("-Xlint", "-Xfuture").contains
         (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
@@ -113,6 +107,6 @@ object ProjectPlugin extends AutoPlugin {
       },
       coverageMinimum := 70d,
       coverageFailOnMinimum := true,
-      coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
+      coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*"
     )
 }
