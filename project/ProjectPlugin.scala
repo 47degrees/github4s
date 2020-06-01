@@ -4,15 +4,12 @@ import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
 import sbt._
 import scoverage.ScoverageKeys._
-import com.alejandrohdezma.sbt.github.SbtGithubPlugin
 import sbtunidoc.ScalaUnidocPlugin.autoImport._
 import mdoc.MdocPlugin.autoImport._
 
 object ProjectPlugin extends AutoPlugin {
 
   override def trigger: PluginTrigger = allRequirements
-
-  override def requires: Plugins = SbtGithubPlugin
 
   object autoImport {
 
