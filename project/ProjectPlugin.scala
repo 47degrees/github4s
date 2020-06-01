@@ -32,8 +32,6 @@ object ProjectPlugin extends AutoPlugin {
       micrositeDescription := "Github API wrapper written in Scala",
       micrositeBaseUrl := "github4s",
       micrositeDocumentationUrl := "docs",
-      micrositeGithubOwner := "47degrees",
-      micrositeGithubRepo := "github4s",
       micrositeAuthor := "Github4s contributors",
       micrositeGithubToken := Option(System.getenv().get("GITHUB_TOKEN")),
       micrositeCompilingDocsTool := WithMdoc,
