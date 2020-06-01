@@ -28,11 +28,7 @@ lazy val microsite: Project = project
   .settings(skip in publish := true)
   .settings(unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(github4s, microsite))
 
-lazy val `project-docs` = (project in file(".docs"))
-  .aggregate(github4s)
-  .dependsOn(github4s)
-  .settings(moduleName := "github4s-project-docs")
-  .settings(mdocIn := file(".docs"))
+lazy val documentation = project
+  .enablePlugins(MdocPlugin)
   .settings(mdocOut := file("."))
   .settings(skip in publish := true)
-  .enablePlugins(MdocPlugin)
