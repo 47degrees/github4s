@@ -3,9 +3,7 @@ import microsites._
 import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
 import sbt._
-import scoverage.ScoverageKeys
 import scoverage.ScoverageKeys._
-import com.alejandrohdezma.sbt.github.SbtGithubPlugin
 import sbtunidoc.ScalaUnidocPlugin.autoImport._
 import mdoc.MdocPlugin.autoImport._
 
@@ -13,22 +11,17 @@ object ProjectPlugin extends AutoPlugin {
 
   override def trigger: PluginTrigger = allRequirements
 
-  override def requires: Plugins = SbtGithubPlugin
-
   object autoImport {
 
     lazy val V = new {
-      val scala212: String   = "2.12.10"
-      val scala213: String   = "2.13.1"
-      val base64: String     = "0.2.9"
-      val cats: String       = "2.1.1"
-      val catsEffect: String = "2.1.1"
-      val circe: String      = "0.13.0"
-      val http4s: String     = "0.21.4"
-      val paradise: String   = "2.1.1"
-      val scalamock: String  = "4.4.0"
-      val scalatest: String  = "3.1.2"
-      val silencer: String   = "1.6.0"
+      val base64: String    = "0.2.9"
+      val cats: String      = "2.1.1"
+      val circe: String     = "0.13.0"
+      val http4s: String    = "0.21.4"
+      val paradise: String  = "2.1.1"
+      val scalamock: String = "4.4.0"
+      val scalatest: String = "3.1.2"
+      val silencer: String  = "1.7.0"
     }
 
     lazy val docsMappingsAPIDir: SettingKey[String] =
@@ -39,8 +32,6 @@ object ProjectPlugin extends AutoPlugin {
       micrositeDescription := "Github API wrapper written in Scala",
       micrositeBaseUrl := "github4s",
       micrositeDocumentationUrl := "docs",
-      micrositeGithubOwner := "47degrees",
-      micrositeGithubRepo := "github4s",
       micrositeAuthor := "Github4s contributors",
       micrositeGithubToken := Option(System.getenv().get("GITHUB_TOKEN")),
       micrositeCompilingDocsTool := WithMdoc,
@@ -90,38 +81,25 @@ object ProjectPlugin extends AutoPlugin {
         "com.github.ghik"        % "silencer-lib"        % V.silencer  % Provided cross CrossVersion.full,
         compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full)
       ),
-      libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
-        case Some((2, 13)) => Seq.empty[ModuleID]
-        case _ =>
-          Seq(compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full))
-      })
+      libraryDependencies ++= on(2, 12)(
+        compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full)
+      ).value
     )
 
   }
 
-  import autoImport.V
-
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
-      organization := "com.47deg",
-      crossScalaVersions := Seq(V.scala212, V.scala213),
-      scalacOptions := {
-        val withStripedLinter = scalacOptions.value filterNot Set("-Xlint", "-Xfuture").contains
-        (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
-          case Some((2, 13)) => withStripedLinter :+ "-Ymacro-annotations"
-          case _             => withStripedLinter
-        }) :+ "-language:higherKinds"
-      },
+      scalacOptions ++= on(2, 13)("-Ymacro-annotations").value,
       coverageMinimum := 70d,
-      coverageFailOnMinimum := true,
-      coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
-      // This is necessary to prevent packaging the BuildInfo with
-      // sensible information like the Github token. Do not remove.
-      mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>
-        ms filter {
-          case (_, toPath) =>
-            !toPath.startsWith("github4s/BuildInfo")
-        }
-      }
+      coverageFailOnMinimum := true
     )
+
+  def on[A](major: Int, minor: Int)(a: A): Def.Initialize[Seq[A]] =
+    Def.setting {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some(v) if v == (major, minor) => Seq(a)
+        case _                              => Nil
+      }
+    }
 }

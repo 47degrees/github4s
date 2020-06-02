@@ -1,41 +1,28 @@
-addCommandAlias("ci-test", "+scalafmtCheckAll; +scalafmtSbtCheck; +docs/mdoc; +test")
-addCommandAlias("ci-docs", "project-docs/mdoc; docs/mdoc; headerCreateAll")
-addCommandAlias("ci-microsite", "docs/publishMicrosite")
+ThisBuild / organization := "com.47deg"
+ThisBuild / scalaVersion := "2.13.2"
+ThisBuild / crossScalaVersions := Seq("2.12.11", "2.13.2")
+
+addCommandAlias("ci-test", "scalafmtCheckAll; scalafmtSbtCheck; mdoc; testCovered")
+addCommandAlias("ci-docs", "github; mdoc; headerCreateAll; publishMicrosite")
+addCommandAlias("ci-publish", "github; ci-release")
 
 skip in publish := true
 
-lazy val github4s = project
-  .enablePlugins(BuildInfoPlugin)
-  .settings(
-    buildInfoKeys := Seq[BuildInfoKey](
-      name,
-      version,
-      "token" -> sys.env.getOrElse("GITHUB_TOKEN", "")
-    ),
-    buildInfoPackage := "github4s"
-  )
-  .settings(coreDeps: _*)
+lazy val github4s = project.settings(coreDeps: _*)
 
 //////////
 // DOCS //
 //////////
 
-lazy val docs: Project = project
-  .aggregate(github4s)
+lazy val microsite: Project = project
   .dependsOn(github4s)
-  .settings(micrositeSettings: _*)
-  .settings(skip in publish := true)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(ScalaUnidocPlugin)
-  .settings(
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(github4s, docs)
-  )
+  .settings(micrositeSettings: _*)
+  .settings(skip in publish := true)
+  .settings(unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(github4s, microsite))
 
-lazy val `project-docs` = (project in file(".docs"))
-  .aggregate(github4s)
-  .dependsOn(github4s)
-  .settings(moduleName := "github4s-project-docs")
-  .settings(mdocIn := file(".docs"))
+lazy val documentation = project
+  .enablePlugins(MdocPlugin)
   .settings(mdocOut := file("."))
   .settings(skip in publish := true)
-  .enablePlugins(MdocPlugin)
