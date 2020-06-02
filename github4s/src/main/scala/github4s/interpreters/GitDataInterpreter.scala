@@ -143,6 +143,18 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       NewTreeRequest(baseTree, treeDataList)
     )
 
+  override def getTag(
+      owner: String,
+      repo: String,
+      sha: String,
+      headers: Map[String, String]
+  ): F[GHResponse[Tag]] =
+    client.get[Tag](
+      accessToken,
+      s"repos/$owner/$repo/git/tags/$sha",
+      headers
+    )
+
   override def createTag(
       owner: String,
       repo: String,
