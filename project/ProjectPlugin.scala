@@ -92,8 +92,7 @@ object ProjectPlugin extends AutoPlugin {
     Seq(
       scalacOptions ++= on(2, 13)("-Ymacro-annotations").value,
       coverageMinimum := 70d,
-      coverageFailOnMinimum := true,
-      coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*"
+      coverageFailOnMinimum := true
     )
 
   def on[A](major: Int, minor: Int)(a: A): Def.Initialize[Seq[A]] =
