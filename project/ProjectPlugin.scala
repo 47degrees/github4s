@@ -91,7 +91,6 @@ object ProjectPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
       scalacOptions ++= on(2, 13)("-Ymacro-annotations").value,
-      coverageMinimum := 70d,
       coverageFailOnMinimum := true
     )
 
