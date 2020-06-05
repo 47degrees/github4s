@@ -97,9 +97,9 @@ class ReposSpec extends BaseSpec {
     val repos = new RepositoriesInterpreter[IO]
 
     repos.getReleaseByTagName(
-      release.tag_name,
       validRepoOwner,
       validRepoName,
+      release.tag_name,
       headers = headerUserAgent
     )
   }

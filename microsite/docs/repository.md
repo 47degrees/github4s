@@ -411,17 +411,17 @@ The `result` on the right is the corresponding [Option[Release]][repository-scal
 
 You can get a release by tag name using `getReleaseByTagName`, it takes as arguments:
 
-- the release coordinates (`tagName` of the release)
 - the repository coordinates (`owner` and `name` of the repository).
+- the release coordinates (`tagName` of the release)
 
 Get a release by tag name:
 
 ```scala mdoc:compile-only
 val getRelease =
   gh.repos.getReleaseByTagName(
+  "github4s",
   "v0.24.0",
-  "47deg",
-  "github4s")
+  "47deg")
 val response = getRelease.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
@@ -430,9 +430,6 @@ response.result match {
 ```
 
 The `result` on the right is the corresponding [Option[Release]][repository-scala].
-
-
-
 
 ### The latest release
 

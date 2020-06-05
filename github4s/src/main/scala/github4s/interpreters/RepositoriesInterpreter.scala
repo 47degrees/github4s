@@ -240,9 +240,9 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       )
 
   override def getReleaseByTagName(
-      tagName: String,
       owner: String,
       repo: String,
+      tagName: String,
       headers: Map[String, String]
   ): F[GHResponse[Option[Release]]] =
     client

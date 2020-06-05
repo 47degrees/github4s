@@ -77,9 +77,9 @@ trait ReposSpec extends BaseIntegrationSpec {
     def getReleaseByTagName(gh: Github[IO], release: Release): IO[GHResponse[Option[Release]]] =
       gh.repos
         .getReleaseByTagName(
-          release.tag_name,
           validRepoOwner,
           validRepoName,
+          release.tag_name,
           headers = headerUserAgent
         )
 

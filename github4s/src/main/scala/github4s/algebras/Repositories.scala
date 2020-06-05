@@ -297,9 +297,9 @@ trait Repositories[F[_]] {
    * @return a GHResponse with Option[Release]
    */
   def getReleaseByTagName(
-      tagName: String,
       owner: String,
       repo: String,
+      tagName: String,
       headers: Map[String, String] = Map()
   ): F[GHResponse[Option[Release]]]
 
