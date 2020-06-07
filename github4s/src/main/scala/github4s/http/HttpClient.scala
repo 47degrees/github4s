@@ -98,15 +98,15 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
   ): F[GHResponse[Res]] =
     run[Req, Res](RequestBuilder(buildURL(method)).postMethod.withHeaders(headers).withData(data))
 
-  def postOAuth[Req: Encoder, Res: Decoder](
+  def postOAuth[Res: Decoder](
       url: String,
       headers: Map[String, String] = Map.empty,
-      data: Req
+      params: Map[String, String] = Map.empty
   ): F[GHResponse[Res]] =
-    run[Req, Res](
+    run[Unit, Res](
       RequestBuilder(url).postMethod
         .withHeaders(Map("Accept" -> "application/json") ++ headers)
-        .withData(data)
+        .withParams(params)
     )
 
   def delete(

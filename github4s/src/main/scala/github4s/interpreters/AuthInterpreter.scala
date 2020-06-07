@@ -73,9 +73,15 @@ class AuthInterpreter[F[_]: Applicative](implicit
       state: String,
       headers: Map[String, String]
   ): F[GHResponse[OAuthToken]] =
-    client.postOAuth[NewOAuthRequest, OAuthToken](
+    client.postOAuth[OAuthToken](
       url = client.config.accessTokenUrl,
       headers = headers,
-      data = NewOAuthRequest(client_id, client_secret, code, redirect_uri, state)
+      Map(
+        "client_id"     -> client_id,
+        "client_secret" -> client_secret,
+        "code"          -> code,
+        "redirect_uri"  -> redirect_uri,
+        "state"         -> state
+      )
     )
 }

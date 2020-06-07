@@ -62,17 +62,8 @@ class AuthSpec extends BaseSpec {
     val response: IO[GHResponse[OAuthToken]] =
       IO(GHResponse(oAuthToken.asRight, okStatusCode, Map.empty))
 
-    val request = NewOAuthRequest(
-      validClientId,
-      invalidClientSecret,
-      validCode,
-      validRedirectUri,
-      validAuthState
-    )
-
     implicit val httpClientMock = httpClientMockPostOAuth[NewOAuthRequest, OAuthToken](
       url = dummyConfig.accessTokenUrl,
-      req = request,
       response = response
     )
 
