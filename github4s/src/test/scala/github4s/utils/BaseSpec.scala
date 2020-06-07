@@ -94,7 +94,7 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
     httpClientMock
   }
 
-  def httpClientMockPostOAuth[In, Out](
+  def httpClientMockPostOAuth[Out](
       url: String,
       response: IO[GHResponse[Out]]
   ): HttpClient[IO] = {

@@ -39,11 +39,3 @@ final case class OAuthToken(
     token_type: String,
     scope: String
 )
-
-final case class NewOAuthRequest(
-    client_id: String,
-    client_secret: String,
-    code: String,
-    redirect_uri: String,
-    state: String
-)
