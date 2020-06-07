@@ -70,8 +70,8 @@ trait AuthSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft[GHError.BasicError, OAuthToken](response)
-    response.statusCode shouldBe notFoundStatusCode
+    testIsLeft[GHError.JsonParsingError, OAuthToken](response)
+    response.statusCode shouldBe okStatusCode
   }
 
 }
