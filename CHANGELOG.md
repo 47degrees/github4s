@@ -1,5 +1,46 @@
 # Changelog
 
+## [v0.24.1](https://github.com/47degrees/github4s/tree/v0.24.1) (2020-06-08)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.24.0...v0.24.1)
+
+🚀 **Features**
+
+- Get release by release Id [\#497](https://github.com/47degrees/github4s/pull/497) ([georgeorfanidi](https://github.com/georgeorfanidi))
+- Get Blob support [\#494](https://github.com/47degrees/github4s/pull/494) ([georgeorfanidi](https://github.com/georgeorfanidi))
+- Latest release [\#493](https://github.com/47degrees/github4s/pull/493) ([georgeorfanidi](https://github.com/georgeorfanidi))
+- List of releases [\#492](https://github.com/47degrees/github4s/pull/492) ([georgeorfanidi](https://github.com/georgeorfanidi))
+- Do not depend on the http4s blaze client [\#480](https://github.com/47degrees/github4s/pull/480) ([BenFradet](https://github.com/BenFradet))
+
+🐛 **Bug Fixes**
+
+- Fixes oauth/access\_token Interpreter [\#509](https://github.com/47degrees/github4s/pull/509) ([juanpedromoreno](https://github.com/juanpedromoreno))
+- Make some Release fields optional [\#495](https://github.com/47degrees/github4s/pull/495) ([BenFradet](https://github.com/BenFradet))
+- Adds micrositeGithubToken settings [\#478](https://github.com/47degrees/github4s/pull/478) ([juanpedromoreno](https://github.com/juanpedromoreno))
+
+📈 **Dependency updates**
+
+- Update scalafmt-core to 2.5.3 [\#506](https://github.com/47degrees/github4s/pull/506) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-mdoc to 2.2.1 [\#505](https://github.com/47degrees/github4s/pull/505) ([scala-steward](https://github.com/scala-steward))
+- Update sbt to 1.3.12 [\#504](https://github.com/47degrees/github4s/pull/504) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-tpolecat to 0.1.12 [\#503](https://github.com/47degrees/github4s/pull/503) ([scala-steward](https://github.com/scala-steward))
+- Update scalatest to 3.1.2 [\#491](https://github.com/47degrees/github4s/pull/491) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-mdoc to 2.2.0 [\#490](https://github.com/47degrees/github4s/pull/490) ([scala-steward](https://github.com/scala-steward))
+- Update http4s-blaze-client, http4s-circe to 0.21.4 [\#486](https://github.com/47degrees/github4s/pull/486) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-ci-release to 1.5.3 [\#483](https://github.com/47degrees/github4s/pull/483) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-microsites to 1.2.0 [\#482](https://github.com/47degrees/github4s/pull/482) ([scala-steward](https://github.com/scala-steward))
+
+**Closed issues:**
+
+- Remove code coverage threshold [\#507](https://github.com/47degrees/github4s/issues/507)
+
+**Merged pull requests:**
+
+- Remove code coverage threshold [\#508](https://github.com/47degrees/github4s/pull/508) ([BenFradet](https://github.com/BenFradet))
+-  Prepare repository for next `.github` release and SBT build improvements [\#501](https://github.com/47degrees/github4s/pull/501) ([alejandrohdezma](https://github.com/alejandrohdezma))
+- Update scalafmt-core to 2.5.1 [\#488](https://github.com/47degrees/github4s/pull/488) ([BenFradet](https://github.com/BenFradet))
+- Perform scalafmt checks for the test code [\#484](https://github.com/47degrees/github4s/pull/484) ([BenFradet](https://github.com/BenFradet))
+
 ## [v0.24.0](https://github.com/47degrees/github4s/tree/v0.24.0) (2020-04-16)
 
 [Full Changelog](https://github.com/47degrees/github4s/compare/v0.23.0...v0.24.0)
@@ -705,6 +746,7 @@
 - Add Scalariform plugin and reformat entire project [\#8](https://github.com/47degrees/github4s/pull/8) ([rafaparadela](https://github.com/rafaparadela))
 - Test coverage reports [\#7](https://github.com/47degrees/github4s/pull/7) ([rafaparadela](https://github.com/rafaparadela))
 - Version 0.2-SNAPSHOT [\#6](https://github.com/47degrees/github4s/pull/6) ([rafaparadela](https://github.com/rafaparadela))
+- Remove unused implementation [\#3](https://github.com/47degrees/github4s/pull/3) ([rafaparadela](https://github.com/rafaparadela))
 
 ## [v0.1](https://github.com/47degrees/github4s/tree/v0.1) (2016-05-12)
 
@@ -713,7 +755,6 @@
 **Merged pull requests:**
 
 - Fixes test [\#5](https://github.com/47degrees/github4s/pull/5) ([rafaparadela](https://github.com/rafaparadela))
-- Remove unused implementation [\#3](https://github.com/47degrees/github4s/pull/3) ([rafaparadela](https://github.com/rafaparadela))
 - Add setting for publishing on Sonatype [\#2](https://github.com/47degrees/github4s/pull/2) ([rafaparadela](https://github.com/rafaparadela))
 - Adds Travis status image [\#1](https://github.com/47degrees/github4s/pull/1) ([rafaparadela](https://github.com/rafaparadela))
 
