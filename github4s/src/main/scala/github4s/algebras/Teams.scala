@@ -21,7 +21,8 @@ import github4s.domain._
 
 trait Teams[F[_]] {
 
-  /** List the teams for a particular organization
+  /**
+   * List the teams for a particular organization
    *
    * @param org organization for which we wish to retrieve the teams
    * @param pagination Limit and Offset for pagination

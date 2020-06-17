@@ -27,7 +27,8 @@ import io.circe._
 import io.circe.generic.auto._
 import io.circe.generic.semiauto.deriveDecoder
 
-/** Implicit circe decoders of domains objects */
+/**
+ * Implicit circe decoders of domains objects */
 object Decoders {
   final case class Author(
       login: Option[String],
