@@ -188,5 +188,5 @@ object HttpClient {
     )
 
   private def responseBody[F[_]: Sync](response: Response[F]): F[String] =
-    response.bodyAsText.compile.foldMonoid
+    response.bodyText.compile.foldMonoid
 }

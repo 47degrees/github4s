@@ -17,7 +17,7 @@ object ProjectPlugin extends AutoPlugin {
       val base64: String    = "0.2.9"
       val cats: String      = "2.1.1"
       val circe: String     = "0.13.0"
-      val http4s: String    = "0.21.4"
+      val http4s: String    = "0.21.5"
       val paradise: String  = "2.1.1"
       val scalamock: String = "4.4.0"
       val scalatest: String = "3.2.0"
