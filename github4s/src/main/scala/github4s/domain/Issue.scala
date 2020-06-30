@@ -42,7 +42,7 @@ final case class Issue(
 )
 
 final case class Label(
-    id: Option[Int],
+    id: Option[Long],
     name: String,
     url: String,
     color: String,

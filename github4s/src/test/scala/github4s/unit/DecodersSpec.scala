@@ -72,7 +72,7 @@ class DecodersSpec extends AnyFlatSpec with Matchers with FakeResponses {
   }
 
   case class Foo(a: Int)
-  it should "return a valid NonEmtpyList for a valid JSON" in {
+  it should "return a valid NonEmptyList for a valid JSON" in {
     decode[NonEmptyList[Foo]]("""{"a": 1}""") shouldBe Right(NonEmptyList(Foo(1), Nil))
   }
 
