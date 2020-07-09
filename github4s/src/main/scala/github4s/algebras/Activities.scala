@@ -31,7 +31,7 @@ trait Activities[F[_]] {
    * @return GHResponse with the Subscription
    */
   def setThreadSub(
-      id: Int,
+      id: Long,
       subscribed: Boolean,
       ignored: Boolean,
       headers: Map[String, String] = Map()

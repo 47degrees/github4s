@@ -17,7 +17,7 @@
 package github4s.domain
 
 final case class Authorization(
-    id: Int,
+    id: Long,
     url: String,
     token: String
 )

@@ -29,7 +29,7 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: O
   private val timelineHeader = ("Accept" -> "application/vnd.github.v3.star+json")
 
   override def setThreadSub(
-      id: Int,
+      id: Long,
       subscribed: Boolean,
       ignored: Boolean,
       headers: Map[String, String]

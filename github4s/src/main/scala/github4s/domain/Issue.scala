@@ -19,7 +19,7 @@ package github4s.domain
 import java.time.ZonedDateTime
 
 final case class Issue(
-    id: Int,
+    id: Long,
     title: String,
     body: Option[String],
     url: String,
@@ -80,7 +80,7 @@ final case class EditIssueRequest(
 )
 
 final case class Comment(
-    id: Int,
+    id: Long,
     url: String,
     html_url: String,
     body: String,
@@ -95,7 +95,7 @@ final case class Milestone(
     url: String,
     html_url: String,
     labels_url: String,
-    id: Int,
+    id: Long,
     node_id: String,
     number: Int,
     state: String,

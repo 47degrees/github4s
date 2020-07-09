@@ -21,7 +21,7 @@ final case class Project(
     url: String,
     html_url: String,
     columns_url: String,
-    id: Int,
+    id: Long,
     node_id: String,
     name: String,
     body: Option[String],
@@ -35,7 +35,7 @@ final case class Project(
 
 final case class Creator(
     login: String,
-    id: Int,
+    id: Long,
     node_id: String,
     avatar_url: String,
     gravatar_id: Option[String],
@@ -58,7 +58,7 @@ final case class Column(
     url: String,
     project_url: String,
     cards_url: String,
-    id: Int,
+    id: Long,
     node_id: String,
     name: String,
     created_at: String,
@@ -68,7 +68,7 @@ final case class Column(
 final case class Card(
     url: String,
     project_url: String,
-    id: Int,
+    id: Long,
     node_id: String,
     note: Option[String],
     archived: Boolean,

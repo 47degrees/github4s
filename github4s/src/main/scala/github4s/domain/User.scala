@@ -17,7 +17,7 @@
 package github4s.domain
 
 final case class User(
-    id: Int,
+    id: Long,
     login: String,
     avatar_url: String,
     html_url: String,

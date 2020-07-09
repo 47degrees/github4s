@@ -17,7 +17,7 @@
 package github4s.domain
 
 final case class PullRequest(
-    id: Int,
+    id: Long,
     number: Int,
     state: String,
     title: String,
@@ -107,7 +107,7 @@ final case class NewPullRequestData(title: String, body: String) extends NewPull
 final case class NewPullRequestIssue(issue: Int)                 extends NewPullRequest
 
 final case class PullRequestReview(
-    id: Int,
+    id: Long,
     user: Option[User],
     body: String,
     commit_id: String,

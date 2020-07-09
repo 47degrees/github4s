@@ -17,7 +17,7 @@
 package github4s.domain
 
 final case class Repository(
-    id: Int,
+    id: Long,
     name: String,
     full_name: String,
     owner: User,
@@ -61,7 +61,7 @@ final case class RepoUrls(
 )
 
 final case class Release(
-    id: Int,
+    id: Long,
     tag_name: String,
     target_commitish: String,
     name: String,
@@ -147,7 +147,7 @@ final case class NewStatusRequest(
 )
 
 final case class StatusRepository(
-    id: Int,
+    id: Long,
     name: String,
     full_name: String,
     owner: Option[User],

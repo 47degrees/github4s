@@ -17,7 +17,7 @@
 package github4s.domain
 
 final case class Team(
-    id: Int,
+    id: Long,
     node_id: String,
     url: String,
     html_url: String,

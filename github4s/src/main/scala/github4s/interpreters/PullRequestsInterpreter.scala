@@ -103,7 +103,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       pullRequest: Int,
-      review: Int,
+      review: Long,
       headers: Map[String, String]
   ): F[GHResponse[PullRequestReview]] =
     client.get[PullRequestReview](

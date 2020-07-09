@@ -85,7 +85,7 @@ object Decoders {
   implicit val decodeStatusRepository: Decoder[StatusRepository] = {
     Decoder.instance { c =>
       for {
-        id          <- c.downField("id").as[Int]
+        id          <- c.downField("id").as[Long]
         name        <- c.downField("name").as[String]
         full_name   <- c.downField("full_name").as[String]
         owner       <- c.downField("owner").as[Option[User]]
@@ -112,7 +112,7 @@ object Decoders {
 
     Decoder.instance { c =>
       for {
-        id                <- c.downField("id").as[Int]
+        id                <- c.downField("id").as[Long]
         name              <- c.downField("name").as[String]
         full_name         <- c.downField("full_name").as[String]
         owner             <- c.downField("owner").as[User]

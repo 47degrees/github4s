@@ -134,7 +134,7 @@ trait PullRequests[F[_]] {
       owner: String,
       repo: String,
       pullRequest: Int,
-      review: Int,
+      review: Long,
       headers: Map[String, String] = Map()
   ): F[GHResponse[PullRequestReview]]
 

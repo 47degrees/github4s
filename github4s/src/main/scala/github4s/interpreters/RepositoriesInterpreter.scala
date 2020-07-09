@@ -226,7 +226,7 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       .get[Option[Release]](accessToken, s"repos/$owner/$repo/releases/latest", headers, Map.empty)
 
   override def getRelease(
-      releaseId: Int,
+      releaseId: Long,
       owner: String,
       repo: String,
       headers: Map[String, String]

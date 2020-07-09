@@ -66,7 +66,7 @@ trait Projects[F[_]] {
    * @return GHResponse with the list of columns belonging to this project id
    */
   def listColumns(
-      project_id: Int,
+      project_id: Long,
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Column]]]
@@ -82,7 +82,7 @@ trait Projects[F[_]] {
    * @return GHResponse with the list of cards belonging to this column id
    */
   def listCards(
-      column_id: Int,
+      column_id: Long,
       archived_state: Option[String] = None,
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()

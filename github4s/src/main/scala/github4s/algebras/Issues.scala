@@ -193,7 +193,7 @@ trait Issues[F[_]] {
   def editComment(
       owner: String,
       repo: String,
-      id: Int,
+      id: Long,
       body: String,
       headers: Map[String, String] = Map()
   ): F[GHResponse[Comment]]
@@ -210,7 +210,7 @@ trait Issues[F[_]] {
   def deleteComment(
       owner: String,
       repo: String,
-      id: Int,
+      id: Long,
       headers: Map[String, String] = Map()
   ): F[GHResponse[Unit]]
 

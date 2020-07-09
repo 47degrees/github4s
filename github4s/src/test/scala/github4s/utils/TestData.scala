@@ -120,7 +120,7 @@ trait TestData {
 
   val validPullRequestFileSha      = "f80f79cafbe3f2ba71311b82e1171e73bd37a470"
   val validPullRequestNumber       = 1
-  val validPullRequestReviewNumber = 39318789
+  val validPullRequestReviewNumber = 39318789L
   val validMergeCommitSha          = "e5bd3914e2e596debea16f433f57875b5b90bcd6"
 
   val validHead   = "test-pr-issue"
@@ -323,9 +323,9 @@ trait TestData {
       urls = Map()
     )
   )
-  val validThreadId = 219647953
+  val validThreadId = 219647953L
 
-  val invalidThreadId = 0
+  val invalidThreadId = 0L
 
   val subscription = Subscription(
     subscribed = true,
@@ -337,8 +337,8 @@ trait TestData {
   )
   val validCommentBody   = "the comment"
   val invalidIssueNumber = 0
-  val validCommentId     = 1
-  val invalidCommentId   = 0
+  val validCommentId     = 1L
+  val invalidCommentId   = 0L
 
   val comment = Comment(
     validCommentId,
@@ -461,8 +461,8 @@ trait TestData {
     parent = null
   )
 
-  val validProjectId   = 4115271
-  val invalidProjectId = 11111
+  val validProjectId   = 4115271L
+  val invalidProjectId = 11111L
 
   val project = Project(
     owner_url = "https://api.github.com/orgs/47degrees",
@@ -512,8 +512,8 @@ trait TestData {
     updated_at = "2019-07-04T09:39:01Z"
   )
 
-  val validColumnId   = 8271018
-  val invalidColumnId = -32
+  val validColumnId   = 8271018L
+  val invalidColumnId = -32L
 
   val card = Card(
     url = "https://api.github.com/projects/columns/cards/34323195",

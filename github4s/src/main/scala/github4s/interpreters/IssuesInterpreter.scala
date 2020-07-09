@@ -126,7 +126,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
   override def editComment(
       owner: String,
       repo: String,
-      id: Int,
+      id: Long,
       body: String,
       headers: Map[String, String]
   ): F[GHResponse[Comment]] =
@@ -141,7 +141,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
   override def deleteComment(
       owner: String,
       repo: String,
-      id: Int,
+      id: Long,
       headers: Map[String, String]
   ): F[GHResponse[Unit]] =
     client.delete(accessToken, s"repos/$owner/$repo/issues/comments/$id", headers)

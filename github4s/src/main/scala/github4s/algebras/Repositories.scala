@@ -281,7 +281,7 @@ trait Repositories[F[_]] {
    * @return a GHResponse with List[Release]
    */
   def getRelease(
-      releaseId: Int,
+      releaseId: Long,
       owner: String,
       repo: String,
       headers: Map[String, String] = Map()

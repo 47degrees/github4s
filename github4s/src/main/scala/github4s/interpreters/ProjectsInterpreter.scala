@@ -57,7 +57,7 @@ class ProjectsInterpreter[F[_]](implicit
     )
 
   override def listColumns(
-      project_id: Int,
+      project_id: Long,
       pagination: Option[Pagination],
       headers: Map[String, String]
   ): F[GHResponse[List[Column]]] =
@@ -70,7 +70,7 @@ class ProjectsInterpreter[F[_]](implicit
     )
 
   override def listCards(
-      column_id: Int,
+      column_id: Long,
       archived_state: Option[String],
       pagination: Option[Pagination],
       headers: Map[String, String]
