@@ -202,6 +202,9 @@ final case class Committer(
     name: String,
     email: String
 )
+
+final case class UserRepoPermission(permission: String, user: User)
+
 object RepoUrlKeys {
 
   val forks_url         = "forks_url"

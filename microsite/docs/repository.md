@@ -197,7 +197,7 @@ response.result match {
 }
 ```
 
-The `result` on the right is the corresponding [UserRepoPermission][user-repo-permission-scala].
+The `result` on the right is the corresponding [UserRepoPermission][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/collaborators/#get-repository-permissions-for-a-user) for full
 reference.
@@ -556,4 +556,3 @@ As a result, if you'd like to see a feature supported, feel free to create an is
 
 [repository-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Repository.scala
 [user-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala
-[user-repo-permission-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/UserRepoPermission.scala
