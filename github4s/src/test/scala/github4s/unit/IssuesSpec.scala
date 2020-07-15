@@ -197,7 +197,7 @@ class IssuesSpec extends BaseSpec {
   "Issue.DeleteComment" should "call to httpClient.delete with the right parameters" in {
 
     val response: IO[GHResponse[Unit]] =
-      IO(GHResponse(().asRight, deletedStatusCode, Map.empty))
+      IO(GHResponse(().asRight, noContentStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockDelete(
       url = s"repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId",
@@ -393,7 +393,7 @@ class IssuesSpec extends BaseSpec {
   "Issue.DeleteMilestone" should "call to httpClient.delete with the right parameters" in {
 
     val response: IO[GHResponse[Unit]] =
-      IO(GHResponse(().asRight, deletedStatusCode, Map.empty))
+      IO(GHResponse(().asRight, noContentStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockDelete(
       url = s"repos/$validRepoOwner/$validRepoName/milestones/$validMilestoneNumber",

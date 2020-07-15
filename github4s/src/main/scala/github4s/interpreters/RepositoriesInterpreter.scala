@@ -217,6 +217,20 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       pagination
     )
 
+  override def getRepoPermissionForUser(
+      owner: String,
+      repo: String,
+      username: String,
+      headers: Map[String, String]
+  ): F[GHResponse[UserRepoPermission]] =
+    client
+      .get[UserRepoPermission](
+        accessToken,
+        s"repos/$owner/$repo/collaborators/$username/permission",
+        headers,
+        Map.empty
+      )
+
   override def latestRelease(
       owner: String,
       repo: String,

@@ -15,6 +15,7 @@ with Github4s, you can interact with:
   - [List user repositories](#list-user-repositories)
   - [List contributors](#list-contributors)
   - [List collaborators](#list-collaborators)
+  - [Get repository permissions for a user](#get-repository-permissions-for-a-user)
 - [Commits](#commits)
   - [List commits on a repository](#list-commits-on-a-repository)
 - [Contents](#contents)
@@ -179,6 +180,26 @@ response.result match {
 The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/collaborators/#list-collaborators) for full
+reference.
+
+### Get repository permissions for a user
+
+Checks the repository permission of a collaborator. 
+
+The possible repository permissions are `admin`, `write`, `read`, and `none`.
+
+```scala mdoc:compile-only
+val userRepoPermission = gh.repos.getRepoPermissionForUser("47degrees", "github4s", "rafaparadela")
+val response = userRepoPermission.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding [UserRepoPermission][user-repo-permission-scala].
+
+See [the API doc](https://developer.github.com/v3/repos/collaborators/#get-repository-permissions-for-a-user) for full
 reference.
 
 ## Commits
@@ -535,3 +556,4 @@ As a result, if you'd like to see a feature supported, feel free to create an is
 
 [repository-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Repository.scala
 [user-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala
+[user-repo-permission-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/UserRepoPermission.scala

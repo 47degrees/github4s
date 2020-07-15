@@ -16,14 +16,14 @@
 
 package github4s.unit
 
-import cats.effect.IO
 import cats.data.NonEmptyList
+import cats.effect.IO
 import cats.syntax.either._
+import com.github.marklister.base64.Base64._
 import github4s.GHResponse
 import github4s.domain._
 import github4s.interpreters.RepositoriesInterpreter
 import github4s.utils.BaseSpec
-import com.github.marklister.base64.Base64._
 
 class ReposSpec extends BaseSpec {
 
@@ -340,6 +340,25 @@ class ReposSpec extends BaseSpec {
     val repos = new RepositoriesInterpreter[IO]
 
     repos.listCollaborators(validRepoOwner, validRepoName, headers = headerUserAgent)
+  }
+
+  "Repos.getRepoPermissionForUser" should "call to httpClient.get with the right parameters" in {
+    val response: IO[GHResponse[UserRepoPermission]] =
+      IO(GHResponse(userRepoPermission.asRight, noContentStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockGet[UserRepoPermission](
+      url = s"repos/$validRepoOwner/$validRepoName/collaborators/$validUsername/permission",
+      response = response
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos.getRepoPermissionForUser(
+      validRepoOwner,
+      validRepoName,
+      validUsername,
+      headers = headerUserAgent
+    )
   }
 
   "Repos.getCombinedStatus" should "call httpClient.get with the right parameters" in {

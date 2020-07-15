@@ -33,8 +33,9 @@ trait TestData {
   val invalidUsername = "GHInvalidUserName"
   val invalidPassword = "invalidPassword"
 
-  val githubApiUrl = "http://api.github.com"
-  val user         = User(1, validUsername, githubApiUrl, githubApiUrl)
+  val githubApiUrl                           = "http://api.github.com"
+  val user                                   = User(1, validUsername, githubApiUrl, githubApiUrl)
+  val userRepoPermission: UserRepoPermission = UserRepoPermission("admin", user)
 
   def validBasicAuth = s"Basic ${s"$validUsername:".getBytes.toBase64}"
 
@@ -70,7 +71,7 @@ trait TestData {
 
   val okStatusCode           = 200
   val createdStatusCode      = 201
-  val deletedStatusCode      = 204
+  val noContentStatusCode    = 204
   val unauthorizedStatusCode = 401
   val notFoundStatusCode     = 404
 

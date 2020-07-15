@@ -272,6 +272,22 @@ trait Repositories[F[_]] {
   ): F[GHResponse[List[User]]]
 
   /**
+   * Get the repository permission of a collaborator
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param username Github username
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the combined status
+   */
+  def getRepoPermissionForUser(
+      owner: String,
+      repo: String,
+      username: String,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[UserRepoPermission]]
+
+  /**
    * Get a single release
    *
    * @param releaseId id of the release

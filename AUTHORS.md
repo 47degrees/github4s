@@ -49,3 +49,4 @@ These are the people that have contributed to the _github4s_ project:
 - [![guersam](https://avatars3.githubusercontent.com/u/969120?v=4&s=20) **guersam**](https://github.com/guersam)
 - [![kalexmills](https://avatars0.githubusercontent.com/u/22620342?v=4&s=20) **kalexmills**](https://github.com/kalexmills)
 - [![mscharley](https://avatars0.githubusercontent.com/u/336509?v=4&s=20) **mscharley**](https://github.com/mscharley)
+- [![zachkirlew](https://avatars2.githubusercontent.com/u/15320944?v=4&s=20) **zachkirlew**](https://github.com/zachkirlew)

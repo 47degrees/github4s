@@ -313,6 +313,40 @@ trait ReposSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
+  "Repos >> GetRepoPermissionForUser" should "return user repo permission" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .getRepoPermissionForUser(
+            validRepoOwner,
+            validRepoName,
+            validUsername,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[UserRepoPermission](response, r => r.user.login shouldBe validUsername)
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return error when invalid username is passed" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .getRepoPermissionForUser(
+            validRepoOwner,
+            validRepoName,
+            invalidUsername,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsLeft[NotFoundError, UserRepoPermission](response)
+    response.statusCode shouldBe notFoundStatusCode
+  }
+
   "Repos >> GetStatus" should "return a combined status" taggedAs Integration in {
     val response = clientResource
       .use { client =>
