@@ -71,6 +71,10 @@ class DecodersSpec extends AnyFlatSpec with Matchers with FakeResponses {
     decode[NonEmptyList[Int]]("[1,2,3]") shouldBe Right(NonEmptyList.of(1, 2, 3))
   }
 
+  "UserRepoPermission decoder" should "return a UserRepoPermission" in {
+    decode[UserRepoPermission](getUserRepoPermissionResponse).isRight shouldBe true
+  }
+
   case class Foo(a: Int)
   it should "return a valid NonEmptyList for a valid JSON" in {
     decode[NonEmptyList[Foo]]("""{"a": 1}""") shouldBe Right(NonEmptyList(Foo(1), Nil))
