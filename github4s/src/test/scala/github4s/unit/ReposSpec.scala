@@ -344,7 +344,7 @@ class ReposSpec extends BaseSpec {
 
   "Repos.getRepoPermissionForUser" should "call to httpClient.get with the right parameters" in {
     val response: IO[GHResponse[UserRepoPermission]] =
-      IO(GHResponse(userRepoPermission.asRight, noContentStatusCode, Map.empty))
+      IO(GHResponse(userRepoPermission.asRight, okStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGet[UserRepoPermission](
       url = s"repos/$validRepoOwner/$validRepoName/collaborators/$validUsername/permission",
