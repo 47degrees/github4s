@@ -217,6 +217,18 @@ class RepositoriesInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       pagination
     )
 
+  override def userIsCollaborator(
+      owner: String,
+      repo: String,
+      username: String,
+      headers: Map[String, String]
+  ): F[GHResponse[Unit]] =
+    client.getWithoutResponse(
+      accessToken,
+      s"repos/$owner/$repo/collaborators/$username",
+      headers
+    )
+
   override def getRepoPermissionForUser(
       owner: String,
       repo: String,

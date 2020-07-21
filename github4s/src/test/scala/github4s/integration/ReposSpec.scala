@@ -313,6 +313,40 @@ trait ReposSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
+  "Repos >> UserIsCollaborator" should "return an empty body with no content status code" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .userIsCollaborator(
+            validRepoOwner,
+            validRepoName,
+            validUsername,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[Unit](response, r => r should be(()))
+    response.statusCode shouldBe noContentStatusCode
+  }
+
+  it should "return a not found error when username is not a repo collaborator" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .userIsCollaborator(
+            validRepoName,
+            validRepoName,
+            invalidUsername,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsLeft[NotFoundError, Unit](response)
+    response.statusCode shouldBe notFoundStatusCode
+  }
+
   "Repos >> GetRepoPermissionForUser" should "return user repo permission" taggedAs Integration in {
     val response = clientResource
       .use { client =>

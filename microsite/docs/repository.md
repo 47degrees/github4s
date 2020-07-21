@@ -15,6 +15,7 @@ with Github4s, you can interact with:
   - [List user repositories](#list-user-repositories)
   - [List contributors](#list-contributors)
   - [List collaborators](#list-collaborators)
+  - [Check user is a repository collaborator](#check-if-a-user-is-a-repository-collaborator)
   - [Get repository permissions for a user](#get-repository-permissions-for-a-user)
 - [Commits](#commits)
   - [List commits on a repository](#list-commits-on-a-repository)
@@ -181,6 +182,26 @@ The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/collaborators/#list-collaborators) for full
 reference.
+
+### Check if a user is a repository collaborator
+
+Response `statusCode` when user is a collaborator is 204 (No Content)
+
+Response `statusCode` when user is not a collaborator is 404 (Not Found)
+
+```scala mdoc:compile-only
+val userIsCollaborator = gh.repos.userIsCollaborator("47degrees", "github4s", "rafaparadela")
+val response = userIsCollaborator.unsafeRunSync()
+response.statusCode match {
+  case 204 => println("User is a collaborator")
+  case 404 => println("User is not a collaborator)
+}
+```
+
+The `result` on the right is `Unit`
+
+See [the API doc](https://developer.github.com/v3/repos/collaborators/#check-if-a-user-is-a-repository-collaborator) 
+for full reference.
 
 ### Get repository permissions for a user
 

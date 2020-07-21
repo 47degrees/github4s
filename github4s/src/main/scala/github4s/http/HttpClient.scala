@@ -21,15 +21,15 @@ import cats.effect.Sync
 import cats.instances.string._
 import cats.syntax.either._
 import cats.syntax.functor._
-import github4s._
 import github4s.GHError._
+import github4s._
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
 import io.circe.{Decoder, Encoder}
-import org.http4s.{EntityDecoder, Request, Response, Status}
-import org.http4s.client.Client
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe.jsonOf
+import org.http4s.client.Client
+import org.http4s.{EntityDecoder, Request, Response, Status}
 
 class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
   import HttpClient._
@@ -50,6 +50,15 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
             Map("page" -> p.page.toString, "per_page" -> p.per_page.toString)
           )
         )
+    )
+
+  def getWithoutResponse(
+      accessToken: Option[String] = None,
+      url: String,
+      headers: Map[String, String] = Map.empty
+  ): F[GHResponse[Unit]] =
+    run[Unit, Unit](
+      RequestBuilder(buildURL(url)).deleteMethod.withHeaders(headers).withAuth(accessToken)
     )
 
   def patch[Req: Encoder, Res: Decoder](

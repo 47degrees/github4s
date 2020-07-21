@@ -17,10 +17,9 @@
 package github4s.utils
 
 import cats.effect.IO
-import github4s.GithubConfig
-import github4s.GHResponse
 import github4s.domain.Pagination
 import github4s.http.HttpClient
+import github4s.{GHResponse, GithubConfig}
 import io.circe.{Decoder, Encoder}
 import org.http4s.client.Client
 import org.scalamock.scalatest.MockFactory
@@ -57,6 +56,18 @@ trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory 
         _: Option[Pagination]
       )(_: Decoder[Out]))
       .expects(sampleToken, url, headers ++ headerUserAgent, params, *, *)
+      .returns(response)
+    httpClientMock
+  }
+
+  def httpClientMockGetWithoutResponse(
+      url: String,
+      response: IO[GHResponse[Unit]]
+  ): HttpClient[IO] = {
+    val httpClientMock = mock[HttpClientTest]
+    (httpClientMock
+      .getWithoutResponse(_: Option[String], _: String, _: Map[String, String]))
+      .expects(sampleToken, url, headerUserAgent)
       .returns(response)
     httpClientMock
   }

@@ -342,6 +342,25 @@ class ReposSpec extends BaseSpec {
     repos.listCollaborators(validRepoOwner, validRepoName, headers = headerUserAgent)
   }
 
+  "Repos.userIsCollaborator" should "call to httpClient.getWithoutResponse with the right parameters" in {
+    val response: IO[GHResponse[Unit]] =
+      IO(GHResponse(().asRight, okStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockGetWithoutResponse(
+      url = s"repos/$validRepoOwner/$validRepoName/collaborators/$validUsername",
+      response = response
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos.userIsCollaborator(
+      validRepoOwner,
+      validRepoName,
+      validUsername,
+      headers = headerUserAgent
+    )
+  }
+
   "Repos.getRepoPermissionForUser" should "call to httpClient.get with the right parameters" in {
     val response: IO[GHResponse[UserRepoPermission]] =
       IO(GHResponse(userRepoPermission.asRight, okStatusCode, Map.empty))
