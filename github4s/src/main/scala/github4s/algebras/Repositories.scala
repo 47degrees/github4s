@@ -285,7 +285,7 @@ trait Repositories[F[_]] {
    * @param repo name of the repo
    * @param username Github username
    * @param headers optional user headers to include in the request
-   * @return a unit GHResponse
+   * @return a Boolean GHResponse
    */
   def userIsCollaborator(
       owner: String,
