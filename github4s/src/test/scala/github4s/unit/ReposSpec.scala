@@ -344,7 +344,7 @@ class ReposSpec extends BaseSpec {
 
   "Repos.userIsCollaborator" should "call to httpClient.getWithoutResponse with the right parameters" in {
     val response: IO[GHResponse[Unit]] =
-      IO(GHResponse(().asRight, okStatusCode, Map.empty))
+      IO(GHResponse(().asRight, noContentStatusCode, Map.empty))
 
     implicit val httpClientMock = httpClientMockGetWithoutResponse(
       url = s"repos/$validRepoOwner/$validRepoName/collaborators/$validUsername",

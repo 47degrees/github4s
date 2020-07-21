@@ -185,20 +185,23 @@ reference.
 
 ### Check if a user is a repository collaborator
 
-Response `statusCode` when user is a collaborator is 204 (No Content)
+Returns whether a given user is a repository collaborator or not.
 
-Response `statusCode` when user is not a collaborator is 404 (Not Found)
+204 No Content responses will produce a true result
+
+404 Not Found responses will produce a false result
 
 ```scala mdoc:compile-only
 val userIsCollaborator = gh.repos.userIsCollaborator("47degrees", "github4s", "rafaparadela")
 val response = userIsCollaborator.unsafeRunSync()
-response.statusCode match {
-  case 204 => println("User is a collaborator")
-  case 404 => println("User is not a collaborator")
+if (response.result) {
+  println("User is a collaborator")
+} else {
+  println("User is not a collaborator")
 }
 ```
 
-The `result` on the right is `Unit`
+The `result` on the right is `Boolean`
 
 See [the API doc](https://developer.github.com/v3/repos/collaborators/#check-if-a-user-is-a-repository-collaborator) 
 for full reference.

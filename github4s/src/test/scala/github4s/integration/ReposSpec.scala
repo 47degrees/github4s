@@ -19,7 +19,7 @@ package github4s.integration
 import cats.data.NonEmptyList
 import cats.effect.{IO, Resource}
 import cats.implicits._
-import github4s.GHError.NotFoundError
+import github4s.GHError.{NotFoundError, UnauthorizedError}
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 import github4s.{GHResponse, Github}
@@ -313,7 +313,7 @@ trait ReposSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
-  "Repos >> UserIsCollaborator" should "return an empty body with no content status code" taggedAs Integration in {
+  "Repos >> UserIsCollaborator" should "return true when response is successful" taggedAs Integration in {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).repos
@@ -326,11 +326,11 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[Unit](response, r => r should be(()))
+    testIsRight[Boolean](response, r => r should be(true))
     response.statusCode shouldBe noContentStatusCode
   }
 
-  it should "return a not found error when username is not a repo collaborator" taggedAs Integration in {
+  it should "return false when not found error occurs" taggedAs Integration in {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).repos
@@ -343,8 +343,25 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft[NotFoundError, Unit](response)
+    testIsRight[Boolean](response, r => r should be(false))
     response.statusCode shouldBe notFoundStatusCode
+  }
+
+  it should "return error when other errors occur" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .userIsCollaborator(
+            validRepoName,
+            validRepoName,
+            invalidUsername,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsLeft[UnauthorizedError, Boolean](response)
+    response.statusCode shouldBe unauthorizedStatusCode
   }
 
   "Repos >> GetRepoPermissionForUser" should "return user repo permission" taggedAs Integration in {

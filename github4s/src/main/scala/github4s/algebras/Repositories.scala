@@ -278,6 +278,9 @@ trait Repositories[F[_]] {
    * organization members that are direct collaborators, organization members with access through team memberships,
    * organization members with access through default organization permissions, and organization owners.
    *
+   * Expect 204 No Content response when user is a collaborator
+   * Expect 404 Not Found response when user not is a collaborator
+   *
    * @param owner of the repo
    * @param repo name of the repo
    * @param username Github username
@@ -289,7 +292,7 @@ trait Repositories[F[_]] {
       repo: String,
       username: String,
       headers: Map[String, String] = Map()
-  ): F[GHResponse[Unit]]
+  ): F[GHResponse[Boolean]]
 
   /**
    * Get the repository permission of a collaborator
