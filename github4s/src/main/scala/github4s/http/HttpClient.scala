@@ -58,7 +58,7 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Unit]] =
     run[Unit, Unit](
-      RequestBuilder(buildURL(url)).deleteMethod.withHeaders(headers).withAuth(accessToken)
+      RequestBuilder(buildURL(url)).withHeaders(headers).withAuth(accessToken)
     )
 
   def patch[Req: Encoder, Res: Decoder](
