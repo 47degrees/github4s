@@ -278,8 +278,8 @@ trait Repositories[F[_]] {
    * organization members that are direct collaborators, organization members with access through team memberships,
    * organization members with access through default organization permissions, and organization owners.
    *
-   * Expect 204 No Content response when user is a collaborator
-   * Expect 404 Not Found response when user not is a collaborator
+   * 204 No Content responses will produce a true result
+   * 404 Not Found responses will produce a false result
    *
    * @param owner of the repo
    * @param repo name of the repo
