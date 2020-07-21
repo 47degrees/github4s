@@ -194,7 +194,7 @@ val userIsCollaborator = gh.repos.userIsCollaborator("47degrees", "github4s", "r
 val response = userIsCollaborator.unsafeRunSync()
 response.statusCode match {
   case 204 => println("User is a collaborator")
-  case 404 => println("User is not a collaborator)
+  case 404 => println("User is not a collaborator")
 }
 ```
 
