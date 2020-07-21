@@ -194,10 +194,9 @@ Returns whether a given user is a repository collaborator or not.
 ```scala mdoc:compile-only
 val userIsCollaborator = gh.repos.userIsCollaborator("47degrees", "github4s", "rafaparadela")
 val response = userIsCollaborator.unsafeRunSync()
-if (response.result) {
-  println("User is a collaborator")
-} else {
-  println("User is not a collaborator")
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
 }
 ```
 
