@@ -187,10 +187,6 @@ reference.
 
 Returns whether a given user is a repository collaborator or not.
 
-204 No Content responses will produce a true result
-
-404 Not Found responses will produce a false result
-
 ```scala mdoc:compile-only
 val userIsCollaborator = gh.repos.userIsCollaborator("47degrees", "github4s", "rafaparadela")
 val response = userIsCollaborator.unsafeRunSync()
