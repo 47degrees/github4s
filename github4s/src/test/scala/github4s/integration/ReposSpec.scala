@@ -335,7 +335,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       .use { client =>
         Github[IO](client, accessToken).repos
           .userIsCollaborator(
-            validRepoName,
+            validRepoOwner,
             validRepoName,
             invalidUsername,
             headers = headerUserAgent
@@ -350,11 +350,11 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error when other errors occur" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        Github[IO](client, "invalid-access-token".some).repos
           .userIsCollaborator(
+            validRepoOwner,
             validRepoName,
-            validRepoName,
-            invalidUsername,
+            validUsername,
             headers = headerUserAgent
           )
       }
