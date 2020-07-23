@@ -278,7 +278,6 @@ trait Repositories[F[_]] {
    * organization members that are direct collaborators, organization members with access through team memberships,
    * organization members with access through default organization permissions, and organization owners.
    *
-   *
    * @param owner of the repo
    * @param repo name of the repo
    * @param username Github username
