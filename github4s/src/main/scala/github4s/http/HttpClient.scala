@@ -57,7 +57,7 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
       url: String,
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Unit]] =
-    runEmptyBody[Unit](
+    runWithoutResponse[Unit](
       RequestBuilder(buildURL(url)).withHeaders(headers).withAuth(accessToken)
     )
 
@@ -159,7 +159,7 @@ class HttpClient[F[_]: Sync](client: Client[F], val config: GithubConfig) {
         buildResponse(response).map(GHResponse(_, response.status.code, response.headers.toMap))
       }
 
-  private def runEmptyBody[Req: Encoder](request: RequestBuilder[Req]): F[GHResponse[Unit]] =
+  private def runWithoutResponse[Req: Encoder](request: RequestBuilder[Req]): F[GHResponse[Unit]] =
     runRequest(
       request
     ).use { response =>
