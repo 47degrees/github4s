@@ -313,7 +313,7 @@ trait ReposSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
-  "Repos >> UserIsCollaborator" should "return true when response is successful" taggedAs Integration in {
+  "Repos >> UserIsCollaborator" should "return true when the user is a collaborator" taggedAs Integration in {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).repos
@@ -330,7 +330,7 @@ trait ReposSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe noContentStatusCode
   }
 
-  it should "return false when not found error occurs" taggedAs Integration in {
+  it should "return false when the user is not a collaborator" taggedAs Integration in {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).repos
