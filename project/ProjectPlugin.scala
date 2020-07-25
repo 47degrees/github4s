@@ -21,7 +21,7 @@ object ProjectPlugin extends AutoPlugin {
       val paradise: String  = "2.1.1"
       val scalamock: String = "4.4.0"
       val scalatest: String = "3.2.0"
-      val silencer: String  = "1.7.0"
+      val silencer: String  = "1.7.1"
     }
 
     lazy val docsMappingsAPIDir: SettingKey[String] =
