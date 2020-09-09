@@ -101,8 +101,8 @@ object Decoders {
         `private` = priv,
         description = description,
         fork = fork,
-        urls = (RepoUrlKeys.allFields zip repoUrls.flatten map {
-          case (urlName, value) => urlName -> value
+        urls = (RepoUrlKeys.allFields zip repoUrls.flatten map { case (urlName, value) =>
+          urlName -> value
         }).toMap
       )
     }

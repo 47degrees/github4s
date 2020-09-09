@@ -88,10 +88,9 @@ trait ReposSpec extends BaseIntegrationSpec {
       .use(identity)
       .unsafeRunSync()
 
-    forAll(responseList) {
-      case (release, response) =>
-        testIsRight[Option[Release]](response, r => r should contain(release))
-        response.statusCode shouldBe okStatusCode
+    forAll(responseList) { case (release, response) =>
+      testIsRight[Option[Release]](response, r => r should contain(release))
+      response.statusCode shouldBe okStatusCode
     }
   }
 

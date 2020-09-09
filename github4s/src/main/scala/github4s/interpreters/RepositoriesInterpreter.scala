@@ -158,8 +158,8 @@ class RepositoriesInterpreter[F[_]: Functor](implicit
         "author" -> author,
         "since"  -> since,
         "until"  -> until
-      ).collect {
-        case (key, Some(value)) => key -> value
+      ).collect { case (key, Some(value)) =>
+        key -> value
       },
       pagination
     )
@@ -177,8 +177,8 @@ class RepositoriesInterpreter[F[_]: Functor](implicit
       headers,
       Map(
         "protected" -> onlyProtected.map(_.toString)
-      ).collect {
-        case (key, Some(value)) => key -> value
+      ).collect { case (key, Some(value)) =>
+        key -> value
       },
       pagination
     )
@@ -196,8 +196,8 @@ class RepositoriesInterpreter[F[_]: Functor](implicit
       headers,
       Map(
         "anon" -> anon
-      ).collect {
-        case (key, Some(value)) => key -> value
+      ).collect { case (key, Some(value)) =>
+        key -> value
       },
       pagination
     )
@@ -215,8 +215,8 @@ class RepositoriesInterpreter[F[_]: Functor](implicit
       headers,
       Map(
         "affiliation" -> affiliation
-      ).collect {
-        case (key, Some(value)) => key -> value
+      ).collect { case (key, Some(value)) =>
+        key -> value
       },
       pagination
     )
