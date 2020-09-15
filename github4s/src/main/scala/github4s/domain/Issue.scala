@@ -44,7 +44,8 @@ final case class Issue(
 final case class Label(
     id: Option[Long],
     name: String,
-    url: String,
+    description: Option[String],
+    url: Option[String],
     color: String,
     default: Option[Boolean]
 )

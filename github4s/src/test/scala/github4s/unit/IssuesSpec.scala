@@ -234,6 +234,67 @@ class IssuesSpec extends BaseSpec {
     issues.listLabels(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
   }
 
+  "Issues.CreateLabel" should "call httpClient.post with the right parameters" in {
+    val response: IO[GHResponse[Label]] =
+      IO(GHResponse(validRepoLabel.asRight, okStatusCode, Map.empty))
+
+    val request = validRepoLabel
+
+    implicit val httpClientMock = httpClientMockPost[Label, Label](
+      url = s"repos/$validRepoOwner/$validRepoName/labels",
+      req = request,
+      response = response
+    )
+
+    val issues = new IssuesInterpreter[IO]
+    issues.createLabel(
+      validRepoOwner,
+      validRepoName,
+      validRepoLabel,
+      headerUserAgent
+    )
+  }
+
+  "Issues.UpdateLabel" should "call httpClient.patch with the right parameters" in {
+    val response: IO[GHResponse[Label]] =
+      IO(GHResponse(validRepoLabel.asRight, okStatusCode, Map.empty))
+
+    val request = validRepoLabel
+
+    implicit val httpClientMock = httpClientMockPatch[Label, Label](
+      url = s"repos/$validRepoOwner/$validRepoName/labels/${validRepoLabel.name}",
+      req = request,
+      response = response
+    )
+
+    val issues = new IssuesInterpreter[IO]
+    issues.updateLabel(
+      validRepoOwner,
+      validRepoName,
+      validRepoLabel,
+      headerUserAgent
+    )
+  }
+
+  "Issues.DeleteLabel" should "call httpClient.delete with the right parameters" in {
+    val response: IO[GHResponse[Unit]] =
+      IO(GHResponse(().asRight, noContentStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockDelete(
+      url = s"repos/$validRepoOwner/$validRepoName/labels/${validRepoLabel.name}",
+      response = response
+    )
+
+    val issues = new IssuesInterpreter[IO]
+    issues.deleteLabel(
+      validRepoOwner,
+      validRepoName,
+      validRepoLabel.name,
+      headerUserAgent
+    )
+  }
+
+
   "Issues.AddLabels" should "call httpClient.post with the right parameters" in {
     val response: IO[GHResponse[List[Label]]] =
       IO(GHResponse(List(label).asRight, okStatusCode, Map.empty))

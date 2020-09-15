@@ -63,6 +63,7 @@ object Encoders {
   implicit val encoderEditGistRequest: Encoder[EditGistRequest]   = deriveEncoder[EditGistRequest]
   implicit val encoderNewIssueRequest: Encoder[NewIssueRequest]   = deriveEncoder[NewIssueRequest]
   implicit val encoderEditIssueRequest: Encoder[EditIssueRequest] = deriveEncoder[EditIssueRequest]
+  implicit val encoderLabel: Encoder[Label]                       = deriveEncoder[Label]
   implicit val encoderCommentData: Encoder[CommentData]           = deriveEncoder[CommentData]
   implicit val encoderNewReleaseRequest: Encoder[NewReleaseRequest] =
     deriveEncoder[NewReleaseRequest]

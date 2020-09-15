@@ -100,6 +100,16 @@ trait TestData {
   val validIssueState  = "closed"
   val validIssueLabel  = List("bug", "code review")
   val validAssignees   = List(validUsername)
+  val validRepoLabelColor = "f29513"
+  val validRepoLabelName = "bug"
+  val validRepoLabel    = Label(
+    name = validRepoLabelName,
+    color = validRepoLabelColor,
+    id = None,
+    description = None,
+    url = None,
+    default = None
+  )
 
   val encoding = Some("utf-8")
 
@@ -205,8 +215,9 @@ trait TestData {
   val label = Label(
     id = Some(1),
     name = validIssueLabel.head,
-    url = githubApiUrl,
-    color = "",
+    description = None,
+    url = Some(githubApiUrl),
+    color = validRepoLabelColor,
     default = None
   )
 

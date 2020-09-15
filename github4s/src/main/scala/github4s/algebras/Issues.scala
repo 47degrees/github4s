@@ -249,6 +249,54 @@ trait Issues[F[_]] {
   ): F[GHResponse[List[Label]]]
 
   /**
+   * Create label in repository
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param label label to create in the repository
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the created Label.
+   */
+  def createLabel(
+      owner: String,
+      repo: String,
+      label: Label,
+      headers: Map[String, String]
+  ): F[GHResponse[Label]]
+
+  /**
+   * Update label in repository
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param label label to update in the repository
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the updated Label.
+   */
+  def updateLabel(
+      owner: String,
+      repo: String,
+      label: Label,
+      headers: Map[String, String]
+  ): F[GHResponse[Label]]
+
+  /**
+   * Delete label for repository
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param label the name of the label to delete from the repository
+   * @param headers optional user headers to include in the request
+   * @return a Unit GHResponse
+   */
+  def deleteLabel(
+      owner: String,
+      repo: String,
+      label: String,
+      headers: Map[String, String]
+  ): F[GHResponse[Unit]]
+
+  /**
    * Add the specified labels to an Issue
    *
    * @param owner of the repo

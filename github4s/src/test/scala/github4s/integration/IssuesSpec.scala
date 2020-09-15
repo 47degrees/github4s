@@ -179,6 +179,56 @@ trait IssuesSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe okStatusCode
   }
 
+  "Issues >> CreateLabel" should "return a created label" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues
+          .createLabel(
+            validRepoOwner,
+            validRepoName,
+            validRepoLabel,
+            headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[Label](response, r => r.name shouldBe validRepoLabel.name)
+    response.statusCode shouldBe okStatusCode
+  }
+
+  "Issues >> UpdateLabel" should "return a updated label" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues
+          .updateLabel(
+            validRepoOwner,
+            validRepoName,
+            validRepoLabel,
+            headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[Label](response, r => r.name shouldBe validRepoLabel.name)
+    response.statusCode shouldBe okStatusCode
+  }
+
+  "Issues >> DeleteLabel" should "return a valid status code" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues
+          .deleteLabel(
+            validRepoOwner,
+            validRepoName,
+            validRepoLabel.name,
+            headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    response.statusCode shouldBe noContentStatusCode
+  }
+
   "Issues >> AddLabels" should "return a list of labels" taggedAs Integration in {
     val response = clientResource
       .use { client =>

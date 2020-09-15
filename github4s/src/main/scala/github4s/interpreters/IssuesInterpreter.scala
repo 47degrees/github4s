@@ -173,6 +173,46 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       pagination = pagination
     )
 
+  override def createLabel(
+      owner: String,
+      repo: String,
+      label: Label,
+      headers: Map[String, String]
+  ): F[GHResponse[Label]] =
+    client.post[Label, Label](
+      accessToken,
+      s"repos/$owner/$repo/labels",
+      headers,
+      label
+    )
+
+  override def updateLabel(
+      owner: String,
+      repo: String,
+      label: Label,
+      headers: Map[String, String]
+  ): F[GHResponse[Label]] =
+    client.patch[Label, Label](
+      accessToken,
+      s"repos/$owner/$repo/labels/${label.name}",
+      headers,
+      label
+    )
+
+  override def deleteLabel(
+      owner: String,
+      repo: String,
+      label: String,
+      headers: Map[String, String]
+  ): F[GHResponse[Unit]] =
+    client.delete(
+      accessToken,
+      s"repos/$owner/$repo/labels/$label",
+      headers
+    )
+
+
+
   override def addLabels(
       owner: String,
       repo: String,
