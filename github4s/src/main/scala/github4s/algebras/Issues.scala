@@ -261,7 +261,7 @@ trait Issues[F[_]] {
       owner: String,
       repo: String,
       label: Label,
-      headers: Map[String, String]
+      headers: Map[String, String] = Map()
   ): F[GHResponse[Label]]
 
   /**
@@ -277,7 +277,7 @@ trait Issues[F[_]] {
       owner: String,
       repo: String,
       label: Label,
-      headers: Map[String, String]
+      headers: Map[String, String] = Map()
   ): F[GHResponse[Label]]
 
   /**
@@ -293,7 +293,7 @@ trait Issues[F[_]] {
       owner: String,
       repo: String,
       label: String,
-      headers: Map[String, String]
+      headers: Map[String, String] = Map()
   ): F[GHResponse[Unit]]
 
   /**

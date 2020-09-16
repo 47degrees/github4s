@@ -44,6 +44,7 @@ import java.util.concurrent._
 
 import cats.effect.{Blocker, ContextShift, IO}
 import github4s.Github
+import github4s.domain.Label
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
 import scala.concurrent.ExecutionContext.global
