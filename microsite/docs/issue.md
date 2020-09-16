@@ -22,6 +22,9 @@ with Github4s, you can interact with:
   - [Delete a comment](#delete-a-comment)
 - [Labels](#labels)
   - [List labels for this repository](#list-labels-for-this-repository)
+  - [Create a label](#create-a-label)
+  - [Update a label](#update-a-label)
+  - [Delete a label](#delete-a-label)
   - [List labels](#list-labels)
   - [Add labels](#add-labels)
   - [Remove a label](#remove-a-label)
@@ -309,6 +312,87 @@ The `result` on the right is the corresponding [List[Label]][issue-scala]
 
 See [the API doc](https://developer.github.com/v3/issues/labels/#list-all-labels-for-this-repository) for full reference.
 
+### Create a label
+
+You can create label for an repository with the following parameters:
+
+ - the repository coordinates (`owner` and `name` of the repository).
+ - `label`: Label for create (`name`, `color` and optional field `desctiption`) 
+
+ To create label:
+
+```scala mdoc:compile-only
+val label = Label(
+    name = "bug",
+    color = "ffffff",
+    id = None,
+    description = None,
+    url = None,
+    default = None
+)
+val createLabel = gh.issues.createLabel("47degrees", "github4s", label)
+val response = createLabel.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding created [Label][issue-scala]
+
+See [the API doc](https://developer.github.com/v3/issues/labels/#create-a-label) for full reference.
+
+### Update a label
+
+You can update existing label for an repository with the following parameters:
+
+ - the repository coordinates (`owner` and `name` of the repository).
+ - `label`: Label for update (`name`, `color` and optional field `desctiption`) 
+
+ To update label:
+
+```scala mdoc:compile-only
+val label = Label(
+    name = "bug",
+    color = "ffffff",
+    id = None,
+    description = None,
+    url = None,
+    default = None
+)
+val updateLabel = gh.issues.updateLabel("47degrees", "github4s", label)
+val response = updateLabel.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is the corresponding updated [Label][issue-scala]
+
+See [the API doc](https://developer.github.com/v3/issues/labels/#update-a-label) for full reference.
+
+### Delete a label
+
+You can delete existing label for an repository with the following parameters:
+
+ - the repository coordinates (`owner` and `name` of the repository).
+ - `label`: The existing label name
+
+ To delete label:
+
+```scala mdoc:compile-only
+val deleteLabel = gh.issues.deleteLabel("47degrees", "github4s", "bug")
+val response = deleteLabel.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+The `result` on the right is `Unit`.
+
+See [the API doc](https://developer.github.com/v3/issues/labels/#delete-a-label) for full reference.
 
 ### List labels
 
