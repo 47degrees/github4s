@@ -94,15 +94,15 @@ trait TestData {
     OwnerParamInRepository(s"$validRepoOwner/$validRepoName")
   )
 
-  val validIssueNumber = 48
-  val validIssueTitle  = "Sample Title"
-  val validIssueBody   = "Sample Body"
-  val validIssueState  = "closed"
-  val validIssueLabel  = List("bug", "code review")
-  val validAssignees   = List(validUsername)
+  val validIssueNumber    = 48
+  val validIssueTitle     = "Sample Title"
+  val validIssueBody      = "Sample Body"
+  val validIssueState     = "closed"
+  val validIssueLabel     = List("bug", "code review")
+  val validAssignees      = List(validUsername)
   val validRepoLabelColor = "f29513"
-  val validRepoLabelName = "bug"
-  val validRepoLabel    = Label(
+  val validRepoLabelName  = "bug"
+  val validRepoLabel = Label(
     name = validRepoLabelName,
     color = validRepoLabelColor,
     id = None,

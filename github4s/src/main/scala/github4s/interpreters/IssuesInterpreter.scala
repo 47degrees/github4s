@@ -211,8 +211,6 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       headers
     )
 
-
-
   override def addLabels(
       owner: String,
       repo: String,

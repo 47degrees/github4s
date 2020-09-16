@@ -294,7 +294,6 @@ class IssuesSpec extends BaseSpec {
     )
   }
 
-
   "Issues.AddLabels" should "call httpClient.post with the right parameters" in {
     val response: IO[GHResponse[List[Label]]] =
       IO(GHResponse(List(label).asRight, okStatusCode, Map.empty))
