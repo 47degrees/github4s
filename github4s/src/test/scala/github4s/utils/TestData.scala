@@ -101,7 +101,7 @@ trait TestData {
   val validIssueLabel     = List("bug", "code review")
   val validAssignees      = List(validUsername)
   val validRepoLabelColor = "f29513"
-  val validRepoLabelName  = "bug"
+  val validRepoLabelName  = "test"
   val validRepoLabel = Label(
     name = validRepoLabelName,
     color = validRepoLabelColor,

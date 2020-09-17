@@ -193,7 +193,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
       .unsafeRunSync()
 
     testIsRight[Label](response, r => r.name shouldBe validRepoLabel.name)
-    response.statusCode shouldBe okStatusCode
+    response.statusCode shouldBe createdStatusCode
   }
 
   "Issues >> UpdateLabel" should "return a updated label" taggedAs Integration in {
