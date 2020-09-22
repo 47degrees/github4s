@@ -346,7 +346,7 @@ See [the API doc](https://developer.github.com/v3/repos/contents/#create-or-upda
 
 This method updates an existing file in a repository.
 
-You can create a new file using `updateFile`, it takes as arguments:
+You can update a file using `updateFile`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `path`: The path of the new file to be created, *without* a leading slash.
