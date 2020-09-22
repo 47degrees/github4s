@@ -51,10 +51,10 @@ final case class Label(
 )
 
 final case class IssuePullRequest(
-    url: String,
-    html_url: String,
-    diff_url: String,
-    patch_url: String
+    url: Option[String] = None,
+    html_url: Option[String] = None,
+    diff_url: Option[String] = None,
+    patch_url: Option[String] = None
 )
 
 final case class SearchIssuesResult(
