@@ -19,10 +19,10 @@ package github4s.domain
 final case class Subscription(
     subscribed: Boolean,
     ignored: Boolean,
-    reason: Option[String],
     created_at: String,
     url: String,
-    thread_url: String
+    thread_url: String,
+    reason: Option[String] = None
 )
 
 final case class SubscriptionRequest(
@@ -31,11 +31,11 @@ final case class SubscriptionRequest(
 )
 
 final case class Stargazer(
-    starred_at: Option[String],
-    user: User
+    user: User,
+    starred_at: Option[String] = None
 )
 
 final case class StarredRepository(
-    starred_at: Option[String],
-    repo: Repository
+    repo: Repository,
+    starred_at: Option[String] = None
 )

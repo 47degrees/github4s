@@ -71,29 +71,29 @@ final case class TreeDataResult(
     path: String,
     mode: String,
     `type`: String,
-    size: Option[Int],
     sha: String,
-    url: String
+    url: String,
+    size: Option[Int] = None
 )
 
 final case class NewCommitRequest(
     message: String,
     tree: String,
     parents: List[String],
-    author: Option[RefAuthor]
+    author: Option[RefAuthor] = None
 )
 
 final case class BlobContent(
-    content: Option[String],
-    encoding: Option[String],
     url: String,
     sha: String,
-    size: Int
+    size: Int,
+    content: Option[String] = None,
+    encoding: Option[String] = None
 )
 
-final case class NewBlobRequest(content: String, encoding: Option[String])
+final case class NewBlobRequest(content: String, encoding: Option[String] = None)
 
-final case class NewTreeRequest(base_tree: Option[String], tree: List[TreeData])
+final case class NewTreeRequest(tree: List[TreeData], base_tree: Option[String] = None)
 
 final case class CreateReferenceRequest(ref: String, sha: String)
 
@@ -104,5 +104,5 @@ final case class NewTagRequest(
     message: String,
     `object`: String,
     `type`: String,
-    tagger: Option[RefAuthor]
+    tagger: Option[RefAuthor] = None
 )

@@ -357,9 +357,9 @@ trait TestData {
     "https://api.github.com/repos/octocat/Hello-World/issues/comments/1",
     "https: //github.com/octocat/Hello-World/issues/1347#issuecomment-1",
     validCommentBody,
-    Some(user),
     "2011-04-14T16:00:49Z",
-    "2011-04-14T16:00:49Z"
+    "2011-04-14T16:00:49Z",
+    Some(user)
   )
   val repo = Repository(
     1296269,
@@ -367,7 +367,6 @@ trait TestData {
     s"$validRepoOwner/$validRepoName",
     user,
     false,
-    Some(validNote),
     false,
     RepoUrls(
       s"https://api.github.com/repos/$validRepoOwner/$validRepoName",
@@ -381,20 +380,15 @@ trait TestData {
     "2011-01-26T19:01:12Z",
     "2011-01-26T19:14:43Z",
     "2011-01-26T19:06:43Z",
-    None,
-    None,
-    RepoStatus(108, 80, 80, 9, 0, None, None, None, None, true, true, false, true),
-    None
+    RepoStatus(108, 80, 80, 9, 0, true, true, false, true),
+    Some(validNote)
   )
 
   val commit = Commit(
     validCommitSha,
     validNote,
     "2011-01-26T19:01:12Z",
-    s"https://github.com/$validRepoOwner/$validRepoName/commit/$validCommitSha",
-    None,
-    None,
-    None
+    s"https://github.com/$validRepoOwner/$validRepoName/commit/$validCommitSha"
   )
   val validBranchName = "master"
   val protectedBranch = Branch(
@@ -422,8 +416,8 @@ trait TestData {
   val gist         = Gist(validGistUrl, validGistId, validGistDescription, validGistPublic, Map())
   val validGistSha = "deadbeef"
 
-  val stargazer         = Stargazer(None, user)
-  val starredRepository = StarredRepository(None, repo)
+  val stargazer         = Stargazer(user)
+  val starredRepository = StarredRepository(repo)
 
   val pullRequestReview = PullRequestReview(
     id = validPullRequestReviewNumber,

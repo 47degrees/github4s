@@ -21,26 +21,26 @@ final case class PullRequest(
     number: Int,
     state: String,
     title: String,
-    body: Option[String],
     locked: Boolean,
     html_url: String,
     created_at: String,
-    updated_at: Option[String],
-    closed_at: Option[String],
-    merged_at: Option[String],
-    merge_commit_sha: Option[String],
-    base: Option[PullRequestBase],
-    head: Option[PullRequestBase],
-    user: Option[User],
-    assignee: Option[User]
+    body: Option[String] = None,
+    updated_at: Option[String] = None,
+    closed_at: Option[String] = None,
+    merged_at: Option[String] = None,
+    merge_commit_sha: Option[String] = None,
+    base: Option[PullRequestBase] = None,
+    head: Option[PullRequestBase] = None,
+    user: Option[User] = None,
+    assignee: Option[User] = None
 )
 
 final case class PullRequestBase(
-    label: Option[String],
     ref: String,
     sha: String,
-    user: Option[User],
-    repo: Option[Repository]
+    label: Option[String] = None,
+    user: Option[User] = None,
+    repo: Option[Repository] = None
 )
 
 final case class PullRequestFile(
@@ -53,8 +53,8 @@ final case class PullRequestFile(
     blob_url: String,
     raw_url: String,
     contents_url: String,
-    patch: Option[String],
-    previous_filename: Option[String]
+    patch: Option[String] = None,
+    previous_filename: Option[String] = None
 )
 sealed trait CreatePullRequest {
   def head: String
@@ -108,12 +108,12 @@ final case class NewPullRequestIssue(issue: Int)                 extends NewPull
 
 final case class PullRequestReview(
     id: Long,
-    user: Option[User],
     body: String,
     commit_id: String,
     state: PullRequestReviewState,
     html_url: String,
-    pull_request_url: String
+    pull_request_url: String,
+    user: Option[User] = None
 )
 
 sealed abstract class PullRequestReviewState(val value: String)

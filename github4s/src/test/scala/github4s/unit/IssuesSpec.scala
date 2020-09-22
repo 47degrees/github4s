@@ -79,7 +79,7 @@ class IssuesSpec extends BaseSpec {
     val response: IO[GHResponse[Issue]] =
       IO(GHResponse(issue.asRight, createdStatusCode, Map.empty))
 
-    val request = NewIssueRequest(validIssueTitle, validIssueBody, None, List.empty, List.empty)
+    val request = NewIssueRequest(validIssueTitle, validIssueBody, List.empty, List.empty)
 
     implicit val httpClientMock = httpClientMockPost[NewIssueRequest, Issue](
       url = s"repos/$validRepoOwner/$validRepoName/issues",
@@ -109,7 +109,6 @@ class IssuesSpec extends BaseSpec {
       validIssueState,
       validIssueTitle,
       validIssueBody,
-      None,
       List.empty,
       List.empty
     )

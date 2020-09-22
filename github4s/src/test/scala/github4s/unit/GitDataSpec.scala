@@ -148,7 +148,7 @@ class GitDataSpec extends BaseSpec {
 
     val response: IO[GHResponse[BlobContent]] =
       IO(
-        GHResponse(BlobContent(None, None, "", invalidFileSha, 0).asRight, okStatusCode, Map.empty)
+        GHResponse(BlobContent("", invalidFileSha, 0).asRight, okStatusCode, Map.empty)
       )
 
     implicit val httpClientMock = httpClientMockGet[BlobContent](
@@ -198,7 +198,7 @@ class GitDataSpec extends BaseSpec {
         )
       )
 
-    val request = NewTreeRequest(Some(validTreeSha), treeDataList)
+    val request = NewTreeRequest(treeDataList, Some(validTreeSha))
 
     implicit val httpClientMock = httpClientMockPost[NewTreeRequest, TreeResult](
       url = s"repos/$validRepoOwner/$validRepoName/git/trees",

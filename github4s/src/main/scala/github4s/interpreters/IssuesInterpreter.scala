@@ -72,7 +72,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       accessToken,
       s"repos/$owner/$repo/issues",
       headers,
-      data = NewIssueRequest(title, body, milestone, labels, assignees)
+      data = NewIssueRequest(title, body, labels, assignees, milestone)
     )
 
   override def editIssue(
@@ -91,7 +91,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Optio
       accessToken,
       s"repos/$owner/$repo/issues/$issue",
       headers,
-      data = EditIssueRequest(state, title, body, milestone, labels, assignees)
+      data = EditIssueRequest(state, title, body, labels, assignees, milestone)
     )
 
   override def listComments(

@@ -23,10 +23,10 @@ final case class Team(
     html_url: String,
     name: String,
     slug: String,
-    description: Option[String],
     privacy: String,
     permission: String,
     members_url: String,
     repositories_url: String,
+    description: Option[String] = None,
     parent: Option[Team] = None
 )

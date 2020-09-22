@@ -222,13 +222,13 @@ object Decoders {
 
   implicit val decodeStarredRepository: Decoder[StarredRepository] =
     Decoder[Repository]
-      .map(StarredRepository(None, _))
+      .map(StarredRepository(_))
       .or(
         Decoder.instance(c =>
           for {
             starred_at <- c.downField("starred_at").as[String]
             repo       <- c.downField("repo").as[Repository]
-          } yield StarredRepository(Some(starred_at), repo)
+          } yield StarredRepository(repo, Some(starred_at))
         )
       )
 
@@ -277,13 +277,13 @@ object Decoders {
 
   implicit val decodeStargazer: Decoder[Stargazer] =
     decoderUser
-      .map(Stargazer(None, _))
+      .map(Stargazer(_))
       .or(
         Decoder.instance(c =>
           for {
             starred_at <- c.downField("starred_at").as[String]
             user       <- c.downField("user").as[User]
-          } yield Stargazer(Some(starred_at), user)
+          } yield Stargazer(user, Some(starred_at))
         )
       )
 

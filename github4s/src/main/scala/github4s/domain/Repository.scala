@@ -22,16 +22,23 @@ final case class Repository(
     full_name: String,
     owner: User,
     `private`: Boolean,
-    description: Option[String],
     fork: Boolean,
     urls: RepoUrls,
     created_at: String,
     updated_at: String,
     pushed_at: String,
+    status: RepoStatus,
+    description: Option[String] = None,
     homepage: Option[String] = None,
     language: Option[String] = None,
-    status: RepoStatus,
-    organization: Option[User] = None
+    organization: Option[User] = None,
+    permissions: Option[RepoPermissions] = None
+)
+
+final case class RepoPermissions(
+    admin: Boolean,
+    push: Boolean,
+    pull: Boolean
 )
 
 final case class RepoStatus(
@@ -40,14 +47,14 @@ final case class RepoStatus(
     watchers_count: Int,
     forks_count: Int,
     open_issues_count: Int,
-    open_issues: Option[Int],
-    watchers: Option[Int],
-    network_count: Option[Int],
-    subscribers_count: Option[Int],
     has_issues: Boolean,
     has_downloads: Boolean,
     has_wiki: Boolean,
-    has_pages: Boolean
+    has_pages: Boolean,
+    open_issues: Option[Int] = None,
+    watchers: Option[Int] = None,
+    network_count: Option[Int] = None,
+    subscribers_count: Option[Int] = None
 )
 
 final case class RepoUrls(
@@ -69,30 +76,30 @@ final case class Release(
     draft: Boolean,
     prerelease: Boolean,
     created_at: String,
-    published_at: Option[String],
-    author: Option[User],
     url: String,
     html_url: String,
     assets_url: String,
     upload_url: String,
-    tarball_url: Option[String],
-    zipball_url: Option[String]
+    published_at: Option[String] = None,
+    author: Option[User] = None,
+    tarball_url: Option[String] = None,
+    zipball_url: Option[String] = None
 )
 
 final case class Content(
     `type`: String,
-    encoding: Option[String],
-    target: Option[String],
-    submodule_git_url: Option[String],
     size: Int,
     name: String,
     path: String,
-    content: Option[String],
     sha: String,
     url: String,
     git_url: String,
     html_url: String,
-    download_url: Option[String]
+    encoding: Option[String] = None,
+    target: Option[String] = None,
+    submodule_git_url: Option[String] = None,
+    content: Option[String] = None,
+    download_url: Option[String] = None
 )
 
 final case class Commit(
@@ -100,16 +107,16 @@ final case class Commit(
     message: String,
     date: String,
     url: String,
-    login: Option[String],
-    avatar_url: Option[String],
-    author_url: Option[String]
+    login: Option[String] = None,
+    avatar_url: Option[String] = None,
+    author_url: Option[String] = None
 )
 
 final case class Branch(
     name: String,
     commit: BranchCommit,
-    `protected`: Option[Boolean],
-    protection_url: Option[String]
+    `protected`: Option[Boolean] = None,
+    protection_url: Option[String] = None
 )
 
 final case class BranchCommit(
@@ -121,9 +128,9 @@ final case class NewReleaseRequest(
     tag_name: String,
     name: String,
     body: String,
-    target_commitish: Option[String],
-    draft: Option[Boolean],
-    prerelease: Option[Boolean]
+    target_commitish: Option[String] = None,
+    draft: Option[Boolean] = None,
+    prerelease: Option[Boolean] = None
 )
 
 final case class Status(
@@ -132,29 +139,29 @@ final case class Status(
     id: Long,
     node_id: String,
     state: String,
-    description: Option[String],
-    target_url: Option[String],
-    context: Option[String],
     created_at: String,
-    updated_at: String
+    updated_at: String,
+    description: Option[String] = None,
+    target_url: Option[String] = None,
+    context: Option[String] = None
 )
 
 final case class NewStatusRequest(
     state: String,
-    target_url: Option[String],
-    description: Option[String],
-    context: Option[String]
+    target_url: Option[String] = None,
+    description: Option[String] = None,
+    context: Option[String] = None
 )
 
 final case class StatusRepository(
     id: Long,
     name: String,
     full_name: String,
-    owner: Option[User],
     `private`: Boolean,
-    description: Option[String],
     fork: Boolean,
-    urls: Map[String, String]
+    urls: Map[String, String],
+    owner: Option[User] = None,
+    description: Option[String] = None
 )
 
 final case class CombinedStatus(
@@ -188,9 +195,9 @@ final case class WriteResponseCommit(
     sha: String,
     url: String,
     html_url: String,
-    author: Option[Committer],
-    committer: Option[Committer],
-    message: String
+    message: String,
+    author: Option[Committer] = None,
+    committer: Option[Committer] = None
 )
 
 final case class WriteFileResponse(

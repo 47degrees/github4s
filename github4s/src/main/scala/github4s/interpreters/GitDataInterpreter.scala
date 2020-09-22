@@ -140,7 +140,7 @@ class GitDataInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Opti
       accessToken,
       s"repos/$owner/$repo/git/trees",
       headers,
-      NewTreeRequest(baseTree, treeDataList)
+      NewTreeRequest(treeDataList, baseTree)
     )
 
   override def createTag(

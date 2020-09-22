@@ -346,7 +346,7 @@ See [the API doc](https://developer.github.com/v3/repos/contents/#create-or-upda
 
 This method updates an existing file in a repository.
 
-You can create a new file using `createFile`, it takes as arguments:
+You can create a new file using `updateFile`, it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `path`: The path of the new file to be created, *without* a leading slash.
@@ -357,7 +357,7 @@ You can create a new file using `createFile`, it takes as arguments:
 - `committer`: An optional committer to associate with the commit. If omitted, the authenticated user's information is used for the commit.
 - `author`: An optional author to associate with the commit. If omitted, the committer is used (if present).
 
-To create a file:
+To update a file:
 ```scala mdoc:compile-only
 val getContents = gh.repos.updateFile("47degrees", "github4s", "README.md", "A terser README.", "You read me right.".getBytes,"a52d080d2cf85e08bfcb441b437d3982398e8f8f6a58388f55d6b6cf51cb5365")
 
