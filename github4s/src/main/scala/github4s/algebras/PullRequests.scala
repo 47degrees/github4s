@@ -138,4 +138,22 @@ trait PullRequests[F[_]] {
       headers: Map[String, String] = Map()
   ): F[GHResponse[PullRequestReview]]
 
+  /**
+   * Create a review for a pull request
+   *
+   * @param owner Owner of the repo
+   * @param repo Name of the repo
+   * @param pullRequest ID number of the PR to get reviews for
+   * @param createPRReviewRequest Data to create a review
+   * @param headers Optional user header to include in the request
+   * @return a GHResponse with the created review
+   */
+  def createReview(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      createPRReviewRequest: CreatePRReviewRequest,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequestReview]]
+
 }

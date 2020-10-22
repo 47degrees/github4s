@@ -111,4 +111,19 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       s"repos/$owner/$repo/pulls/$pullRequest/reviews/$review",
       headers
     )
+
+  override def createReview(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      createPRReviewRequest: CreatePRReviewRequest,
+      headers: Map[String, String]
+  ): F[GHResponse[PullRequestReview]] =
+    client
+      .post[CreatePRReviewRequest, PullRequestReview](
+        accessToken,
+        s"repos/$owner/$repo/pulls/$pullRequest/reviews",
+        headers,
+        createPRReviewRequest
+      )
 }

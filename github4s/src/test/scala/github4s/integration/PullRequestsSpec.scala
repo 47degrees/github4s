@@ -17,7 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.GHError.NotFoundError
+import github4s.GHError.{JsonParsingError, NotFoundError}
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -254,4 +254,45 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
+  "PullRequests >> CreateReview" should "return a created review" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).pullRequests
+          .createReview(
+            validRepoOwner,
+            validRepoName,
+            validPullRequestNumber,
+            validCreatePRReviewRequest,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[PullRequestReview](
+      response,
+      r => {
+        r.body shouldBe validCreatePRReviewRequest.body
+        r.state shouldBe PRRStateApproved
+      }
+    )
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return an error when invalid review data was passed" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).pullRequests
+          .createReview(
+            validRepoOwner,
+            validRepoName,
+            validPullRequestNumber,
+            invalidCreatePRReviewRequest,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsLeft[JsonParsingError, PullRequestReview](response)
+    response.statusCode shouldBe unprocessableEntityStatusCode
+  }
 }

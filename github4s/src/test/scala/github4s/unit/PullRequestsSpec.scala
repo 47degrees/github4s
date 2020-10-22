@@ -133,7 +133,7 @@ class PullRequestsSpec extends BaseSpec {
 
   }
 
-  "GHPullRequests.listReviews" should "call to httpClient.post with the right parameters" in {
+  "PullRequests.listReviews" should "call to httpClient.get with the right parameters" in {
     val response: IO[GHResponse[List[PullRequestReview]]] =
       IO(GHResponse(List(pullRequestReview).asRight, okStatusCode, Map.empty))
 
@@ -154,7 +154,7 @@ class PullRequestsSpec extends BaseSpec {
 
   }
 
-  "GHPullRequests.getReview" should "call to httpClient.post with the right parameters" in {
+  "PullRequests.getReview" should "call to httpClient.get with the right parameters" in {
     val response: IO[GHResponse[PullRequestReview]] =
       IO(GHResponse(pullRequestReview.asRight, okStatusCode, Map.empty))
 
@@ -174,6 +174,27 @@ class PullRequestsSpec extends BaseSpec {
       headerUserAgent
     )
 
+  }
+
+  "PullRequests.createReview" should "call to httpClient.post with the right parameters" in {
+    val response: IO[GHResponse[PullRequestReview]] =
+      IO(GHResponse(pullRequestReview.asRight, okStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockPost[CreatePRReviewRequest, PullRequestReview](
+      url = s"repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber/reviews",
+      req = validCreatePRReviewRequest,
+      response = response
+    )
+
+    val pullRequests = new PullRequestsInterpreter[IO]
+
+    pullRequests.createReview(
+      validRepoOwner,
+      validRepoName,
+      validPullRequestNumber,
+      validCreatePRReviewRequest,
+      headerUserAgent
+    )
   }
 
 }

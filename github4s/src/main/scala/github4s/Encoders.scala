@@ -37,6 +37,9 @@ object Encoders {
   implicit val encodePrrStatus: Encoder[PullRequestReviewState] =
     Encoder.encodeString.contramap(_.value)
 
+  implicit val encodePrrEvent: Encoder[PullRequestReviewEvent] =
+    Encoder.encodeString.contramap(_.value)
+
   implicit val encodeEditGistFile: Encoder[EditGistFile] = {
     deriveEncoder[EditGistFile].mapJsonObject(
       _.filter(e => !(e._1.equals("filename") && e._2.isNull))
@@ -69,4 +72,6 @@ object Encoders {
     deriveEncoder[NewReleaseRequest]
   implicit val encoderNewStatusRequest: Encoder[NewStatusRequest] = deriveEncoder[NewStatusRequest]
   implicit val encoderMilestoneData: Encoder[MilestoneData]       = deriveEncoder[MilestoneData]
+  implicit val encodeNewPullRequestReview: Encoder[CreatePRReviewRequest] =
+    deriveEncoder[CreatePRReviewRequest]
 }

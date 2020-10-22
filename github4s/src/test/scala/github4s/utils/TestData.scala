@@ -69,11 +69,12 @@ trait TestData {
   val validSinceInt   = 100
   val invalidSinceInt = 999999999
 
-  val okStatusCode           = 200
-  val createdStatusCode      = 201
-  val noContentStatusCode    = 204
-  val unauthorizedStatusCode = 401
-  val notFoundStatusCode     = 404
+  val okStatusCode                  = 200
+  val createdStatusCode             = 201
+  val noContentStatusCode           = 204
+  val unauthorizedStatusCode        = 401
+  val notFoundStatusCode            = 404
+  val unprocessableEntityStatusCode = 422
 
   val validAnonParameter   = "true"
   val invalidAnonParameter = "X"
@@ -145,6 +146,11 @@ trait TestData {
 
   val validNewPullRequestIssue   = NewPullRequestIssue(31)
   val invalidNewPullRequestIssue = NewPullRequestIssue(5)
+
+  val validCreatePRReviewRequest =
+    CreatePRReviewRequest(None, "LGFM", PRREventApprove, Nil)
+  val invalidCreatePRReviewRequest =
+    CreatePRReviewRequest(None, "", PRREventRequestChanges, Nil)
 
   val validPath = "project/plugins.sbt"
 

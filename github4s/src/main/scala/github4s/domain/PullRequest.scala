@@ -122,3 +122,29 @@ final case object PRRStateChangesRequested extends PullRequestReviewState("CHANG
 final case object PRRStateCommented        extends PullRequestReviewState("COMMENTED")
 final case object PRRStatePending          extends PullRequestReviewState("PENDING")
 final case object PRRStateDismissed        extends PullRequestReviewState("DISMISSED")
+
+final case class CreatePRReviewRequest(
+    commit_id: Option[String] = None,
+    body: String,
+    event: PullRequestReviewEvent = PRREventPending,
+    comments: List[CreateReviewComment] = Nil
+)
+
+sealed abstract class PullRequestReviewEvent(val value: String)
+
+final case object PRREventApprove        extends PullRequestReviewEvent("APPROVE")
+final case object PRREventRequestChanges extends PullRequestReviewEvent("REQUEST_CHANGES")
+final case object PRREventComment        extends PullRequestReviewEvent("COMMENT")
+final case object PRREventPending        extends PullRequestReviewEvent("PENDING")
+
+case class CreateReviewComment(path: String, position: Int, body: String)
+
+case class ReviewComment(
+    id: Long,
+    path: String,
+    position: Int,
+    body: String,
+    url: String,
+    user: Option[User],
+    commit_id: String
+)

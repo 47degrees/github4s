@@ -17,6 +17,7 @@ with Github4s, you can interact with:
 - [Reviews](#reviews)
   - [List reviews](#list-pull-request-reviews)
   - [Get a review](#get-an-individual-review)
+  - [Create a review](#create-a-review)
 
 The following examples assume the following code:
 
@@ -219,7 +220,36 @@ The `result` on the right is the matching [PullRequestReview][pr-scala].
 
 See [the API doc](https://developer.github.com/v3/pulls/reviews/#get-a-single-review) for full reference.
 
+[pr-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala
+
+### Create a review
+
+You can create a review for a pull request using `createReview`; it takes as arguments:
+
+- the repository coordinates (`owner` and `name` of the repository).
+- the pull request id.
+- `commit_id` (as part of the `CreatePRReviewRequest` object): The SHA of the commit that needs a review. Defaults to the most recent commit.
+- `body` (as part of the `CreatePRReviewRequest` object): Required when using REQUEST_CHANGES or COMMENT for the event parameter. The body text of the pull request review.
+- `event` (as part of the `CreatePRReviewRequest` object): The review action you want to perform. By leaving this blank, you set the review action state to PENDING.
+- `comments` (as part of the `CreatePRReviewRequest` object): An optional list of draft review comments.
+
+```scala mdoc:compile-only
+import github4s.domain.{CreatePRReviewRequest, PRREventApprove}
+
+val createReviewData = gh.pullRequests.createReview(
+  "47deg",
+  "github4s",
+  139,
+  CreatePRReviewRequest(Some("commit_id"), "body", PRREventApprove)  
+ )
+val response = createReviewData.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
+
+See [the API doc](https://developer.github.com/v3/pulls/reviews/#create-a-review-for-a-pull-request) for full reference.
+
 As you can see, a few features of the pull request endpoint are missing. As a result, if you'd like
 to see a feature supported, feel free to create an issue and/or a pull request!
-
-[pr-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala
