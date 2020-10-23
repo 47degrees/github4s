@@ -138,13 +138,3 @@ final case object PRREventComment        extends PullRequestReviewEvent("COMMENT
 final case object PRREventPending        extends PullRequestReviewEvent("PENDING")
 
 case class CreateReviewComment(path: String, position: Int, body: String)
-
-case class ReviewComment(
-    id: Long,
-    path: String,
-    position: Int,
-    body: String,
-    url: String,
-    user: Option[User],
-    commit_id: String
-)

@@ -220,8 +220,6 @@ The `result` on the right is the matching [PullRequestReview][pr-scala].
 
 See [the API doc](https://developer.github.com/v3/pulls/reviews/#get-a-single-review) for full reference.
 
-[pr-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala
-
 ### Create a review
 
 You can create a review for a pull request using `createReview`; it takes as arguments:
@@ -253,3 +251,5 @@ See [the API doc](https://developer.github.com/v3/pulls/reviews/#create-a-review
 
 As you can see, a few features of the pull request endpoint are missing. As a result, if you'd like
 to see a feature supported, feel free to create an issue and/or a pull request!
+
+[pr-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala
