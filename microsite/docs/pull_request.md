@@ -247,6 +247,8 @@ response.result match {
 }
 ```
 
+The `result` on the right is the created [PullRequestReview][pr-scala].
+
 See [the API doc](https://developer.github.com/v3/pulls/reviews/#create-a-review-for-a-pull-request) for full reference.
 
 As you can see, a few features of the pull request endpoint are missing. As a result, if you'd like
