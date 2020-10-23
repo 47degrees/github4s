@@ -239,7 +239,7 @@ val createReviewData = gh.pullRequests.createReview(
   "github4s",
   139,
   CreatePRReviewRequest(Some("commit_id"), "body", PRREventApprove)  
- )
+)
 val response = createReviewData.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")
