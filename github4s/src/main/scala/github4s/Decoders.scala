@@ -119,6 +119,7 @@ object Decoders {
         priv              <- c.downField("private").as[Boolean]
         description       <- c.downField("description").as[Option[String]]
         fork              <- c.downField("fork").as[Boolean]
+        archived          <- c.downField("archived").as[Boolean]
         created_at        <- c.downField("created_at").as[String]
         updated_at        <- c.downField("updated_at").as[String]
         pushed_at         <- c.downField("pushed_at").as[String]
@@ -153,6 +154,7 @@ object Decoders {
         `private` = priv,
         description = description,
         fork = fork,
+        archived = archived,
         created_at = created_at,
         updated_at = updated_at,
         pushed_at = pushed_at,

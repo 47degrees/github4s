@@ -83,6 +83,7 @@ trait FakeResponses {
       |  "html_url": "https://github.com/47degrees/github4s",
       |  "description": "A GitHub API wrapper written in Scala",
       |  "fork": false,
+      |  "archived": false,
       |  "url": "https://api.github.com/repos/47degrees/github4s",
       |  "forks_url": "https://api.github.com/repos/47degrees/github4s/forks",
       |  "keys_url": "https://api.github.com/repos/47degrees/github4s/keys{/key_id}",

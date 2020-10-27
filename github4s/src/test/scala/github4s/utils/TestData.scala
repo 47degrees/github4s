@@ -374,6 +374,7 @@ trait TestData {
     user,
     false,
     false,
+    false,
     RepoUrls(
       s"https://api.github.com/repos/$validRepoOwner/$validRepoName",
       s"https://github.com/$validRepoOwner/$validRepoName",

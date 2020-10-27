@@ -23,6 +23,7 @@ final case class Repository(
     owner: User,
     `private`: Boolean,
     fork: Boolean,
+    archived: Boolean,
     urls: RepoUrls,
     created_at: String,
     updated_at: String,
