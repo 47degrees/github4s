@@ -20,7 +20,7 @@ object ProjectPlugin extends AutoPlugin {
       val http4s: String    = "0.21.8"
       val paradise: String  = "2.1.1"
       val scalamock: String = "5.0.0"
-      val scalatest: String = "3.2.2"
+      val scalatest: String = "3.2.3"
       val silencer: String  = "1.7.1"
     }
 
