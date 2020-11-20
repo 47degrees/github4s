@@ -67,7 +67,14 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
 
   "CreatePullRequest encoder" should "encode the CreatePullRequestData" in {
     val createPullRequest: CreatePullRequest =
-      CreatePullRequestData(validIssueTitle, validHead, validBase, validCommitMsg, Some(false))
+      CreatePullRequestData(
+        validIssueTitle,
+        validHead,
+        validBase,
+        validCommitMsg,
+        Some(false),
+        isDraft
+      )
 
     val expectedJsonString =
       s"""

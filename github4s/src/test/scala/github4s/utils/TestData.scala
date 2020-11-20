@@ -141,8 +141,11 @@ trait TestData {
   val validBase   = "master"
   val invalidBase = ""
 
-  val validNewPullRequestData   = NewPullRequestData("Amazing new feature", "Please pull this in!")
-  val invalidNewPullRequestData = NewPullRequestData("", "")
+  val isDraft = false
+
+  val validNewPullRequestData =
+    NewPullRequestData("Amazing new feature", "Please pull this in!", isDraft)
+  val invalidNewPullRequestData = NewPullRequestData("", "", isDraft)
 
   val validNewPullRequestIssue   = NewPullRequestIssue(31)
   val invalidNewPullRequestIssue = NewPullRequestIssue(5)
@@ -249,7 +252,8 @@ trait TestData {
     base = None,
     head = None,
     user = None,
-    assignee = None
+    assignee = None,
+    draft = isDraft
   )
 
   val pullRequestFile = PullRequestFile(

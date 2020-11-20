@@ -72,8 +72,8 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F]) extends Pull
       headers: Map[String, String]
   ): F[GHResponse[PullRequest]] = {
     val data: CreatePullRequest = newPullRequest match {
-      case NewPullRequestData(title, body) =>
-        CreatePullRequestData(title, head, base, body, maintainerCanModify)
+      case NewPullRequestData(title, body, draft) =>
+        CreatePullRequestData(title, head, base, body, maintainerCanModify, draft)
       case NewPullRequestIssue(issue) =>
         CreatePullRequestIssue(issue, head, base, maintainerCanModify)
     }

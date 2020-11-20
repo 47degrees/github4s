@@ -32,7 +32,8 @@ final case class PullRequest(
     base: Option[PullRequestBase] = None,
     head: Option[PullRequestBase] = None,
     user: Option[User] = None,
-    assignee: Option[User] = None
+    assignee: Option[User] = None,
+    draft: Boolean
 )
 
 final case class PullRequestBase(
@@ -66,7 +67,8 @@ final case class CreatePullRequestData(
     head: String,
     base: String,
     body: String,
-    maintainer_can_modify: Option[Boolean] = Some(true)
+    maintainer_can_modify: Option[Boolean] = Some(true),
+    draft: Boolean
 ) extends CreatePullRequest
 
 final case class CreatePullRequestIssue(
@@ -103,8 +105,9 @@ final case object PRFilterOrderAsc  extends PRFilterDirection("asc")
 final case object PRFilterOrderDesc extends PRFilterDirection("desc")
 
 sealed trait NewPullRequest
-final case class NewPullRequestData(title: String, body: String) extends NewPullRequest
-final case class NewPullRequestIssue(issue: Int)                 extends NewPullRequest
+final case class NewPullRequestData(title: String, body: String, draft: Boolean)
+    extends NewPullRequest
+final case class NewPullRequestIssue(issue: Int) extends NewPullRequest
 
 final case class PullRequestReview(
     id: Long,
