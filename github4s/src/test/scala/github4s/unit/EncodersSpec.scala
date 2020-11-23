@@ -73,7 +73,7 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
         validBase,
         validCommitMsg,
         Some(false),
-        isDraft
+        draft
       )
 
     val expectedJsonString =

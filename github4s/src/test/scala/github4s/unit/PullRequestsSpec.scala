@@ -83,7 +83,7 @@ class PullRequestsSpec extends BaseSpec {
       validBase,
       "Please pull this in!",
       Some(true),
-      isDraft
+      draft
     )
 
     implicit val httpClientMock = httpClientMockPost[CreatePullRequestData, PullRequest](

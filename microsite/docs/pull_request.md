@@ -132,7 +132,7 @@ import github4s.domain.NewPullRequestData
 val createPullRequestData = gh.pullRequests.createPullRequest(
   "47deg",
   "github4s",
-  NewPullRequestData("title", "body"),
+  NewPullRequestData("title", "body", draft = false),
   "my-branch",
   "base-branch",
   Some(true))
