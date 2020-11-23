@@ -83,7 +83,8 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
          |   "head": "$validHead",
          |   "base": "$validBase",
          |   "body": "$validCommitMsg",
-         |   "maintainer_can_modify": false
+         |   "maintainer_can_modify": false,
+         |   "draft": $draft
          | }
       """.stripMargin
 
