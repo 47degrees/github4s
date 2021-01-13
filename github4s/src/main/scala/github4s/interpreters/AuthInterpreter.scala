@@ -21,7 +21,6 @@ import cats.implicits._
 import github4s.algebras.Auth
 import github4s.Decoders._
 import github4s.domain._
-import github4s.Encoders._
 import github4s.GHResponse
 import github4s.http.HttpClient
 import java.util.UUID
