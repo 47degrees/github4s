@@ -18,7 +18,6 @@ package github4s.interpreters
 
 import cats.Applicative
 import cats.implicits._
-import com.github.marklister.base64.Base64.Encoder
 import github4s.algebras.Auth
 import github4s.Decoders._
 import github4s.domain._
