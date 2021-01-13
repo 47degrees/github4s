@@ -31,22 +31,6 @@ class AuthInterpreter[F[_]: Applicative](implicit
     client: HttpClient[F]
 ) extends Auth[F] {
 
-  override def newAuth(
-      username: String,
-      password: String,
-      scopes: List[String],
-      note: String,
-      client_id: String,
-      client_secret: String,
-      headers: Map[String, String]
-  ): F[GHResponse[Authorization]] =
-    client.postAuth[NewAuthRequest, Authorization](
-      method = "authorizations",
-      headers =
-        Map("Authorization" -> s"Basic ${s"$username:$password".getBytes.toBase64}") ++ headers,
-      data = NewAuthRequest(scopes, note, client_id, client_secret)
-    )
-
   override def authorizeUrl(
       client_id: String,
       redirect_uri: String,

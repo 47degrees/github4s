@@ -22,29 +22,6 @@ import github4s.domain._
 trait Auth[F[_]] {
 
   /**
-   * Call to request a new authorization given a basic authentication, the returned object Authorization includes an
-   * access token
-   *
-   * @param username the username of the user
-   * @param password the password of the user
-   * @param scopes attached to the token
-   * @param note to remind you what the OAuth token is for
-   * @param client_id the 20 character OAuth app client key for which to create the token
-   * @param client_secret the 40 character OAuth app client secret for which to create the token
-   * @param headers optional user headers to include in the request
-   * @return GHResponse[Authorization] new authorization with access_token
-   */
-  def newAuth(
-      username: String,
-      password: String,
-      scopes: List[String],
-      note: String,
-      client_id: String,
-      client_secret: String,
-      headers: Map[String, String] = Map()
-  ): F[GHResponse[Authorization]]
-
-  /**
    * Generates the authorize url with a random state, both are returned within Authorize object
    *
    * @param client_id the 20 character OAuth app client key for which to create the token
