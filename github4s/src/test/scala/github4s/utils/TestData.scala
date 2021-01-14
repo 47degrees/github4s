@@ -418,8 +418,7 @@ trait TestData {
   val validTokenType = "bearer"
   val validAuthState = UUID.randomUUID().toString
 
-  val authorization = Authorization(1, validRedirectUri, "token")
-  val authorize     = Authorize(validRedirectUri, validAuthState)
+  val authorize = Authorize(validRedirectUri, validAuthState)
 
   val oAuthToken   = OAuthToken("token", validTokenType, "public_repo")
   val validGistUrl = "https://api.github.com/gists/aa5a315d61ae9438b18d"
