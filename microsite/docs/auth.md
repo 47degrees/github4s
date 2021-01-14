@@ -9,9 +9,12 @@ permalink: auth
 Github4s supports the [Authorization API](https://developer.github.com/v3/oauth_authorizations/). As a result,
 with Github4s, you can:
 
-- [Create a new authorization token](#create-a-new-authorization-token)
 - [Authorize a url](#authorize-a-url)
 - [Get an access token](#get-an-access-token)
+
+Previously, you were able to use the authorizations API with a username and password.
+This has been removed from the GitHub API as of November 13, 2020, and has also been removed from Github4s.
+For more information, [see this documentation notice](https://docs.github.com/en/free-pro-team@latest/rest/overview/other-authentication-methods#via-username-and-password).
 
 The following examples assume the following code:
 
@@ -36,38 +39,6 @@ val gh = Github[IO](httpClient, None)
 
 **NOTE**: Above you can see `Github(httpClient, None)`. This is due to the fact that if you are
 authenticating for the first time you don't have any access token yet.
-
-### Create a new authorization token
-
-Used to request a new auth token given basic authentication.
-
-You can create a new authorization token using `newAuth`; it takes as arguments:
-
-- basic authentication for the token holder (`username` and `password`).
-- `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
-- `note`: to remind you what the OAuth token is for.
-- `client_id`: the 20 character OAuth app client key for which to create the token.
-- `client_secret`: the 40 character OAuth app client secret for which to create the token.
-
-```scala mdoc:compile-only
-val newAuth = gh.auth.newAuth(
-  "rafaparadela",
-  "invalidPassword",
-  List("public_repo"),
-  "New access token",
-  "e8e39175648c9db8c280",
-  "1234567890")
-val response = newAuth.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
-```
-
-The `result` on the right is the created [Authorization][auth-scala] including the created token.
-
-See [the API doc](https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization) for full reference.
-
 
 ### Authorize a url
 
