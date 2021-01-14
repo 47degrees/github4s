@@ -18,42 +18,12 @@ package github4s.unit
 
 import cats.effect.IO
 import cats.syntax.either._
-import com.github.marklister.base64.Base64.Encoder
 import github4s.GHResponse
 import github4s.utils.BaseSpec
 import github4s.domain._
 import github4s.interpreters.AuthInterpreter
 
 class AuthSpec extends BaseSpec {
-
-  "Auth.newAuth" should "call to httpClient.postAuth with the right parameters" in {
-
-    val response: IO[GHResponse[Authorization]] =
-      IO(GHResponse(authorization.asRight, okStatusCode, Map.empty))
-
-    val request = NewAuthRequest(validScopes, validNote, validClientId, invalidClientSecret)
-
-    implicit val httpClientMock = httpClientMockPostAuth[NewAuthRequest, Authorization](
-      url = "authorizations",
-      headers =
-        Map("Authorization" -> s"Basic ${s"rafaparadela:invalidPassword".getBytes.toBase64}"),
-      req = request,
-      response = response
-    )
-
-    val auth = new AuthInterpreter[IO]
-
-    auth.newAuth(
-      validUsername,
-      invalidPassword,
-      validScopes,
-      validNote,
-      validClientId,
-      invalidClientSecret,
-      headerUserAgent
-    )
-
-  }
 
   "Auth.getAccessToken" should "call to httpClient.postOAuth with the right parameters" in {
 

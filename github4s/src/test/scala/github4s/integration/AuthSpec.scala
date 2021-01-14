@@ -23,26 +23,6 @@ import github4s.utils.{BaseIntegrationSpec, Integration}
 
 trait AuthSpec extends BaseIntegrationSpec {
 
-  "Auth >> NewAuth" should "return error on Left when invalid credential is provided" taggedAs Integration in {
-    val response = clientResource
-      .use { client =>
-        Github[IO](client).auth
-          .newAuth(
-            validUsername,
-            invalidPassword,
-            validScopes,
-            validNote,
-            validClientId,
-            invalidClientSecret,
-            headerUserAgent
-          )
-      }
-      .unsafeRunSync()
-
-    testIsLeft[GHError.UnauthorizedError, Authorization](response)
-    response.statusCode shouldBe unauthorizedStatusCode
-  }
-
   "Auth >> AuthorizeUrl" should "return the expected URL for valid username" taggedAs Integration in {
     val response = clientResource
       .use { client =>
