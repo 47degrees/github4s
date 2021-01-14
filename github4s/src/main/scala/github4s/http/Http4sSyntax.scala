@@ -48,9 +48,23 @@ object Http4sSyntax {
       (self.headers.map(kv => Header(kv._1, kv._2)) ++
         self.authHeader.map(kv => Header(kv._1, kv._2))).toList
 
-    def toUri(config: GithubConfig): Uri =
-      Uri.fromString(self.url).getOrElse(Uri.unsafeFromString(config.baseUrl)) =?
-        self.params.map(kv => (kv._1, List(kv._2)))
+    def toUri(config: GithubConfig): Uri = {
+      val queryString = self.params.toList
+        .map { case (k, v) =>
+          s"$k=$v"
+        }
+        .mkString("&")
+
+      //Adding query parameters normally has different encoding than normal Uris.
+      //To work around this, we create one verbatim from a manually encoded String.
+      //See: https://github.com/http4s/http4s/issues/4203
+      val verbatimQuery = Query.fromString(Uri.encode(queryString))
+
+      Uri
+        .fromString(self.url)
+        .getOrElse(Uri.unsafeFromString(config.baseUrl))
+        .copy(query = verbatimQuery)
+    }
 
   }
 
