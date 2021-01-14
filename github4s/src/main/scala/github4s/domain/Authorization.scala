@@ -16,19 +16,6 @@
 
 package github4s.domain
 
-final case class Authorization(
-    id: Long,
-    url: String,
-    token: String
-)
-
-final case class NewAuthRequest(
-    scopes: List[String],
-    note: String,
-    client_id: String,
-    client_secret: String
-)
-
 final case class Authorize(
     url: String,
     state: String
