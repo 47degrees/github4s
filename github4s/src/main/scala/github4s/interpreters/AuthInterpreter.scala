@@ -18,11 +18,9 @@ package github4s.interpreters
 
 import cats.Applicative
 import cats.implicits._
-import com.github.marklister.base64.Base64.Encoder
 import github4s.algebras.Auth
 import github4s.Decoders._
 import github4s.domain._
-import github4s.Encoders._
 import github4s.GHResponse
 import github4s.http.HttpClient
 import java.util.UUID
@@ -30,22 +28,6 @@ import java.util.UUID
 class AuthInterpreter[F[_]: Applicative](implicit
     client: HttpClient[F]
 ) extends Auth[F] {
-
-  override def newAuth(
-      username: String,
-      password: String,
-      scopes: List[String],
-      note: String,
-      client_id: String,
-      client_secret: String,
-      headers: Map[String, String]
-  ): F[GHResponse[Authorization]] =
-    client.postAuth[NewAuthRequest, Authorization](
-      method = "authorizations",
-      headers =
-        Map("Authorization" -> s"Basic ${s"$username:$password".getBytes.toBase64}") ++ headers,
-      data = NewAuthRequest(scopes, note, client_id, client_secret)
-    )
 
   override def authorizeUrl(
       client_id: String,
