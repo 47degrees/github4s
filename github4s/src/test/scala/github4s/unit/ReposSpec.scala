@@ -432,4 +432,19 @@ class ReposSpec extends BaseSpec {
     )
 
   }
+
+  "Repos.searchRepos" should "call httpClient.get with the right parameters" in {
+    val response: IO[GHResponse[SearchReposResult]] =
+      IO(GHResponse(searchReposResult.asRight, okStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockGet[SearchReposResult](
+      url = "search/repositories",
+      params = Map("q" -> s"+${validSearchParams.map(_.value).mkString("+")}"),
+      response = response
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos.searchRepos("", validSearchParams, None, headerUserAgent)
+  }
 }

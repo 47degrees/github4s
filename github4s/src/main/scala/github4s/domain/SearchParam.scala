@@ -86,3 +86,15 @@ final case class OwnerParamInRepository(repo: String) extends OwnerParam {
 
   override def paramValue: String = repo
 }
+
+final case class LanguageParam(language: String) extends SearchParam {
+  override def paramName: String = "language"
+
+  override def paramValue: String = language
+}
+
+final case class TopicParam(topic: String) extends SearchParam {
+  override def paramName: String = "topic"
+
+  override def paramValue: String = topic
+}

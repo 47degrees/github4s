@@ -395,6 +395,12 @@ trait TestData {
     Some(validNote)
   )
 
+  val searchReposResult = SearchReposResult(
+    total_count = 1,
+    incomplete_results = false,
+    items = List(repo)
+  )
+
   val commit = Commit(
     validCommitSha,
     validNote,

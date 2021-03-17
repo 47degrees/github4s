@@ -11,6 +11,7 @@ with Github4s, you can interact with:
 
 - [Repositories](#repositories)
   - [Get a repository](#get-a-repository)
+  - [Search repositories](#search-repositories)
   - [List organization repositories](#list-organization-repositories)
   - [List user repositories](#list-user-repositories)
   - [List contributors](#list-contributors)
@@ -79,6 +80,25 @@ The `result` on the right is the get [Repository][repository-scala].
 
 See [the API doc](https://developer.github.com/v3/repos/#get) for full
 reference.
+
+### Search repositories
+
+You can globally search repositories using `searchRepos`; it takes as arguments:
+
+- a `query` string (the URL encoding is taken care of by Github4s).
+- a list of [SearchParam](https://github.com/47degrees/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/SearchParam.scala).
+- `pagination`: Limit and Offset for pagination.
+
+To search repositories on GitHub:
+
+```scala mdoc:compile-only
+val searchRepos = gh.repos.searchRepos("github4s", Nil)
+val response = searchRepos.unsafeRunSync()
+response.result match {
+  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => println(r)
+}
+```
 
 ### List organization repositories
 
@@ -303,7 +323,7 @@ You can get contents using `getContents`, it takes as arguments:
 To get contents:
 
 ```scala mdoc:compile-only
-val getContents = gh.repos.getContents("47degrees", "github4s", "README.md", Some("heads/master"))
+val getContents = gh.repos.getContents("47degrees", "github4s", "README.md", Some("s/master"))
 val response = getContents.unsafeRunSync()
 response.result match {
   case Left(e) => println(s"Something went wrong: ${e.getMessage}")

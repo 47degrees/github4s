@@ -269,16 +269,17 @@ object Decoders {
   implicit val decoderIssue: Decoder[Issue]             = deriveDecoder[Issue]
   implicit val decoderSearchIssuesResult: Decoder[SearchIssuesResult] =
     deriveDecoder[SearchIssuesResult]
-  implicit val decoderComment: Decoder[Comment]               = deriveDecoder[Comment]
-  implicit val decoderUser: Decoder[User]                     = deriveDecoder[User]
-  implicit val decoderStatus: Decoder[Status]                 = deriveDecoder[Status]
-  implicit val decoderCombinedStatus: Decoder[CombinedStatus] = deriveDecoder[CombinedStatus]
-  implicit val decoderLabel: Decoder[Label]                   = deriveDecoder[Label]
-  implicit val decoderContent: Decoder[Content]               = deriveDecoder[Content]
-  implicit val decoderBlobContent: Decoder[BlobContent]       = deriveDecoder[BlobContent]
-  implicit val decoderSubscription: Decoder[Subscription]     = deriveDecoder[Subscription]
-  implicit val decoderOAuthToken: Decoder[OAuthToken]         = deriveDecoder[OAuthToken]
-  implicit val decoderRelease: Decoder[Release]               = deriveDecoder[Release]
+  implicit val decoderSearchReposResult: Decoder[SearchReposResult] = deriveDecoder
+  implicit val decoderComment: Decoder[Comment]                     = deriveDecoder[Comment]
+  implicit val decoderUser: Decoder[User]                           = deriveDecoder[User]
+  implicit val decoderStatus: Decoder[Status]                       = deriveDecoder[Status]
+  implicit val decoderCombinedStatus: Decoder[CombinedStatus]       = deriveDecoder[CombinedStatus]
+  implicit val decoderLabel: Decoder[Label]                         = deriveDecoder[Label]
+  implicit val decoderContent: Decoder[Content]                     = deriveDecoder[Content]
+  implicit val decoderBlobContent: Decoder[BlobContent]             = deriveDecoder[BlobContent]
+  implicit val decoderSubscription: Decoder[Subscription]           = deriveDecoder[Subscription]
+  implicit val decoderOAuthToken: Decoder[OAuthToken]               = deriveDecoder[OAuthToken]
+  implicit val decoderRelease: Decoder[Release]                     = deriveDecoder[Release]
   implicit val decoderUserRepoPermission: Decoder[UserRepoPermission] =
     deriveDecoder[UserRepoPermission]
 

@@ -81,12 +81,14 @@ trait Issues[F[_]] {
    *
    * @param query the query string for the search
    * @param searchParams list of search params
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the result of the search.
    */
   def searchIssues(
       query: String,
       searchParams: List[SearchParam],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[SearchIssuesResult]]
 

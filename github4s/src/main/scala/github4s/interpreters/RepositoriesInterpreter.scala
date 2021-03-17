@@ -16,6 +16,8 @@
 
 package github4s.interpreters
 
+import java.net.URLEncoder.encode
+
 import cats.Functor
 import cats.data.NonEmptyList
 import cats.syntax.functor._
@@ -60,6 +62,19 @@ class RepositoriesInterpreter[F[_]: Functor](implicit
       s"users/$user/repos",
       headers,
       `type`.fold(Map.empty[String, String])(t => Map("type" -> t)),
+      pagination
+    )
+
+  override def searchRepos(
+      query: String,
+      searchParams: List[SearchParam],
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map.empty
+  ): F[GHResponse[SearchReposResult]] =
+    client.get[SearchReposResult](
+      "search/repositories",
+      headers,
+      params = Map("q" -> s"${encode(query, "utf-8")}+${searchParams.map(_.value).mkString("+")}"),
       pagination
     )
 

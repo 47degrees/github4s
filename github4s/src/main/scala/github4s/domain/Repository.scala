@@ -206,6 +206,12 @@ final case class NewStatusRequest(
     context: Option[String] = None
 )
 
+final case class SearchReposResult(
+    total_count: Int,
+    incomplete_results: Boolean,
+    items: List[Repository]
+)
+
 final case class StatusRepository(
     id: Long,
     name: String,

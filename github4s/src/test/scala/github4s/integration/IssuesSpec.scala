@@ -52,7 +52,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .searchIssues(validSearchQuery, validSearchParams, headerUserAgent)
+          .searchIssues(validSearchQuery, validSearchParams, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -70,7 +70,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .searchIssues(nonExistentSearchQuery, validSearchParams, headerUserAgent)
+          .searchIssues(nonExistentSearchQuery, validSearchParams, None, headerUserAgent)
       }
       .unsafeRunSync()
 

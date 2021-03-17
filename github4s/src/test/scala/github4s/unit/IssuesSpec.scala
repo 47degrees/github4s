@@ -70,7 +70,7 @@ class IssuesSpec extends BaseSpec {
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.searchIssues("", validSearchParams, headerUserAgent)
+    issues.searchIssues("", validSearchParams, None, headerUserAgent)
   }
 
   "Issues.createIssue" should "call httpClient.post with the right parameters" in {
