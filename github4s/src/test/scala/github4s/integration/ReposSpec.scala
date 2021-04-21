@@ -71,9 +71,9 @@ trait ReposSpec extends BaseIntegrationSpec {
       releasesIO =
         gh.repos.listReleases(validRepoOwner, validRepoName, None, headers = headerUserAgent)
 
-      releasesResponse <- Resource.liftF(releasesIO)
+      releasesResponse <- Resource.eval(releasesIO)
 
-      releases <- Resource.liftF(IO.fromEither(releasesResponse.result))
+      releases <- Resource.eval(IO.fromEither(releasesResponse.result))
 
       releasesAreFoundCheck: IO[List[(Release, GHResponse[Option[Release]])]] = releases.map {
         release =>
@@ -179,11 +179,11 @@ trait ReposSpec extends BaseIntegrationSpec {
         headers = headerUserAgent
       )
 
-      fileContentsResponse <- Resource.liftF(fileContentsIO)
+      fileContentsResponse <- Resource.eval(fileContentsIO)
 
       fileContentsEither = fileContentsResponse.result
 
-      fileContents <- Resource.liftF(IO.fromEither(fileContentsEither))
+      fileContents <- Resource.eval(IO.fromEither(fileContentsEither))
 
       blobContentIO = res.gitData.getBlob(
         owner = validRepoOwner,
@@ -192,7 +192,7 @@ trait ReposSpec extends BaseIntegrationSpec {
         headers = headerUserAgent
       )
 
-      blobContentResponse <- Resource.liftF(blobContentIO)
+      blobContentResponse <- Resource.eval(blobContentIO)
 
     } yield (blobContentResponse, fileContents.head)
 
