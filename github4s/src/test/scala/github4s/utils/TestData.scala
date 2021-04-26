@@ -114,7 +114,7 @@ trait TestData {
 
   val encoding = Some("utf-8")
 
-  val validRefSingle   = "heads/master"
+  val validRefSingle   = "heads/main"
   val validRefMultiple = "heads/feature"
   val invalidRef       = "heads/feature-branch-that-no-longer-exists"
 
