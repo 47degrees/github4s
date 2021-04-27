@@ -19,6 +19,7 @@ package github4s
 import cats.data.NonEmptyList
 import cats.instances.either._
 import cats.instances.list._
+import cats.syntax.either._
 import cats.syntax.list._
 import cats.syntax.traverse._
 import github4s.domain._
@@ -196,12 +197,13 @@ object Decoders {
   } yield Repository.fromBaseRepos(base, parent, source)
 
   implicit val decodePRStatus: Decoder[PullRequestReviewState] =
-    Decoder.decodeString.map {
-      case PRRStateApproved.value         => PRRStateApproved
-      case PRRStateChangesRequested.value => PRRStateChangesRequested
-      case PRRStateCommented.value        => PRRStateCommented
-      case PRRStatePending.value          => PRRStatePending
-      case PRRStateDismissed.value        => PRRStateDismissed
+    Decoder.decodeString.emap {
+      case PRRStateApproved.value         => PRRStateApproved.asRight
+      case PRRStateChangesRequested.value => PRRStateChangesRequested.asRight
+      case PRRStateCommented.value        => PRRStateCommented.asRight
+      case PRRStatePending.value          => PRRStatePending.asRight
+      case PRRStateDismissed.value        => PRRStateDismissed.asRight
+      case other                          => s"Unknown pull request review state: $other".asLeft
     }
 
   implicit val decodeGistFile: Decoder[GistFile] = Decoder.instance { c =>
