@@ -16,7 +16,7 @@ object ProjectPlugin extends AutoPlugin {
     lazy val V = new {
       val base64: String    = "0.3.0"
       val cats: String      = "2.6.1"
-      val circe: String     = "0.13.0"
+      val circe: String     = "0.14.1"
       val http4s: String    = "0.21.24"
       val paradise: String  = "2.1.1"
       val scalamock: String = "5.1.0"
