@@ -17,12 +17,13 @@
 package github4s
 
 import cats.effect.Sync
+import cats.effect.kernel.Concurrent
 import github4s.algebras._
 import github4s.interpreters.StaticAccessToken
 import github4s.modules._
 import org.http4s.client.Client
 
-class Github[F[_]: Sync](
+class Github[F[_]: Concurrent](
     client: Client[F],
     accessToken: AccessToken[F]
 )(implicit config: GithubConfig)
@@ -45,7 +46,7 @@ class Github[F[_]: Sync](
 
 object Github {
 
-  def apply[F[_]: Sync](
+  def apply[F[_]: Concurrent](
       client: Client[F],
       accessToken: Option[String] = None
   )(implicit config: GithubConfig): Github[F] =

@@ -6,7 +6,7 @@ addCommandAlias("ci-test", "scalafmtCheckAll; scalafmtSbtCheck; mdoc; testCovere
 addCommandAlias("ci-docs", "github; mdoc; headerCreateAll; publishMicrosite")
 addCommandAlias("ci-publish", "github; ci-release")
 
-skip in publish := true
+publish / skip := true
 
 lazy val github4s = project.settings(coreDeps: _*)
 
@@ -19,10 +19,10 @@ lazy val microsite: Project = project
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(ScalaUnidocPlugin)
   .settings(micrositeSettings: _*)
-  .settings(skip in publish := true)
+  .settings(publish / skip := true)
   .settings(unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(github4s, microsite))
 
 lazy val documentation = project
   .enablePlugins(MdocPlugin)
   .settings(mdocOut := file("."))
-  .settings(skip in publish := true)
+  .settings(publish / skip := true)

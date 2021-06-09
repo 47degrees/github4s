@@ -21,6 +21,7 @@ import io.circe.syntax._
 import io.circe.{Encoder, Json, Printer}
 import org.http4s._
 import org.http4s.headers.`Content-Type`
+import org.typelevel.ci.CIString
 
 object Http4sSyntax {
 
@@ -39,14 +40,14 @@ object Http4sSyntax {
 
   implicit class HeadersOps(self: Headers) {
     def toMap: Map[String, String] =
-      self.toList.map(header => (header.name.value, header.value)).toMap
+      self.headers.map(header => (header.name.toString, header.value)).toMap
   }
 
   implicit class RequestBuilderOps[R](val self: RequestBuilder[R]) extends AnyVal {
 
-    def toHeaderList: List[Header] =
-      (self.headers.map(kv => Header(kv._1, kv._2)) ++
-        self.authHeader.map(kv => Header(kv._1, kv._2))).toList
+    def toHeaderList: List[Header.Raw] =
+      (self.headers.map(kv => Header.Raw(CIString(kv._1), kv._2)) ++
+        self.authHeader.map(kv => Header.Raw(CIString(kv._1), kv._2))).toList
 
     def toUri(config: GithubConfig): Uri = {
       val queryString = self.params.toList
@@ -58,7 +59,7 @@ object Http4sSyntax {
       //Adding query parameters normally has different encoding than normal Uris.
       //To work around this, we create one verbatim from a manually encoded String.
       //See: https://github.com/http4s/http4s/issues/4203
-      val verbatimQuery = Query.fromString(Uri.encode(queryString))
+      val verbatimQuery = Query.unsafeFromString(Uri.encode(queryString))
 
       Uri
         .fromString(self.url)

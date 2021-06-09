@@ -17,6 +17,7 @@
 package github4s.utils
 
 import cats.effect.IO
+import cats.effect.unsafe
 import github4s.domain.Pagination
 import github4s.http.HttpClient
 import github4s.interpreters.StaticAccessToken
@@ -27,10 +28,12 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
+import scala.concurrent.ExecutionContext
+
 trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory {
 
-  implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
-  implicit val io = cats.effect.IO.contextShift(ec)
+  implicit val ec: ExecutionContext        = scala.concurrent.ExecutionContext.Implicits.global
+  implicit val ioRuntime: unsafe.IORuntime = unsafe.IORuntime.global
   implicit val dummyConfig: GithubConfig = GithubConfig(
     baseUrl = "http://127.0.0.1:9999/",
     authorizeUrl = "http://127.0.0.1:9999/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s",

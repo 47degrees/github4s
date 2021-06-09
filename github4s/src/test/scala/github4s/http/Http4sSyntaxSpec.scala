@@ -37,7 +37,7 @@ class Http4sSyntaxSpec extends AnyFlatSpec with Matchers {
     val goodUri     = baseBuilder.withParams(Map("q" -> goodQueryStr)).toUri(dummyConfig)
 
     //Neither query string should be modified after encoding
-    badUri.query.renderString shouldBe s"q=$knownBadCharacters"
     goodUri.query.renderString shouldBe s"q=$goodQueryStr"
+    badUri.query.renderString shouldBe s"q=$knownBadCharacters"
   }
 }
