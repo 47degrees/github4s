@@ -125,6 +125,8 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
     testIsRight[List[StarredRepository]](
       response,
       { r =>
+        println("Here is response")
+        println(r)
         r.nonEmpty shouldBe true
         forAll(r)(s => s.starred_at shouldBe defined)
       }
@@ -143,4 +145,36 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
     testIsLeft[NotFoundError, List[StarredRepository]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
+
+  "Activity >> ListWatchedRepositories" should "return empty list if user has no watched repos" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listWatchedRespositories(validUsername, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsRight[List[WatchedRepository]](
+      response,
+      r => r.isEmpty shouldBe true
+    )
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return expected list of watched repos" taggedAs Integration in {
+
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listWatchedRespositories(validUsername, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsRight[List[WatchedRepository]](
+      response,
+      r => r.nonEmpty shouldBe true
+    )
+    response.statusCode shouldBe okStatusCode
+  }
+
 }

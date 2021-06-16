@@ -73,4 +73,19 @@ class ActivitiesSpec extends BaseSpec {
     activities.listStarredRepositories(validUsername, false, None, None, None, headerUserAgent)
   }
 
+  "Activity.listWatchedRespositories" should "call httpClient.get with the right parameters" in {
+
+    val response: IO[GHResponse[List[WatchedRepository]]] =
+      IO(GHResponse(List(watchedRepository).asRight, okStatusCode, Map.empty))
+
+    implicit val httpClientMock = httpClientMockGet[List[WatchedRepository]](
+      url = s"users/$validUsername/subscriptions",
+      response = response
+    )
+
+    val activities = new ActivitiesInterpreter[IO]
+
+    activities.listWatchedRespositories(validUsername, None, headerUserAgent)
+  }
+
 }

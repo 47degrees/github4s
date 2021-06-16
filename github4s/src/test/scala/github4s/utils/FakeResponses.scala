@@ -515,6 +515,13 @@ trait FakeResponses {
       |}
     """.stripMargin
 
+  val getWatchedRepoValidResponse =
+    s"""
+      |{
+      |  "repo": $getRepoResponse
+      |}
+    """.stripMargin
+
   val getUserRepoPermissionResponse =
     s"""
        |{

@@ -19,7 +19,7 @@ package github4s.utils
 import java.util.UUID
 
 import com.github.marklister.base64.Base64._
-import github4s.domain.{Stargazer, StarredRepository, Subscription, _}
+import github4s.domain.{Stargazer, StarredRepository, Subscription, WatchedRepository, _}
 
 trait TestData {
 
@@ -434,6 +434,7 @@ trait TestData {
 
   val stargazer         = Stargazer(user)
   val starredRepository = StarredRepository(repo)
+  val watchedRepository = WatchedRepository(repo)
 
   val pullRequestReview = PullRequestReview(
     id = validPullRequestReviewNumber,

@@ -4,14 +4,14 @@
 
 # Contributing
 
-Discussion around _github4s_ happens in the [GitHub issues](https://github.com/47degrees/github4s/issues) and [pull requests](https://github.com/47degrees/github4s/pulls).
+Discussion around _github4s_ happens in the [GitHub issues](https://github.com//issues) and [pull requests](https://github.com//pulls).
 
 Feel free to open an issue if you notice a bug, have an idea for a feature, or have a question about
 the code. Pull requests are also welcome.
 
 People are expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md) when discussing _github4s_ on the Github page or other venues.
 
-If you are being harassed, please contact one of [us](AUTHORS.md#maintainers) immediately so that we can support you. In case you cannot get in touch with us please write an email to [47 Degrees Open Source](mailto:hello@47deg.com).
+If you are being harassed, please contact one of [us](AUTHORS.md#maintainers) immediately so that we can support you. In case you cannot get in touch with us please write an email to [com.47deg](mailto:).
 
 ## How can I help?
 

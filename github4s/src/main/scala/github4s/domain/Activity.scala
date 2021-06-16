@@ -39,3 +39,7 @@ final case class StarredRepository(
     repo: Repository,
     starred_at: Option[String] = None
 )
+
+final case class WatchedRepository(
+    repo: Repository
+)

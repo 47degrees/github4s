@@ -67,6 +67,14 @@ class DecodersSpec extends AnyFlatSpec with Matchers with FakeResponses {
     decode[StarredRepository](getStarredRepoValidResponse).isRight shouldBe true
   }
 
+  "WatchedRepository decoder" should "return a watched repository if given a repo" in {
+    decode[WatchedRepository](getRepoResponse).isRight shouldBe true
+  }
+
+  it should "return a watched repository if given a watched repository" in {
+    decode[WatchedRepository](getStarredRepoValidResponse).isRight shouldBe true
+  }
+
   "NonEmptyList Decoder" should "return a valid NonEmptyList for a valid JSON list" in {
     decode[NonEmptyList[Int]]("[1,2,3]") shouldBe Right(NonEmptyList.of(1, 2, 3))
   }
