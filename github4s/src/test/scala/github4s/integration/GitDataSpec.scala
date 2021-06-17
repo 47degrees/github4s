@@ -109,6 +109,22 @@ trait GitDataSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe okStatusCode
   }
 
+  it should "return one tag" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).gitData
+          .getTag(validRepoOwner, validRepoName, validTagTitle, headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsRight[Tag](
+      response,
+      r => r.tag shouldBe validTagTitle
+    )
+    response.statusCode shouldBe okStatusCode
+
+  }
+
   it should "return the file tree recursively" taggedAs Integration in {
     val response = clientResource
       .use { client =>

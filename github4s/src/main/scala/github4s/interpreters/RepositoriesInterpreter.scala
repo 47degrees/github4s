@@ -272,6 +272,20 @@ class RepositoriesInterpreter[F[_]: Functor](implicit
         Map.empty
       )
 
+  override def getReleaseByTagName(
+      owner: String,
+      repo: String,
+      tagName: String,
+      headers: Map[String, String]
+  ): F[GHResponse[Option[Release]]] =
+    client
+      .get[Option[Release]](
+        accessToken,
+        s"repos/$owner/$repo/releases/tags/$tagName",
+        headers,
+        Map.empty
+      )
+
   override def listReleases(
       owner: String,
       repo: String,
