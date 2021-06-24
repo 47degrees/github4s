@@ -26,11 +26,11 @@ sealed trait IssueType extends SearchParam {
   override def paramName: String = "type"
 }
 
-final case object IssueTypeIssue extends IssueType {
+case object IssueTypeIssue extends IssueType {
   override def paramValue: String = "issue"
 }
 
-final case object IssueTypePullRequest extends IssueType {
+case object IssueTypePullRequest extends IssueType {
   override def paramValue: String = "pr"
 }
 
@@ -43,15 +43,15 @@ sealed trait SearchInValue {
   def value: String
 }
 
-final case object SearchInTitle extends SearchInValue {
+case object SearchInTitle extends SearchInValue {
   override def value: String = "title"
 }
 
-final case object SearchInBody extends SearchInValue {
+case object SearchInBody extends SearchInValue {
   override def value: String = "body"
 }
 
-final case object SearchInComments extends SearchInValue {
+case object SearchInComments extends SearchInValue {
   override def value: String = "comments"
 }
 
@@ -59,11 +59,11 @@ sealed trait IssueState extends SearchParam {
   override def paramName: String = "state"
 }
 
-final case object IssueStateOpen extends IssueState {
+case object IssueStateOpen extends IssueState {
   override def paramValue: String = "open"
 }
 
-final case object IssueStateClosed extends IssueState {
+case object IssueStateClosed extends IssueState {
   override def paramValue: String = "closed"
 }
 

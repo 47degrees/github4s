@@ -14,14 +14,11 @@ object ProjectPlugin extends AutoPlugin {
   object autoImport {
 
     lazy val V = new {
-      val base64: String    = "0.3.0"
       val cats: String      = "2.6.1"
       val circe: String     = "0.14.1"
       val http4s: String    = "0.23.0-RC1"
       val paradise: String  = "2.1.1"
-      val scalamock: String = "5.1.0"
       val scalatest: String = "3.2.9"
-      val silencer: String  = "1.7.5"
     }
 
     lazy val docsMappingsAPIDir: SettingKey[String] =
@@ -54,31 +51,31 @@ object ProjectPlugin extends AutoPlugin {
         )
       ),
       micrositeExtraMdFilesOutput := mdocIn.value,
-      includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md" | "*.svg",
+      makeSite / includeFilter := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md" | "*.svg",
       scalacOptions ~= (_ filterNot Set(
         "-Ywarn-unused-import",
         "-Xlint",
         "-Xfatal-warnings"
       ).contains),
-      docsMappingsAPIDir in ScalaUnidoc := "api",
-      addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir in ScalaUnidoc)
+      ScalaUnidoc / docsMappingsAPIDir := "api",
+      addMappingsToSiteDir(
+        ScalaUnidoc / packageDoc / mappings,
+        ScalaUnidoc / docsMappingsAPIDir
+      )
     )
 
     lazy val coreDeps = Seq(
       libraryDependencies ++= Seq(
-        "org.typelevel"         %% "cats-core"           % V.cats,
-        "io.circe"              %% "circe-core"          % V.circe,
-        "io.circe"              %% "circe-generic"       % V.circe,
-        "io.circe"              %% "circe-literal"       % V.circe,
-        "com.github.marklister" %% "base64"              % V.base64,
-        "org.http4s"            %% "http4s-client"       % V.http4s,
-        "org.http4s"            %% "http4s-circe"        % V.http4s,
-        "io.circe"              %% "circe-parser"        % V.circe     % Test,
-        "org.scalamock"         %% "scalamock"           % V.scalamock % Test,
-        "org.scalatest"         %% "scalatest"           % V.scalatest % Test,
-        "org.http4s"            %% "http4s-blaze-client" % V.http4s    % Test,
-        "com.github.ghik"        % "silencer-lib"        % V.silencer  % Provided cross CrossVersion.full,
-        compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full)
+        "org.typelevel" %% "cats-core"           % V.cats,
+        "io.circe"      %% "circe-core"          % V.circe,
+        "io.circe"      %% "circe-generic"       % V.circe,
+        "org.http4s"    %% "http4s-client"       % V.http4s,
+        "org.http4s"    %% "http4s-circe"        % V.http4s,
+        "io.circe"      %% "circe-parser"        % V.circe     % Test,
+        "org.scalatest" %% "scalatest"           % V.scalatest % Test,
+        "org.http4s"    %% "http4s-blaze-client" % V.http4s    % Test,
+        "org.http4s"    %% "http4s-dsl"          % V.http4s    % Test,
+        "org.http4s"    %% "http4s-server"       % V.http4s    % Test
       ),
       libraryDependencies ++= on(2, 12)(
         compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full)

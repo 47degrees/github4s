@@ -21,13 +21,13 @@ import java.net.URLEncoder.encode
 import cats.Functor
 import cats.data.NonEmptyList
 import cats.syntax.functor._
-import com.github.marklister.base64.Base64._
 import github4s.Decoders._
 import github4s.Encoders._
 import github4s.GHResponse
 import github4s.algebras.Repositories
 import github4s.domain._
 import github4s.http.HttpClient
+import github4s.internal.Base64._
 
 class RepositoriesInterpreter[F[_]: Functor](implicit
     client: HttpClient[F]

@@ -1,6 +1,14 @@
+import ProjectPlugin.on
+
 ThisBuild / organization := "com.47deg"
-ThisBuild / scalaVersion := "2.13.2"
-ThisBuild / crossScalaVersions := Seq("2.12.12", "2.13.4")
+
+val scala212         = "2.12.14"
+val scala213         = "2.13.6"
+val scala3Version    = "3.0.0"
+val scala2Versions   = Seq(scala212, scala213)
+val allScalaVersions = scala2Versions :+ scala3Version
+ThisBuild / scalaVersion := scala3Version
+ThisBuild / crossScalaVersions := allScalaVersions
 
 addCommandAlias("ci-test", "scalafmtCheckAll; scalafmtSbtCheck; mdoc; testCovered")
 addCommandAlias("ci-docs", "github; mdoc; headerCreateAll; publishMicrosite")
@@ -8,7 +16,12 @@ addCommandAlias("ci-publish", "github; ci-release")
 
 publish / skip := true
 
-lazy val github4s = project.settings(coreDeps: _*)
+lazy val github4s = project
+  .settings(coreDeps: _*)
+  .settings(
+    // Increase number of inlines, needed for circe semiauto derivation
+    scalacOptions ++= on(3, 9)(Seq("-Xmax-inlines", "20")).value.flatten
+  )
 
 //////////
 // DOCS //
@@ -20,7 +33,7 @@ lazy val microsite: Project = project
   .enablePlugins(ScalaUnidocPlugin)
   .settings(micrositeSettings: _*)
   .settings(publish / skip := true)
-  .settings(unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(github4s, microsite))
+  .settings(ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(github4s, microsite))
 
 lazy val documentation = project
   .enablePlugins(MdocPlugin)

@@ -24,44 +24,52 @@ import github4s.interpreters.StaticAccessToken
 import github4s.{GHResponse, GithubConfig}
 import io.circe.{Decoder, Encoder}
 import org.http4s.client.Client
-import org.scalamock.scalatest.MockFactory
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
+import scala.annotation.nowarn
 import scala.concurrent.ExecutionContext
+import org.http4s.HttpApp
+import org.http4s.HttpRoutes
+import org.http4s.Response
+import org.http4s.Status
+import org.http4s.Uri
+import github4s.Decoders._
+import github4s.Encoders._
 
-trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory {
+trait BaseSpec extends AnyFlatSpec with Matchers with TestData {
+  import org.http4s.circe.CirceEntityEncoder._
+  import org.http4s.dsl.io._
 
   implicit val ec: ExecutionContext        = scala.concurrent.ExecutionContext.Implicits.global
   implicit val ioRuntime: unsafe.IORuntime = unsafe.IORuntime.global
-  implicit val dummyConfig: GithubConfig = GithubConfig(
+  val dummyConfig: GithubConfig = GithubConfig(
     baseUrl = "http://127.0.0.1:9999/",
     authorizeUrl = "http://127.0.0.1:9999/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s",
     accessTokenUrl = "http://127.0.0.1:9999/login/oauth/access_token",
     Map.empty
   )
 
-  @com.github.ghik.silencer.silent("deprecated")
+  @nowarn("msg=deprecated")
   class HttpClientTest
       extends HttpClient[IO](mock[Client[IO]], implicitly, new StaticAccessToken(sampleToken))
 
-  def httpClientMockGet[Out](
+  def httpClientMockGet[Out: Encoder](
       url: String,
       params: Map[String, String] = Map.empty,
       headers: Map[String, String] = Map.empty,
       response: IO[GHResponse[Out]]
   ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .get[Out](
-        _: String,
-        _: Map[String, String],
-        _: Map[String, String],
-        _: Option[Pagination]
-      )(_: Decoder[Out]))
-      .expects(url, headers ++ headerUserAgent, params, *, *)
-      .returns(response)
-    httpClientMock
+    val httpClientMock = Client.fromHttpApp[IO](HttpRoutes.of {
+      case req
+          if req.uri == Uri.unsafeFromString(url) &&
+            req.headers == (headers ++ headerUserAgent) &&
+            req.params == params =>
+        response.map(ghr =>
+          Response(Status.fromInt(ghr.statusCode).getOrElse(e => fail(e)), body = ghr.result)
+        )
+    }.orNotFound)
+    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
   }
 
   def httpClientMockGetWithoutResponse(

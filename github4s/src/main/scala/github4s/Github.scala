@@ -16,7 +16,6 @@
 
 package github4s
 
-import cats.effect.Sync
 import cats.effect.kernel.Concurrent
 import github4s.algebras._
 import github4s.interpreters.StaticAccessToken

@@ -75,12 +75,12 @@ trait ReposSpec extends BaseIntegrationSpec {
 
       releases <- Resource.eval(IO.fromEither(releasesResponse.result))
 
-      releasesAreFoundCheck: IO[List[(Release, GHResponse[Option[Release]])]] = releases.map {
+      releasesAreFoundCheck: IO[List[(Release, GHResponse[Option[Release]])]] = releases.traverse {
         release =>
           val releaseIO = gh.repos
             .getRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
           releaseIO.map(r => release -> r)
-      }.sequence
+      }
 
     } yield releasesAreFoundCheck
 

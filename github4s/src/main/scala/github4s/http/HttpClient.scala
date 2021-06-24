@@ -212,7 +212,7 @@ object HttpClient {
       case 423                      => response.attemptAs[RateLimitExceededError].map(_.asLeft)
       case _ =>
         EitherT
-          .right(responseBody(response))
+          .right[DecodeFailure](responseBody(response))
           .map(s =>
             UnhandledResponseError(s"Unhandled status code ${response.status.code}", s).asLeft
           )

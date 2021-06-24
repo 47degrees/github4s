@@ -17,15 +17,10 @@
 package github4s
 
 import cats.data.NonEmptyList
-import cats.instances.either._
-import cats.instances.list._
-import cats.syntax.either._
-import cats.syntax.list._
-import cats.syntax.traverse._
+import cats.syntax.all._
 import github4s.domain._
 import io.circe.Decoder.Result
 import io.circe._
-import io.circe.generic.auto._
 import io.circe.generic.semiauto.deriveDecoder
 
 /**
@@ -37,6 +32,8 @@ object Decoders {
       avatar_url: Option[String],
       html_url: Option[String]
   )
+
+  implicit val decodeAuthor: Decoder[Author] = deriveDecoder[Author]
 
   implicit val decodeCommit: Decoder[Commit] = Decoder.instance { c =>
     for {
@@ -262,21 +259,27 @@ object Decoders {
   implicit val decoderPullRequestFile: Decoder[PullRequestFile] = deriveDecoder[PullRequestFile]
   implicit val decoderPullRequestReview: Decoder[PullRequestReview] =
     deriveDecoder[PullRequestReview]
-  implicit val decoderPullRequest: Decoder[PullRequest] = deriveDecoder[PullRequest]
-  implicit val decoderRef: Decoder[Ref]                 = deriveDecoder[Ref]
-  implicit val decoderRefCommit: Decoder[RefCommit]     = deriveDecoder[RefCommit]
-  implicit val decoderRefInfo: Decoder[RefInfo]         = deriveDecoder[RefInfo]
-  implicit val decoderTreeResult: Decoder[TreeResult]   = deriveDecoder[TreeResult]
-  implicit val decoderTag: Decoder[Tag]                 = deriveDecoder[Tag]
-  implicit val decoderIssue: Decoder[Issue]             = deriveDecoder[Issue]
+  implicit val decoderUser: Decoder[User] = deriveDecoder[User]
+
+  implicit val decoderRepoPermissions: Decoder[RepoPermissions] = deriveDecoder[RepoPermissions]
+  implicit val decoderPullRequestBase: Decoder[PullRequestBase] = deriveDecoder[PullRequestBase]
+
+  implicit val decoderPullRequest: Decoder[PullRequest]           = deriveDecoder[PullRequest]
+  implicit val decoderRef: Decoder[Ref]                           = deriveDecoder[Ref]
+  implicit val decoderRefCommit: Decoder[RefCommit]               = deriveDecoder[RefCommit]
+  implicit val decoderRefInfo: Decoder[RefInfo]                   = deriveDecoder[RefInfo]
+  implicit val decoderTreeDataResult: Decoder[TreeDataResult]     = deriveDecoder[TreeDataResult]
+  implicit val decoderTreeResult: Decoder[TreeResult]             = deriveDecoder[TreeResult]
+  implicit val decoderTag: Decoder[Tag]                           = deriveDecoder[Tag]
+  implicit val decoderLabel: Decoder[Label]                       = deriveDecoder[Label]
+  implicit val decoderIssuePullRequest: Decoder[IssuePullRequest] = deriveDecoder[IssuePullRequest]
+  implicit val decoderIssue: Decoder[Issue]                       = deriveDecoder[Issue]
   implicit val decoderSearchIssuesResult: Decoder[SearchIssuesResult] =
     deriveDecoder[SearchIssuesResult]
   implicit val decoderSearchReposResult: Decoder[SearchReposResult] = deriveDecoder
   implicit val decoderComment: Decoder[Comment]                     = deriveDecoder[Comment]
-  implicit val decoderUser: Decoder[User]                           = deriveDecoder[User]
   implicit val decoderStatus: Decoder[Status]                       = deriveDecoder[Status]
   implicit val decoderCombinedStatus: Decoder[CombinedStatus]       = deriveDecoder[CombinedStatus]
-  implicit val decoderLabel: Decoder[Label]                         = deriveDecoder[Label]
   implicit val decoderContent: Decoder[Content]                     = deriveDecoder[Content]
   implicit val decoderBlobContent: Decoder[BlobContent]             = deriveDecoder[BlobContent]
   implicit val decoderSubscription: Decoder[Subscription]           = deriveDecoder[Subscription]
@@ -298,6 +301,7 @@ object Decoders {
       )
 
   implicit val decodeTeam: Decoder[Team]           = deriveDecoder[Team]
+  implicit val decodeCreator: Decoder[Creator]     = deriveDecoder[Creator]
   implicit val decodeMilestone: Decoder[Milestone] = deriveDecoder[Milestone]
   implicit val decodeProject: Decoder[Project]     = deriveDecoder[Project]
   implicit val decodeColumn: Decoder[Column]       = deriveDecoder[Column]

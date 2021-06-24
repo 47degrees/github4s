@@ -19,7 +19,7 @@ package github4s.unit
 import cats.data.NonEmptyList
 import cats.effect.IO
 import cats.syntax.either._
-import com.github.marklister.base64.Base64._
+import github4s.internal.Base64._
 import github4s.GHResponse
 import github4s.domain._
 import github4s.interpreters.RepositoriesInterpreter

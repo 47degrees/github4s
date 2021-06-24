@@ -312,7 +312,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
 
     testIsRight[PullRequest](
       addReviewersResponse,
-      r => r.body shouldBe validCreatePRReviewRequest.body
+      r => r.body shouldBe Some(validCreatePRReviewRequest.body)
     )
     addReviewersResponse.statusCode shouldBe okStatusCode
 
@@ -352,7 +352,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
 
     testIsRight[PullRequest](
       addReviewersResponse,
-      r => r.body shouldBe validCreatePRReviewRequest.body
+      r => r.body shouldBe Some(validCreatePRReviewRequest.body)
     )
     removeReviewersResponse.statusCode shouldBe okStatusCode
   }
