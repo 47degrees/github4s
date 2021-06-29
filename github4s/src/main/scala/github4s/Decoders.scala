@@ -146,6 +146,7 @@ object Decoders {
         ssh_url           <- c.downField("ssh_url").as[String]
         clone_url         <- c.downField("clone_url").as[String]
         svn_url           <- c.downField("svn_url").as[String]
+        permissions       <- c.downField("permissions").as[Option[RepoPermissions]]
         repoUrls          <- readRepoUrls(c)
       } yield RepositoryBase(
         id = id,
@@ -162,6 +163,7 @@ object Decoders {
         homepage = homepage,
         language = language,
         organization = organization,
+        permissions = permissions,
         status = RepoStatus(
           size = size,
           stargazers_count = stargazers_count,
