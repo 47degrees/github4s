@@ -31,13 +31,13 @@ object ProjectPlugin extends AutoPlugin {
       settingKey[String]("Name of subdirectory in site target directory for api docs")
 
     lazy val micrositeSettings = Seq(
-      micrositeName := "Github4s",
-      micrositeDescription := "Github API wrapper written in Scala",
-      micrositeBaseUrl := "github4s",
+      micrositeName             := "Github4s",
+      micrositeDescription      := "Github API wrapper written in Scala",
+      micrositeBaseUrl          := "github4s",
       micrositeDocumentationUrl := "docs",
-      micrositeAuthor := "Github4s contributors",
-      micrositeGithubToken := Option(System.getenv().get("GITHUB_TOKEN")),
-      micrositePushSiteWith := GitHub4s,
+      micrositeAuthor           := "Github4s contributors",
+      micrositeGithubToken      := Option(System.getenv().get("GITHUB_TOKEN")),
+      micrositePushSiteWith     := GitHub4s,
       micrositeOrganizationHomepage := "https://github.com/47degrees/github4s/blob/master/AUTHORS.md",
       micrositePalette := Map(
         "brand-primary"   -> "#3D3832",
