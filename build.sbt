@@ -4,7 +4,7 @@ ThisBuild / organization := "com.47deg"
 
 val scala212         = "2.12.14"
 val scala213         = "2.13.6"
-val scala3Version    = "3.0.0"
+val scala3Version    = "3.0.1"
 val scala2Versions   = Seq(scala212, scala213)
 val allScalaVersions = scala2Versions :+ scala3Version
 ThisBuild / scalaVersion       := scala213
