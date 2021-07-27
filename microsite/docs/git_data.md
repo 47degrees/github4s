@@ -26,20 +26,11 @@ please read the [Git Internals](https://git-scm.com/book/en/v1/Git-Internals) ch
 The following examples assume the following code:
 
 ```scala mdoc:silent
-import java.util.concurrent._
-
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
-
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
@@ -66,11 +57,10 @@ You can get a reference using `getReference`, it takes as arguments:
 
 ```scala mdoc:compile-only
 val getReference = gh.gitData.getReference("47degrees", "github4s", "heads/master")
-val response = getReference.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getReference.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Ref]][gitdata-scala].
@@ -96,11 +86,10 @@ val createReference = gh.gitData.createReference(
   "github4s",
   "refs/heads/master",
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
-val response = createReference.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createReference.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [Ref][gitdata-scala].
@@ -125,11 +114,10 @@ val updateReference = gh.gitData.updateReference(
   "heads/master",
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
   false)
-val response = updateReference.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+updateReference.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the updated [Ref][gitdata-scala].
@@ -147,11 +135,10 @@ You can get a commit using `getCommit`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val getCommit = gh.gitData.getCommit("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
-val response = getCommit.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getCommit.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [RefCommit][gitdata-scala].
@@ -179,11 +166,10 @@ val createCommit = gh.gitData.createCommit(
   "827efc6d56897b048c772eb4087f854f46256132",
   List("d3b048c1f500ee5450e5d7b3d1921ed3e7645891"),
   None)
-val response = createCommit.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createCommit.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [RefCommit][gitdata-scala].
@@ -201,11 +187,10 @@ You can get a blob using `getBlob`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val getBlob = gh.gitData.getBlob("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
-val response = getBlob.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getBlob.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [BlobContent][gitdata-scala].
@@ -222,11 +207,10 @@ You can create a blob using `createBlob`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val createBlob = gh.gitData.createBlob("47degrees", "github4s", "New access token", Some("utf-8"))
-val response = createBlob.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createBlob.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [RefObject][gitdata-scala].
@@ -253,11 +237,10 @@ You can get a tree using `getTree`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val getTree = gh.gitData.getTree("47degrees", "github4s", "d3b048c1f500ee5450e5d7b3d1921ed3e7645891", true)
-val response = getTree.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getTree.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [TreeResult][gitdata-scala].
@@ -298,11 +281,10 @@ val createTree = gh.gitData.createTree(
     "100644",
     "blob",
     "827efc6d56897b048c772eb4087f854f46256132")))
-val response = createTree.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createTree.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [TreeResult][gitdata-scala].
@@ -333,11 +315,10 @@ val createTag = gh.gitData.createTag(
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
   "commit",
   Some(RefAuthor("2014-11-07T22:01:45Z", "rafaparadela", "developer@47deg.com")))
-val response = createTag.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createTag.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [Tag][gitdata-scala].

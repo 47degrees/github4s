@@ -40,21 +40,14 @@ with Github4s, you can interact with:
 The following examples assume the following code:
 
 ```scala mdoc:silent
-import java.util.concurrent._
 
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import github4s.domain.Label
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
 
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
@@ -76,11 +69,10 @@ To create an issue:
 ```scala mdoc:compile-only
 val createIssue =
   gh.issues.createIssue("47degrees", "github4s", "Github4s", "is awesome", None, List("Label"), List("Assignee"))
-val response = createIssue.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createIssue.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [Issue][issue-scala].
@@ -104,11 +96,10 @@ To edit an issue:
 ```scala mdoc:compile-only
 val editIssue =
   gh.issues.editIssue("47degrees", "github4s", 1, "open", "Github4s", "is still awesome", None, List("Label"), List("Assignee"))
-val response = editIssue.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+editIssue.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 the `result` on the right is the edited [Issue][issue-scala].
@@ -127,11 +118,10 @@ To list the issues for a repository:
 
 ```scala mdoc:compile-only
 val listIssues = gh.issues.listIssues("47degrees", "github4s")
-val response = listIssues.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listIssues.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Issue]][issue-scala]. Note that it will
@@ -151,11 +141,10 @@ To get a single issue from a repository:
 
 ```scala mdoc:compile-only
 val issue = gh.issues.getIssue("47degrees", "github4s", 17)
-val response = issue.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+issue.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [Issue][issue-scala]. Note that it will
@@ -183,11 +172,10 @@ val searchParams = List(
   SearchIn(Set(SearchInTitle))
 )
 val searchIssues = gh.issues.searchIssues("existential", searchParams)
-val response = searchIssues.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+searchIssues.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is a [SearchIssuesResult][issue-scala].
@@ -208,11 +196,10 @@ You can list comments of an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val commentList = gh.issues.listComments("47degrees", "github4s", 17)
-val response = commentList.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+commentList.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Comment]][issue-scala]
@@ -231,11 +218,10 @@ You can create a comment for an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val createcomment = gh.issues.createComment("47degrees", "github4s", 17, "this is the comment")
-val response = createcomment.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createcomment.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is a [Comment][issue-scala].
@@ -255,11 +241,10 @@ You can edit a comment from an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val editComment = gh.issues.editComment("47degrees", "github4s", 20, "this is the new comment")
-val response = editComment.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+editComment.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is a [Comment][issue-scala].
@@ -278,11 +263,10 @@ You can delete a comment from an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val deleteComment = gh.issues.deleteComment("47degrees", "github4s", 20)
-val response = deleteComment.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+deleteComment.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is `Unit`.
@@ -302,11 +286,10 @@ You can list labels for an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val labelListRepository = gh.issues.listLabelsRepository("47degrees", "github4s")
-val response = labelListRepository.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+labelListRepository.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Label]][issue-scala]
@@ -332,11 +315,10 @@ val label = Label(
     default = None
 )
 val createLabel = gh.issues.createLabel("47degrees", "github4s", label)
-val response = createLabel.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createLabel.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding created [Label][issue-scala]
@@ -362,11 +344,10 @@ val label = Label(
     default = None
 )
 val updateLabel = gh.issues.updateLabel("47degrees", "github4s", label)
-val response = updateLabel.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+updateLabel.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding updated [Label][issue-scala]
@@ -384,11 +365,10 @@ You can delete existing label for an repository with the following parameters:
 
 ```scala mdoc:compile-only
 val deleteLabel = gh.issues.deleteLabel("47degrees", "github4s", "bug")
-val response = deleteLabel.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+deleteLabel.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is `Unit`.
@@ -407,11 +387,10 @@ You can list labels for an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val labelList = gh.issues.listLabels("47degrees", "github4s", 17)
-val response = labelList.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+labelList.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Label]][issue-scala]
@@ -430,11 +409,10 @@ You can add existing labels to an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val assignedLabelList = gh.issues.addLabels("47degrees", "github4s", 17, List("bug", "code review"))
-val response = assignedLabelList.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+assignedLabelList.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding assigned [List[Label]][issue-scala]
@@ -453,11 +431,10 @@ You can remove a label from an issue with the following parameters:
 
 ```scala mdoc:compile-only
 val removedLabelList = gh.issues.removeLabel("47degrees", "github4s", 17, "bug")
-val response = removedLabelList.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+removedLabelList.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding removed [List[Label]][issue-scala]
@@ -477,11 +454,10 @@ You can list available assignees for issues in repo with the following parameter
 
 ```scala mdoc:compile-only
 val assignees = gh.issues.listAvailableAssignees("47degrees", "github4s")
-val response = assignees.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+assignees.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[User]][user-scala]
@@ -513,11 +489,10 @@ You can list the milestone for a particular organization and repository with `li
 
 ```scala mdoc:compile-only
 val milestones = gh.issues.listMilestones("47degrees", "github4s", Some("open"), None, None)
-val response = milestones.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+milestones.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Milestone]][milestone-scala]
@@ -542,11 +517,10 @@ You can create a milestone for a particular organization and repository with `cr
 
 ```scala mdoc:compile-only
 val milestone = gh.issues.createMilestone("47degrees", "github4s", "New milestone",Some("open"), None, None)
-val response = milestone.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+milestone.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [Milestone][milestone-scala]
@@ -568,11 +542,10 @@ You can also get a single milestone of a repository through `getMilestone`; it t
 
 ```scala mdoc:compile-only
 val milestone = gh.issues.getMilestone("47degrees", "github4s", 32)
-val response = milestone.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+milestone.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [Milestone][milestone-scala]
@@ -598,11 +571,10 @@ You can update a milestone for a particular organization and repository with `up
 
 ```scala mdoc:compile-only
 val milestone = gh.issues.updateMilestone("47degrees", "github4s", 1 , "New milestone", Some("open"), None, None)
-val response = milestone.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+milestone.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [Milestone][milestone-scala]
@@ -624,11 +596,10 @@ You can delete a milestone for a particular organization and repository with `de
 
 ```scala mdoc:compile-only
 val milestone = gh.issues.deleteMilestone("47degrees", "github4s", 1)
-val response = milestone.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+milestone.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is `Unit`.

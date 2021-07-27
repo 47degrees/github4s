@@ -16,20 +16,20 @@
 
 package github4s.modules
 
-import cats.effect.Sync
+import cats.effect.kernel.Concurrent
 import github4s.GithubConfig
 import github4s.algebras._
 import github4s.http.HttpClient
 import github4s.interpreters._
 import org.http4s.client.Client
 
-class GithubAPIv3[F[_]: Sync](
+class GithubAPIv3[F[_]: Concurrent](
     client: Client[F],
     config: GithubConfig,
     accessToken: AccessToken[F]
 ) extends GithubAPIs[F] {
 
-  implicit val httpClient = new HttpClient[F](client, config, accessToken)
+  implicit val httpClient: HttpClient[F] = new HttpClient[F](client, config, accessToken)
 
   override val users: Users[F]                 = new UsersInterpreter[F]
   override val repos: Repositories[F]          = new RepositoriesInterpreter[F]
@@ -47,6 +47,6 @@ class GithubAPIv3[F[_]: Sync](
 
 object GithubAPIv3 {
 
-  def noAuth[F[_]: Sync](client: Client[F], config: GithubConfig): GithubAPIv3[F] =
+  def noAuth[F[_]: Concurrent](client: Client[F], config: GithubConfig): GithubAPIv3[F] =
     new GithubAPIv3[F](client, config, StaticAccessToken.noToken)
 }

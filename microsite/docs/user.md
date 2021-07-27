@@ -16,20 +16,13 @@ with Github4s, you can interacts with:
   - [List users followed by another user](#list-users-followed-by-another-user)
 
 ```scala mdoc:silent
-import java.util.concurrent._
 
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
 
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
@@ -47,11 +40,10 @@ You can get a user using `get`, it takes as argument:
 
 ```scala mdoc:compile-only
 val getUser = gh.users.get("rafaparadela")
-val response = getUser.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getUser.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [User][user-scala].
@@ -67,11 +59,10 @@ You can get an authenticated user using `getAuth`:
 
 ```scala mdoc:compile-only
 val getAuth = gh.users.getAuth()
-val response = getAuth.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getAuth.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [User][user-scala].
@@ -88,11 +79,10 @@ You can get a list of users using `getUsers`, it takes as arguments:
 
 ```scala mdoc:compile-only
 val getUsers = gh.users.getUsers(1)
-val response = getUsers.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getUsers.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[User]][user-scala].
@@ -112,11 +102,10 @@ You can get a list of users followed by another user using `getFollowing`, it ta
 
 ```scala mdoc:compile-only
 val getFollowing = gh.users.getFollowing("rafaparadela")
-val response = getFollowing.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getFollowing.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[User]][user-scala].

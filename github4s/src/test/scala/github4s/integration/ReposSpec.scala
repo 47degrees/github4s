@@ -64,34 +64,33 @@ trait ReposSpec extends BaseIntegrationSpec {
 
   "Repos >> getRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {
 
-    val responseResource = for {
-      client <- clientResource
+    val test = clientResource.use { client =>
+      val gh: Github[IO] = Github[IO](client, accessToken)
 
-      gh: Github[IO] = Github[IO](client, accessToken)
-      releasesIO =
-        gh.repos.listReleases(validRepoOwner, validRepoName, None, headers = headerUserAgent)
+      for {
 
-      releasesResponse <- Resource.eval(releasesIO)
+        releasesResponse <-
+          gh.repos.listReleases(validRepoOwner, validRepoName, None, headers = headerUserAgent)
 
-      releases <- Resource.eval(IO.fromEither(releasesResponse.result))
+        releases <- IO.fromEither(releasesResponse.result)
 
-      releasesAreFoundCheck: IO[List[(Release, GHResponse[Option[Release]])]] = releases.map {
-        release =>
-          val releaseIO = gh.repos
-            .getRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
-          releaseIO.map(r => release -> r)
-      }.sequence
+        responseList: List[(Release, GHResponse[Option[Release]])] <-
+          releases.traverse { release =>
+            val releaseIO = gh.repos
+              .getRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
+            releaseIO.map(r => release -> r)
+          }
 
-    } yield releasesAreFoundCheck
-
-    val responseList: List[(Release, GHResponse[Option[Release]])] = responseResource
-      .use(identity)
-      .unsafeRunSync()
-
-    forAll(responseList) { case (release, response) =>
-      testIsRight[Option[Release]](response, r => r should contain(release))
-      response.statusCode shouldBe okStatusCode
+      } yield {
+        responseList.foreach { case (release, response) =>
+          testIsRight[Option[Release]](response, r => r should contain(release))
+          response.statusCode shouldBe okStatusCode
+        }
+        succeed
+      }
     }
+
+    test.unsafeToFuture()
   }
 
   "Repos >> LatestRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {

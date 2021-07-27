@@ -17,6 +17,7 @@
 package github4s.http
 
 import cats.effect.IO
+import cats.effect.unsafe.implicits.global
 import fs2.Stream
 import github4s.GHError._
 import io.circe.{DecodingFailure, Encoder, Json}

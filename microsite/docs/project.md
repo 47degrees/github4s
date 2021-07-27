@@ -25,20 +25,13 @@ with Github4s, you can interact with:
 The following examples assume the following code:
 
 ```scala mdoc:silent
-import java.util.concurrent._
 
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
 
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
@@ -63,11 +56,10 @@ val listProjectsRepository = gh.projects.listProjectsRepository(
     owner = "47deg",
     repo = "github4s",
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
-val response = listProjectsRepository.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listProjectsRepository.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Project]][project-scala].
@@ -92,11 +84,10 @@ To list the projects for organization `47deg`:
 val listProjects = gh.projects.listProjects(
     org = "47deg",
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
-val response = listProjects.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listProjects.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Project]][project-scala].
@@ -121,11 +112,10 @@ To list the columns for project_id `1910444`:
 val listColumns = gh.projects.listColumns(
     project_id = 1910444,
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
-val response = listColumns.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listColumns.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Column]][column-scala].
@@ -152,11 +142,10 @@ To list the columns for project_id `8271018`:
 val listCards = gh.projects.listCards(
     column_id = 8271018,
     headers = Map("Accept" -> "application/vnd.github.inertia-preview+json"))
-val response = listCards.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listCards.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Card]][card-scala].

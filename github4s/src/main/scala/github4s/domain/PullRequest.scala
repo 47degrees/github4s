@@ -85,24 +85,24 @@ sealed abstract class PRFilter(val name: String, val value: String)
 }
 
 sealed abstract class PRFilterState(override val value: String) extends PRFilter("state", value)
-final case object PRFilterOpen                                  extends PRFilterState("open")
-final case object PRFilterClosed                                extends PRFilterState("closed")
-final case object PRFilterAll                                   extends PRFilterState("all")
+case object PRFilterOpen                                        extends PRFilterState("open")
+case object PRFilterClosed                                      extends PRFilterState("closed")
+case object PRFilterAll                                         extends PRFilterState("all")
 
 final case class PRFilterHead(override val value: String) extends PRFilter("head", value)
 
 final case class PRFilterBase(override val value: String) extends PRFilter("base", value)
 
 sealed abstract class PRFilterSort(override val value: String) extends PRFilter("sort", value)
-final case object PRFilterSortCreated                          extends PRFilterSort("created")
-final case object PRFilterSortUpdated                          extends PRFilterSort("updated")
-final case object PRFilterSortPopularity                       extends PRFilterSort("popularity")
-final case object PRFilterSortLongRunning                      extends PRFilterSort("long-running")
+case object PRFilterSortCreated                                extends PRFilterSort("created")
+case object PRFilterSortUpdated                                extends PRFilterSort("updated")
+case object PRFilterSortPopularity                             extends PRFilterSort("popularity")
+case object PRFilterSortLongRunning                            extends PRFilterSort("long-running")
 
 sealed abstract class PRFilterDirection(override val value: String)
     extends PRFilter("direction", value)
-final case object PRFilterOrderAsc  extends PRFilterDirection("asc")
-final case object PRFilterOrderDesc extends PRFilterDirection("desc")
+case object PRFilterOrderAsc  extends PRFilterDirection("asc")
+case object PRFilterOrderDesc extends PRFilterDirection("desc")
 
 sealed trait NewPullRequest
 final case class NewPullRequestData(title: String, body: String, draft: Boolean)
@@ -120,11 +120,11 @@ final case class PullRequestReview(
 )
 
 sealed abstract class PullRequestReviewState(val value: String)
-final case object PRRStateApproved         extends PullRequestReviewState("APPROVED")
-final case object PRRStateChangesRequested extends PullRequestReviewState("CHANGES_REQUESTED")
-final case object PRRStateCommented        extends PullRequestReviewState("COMMENTED")
-final case object PRRStatePending          extends PullRequestReviewState("PENDING")
-final case object PRRStateDismissed        extends PullRequestReviewState("DISMISSED")
+case object PRRStateApproved         extends PullRequestReviewState("APPROVED")
+case object PRRStateChangesRequested extends PullRequestReviewState("CHANGES_REQUESTED")
+case object PRRStateCommented        extends PullRequestReviewState("COMMENTED")
+case object PRRStatePending          extends PullRequestReviewState("PENDING")
+case object PRRStateDismissed        extends PullRequestReviewState("DISMISSED")
 
 final case class CreatePRReviewRequest(
     commit_id: Option[String] = None,
@@ -135,10 +135,10 @@ final case class CreatePRReviewRequest(
 
 sealed abstract class PullRequestReviewEvent(val value: String)
 
-final case object PRREventApprove        extends PullRequestReviewEvent("APPROVE")
-final case object PRREventRequestChanges extends PullRequestReviewEvent("REQUEST_CHANGES")
-final case object PRREventComment        extends PullRequestReviewEvent("COMMENT")
-final case object PRREventPending        extends PullRequestReviewEvent("PENDING")
+case object PRREventApprove        extends PullRequestReviewEvent("APPROVE")
+case object PRREventRequestChanges extends PullRequestReviewEvent("REQUEST_CHANGES")
+case object PRREventComment        extends PullRequestReviewEvent("COMMENT")
+case object PRREventPending        extends PullRequestReviewEvent("PENDING")
 
 case class CreateReviewComment(path: String, position: Int, body: String)
 

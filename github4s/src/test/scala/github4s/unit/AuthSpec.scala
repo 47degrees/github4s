@@ -17,33 +17,32 @@
 package github4s.unit
 
 import cats.effect.IO
-import cats.syntax.either._
-import github4s.GHResponse
-import github4s.utils.BaseSpec
 import github4s.domain._
+import github4s.http.HttpClient
 import github4s.interpreters.AuthInterpreter
+import github4s.utils.BaseSpec
+import github4s.Encoders._
 
 class AuthSpec extends BaseSpec {
 
   "Auth.getAccessToken" should "call to httpClient.postOAuth with the right parameters" in {
 
-    val response: IO[GHResponse[OAuthToken]] =
-      IO(GHResponse(oAuthToken.asRight, okStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockPostOAuth[OAuthToken](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPostOAuth[OAuthToken](
       url = dummyConfig.accessTokenUrl,
-      response = response
+      response = IO.pure(oAuthToken)
     )
 
     val auth = new AuthInterpreter[IO]
 
-    auth.getAccessToken(
-      validClientId,
-      invalidClientSecret,
-      validCode,
-      validRedirectUri,
-      validAuthState,
-      headerUserAgent
-    )
+    auth
+      .getAccessToken(
+        validClientId,
+        invalidClientSecret,
+        validCode,
+        validRedirectUri,
+        validAuthState,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 }

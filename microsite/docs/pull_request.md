@@ -26,20 +26,13 @@ with Github4s, you can interact with:
 The following examples assume the following code:
 
 ```scala mdoc:silent
-import java.util.concurrent._
 
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
 
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
@@ -58,11 +51,10 @@ To get a single pull request:
 
 ```scala mdoc:compile-only
 val getPullRequest = gh.pullRequests.getPullRequest("47degrees", "github4s", 102)
-val response = getPullRequest.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getPullRequest.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [PullRequest][pr-scala].
@@ -83,11 +75,10 @@ by popularity:
 import github4s.domain._
 val prFilters = List(PRFilterOpen, PRFilterSortPopularity)
 val listPullRequests = gh.pullRequests.listPullRequests("scala", "scala", prFilters)
-val response = listPullRequests.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listPullRequests.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the matching [List[PullRequest]][pr-scala].
@@ -105,11 +96,10 @@ To list the files for a pull request:
 
 ```scala mdoc:compile-only
 val listPullRequestFiles = gh.pullRequests.listFiles("47degrees", "github4s", 102)
-val response = listPullRequestFiles.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listPullRequestFiles.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 the `result` on the right is the [List[PullRequestFile]][pr-scala].
@@ -140,11 +130,10 @@ val createPullRequestData = gh.pullRequests.createPullRequest(
   "my-branch",
   "base-branch",
   Some(true))
-val response = createPullRequestData.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createPullRequestData.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 On the other hand, we can pass an `issue` id (through `NewPullRequestIssue` object)
@@ -161,11 +150,10 @@ val createPullRequestIssue = gh.pullRequests.createPullRequest(
   "my-branch",
   "base-branch",
   Some(true))
-val response = createPullRequestIssue.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createPullRequestIssue.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 See [the API doc](https://developer.github.com/v3/pulls/#create-a-pull-request) for full reference.
@@ -186,11 +174,10 @@ val listReviews = gh.pullRequests.listReviews(
   "47deg",
   "github4s",
   139)
-val response = listReviews.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listReviews.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the matching [List[PullRequestReview]][pr-scala].
@@ -213,11 +200,10 @@ val review = gh.pullRequests.getReview(
   "github4s",
   139,
   39355613)
-val response = review.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+review.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the matching [PullRequestReview][pr-scala].
@@ -244,11 +230,10 @@ val createReviewData = gh.pullRequests.createReview(
   139,
   CreatePRReviewRequest(Some("commit_id"), "body", PRREventApprove)  
 )
-val response = createReviewData.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createReviewData.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [PullRequestReview][pr-scala].
@@ -276,11 +261,10 @@ val addReviewers = gh.pullRequests.addReviewers(
   "github4s",
   139,
   ReviewersRequest(List("torvalds")))
-val response = addReviewers.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+addReviewers.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the updated [PullRequest][pr-scala]. 
@@ -299,16 +283,14 @@ You can list the reviewers for a pull request using `listReviewers`; it takes as
 As an example, if we wanted to see all the reviewers for pull request 139 of `47degrees/github4s`:
 
 ```scala mdoc:compile-only
-import github4s.domain._
 val listReviewers = gh.pullRequests.listReviewers(
   "47deg",
   "github4s",
   139)
-val response = listReviewers.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listReviewers.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the matching ReviewersResponse, which contains all users and teams, whose review has been requested. 
@@ -332,11 +314,10 @@ val removeReviewers = gh.pullRequests.removeReviewers(
   "github4s",
   139,
   ReviewersRequest(List("torvalds")))
-val response = removeReviewers.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+removeReviewers.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the updated [PullRequest][pr-scala]. 

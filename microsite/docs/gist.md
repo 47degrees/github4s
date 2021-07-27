@@ -16,20 +16,11 @@ with Github4s, you can:
 The following examples assume the following code:
 
 ```scala mdoc:silent
-import java.util.concurrent._
-
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
-
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
@@ -53,11 +44,10 @@ val gistfiles = Map(
   "gh4s.scala"  -> GistFile("val gh = Github(accessToken)")
 )
 val newGist = gh.gists.newGist("Github4s entry point", public = true, gistfiles)
-val response = newGist.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+newGist.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [Gist][gist-scala].
@@ -75,22 +65,20 @@ To get a single gist:
 
 ```scala mdoc:compile-only
 val singleGist = gh.gists.getGist("aa5a315d61ae9438b18d")
-val response = singleGist.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+singleGist.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 Similarly, to get a specific revision of a gist:
 
 ```scala mdoc:compile-only
 val sepcificRevisionGist = gh.gists.getGist("aa5a315d61ae9438b18d", Some("4e481528046a016fc11d6e7d8d623b55ea11e372"))
-val response = sepcificRevisionGist.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+sepcificRevisionGist.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the requested [Gist][gist-scala].
@@ -117,11 +105,10 @@ val editfiles = Map(
 )
 
 val updatedGist = gh.gists.editGist("aa5a315d61ae9438b18d", "Updated github4s entry point", editfiles)
-val response = updatedGist.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+updatedGist.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the updated [Gist][gist-scala].

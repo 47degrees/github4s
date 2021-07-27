@@ -18,20 +18,11 @@ with Github4s, you can interact with:
 The following examples assume the following code:
 
 ```scala mdoc:silent
-import java.util.concurrent._
-
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
-
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
@@ -53,11 +44,10 @@ You can subscribe or unsubscribe using `setThreadSub`; it takes as arguments:
 
 ```scala mdoc:compile-only
 val threadSub = gh.activities.setThreadSub(5, true, false)
-val response = threadSub.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+threadSub.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created or deleted [Subscription][activity-scala].
@@ -78,11 +68,10 @@ To list the stargazers of 47degrees/github4s:
 
 ```scala mdoc:compile-only
 val listStargazers = gh.activities.listStargazers("47degrees", "github4s", true)
-val response = listStargazers.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listStargazers.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Stargazer]][activity-scala].
@@ -106,11 +95,10 @@ To list the starred repositories for user `rafaparadela`:
 
 ```scala mdoc:compile-only
 val listStarredRepositories = gh.activities.listStarredRepositories("rafaparadela", true)
-val response = listStarredRepositories.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listStarredRepositories.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[StarredRepository]][activity-scala].

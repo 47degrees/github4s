@@ -180,7 +180,7 @@ We're just checking that our API defined above hits the right endpoint, here:
     val response: IO[GHResponse[List[Status]]] =
       IO(GHResult(List(status).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Status]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Status]](
       url = s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses",
       response = response
     )
@@ -212,11 +212,10 @@ To list the statuses for a specific ref:
 
 {triple backtick}scala mdoc:silent
 val listStatuses = gh.repos.listStatuses("47degrees", "github4s", "heads/master")
-val response = listStatuses.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listStatuses.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 {triple backtick}
 
 The `result` on the right is the corresponding [List[Status]][repository-scala].

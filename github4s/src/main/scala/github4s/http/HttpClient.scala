@@ -17,10 +17,9 @@
 package github4s.http
 
 import cats.data.EitherT
-import cats.effect.{Resource, Sync}
-import cats.instances.string._
-import cats.syntax.either._
-import cats.syntax.functor._
+import cats.effect.Resource
+import cats.effect.kernel.Concurrent
+import cats.syntax.all._
 import github4s.GHError._
 import github4s._
 import github4s.algebras.AccessToken
@@ -30,9 +29,9 @@ import io.circe.{Decoder, Encoder}
 import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.circe.jsonOf
 import org.http4s.client.Client
-import org.http4s.{EntityDecoder, Request, Response, Status}
+import org.http4s._
 
-class HttpClient[F[_]: Sync](
+class HttpClient[F[_]: Concurrent](
     client: Client[F],
     val config: GithubConfig,
     accessTokens: AccessToken[F]
@@ -188,7 +187,7 @@ class HttpClient[F[_]: Sync](
         Request[F]()
           .withMethod(request.httpVerb)
           .withUri(request.toUri(config))
-          .withHeaders((config.toHeaderList ++ request.toHeaderList): _*)
+          .withHeaders(Headers(config.toHeaderList) ++ Headers(request.toHeaderList))
           .withJsonBody(request.data)
       )
 }
@@ -197,10 +196,10 @@ object HttpClient {
   // the GitHub API sometimes returns [[BasicError]] when 404.
   private[github4s] val notFoundDecoder: Decoder[GHError] =
     implicitly[Decoder[NotFoundError]].widen.or(BasicError.basicErrorDecoder.widen)
-  private def notFoundEntityDecoder[F[_]: Sync]: EntityDecoder[F, GHError] =
+  private def notFoundEntityDecoder[F[_]: Concurrent]: EntityDecoder[F, GHError] =
     jsonOf(implicitly, notFoundDecoder)
 
-  private[github4s] def buildResponse[F[_]: Sync, A: Decoder](
+  private[github4s] def buildResponse[F[_]: Concurrent, A: Decoder](
       response: Response[F]
   ): F[Either[GHError, A]] =
     (response.status.code match {
@@ -208,12 +207,12 @@ object HttpClient {
       case 400                      => response.attemptAs[BadRequestError].map(_.asLeft)
       case 401                      => response.attemptAs[UnauthorizedError].map(_.asLeft)
       case 403                      => response.attemptAs[ForbiddenError].map(_.asLeft)
-      case 404                      => response.attemptAs[GHError](notFoundEntityDecoder).map(_.asLeft)
-      case 422                      => response.attemptAs[UnprocessableEntityError].map(_.asLeft)
-      case 423                      => response.attemptAs[RateLimitExceededError].map(_.asLeft)
+      case 404 => response.attemptAs[GHError](notFoundEntityDecoder).map(_.asLeft)
+      case 422 => response.attemptAs[UnprocessableEntityError].map(_.asLeft)
+      case 423 => response.attemptAs[RateLimitExceededError].map(_.asLeft)
       case _ =>
         EitherT
-          .right(responseBody(response))
+          .right[DecodeFailure](responseBody(response))
           .map(s =>
             UnhandledResponseError(s"Unhandled status code ${response.status.code}", s).asLeft
           )
@@ -222,14 +221,14 @@ object HttpClient {
       _.leftMap[GHError](identity)
     )
 
-  private[github4s] def buildResponseFromEmpty[F[_]: Sync](
+  private[github4s] def buildResponseFromEmpty[F[_]: Concurrent](
       response: Response[F]
   ): F[Either[GHError, Unit]] =
     response.status.code match {
-      case i if Status(i).isSuccess => Sync[F].pure(().asRight)
+      case i if Status(i).isSuccess => ().asRight[GHError].pure[F]
       case _                        => buildResponse[F, Unit](response)
     }
 
-  private def responseBody[F[_]: Sync](response: Response[F]): F[String] =
+  private def responseBody[F[_]: Concurrent](response: Response[F]): F[String] =
     response.bodyText.compile.foldMonoid
 }

@@ -77,7 +77,8 @@ trait GitData[F[_]] {
    * @param ref ref formatted as heads/branch
    * @param sha the SHA1 value to set this reference to
    * @param force Indicates whether to force the update or to make sure the update is a fast-forward update.
-   * Leaving this out or setting it to `false` will make sure you're not overwriting work. Default: `false`
+   * Leaving this out or setting it to `false` will make sure you're not overwriting work.
+   * Default: `false`
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the Ref
    */
@@ -196,14 +197,14 @@ trait GitData[F[_]] {
    * @param repo name of the repo
    * @param baseTree the SHA1 of the tree you want to update with new data.
    * @param treeDataList list (of path, mode, type, and sha/blob) specifying a tree structure:
-   *  - path: The file referenced in the tree
-   *  - mode: The file mode; one of 100644 for file (blob), 100755 for executable (blob),
-   *  040000 for subdirectory (tree), 160000 for submodule (commit),
-   *  or 120000 for a blob that specifies the path of a symlink
-   *  - type	string	Either blob, tree, or commit
-   *  - sha	string	The SHA1 checksum ID of the object in the tree
-   *  - content	string	The content you want this file to have.
-   *  GitHub will write this blob out and use that SHA for this entry. Use either this, or tree.sha.
+   *   - path: The file referenced in the tree
+   *   - mode: The file mode; one of 100644 for file (blob), 100755 for executable (blob),
+   *   040000 for subdirectory (tree), 160000 for submodule (commit),
+   *   or 120000 for a blob that specifies the path of a symlink
+   *   - type string Either blob, tree, or commit
+   *   - sha string The SHA1 checksum ID of the object in the tree
+   *   - content string The content you want this file to have.
+   *   GitHub will write this blob out and use that SHA for this entry. Use either this, or tree.sha.
    * @param headers optional user headers to include in the request
    * @return a GHResponse with TreeResult
    */

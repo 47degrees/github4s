@@ -27,8 +27,7 @@ trait Issues[F[_]] {
    * List issues for a repository
    *
    * Note: In the past, pull requests and issues were more closely aligned than they are now.
-   * As far as the API is concerned, every pull request is an issue, but not every issue is a
-   * pull request.
+   * As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.
    *
    * This endpoint may also return pull requests in the response. If an issue is a pull request,
    * the object will include a `pull_request` key.
@@ -50,8 +49,7 @@ trait Issues[F[_]] {
    * Get a single issue of a repository
    *
    * Note: In the past, pull requests and issues were more closely aligned than they are now.
-   * As far as the API is concerned, every pull request is an issue, but not every issue is a
-   * pull request.
+   * As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.
    *
    * This endpoint may also return pull requests in the response. If an issue is a pull request,
    * the object will include a `pull_request` key.
@@ -73,8 +71,7 @@ trait Issues[F[_]] {
    * Search for issues
    *
    * Note: In the past, pull requests and issues were more closely aligned than they are now.
-   * As far as the API is concerned, every pull request is an issue, but not every issue is a
-   * pull request.
+   * As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.
    *
    * This endpoint may also return pull requests in the response. If an issue is a pull request,
    * the object will include a `pull_request` key.
@@ -380,7 +377,7 @@ trait Issues[F[_]] {
    * @param title The title of the milestone.
    * @param state The state of the milestone. Either open or closed. Default: open
    * @param description A description of the milestone.
-   * @param due_on 	The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+   * @param due_on The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the created Milestone
    */
@@ -419,7 +416,7 @@ trait Issues[F[_]] {
    * @param title The title of the milestone.
    * @param state The state of the milestone. Either open or closed. Default: open
    * @param description A description of the milestone.
-   * @param due_on 	The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+   * @param due_on The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the updated Milestone
    */

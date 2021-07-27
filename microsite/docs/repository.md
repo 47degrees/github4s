@@ -38,20 +38,13 @@ with Github4s, you can interact with:
 The following examples assume the following code:
 
 ```scala mdoc:silent
-import java.util.concurrent._
 
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
 
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val accessToken = sys.env.get("GITHUB_TOKEN")
 val gh = Github[IO](httpClient, accessToken)
@@ -69,11 +62,10 @@ To get a repository:
 
 ```scala mdoc:compile-only
 val getRepo = gh.repos.get("47degrees", "github4s")
-val response = getRepo.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getRepo.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the get [Repository][repository-scala].
@@ -93,11 +85,10 @@ To search repositories on GitHub:
 
 ```scala mdoc:compile-only
 val searchRepos = gh.repos.searchRepos("github4s", Nil)
-val response = searchRepos.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+searchRepos.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 ### List organization repositories
@@ -114,11 +105,10 @@ To list the repositories for an organization:
 
 ```scala mdoc:compile-only
 val listOrgRepos = gh.repos.listOrgRepos("47deg")
-val response = listOrgRepos.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listOrgRepos.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Repository]][repository-scala].
@@ -139,11 +129,10 @@ To list the repositories for a user:
 
 ```scala mdoc:compile-only
 val listUserRepos = gh.repos.listUserRepos("rafaparadela")
-val response = listUserRepos.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listUserRepos.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Repository]][repository-scala].
@@ -166,11 +155,10 @@ To list contributors:
 
 ```scala mdoc:compile-only
 val listContributors = gh.repos.listContributors("47degrees", "github4s", Some("true"))
-val response = listContributors.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listContributors.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[User]][user-scala].
@@ -191,11 +179,10 @@ For more information take a look at [the API doc](https://developer.github.com/v
 
 ```scala mdoc:compile-only
 val listCollaborators = gh.repos.listCollaborators("47degrees", "github4s", Some("all"))
-val response = listCollaborators.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listCollaborators.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[User]][user-scala].
@@ -209,11 +196,10 @@ Returns whether a given user is a repository collaborator or not.
 
 ```scala mdoc:compile-only
 val userIsCollaborator = gh.repos.userIsCollaborator("47degrees", "github4s", "rafaparadela")
-val response = userIsCollaborator.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+userIsCollaborator.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is `Boolean`
@@ -229,11 +215,10 @@ The possible repository permissions are `admin`, `write`, `read`, and `none`.
 
 ```scala mdoc:compile-only
 val userRepoPermission = gh.repos.getRepoPermissionForUser("47degrees", "github4s", "rafaparadela")
-val response = userRepoPermission.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+userRepoPermission.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [UserRepoPermission][repository-scala].
@@ -267,11 +252,10 @@ val listCommits =
   Some("developer@47deg.com"),
   Some("2014-11-07T22:01:45Z"),
   Some("2014-11-07T22:01:45Z"))
-val response = listCommits.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listCommits.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Commit]][repository-scala].
@@ -296,11 +280,10 @@ val listBranches =
   gh.repos.listBranches(
   "47deg",
   "github4s")
-val response = listBranches.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listBranches.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Branch]][repository-scala].
@@ -324,11 +307,10 @@ To get contents:
 
 ```scala mdoc:compile-only
 val getContents = gh.repos.getContents("47degrees", "github4s", "README.md", Some("s/master"))
-val response = getContents.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getContents.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [NonEmptyList[Content]][repository-scala].
@@ -354,10 +336,10 @@ To create a file:
 ```scala mdoc:compile-only
 val getContents = gh.repos.createFile("47degrees", "github4s", "new-file.txt", "create a new file", "file contents".getBytes)
 
-getContents.unsafeRunSync().result match {
-  case Left(e) => println(s"We could not create your file because ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getContents.flatMap(_.result match {
+  case Left(e)  => IO.println(s"We could not create your file because ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 See [the API doc](https://developer.github.com/v3/repos/contents/#create-or-update-a-file) for full reference.
@@ -381,10 +363,10 @@ To update a file:
 ```scala mdoc:compile-only
 val getContents = gh.repos.updateFile("47degrees", "github4s", "README.md", "A terser README.", "You read me right.".getBytes,"a52d080d2cf85e08bfcb441b437d3982398e8f8f6a58388f55d6b6cf51cb5365")
 
-getContents.unsafeRunSync().result match {
-  case Left(e) => println(s"We could not update your file because ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getContents.flatMap(_.result match {
+  case Left(e)  => IO.println(s"We could not update your file because ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 See [the API doc](https://developer.github.com/v3/repos/contents/#create-or-update-a-file) for full reference.
@@ -407,10 +389,10 @@ To create a file:
 ```scala mdoc:compile-only
 val getContents = gh.repos.deleteFile("47degrees", "github4s", "README.md", "Actually, we don't need a README.", "a52d080d2cf85e08bfcb441b437d3982398e8f8f6a58388f55d6b6cf51cb5365")
 
-getContents.unsafeRunSync().result match {
-  case Left(e) => println(s"We could not delete this file because ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getContents.flatMap(_.result match {
+  case Left(e)  => IO.println(s"We could not delete this file because ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 See [the API doc](https://developer.github.com/v3/repos/contents/#delete-a-file) for full reference.
@@ -433,11 +415,10 @@ val listReleases =
   "github4s",
    None,
    Map.empty)
-val response = listReleases.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listReleases.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Release]][repository-scala].
@@ -457,11 +438,10 @@ val getRelease =
   123,
   "47deg",
   "github4s")
-val response = getRelease.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getRelease.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [Option[Release]][repository-scala].
@@ -480,11 +460,10 @@ val latestRelease =
   gh.repos.latestRelease(
   "47deg",
   "github4s")
-val response = latestRelease.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+latestRelease.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [Option[Release]][repository-scala].
@@ -507,11 +486,10 @@ To create a release:
 ```scala mdoc:compile-only
 val createRelease =
   gh.repos.createRelease("47degrees", "github4s", "v0.1.0", "v0.1.0", "New access token", Some("master"), Some(false), Some(false))
-val response = createRelease.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createRelease.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [Release][repository-scala].
@@ -534,11 +512,10 @@ To create a status:
 
 ```scala mdoc:compile-only
 val createStatus = gh.repos.createStatus("47degrees", "github4s", "aaaaaa", "pending", None, None, None)
-val response = createStatus.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+createStatus.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [Status][repository-scala].
@@ -558,11 +535,10 @@ To list the statuses for a specific ref:
 
 ```scala mdoc:compile-only
 val listStatuses = gh.repos.listStatuses("47degrees", "github4s", "heads/master")
-val response = listStatuses.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+listStatuses.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [List[Status]][repository-scala].
@@ -577,11 +553,10 @@ arguments as the operation listing statuses:
 
 ```scala mdoc:compile-only
 val combinedStatus = gh.repos.getCombinedStatus("47degrees", "github4s", "heads/master")
-val response = combinedStatus.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+combinedStatus.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [CombinedStatus][repository-scala].

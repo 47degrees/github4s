@@ -21,7 +21,7 @@ import java.net.URLEncoder.encode
 import cats.Functor
 import cats.data.NonEmptyList
 import cats.syntax.functor._
-import com.github.marklister.base64.Base64._
+import github4s.internal.Base64._
 import github4s.Decoders._
 import github4s.Encoders._
 import github4s.GHResponse

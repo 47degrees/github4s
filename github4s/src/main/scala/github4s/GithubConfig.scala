@@ -17,6 +17,7 @@
 package github4s
 
 import org.http4s.Header
+import org.typelevel.ci.CIString
 
 /**
  * Configuration for github4s
@@ -31,7 +32,9 @@ final case class GithubConfig(
     accessTokenUrl: String,
     headers: Map[String, String]
 ) {
-  def toHeaderList: List[Header] = headers.map { case (k, v) => Header(k, v) }.toList
+  def toHeaderList: List[Header.Raw] = headers.map { case (k, v) =>
+    Header.Raw(CIString(k), v)
+  }.toList
 }
 
 object GithubConfig {

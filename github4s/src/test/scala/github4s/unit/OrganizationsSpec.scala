@@ -17,9 +17,9 @@
 package github4s.unit
 
 import cats.effect.IO
-import cats.syntax.either._
-import github4s.GHResponse
+import github4s.Encoders._
 import github4s.domain._
+import github4s.http.HttpClient
 import github4s.interpreters.OrganizationsInterpreter
 import github4s.utils.BaseSpec
 
@@ -27,31 +27,28 @@ class OrganizationsSpec extends BaseSpec {
 
   "Organization.listMembers" should "call to httpClient.get with the right parameters" in {
 
-    val response: IO[GHResponse[List[User]]] =
-      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[User]](
       url = s"orgs/$validRepoOwner/members",
-      response = response
+      response = IO.pure(List(user))
     )
 
     val organizations = new OrganizationsInterpreter[IO]
 
-    organizations.listMembers(validRepoOwner, None, None, None, headerUserAgent)
+    organizations.listMembers(validRepoOwner, None, None, None, headerUserAgent).shouldNotFail
   }
 
   "Organization.listOutsideCollaborators" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[User]]] =
-      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[User]](
       url = s"orgs/$validOrganizationName/outside_collaborators",
-      response = response
+      response = IO.pure(List(user))
     )
 
     val organizations = new OrganizationsInterpreter[IO]
 
-    organizations.listOutsideCollaborators(validOrganizationName, None, None, headerUserAgent)
+    organizations
+      .listOutsideCollaborators(validOrganizationName, None, None, headerUserAgent)
+      .shouldNotFail
   }
 
 }

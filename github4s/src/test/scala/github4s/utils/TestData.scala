@@ -18,13 +18,13 @@ package github4s.utils
 
 import java.util.UUID
 
-import com.github.marklister.base64.Base64._
-import github4s.domain.{Stargazer, StarredRepository, Subscription, _}
+import github4s.internal.Base64._
+import github4s.domain._
 
 trait TestData {
 
-  val sampleToken: Option[String]          = Some("token")
-  val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
+  val sampleToken: Option[String] = Some("token")
+  val headerUserAgent             = Map("user-agent" -> "github4s")
   val headerAccept: Map[String, String] = Map(
     "Accept" -> "application/vnd.github.inertia-preview+json"
   )

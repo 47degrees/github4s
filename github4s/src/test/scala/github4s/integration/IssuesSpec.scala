@@ -66,6 +66,24 @@ trait IssuesSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe okStatusCode
   }
 
+  it should "not regress github #569" taggedAs Integration in {
+    clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues.searchIssues(
+          "",
+          List(
+            OwnerParamInRepository("47degrees/github4s"),
+            IssueTypePullRequest,
+            LabelParam("bug"),
+            IssueStateOpen
+          )
+        )
+      }
+      .map { response =>
+        response.statusCode shouldBe okStatusCode
+      }
+  }
+
   it should "return an empty result for a non existent query string" taggedAs Integration in {
     val response = clientResource
       .use { client =>

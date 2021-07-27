@@ -19,20 +19,11 @@ For more information, [see this documentation notice](https://docs.github.com/en
 The following examples assume the following code:
 
 ```scala mdoc:silent
-import java.util.concurrent._
-
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import github4s.Github
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
-
-val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-}
+val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
 val gh = Github[IO](httpClient, None)
 ```
@@ -51,15 +42,15 @@ You can authorize a url using `authorizeUrl`; it takes as arguments:
 - `scopes`: attached to the token, for more information see [the scopes doc](https://developer.github.com/v3/oauth/#scopes).
 
 ```scala mdoc:compile-only
+
 val authorizeUrl = gh.auth.authorizeUrl(
   "e8e39175648c9db8c280",
   "http://localhost:9000/_oauth-callback",
   List("public_repo"))
-val response = authorizeUrl.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+authorizeUrl.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the created [Authorize][auth-scala].
@@ -86,11 +77,10 @@ val getAccessToken = gh.auth.getAccessToken(
   "code",
   "http://localhost:9000/_oauth-callback",
   "status")
-val response = getAccessToken.unsafeRunSync()
-response.result match {
-  case Left(e) => println(s"Something went wrong: ${e.getMessage}")
-  case Right(r) => println(r)
-}
+getAccessToken.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
 ```
 
 The `result` on the right is the corresponding [OAuthToken][auth-scala].

@@ -17,9 +17,10 @@
 package github4s.unit
 
 import cats.effect.IO
-import cats.syntax.either._
-import github4s.GHResponse
+import github4s.Encoders._
+import github4s.Decoders._
 import github4s.domain._
+import github4s.http.HttpClient
 import github4s.interpreters.GistsInterpreter
 import github4s.utils.BaseSpec
 
@@ -27,73 +28,67 @@ class GistSpec extends BaseSpec {
 
   "Gist.newGist" should "call to httpClient.post with the right parameters" in {
 
-    val response: IO[GHResponse[Gist]] =
-      IO(GHResponse(gist.asRight, okStatusCode, Map.empty))
-
     val request = NewGistRequest(
       validGistDescription,
       validGistPublic,
       Map(validGistFilename -> GistFile(validGistFileContent))
     )
 
-    implicit val httpClientMock = httpClientMockPost[NewGistRequest, Gist](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPost[NewGistRequest, Gist](
       url = "gists",
       req = request,
-      response = response
+      response = IO.pure(gist)
     )
 
     val gists = new GistsInterpreter[IO]
 
-    gists.newGist(
-      validGistDescription,
-      validGistPublic,
-      Map(validGistFilename -> GistFile(validGistFileContent)),
-      headerUserAgent
-    )
+    gists
+      .newGist(
+        validGistDescription,
+        validGistPublic,
+        Map(validGistFilename -> GistFile(validGistFileContent)),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Gist.getGist" should "call to httpClient.get with the right parameters without sha" in {
 
-    val response: IO[GHResponse[Gist]] =
-      IO(GHResponse(gist.asRight, okStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockGet[Gist](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[Gist](
       url = s"gists/$validGistId",
-      response = response
+      response = IO.pure(gist)
     )
 
     val gists = new GistsInterpreter[IO]
 
-    gists.getGist(
-      validGistId,
-      sha = None,
-      headerUserAgent
-    )
+    gists
+      .getGist(
+        validGistId,
+        sha = None,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   it should "call to httpClient.get with the right parameters with sha" in {
 
-    val response: IO[GHResponse[Gist]] =
-      IO(GHResponse(gist.asRight, okStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockGet[Gist](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[Gist](
       url = s"gists/$validGistId/$validGistSha",
-      response = response
+      response = IO.pure(gist)
     )
 
     val gists = new GistsInterpreter[IO]
 
-    gists.getGist(
-      validGistId,
-      sha = Some(validGistSha),
-      headerUserAgent
-    )
+    gists
+      .getGist(
+        validGistId,
+        sha = Some(validGistSha),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Gist.editGist" should "call to httpClient.patch with the right parameters" in {
-
-    val response: IO[GHResponse[Gist]] =
-      IO(GHResponse(gist.asRight, okStatusCode, Map.empty))
 
     val request = EditGistRequest(
       validGistDescription,
@@ -106,26 +101,28 @@ class GistSpec extends BaseSpec {
       )
     )
 
-    implicit val httpClientMock = httpClientMockPatch[EditGistRequest, Gist](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPatch[EditGistRequest, Gist](
       url = s"gists/$validGistId",
       req = request,
-      response = response
+      response = IO.pure(gist)
     )
 
     val gists = new GistsInterpreter[IO]
 
-    gists.editGist(
-      validGistId,
-      validGistDescription,
-      Map(
-        validGistFilename -> Some(EditGistFile(validGistFileContent)),
-        validGistOldFilename -> Some(
-          EditGistFile(validGistFileContent, Some(validGistNewFilename))
+    gists
+      .editGist(
+        validGistId,
+        validGistDescription,
+        Map(
+          validGistFilename -> Some(EditGistFile(validGistFileContent)),
+          validGistOldFilename -> Some(
+            EditGistFile(validGistFileContent, Some(validGistNewFilename))
+          ),
+          validGistDeletedFilename -> None
         ),
-        validGistDeletedFilename -> None
-      ),
-      headerUserAgent
-    )
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
 }

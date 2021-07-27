@@ -24,9 +24,9 @@ trait Projects[F[_]] {
   /**
    * List the projects belonging to a specific organization
    *
-   * @param org        Organization for which we want to retrieve the projects
-   * @param state      Filter projects returned by their state. Can be either `open`, `closed`, `all`.
-   *                   Default: `open`
+   * @param org Organization for which we want to retrieve the projects
+   * @param state Filter projects returned by their state. Can be either `open`, `closed`, `all`.
+   *              Default: `open`
    * @param pagination Limit and Offset for pagination
    * @param headers Optional user headers to include in the request
    * @return GHResponse with the list of projects belonging to this organization
@@ -41,12 +41,12 @@ trait Projects[F[_]] {
   /**
    * List the projects belonging to a specific repository
    *
-   * @param owner      of the repo
-   * @param repo       name of the repo
-   * @param state      Filter projects returned by their state. Can be either `open`, `closed`, `all`.
-   *                   Default: `open`
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param state Filter projects returned by their state. Can be either `open`, `closed`, `all`.
+   *              Default: `open`
    * @param pagination Limit and Offset for pagination
-   * @param headers    Optional user headers to include in the request
+   * @param headers Optional user headers to include in the request
    * @return GHResponse with lists the projects in a repository.
    */
   def listProjectsRepository(

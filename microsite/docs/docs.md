@@ -38,18 +38,11 @@ of use in a REPL. However, for production use you should prefer `BlazeClientBuil
 detailed in [the documentation][http4s-client].
 
 ```scala mdoc:silent
-import java.util.concurrent.Executors
-
-import cats.effect.{Blocker, ContextShift, IO}
+import cats.effect.IO
 import org.http4s.client.{Client, JavaNetClientBuilder}
 
-import scala.concurrent.ExecutionContext.global
-
 val httpClient: Client[IO] = {
-  val blockingPool = Executors.newFixedThreadPool(5)
-  val blocker = Blocker.liftExecutorService(blockingPool)
-  implicit val cs: ContextShift[IO] = IO.contextShift(global)
-  JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
+  JavaNetClientBuilder[IO].create // You can use any http4s backend
 }
 ```
 
@@ -94,20 +87,19 @@ please create an issue at https://github.com/47degrees/github4s/issues.
 
 Github4s supports different effect types which we will go through next.
 
-### Using `F[_]: cats.effect.Sync`
+### Using `F[_]: cats.effect.Concurrent`
 
-Any type with a `cats.effect.Sync` instance can be used with this example, such as
-`monix.eval.Task`.
+Any type with a `cats.effect.Concurrent` instance can be used with this example
 
 ```scala mdoc:compile-only
 object ProgramF {
-  import cats.effect.Sync
+  import cats.effect.Concurrent
   import github4s.Github
   import github4s.GHResponse
   import github4s.domain.User
   import org.http4s.client.Client
 
-  def u1[F[_]: Sync](httpClient: Client[F]): F[GHResponse[User]] =
+  def u1[F[_]: Concurrent](httpClient: Client[F]): F[GHResponse[User]] =
     Github[F](httpClient, accessToken).users.get("juanpedromoreno")
 }
 ```
@@ -115,81 +107,40 @@ object ProgramF {
 ### Using `cats.effect.IO`
 
 ```scala mdoc:compile-only
+import cats.effect.IO
+import cats.effect.unsafe.implicits.global  
+import github4s.Github
+import org.http4s.client.{Client, JavaNetClientBuilder}
+
 object ProgramIO {
-  import java.util.concurrent.Executors
 
-  import cats.effect.{Blocker, ContextShift, IO}
-  import github4s.Github
-  import org.http4s.client.{Client, JavaNetClientBuilder}
-
-  import scala.concurrent.ExecutionContext.global
-
-  val httpClient: Client[IO] = {
-    val blockingPool = Executors.newFixedThreadPool(5)
-    val blocker = Blocker.liftExecutorService(blockingPool)
-    implicit val cs: ContextShift[IO] = IO.contextShift(global)
-    JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-  }
+  val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
   val u2 = Github[IO](httpClient, accessToken).users.get("juanpedromoreno")
   u2.unsafeRunSync()
 }
 ```
 
-### Using `cats.Id`
-
-Support for `cats.Id` is provided with `GithubIOSyntax` which contains syntax to lift from `IO`.
-
-```scala mdoc:compile-only
-object ProgramId {
-  import java.util.concurrent.Executors
-
-  import cats.effect.{Blocker, ContextShift, IO}
-  import github4s.Github
-  import github4s.GithubIOSyntax._
-  import org.http4s.client.{Client, JavaNetClientBuilder}
-
-  import scala.concurrent.ExecutionContext.global
-
-  val httpClient: Client[IO] = {
-    val blockingPool = Executors.newFixedThreadPool(5)
-    val blocker = Blocker.liftExecutorService(blockingPool)
-    implicit val cs: ContextShift[IO] = IO.contextShift(global)
-    JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-  }
-
-  val u4 = Github[IO](httpClient, accessToken).users.get("juanpedromoreno").toId
-}
-```
-
 ### Using `Future`
-
-Support for `Future` is provided with `GithubIOSyntax` which contains syntax to lift from `IO`.
 
 ```scala mdoc:compile-only
 object ProgramFuture {
-  import java.util.concurrent.Executors
-
-  import cats.effect.{Blocker, ContextShift, IO}
+  import cats.effect.IO
+  import cats.effect.unsafe.implicits.global
   import github4s.Github
-  import github4s.GithubIOSyntax._
   import org.http4s.client.{Client, JavaNetClientBuilder}
 
   import scala.concurrent.Await
-  import scala.concurrent.ExecutionContext.Implicits.global
   import scala.concurrent.duration._
 
-  val httpClient: Client[IO] = {
-    val blockingPool = Executors.newFixedThreadPool(5)
-    val blocker = Blocker.liftExecutorService(blockingPool)
-    implicit val cs: ContextShift[IO] = IO.contextShift(global)
-    JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-  }
+  val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
-  val u5 = Github[IO](httpClient, accessToken).users.get("juanpedromoreno").toFuture
+  val u5 = Github[IO](httpClient, accessToken).users.get("juanpedromoreno").unsafeToFuture()
   Await.result(u5, 2.seconds)
 }
 ```
+
+When using capability traits (aka "tagless final") style, you can convert any `Async[F]` to a Future using [`Dispatcher`][dispatcher]
 
 ## Using github4s with GitHub Enterprise
 
@@ -200,14 +151,14 @@ It is also possible to pass a custom GitHub configuration (e.g. for a particular
 server). To override the default configuration values declare a custom `GithubConfig` instance in an appropriate
 scope:
 
-```scala mdoc:silent
+```scala mdoc:nest:silent
 import github4s.{Github, GithubConfig}
 
-implicit val config = GithubConfig(
-  baseUrl = "",       // default: "https://api.github.com/"
-  authorizeUrl = "",  // default: "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s"
+implicit val config: GithubConfig = GithubConfig(
+  baseUrl = "",        // default: "https://api.github.com/"
+  authorizeUrl = "",   // default: "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s"
   accessTokenUrl = "", // default: "https://github.com/login/oauth/access_token"
-  headers = Map.empty // default: Map("User-Agent" -> "github4s")
+  headers = Map.empty  // default: Map("User-Agent" -> "github4s")
 )
 
 val github = Github[IO](httpClient, None)
@@ -220,22 +171,15 @@ Headers are an optional field for any Github API request:
 
 ```scala mdoc:silent:fail
 object ProgramEvalWithHeaders {
-  import java.util.concurrent.Executors
 
-  import cats.effect.Blocker
+  import cats.effect.IO
   import github4s.Github
-  import monix.execution.Scheduler.Implicits.global
-  import monix.eval.Task
   import org.http4s.client.{Client, JavaNetClientBuilder}
 
-  val httpClient: Client[Task] = {
-    val blockingPool = Executors.newFixedThreadPool(5)
-    val blocker = Blocker.liftExecutorService(blockingPool)
-    JavaNetClientBuilder[IO](blocker).create // use BlazeClientBuilder for production use
-  }
+  val httpClient: Client[IO] = JavaNetClientBuilder[IO].create // You can use any http4s backend
 
   val userHeaders = Map("user-agent" -> "github4s")
-  val u6 = Github[Task](accessToken).users.get("rafaparadela", userHeaders)
+  val u6 = Github[IO](accessToken).users.get("rafaparadela", userHeaders)
 }
 ```
 
@@ -248,7 +192,7 @@ added by default.
 [access-token-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/algebras/AccessToken.scala
 [access-token-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/interpreters/StaticAccessToken.scala
 [cats-sync]: https://typelevel.org/cats-effect/typeclasses/sync.html
-[monix-task]: https://monix.io/docs/3x/eval/task.html
-[http4s-client]: https://http4s.org/v0.21/client/
+[dispatcher]: https://typelevel.org/cats-effect/docs/std/dispatcher
+[http4s-client]: https://http4s.org/v0.23/client/
 [public-github]: https://github.com
 [github-enterprise]: https://github.com/enterprise
