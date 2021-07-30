@@ -16,8 +16,6 @@
 
 package github4s.interpreters
 
-import java.net.URLEncoder.encode
-
 import cats.Functor
 import cats.data.NonEmptyList
 import cats.syntax.functor._
@@ -74,7 +72,7 @@ class RepositoriesInterpreter[F[_]: Functor](implicit
     client.get[SearchReposResult](
       "search/repositories",
       headers,
-      params = Map("q" -> s"${encode(query, "utf-8")}+${searchParams.map(_.value).mkString("+")}"),
+      params = Map("q" -> s"${query}+${searchParams.map(_.value).mkString("+")}"),
       pagination
     )
 

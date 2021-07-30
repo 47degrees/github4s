@@ -16,7 +16,6 @@
 
 package github4s.interpreters
 
-import java.net.URLEncoder.encode
 import java.time.ZonedDateTime
 
 import cats.syntax.all._
@@ -55,7 +54,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F]) extends Issues[F] 
     client.get[SearchIssuesResult](
       method = "search/issues",
       headers = headers,
-      params = Map("q" -> s"${encode(query, "utf-8")}+${searchParams.map(_.value).mkString("+")}"),
+      params = Map("q" -> s"${query}+${searchParams.map(_.value).mkString("+")}"),
       pagination
     )
 
