@@ -33,7 +33,7 @@ trait TestData {
   val invalidUsername = "GHInvalidUserName"
   val invalidPassword = "invalidPassword"
 
-  val githubApiUrl                           = "http://api.github.com"
+  val githubApiUrl                           = "https://api.github.com"
   val user                                   = User(1, validUsername, githubApiUrl, githubApiUrl)
   val userRepoPermission: UserRepoPermission = UserRepoPermission("admin", user)
 
