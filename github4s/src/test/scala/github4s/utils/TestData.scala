@@ -89,7 +89,7 @@ trait TestData {
 
   val validFileContent = "def hack(target: String): Option[Int] = None"
 
-  val validSearchQuery       = "Scala 2.12"
+  val validSearchQuery       = "\"/\" not accepted in SearchRepos"
   val nonExistentSearchQuery = "nonExistentSearchQueryString"
   val validSearchParams = List(
     OwnerParamInRepository(s"$validRepoOwner/$validRepoName")
