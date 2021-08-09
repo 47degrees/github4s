@@ -23,6 +23,7 @@ import github4s.GHError.{NotFoundError, UnauthorizedError}
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 import github4s.{GHResponse, Github}
+import scala.collection.immutable.Seq
 
 trait ReposSpec extends BaseIntegrationSpec {
 
@@ -469,6 +470,22 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
     )
     response.statusCode shouldBe okStatusCode
+  }
+
+  it should "successfully return results when a valid repo is provided using <owner>/<name> syntax" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).repos
+          .searchRepos(Seq(validRepoOwner, validRepoName).mkString("/"), Nil)
+      }.unsafeRunSync()
+
+    testIsRight[SearchReposResult](
+      response,
+      { r =>
+        r.total_count > 0 shouldBe true
+        r.items.nonEmpty shouldBe true
+      }
+    )
   }
 
   it should "return an empty result for a non existent query string" taggedAs Integration in {
