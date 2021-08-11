@@ -425,7 +425,7 @@ class ReposSpec extends BaseSpec {
   "Repos.searchRepos" should "call httpClient.get with the right parameters" in {
 
     implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[SearchReposResult](
-      url = "search/repositories",
+      url = githubApiUrl,
       params = Map("q" -> s"+${validSearchParams.map(_.value).mkString("+")}"),
       response = IO.pure(searchReposResult)
     )
