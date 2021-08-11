@@ -72,7 +72,7 @@ class RepositoriesInterpreter[F[_]: Functor](implicit
     client.get[SearchReposResult](
       "search/repositories",
       headers,
-      params = Map("q" -> s"${query}+${searchParams.map(_.value).mkString("+")}"),
+      params = Map("q" -> s"$query+${searchParams.map(_.value).mkString("+")}"),
       pagination
     )
 
