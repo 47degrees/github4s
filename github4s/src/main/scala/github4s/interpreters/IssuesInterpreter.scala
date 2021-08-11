@@ -54,7 +54,7 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F]) extends Issues[F] 
     client.get[SearchIssuesResult](
       method = "search/issues",
       headers = headers,
-      params = Map("q" -> s"${query}+${searchParams.map(_.value).mkString("+")}"),
+      params = Map("q" -> s"$query+${searchParams.map(_.value).mkString("+")}"),
       pagination
     )
 
