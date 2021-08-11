@@ -477,7 +477,8 @@ trait ReposSpec extends BaseIntegrationSpec {
       .use { client =>
         Github[IO](client, accessToken).repos
           .searchRepos(Seq(validRepoOwner, validRepoName).mkString("/"), Nil)
-      }.unsafeRunSync()
+      }
+      .unsafeRunSync()
 
     testIsRight[SearchReposResult](
       response,
