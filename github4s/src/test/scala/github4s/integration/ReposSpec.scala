@@ -23,7 +23,6 @@ import github4s.GHError.{NotFoundError, UnauthorizedError}
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 import github4s.{GHResponse, Github}
-import scala.collection.immutable.Seq
 
 trait ReposSpec extends BaseIntegrationSpec {
 
@@ -476,7 +475,7 @@ trait ReposSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).repos
-          .searchRepos(Seq(validRepoOwner, validRepoName).mkString("/"), Nil)
+          .searchRepos(s"$validRepoOwner/$validRepoName", Nil)
       }
       .unsafeRunSync()
 
