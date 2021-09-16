@@ -225,7 +225,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
           .getReview(
             validRepoOwner,
             validRepoName,
-            validPullRequestNumber,
+            validPullRequestReview,
             validPullRequestReviewNumber,
             headers = headerUserAgent
           )
@@ -261,7 +261,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
           .createReview(
             validRepoOwner,
             validRepoName,
-            validPullRequestNumber,
+            validPullRequestReview,
             validCreatePRReviewRequest,
             headers = headerUserAgent
           )
@@ -285,7 +285,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
           .createReview(
             validRepoOwner,
             validRepoName,
-            validPullRequestNumber,
+            validPullRequestReview,
             invalidCreatePRReviewRequest,
             headers = headerUserAgent
           )
