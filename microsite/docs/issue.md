@@ -159,7 +159,7 @@ Lastly, you can also search issues all across Github thanks to `searchIssues`; i
 arguments:
 
 - a `query` string (the URL encoding is taken care of by Github4s).
-- a list of [SearchParam](https://github.com/47degrees/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/SearchParam.scala).
+- a list of [SearchParam](https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/free/domain/SearchParam.scala).
 
 Let's say we want to search for the Scala bugs (<https://github.com/scala/bug>) which contain
 the "existential" keyword in their title:
@@ -468,8 +468,8 @@ As you can see, a few features of the issue endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[issue-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Issue.scala
-[user-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/User.scala
+[issue-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/Issue.scala
+[user-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/User.scala
 
 ## Milestones
 
@@ -499,7 +499,7 @@ The `result` on the right is the corresponding [List[Milestone]][milestone-scala
 
 See [the API doc](https://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository) for full reference.
 
-[milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
+[milestone-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/Milestone.scala
 
 ### Create milestone
 
@@ -527,7 +527,7 @@ The `result` on the right is the corresponding [Milestone][milestone-scala]
 
 See [the API doc](https://developer.github.com/v3/issues/milestones/#create-a-milestone) for full reference.
 
-[milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
+[milestone-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/Milestone.scala
 
 ### Get a single milestone
 
@@ -552,7 +552,7 @@ The `result` on the right is the corresponding [Milestone][milestone-scala]
 
 See [the API doc](https://developer.github.com/v3/issues/milestones/#get-a-single-milestone) for full reference.
 
-[milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
+[milestone-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/Milestone.scala
 
 ### Update a milestone
 
@@ -581,7 +581,7 @@ The `result` on the right is the corresponding [Milestone][milestone-scala]
 
 See [the API doc](https://developer.github.com/v3/issues/milestones/#update-a-milestone) for full reference.
 
-[milestone-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Milestone.scala
+[milestone-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/Milestone.scala
 
 ### Delete a milestone
 

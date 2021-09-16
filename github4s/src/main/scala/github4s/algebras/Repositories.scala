@@ -109,7 +109,7 @@ trait Repositories[F[_]] {
    * @param owner of the repo
    * @param repo name of the repo
    * @param path the content path
-   * @param ref the name of the commit/branch/tag. Default: the repository’s default branch (usually `master` or `main`)
+   * @param ref the name of the commit/branch/tag. Default: the repository’s default branch (usually `main` or `main`)
    * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return GHResponse with the content details
@@ -398,7 +398,7 @@ trait Repositories[F[_]] {
    * @param body text describing the contents of the tag.
    * @param targetCommitish specifies the commitish value that determines where the Git tag is created from.
    * Can be any branch or commit SHA. Unused if the Git tag already exists.
-   * Default: the repository's default branch (usually `master`).
+   * Default: the repository's default branch (usually `main`).
    * @param draft `true` to create a draft (unpublished) release, `false` to createStatus a published one.
    * Default: `false`
    * @param prerelease `true` to identify the release as a prerelease.

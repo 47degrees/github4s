@@ -72,6 +72,7 @@ trait TestData {
 
   val okStatusCode                  = 200
   val createdStatusCode             = 201
+  val acceptedStatusCode            = 202
   val noContentStatusCode           = 204
   val unauthorizedStatusCode        = 401
   val notFoundStatusCode            = 404
@@ -132,14 +133,15 @@ trait TestData {
   val validTagSha   = "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c"
 
   val validPullRequestFileSha      = "f80f79cafbe3f2ba71311b82e1171e73bd37a470"
-  val validPullRequestNumber       = 1
+  val validPullRequestReview       = 1
+  val validPullRequestNumber       = 637
   val validPullRequestReviewNumber = 39318789L
   val validMergeCommitSha          = "e5bd3914e2e596debea16f433f57875b5b90bcd6"
 
   val validHead   = "test-pr-issue"
   val invalidHead = ""
 
-  val validBase   = "master"
+  val validBase   = "main"
   val invalidBase = ""
 
   val draft = false
@@ -283,7 +285,7 @@ trait TestData {
   val release = Release(
     id = 1,
     tag_name = validTagTitle,
-    target_commitish = "master",
+    target_commitish = "main",
     name = validTagTitle,
     body = validNote,
     draft = false,
@@ -409,7 +411,7 @@ trait TestData {
     "2011-01-26T19:01:12Z",
     s"https://github.com/$validRepoOwner/$validRepoName/commit/$validCommitSha"
   )
-  val validBranchName = "master"
+  val validBranchName = "main"
   val protectedBranch = Branch(
     name = validBranchName,
     commit = BranchCommit(

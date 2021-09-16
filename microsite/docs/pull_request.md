@@ -67,7 +67,7 @@ See [the API doc](https://developer.github.com/v3/pulls/#get-a-single-pull-reque
 You can list the pull requests for a repository using `list`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
-- a list of [PRFilter](https://github.com/47degrees/github4s/blob/master/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala).
+- a list of [PRFilter](https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/free/domain/PullRequest.scala).
 
 As an example, let's say we want the open pull requests in <https://github.com/scala/scala> sorted
 by popularity:
@@ -355,4 +355,4 @@ See [the API doc](https://docs.github.com/en/free-pro-team@latest/rest/reference
 As you can see, a few features of the pull request endpoint are missing. As a result, if you'd like
 to see a feature supported, feel free to create an issue and/or a pull request!
 
-[pr-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/PullRequest.scala
+[pr-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/PullRequest.scala

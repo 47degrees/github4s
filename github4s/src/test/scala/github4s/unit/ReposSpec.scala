@@ -108,7 +108,7 @@ class ReposSpec extends BaseSpec {
 
     implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[NonEmptyList[Content]](
       url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
-      params = Map("ref" -> "master"),
+      params = Map("ref" -> "main"),
       response = IO.pure(NonEmptyList.one(content))
     )
 
@@ -119,7 +119,7 @@ class ReposSpec extends BaseSpec {
         validRepoOwner,
         validRepoName,
         validFilePath,
-        Some("master"),
+        Some("main"),
         None,
         headerUserAgent
       )
@@ -237,7 +237,7 @@ class ReposSpec extends BaseSpec {
       validTagTitle,
       validTagTitle,
       validNote,
-      Some("master"),
+      Some("main"),
       Some(false),
       Some(true)
     )
@@ -257,7 +257,7 @@ class ReposSpec extends BaseSpec {
         validTagTitle,
         validTagTitle,
         validNote,
-        Some("master"),
+        Some("main"),
         Some(false),
         Some(true),
         headerUserAgent

@@ -211,7 +211,7 @@ You can also list statuses through `listStatuses`; it take as arguments:
 To list the statuses for a specific ref:
 
 {triple backtick}scala mdoc:silent
-val listStatuses = gh.repos.listStatuses("47degrees", "github4s", "heads/master")
+val listStatuses = gh.repos.listStatuses("47degrees", "github4s", "heads/main")
 listStatuses.flatMap(_.result match {
   case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => IO.println(r)
@@ -232,14 +232,14 @@ cd docs/target/site/ && jekyll serve
 ```
 
 [api-doc]: https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref
-[repos-domain]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/Repository.scala
-[domain-pkg]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/
-[repos-algebra]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/algebras/Repositories.scala
-[algebra-pkg]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/algebras/
-[repos-interpreter]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/interpreters/RepositoriesInterpreter.scala
-[httpclient]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/http/HttpClient.scala
-[integ-pkg]: https://github.com/47degrees/github4s/blob/master/github4s/src/test/scala/github4s/integration/
-[repos-integ-spec]: https://github.com/47degrees/github4s/blob/master/github4s/src/test/scala/github4s/integration/GHReposSpec.scala
-[unit-pkg]: https://github.com/47degrees/github4s/tree/master/github4s/src/test/scala/github4s/unit
-[repos-interpreter-spec]: https://github.com/47degrees/github4s/blob/master/github4s/src/test/scala/github4s/unit/ReposSpec.scala
-[repos-md]: https://github.com/47degrees/github4s/blob/master/docs/docs/repository.md
+[repos-domain]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/Repository.scala
+[domain-pkg]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/
+[repos-algebra]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/algebras/Repositories.scala
+[algebra-pkg]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/algebras/
+[repos-interpreter]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/interpreters/RepositoriesInterpreter.scala
+[httpclient]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/http/HttpClient.scala
+[integ-pkg]: https://github.com/47degrees/github4s/blob/main/github4s/src/test/scala/github4s/integration/
+[repos-integ-spec]: https://github.com/47degrees/github4s/blob/main/github4s/src/test/scala/github4s/integration/GHReposSpec.scala
+[unit-pkg]: https://github.com/47degrees/github4s/tree/main/github4s/src/test/scala/github4s/unit
+[repos-interpreter-spec]: https://github.com/47degrees/github4s/blob/main/github4s/src/test/scala/github4s/unit/ReposSpec.scala
+[repos-md]: https://github.com/47degrees/github4s/blob/main/docs/docs/repository.md
