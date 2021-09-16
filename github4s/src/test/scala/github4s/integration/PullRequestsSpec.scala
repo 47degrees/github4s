@@ -364,13 +364,13 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
           .updateBranch(
             validRepoOwner,
             validRepoName,
-            validPullRequestNumber,
+            692,
             headers = headerUserAgent
           )
       }
       .unsafeRunSync()
 
     testIsRight[BranchUpdateResponse](response)
-    response.statusCode shouldBe okStatusCode
+    response.statusCode shouldBe acceptedStatusCode
   }
 }

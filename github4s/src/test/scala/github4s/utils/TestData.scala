@@ -72,6 +72,7 @@ trait TestData {
 
   val okStatusCode                  = 200
   val createdStatusCode             = 201
+  val acceptedStatusCode            = 202
   val noContentStatusCode           = 204
   val unauthorizedStatusCode        = 401
   val notFoundStatusCode            = 404
