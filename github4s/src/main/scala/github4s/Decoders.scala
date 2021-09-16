@@ -146,7 +146,7 @@ object Decoders {
         svn_url           <- c.downField("svn_url").as[String]
         permissions       <- c.downField("permissions").as[Option[RepoPermissions]]
         default_branch    <- c.downField("default_branch").as[String]
-        topics            <- c.downField("topics").as[Option[List[String]]].map(_.getOrElse(List.empty))
+        topics   <- c.downField("topics").as[Option[List[String]]].map(_.getOrElse(List.empty))
         repoUrls <- readRepoUrls(c)
       } yield RepositoryBase(
         id = id,
