@@ -43,7 +43,7 @@ val gh = Github[IO](httpClient, accessToken)
 ### Get a Reference
 
 The ref must be formatted as `heads/branch`, not just `branch`.
-For example, the call to get the data, the `master` branch will be `heads/master`.
+For example, the call to get the data, the `main` branch will be `heads/main`.
 
 If the `ref` doesn't exist in the repository, but existing `refs` start with `ref` they will be
 returned as an array. For example, a call to get the data for a branch named `feature`,
@@ -56,7 +56,7 @@ You can get a reference using `getReference`, it takes as arguments:
 - `pagination`: Limit and Offset for pagination, optional.
 
 ```scala mdoc:compile-only
-val getReference = gh.gitData.getReference("47degrees", "github4s", "heads/master")
+val getReference = gh.gitData.getReference("47degrees", "github4s", "heads/main")
 getReference.flatMap(_.result match {
   case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => IO.println(r)
@@ -71,12 +71,12 @@ See [the API doc](https://developer.github.com/v3/git/refs/#get-a-reference) for
 ### Create a Reference
 
 The ref must be formatted as `heads/branch`, not just `branch`.
-For example, the call to get the data, the `master` branch will be `heads/master`.
+For example, the call to get the data, the `main` branch will be `heads/main`.
 
 You can create a reference using `createReference`; it takes as arguments:
 
 - the repository coordinates (`owner` and `name` of the repository).
-- `ref`: The name of the fully qualified reference (e.g.: `refs/heads/master`).
+- `ref`: The name of the fully qualified reference (e.g.: `refs/heads/main`).
 If it doesn't start with 'refs' and has at least two slashes, it will be rejected.
 - `sha`: the SHA1 value to set this reference.
 
@@ -84,7 +84,7 @@ If it doesn't start with 'refs' and has at least two slashes, it will be rejecte
 val createReference = gh.gitData.createReference(
   "47deg",
   "github4s",
-  "refs/heads/master",
+  "refs/heads/main",
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891")
 createReference.flatMap(_.result match {
   case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
@@ -111,7 +111,7 @@ Setting it to `false` will make sure you're not overwriting work. Default: `fals
 val updateReference = gh.gitData.updateReference(
   "47deg",
   "github4s",
-  "heads/master",
+  "heads/main",
   "d3b048c1f500ee5450e5d7b3d1921ed3e7645891",
   false)
 updateReference.flatMap(_.result match {
@@ -329,4 +329,4 @@ As you can see, a few features of the git data endpoint are missing.
 
 As a result, if you'd like to see a feature supported, feel free to create an issue and/or a pull request!
 
-[gitdata-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/domain/GitData.scala
+[gitdata-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/GitData.scala

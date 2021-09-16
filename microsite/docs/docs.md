@@ -189,8 +189,8 @@ added by default.
 
 [access-token]: https://github.com/settings/tokens
 [github-app]: https://github.com/settings/apps
-[access-token-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/algebras/AccessToken.scala
-[access-token-scala]: https://github.com/47degrees/github4s/blob/master/github4s/src/main/scala/github4s/interpreters/StaticAccessToken.scala
+[access-token-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/algebras/AccessToken.scala
+[access-token-scala]: https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/interpreters/StaticAccessToken.scala
 [cats-sync]: https://typelevel.org/cats-effect/typeclasses/sync.html
 [dispatcher]: https://typelevel.org/cats-effect/docs/std/dispatcher
 [http4s-client]: https://http4s.org/v0.23/client/

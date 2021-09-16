@@ -139,7 +139,7 @@ trait TestData {
   val validHead   = "test-pr-issue"
   val invalidHead = ""
 
-  val validBase   = "master"
+  val validBase   = "main"
   val invalidBase = ""
 
   val draft = false
@@ -283,7 +283,7 @@ trait TestData {
   val release = Release(
     id = 1,
     tag_name = validTagTitle,
-    target_commitish = "master",
+    target_commitish = "main",
     name = validTagTitle,
     body = validNote,
     draft = false,
@@ -409,7 +409,7 @@ trait TestData {
     "2011-01-26T19:01:12Z",
     s"https://github.com/$validRepoOwner/$validRepoName/commit/$validCommitSha"
   )
-  val validBranchName = "master"
+  val validBranchName = "main"
   val protectedBranch = Branch(
     name = validBranchName,
     commit = BranchCommit(

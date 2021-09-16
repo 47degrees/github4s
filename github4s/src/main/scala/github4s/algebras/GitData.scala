@@ -26,7 +26,7 @@ trait GitData[F[_]] {
    * Get a Reference by name
    *
    * The ref in the URL must be formatted as `heads/branch`, not just branch.
-   * For example, the call to get the data for `master` branch will be `heads/master`.
+   * For example, the call to get the data for `main` branch will be `heads/main`.
    *
    * If the `ref` doesn't exist in the repository, but existing `refs` start with `ref` they will be
    * returned as an array. For example, a call to get the data for a branch named `feature`,
@@ -51,11 +51,11 @@ trait GitData[F[_]] {
    * Create a Reference
    *
    * The ref in the URL must be formatted as `heads/branch`, not just branch.
-   * For example, the call to get the data for `master` branch will be `heads/master`.
+   * For example, the call to get the data for `main` branch will be `heads/main`.
    *
    * @param owner of the repo
    * @param repo name of the repo
-   * @param ref The name of the fully qualified reference (ie: refs/heads/master).
+   * @param ref The name of the fully qualified reference (ie: refs/heads/main).
    * If it doesn't start with 'refs' and have at least two slashes, it will be rejected.
    * @param sha the SHA1 value to set this reference to
    * @param headers optional user headers to include in the request
