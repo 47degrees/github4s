@@ -357,7 +357,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
     removeReviewersResponse.statusCode shouldBe okStatusCode
   }
 
-  "PullRequests >> Update Branch" should "merge target branch's head into selected" taggedAs Integration in {
+  "PullRequests >> Update Branch" should "merge target branch's head into selected" taggedAs Integration ignore {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).pullRequests
