@@ -10,7 +10,7 @@ val allScalaVersions = scala2Versions :+ scala3Version
 ThisBuild / scalaVersion       := scala213
 ThisBuild / crossScalaVersions := allScalaVersions
 
-addCommandAlias("ci-test", "scalafmtCheckAll; scalafmtSbtCheck; documentation/mdoc; ++test")
+addCommandAlias("ci-test", "scalafmtCheckAll; scalafmtSbtCheck; mdoc; ++test")
 addCommandAlias("ci-docs", "github; mdoc; headerCreateAll; publishMicrosite")
 addCommandAlias("ci-publish", "github; ci-release")
 
