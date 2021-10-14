@@ -203,10 +203,10 @@ object HttpClient {
       response: Response[F]
   ): F[Either[GHError, A]] =
     (response.status.code match {
-      case i if Status(i).isSuccess => response.attemptAs[A].map(_.asRight)
-      case 400                      => response.attemptAs[BadRequestError].map(_.asLeft)
-      case 401                      => response.attemptAs[UnauthorizedError].map(_.asLeft)
-      case 403                      => response.attemptAs[ForbiddenError].map(_.asLeft)
+      case i if Status.fromInt(i).exists(_.isSuccess) => response.attemptAs[A].map(_.asRight)
+      case 400 => response.attemptAs[BadRequestError].map(_.asLeft)
+      case 401 => response.attemptAs[UnauthorizedError].map(_.asLeft)
+      case 403 => response.attemptAs[ForbiddenError].map(_.asLeft)
       case 404 => response.attemptAs[GHError](notFoundEntityDecoder).map(_.asLeft)
       case 422 => response.attemptAs[UnprocessableEntityError].map(_.asLeft)
       case 423 => response.attemptAs[RateLimitExceededError].map(_.asLeft)
@@ -224,10 +224,10 @@ object HttpClient {
   private[github4s] def buildResponseFromEmpty[F[_]: Concurrent](
       response: Response[F]
   ): F[Either[GHError, Unit]] =
-    response.status.code match {
-      case i if Status(i).isSuccess => ().asRight[GHError].pure[F]
-      case _                        => buildResponse[F, Unit](response)
-    }
+    if (response.status.isSuccess)
+      Either.unit[GHError].pure[F]
+    else
+      buildResponse[F, Unit](response)
 
   private def responseBody[F[_]: Concurrent](response: Response[F]): F[String] =
     response.bodyText.compile.foldMonoid
