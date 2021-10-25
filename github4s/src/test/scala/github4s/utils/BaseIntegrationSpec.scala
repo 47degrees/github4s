@@ -59,7 +59,7 @@ abstract class BaseIntegrationSpec
 
   protected implicit val ioRuntime: unsafe.IORuntime = unsafe.IORuntime.global
 
-  val clientResource: Resource[IO, Client[IO]] = BlazeClientBuilder[IO](executionContext).resource
+  val clientResource: Resource[IO, Client[IO]] = BlazeClientBuilder[IO].resource
 
   def accessToken: Option[String] = sys.env.get("GITHUB_TOKEN")
 
