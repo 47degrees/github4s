@@ -49,11 +49,11 @@ class Base64Spec extends AnyFunSpec {
       )
 
       for (t <- testVectors)
-        //test encoding
+        // test encoding
         assert(t._1.getBytes.toBase64 == t._2)
 
       for (t <- testVectors)
-        //test decoding
+        // test decoding
         assert(t._2.toByteArray sameElements t._1.getBytes)
     }
 
@@ -69,7 +69,7 @@ class Base64Spec extends AnyFunSpec {
       )
 
       for (t <- testVectors)
-        //test decoding
+        // test decoding
         assert(
           t._2.reverse.dropWhile(_ == '=').reverse.toByteArray(base64Url) sameElements t._1.getBytes
         )
@@ -87,7 +87,7 @@ class Base64Spec extends AnyFunSpec {
       )
 
       for (t <- testVectors)
-        //test encoding
+        // test encoding
         assert(t._1.getBytes.toBase64(base64Url) == t._2)
     }
 
@@ -103,7 +103,7 @@ class Base64Spec extends AnyFunSpec {
       )
 
       for (t <- testVectors)
-        //test encoding
+        // test encoding
         assert(t._2.toByteArray(base64Url) sameElements t._1.getBytes)
     }
   }

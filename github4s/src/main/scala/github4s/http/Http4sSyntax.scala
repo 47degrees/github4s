@@ -56,9 +56,9 @@ object Http4sSyntax {
         }
         .mkString("&")
 
-      //Adding query parameters normally has different encoding than normal Uris.
-      //To work around this, we create one verbatim from a manually encoded String.
-      //See: https://github.com/http4s/http4s/issues/4203
+      // Adding query parameters normally has different encoding than normal Uris.
+      // To work around this, we create one verbatim from a manually encoded String.
+      // See: https://github.com/http4s/http4s/issues/4203
       val verbatimQuery = Query.unsafeFromString(Uri.encode(queryString))
 
       Uri
