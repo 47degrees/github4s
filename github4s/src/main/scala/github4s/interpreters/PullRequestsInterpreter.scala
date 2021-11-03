@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,14 @@
 
 package github4s.interpreters
 
-import github4s.http.HttpClient
-import github4s.algebras.PullRequests
-import github4s.GHResponse
-import github4s.domain._
 import github4s.Decoders._
 import github4s.Encoders._
+import github4s.GHResponse
+import github4s.algebras.PullRequests
+import github4s.domain._
+import github4s.http.HttpClient
 
-class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
-    extends PullRequests[F] {
+class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F]) extends PullRequests[F] {
 
   override def getPullRequest(
       owner: String,
@@ -32,7 +31,7 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       number: Int,
       headers: Map[String, String]
   ): F[GHResponse[PullRequest]] =
-    client.get[PullRequest](accessToken, s"repos/$owner/$repo/pulls/$number", headers)
+    client.get[PullRequest](s"repos/$owner/$repo/pulls/$number", headers)
 
   override def listPullRequests(
       owner: String,
@@ -42,7 +41,6 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       headers: Map[String, String]
   ): F[GHResponse[List[PullRequest]]] =
     client.get[List[PullRequest]](
-      accessToken,
       s"repos/$owner/$repo/pulls",
       headers,
       filters.map(_.tupled).toMap,
@@ -58,7 +56,6 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
   ): F[GHResponse[List[PullRequestFile]]] =
     client
       .get[List[PullRequestFile]](
-        accessToken,
         s"repos/$owner/$repo/pulls/$number/files",
         headers,
         Map.empty,
@@ -75,13 +72,13 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       headers: Map[String, String]
   ): F[GHResponse[PullRequest]] = {
     val data: CreatePullRequest = newPullRequest match {
-      case NewPullRequestData(title, body) =>
-        CreatePullRequestData(title, head, base, body, maintainerCanModify)
+      case NewPullRequestData(title, body, draft) =>
+        CreatePullRequestData(title, head, base, body, maintainerCanModify, draft)
       case NewPullRequestIssue(issue) =>
         CreatePullRequestIssue(issue, head, base, maintainerCanModify)
     }
     client
-      .post[CreatePullRequest, PullRequest](accessToken, s"repos/$owner/$repo/pulls", headers, data)
+      .post[CreatePullRequest, PullRequest](s"repos/$owner/$repo/pulls", headers, data)
   }
 
   override def listReviews(
@@ -92,7 +89,6 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       headers: Map[String, String]
   ): F[GHResponse[List[PullRequestReview]]] =
     client.get[List[PullRequestReview]](
-      accessToken,
       s"repos/$owner/$repo/pulls/$pullRequest/reviews",
       headers,
       Map.empty,
@@ -103,12 +99,78 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       owner: String,
       repo: String,
       pullRequest: Int,
-      review: Int,
+      review: Long,
       headers: Map[String, String]
   ): F[GHResponse[PullRequestReview]] =
     client.get[PullRequestReview](
-      accessToken,
       s"repos/$owner/$repo/pulls/$pullRequest/reviews/$review",
       headers
+    )
+
+  override def createReview(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      createPRReviewRequest: CreatePRReviewRequest,
+      headers: Map[String, String]
+  ): F[GHResponse[PullRequestReview]] =
+    client
+      .post[CreatePRReviewRequest, PullRequestReview](
+        s"repos/$owner/$repo/pulls/$pullRequest/reviews",
+        headers,
+        createPRReviewRequest
+      )
+
+  override def listReviewers(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[ReviewersResponse]] =
+    client.get[ReviewersResponse](
+      s"repos/$owner/$repo/pulls/$pullRequest/requested_reviewers",
+      headers,
+      Map.empty,
+      pagination
+    )
+
+  override def addReviewers(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      reviewers: ReviewersRequest,
+      headers: Map[String, String]
+  ): F[GHResponse[PullRequest]] =
+    client.post[ReviewersRequest, PullRequest](
+      s"repos/$owner/$repo/pulls/$pullRequest/requested_reviewers",
+      headers,
+      reviewers
+    )
+
+  override def removeReviewers(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      reviewers: ReviewersRequest,
+      headers: Map[String, String]
+  ): F[GHResponse[PullRequest]] =
+    client.deleteWithBody[ReviewersRequest, PullRequest](
+      s"repos/$owner/$repo/pulls/$pullRequest/requested_reviewers",
+      headers,
+      reviewers
+    )
+
+  override def updateBranch(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      expectedHeadSha: Option[String] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[BranchUpdateResponse]] =
+    client.put[BranchUpdateRequest, BranchUpdateResponse](
+      s"repos/$owner/$repo/pulls/$pullRequest/update-branch",
+      headers ++ Seq("Accept" -> "application/vnd.github.lydian-preview+json"),
+      BranchUpdateRequest(expectedHeadSha)
     )
 }

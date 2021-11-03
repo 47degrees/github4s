@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,8 @@ package github4s.domain
 import java.time.ZonedDateTime
 
 final case class Issue(
-    id: Int,
+    id: Long,
     title: String,
-    body: Option[String],
     url: String,
     repository_url: String,
     labels_url: String,
@@ -30,30 +29,32 @@ final case class Issue(
     html_url: String,
     number: Int,
     state: String,
-    user: Option[User],
-    assignee: Option[User],
     labels: List[Label] = List.empty,
-    locked: Option[Boolean],
     comments: Int,
-    pull_request: Option[IssuePullRequest],
-    closed_at: Option[String],
     created_at: String,
-    updated_at: String
+    updated_at: String,
+    body: Option[String] = None,
+    user: Option[User] = None,
+    assignee: Option[User] = None,
+    locked: Option[Boolean] = None,
+    pull_request: Option[IssuePullRequest] = None,
+    closed_at: Option[String] = None
 )
 
 final case class Label(
-    id: Option[Int],
     name: String,
-    url: String,
     color: String,
-    default: Option[Boolean]
+    id: Option[Long] = None,
+    description: Option[String] = None,
+    url: Option[String] = None,
+    default: Option[Boolean] = None
 )
 
 final case class IssuePullRequest(
-    url: Option[String],
-    html_url: Option[String],
-    diff_url: Option[String],
-    patch_url: Option[String]
+    url: Option[String] = None,
+    html_url: Option[String] = None,
+    diff_url: Option[String] = None,
+    patch_url: Option[String] = None
 )
 
 final case class SearchIssuesResult(
@@ -65,28 +66,28 @@ final case class SearchIssuesResult(
 final case class NewIssueRequest(
     title: String,
     body: String,
-    milestone: Option[Int],
     labels: List[String],
-    assignees: List[String]
+    assignees: List[String],
+    milestone: Option[Int] = None
 )
 
 final case class EditIssueRequest(
     state: String,
     title: String,
     body: String,
-    milestone: Option[Int],
     labels: List[String],
-    assignees: List[String]
+    assignees: List[String],
+    milestone: Option[Int] = None
 )
 
 final case class Comment(
-    id: Int,
+    id: Long,
     url: String,
     html_url: String,
     body: String,
-    user: Option[User],
     created_at: String,
-    updated_at: String
+    updated_at: String,
+    user: Option[User] = None
 )
 
 final case class CommentData(body: String)
@@ -95,7 +96,7 @@ final case class Milestone(
     url: String,
     html_url: String,
     labels_url: String,
-    id: Int,
+    id: Long,
     node_id: String,
     number: Int,
     state: String,
@@ -106,13 +107,13 @@ final case class Milestone(
     closed_issues: Int,
     created_at: String,
     updated_at: String,
-    closed_at: Option[String],
-    due_on: Option[String]
+    closed_at: Option[String] = None,
+    due_on: Option[String] = None
 )
 
 final case class MilestoneData(
     title: String,
-    state: Option[String],
-    description: Option[String],
-    due_on: Option[ZonedDateTime]
+    state: Option[String] = None,
+    description: Option[String] = None,
+    due_on: Option[ZonedDateTime] = None
 )

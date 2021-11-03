@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,24 +21,23 @@ final case class Project(
     url: String,
     html_url: String,
     columns_url: String,
-    id: Int,
+    id: Long,
     node_id: String,
     name: String,
-    body: Option[String],
     number: Int,
     creator: Creator,
     created_at: String,
     updated_at: String,
-    organization_permission: Option[String],
-    `private`: Option[Boolean]
+    body: Option[String] = None,
+    organization_permission: Option[String] = None,
+    `private`: Option[Boolean] = None
 )
 
 final case class Creator(
     login: String,
-    id: Int,
+    id: Long,
     node_id: String,
     avatar_url: String,
-    gravatar_id: Option[String],
     url: String,
     html_url: String,
     followers_url: String,
@@ -51,14 +50,15 @@ final case class Creator(
     events_url: String,
     received_events_url: String,
     `type`: String,
-    site_admin: Boolean
+    site_admin: Boolean,
+    gravatar_id: Option[String] = None
 )
 
 final case class Column(
     url: String,
     project_url: String,
     cards_url: String,
-    id: Int,
+    id: Long,
     node_id: String,
     name: String,
     created_at: String,
@@ -68,13 +68,13 @@ final case class Column(
 final case class Card(
     url: String,
     project_url: String,
-    id: Int,
+    id: Long,
     node_id: String,
-    note: Option[String],
     archived: Boolean,
     creator: Creator,
     created_at: String,
     updated_at: String,
     column_url: String,
-    content_url: Option[String]
+    note: Option[String] = None,
+    content_url: Option[String] = None
 )

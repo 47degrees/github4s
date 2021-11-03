@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,69 +17,59 @@
 package github4s.unit
 
 import cats.effect.IO
-import cats.syntax.either._
-import github4s.GHResponse
-import github4s.interpreters.UsersInterpreter
+import github4s.Encoders._
 import github4s.domain._
+import github4s.http.HttpClient
+import github4s.interpreters.UsersInterpreter
 import github4s.utils.BaseSpec
 
 class UserSpec extends BaseSpec {
 
-  implicit val token = sampleToken
-
   "UsersInterpreter.get" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[User]] =
-      IO(GHResponse(user.asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[User](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[User](
       url = s"users/$validUsername",
-      response = response
+      response = IO.pure(user)
     )
 
     val users = new UsersInterpreter[IO]
-    users.get(validUsername, headerUserAgent)
+    users.get(validUsername, headerUserAgent).shouldNotFail
   }
 
   "User.getAuth" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[User]] =
-      IO(GHResponse(user.asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[User](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[User](
       url = "user",
-      response = response
+      response = IO.pure(user)
     )
 
     val users = new UsersInterpreter[IO]
-    users.getAuth(headerUserAgent)
+    users.getAuth(headerUserAgent).shouldNotFail
   }
 
   "User.getUsers" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[User]]] =
-      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
     val request = Map("since" -> 1.toString)
 
-    implicit val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[User]](
       url = "users",
       params = request,
-      response = response
+      response = IO.pure(List(user))
     )
 
     val users = new UsersInterpreter[IO]
-    users.getUsers(1, None, headerUserAgent)
+    users.getUsers(1, None, headerUserAgent).shouldNotFail
   }
 
   "User.getFollowing" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[User]]] =
-      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[User]](
       url = s"users/$validUsername/following",
-      response = response
+      response = IO.pure(List(user))
     )
 
     val users = new UsersInterpreter[IO]
-    users.getFollowing(validUsername, None, headerUserAgent)
+    users.getFollowing(validUsername, None, headerUserAgent).shouldNotFail
   }
 
 }

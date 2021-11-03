@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,7 @@ trait Issues[F[_]] {
    * List issues for a repository
    *
    * Note: In the past, pull requests and issues were more closely aligned than they are now.
-   * As far as the API is concerned, every pull request is an issue, but not every issue is a
-   * pull request.
+   * As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.
    *
    * This endpoint may also return pull requests in the response. If an issue is a pull request,
    * the object will include a `pull_request` key.
@@ -50,8 +49,7 @@ trait Issues[F[_]] {
    * Get a single issue of a repository
    *
    * Note: In the past, pull requests and issues were more closely aligned than they are now.
-   * As far as the API is concerned, every pull request is an issue, but not every issue is a
-   * pull request.
+   * As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.
    *
    * This endpoint may also return pull requests in the response. If an issue is a pull request,
    * the object will include a `pull_request` key.
@@ -73,20 +71,21 @@ trait Issues[F[_]] {
    * Search for issues
    *
    * Note: In the past, pull requests and issues were more closely aligned than they are now.
-   * As far as the API is concerned, every pull request is an issue, but not every issue is a
-   * pull request.
+   * As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.
    *
    * This endpoint may also return pull requests in the response. If an issue is a pull request,
    * the object will include a `pull_request` key.
    *
    * @param query the query string for the search
    * @param searchParams list of search params
+   * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the result of the search.
    */
   def searchIssues(
       query: String,
       searchParams: List[SearchParam],
+      pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[SearchIssuesResult]]
 
@@ -193,7 +192,7 @@ trait Issues[F[_]] {
   def editComment(
       owner: String,
       repo: String,
-      id: Int,
+      id: Long,
       body: String,
       headers: Map[String, String] = Map()
   ): F[GHResponse[Comment]]
@@ -210,7 +209,7 @@ trait Issues[F[_]] {
   def deleteComment(
       owner: String,
       repo: String,
-      id: Int,
+      id: Long,
       headers: Map[String, String] = Map()
   ): F[GHResponse[Unit]]
 
@@ -247,6 +246,54 @@ trait Issues[F[_]] {
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[Label]]]
+
+  /**
+   * Create label in repository
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param label label to create in the repository
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the created Label.
+   */
+  def createLabel(
+      owner: String,
+      repo: String,
+      label: Label,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Label]]
+
+  /**
+   * Update label in repository
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param label label to update in the repository
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the updated Label.
+   */
+  def updateLabel(
+      owner: String,
+      repo: String,
+      label: Label,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Label]]
+
+  /**
+   * Delete label for repository
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param label the name of the label to delete from the repository
+   * @param headers optional user headers to include in the request
+   * @return a Unit GHResponse
+   */
+  def deleteLabel(
+      owner: String,
+      repo: String,
+      label: String,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Unit]]
 
   /**
    * Add the specified labels to an Issue
@@ -330,7 +377,7 @@ trait Issues[F[_]] {
    * @param title The title of the milestone.
    * @param state The state of the milestone. Either open or closed. Default: open
    * @param description A description of the milestone.
-   * @param due_on 	The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+   * @param due_on The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the created Milestone
    */
@@ -369,7 +416,7 @@ trait Issues[F[_]] {
    * @param title The title of the milestone.
    * @param state The state of the milestone. Either open or closed. Default: open
    * @param description A description of the milestone.
-   * @param due_on 	The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+   * @param due_on The milestone due date. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
    * @param headers optional user headers to include in the request
    * @return a GHResponse with the updated Milestone
    */

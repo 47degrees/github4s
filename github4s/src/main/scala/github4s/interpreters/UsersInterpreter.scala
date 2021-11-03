@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,13 @@ import github4s.GHResponse
 import github4s.domain._
 import github4s.Decoders._
 
-class UsersInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
-    extends Users[F] {
+class UsersInterpreter[F[_]](implicit client: HttpClient[F]) extends Users[F] {
 
   override def get(username: String, headers: Map[String, String]): F[GHResponse[User]] =
-    client.get[User](accessToken, s"users/$username", headers)
+    client.get[User](s"users/$username", headers)
 
   override def getAuth(headers: Map[String, String]): F[GHResponse[User]] =
-    client.get[User](accessToken, "user", headers)
+    client.get[User]("user", headers)
 
   override def getUsers(
       since: Int,
@@ -37,7 +36,7 @@ class UsersInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
       headers: Map[String, String]
   ): F[GHResponse[List[User]]] =
     client
-      .get[List[User]](accessToken, "users", headers, Map("since" -> since.toString), pagination)
+      .get[List[User]]("users", headers, Map("since" -> since.toString), pagination)
 
   override def getFollowing(
       username: String,
@@ -45,5 +44,5 @@ class UsersInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
       headers: Map[String, String]
   ): F[GHResponse[List[User]]] =
     client
-      .get[List[User]](accessToken, s"users/$username/following", headers, pagination = pagination)
+      .get[List[User]](s"users/$username/following", headers, pagination = pagination)
 }

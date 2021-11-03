@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,29 +71,29 @@ final case class TreeDataResult(
     path: String,
     mode: String,
     `type`: String,
-    size: Option[Int],
     sha: String,
-    url: String
+    url: String,
+    size: Option[Int] = None
 )
 
 final case class NewCommitRequest(
     message: String,
     tree: String,
     parents: List[String],
-    author: Option[RefAuthor]
+    author: Option[RefAuthor] = None
 )
 
 final case class BlobContent(
-    content: Option[String],
-    encoding: Option[String],
     url: String,
     sha: String,
-    size: Int
+    size: Int,
+    content: Option[String] = None,
+    encoding: Option[String] = None
 )
 
-final case class NewBlobRequest(content: String, encoding: Option[String])
+final case class NewBlobRequest(content: String, encoding: Option[String] = None)
 
-final case class NewTreeRequest(base_tree: Option[String], tree: List[TreeData])
+final case class NewTreeRequest(tree: List[TreeData], base_tree: Option[String] = None)
 
 final case class CreateReferenceRequest(ref: String, sha: String)
 
@@ -104,5 +104,5 @@ final case class NewTagRequest(
     message: String,
     `object`: String,
     `type`: String,
-    tagger: Option[RefAuthor]
+    tagger: Option[RefAuthor] = None
 )

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,14 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
 
   "CreatePullRequest encoder" should "encode the CreatePullRequestData" in {
     val createPullRequest: CreatePullRequest =
-      CreatePullRequestData(validIssueTitle, validHead, validBase, validCommitMsg, Some(false))
+      CreatePullRequestData(
+        validIssueTitle,
+        validHead,
+        validBase,
+        validCommitMsg,
+        Some(false),
+        draft
+      )
 
     val expectedJsonString =
       s"""
@@ -76,7 +83,8 @@ class EncodersSpec extends AnyFlatSpec with Matchers with TestData {
          |   "head": "$validHead",
          |   "base": "$validBase",
          |   "body": "$validCommitMsg",
-         |   "maintainer_can_modify": false
+         |   "maintainer_can_modify": false,
+         |   "draft": $draft
          | }
       """.stripMargin
 

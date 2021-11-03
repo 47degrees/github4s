@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,19 +23,17 @@ import github4s.Encoders._
 import github4s.GHResponse
 import github4s.http.HttpClient
 
-class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
-    extends Activities[F] {
+class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F]) extends Activities[F] {
 
   private val timelineHeader = ("Accept" -> "application/vnd.github.v3.star+json")
 
   override def setThreadSub(
-      id: Int,
+      id: Long,
       subscribed: Boolean,
       ignored: Boolean,
       headers: Map[String, String]
   ): F[GHResponse[Subscription]] =
     client.put[SubscriptionRequest, Subscription](
-      accessToken = accessToken,
       url = s"notifications/threads/$id/subscription",
       headers = headers,
       data = SubscriptionRequest(subscribed, ignored)
@@ -49,7 +47,6 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: O
       headers: Map[String, String]
   ): F[GHResponse[List[Stargazer]]] =
     client.get[List[Stargazer]](
-      accessToken,
       s"repos/$owner/$repo/stargazers",
       if (timeline) headers + timelineHeader else headers,
       pagination = pagination
@@ -64,7 +61,6 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F], accessToken: O
       headers: Map[String, String]
   ): F[GHResponse[List[StarredRepository]]] =
     client.get[List[StarredRepository]](
-      accessToken,
       s"users/$username/starred",
       if (timeline) headers + timelineHeader else headers,
       Map(

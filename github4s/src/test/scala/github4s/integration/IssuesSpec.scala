@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .searchIssues(validSearchQuery, validSearchParams, headerUserAgent)
+          .searchIssues(validSearchQuery, validSearchParams, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -66,11 +66,29 @@ trait IssuesSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe okStatusCode
   }
 
+  it should "not regress github #569" taggedAs Integration in {
+    clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues.searchIssues(
+          "",
+          List(
+            OwnerParamInRepository("47degrees/github4s"),
+            IssueTypePullRequest,
+            LabelParam("bug"),
+            IssueStateOpen
+          )
+        )
+      }
+      .map { response =>
+        response.statusCode shouldBe okStatusCode
+      }
+  }
+
   it should "return an empty result for a non existent query string" taggedAs Integration in {
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).issues
-          .searchIssues(nonExistentSearchQuery, validSearchParams, headerUserAgent)
+          .searchIssues(nonExistentSearchQuery, validSearchParams, None, headerUserAgent)
       }
       .unsafeRunSync()
 
@@ -177,6 +195,56 @@ trait IssuesSpec extends BaseIntegrationSpec {
 
     testIsRight[List[Label]](response, r => r.nonEmpty shouldBe true)
     response.statusCode shouldBe okStatusCode
+  }
+
+  "Issues >> CreateLabel" should "return a created label" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues
+          .createLabel(
+            validRepoOwner,
+            validRepoName,
+            validRepoLabel,
+            headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[Label](response, r => r.name shouldBe validRepoLabel.name)
+    response.statusCode shouldBe createdStatusCode
+  }
+
+  "Issues >> UpdateLabel" should "return a updated label" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues
+          .updateLabel(
+            validRepoOwner,
+            validRepoName,
+            validRepoLabel,
+            headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[Label](response, r => r.name shouldBe validRepoLabel.name)
+    response.statusCode shouldBe okStatusCode
+  }
+
+  "Issues >> DeleteLabel" should "return a valid status code" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).issues
+          .deleteLabel(
+            validRepoOwner,
+            validRepoName,
+            validRepoLabel.name,
+            headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    response.statusCode shouldBe noContentStatusCode
   }
 
   "Issues >> AddLabels" should "return a list of labels" taggedAs Integration in {

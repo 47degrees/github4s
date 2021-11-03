@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,11 +143,11 @@ object GHError {
 
   sealed trait ErrorCode
   object ErrorCode {
-    final case object MissingResource       extends ErrorCode
-    final case object MissingField          extends ErrorCode
-    final case object InvalidFormatting     extends ErrorCode
-    final case object ResourceAlreadyExists extends ErrorCode
-    final case object Custom                extends ErrorCode
+    case object MissingResource       extends ErrorCode
+    case object MissingField          extends ErrorCode
+    case object InvalidFormatting     extends ErrorCode
+    case object ResourceAlreadyExists extends ErrorCode
+    case object Custom                extends ErrorCode
     private[github4s] implicit val errorCodeDecoder: Decoder[ErrorCode] =
       Decoder.decodeString.map {
         case "missing"        => MissingResource

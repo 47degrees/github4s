@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,9 @@ package github4s.interpreters
 
 import cats.Applicative
 import cats.implicits._
-import com.github.marklister.base64.Base64.Encoder
 import github4s.algebras.Auth
 import github4s.Decoders._
 import github4s.domain._
-import github4s.Encoders._
 import github4s.GHResponse
 import github4s.http.HttpClient
 import java.util.UUID
@@ -30,22 +28,6 @@ import java.util.UUID
 class AuthInterpreter[F[_]: Applicative](implicit
     client: HttpClient[F]
 ) extends Auth[F] {
-
-  override def newAuth(
-      username: String,
-      password: String,
-      scopes: List[String],
-      note: String,
-      client_id: String,
-      client_secret: String,
-      headers: Map[String, String]
-  ): F[GHResponse[Authorization]] =
-    client.postAuth[NewAuthRequest, Authorization](
-      method = "authorizations",
-      headers =
-        Map("Authorization" -> s"Basic ${s"$username:$password".getBytes.toBase64}") ++ headers,
-      data = NewAuthRequest(scopes, note, client_id, client_secret)
-    )
 
   override def authorizeUrl(
       client_id: String,
@@ -73,9 +55,15 @@ class AuthInterpreter[F[_]: Applicative](implicit
       state: String,
       headers: Map[String, String]
   ): F[GHResponse[OAuthToken]] =
-    client.postOAuth[NewOAuthRequest, OAuthToken](
+    client.postOAuth[OAuthToken](
       url = client.config.accessTokenUrl,
       headers = headers,
-      data = NewOAuthRequest(client_id, client_secret, code, redirect_uri, state)
+      Map(
+        "client_id"     -> client_id,
+        "client_secret" -> client_secret,
+        "code"          -> code,
+        "redirect_uri"  -> redirect_uri,
+        "state"         -> state
+      )
     )
 }

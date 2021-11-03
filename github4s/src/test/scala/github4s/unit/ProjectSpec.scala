@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,88 +17,77 @@
 package github4s.unit
 
 import cats.effect.IO
-import cats.syntax.either._
-import github4s.GHResponse
+import github4s.Encoders._
 import github4s.domain._
+import github4s.http.HttpClient
 import github4s.interpreters.ProjectsInterpreter
 import github4s.utils.BaseSpec
 
 class ProjectSpec extends BaseSpec {
 
-  implicit val token = sampleToken
-
   "Project.listProjects" should "call to httpClient.get with the right parameters" in {
 
-    val response: IO[GHResponse[List[Project]]] =
-      IO(GHResponse(List(project).asRight, okStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockGet[List[Project]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Project]](
       url = s"orgs/$validRepoOwner/projects",
       headers = headerAccept,
-      response = response
+      response = IO.pure(List(project))
     )
 
     val projects = new ProjectsInterpreter[IO]
 
-    projects.listProjects(validRepoOwner, None, None, headers = headerUserAgent ++ headerAccept)
-
+    projects
+      .listProjects(validRepoOwner, None, None, headers = headerUserAgent ++ headerAccept)
+      .shouldNotFail
   }
 
   "Project.listProjectsRepository" should "call to httpClient.get with the right parameters" in {
 
-    val response: IO[GHResponse[List[Project]]] =
-      IO(GHResponse(List(project).asRight, okStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockGet[List[Project]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Project]](
       url = s"repos/$validRepoOwner/$validRepoName/projects",
       headers = headerAccept,
-      response = response
+      response = IO.pure(List(project))
     )
 
     val projects = new ProjectsInterpreter[IO]
 
-    projects.listProjectsRepository(
-      validRepoOwner,
-      validRepoName,
-      None,
-      None,
-      headers = headerUserAgent ++ headerAccept
-    )
+    projects
+      .listProjectsRepository(
+        validRepoOwner,
+        validRepoName,
+        None,
+        None,
+        headers = headerUserAgent ++ headerAccept
+      )
+      .shouldNotFail
 
   }
 
   "Project.listColumns" should "call to httpClient.get with the right parameters" in {
 
-    val response: IO[GHResponse[List[Column]]] =
-      IO(GHResponse(List(column).asRight, okStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockGet[List[Column]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Column]](
       url = s"projects/$validProjectId/columns",
       headers = headerAccept,
-      response = response
+      response = IO.pure(List(column))
     )
 
     val projects = new ProjectsInterpreter[IO]
 
-    projects.listColumns(validProjectId, None, headers = headerUserAgent ++ headerAccept)
-
+    projects
+      .listColumns(validProjectId, None, headers = headerUserAgent ++ headerAccept)
+      .shouldNotFail
   }
 
   "Project.listCards" should "call to httpClient.get with the right parameters" in {
 
-    val response: IO[GHResponse[List[Card]]] =
-      IO(GHResponse(List(card).asRight, okStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockGet[List[Card]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Card]](
       url = s"projects/columns/$validColumnId/cards",
       headers = headerAccept,
-      response = response
+      response = IO.pure(List(card))
     )
 
     val project = new ProjectsInterpreter[IO]
 
-    project.listCards(validColumnId, None, None, headerUserAgent ++ headerAccept)
-
+    project.listCards(validColumnId, None, None, headerUserAgent ++ headerAccept).shouldNotFail
   }
 
 }

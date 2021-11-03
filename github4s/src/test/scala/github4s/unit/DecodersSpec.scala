@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,8 +71,12 @@ class DecodersSpec extends AnyFlatSpec with Matchers with FakeResponses {
     decode[NonEmptyList[Int]]("[1,2,3]") shouldBe Right(NonEmptyList.of(1, 2, 3))
   }
 
+  "UserRepoPermission decoder" should "return a UserRepoPermission" in {
+    decode[UserRepoPermission](getUserRepoPermissionResponse).isRight shouldBe true
+  }
+
   case class Foo(a: Int)
-  it should "return a valid NonEmtpyList for a valid JSON" in {
+  it should "return a valid NonEmptyList for a valid JSON" in {
     decode[NonEmptyList[Foo]]("""{"a": 1}""") shouldBe Right(NonEmptyList(Foo(1), Nil))
   }
 

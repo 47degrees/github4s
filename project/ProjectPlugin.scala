@@ -3,9 +3,7 @@ import microsites._
 import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
 import sbt._
-import scoverage.ScoverageKeys
 import scoverage.ScoverageKeys._
-import com.alejandrohdezma.sbt.github.SbtGithubPlugin
 import sbtunidoc.ScalaUnidocPlugin.autoImport._
 import mdoc.MdocPlugin.autoImport._
 
@@ -13,39 +11,34 @@ object ProjectPlugin extends AutoPlugin {
 
   override def trigger: PluginTrigger = allRequirements
 
-  override def requires: Plugins = SbtGithubPlugin
-
   object autoImport {
 
     lazy val V = new {
-      val scala212: String   = "2.12.10"
-      val scala213: String   = "2.13.1"
-      val base64: String     = "0.2.9"
-      val cats: String       = "2.1.1"
-      val catsEffect: String = "2.1.1"
-      val circe: String      = "0.13.0"
-      val http4s: String     = "0.21.4"
-      val paradise: String   = "2.1.1"
-      val scalamock: String  = "4.4.0"
-      val scalatest: String  = "3.1.2"
-      val silencer: String   = "1.6.0"
+      val bm4                     = "0.3.1"
+      val cats: String            = "2.6.1"
+      val circe: String           = "0.14.1"
+      val expecty                 = "0.15.4"
+      val http4s: String          = "0.23.6"
+      val paradise: String        = "2.1.1"
+      val scalacheck              = "1.15.4"
+      val scalacheckShapeless     = "1.3.0"
+      val scalacheckPlusScalatest = "3.2.10.0"
+      val scalatest: String       = "3.2.10"
+      val shapeless3              = "3.0.3"
     }
 
     lazy val docsMappingsAPIDir: SettingKey[String] =
       settingKey[String]("Name of subdirectory in site target directory for api docs")
 
     lazy val micrositeSettings = Seq(
-      micrositeName := "Github4s",
-      micrositeDescription := "Github API wrapper written in Scala",
-      micrositeBaseUrl := "github4s",
-      micrositeDocumentationUrl := "docs",
-      micrositeGithubOwner := "47degrees",
-      micrositeGithubRepo := "github4s",
-      micrositeAuthor := "Github4s contributors",
-      micrositeGithubToken := Option(System.getenv().get("GITHUB_TOKEN")),
-      micrositeCompilingDocsTool := WithMdoc,
-      micrositePushSiteWith := GitHub4s,
-      micrositeOrganizationHomepage := "https://github.com/47degrees/github4s/blob/master/AUTHORS.md",
+      micrositeName                 := "Github4s",
+      micrositeDescription          := "Github API wrapper written in Scala",
+      micrositeBaseUrl              := "github4s",
+      micrositeDocumentationUrl     := "docs",
+      micrositeAuthor               := "Github4s contributors",
+      micrositeGithubToken          := Option(System.getenv().get("GITHUB_TOKEN")),
+      micrositePushSiteWith         := GitHub4s,
+      micrositeOrganizationHomepage := "https://github.com/47degrees/github4s/blob/main/AUTHORS.md",
       micrositePalette := Map(
         "brand-primary"   -> "#3D3832",
         "brand-secondary" -> "#f90",
@@ -64,64 +57,70 @@ object ProjectPlugin extends AutoPlugin {
         )
       ),
       micrositeExtraMdFilesOutput := mdocIn.value,
-      includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md" | "*.svg",
+      makeSite / includeFilter := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.md" | "*.svg",
       scalacOptions ~= (_ filterNot Set(
         "-Ywarn-unused-import",
         "-Xlint",
         "-Xfatal-warnings"
       ).contains),
-      docsMappingsAPIDir in ScalaUnidoc := "api",
-      addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir in ScalaUnidoc)
+      ScalaUnidoc / docsMappingsAPIDir := "api",
+      addMappingsToSiteDir(
+        ScalaUnidoc / packageDoc / mappings,
+        ScalaUnidoc / docsMappingsAPIDir
+      )
     )
 
     lazy val coreDeps = Seq(
       libraryDependencies ++= Seq(
-        "org.typelevel"         %% "cats-core"           % V.cats,
-        "io.circe"              %% "circe-core"          % V.circe,
-        "io.circe"              %% "circe-generic"       % V.circe,
-        "io.circe"              %% "circe-literal"       % V.circe,
-        "com.github.marklister" %% "base64"              % V.base64,
-        "org.http4s"            %% "http4s-client"       % V.http4s,
-        "org.http4s"            %% "http4s-circe"        % V.http4s,
-        "io.circe"              %% "circe-parser"        % V.circe     % Test,
-        "org.scalamock"         %% "scalamock"           % V.scalamock % Test,
-        "org.scalatest"         %% "scalatest"           % V.scalatest % Test,
-        "org.http4s"            %% "http4s-blaze-client" % V.http4s    % Test,
-        "com.github.ghik"        % "silencer-lib"        % V.silencer  % Provided cross CrossVersion.full,
-        compilerPlugin("com.github.ghik" % "silencer-plugin" % V.silencer cross CrossVersion.full)
+        "org.typelevel"        %% "cats-core"           % V.cats,
+        "io.circe"             %% "circe-core"          % V.circe,
+        "io.circe"             %% "circe-generic"       % V.circe,
+        "org.http4s"           %% "http4s-client"       % V.http4s,
+        "org.http4s"           %% "http4s-circe"        % V.http4s,
+        "io.circe"             %% "circe-parser"        % V.circe                   % Test,
+        "com.eed3si9n.expecty" %% "expecty"             % V.expecty                 % Test,
+        "org.scalatest"        %% "scalatest"           % V.scalatest               % Test,
+        "org.http4s"           %% "http4s-blaze-client" % V.http4s                  % Test,
+        "org.http4s"           %% "http4s-dsl"          % V.http4s                  % Test,
+        "org.http4s"           %% "http4s-server"       % V.http4s                  % Test,
+        "org.scalacheck"       %% "scalacheck"          % V.scalacheck              % Test,
+        "org.scalatestplus"    %% "scalacheck-1-15"     % V.scalacheckPlusScalatest % Test
       ),
-      libraryDependencies ++= (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
-        case Some((2, 13)) => Seq.empty[ModuleID]
-        case _ =>
-          Seq(compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full))
-      })
+      libraryDependencies ++= on(2, 12)(
+        compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full)
+      ).value,
+      libraryDependencies ++= on(2)(
+        "com.github.alexarchambault" %% "scalacheck-shapeless_1.15" % V.scalacheckShapeless % Test
+      ).value,
+      libraryDependencies ++= on(2)(
+        compilerPlugin("com.olegpy" %% "better-monadic-for" % V.bm4)
+      ).value,
+      libraryDependencies ++= on(3)(
+        "org.typelevel" %% "shapeless3-deriving" % V.shapeless3 % Test
+      ).value
     )
 
   }
 
-  import autoImport.V
-
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
-      organization := "com.47deg",
-      crossScalaVersions := Seq(V.scala212, V.scala213),
-      scalacOptions := {
-        val withStripedLinter = scalacOptions.value filterNot Set("-Xlint", "-Xfuture").contains
-        (CrossVersion.partialVersion(scalaBinaryVersion.value) match {
-          case Some((2, 13)) => withStripedLinter :+ "-Ymacro-annotations"
-          case _             => withStripedLinter
-        }) :+ "-language:higherKinds"
-      },
-      coverageMinimum := 70d,
-      coverageFailOnMinimum := true,
-      coverageExcludedPackages := "<empty>;github4s\\.scalaz\\..*",
-      // This is necessary to prevent packaging the BuildInfo with
-      // sensible information like the Github token. Do not remove.
-      mappings in (Compile, packageBin) ~= { (ms: Seq[(File, String)]) =>
-        ms filter {
-          case (_, toPath) =>
-            !toPath.startsWith("github4s/BuildInfo")
-        }
-      }
+      scalacOptions ++= on(2, 13)("-Ymacro-annotations").value,
+      coverageFailOnMinimum := true
     )
+
+  def on[A](major: Int, minor: Int)(a: A): Def.Initialize[Seq[A]] =
+    Def.setting {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some(v) if v == (major, minor) => Seq(a)
+        case _                              => Nil
+      }
+    }
+
+  def on[A](major: Int)(a: A): Def.Initialize[Seq[A]] =
+    Def.setting {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some(v) if v._1 == major => Seq(a)
+        case _                        => Nil
+      }
+    }
 }

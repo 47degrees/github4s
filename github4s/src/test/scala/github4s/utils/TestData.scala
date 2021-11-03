@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,16 @@
 
 package github4s.utils
 
-import java.util.UUID
+import github4s.domain.RepoUrlKeys.CommitComparisonResponse
 
-import com.github.marklister.base64.Base64._
-import github4s.domain.{Stargazer, StarredRepository, Subscription, _}
+import java.util.UUID
+import github4s.internal.Base64._
+import github4s.domain._
 
 trait TestData {
 
-  val sampleToken: Option[String]          = Some("token")
-  val headerUserAgent: Map[String, String] = Map("user-agent" -> "github4s")
+  val sampleToken: Option[String] = Some("token")
+  val headerUserAgent             = Map("user-agent" -> "github4s")
   val headerAccept: Map[String, String] = Map(
     "Accept" -> "application/vnd.github.inertia-preview+json"
   )
@@ -33,8 +34,9 @@ trait TestData {
   val invalidUsername = "GHInvalidUserName"
   val invalidPassword = "invalidPassword"
 
-  val githubApiUrl = "http://api.github.com"
-  val user         = User(1, validUsername, githubApiUrl, githubApiUrl)
+  val githubApiUrl                           = "https://api.github.com"
+  val user                                   = User(1, validUsername, githubApiUrl, githubApiUrl)
+  val userRepoPermission: UserRepoPermission = UserRepoPermission("admin", user)
 
   def validBasicAuth = s"Basic ${s"$validUsername:".getBytes.toBase64}"
 
@@ -68,11 +70,13 @@ trait TestData {
   val validSinceInt   = 100
   val invalidSinceInt = 999999999
 
-  val okStatusCode           = 200
-  val createdStatusCode      = 201
-  val deletedStatusCode      = 204
-  val unauthorizedStatusCode = 401
-  val notFoundStatusCode     = 404
+  val okStatusCode                  = 200
+  val createdStatusCode             = 201
+  val acceptedStatusCode            = 202
+  val noContentStatusCode           = 204
+  val unauthorizedStatusCode        = 401
+  val notFoundStatusCode            = 404
+  val unprocessableEntityStatusCode = 422
 
   val validAnonParameter   = "true"
   val invalidAnonParameter = "X"
@@ -87,22 +91,32 @@ trait TestData {
 
   val validFileContent = "def hack(target: String): Option[Int] = None"
 
-  val validSearchQuery       = "Scala 2.12"
+  val validSearchQuery       = "\"/\" not accepted in SearchRepos"
   val nonExistentSearchQuery = "nonExistentSearchQueryString"
   val validSearchParams = List(
     OwnerParamInRepository(s"$validRepoOwner/$validRepoName")
   )
 
-  val validIssueNumber = 48
-  val validIssueTitle  = "Sample Title"
-  val validIssueBody   = "Sample Body"
-  val validIssueState  = "closed"
-  val validIssueLabel  = List("bug", "code review")
-  val validAssignees   = List(validUsername)
+  val validIssueNumber    = 48
+  val validIssueTitle     = "Sample Title"
+  val validIssueBody      = "Sample Body"
+  val validIssueState     = "closed"
+  val validIssueLabel     = List("bug", "code review")
+  val validAssignees      = List(validUsername)
+  val validRepoLabelColor = "f29513"
+  val validRepoLabelName  = "test"
+  val validRepoLabel = Label(
+    name = validRepoLabelName,
+    color = validRepoLabelColor,
+    id = None,
+    description = None,
+    url = None,
+    default = None
+  )
 
   val encoding = Some("utf-8")
 
-  val validRefSingle   = "heads/master"
+  val validRefSingle   = "heads/main"
   val validRefMultiple = "heads/feature"
   val invalidRef       = "heads/feature-branch-that-no-longer-exists"
 
@@ -119,21 +133,30 @@ trait TestData {
   val validTagSha   = "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c"
 
   val validPullRequestFileSha      = "f80f79cafbe3f2ba71311b82e1171e73bd37a470"
-  val validPullRequestNumber       = 1
-  val validPullRequestReviewNumber = 39318789
+  val validPullRequestReview       = 1
+  val validPullRequestNumber       = 637
+  val validPullRequestReviewNumber = 39318789L
   val validMergeCommitSha          = "e5bd3914e2e596debea16f433f57875b5b90bcd6"
 
   val validHead   = "test-pr-issue"
   val invalidHead = ""
 
-  val validBase   = "master"
+  val validBase   = "main"
   val invalidBase = ""
 
-  val validNewPullRequestData   = NewPullRequestData("Amazing new feature", "Please pull this in!")
-  val invalidNewPullRequestData = NewPullRequestData("", "")
+  val draft = false
+
+  val validNewPullRequestData =
+    NewPullRequestData("Amazing new feature", "Please pull this in!", draft)
+  val invalidNewPullRequestData = NewPullRequestData("", "", draft)
 
   val validNewPullRequestIssue   = NewPullRequestIssue(31)
   val invalidNewPullRequestIssue = NewPullRequestIssue(5)
+
+  val validCreatePRReviewRequest =
+    CreatePRReviewRequest(None, "LGFM", PRREventApprove, Nil)
+  val invalidCreatePRReviewRequest =
+    CreatePRReviewRequest(None, "", PRREventRequestChanges, Nil)
 
   val validPath = "project/plugins.sbt"
 
@@ -204,8 +227,9 @@ trait TestData {
   val label = Label(
     id = Some(1),
     name = validIssueLabel.head,
-    url = githubApiUrl,
-    color = "",
+    description = None,
+    url = Some(githubApiUrl),
+    color = validRepoLabelColor,
     default = None
   )
 
@@ -231,7 +255,8 @@ trait TestData {
     base = None,
     head = None,
     user = None,
-    assignee = None
+    assignee = None,
+    draft = draft
   )
 
   val pullRequestFile = PullRequestFile(
@@ -260,7 +285,7 @@ trait TestData {
   val release = Release(
     id = 1,
     tag_name = validTagTitle,
-    target_commitish = "master",
+    target_commitish = "main",
     name = validTagTitle,
     body = validNote,
     draft = false,
@@ -323,9 +348,9 @@ trait TestData {
       urls = Map()
     )
   )
-  val validThreadId = 219647953
+  val validThreadId = 219647953L
 
-  val invalidThreadId = 0
+  val invalidThreadId = 0L
 
   val subscription = Subscription(
     subscribed = true,
@@ -337,17 +362,17 @@ trait TestData {
   )
   val validCommentBody   = "the comment"
   val invalidIssueNumber = 0
-  val validCommentId     = 1
-  val invalidCommentId   = 0
+  val validCommentId     = 1L
+  val invalidCommentId   = 0L
 
   val comment = Comment(
     validCommentId,
     "https://api.github.com/repos/octocat/Hello-World/issues/comments/1",
     "https: //github.com/octocat/Hello-World/issues/1347#issuecomment-1",
     validCommentBody,
-    Some(user),
     "2011-04-14T16:00:49Z",
-    "2011-04-14T16:00:49Z"
+    "2011-04-14T16:00:49Z",
+    Some(user)
   )
   val repo = Repository(
     1296269,
@@ -355,7 +380,7 @@ trait TestData {
     s"$validRepoOwner/$validRepoName",
     user,
     false,
-    Some(validNote),
+    false,
     false,
     RepoUrls(
       s"https://api.github.com/repos/$validRepoOwner/$validRepoName",
@@ -369,22 +394,24 @@ trait TestData {
     "2011-01-26T19:01:12Z",
     "2011-01-26T19:14:43Z",
     "2011-01-26T19:06:43Z",
-    None,
-    None,
-    RepoStatus(108, 80, 80, 9, 0, None, None, None, None, true, true, false, true),
-    None
+    RepoStatus(108, 80, 80, 9, 0, true, true, false, true),
+    "main",
+    Some(validNote)
+  )
+
+  val searchReposResult = SearchReposResult(
+    total_count = 1,
+    incomplete_results = false,
+    items = List(repo)
   )
 
   val commit = Commit(
     validCommitSha,
     validNote,
     "2011-01-26T19:01:12Z",
-    s"https://github.com/$validRepoOwner/$validRepoName/commit/$validCommitSha",
-    None,
-    None,
-    None
+    s"https://github.com/$validRepoOwner/$validRepoName/commit/$validCommitSha"
   )
-  val validBranchName = "master"
+  val validBranchName = "main"
   val protectedBranch = Branch(
     name = validBranchName,
     commit = BranchCommit(
@@ -401,8 +428,7 @@ trait TestData {
   val validTokenType = "bearer"
   val validAuthState = UUID.randomUUID().toString
 
-  val authorization = Authorization(1, validRedirectUri, "token")
-  val authorize     = Authorize(validRedirectUri, validAuthState)
+  val authorize = Authorize(validRedirectUri, validAuthState)
 
   val oAuthToken   = OAuthToken("token", validTokenType, "public_repo")
   val validGistUrl = "https://api.github.com/gists/aa5a315d61ae9438b18d"
@@ -410,8 +436,8 @@ trait TestData {
   val gist         = Gist(validGistUrl, validGistId, validGistDescription, validGistPublic, Map())
   val validGistSha = "deadbeef"
 
-  val stargazer         = Stargazer(None, user)
-  val starredRepository = StarredRepository(None, repo)
+  val stargazer         = Stargazer(user)
+  val starredRepository = StarredRepository(repo)
 
   val pullRequestReview = PullRequestReview(
     id = validPullRequestReviewNumber,
@@ -461,8 +487,22 @@ trait TestData {
     parent = null
   )
 
-  val validProjectId   = 4115271
-  val invalidProjectId = 11111
+  val validRequestedReviewersRequest =
+    ReviewersRequest(List(user.login), List(validSlug))
+
+  val validRequestedReviewersResponse =
+    ReviewersResponse(List(user), List(team))
+
+  val validBranchUpdateResponse =
+    BranchUpdateResponse(
+      "Updating pull request branch.",
+      s"https://github.com/repos/$validRepoOwner/$validRepoName/pulls/$validPullRequestNumber"
+    )
+
+  val validCommitComparisonResponse = CommitComparisonResponse("behind", 1, 2, 100)
+
+  val validProjectId   = 4115271L
+  val invalidProjectId = 11111L
 
   val project = Project(
     owner_url = "https://api.github.com/orgs/47degrees",
@@ -512,8 +552,8 @@ trait TestData {
     updated_at = "2019-07-04T09:39:01Z"
   )
 
-  val validColumnId   = 8271018
-  val invalidColumnId = -32
+  val validColumnId   = 8271018L
+  val invalidColumnId = -32L
 
   val card = Card(
     url = "https://api.github.com/projects/columns/cards/34323195",
@@ -586,4 +626,6 @@ trait TestData {
     closed_at = None
   )
 
+  val validReviewers: ReviewersRequest =
+    ReviewersRequest(List(validUsername), List(validSlug))
 }

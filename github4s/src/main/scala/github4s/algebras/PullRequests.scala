@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -134,8 +134,60 @@ trait PullRequests[F[_]] {
       owner: String,
       repo: String,
       pullRequest: Int,
-      review: Int,
+      review: Long,
       headers: Map[String, String] = Map()
   ): F[GHResponse[PullRequestReview]]
 
+  /**
+   * Create a review for a pull request
+   *
+   * @param owner Owner of the repo
+   * @param repo Name of the repo
+   * @param pullRequest ID number of the PR to get reviews for
+   * @param createPRReviewRequest Data to create a review
+   * @param headers Optional user header to include in the request
+   * @return a GHResponse with the created review
+   */
+  def createReview(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      createPRReviewRequest: CreatePRReviewRequest,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequestReview]]
+
+  def listReviewers(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[ReviewersResponse]]
+
+  def addReviewers(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      reviewers: ReviewersRequest,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequest]]
+
+  def removeReviewers(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      reviewers: ReviewersRequest,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequest]]
+
+  /**
+   * This is an experimental API and could be changed or removed
+   */
+  def updateBranch(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      expectedHeadSha: Option[String] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[BranchUpdateResponse]]
 }

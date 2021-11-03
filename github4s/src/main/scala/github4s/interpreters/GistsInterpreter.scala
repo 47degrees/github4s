@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,14 @@
 
 package github4s.interpreters
 
-import github4s.algebras.Gists
 import github4s.Decoders._
-import github4s.domain._
 import github4s.Encoders._
 import github4s.GHResponse
+import github4s.algebras.Gists
+import github4s.domain._
 import github4s.http.HttpClient
 
-class GistsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
-    extends Gists[F] {
+class GistsInterpreter[F[_]](implicit client: HttpClient[F]) extends Gists[F] {
 
   override def newGist(
       description: String,
@@ -33,7 +32,6 @@ class GistsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
       headers: Map[String, String]
   ): F[GHResponse[Gist]] =
     client.post[NewGistRequest, Gist](
-      accessToken,
       "gists",
       headers,
       data = NewGistRequest(description, public, files)
@@ -45,7 +43,6 @@ class GistsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
       headers: Map[String, String]
   ): F[GHResponse[Gist]] =
     client.get[Gist](
-      accessToken,
       ("gists" :: gistId :: sha.toList).mkString("/"),
       headers
     )
@@ -57,7 +54,6 @@ class GistsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option
       headers: Map[String, String]
   ): F[GHResponse[Gist]] =
     client.patch[EditGistRequest, Gist](
-      accessToken,
       s"gists/$gistId",
       headers,
       data = EditGistRequest(description, files)

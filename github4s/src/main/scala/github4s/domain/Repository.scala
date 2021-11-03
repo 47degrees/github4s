@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,88 @@
 
 package github4s.domain
 
-final case class Repository(
-    id: Int,
+/** A `Repository` but without any recursive definitions (`parent` and `source`) */
+final case class RepositoryBase(
+    id: Long,
     name: String,
     full_name: String,
     owner: User,
     `private`: Boolean,
-    description: Option[String],
     fork: Boolean,
+    archived: Boolean,
     urls: RepoUrls,
     created_at: String,
     updated_at: String,
     pushed_at: String,
+    status: RepoStatus,
+    default_branch: String,
+    description: Option[String] = None,
     homepage: Option[String] = None,
     language: Option[String] = None,
+    organization: Option[User] = None,
+    permissions: Option[RepoPermissions] = None,
+    topics: List[String] = Nil
+)
+
+final case class Repository(
+    id: Long,
+    name: String,
+    full_name: String,
+    owner: User,
+    `private`: Boolean,
+    fork: Boolean,
+    archived: Boolean,
+    urls: RepoUrls,
+    created_at: String,
+    updated_at: String,
+    pushed_at: String,
     status: RepoStatus,
-    organization: Option[User] = None
+    default_branch: String,
+    description: Option[String] = None,
+    homepage: Option[String] = None,
+    language: Option[String] = None,
+    organization: Option[User] = None,
+    parent: Option[RepositoryBase] = None,
+    permissions: Option[RepoPermissions] = None,
+    source: Option[RepositoryBase] = None,
+    topics: List[String] = Nil
+)
+
+object Repository {
+  def fromBaseRepos(
+      b: RepositoryBase,
+      parent: Option[RepositoryBase],
+      source: Option[RepositoryBase]
+  ) =
+    Repository(
+      b.id,
+      b.name,
+      b.full_name,
+      b.owner,
+      b.`private`,
+      b.fork,
+      b.archived,
+      b.urls,
+      b.created_at,
+      b.updated_at,
+      b.pushed_at,
+      b.status,
+      b.default_branch,
+      b.description,
+      b.homepage,
+      b.language,
+      b.organization,
+      parent,
+      b.permissions,
+      source,
+      b.topics
+    )
+}
+
+final case class RepoPermissions(
+    admin: Boolean,
+    push: Boolean,
+    pull: Boolean
 )
 
 final case class RepoStatus(
@@ -40,14 +106,14 @@ final case class RepoStatus(
     watchers_count: Int,
     forks_count: Int,
     open_issues_count: Int,
-    open_issues: Option[Int],
-    watchers: Option[Int],
-    network_count: Option[Int],
-    subscribers_count: Option[Int],
     has_issues: Boolean,
     has_downloads: Boolean,
     has_wiki: Boolean,
-    has_pages: Boolean
+    has_pages: Boolean,
+    open_issues: Option[Int] = None,
+    watchers: Option[Int] = None,
+    network_count: Option[Int] = None,
+    subscribers_count: Option[Int] = None
 )
 
 final case class RepoUrls(
@@ -61,7 +127,7 @@ final case class RepoUrls(
 )
 
 final case class Release(
-    id: Int,
+    id: Long,
     tag_name: String,
     target_commitish: String,
     name: String,
@@ -69,30 +135,30 @@ final case class Release(
     draft: Boolean,
     prerelease: Boolean,
     created_at: String,
-    published_at: Option[String],
-    author: Option[User],
     url: String,
     html_url: String,
     assets_url: String,
     upload_url: String,
-    tarball_url: Option[String],
-    zipball_url: Option[String]
+    published_at: Option[String] = None,
+    author: Option[User] = None,
+    tarball_url: Option[String] = None,
+    zipball_url: Option[String] = None
 )
 
 final case class Content(
     `type`: String,
-    encoding: Option[String],
-    target: Option[String],
-    submodule_git_url: Option[String],
     size: Int,
     name: String,
     path: String,
-    content: Option[String],
     sha: String,
     url: String,
     git_url: String,
     html_url: String,
-    download_url: Option[String]
+    encoding: Option[String] = None,
+    target: Option[String] = None,
+    submodule_git_url: Option[String] = None,
+    content: Option[String] = None,
+    download_url: Option[String] = None
 )
 
 final case class Commit(
@@ -100,16 +166,16 @@ final case class Commit(
     message: String,
     date: String,
     url: String,
-    login: Option[String],
-    avatar_url: Option[String],
-    author_url: Option[String]
+    login: Option[String] = None,
+    avatar_url: Option[String] = None,
+    author_url: Option[String] = None
 )
 
 final case class Branch(
     name: String,
     commit: BranchCommit,
-    `protected`: Option[Boolean],
-    protection_url: Option[String]
+    `protected`: Option[Boolean] = None,
+    protection_url: Option[String] = None
 )
 
 final case class BranchCommit(
@@ -121,9 +187,9 @@ final case class NewReleaseRequest(
     tag_name: String,
     name: String,
     body: String,
-    target_commitish: Option[String],
-    draft: Option[Boolean],
-    prerelease: Option[Boolean]
+    target_commitish: Option[String] = None,
+    draft: Option[Boolean] = None,
+    prerelease: Option[Boolean] = None
 )
 
 final case class Status(
@@ -132,29 +198,35 @@ final case class Status(
     id: Long,
     node_id: String,
     state: String,
-    description: Option[String],
-    target_url: Option[String],
-    context: Option[String],
     created_at: String,
-    updated_at: String
+    updated_at: String,
+    description: Option[String] = None,
+    target_url: Option[String] = None,
+    context: Option[String] = None
 )
 
 final case class NewStatusRequest(
     state: String,
-    target_url: Option[String],
-    description: Option[String],
-    context: Option[String]
+    target_url: Option[String] = None,
+    description: Option[String] = None,
+    context: Option[String] = None
+)
+
+final case class SearchReposResult(
+    total_count: Int,
+    incomplete_results: Boolean,
+    items: List[Repository]
 )
 
 final case class StatusRepository(
-    id: Int,
+    id: Long,
     name: String,
     full_name: String,
-    owner: Option[User],
     `private`: Boolean,
-    description: Option[String],
     fork: Boolean,
-    urls: Map[String, String]
+    urls: Map[String, String],
+    owner: Option[User] = None,
+    description: Option[String] = None
 )
 
 final case class CombinedStatus(
@@ -188,9 +260,9 @@ final case class WriteResponseCommit(
     sha: String,
     url: String,
     html_url: String,
-    author: Option[Committer],
-    committer: Option[Committer],
-    message: String
+    message: String,
+    author: Option[Committer] = None,
+    committer: Option[Committer] = None
 )
 
 final case class WriteFileResponse(
@@ -202,6 +274,9 @@ final case class Committer(
     name: String,
     email: String
 )
+
+final case class UserRepoPermission(permission: String, user: User)
+
 object RepoUrlKeys {
 
   val forks_url         = "forks_url"
@@ -278,6 +353,35 @@ object RepoUrlKeys {
     labels_url,
     releases_url,
     deployments_url
+  )
+
+  final case class CommitComparisonResponse(
+      status: String,
+      ahead_by: Int,
+      behind_by: Int,
+      total_commits: Int,
+      url: Option[String] = None,
+      html_url: Option[String] = None,
+      permalink_url: Option[String] = None,
+      diff_url: Option[String] = None,
+      patch_url: Option[String] = None,
+      base_commit: Option[Commit] = None,
+      merge_base_commit: Option[Commit] = None,
+      commits: Seq[Commit] = Seq.empty,
+      files: Seq[FileComparison] = Seq.empty
+  )
+
+  final case class FileComparison(
+      sha: String,
+      filename: String,
+      status: String,
+      additions: Int,
+      deletions: Int,
+      changes: Int,
+      blob_url: String,
+      raw_url: String,
+      contents_url: String,
+      patch: String
   )
 
 }

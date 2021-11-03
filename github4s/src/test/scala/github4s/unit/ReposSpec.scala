@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,128 +16,117 @@
 
 package github4s.unit
 
-import cats.effect.IO
 import cats.data.NonEmptyList
-import cats.syntax.either._
-import github4s.GHResponse
+import cats.effect.IO
+import github4s.Decoders._
+import github4s.Encoders._
+import github4s.domain.RepoUrlKeys.CommitComparisonResponse
 import github4s.domain._
+import github4s.http.HttpClient
+import github4s.internal.Base64._
 import github4s.interpreters.RepositoriesInterpreter
 import github4s.utils.BaseSpec
-import com.github.marklister.base64.Base64._
+import org.http4s
 
 class ReposSpec extends BaseSpec {
 
-  implicit val token = sampleToken
-
   "Repos.get" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[Repository]] =
-      IO(GHResponse(repo.asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[Repository](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[Repository](
       url = s"repos/$validRepoOwner/$validRepoName",
-      response = response
+      response = IO.pure(repo)
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.get(validRepoOwner, validRepoName, headerUserAgent)
+    repos.get(validRepoOwner, validRepoName, headerUserAgent).shouldNotFail
   }
 
   "Repos.listReleases" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Release]]] =
-      IO(GHResponse(List(release).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Release]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Release]](
       url = s"repos/$validRepoOwner/$validRepoName/releases",
-      response = response
+      response = IO.pure(List(release))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listReleases(validRepoOwner, validRepoName, None, headers = headerUserAgent)
+    repos.listReleases(validRepoOwner, validRepoName, None, headers = headerUserAgent).shouldNotFail
   }
 
   "Repos.latestRelease" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[Option[Release]]] =
-      IO(GHResponse(Option(release).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[Option[Release]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[Option[Release]](
       url = s"repos/$validRepoOwner/$validRepoName/releases/latest",
-      response = response
+      response = IO.pure(Option(release))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.latestRelease(validRepoOwner, validRepoName, headers = headerUserAgent)
+    repos.latestRelease(validRepoOwner, validRepoName, headers = headerUserAgent).shouldNotFail
   }
 
   "Repos.getRelease" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[Option[Release]]] =
-      IO(GHResponse(Option(release).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[Option[Release]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[Option[Release]](
       url = s"repos/$validRepoOwner/$validRepoName/releases/${release.id}",
-      response = response
+      response = IO.pure(Option(release))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.getRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
+    repos
+      .getRelease(release.id, validRepoOwner, validRepoName, headers = headerUserAgent)
+      .shouldNotFail
   }
 
   "Repos.listOrgRepos" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Repository]]] =
-      IO(GHResponse(List(repo).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Repository]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Repository]](
       url = s"orgs/$validRepoOwner/repos",
-      response = response
+      response = IO.pure(List(repo))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listOrgRepos(validRepoOwner, headers = headerUserAgent)
+    repos.listOrgRepos(validRepoOwner, headers = headerUserAgent).shouldNotFail
   }
 
   "Repos.listUserRepos" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Repository]]] =
-      IO(GHResponse(List(repo).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Repository]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Repository]](
       url = s"users/$validRepoOwner/repos",
-      response = response
+      response = IO.pure(List(repo))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listUserRepos(validRepoOwner, headers = headerUserAgent)
+    repos.listUserRepos(validRepoOwner, headers = headerUserAgent).shouldNotFail
   }
 
   "Repos.getContents" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[NonEmptyList[Content]]] =
-      IO(GHResponse(NonEmptyList.one(content).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[NonEmptyList[Content]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[NonEmptyList[Content]](
       url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
-      params = Map("ref" -> "master"),
-      response = response
+      params = Map("ref" -> "main"),
+      response = IO.pure(NonEmptyList.one(content))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.getContents(
-      validRepoOwner,
-      validRepoName,
-      validFilePath,
-      Some("master"),
-      None,
-      headerUserAgent
-    )
+    repos
+      .getContents(
+        validRepoOwner,
+        validRepoName,
+        validFilePath,
+        Some("main"),
+        None,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Repos.createFile" should "call to httpClient.put with the right parameters" in {
-    val response: IO[GHResponse[WriteFileResponse]] =
-      IO(GHResponse(writeFileResponse.asRight, okStatusCode, Map.empty))
 
     val request = WriteFileRequest(
       validNote,
@@ -148,30 +137,31 @@ class ReposSpec extends BaseSpec {
       Some(validCommitter)
     )
 
-    implicit val httpClientMock = httpClientMockPut[WriteFileRequest, WriteFileResponse](
-      url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
-      req = request,
-      response = response
-    )
+    implicit val httpClientMock: HttpClient[IO] =
+      httpClientMockPut[WriteFileRequest, WriteFileResponse](
+        url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
+        req = request,
+        response = IO.pure(writeFileResponse)
+      )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.createFile(
-      validRepoOwner,
-      validRepoName,
-      validFilePath,
-      validNote,
-      validFileContent.getBytes,
-      Some(validBranchName),
-      Some(validCommitter),
-      Some(validCommitter),
-      headerUserAgent
-    )
+    repos
+      .createFile(
+        validRepoOwner,
+        validRepoName,
+        validFilePath,
+        validNote,
+        validFileContent.getBytes,
+        Some(validBranchName),
+        Some(validCommitter),
+        Some(validCommitter),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Repos.updateFile" should "call to httpClient.put with the right parameters" in {
-    val response: IO[GHResponse[WriteFileResponse]] =
-      IO(GHResponse(writeFileResponse.asRight, okStatusCode, Map.empty))
 
     val request = WriteFileRequest(
       validNote,
@@ -182,31 +172,32 @@ class ReposSpec extends BaseSpec {
       Some(validCommitter)
     )
 
-    implicit val httpClientMock = httpClientMockPut[WriteFileRequest, WriteFileResponse](
-      url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
-      req = request,
-      response = response
-    )
+    implicit val httpClientMock: HttpClient[IO] =
+      httpClientMockPut[WriteFileRequest, WriteFileResponse](
+        url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
+        req = request,
+        response = IO.pure(writeFileResponse)
+      )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.updateFile(
-      validRepoOwner,
-      validRepoName,
-      validFilePath,
-      validNote,
-      validFileContent.getBytes,
-      validCommitSha,
-      Some(validBranchName),
-      Some(validCommitter),
-      Some(validCommitter),
-      headerUserAgent
-    )
+    repos
+      .updateFile(
+        validRepoOwner,
+        validRepoName,
+        validFilePath,
+        validNote,
+        validFileContent.getBytes,
+        validCommitSha,
+        Some(validBranchName),
+        Some(validCommitter),
+        Some(validCommitter),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Repos.deleteFile" should "call to httpClient.delete with the right parameters" in {
-    val response: IO[GHResponse[WriteFileResponse]] =
-      IO(GHResponse(writeFileResponse.asRight, okStatusCode, Map.empty))
 
     val request = DeleteFileRequest(
       validNote,
@@ -216,184 +207,253 @@ class ReposSpec extends BaseSpec {
       Some(validCommitter)
     )
 
-    implicit val httpClientMock =
+    implicit val httpClientMock: HttpClient[IO] =
       httpClientMockDeleteWithBody[DeleteFileRequest, WriteFileResponse](
         url = s"repos/$validRepoOwner/$validRepoName/contents/$validFilePath",
         req = request,
-        response = response
+        response = IO.pure(writeFileResponse)
       )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.deleteFile(
-      validRepoOwner,
-      validRepoName,
-      validFilePath,
-      validNote,
-      validCommitSha,
-      Some(validBranchName),
-      Some(validCommitter),
-      Some(validCommitter),
-      headerUserAgent
-    )
+    repos
+      .deleteFile(
+        validRepoOwner,
+        validRepoName,
+        validFilePath,
+        validNote,
+        validCommitSha,
+        Some(validBranchName),
+        Some(validCommitter),
+        Some(validCommitter),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Repos.createRelease" should "call to httpClient.post with the right parameters" in {
-    val response: IO[GHResponse[Release]] = IO(GHResponse(release.asRight, okStatusCode, Map.empty))
 
     val request = NewReleaseRequest(
       validTagTitle,
       validTagTitle,
       validNote,
-      Some("master"),
+      Some("main"),
       Some(false),
       Some(true)
     )
 
-    implicit val httpClientMock = httpClientMockPost[NewReleaseRequest, Release](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPost[NewReleaseRequest, Release](
       url = s"repos/$validRepoOwner/$validRepoName/releases",
       req = request,
-      response = response
+      response = IO.pure(release)
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.createRelease(
-      validRepoOwner,
-      validRepoName,
-      validTagTitle,
-      validTagTitle,
-      validNote,
-      Some("master"),
-      Some(false),
-      Some(true),
-      headerUserAgent
-    )
+    repos
+      .createRelease(
+        validRepoOwner,
+        validRepoName,
+        validTagTitle,
+        validTagTitle,
+        validNote,
+        Some("main"),
+        Some(false),
+        Some(true),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Repos.listCommits" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Commit]]] =
-      IO(GHResponse(List(commit).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Commit]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Commit]](
       url = s"repos/$validRepoOwner/$validRepoName/commits",
-      response = response
+      response = IO.pure(List(commit))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listCommits(validRepoOwner, validRepoName, headers = headerUserAgent)
+    repos.listCommits(validRepoOwner, validRepoName, headers = headerUserAgent).shouldNotFail
   }
 
   "Repos.listBranches" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Branch]]] =
-      IO(GHResponse(List(branch).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Branch]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Branch]](
       url = s"repos/$validRepoOwner/$validRepoName/branches",
-      response = response
+      response = IO.pure(List(branch))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listBranches(validRepoOwner, validRepoName, headers = headerUserAgent)
+    repos.listBranches(validRepoOwner, validRepoName, headers = headerUserAgent).shouldNotFail
   }
 
   "Repos.listBranches" should "list protected branches only" in {
-    val response: IO[GHResponse[List[Branch]]] =
-      IO(GHResponse(List(protectedBranch).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Branch]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Branch]](
       url = s"repos/$validRepoOwner/$validRepoName/branches",
       params = Map("protected" -> "true"),
-      response = response
+      response = IO.pure(List(protectedBranch))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listBranches(validRepoOwner, validRepoName, Some(true), None, headerUserAgent)
+    repos
+      .listBranches(validRepoOwner, validRepoName, Some(true), None, headerUserAgent)
+      .shouldNotFail
   }
 
   "Repos.listContributors" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[User]]] =
-      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[User]](
       url = s"repos/$validRepoOwner/$validRepoName/contributors",
-      response = response
+      response = IO.pure(List(user))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listContributors(validRepoOwner, validRepoName, headers = headerUserAgent)
+    repos.listContributors(validRepoOwner, validRepoName, headers = headerUserAgent).shouldNotFail
   }
 
   "Repos.listCollaborators" should "call to httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[User]]] =
-      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[User]](
       url = s"repos/$validRepoOwner/$validRepoName/collaborators",
-      response = response
+      response = IO.pure(List(user))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listCollaborators(validRepoOwner, validRepoName, headers = headerUserAgent)
+    repos.listCollaborators(validRepoOwner, validRepoName, headers = headerUserAgent).shouldNotFail
+  }
+
+  "Repos.userIsCollaborator" should "call to httpClient.getWithoutResponse with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGetWithoutResponse(
+      url = s"repos/$validRepoOwner/$validRepoName/collaborators/$validUsername",
+      response = IO.unit,
+      responseStatus = http4s.Status.NoContent
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos
+      .userIsCollaborator(
+        validRepoOwner,
+        validRepoName,
+        validUsername,
+        headers = headerUserAgent
+      )
+      .shouldNotFail
+  }
+
+  "Repos.getRepoPermissionForUser" should "call to httpClient.get with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[UserRepoPermission](
+      url = s"repos/$validRepoOwner/$validRepoName/collaborators/$validUsername/permission",
+      response = IO.pure(userRepoPermission)
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos
+      .getRepoPermissionForUser(
+        validRepoOwner,
+        validRepoName,
+        validUsername,
+        headers = headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Repos.getCombinedStatus" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[CombinedStatus]] =
-      IO(GHResponse(combinedStatus.asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[CombinedStatus](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[CombinedStatus](
       url = s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/status",
-      response = response
+      response = IO.pure(combinedStatus)
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.getCombinedStatus(validRepoOwner, validRepoName, validRefSingle, headerUserAgent)
+    repos
+      .getCombinedStatus(validRepoOwner, validRepoName, validRefSingle, headerUserAgent)
+      .shouldNotFail
   }
 
   "Repos.listStatuses" should "call htppClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Status]]] =
-      IO(GHResponse(List(status).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Status]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Status]](
       url = s"repos/$validRepoOwner/$validRepoName/commits/$validRefSingle/statuses",
-      response = response
+      response = IO.pure(List(status))
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.listStatuses(validRepoOwner, validRepoName, validRefSingle, None, headerUserAgent)
+    repos
+      .listStatuses(validRepoOwner, validRepoName, validRefSingle, None, headerUserAgent)
+      .shouldNotFail
   }
 
   "Repos.createStatus" should "call httpClient.post with the right parameters" in {
-    val response: IO[GHResponse[Status]] =
-      IO(GHResponse(status.asRight, createdStatusCode, Map.empty))
 
     val request = NewStatusRequest(validStatusState, None, None, None)
 
-    implicit val httpClientMock = httpClientMockPost[NewStatusRequest, Status](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPost[NewStatusRequest, Status](
       url = s"repos/$validRepoOwner/$validRepoName/statuses/$validCommitSha",
       req = request,
-      response = response
+      response = IO.pure(status),
+      responseStatus = http4s.Status.Created
     )
 
     val repos = new RepositoriesInterpreter[IO]
 
-    repos.createStatus(
-      validRepoOwner,
-      validRepoName,
-      validCommitSha,
-      validStatusState,
-      None,
-      None,
-      None,
-      headerUserAgent
-    )
+    repos
+      .createStatus(
+        validRepoOwner,
+        validRepoName,
+        validCommitSha,
+        validStatusState,
+        None,
+        None,
+        None,
+        headerUserAgent
+      )
+      .shouldNotFail
 
   }
+
+  "Repos.searchRepos" should "call httpClient.get with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[SearchReposResult](
+      url = githubApiUrl,
+      params = Map("q" -> s"+${validSearchParams.map(_.value).mkString("+")}"),
+      response = IO.pure(searchReposResult)
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos.searchRepos("", validSearchParams, None, headerUserAgent).shouldNotFail
+  }
+
+  "Repos.compare" should "call to httpClient.get with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[CommitComparisonResponse](
+      url = s"repos/$validRepoOwner/$validRepoName/compare/$validCommitSha...$validMergeCommitSha",
+      response = IO.pure(validCommitComparisonResponse)
+    )
+
+    val repos = new RepositoriesInterpreter[IO]
+
+    repos
+      .compareCommits(
+        validRepoOwner,
+        validRepoName,
+        validCommitSha,
+        validMergeCommitSha,
+        headerUserAgent
+      )
+      .shouldNotFail
+  }
+
 }

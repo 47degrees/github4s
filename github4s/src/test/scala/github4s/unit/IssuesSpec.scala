@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,308 +16,355 @@
 
 package github4s.unit
 
+import cats.effect.IO
+import github4s.Encoders._
+import github4s.Decoders._
+import github4s.domain._
+import github4s.http.HttpClient
+import github4s.interpreters.IssuesInterpreter
+import github4s.utils.BaseSpec
+import org.http4s
+
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-import cats.effect.IO
-import cats.syntax.either._
-import github4s.GHResponse
-import github4s.domain._
-import github4s.interpreters.IssuesInterpreter
-import github4s.utils.BaseSpec
-
 class IssuesSpec extends BaseSpec {
 
-  implicit val token = sampleToken
-
   "Issues.listIssues" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Issue]]] =
-      IO(GHResponse(List(issue).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Issue]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Issue]](
       url = s"repos/$validRepoOwner/$validRepoName/issues",
-      response = response
+      response = IO.pure(List(issue))
     )
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.listIssues(validRepoOwner, validRepoName, None, headerUserAgent)
+    issues.listIssues(validRepoOwner, validRepoName, None, headerUserAgent).shouldNotFail
 
   }
 
   "Issues.getIssue" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[Issue]] =
-      IO(GHResponse(issue.asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[Issue](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[Issue](
       url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber",
-      response = response
+      response = IO.pure(issue)
     )
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.getIssue(validRepoOwner, validRepoName, validIssueNumber, headerUserAgent)
-
+    issues.getIssue(validRepoOwner, validRepoName, validIssueNumber, headerUserAgent).shouldNotFail
   }
 
   "Issues.searchIssues" should "call htppClient.get with the right parameters" in {
-    val response: IO[GHResponse[SearchIssuesResult]] =
-      IO(GHResponse(searchIssuesResult.asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[SearchIssuesResult](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[SearchIssuesResult](
       url = s"search/issues",
-      response = response,
+      response = IO.pure(searchIssuesResult),
       params = Map("q" -> s"+${validSearchParams.map(_.value).mkString("+")}")
     )
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.searchIssues("", validSearchParams, headerUserAgent)
+    issues.searchIssues("", validSearchParams, None, headerUserAgent).shouldNotFail
   }
 
   "Issues.createIssue" should "call httpClient.post with the right parameters" in {
-    val response: IO[GHResponse[Issue]] =
-      IO(GHResponse(issue.asRight, createdStatusCode, Map.empty))
 
-    val request = NewIssueRequest(validIssueTitle, validIssueBody, None, List.empty, List.empty)
+    val request = NewIssueRequest(validIssueTitle, validIssueBody, List.empty, List.empty)
 
-    implicit val httpClientMock = httpClientMockPost[NewIssueRequest, Issue](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPost[NewIssueRequest, Issue](
       url = s"repos/$validRepoOwner/$validRepoName/issues",
       req = request,
-      response = response
+      response = IO.pure(issue)
     )
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.createIssue(
-      validRepoOwner,
-      validRepoName,
-      validIssueTitle,
-      validIssueBody,
-      None,
-      List.empty,
-      List.empty,
-      headerUserAgent
-    )
-
+    issues
+      .createIssue(
+        validRepoOwner,
+        validRepoName,
+        validIssueTitle,
+        validIssueBody,
+        None,
+        List.empty,
+        List.empty,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issues.editIssue" should "call httpClient.patch with the right parameters" in {
-    val response: IO[GHResponse[Issue]] = IO(GHResponse(issue.asRight, okStatusCode, Map.empty))
 
     val request = EditIssueRequest(
       validIssueState,
       validIssueTitle,
       validIssueBody,
-      None,
       List.empty,
       List.empty
     )
 
-    implicit val httpClientMock = httpClientMockPatch[EditIssueRequest, Issue](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPatch[EditIssueRequest, Issue](
       url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber",
       req = request,
-      response = response
+      response = IO.pure(issue)
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.editIssue(
-      validRepoOwner,
-      validRepoName,
-      validIssueNumber,
-      validIssueState,
-      validIssueTitle,
-      validIssueBody,
-      None,
-      List.empty,
-      List.empty,
-      headerUserAgent
-    )
+    issues
+      .editIssue(
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validIssueState,
+        validIssueTitle,
+        validIssueBody,
+        None,
+        List.empty,
+        List.empty,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issues.ListComments" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Comment]]] =
-      IO(GHResponse(List(comment).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Comment]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Comment]](
       url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/comments",
-      response = response
+      response = IO.pure(List(comment))
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listComments(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
+    issues
+      .listComments(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
+      .shouldNotFail
   }
 
   "Issue.CreateComment" should "call to httpClient.post with the right parameters" in {
 
-    val response: IO[GHResponse[Comment]] =
-      IO(GHResponse(comment.asRight, createdStatusCode, Map.empty))
-
     val request = CommentData(validCommentBody)
 
-    implicit val httpClientMock = httpClientMockPost[CommentData, Comment](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPost[CommentData, Comment](
       url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/comments",
       req = request,
-      response = response
+      response = IO.pure(comment)
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.createComment(
-      validRepoOwner,
-      validRepoName,
-      validIssueNumber,
-      validCommentBody,
-      headerUserAgent
-    )
+    issues
+      .createComment(
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validCommentBody,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issue.EditComment" should "call to httpClient.patch with the right parameters" in {
 
-    val response: IO[GHResponse[Comment]] =
-      IO(GHResponse(comment.asRight, okStatusCode, Map.empty))
-
     val request = CommentData(validCommentBody)
 
-    implicit val httpClientMock = httpClientMockPatch[CommentData, Comment](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPatch[CommentData, Comment](
       url = s"repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId",
       req = request,
-      response = response
+      response = IO.pure(comment)
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.editComment(
-      validRepoOwner,
-      validRepoName,
-      validCommentId,
-      validCommentBody,
-      headerUserAgent
-    )
+    issues
+      .editComment(
+        validRepoOwner,
+        validRepoName,
+        validCommentId,
+        validCommentBody,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issue.DeleteComment" should "call to httpClient.delete with the right parameters" in {
 
-    val response: IO[GHResponse[Unit]] =
-      IO(GHResponse(().asRight, deletedStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockDelete(
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockDelete(
       url = s"repos/$validRepoOwner/$validRepoName/issues/comments/$validCommentId",
-      response = response
+      response = IO.unit,
+      responseStatus = http4s.Status.NoContent
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.deleteComment(validRepoOwner, validRepoName, validCommentId, headerUserAgent)
+    issues
+      .deleteComment(validRepoOwner, validRepoName, validCommentId, headerUserAgent)
+      .shouldNotFail
   }
 
   "Issues.ListLabelsRepository" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Label]]] =
-      IO(GHResponse(List(label).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Label]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Label]](
       url = s"repos/$validRepoOwner/$validRepoName/labels",
-      response = response
+      response = IO.pure(List(label))
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listLabelsRepository(validRepoOwner, validRepoName, None, headerUserAgent)
+    issues.listLabelsRepository(validRepoOwner, validRepoName, None, headerUserAgent).shouldNotFail
   }
 
   "Issues.ListLabels" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Label]]] =
-      IO(GHResponse(List(label).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Label]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Label]](
       url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels",
-      response = response
+      response = IO.pure(List(label))
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listLabels(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
+    issues
+      .listLabels(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
+      .shouldNotFail
+  }
+
+  "Issues.CreateLabel" should "call httpClient.post with the right parameters" in {
+
+    val request = validRepoLabel
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPost[Label, Label](
+      url = s"repos/$validRepoOwner/$validRepoName/labels",
+      req = request,
+      response = IO.pure(validRepoLabel)
+    )
+
+    val issues = new IssuesInterpreter[IO]
+    issues
+      .createLabel(
+        validRepoOwner,
+        validRepoName,
+        validRepoLabel,
+        headerUserAgent
+      )
+      .shouldNotFail
+  }
+
+  "Issues.UpdateLabel" should "call httpClient.patch with the right parameters" in {
+
+    val request = validRepoLabel
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPatch[Label, Label](
+      url = s"repos/$validRepoOwner/$validRepoName/labels/${validRepoLabel.name}",
+      req = request,
+      response = IO.pure(validRepoLabel)
+    )
+
+    val issues = new IssuesInterpreter[IO]
+    issues
+      .updateLabel(
+        validRepoOwner,
+        validRepoName,
+        validRepoLabel,
+        headerUserAgent
+      )
+      .shouldNotFail
+  }
+
+  "Issues.DeleteLabel" should "call httpClient.delete with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockDelete(
+      url = s"repos/$validRepoOwner/$validRepoName/labels/${validRepoLabel.name}",
+      response = IO.unit,
+      responseStatus = http4s.Status.NoContent
+    )
+
+    val issues = new IssuesInterpreter[IO]
+    issues
+      .deleteLabel(
+        validRepoOwner,
+        validRepoName,
+        validRepoLabel.name,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issues.AddLabels" should "call httpClient.post with the right parameters" in {
-    val response: IO[GHResponse[List[Label]]] =
-      IO(GHResponse(List(label).asRight, okStatusCode, Map.empty))
 
     val request = validIssueLabel
 
-    implicit val httpClientMock = httpClientMockPost[List[String], List[Label]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPost[List[String], List[Label]](
       url = s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels",
       req = request,
-      response = response
+      response = IO.pure(List(label))
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.addLabels(
-      validRepoOwner,
-      validRepoName,
-      validIssueNumber,
-      validIssueLabel,
-      headerUserAgent
-    )
+    issues
+      .addLabels(
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validIssueLabel,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issues.RemoveLabel" should "call httpClient.delete with the right parameters" in {
-    val response: IO[GHResponse[List[Label]]] =
-      IO(GHResponse(List(label).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockDeleteWithResponse[List[Label]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockDeleteWithResponse[List[Label]](
       url =
         s"repos/$validRepoOwner/$validRepoName/issues/$validIssueNumber/labels/${validIssueLabel.head}",
-      response = response
+      response = IO.pure(List(label))
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.removeLabel(
-      validRepoOwner,
-      validRepoName,
-      validIssueNumber,
-      validIssueLabel.head,
-      headerUserAgent
-    )
+    issues
+      .removeLabel(
+        validRepoOwner,
+        validRepoName,
+        validIssueNumber,
+        validIssueLabel.head,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issues.listAvailableAssignees" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[User]]] =
-      IO(GHResponse(List(user).asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[User]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[User]](
       url = s"repos/$validRepoOwner/$validRepoName/assignees",
-      response = response
+      response = IO.pure(List(user))
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listAvailableAssignees(
-      validRepoOwner,
-      validRepoName,
-      Some(Pagination(validPage, validPerPage)),
-      headerUserAgent
-    )
+    issues
+      .listAvailableAssignees(
+        validRepoOwner,
+        validRepoName,
+        Some(Pagination(validPage, validPerPage)),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issues.listMilestone" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[List[Milestone]]] =
-      IO(GHResponse(Nil.asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[List[Milestone]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Milestone]](
       url = s"repos/$validRepoOwner/$validRepoName/milestones",
-      response = response
+      response = IO.pure(Nil)
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.listMilestones(
-      validRepoOwner,
-      validRepoName,
-      None,
-      None,
-      None,
-      Some(Pagination(validPage, validPerPage)),
-      headerUserAgent
-    )
+    issues
+      .listMilestones(
+        validRepoOwner,
+        validRepoName,
+        None,
+        None,
+        None,
+        Some(Pagination(validPage, validPerPage)),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issues.createMilestone" should "call httpClient.post with the right parameters" in {
-    val response: IO[GHResponse[Milestone]] =
-      IO(GHResponse(milestone.asRight, createdStatusCode, Map.empty))
 
     val request = MilestoneData(
       validIssueTitle,
@@ -326,43 +373,42 @@ class IssuesSpec extends BaseSpec {
       Some(ZonedDateTime.parse(validMilestoneDueOn, DateTimeFormatter.ISO_ZONED_DATE_TIME))
     )
 
-    implicit val httpClientMock = httpClientMockPost[MilestoneData, Milestone](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPost[MilestoneData, Milestone](
       url = s"repos/$validRepoOwner/$validRepoName/milestones",
       req = request,
-      response = response
+      response = IO.pure(milestone),
+      responseStatus = http4s.Status.Created
     )
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.createMilestone(
-      validRepoOwner,
-      validRepoName,
-      validMilestoneTitle,
-      None,
-      None,
-      Some(ZonedDateTime.parse(validMilestoneDueOn, DateTimeFormatter.ISO_ZONED_DATE_TIME)),
-      headerUserAgent
-    )
-
+    issues
+      .createMilestone(
+        validRepoOwner,
+        validRepoName,
+        validMilestoneTitle,
+        None,
+        None,
+        Some(ZonedDateTime.parse(validMilestoneDueOn, DateTimeFormatter.ISO_ZONED_DATE_TIME)),
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issues.getMilestone" should "call httpClient.get with the right parameters" in {
-    val response: IO[GHResponse[Milestone]] =
-      IO(GHResponse(milestone.asRight, okStatusCode, Map.empty))
 
-    implicit val httpClientMock = httpClientMockGet[Milestone](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[Milestone](
       url = s"repos/$validRepoOwner/$validRepoName/milestones/$validMilestoneNumber",
-      response = response
+      response = IO.pure(milestone)
     )
 
     val issues = new IssuesInterpreter[IO]
 
-    issues.getMilestone(validRepoOwner, validRepoName, validMilestoneNumber, headerUserAgent)
-
+    issues
+      .getMilestone(validRepoOwner, validRepoName, validMilestoneNumber, headerUserAgent)
+      .shouldNotFail
   }
   "Issues.updateMilestone" should "call httpClient.patch with the right parameters" in {
-    val response: IO[GHResponse[Milestone]] =
-      IO(GHResponse(milestone.asRight, okStatusCode, Map.empty))
 
     val request = MilestoneData(
       validMilestoneTitle,
@@ -371,36 +417,38 @@ class IssuesSpec extends BaseSpec {
       None
     )
 
-    implicit val httpClientMock = httpClientMockPatch[MilestoneData, Milestone](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockPatch[MilestoneData, Milestone](
       url = s"repos/$validRepoOwner/$validRepoName/milestones/$validMilestoneNumber",
       req = request,
-      response = response
+      response = IO.pure(milestone)
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.updateMilestone(
-      validRepoOwner,
-      validRepoName,
-      validMilestoneNumber,
-      validMilestoneTitle,
-      None,
-      None,
-      None,
-      headerUserAgent
-    )
+    issues
+      .updateMilestone(
+        validRepoOwner,
+        validRepoName,
+        validMilestoneNumber,
+        validMilestoneTitle,
+        None,
+        None,
+        None,
+        headerUserAgent
+      )
+      .shouldNotFail
   }
 
   "Issue.DeleteMilestone" should "call to httpClient.delete with the right parameters" in {
 
-    val response: IO[GHResponse[Unit]] =
-      IO(GHResponse(().asRight, deletedStatusCode, Map.empty))
-
-    implicit val httpClientMock = httpClientMockDelete(
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockDelete(
       url = s"repos/$validRepoOwner/$validRepoName/milestones/$validMilestoneNumber",
-      response = response
+      response = IO.unit,
+      responseStatus = http4s.Status.NoContent
     )
 
     val issues = new IssuesInterpreter[IO]
-    issues.deleteMilestone(validRepoOwner, validRepoName, validMilestoneNumber, headerUserAgent)
+    issues
+      .deleteMilestone(validRepoOwner, validRepoName, validMilestoneNumber, headerUserAgent)
+      .shouldNotFail
   }
 }

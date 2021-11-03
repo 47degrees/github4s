@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import io.circe.syntax._
 import io.circe.{Encoder, Json, Printer}
 import org.http4s._
 import org.http4s.headers.`Content-Type`
+import org.typelevel.ci.CIString
 
 object Http4sSyntax {
 
@@ -39,18 +40,32 @@ object Http4sSyntax {
 
   implicit class HeadersOps(self: Headers) {
     def toMap: Map[String, String] =
-      self.toList.map(header => (header.name.value, header.value)).toMap
+      self.headers.map(header => (header.name.toString, header.value)).toMap
   }
 
   implicit class RequestBuilderOps[R](val self: RequestBuilder[R]) extends AnyVal {
 
-    def toHeaderList: List[Header] =
-      (self.headers.map(kv => Header(kv._1, kv._2)) ++
-        self.authHeader.map(kv => Header(kv._1, kv._2))).toList
+    def toHeaderList: List[Header.Raw] =
+      (self.headers.map(kv => Header.Raw(CIString(kv._1), kv._2)) ++
+        self.authHeader.map(kv => Header.Raw(CIString(kv._1), kv._2))).toList
 
-    def toUri(config: GithubConfig): Uri =
-      Uri.fromString(self.url).getOrElse(Uri.unsafeFromString(config.baseUrl)) =?
-        self.params.map(kv => (kv._1, List(kv._2)))
+    def toUri(config: GithubConfig): Uri = {
+      val queryString = self.params.toList
+        .map { case (k, v) =>
+          s"$k=$v"
+        }
+        .mkString("&")
+
+      // Adding query parameters normally has different encoding than normal Uris.
+      // To work around this, we create one verbatim from a manually encoded String.
+      // See: https://github.com/http4s/http4s/issues/4203
+      val verbatimQuery = Query.unsafeFromString(Uri.encode(queryString))
+
+      Uri
+        .fromString(self.url)
+        .getOrElse(Uri.unsafeFromString(config.baseUrl))
+        .copy(query = verbatimQuery)
+    }
 
   }
 

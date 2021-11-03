@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ trait Activities[F[_]] {
    * @return GHResponse with the Subscription
    */
   def setThreadSub(
-      id: Int,
+      id: Long,
       subscribed: Boolean,
       ignored: Boolean,
       headers: Map[String, String] = Map()

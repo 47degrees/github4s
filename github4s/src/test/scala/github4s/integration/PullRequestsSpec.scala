@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.GHError.NotFoundError
+import github4s.GHError.{JsonParsingError, NotFoundError}
 import github4s.Github
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
@@ -225,7 +225,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
           .getReview(
             validRepoOwner,
             validRepoName,
-            validPullRequestNumber,
+            validPullRequestReview,
             validPullRequestReviewNumber,
             headers = headerUserAgent
           )
@@ -254,4 +254,123 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
+  "PullRequests >> CreateReview" should "return a created review" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).pullRequests
+          .createReview(
+            validRepoOwner,
+            validRepoName,
+            validPullRequestReview,
+            validCreatePRReviewRequest,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[PullRequestReview](
+      response,
+      r => {
+        r.body shouldBe validCreatePRReviewRequest.body
+        r.state shouldBe PRRStateApproved
+      }
+    )
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return an error when invalid review data was passed" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).pullRequests
+          .createReview(
+            validRepoOwner,
+            validRepoName,
+            validPullRequestReview,
+            invalidCreatePRReviewRequest,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsLeft[JsonParsingError, PullRequestReview](response)
+    response.statusCode shouldBe unprocessableEntityStatusCode
+  }
+
+  "PullRequests >> Add/List/Remove Reviewers" should "return the proper reviewers" taggedAs Integration ignore {
+    val addReviewersResponse = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).pullRequests
+          .addReviewers(
+            validRepoOwner,
+            validRepoName,
+            validPullRequestNumber,
+            validReviewers,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[PullRequest](
+      addReviewersResponse,
+      r => r.body shouldBe Some(validCreatePRReviewRequest.body)
+    )
+    addReviewersResponse.statusCode shouldBe okStatusCode
+
+    val getReviewersResponse = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).pullRequests
+          .listReviewers(
+            validRepoOwner,
+            validRepoName,
+            validPullRequestNumber,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[ReviewersResponse](
+      getReviewersResponse,
+      r => {
+        r.users.map(_.login) shouldBe List(validUsername)
+        r.teams.map(_.slug) shouldBe List(validSlug)
+      }
+    )
+    getReviewersResponse.statusCode shouldBe okStatusCode
+
+    val removeReviewersResponse = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).pullRequests
+          .removeReviewers(
+            validRepoOwner,
+            validRepoName,
+            validPullRequestNumber,
+            validReviewers,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[PullRequest](
+      addReviewersResponse,
+      r => r.body shouldBe Some(validCreatePRReviewRequest.body)
+    )
+    removeReviewersResponse.statusCode shouldBe okStatusCode
+  }
+
+  "PullRequests >> Update Branch" should "merge target branch's head into selected" taggedAs Integration ignore {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).pullRequests
+          .updateBranch(
+            validRepoOwner,
+            validRepoName,
+            692,
+            headers = headerUserAgent
+          )
+      }
+      .unsafeRunSync()
+
+    testIsRight[BranchUpdateResponse](response)
+    response.statusCode shouldBe acceptedStatusCode
+  }
 }

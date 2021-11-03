@@ -27,14 +27,14 @@ project/plugins/project/
 .history
 .cache
 .lib/
+.bsp
 
 ### Scala ###
 
 *.metals
 .bloop/
 .metals/
-project/.bloop/
-project/metals.sbt
+metals.sbt
 
 ### Vim ###
 
@@ -63,8 +63,13 @@ tags
 
 ### VisualStudioCode ###
 
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Direnv
+
+.direnv

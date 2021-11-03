@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,14 @@
 
 package github4s.interpreters
 
+import github4s.Decoders._
 import github4s.GHResponse
 import github4s.algebras.Projects
 import github4s.domain.{Card, Column, Pagination, Project}
 import github4s.http.HttpClient
-import github4s.Decoders._
 
 class ProjectsInterpreter[F[_]](implicit
-    client: HttpClient[F],
-    accessToken: Option[String]
+    client: HttpClient[F]
 ) extends Projects[F] {
 
   override def listProjects(
@@ -34,7 +33,6 @@ class ProjectsInterpreter[F[_]](implicit
       headers: Map[String, String]
   ): F[GHResponse[List[Project]]] =
     client.get[List[Project]](
-      accessToken,
       s"orgs/$org/projects",
       headers,
       state.fold(Map.empty[String, String])(s => Map("state" -> s)),
@@ -49,7 +47,6 @@ class ProjectsInterpreter[F[_]](implicit
       headers: Map[String, String]
   ): F[GHResponse[List[Project]]] =
     client.get[List[Project]](
-      accessToken,
       s"repos/$owner/$repo/projects",
       headers,
       state.fold(Map.empty[String, String])(s => Map("state" -> s)),
@@ -57,12 +54,11 @@ class ProjectsInterpreter[F[_]](implicit
     )
 
   override def listColumns(
-      project_id: Int,
+      project_id: Long,
       pagination: Option[Pagination],
       headers: Map[String, String]
   ): F[GHResponse[List[Column]]] =
     client.get[List[Column]](
-      accessToken,
       s"projects/$project_id/columns",
       headers,
       Map(),
@@ -70,13 +66,12 @@ class ProjectsInterpreter[F[_]](implicit
     )
 
   override def listCards(
-      column_id: Int,
+      column_id: Long,
       archived_state: Option[String],
       pagination: Option[Pagination],
       headers: Map[String, String]
   ): F[GHResponse[List[Card]]] =
     client.get[List[Card]](
-      accessToken,
       s"projects/columns/$column_id/cards",
       headers,
       archived_state.fold(Map.empty[String, String])(s => Map("archived_state" -> s)),

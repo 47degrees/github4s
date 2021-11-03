@@ -1,5 +1,202 @@
 # Changelog
 
+## [v0.28.1](https://github.com/47degrees/github4s/tree/v0.28.1) (2021-01-28)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.28.0...v0.28.1)
+
+## [v0.28.0](https://github.com/47degrees/github4s/tree/v0.28.0) (2021-01-27)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.27.1...v0.28.0)
+
+🐛 **Bug Fixes**
+
+- Fix \#569 - Manually encode Uri query parameters [\#596](https://github.com/47degrees/github4s/pull/596) ([sloshy](https://github.com/sloshy))
+- Unbreak the build \(fix \#586 \#597\) [\#595](https://github.com/47degrees/github4s/pull/595) ([sloshy](https://github.com/sloshy))
+
+📈 **Dependency updates**
+
+- Update Scala: 2.12.12/2.13.4, sbt-mdoc: 2.2.16 [\#601](https://github.com/47degrees/github4s/pull/601) ([sloshy](https://github.com/sloshy))
+- Update http4s-blaze-client, http4s-circe, ... to 0.21.16 [\#600](https://github.com/47degrees/github4s/pull/600) ([47erbot](https://github.com/47erbot))
+- Update base64 to 0.3.0 [\#598](https://github.com/47degrees/github4s/pull/598) ([47erbot](https://github.com/47erbot))
+- Update http4s-blaze-client, http4s-circe, ... to 0.21.15 [\#594](https://github.com/47degrees/github4s/pull/594) ([47erbot](https://github.com/47erbot))
+- Update sbt to 1.4.6 [\#593](https://github.com/47degrees/github4s/pull/593) ([47erbot](https://github.com/47erbot))
+- Update sbt-microsites to 1.3.0 [\#592](https://github.com/47degrees/github4s/pull/592) ([47erbot](https://github.com/47erbot))
+- Update cats-core to 2.3.1 [\#591](https://github.com/47degrees/github4s/pull/591) ([47erbot](https://github.com/47erbot))
+- Update mdoc, sbt-mdoc to 2.2.14 [\#590](https://github.com/47degrees/github4s/pull/590) ([47erbot](https://github.com/47erbot))
+- Update sbt-github, sbt-github-header, ... to 0.9.0 [\#588](https://github.com/47degrees/github4s/pull/588) ([47erbot](https://github.com/47erbot))
+- Update scalamock to 5.1.0 [\#585](https://github.com/47degrees/github4s/pull/585) ([47erbot](https://github.com/47erbot))
+- Update sbt-tpolecat to 0.1.16 [\#584](https://github.com/47degrees/github4s/pull/584) ([47erbot](https://github.com/47erbot))
+- Update sbt-ci-release to 1.5.5 [\#583](https://github.com/47degrees/github4s/pull/583) ([47erbot](https://github.com/47erbot))
+- Update cats-core to 2.3.0 [\#582](https://github.com/47degrees/github4s/pull/582) ([47erbot](https://github.com/47erbot))
+- Update mdoc, sbt-mdoc to 2.2.13 [\#581](https://github.com/47degrees/github4s/pull/581) ([47erbot](https://github.com/47erbot))
+- Update http4s-blaze-client, http4s-circe, ... to 0.21.13 [\#580](https://github.com/47degrees/github4s/pull/580) ([47erbot](https://github.com/47erbot))
+- Update sbt to 1.4.4 [\#579](https://github.com/47degrees/github4s/pull/579) ([47erbot](https://github.com/47erbot))
+- Update scalatest to 3.2.3 [\#575](https://github.com/47degrees/github4s/pull/575) ([47erbot](https://github.com/47erbot))
+- Update mdoc, sbt-mdoc to 2.2.12 [\#574](https://github.com/47degrees/github4s/pull/574) ([47erbot](https://github.com/47erbot))
+- Update http4s-blaze-client, http4s-circe, ... to 0.21.9 [\#573](https://github.com/47degrees/github4s/pull/573) ([47erbot](https://github.com/47erbot))
+- Update sbt-ci-release to 1.5.4 [\#571](https://github.com/47degrees/github4s/pull/571) ([47erbot](https://github.com/47erbot))
+
+**Closed issues:**
+
+- Remove Auth.newAuth as it has been discontinued [\#597](https://github.com/47degrees/github4s/issues/597)
+- Ignore the reviewers test [\#586](https://github.com/47degrees/github4s/issues/586)
+-  Receive 422 response when searching Issues [\#569](https://github.com/47degrees/github4s/issues/569)
+
+**Merged pull requests:**
+
+- Add draft PRs support [\#577](https://github.com/47degrees/github4s/pull/577) ([kusaeva](https://github.com/kusaeva))
+- Support for review requests [\#576](https://github.com/47degrees/github4s/pull/576) ([reimai](https://github.com/reimai))
+
+## [v0.27.1](https://github.com/47degrees/github4s/tree/v0.27.1) (2020-11-17)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.27.0...v0.27.1)
+
+## [v0.27.0](https://github.com/47degrees/github4s/tree/v0.27.0) (2020-11-17)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.26.0...v0.27.0)
+
+⚠️ **Breaking changes**
+
+- make accessToken an io to use gh app's expiring tokens [\#567](https://github.com/47degrees/github4s/pull/567) ([reimai](https://github.com/reimai))
+
+📈 **Dependency updates**
+
+- Update sbt to 1.4.3 [\#570](https://github.com/47degrees/github4s/pull/570) ([47erbot](https://github.com/47erbot))
+- Update sbt to 1.4.2 [\#566](https://github.com/47degrees/github4s/pull/566) ([47erbot](https://github.com/47erbot))
+- Update sbt to 1.4.1 [\#562](https://github.com/47degrees/github4s/pull/562) ([47erbot](https://github.com/47erbot))
+- Update scalafmt-core to 2.7.5 [\#561](https://github.com/47degrees/github4s/pull/561) ([47erbot](https://github.com/47erbot))
+- Update sbt-mdoc to 2.2.10 [\#560](https://github.com/47degrees/github4s/pull/560) ([47erbot](https://github.com/47erbot))
+- Update http4s-blaze-client, http4s-circe, ... to 0.21.8 [\#559](https://github.com/47degrees/github4s/pull/559) ([47erbot](https://github.com/47erbot))
+- Update sbt-tpolecat to 0.1.14 [\#558](https://github.com/47degrees/github4s/pull/558) ([47erbot](https://github.com/47erbot))
+- Update scalafmt-core to 2.7.4 [\#557](https://github.com/47degrees/github4s/pull/557) ([47erbot](https://github.com/47erbot))
+- Update sbt to 1.4.0 [\#556](https://github.com/47degrees/github4s/pull/556) ([47erbot](https://github.com/47erbot))
+- Update scalafmt-core to 2.7.3 [\#555](https://github.com/47degrees/github4s/pull/555) ([47erbot](https://github.com/47erbot))
+
+**Closed issues:**
+
+- Support creation of pull request reviews [\#563](https://github.com/47degrees/github4s/issues/563)
+- Default value for optional field [\#549](https://github.com/47degrees/github4s/issues/549)
+- Include "permissions" in domain objects [\#526](https://github.com/47degrees/github4s/issues/526)
+
+**Merged pull requests:**
+
+- Repository model enriched: Archived status available now [\#565](https://github.com/47degrees/github4s/pull/565) ([nihirash](https://github.com/nihirash))
+- Support a creation of pull request reviews [\#564](https://github.com/47degrees/github4s/pull/564) ([kusaeva](https://github.com/kusaeva))
+
+## [v0.26.0](https://github.com/47degrees/github4s/tree/v0.26.0) (2020-09-23)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.25.0...v0.26.0)
+
+⚠️ **Breaking changes**
+
+- Added default value [\#553](https://github.com/47degrees/github4s/pull/553) ([loonydev](https://github.com/loonydev))
+
+🚀 **Features**
+
+- Added issue label api [\#547](https://github.com/47degrees/github4s/pull/547) ([loonydev](https://github.com/loonydev))
+
+🐛 **Bug Fixes**
+
+- Fixes CreateLabel integration test [\#550](https://github.com/47degrees/github4s/pull/550) ([juanpedromoreno](https://github.com/juanpedromoreno))
+
+📈 **Dependency updates**
+
+- Update scalafmt-core to 2.7.2 [\#552](https://github.com/47degrees/github4s/pull/552) ([47erbot](https://github.com/47erbot))
+- Update sbt-mdoc to 2.2.9 [\#551](https://github.com/47degrees/github4s/pull/551) ([47erbot](https://github.com/47erbot))
+- Update scalafmt-core to 2.7.1 [\#548](https://github.com/47degrees/github4s/pull/548) ([47erbot](https://github.com/47erbot))
+- Update sbt-mdoc to 2.2.8 [\#546](https://github.com/47degrees/github4s/pull/546) ([47erbot](https://github.com/47erbot))
+- Update sbt-mdoc to 2.2.7 [\#545](https://github.com/47degrees/github4s/pull/545) ([47erbot](https://github.com/47erbot))
+- Update base64 to 0.2.10 [\#544](https://github.com/47degrees/github4s/pull/544) ([47erbot](https://github.com/47erbot))
+- Update scalafmt-core to 2.7.0 [\#543](https://github.com/47degrees/github4s/pull/543) ([47erbot](https://github.com/47erbot))
+- Update cats-core to 2.2.0 [\#542](https://github.com/47degrees/github4s/pull/542) ([47erbot](https://github.com/47erbot))
+- Update sbt-mdoc to 2.2.6 [\#541](https://github.com/47degrees/github4s/pull/541) ([47erbot](https://github.com/47erbot))
+- Update scalatest to 3.2.2 [\#540](https://github.com/47degrees/github4s/pull/540) ([47erbot](https://github.com/47erbot))
+- Update sbt-mdoc to 2.2.5 [\#539](https://github.com/47degrees/github4s/pull/539) ([47erbot](https://github.com/47erbot))
+- Update sbt-mdoc to 2.2.4 [\#538](https://github.com/47degrees/github4s/pull/538) ([47erbot](https://github.com/47erbot))
+- Update http4s-blaze-client, http4s-circe, ... to 0.21.7 [\#537](https://github.com/47degrees/github4s/pull/537) ([47erbot](https://github.com/47erbot))
+- Update scalatest to 3.2.1 [\#536](https://github.com/47degrees/github4s/pull/536) ([47erbot](https://github.com/47erbot))
+- Update sbt-scalafmt to 2.4.2 [\#535](https://github.com/47degrees/github4s/pull/535) ([47erbot](https://github.com/47erbot))
+- Update scalamock to 5.0.0 [\#534](https://github.com/47degrees/github4s/pull/534) ([47erbot](https://github.com/47erbot))
+- Update scalafmt-core to 2.6.4 [\#533](https://github.com/47degrees/github4s/pull/533) ([47erbot](https://github.com/47erbot))
+- Update silencer-lib, silencer-plugin to 1.7.1 [\#532](https://github.com/47degrees/github4s/pull/532) ([47erbot](https://github.com/47erbot))
+
+**Closed issues:**
+
+- Label id is Long, not Int [\#529](https://github.com/47degrees/github4s/issues/529)
+
+**Merged pull requests:**
+
+- Apply scalafmt [\#531](https://github.com/47degrees/github4s/pull/531) ([BenFradet](https://github.com/BenFradet))
+- Add check if user is a collaborator [\#530](https://github.com/47degrees/github4s/pull/530) ([zachkirlew](https://github.com/zachkirlew))
+
+## [v0.25.0](https://github.com/47degrees/github4s/tree/v0.25.0) (2020-07-16)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.24.1...v0.25.0)
+
+⚠️ **Breaking changes**
+
+- Turn id fields into longs [\#523](https://github.com/47degrees/github4s/pull/523) ([chalenge](https://github.com/chalenge))
+
+📈 **Dependency updates**
+
+- Update scalafmt-core to 2.6.3 [\#527](https://github.com/47degrees/github4s/pull/527) ([scala-steward](https://github.com/scala-steward))
+- Update scalafmt-core to 2.6.2 [\#525](https://github.com/47degrees/github4s/pull/525) ([scala-steward](https://github.com/scala-steward))
+- Update http4s-blaze-client, http4s-circe, ... to 0.21.6 [\#522](https://github.com/47degrees/github4s/pull/522) ([scala-steward](https://github.com/scala-steward))
+- Update sbt to 1.3.13 [\#521](https://github.com/47degrees/github4s/pull/521) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-tpolecat to 0.1.13 [\#520](https://github.com/47degrees/github4s/pull/520) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-mdoc to 2.2.3 [\#519](https://github.com/47degrees/github4s/pull/519) ([scala-steward](https://github.com/scala-steward))
+- Update scalatest to 3.2.0 [\#514](https://github.com/47degrees/github4s/pull/514) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-mdoc to 2.2.2 [\#511](https://github.com/47degrees/github4s/pull/511) ([scala-steward](https://github.com/scala-steward))
+
+**Closed issues:**
+
+- Getting NotFound error when using repos.createRelease api [\#524](https://github.com/47degrees/github4s/issues/524)
+
+**Merged pull requests:**
+
+- Get repository permissions for a user [\#528](https://github.com/47degrees/github4s/pull/528) ([zachkirlew](https://github.com/zachkirlew))
+- Update http4s-blaze-client, http4s-circe, ... to 0.21.5 [\#518](https://github.com/47degrees/github4s/pull/518) ([BenFradet](https://github.com/BenFradet))
+- Update scalafmt-core to 2.6.1 [\#516](https://github.com/47degrees/github4s/pull/516) ([BenFradet](https://github.com/BenFradet))
+- Update scalafmt-core to 2.6.0 [\#513](https://github.com/47degrees/github4s/pull/513) ([BenFradet](https://github.com/BenFradet))
+
+## [v0.24.1](https://github.com/47degrees/github4s/tree/v0.24.1) (2020-06-08)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.24.0...v0.24.1)
+
+🚀 **Features**
+
+- Get release by release Id [\#497](https://github.com/47degrees/github4s/pull/497) ([georgeorfanidi](https://github.com/georgeorfanidi))
+- Get Blob support [\#494](https://github.com/47degrees/github4s/pull/494) ([georgeorfanidi](https://github.com/georgeorfanidi))
+- Latest release [\#493](https://github.com/47degrees/github4s/pull/493) ([georgeorfanidi](https://github.com/georgeorfanidi))
+- List of releases [\#492](https://github.com/47degrees/github4s/pull/492) ([georgeorfanidi](https://github.com/georgeorfanidi))
+- Do not depend on the http4s blaze client [\#480](https://github.com/47degrees/github4s/pull/480) ([BenFradet](https://github.com/BenFradet))
+
+📈 **Dependency updates**
+
+- Update scalafmt-core to 2.5.3 [\#506](https://github.com/47degrees/github4s/pull/506) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-mdoc to 2.2.1 [\#505](https://github.com/47degrees/github4s/pull/505) ([scala-steward](https://github.com/scala-steward))
+- Update sbt to 1.3.12 [\#504](https://github.com/47degrees/github4s/pull/504) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-tpolecat to 0.1.12 [\#503](https://github.com/47degrees/github4s/pull/503) ([scala-steward](https://github.com/scala-steward))
+- Update scalatest to 3.1.2 [\#491](https://github.com/47degrees/github4s/pull/491) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-mdoc to 2.2.0 [\#490](https://github.com/47degrees/github4s/pull/490) ([scala-steward](https://github.com/scala-steward))
+- Update http4s-blaze-client, http4s-circe to 0.21.4 [\#486](https://github.com/47degrees/github4s/pull/486) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-ci-release to 1.5.3 [\#483](https://github.com/47degrees/github4s/pull/483) ([scala-steward](https://github.com/scala-steward))
+- Update sbt-microsites to 1.2.0 [\#482](https://github.com/47degrees/github4s/pull/482) ([scala-steward](https://github.com/scala-steward))
+
+**Closed issues:**
+
+- Remove code coverage threshold [\#507](https://github.com/47degrees/github4s/issues/507)
+
+**Merged pull requests:**
+
+- Fixes oauth/access\_token Interpreter [\#509](https://github.com/47degrees/github4s/pull/509) ([juanpedromoreno](https://github.com/juanpedromoreno))
+- Remove code coverage threshold [\#508](https://github.com/47degrees/github4s/pull/508) ([BenFradet](https://github.com/BenFradet))
+-  Prepare repository for next `.github` release and SBT build improvements [\#501](https://github.com/47degrees/github4s/pull/501) ([alejandrohdezma](https://github.com/alejandrohdezma))
+- Make some Release fields optional [\#495](https://github.com/47degrees/github4s/pull/495) ([BenFradet](https://github.com/BenFradet))
+- Update scalafmt-core to 2.5.1 [\#488](https://github.com/47degrees/github4s/pull/488) ([BenFradet](https://github.com/BenFradet))
+- Perform scalafmt checks for the test code [\#484](https://github.com/47degrees/github4s/pull/484) ([BenFradet](https://github.com/BenFradet))
+- Adds micrositeGithubToken settings [\#478](https://github.com/47degrees/github4s/pull/478) ([juanpedromoreno](https://github.com/juanpedromoreno))
+
 ## [v0.24.0](https://github.com/47degrees/github4s/tree/v0.24.0) (2020-04-16)
 
 [Full Changelog](https://github.com/47degrees/github4s/compare/v0.23.0...v0.24.0)
@@ -144,7 +341,6 @@
 - Update sbt to 1.3.7 [\#325](https://github.com/47degrees/github4s/pull/325) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-microsites to 1.1.0 [\#324](https://github.com/47degrees/github4s/pull/324) ([scala-steward](https://github.com/scala-steward))
 - Update sbt to 1.3.6 [\#322](https://github.com/47degrees/github4s/pull/322) ([scala-steward](https://github.com/scala-steward))
-- Update mockserver-netty to 5.8.1 [\#321](https://github.com/47degrees/github4s/pull/321) ([scala-steward](https://github.com/scala-steward))
 - Update cats-core, cats-free to 2.1.0 [\#320](https://github.com/47degrees/github4s/pull/320) ([BenFradet](https://github.com/BenFradet))
 - Active sidebar items [\#319](https://github.com/47degrees/github4s/pull/319) ([AntonioMateoGomez](https://github.com/AntonioMateoGomez))
 - Sbt microsite adaptation [\#317](https://github.com/47degrees/github4s/pull/317) ([AntonioMateoGomez](https://github.com/AntonioMateoGomez))
@@ -491,14 +687,11 @@
 
 [Full Changelog](https://github.com/47degrees/github4s/compare/v0.14.4...v0.14.5)
 
-🐛 **Bug Fixes**
-
-- Random issues on Travis [\#84](https://github.com/47degrees/github4s/issues/84)
-
 **Closed issues:**
 
 - Github4s [\#96](https://github.com/47degrees/github4s/issues/96)
 - Github4s [\#94](https://github.com/47degrees/github4s/issues/94)
+- Random issues on Travis [\#84](https://github.com/47degrees/github4s/issues/84)
 
 **Merged pull requests:**
 

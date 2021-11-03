@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ sealed trait IssueType extends SearchParam {
   override def paramName: String = "type"
 }
 
-final case object IssueTypeIssue extends IssueType {
+case object IssueTypeIssue extends IssueType {
   override def paramValue: String = "issue"
 }
 
-final case object IssueTypePullRequest extends IssueType {
+case object IssueTypePullRequest extends IssueType {
   override def paramValue: String = "pr"
 }
 
@@ -43,15 +43,15 @@ sealed trait SearchInValue {
   def value: String
 }
 
-final case object SearchInTitle extends SearchInValue {
+case object SearchInTitle extends SearchInValue {
   override def value: String = "title"
 }
 
-final case object SearchInBody extends SearchInValue {
+case object SearchInBody extends SearchInValue {
   override def value: String = "body"
 }
 
-final case object SearchInComments extends SearchInValue {
+case object SearchInComments extends SearchInValue {
   override def value: String = "comments"
 }
 
@@ -59,11 +59,11 @@ sealed trait IssueState extends SearchParam {
   override def paramName: String = "state"
 }
 
-final case object IssueStateOpen extends IssueState {
+case object IssueStateOpen extends IssueState {
   override def paramValue: String = "open"
 }
 
-final case object IssueStateClosed extends IssueState {
+case object IssueStateClosed extends IssueState {
   override def paramValue: String = "closed"
 }
 
@@ -85,4 +85,16 @@ final case class OwnerParamInRepository(repo: String) extends OwnerParam {
   override def paramName: String = "repo"
 
   override def paramValue: String = repo
+}
+
+final case class LanguageParam(language: String) extends SearchParam {
+  override def paramName: String = "language"
+
+  override def paramValue: String = language
+}
+
+final case class TopicParam(topic: String) extends SearchParam {
+  override def paramName: String = "topic"
+
+  override def paramValue: String = topic
 }

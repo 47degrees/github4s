@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,26 +22,6 @@ import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
 trait AuthSpec extends BaseIntegrationSpec {
-
-  "Auth >> NewAuth" should "return error on Left when invalid credential is provided" taggedAs Integration in {
-    val response = clientResource
-      .use { client =>
-        Github[IO](client).auth
-          .newAuth(
-            validUsername,
-            invalidPassword,
-            validScopes,
-            validNote,
-            validClientId,
-            invalidClientSecret,
-            headerUserAgent
-          )
-      }
-      .unsafeRunSync()
-
-    testIsLeft[GHError.UnauthorizedError, Authorization](response)
-    response.statusCode shouldBe unauthorizedStatusCode
-  }
 
   "Auth >> AuthorizeUrl" should "return the expected URL for valid username" taggedAs Integration in {
     val response = clientResource
@@ -70,8 +50,8 @@ trait AuthSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft[GHError.BasicError, OAuthToken](response)
-    response.statusCode shouldBe notFoundStatusCode
+    testIsLeft[GHError.JsonParsingError, OAuthToken](response)
+    response.statusCode shouldBe okStatusCode
   }
 
 }

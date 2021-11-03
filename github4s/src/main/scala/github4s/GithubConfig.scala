@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package github4s
 
 import org.http4s.Header
+import org.typelevel.ci.CIString
 
 /**
  * Configuration for github4s
@@ -31,7 +32,9 @@ final case class GithubConfig(
     accessTokenUrl: String,
     headers: Map[String, String]
 ) {
-  def toHeaderList: List[Header] = headers.map { case (k, v) => Header(k, v) }.toList
+  def toHeaderList: List[Header.Raw] = headers.map { case (k, v) =>
+    Header.Raw(CIString(k), v)
+  }.toList
 }
 
 object GithubConfig {

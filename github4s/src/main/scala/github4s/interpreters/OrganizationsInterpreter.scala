@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,13 @@
 
 package github4s.interpreters
 
+import github4s.Decoders._
 import github4s.GHResponse
-import github4s.http.HttpClient
 import github4s.algebras.Organizations
 import github4s.domain._
-import github4s.Decoders._
+import github4s.http.HttpClient
 
-class OrganizationsInterpreter[F[_]](implicit client: HttpClient[F], accessToken: Option[String])
-    extends Organizations[F] {
+class OrganizationsInterpreter[F[_]](implicit client: HttpClient[F]) extends Organizations[F] {
 
   override def listMembers(
       org: String,
@@ -33,7 +32,6 @@ class OrganizationsInterpreter[F[_]](implicit client: HttpClient[F], accessToken
       headers: Map[String, String]
   ): F[GHResponse[List[User]]] =
     client.get[List[User]](
-      accessToken,
       s"orgs/$org/members",
       headers,
       Map(
@@ -50,7 +48,6 @@ class OrganizationsInterpreter[F[_]](implicit client: HttpClient[F], accessToken
       headers: Map[String, String]
   ): F[GHResponse[List[User]]] =
     client.get[List[User]](
-      accessToken,
       s"orgs/$org/outside_collaborators",
       headers,
       Map("filter" -> filter).collect { case (key, Some(value)) => key -> value },

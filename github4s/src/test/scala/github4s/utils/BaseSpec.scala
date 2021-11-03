@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,169 +16,181 @@
 
 package github4s.utils
 
-import cats.effect.IO
-import github4s.GithubConfig
-import github4s.GHResponse
-import github4s.domain.Pagination
+import cats.effect.{unsafe, IO}
 import github4s.http.HttpClient
+import github4s.interpreters.StaticAccessToken
+import github4s.{GithubConfig, IOAssertions}
 import io.circe.{Decoder, Encoder}
 import org.http4s.client.Client
-import org.scalamock.scalatest.MockFactory
-import org.scalatest.flatspec.AnyFlatSpec
+import org.http4s.syntax.all._
+import org.http4s._
+import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
+import org.typelevel.ci.CIString
 
-trait BaseSpec extends AnyFlatSpec with Matchers with TestData with MockFactory {
+import scala.concurrent.ExecutionContext
 
-  implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
-  implicit val io = cats.effect.IO.contextShift(ec)
-  implicit val dummyConfig: GithubConfig = GithubConfig(
+trait BaseSpec extends AsyncFlatSpec with Matchers with TestData with IOAssertions {
+  import org.http4s.circe.CirceEntityDecoder._
+  import org.http4s.circe.CirceEntityEncoder._
+  import org.http4s.dsl.io._
+
+  protected implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
+  protected implicit val ioRuntime: unsafe.IORuntime = unsafe.IORuntime.global
+  protected val dummyConfig: GithubConfig = GithubConfig(
     baseUrl = "http://127.0.0.1:9999/",
     authorizeUrl = "http://127.0.0.1:9999/authorize?client_id=%s&redirect_uri=%s&scope=%s&state=%s",
     accessTokenUrl = "http://127.0.0.1:9999/login/oauth/access_token",
     Map.empty
   )
 
-  @com.github.ghik.silencer.silent("deprecated")
-  class HttpClientTest extends HttpClient[IO](mock[Client[IO]], implicitly)
+  private val userAgent = headerUserAgent.toList.map { case (k, v) => Header.Raw(CIString(k), v) }
 
-  def httpClientMockGet[Out](
+  protected def httpClientMockGet[Out: Encoder](
       url: String,
       params: Map[String, String] = Map.empty,
       headers: Map[String, String] = Map.empty,
-      response: IO[GHResponse[Out]]
+      response: IO[Out],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
   ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .get[Out](
-        _: Option[String],
-        _: String,
-        _: Map[String, String],
-        _: Map[String, String],
-        _: Option[Pagination]
-      )(_: Decoder[Out]))
-      .expects(sampleToken, url, headers ++ headerUserAgent, params, *, *)
-      .returns(response)
-    httpClientMock
+    val httpClientMock = httpMock {
+      case req
+          if req.uri == Uri.unsafeFromString(url) &&
+            (req.headers == (Headers(userAgent) ++ Headers(headers.toList))) &&
+            req.params == params =>
+        response.map(body => Response[IO](responseStatus).withEntity(body).putHeaders(respHeaders))
+    }
+    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
   }
 
-  def httpClientMockPost[In, Out](
+  protected def httpClientMockGetWithoutResponse(
+      url: String,
+      response: IO[Unit],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
+  ): HttpClient[IO] = {
+    val httpClientMock = httpMock {
+      case req
+          if req.uri == Uri.unsafeFromString(url) &&
+            req.headers == Headers(userAgent) =>
+        response.map(_ => Response[IO](responseStatus).putHeaders(respHeaders))
+    }
+    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
+  }
+
+  protected def httpClientMockPost[In: Decoder, Out: Encoder](
       url: String,
       req: In,
-      response: IO[GHResponse[Out]]
-  ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .post[In, Out](_: Option[String], _: String, _: Map[String, String], _: In)(
-        _: Encoder[In],
-        _: Decoder[Out]
-      ))
-      .expects(sampleToken, url, headerUserAgent, req, *, *)
-      .returns(response)
-    httpClientMock
-  }
+      response: IO[Out],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
+  ): HttpClient[IO] =
+    httpInOut(POST, url, req, response, responseStatus, respHeaders)
 
-  def httpClientMockPostAuth[In, Out](
+  protected def httpClientMockPostOAuth[Out: Encoder](
       url: String,
-      headers: Map[String, String],
-      req: In,
-      response: IO[GHResponse[Out]]
+      response: IO[Out],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
   ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .postAuth[In, Out](_: String, _: Map[String, String], _: In)(
-        _: Encoder[In],
-        _: Decoder[Out]
-      ))
-      .expects(url, headers ++ headerUserAgent, req, *, *)
-      .returns(response)
-    httpClientMock
+    val httpClientMock = httpMock {
+      case req @ POST -> _
+          if req.uri == Uri.unsafeFromString(url) &&
+            req.headers == Headers(userAgent) =>
+        response.map(body => Response[IO](responseStatus).withEntity(body).putHeaders(respHeaders))
+    }
+
+    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
   }
 
-  def httpClientMockPostOAuth[In, Out](
+  protected def httpClientMockPatch[In: Decoder, Out: Encoder](
       url: String,
       req: In,
-      response: IO[GHResponse[Out]]
-  ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .postOAuth[In, Out](_: String, _: Map[String, String], _: In)(
-        _: Encoder[In],
-        _: Decoder[Out]
-      ))
-      .expects(url, headerUserAgent, req, *, *)
-      .returns(response)
-    httpClientMock
-  }
+      response: IO[Out],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
+  ): HttpClient[IO] =
+    httpInOut(PATCH, url, req, response, responseStatus, respHeaders)
 
-  def httpClientMockPatch[In, Out](
+  protected def httpClientMockPut[In: Decoder, Out: Encoder](
       url: String,
       req: In,
-      response: IO[GHResponse[Out]]
+      response: IO[Out],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
+  ): HttpClient[IO] =
+    httpInOut(PUT, url, req, response, responseStatus, respHeaders)
+
+  protected def httpClientMockDelete(
+      url: String,
+      response: IO[Unit],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
   ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .patch[In, Out](_: Option[String], _: String, _: Map[String, String], _: In)(
-        _: Encoder[In],
-        _: Decoder[Out]
-      ))
-      .expects(sampleToken, url, headerUserAgent, req, *, *)
-      .returns(response)
-    httpClientMock
+
+    val httpClientMock = httpMock {
+      case req @ DELETE -> _
+          if req.uri == Uri.unsafeFromString(url) &&
+            req.headers == Headers(userAgent) =>
+        response.as(Response[IO](responseStatus).putHeaders(respHeaders))
+    }
+    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
   }
 
-  def httpClientMockPut[In, Out](
+  protected def httpClientMockDeleteWithResponse[Out: Encoder](
+      url: String,
+      response: IO[Out],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
+  ): HttpClient[IO] = {
+    val httpClientMock = httpMock {
+      case req @ DELETE -> _
+          if req.uri == Uri.unsafeFromString(url) &&
+            req.headers == Headers(userAgent) =>
+        response.map(body => Response[IO](responseStatus).withEntity(body).putHeaders(respHeaders))
+    }
+    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
+  }
+
+  protected def httpClientMockDeleteWithBody[In: Decoder, Out: Encoder](
       url: String,
       req: In,
-      response: IO[GHResponse[Out]]
-  ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .put[In, Out](_: Option[String], _: String, _: Map[String, String], _: In)(
-        _: Encoder[In],
-        _: Decoder[Out]
-      ))
-      .expects(sampleToken, url, headerUserAgent, req, *, *)
-      .returns(response)
-    httpClientMock
-  }
+      response: IO[Out],
+      responseStatus: Status = Status.Ok,
+      respHeaders: Headers = Headers.empty
+  ): HttpClient[IO] =
+    httpInOut(DELETE, url, req, response, responseStatus, respHeaders)
 
-  def httpClientMockDelete(url: String, response: IO[GHResponse[Unit]]): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .delete(_: Option[String], _: String, _: Map[String, String]))
-      .expects(sampleToken, url, headerUserAgent)
-      .returns(response)
-    httpClientMock
-  }
-
-  def httpClientMockDeleteWithResponse[Out](
-      url: String,
-      response: IO[GHResponse[Out]]
-  ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .deleteWithResponse[Out](_: Option[String], _: String, _: Map[String, String])(
-        _: Decoder[Out]
-      ))
-      .expects(sampleToken, url, headerUserAgent, *)
-      .returns(response)
-    httpClientMock
-  }
-
-  def httpClientMockDeleteWithBody[In, Out](
+  private def httpInOut[In: Decoder, Out: Encoder](
+      method: Method,
       url: String,
       req: In,
-      response: IO[GHResponse[Out]]
-  ): HttpClient[IO] = {
-    val httpClientMock = mock[HttpClientTest]
-    (httpClientMock
-      .deleteWithBody[In, Out](_: Option[String], _: String, _: Map[String, String], _: In)(
-        _: Encoder[In],
-        _: Decoder[Out]
-      ))
-      .expects(sampleToken, url, headerUserAgent, req, *, *)
-      .returns(response)
-    httpClientMock
+      response: IO[Out],
+      responseStatus: Status,
+      respHeaders: Headers
+  ) = {
+
+    val input = req
+    val httpClientMock = httpMock {
+      case req @ `method` -> _
+          if req.uri == Uri.unsafeFromString(url) &&
+            req.headers == Headers(userAgent) =>
+        val validate = req
+          .as[In]
+          .flatMap(reqBody =>
+            IO.raiseWhen(reqBody != input)(
+              new IllegalArgumentException(s"Expected $input, got $reqBody")
+            )
+          )
+        validate >> response.map(body =>
+          Response[IO](responseStatus).withEntity(body).putHeaders(respHeaders)
+        )
+    }
+    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
   }
+
+  private def httpMock(pf: PartialFunction[Request[IO], IO[Response[IO]]]) =
+    Client.fromHttpApp(HttpRoutes.of[IO](pf).orNotFound)
 
 }

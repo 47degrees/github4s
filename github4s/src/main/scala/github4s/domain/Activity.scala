@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ package github4s.domain
 final case class Subscription(
     subscribed: Boolean,
     ignored: Boolean,
-    reason: Option[String],
     created_at: String,
     url: String,
-    thread_url: String
+    thread_url: String,
+    reason: Option[String] = None
 )
 
 final case class SubscriptionRequest(
@@ -31,11 +31,11 @@ final case class SubscriptionRequest(
 )
 
 final case class Stargazer(
-    starred_at: Option[String],
-    user: User
+    user: User,
+    starred_at: Option[String] = None
 )
 
 final case class StarredRepository(
-    starred_at: Option[String],
-    repo: Repository
+    repo: Repository,
+    starred_at: Option[String] = None
 )

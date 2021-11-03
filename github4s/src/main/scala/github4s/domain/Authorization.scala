@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,6 @@
 
 package github4s.domain
 
-final case class Authorization(
-    id: Int,
-    url: String,
-    token: String
-)
-
-final case class NewAuthRequest(
-    scopes: List[String],
-    note: String,
-    client_id: String,
-    client_secret: String
-)
-
 final case class Authorize(
     url: String,
     state: String
@@ -38,12 +25,4 @@ final case class OAuthToken(
     access_token: String,
     token_type: String,
     scope: String
-)
-
-final case class NewOAuthRequest(
-    client_id: String,
-    client_secret: String,
-    code: String,
-    redirect_uri: String,
-    state: String
 )

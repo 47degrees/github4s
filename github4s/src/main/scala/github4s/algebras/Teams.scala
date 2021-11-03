@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,8 @@ import github4s.domain._
 
 trait Teams[F[_]] {
 
-  /** List the teams for a particular organization
+  /**
+   * List the teams for a particular organization
    *
    * @param org organization for which we wish to retrieve the teams
    * @param pagination Limit and Offset for pagination

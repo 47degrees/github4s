@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2020 47 Degrees Open Source <https://www.47deg.com>
+ * Copyright 2016-2021 47 Degrees Open Source <https://www.47deg.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,6 +83,7 @@ trait FakeResponses {
       |  "html_url": "https://github.com/47degrees/github4s",
       |  "description": "A GitHub API wrapper written in Scala",
       |  "fork": false,
+      |  "archived": false,
       |  "url": "https://api.github.com/repos/47degrees/github4s",
       |  "forks_url": "https://api.github.com/repos/47degrees/github4s/forks",
       |  "keys_url": "https://api.github.com/repos/47degrees/github4s/keys{/key_id}",
@@ -142,7 +143,7 @@ trait FakeResponses {
       |  "forks": 1,
       |  "open_issues": 5,
       |  "watchers": 0,
-      |  "default_branch": "master",
+      |  "default_branch": "main",
       |  "organization": {
       |    "login": "47deg",
       |    "id": 479857,
@@ -513,5 +514,32 @@ trait FakeResponses {
       |  "repo": $getRepoResponse
       |}
     """.stripMargin
+
+  val getUserRepoPermissionResponse =
+    s"""
+       |{
+       |  "permission": "admin",
+       |  "user": {
+       |    "login": "octocat",
+       |    "id": 1,
+       |    "node_id": "MDQ6VXNlcjE=",
+       |    "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+       |    "gravatar_id": "",
+       |    "url": "https://api.github.com/users/octocat",
+       |    "html_url": "https://github.com/octocat",
+       |    "followers_url": "https://api.github.com/users/octocat/followers",
+       |    "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+       |    "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+       |    "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+       |    "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+       |    "organizations_url": "https://api.github.com/users/octocat/orgs",
+       |    "repos_url": "https://api.github.com/users/octocat/repos",
+       |    "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+       |    "received_events_url": "https://api.github.com/users/octocat/received_events",
+       |    "type": "User",
+       |    "site_admin": false
+       |  }
+       |}
+       |""".stripMargin
 
 }
