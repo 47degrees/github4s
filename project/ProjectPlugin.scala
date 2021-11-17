@@ -24,7 +24,7 @@ object ProjectPlugin extends AutoPlugin {
       val scalacheckShapeless     = "1.3.0"
       val scalacheckPlusScalatest = "3.2.10.0"
       val scalatest: String       = "3.2.10"
-      val shapeless3              = "3.0.3"
+      val shapeless3              = "3.0.4"
     }
 
     lazy val docsMappingsAPIDir: SettingKey[String] =
