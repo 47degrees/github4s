@@ -154,3 +154,9 @@ final case class ReviewersResponse(
 
 final case class BranchUpdateRequest(expected_head_sha: Option[String])
 final case class BranchUpdateResponse(message: String, url: String)
+
+sealed abstract class PullRequestMergeMethod(val value: String) extends Product with Serializable
+
+case object PRMergeMethodMerge  extends PullRequestMergeMethod("merge")
+case object PRMergeMethodSquash extends PullRequestMergeMethod("squash")
+case object PRMergeMethodRebase extends PullRequestMergeMethod("rebase")

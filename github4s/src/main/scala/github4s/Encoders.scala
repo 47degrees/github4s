@@ -48,6 +48,9 @@ object Encoders {
   implicit val encodePrrEvent: Encoder[PullRequestReviewEvent] =
     Encoder.encodeString.contramap(_.value)
 
+  implicit val encodePrMergeMethod: Encoder[PullRequestMergeMethod] =
+    Encoder.encodeString.contramap(_.value)
+
   implicit val encodeEditGistFile: Encoder[EditGistFile] = {
     deriveEncoder[EditGistFile].mapJsonObject(
       _.filter(e => !(e._1.equals("filename") && e._2.isNull))
