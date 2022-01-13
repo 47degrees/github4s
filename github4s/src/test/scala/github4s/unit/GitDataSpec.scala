@@ -191,6 +191,31 @@ class GitDataSpec extends BaseSpec {
 
   }
 
+  "GitData.getTag" should "call to httpClient.get with the right parameters" in {
+
+    val response: IO[GHResponse[Tag]] =
+      IO(
+        GHResponse(
+          tag.asRight,
+          okStatusCode,
+          Map.empty
+        )
+      )
+
+    implicit val httpClientMock = httpClientMockGet[Tag](
+      url = s"repos/$validRepoOwner/$validRepoName/git/tags/$validCommitSha",
+      response = response
+    )
+    val gitData = new GitDataInterpreter[IO]
+
+    gitData.getTag(
+      validRepoOwner,
+      validRepoName,
+      validCommitSha,
+      headerUserAgent
+    )
+  }
+
   "GitData.createTag" should "call to httpClient.post with the right parameters" in {
 
     val request =

@@ -217,6 +217,22 @@ trait GitData[F[_]] {
   ): F[GHResponse[TreeResult]]
 
   /**
+   * Get a Tag by sha
+   *
+   * @param owner of the repo
+   * @param repo name of the repo
+   * @param sha the sha of the tree
+   * @param headers optional user headers to include in the request
+   * @return a GHResponse with the Tree
+   */
+  def getTag(
+      owner: String,
+      repo: String,
+      sha: String,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[Tag]]
+
+  /**
    * Create a Tag
    *
    * @param owner of the repo
