@@ -78,6 +78,15 @@ final case class CreatePullRequestIssue(
     maintainer_can_modify: Option[Boolean] = Some(true)
 ) extends CreatePullRequest
 
+final case class PullRequestMergeRequest(
+    commit_title: Option[String],
+    commit_message: Option[String],
+    sha: Option[String],
+    merge_method: Option[PullRequestMergeMethod]
+)
+
+final case class PullRequestMergeResponse(sha: String, merged: Boolean, message: String)
+
 sealed abstract class PRFilter(val name: String, val value: String)
     extends Product
     with Serializable {

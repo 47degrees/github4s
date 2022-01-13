@@ -42,6 +42,9 @@ object Encoders {
     }
   }
 
+  implicit val encoderPullRequestMergeRequest: Encoder[PullRequestMergeRequest] =
+    deriveEncoder[PullRequestMergeRequest]
+
   implicit val encodePrrStatus: Encoder[PullRequestReviewState] =
     Encoder.encodeString.contramap(_.value)
 
