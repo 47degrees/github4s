@@ -375,7 +375,8 @@ object Decoders {
       case PRMergeMethodSquash.value => PRMergeMethodSquash.asRight
       case other                     => s"Unknown pull request merge method: $other".asLeft
     }
-  implicit val decoderPullRequestMergeResponse: Decoder[PullRequestMergeResponse] = deriveDecoder[PullRequestMergeResponse]
+  implicit val decoderPullRequestMergeResponse: Decoder[PullRequestMergeResponse] =
+    deriveDecoder[PullRequestMergeResponse]
   implicit val decoderCreateReferenceRequest: Decoder[CreateReferenceRequest] =
     deriveDecoder[CreateReferenceRequest]
   implicit val decoderDeleteFileRequest: Decoder[DeleteFileRequest] =
