@@ -371,17 +371,83 @@ object RepoUrlKeys {
       files: Seq[FileComparison] = Seq.empty
   )
 
-  final case class FileComparison(
-      sha: String,
-      filename: String,
-      status: String,
-      additions: Int,
-      deletions: Int,
-      changes: Int,
-      blob_url: String,
-      raw_url: String,
-      contents_url: String,
-      patch: String
-  )
+  /**
+   * A file comparison that contains information on the changes to a file.
+   * There are two subtypes: `FileComparisonNotRenamed` and `FileComparisonRenamed` that have different guarantees.
+   *
+   * * `FileComparisonNotRenamed` guarantees that the `patch` field exists, does not have a `previous_filename` field.
+   * * `FileComparisonRenamed` guarantees that the `previous_filename` field exists and sometimes contains a `patch` field.
+   *
+   * To get values from these fields, there are helper methods `getPatch` and `getPreviousFilename`, though
+   * it is recomended to match on your `FileComparison` value to determine which type it is, to remove ambiguity.
+   */
+  sealed trait FileComparison {
+    def sha: String
+    def filename: String
+    def status: String
+    def additions: Int
+    def deletions: Int
+    def changes: Int
+    def blob_url: String
+    def raw_url: String
+    def contents_url: String
+
+    /**
+     * Gets the contents of the `patch` field if it exists, in the case that the file was modified.
+     * To guarantee that the `patch` field is available, match this `FileComparison` value as a
+     * `FileComparison.FileComparisonNotRenamed` type which always has this field.
+     */
+    def getPatch: Option[String]
+
+    /**
+     * Gets the contents of the `previous_filename` field if it exists.
+     * This field is guaranteed to appear in the event of any rename.
+     * To guarantee that this field is available, match this `FileComparison` value as a
+     * `FileComparison.FileComparisonRenamde` type which always has this field.
+     */
+    def getPreviousFilename: Option[String]
+  }
+
+  object FileComparison {
+
+    /**
+     * Represents a file comparison where the file was renamed.
+     * The `patch` field will exist if there were also small internal file changes,
+     * and the `previous_filename` field is guaranteed to exist, containing the file's previous filename.
+     */
+    final case class FileComparisonRenamed(
+        sha: String,
+        filename: String,
+        additions: Int,
+        deletions: Int,
+        changes: Int,
+        blob_url: String,
+        raw_url: String,
+        contents_url: String,
+        patch: Option[String],
+        previous_filename: String
+    ) extends FileComparison {
+      val status: String                      = "renamed"
+      def getPatch: Option[String]            = patch
+      def getPreviousFilename: Option[String] = Some(previous_filename)
+    }
+
+    /** Represents a file comparison where a file was not renamed. */
+    final case class FileComparisonNotRenamed(
+        sha: String,
+        filename: String,
+        status: String,
+        additions: Int,
+        deletions: Int,
+        changes: Int,
+        blob_url: String,
+        raw_url: String,
+        contents_url: String,
+        patch: String
+    ) extends FileComparison {
+      def getPatch: Option[String]            = Some(patch)
+      def getPreviousFilename: Option[String] = None
+    }
+  }
 
 }

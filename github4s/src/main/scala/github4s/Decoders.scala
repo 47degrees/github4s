@@ -246,7 +246,19 @@ object Decoders {
         )
       )
 
-  implicit val decoderFileComparison: Decoder[FileComparison] = deriveDecoder[FileComparison]
+  implicit val decoderFileComparisonNotRenamed: Decoder[FileComparison.FileComparisonNotRenamed] =
+    deriveDecoder[FileComparison.FileComparisonNotRenamed]
+  implicit val decoderFileComparisonRenamed: Decoder[FileComparison.FileComparisonRenamed] =
+    deriveDecoder[FileComparison.FileComparisonRenamed]
+
+  // Disambiguates between renamed and non-renamed cases based on status
+  implicit val decoderFileComparison: Decoder[FileComparison] =
+    Decoder.instance { c =>
+      c.downField("status").as[String].flatMap { status =>
+        if (status == "renamed") decoderFileComparisonRenamed(c)
+        else decoderFileComparisonNotRenamed(c)
+      }
+    }
 
   implicit val decoderCreatePullRequestData: Decoder[CreatePullRequestData] =
     deriveDecoder[CreatePullRequestData]
