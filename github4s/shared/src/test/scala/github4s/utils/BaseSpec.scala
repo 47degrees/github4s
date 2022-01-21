@@ -35,7 +35,7 @@ trait BaseSpec extends AsyncFlatSpec with Matchers with TestData with IOAssertio
   import org.http4s.circe.CirceEntityEncoder._
   import org.http4s.dsl.io._
 
-  protected implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
+  protected implicit val ec: ExecutionContext = TestContext.context
   protected implicit val ioRuntime: unsafe.IORuntime = unsafe.IORuntime.global
   protected val dummyConfig: GithubConfig = GithubConfig(
     baseUrl = "http://127.0.0.1:9999/",

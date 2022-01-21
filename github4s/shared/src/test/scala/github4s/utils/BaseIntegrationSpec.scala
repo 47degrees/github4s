@@ -54,8 +54,7 @@ abstract class BaseIntegrationSpec
     with TestData
     with IOAssertions {
 
-  override val executionContext: ExecutionContext =
-    scala.concurrent.ExecutionContext.Implicits.global
+  override val executionContext: ExecutionContext = TestContext.context
 
   protected implicit val ioRuntime: unsafe.IORuntime = unsafe.IORuntime.global
 

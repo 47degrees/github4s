@@ -17,12 +17,16 @@ addCommandAlias("ci-publish", "github; ci-release")
 publish / skip := true
 
 lazy val github4s = (crossProject(JSPlatform, JVMPlatform))
-  .crossType(CrossType.Pure)
+  .crossType(CrossType.Full)
   .withoutSuffixFor(JVMPlatform)
   .settings(coreDeps: _*)
   .settings(
     // Increase number of inlines, needed for circe semiauto derivation
-    scalacOptions ++= on(3, 9)(Seq("-Xmax-inlines", "20")).value.flatten
+    scalacOptions ++= on(3, 9)(Seq("-Xmax-inlines", "20")).value.flatten,
+    // See the README for why this is necessary
+    // https://github.com/scala-js/scala-js-macrotask-executor/tree/v1.0.0
+    // tl;dr: without it, performance problems and concurrency bugs abound
+    libraryDependencies += "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0" % Test
   )
 
 //////////
