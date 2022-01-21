@@ -105,6 +105,29 @@ trait PullRequests[F[_]] {
   ): F[GHResponse[PullRequest]]
 
   /**
+   * Merge a pull request
+   *
+   * @param owner Owner of the repo
+   * @param repo Name of the repo
+   * @param number of the pull request for which we want to merge
+   * @param commitTitle Title for the automatic commit message
+   * @param commitMessage Extra detail to append to automatic commit message
+   * @param sha SHA that pull request head must match to allow merge
+   * @param mergeMethod Merge method to use. Possible values are merge, squash or rebase. Default is merge.
+   * @param headers Optional user headers to include in the request
+   */
+  def mergePullRequest(
+      owner: String,
+      repo: String,
+      number: Long,
+      commitTitle: Option[String] = None,
+      commitMessage: Option[String] = None,
+      sha: Option[String] = None,
+      mergeMethod: Option[PullRequestMergeMethod] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequestMergeResponse]]
+
+  /**
    * List pull request reviews.
    *
    * @param owner Owner of the repo

@@ -208,6 +208,8 @@ object HttpClient {
       case 401 => response.attemptAs[UnauthorizedError].map(_.asLeft)
       case 403 => response.attemptAs[ForbiddenError].map(_.asLeft)
       case 404 => response.attemptAs[GHError](notFoundEntityDecoder).map(_.asLeft)
+      case 405 => response.attemptAs[MethodNotAllowed].map(_.asLeft)
+      case 409 => response.attemptAs[Conflict].map(_.asLeft)
       case 422 => response.attemptAs[UnprocessableEntityError].map(_.asLeft)
       case 423 => response.attemptAs[RateLimitExceededError].map(_.asLeft)
       case _ =>

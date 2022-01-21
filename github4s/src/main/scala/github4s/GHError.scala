@@ -141,6 +141,30 @@ object GHError {
       deriveDecoder[NotFoundError]
   }
 
+  /**
+   * Corresponds to a 405 status code
+   * @param message that was given in the response body
+   */
+  final case class MethodNotAllowed(message: String) extends GHError(message) {
+    override def toString: String = s"MethodNotAllowed($message)"
+  }
+  object MethodNotAllowed {
+    private[github4s] implicit val methodNotAllowedDecoder: Decoder[MethodNotAllowed] =
+      deriveDecoder[MethodNotAllowed]
+  }
+
+  /**
+   * Corresponds to a 409 status code
+   * @param message that was given in the response body
+   */
+  final case class Conflict(message: String) extends GHError(message) {
+    override def toString: String = s"Conflict($message)"
+  }
+  object Conflict {
+    private[github4s] implicit val conflictDecoder: Decoder[Conflict] =
+      deriveDecoder[Conflict]
+  }
+
   sealed trait ErrorCode
   object ErrorCode {
     case object MissingResource       extends ErrorCode

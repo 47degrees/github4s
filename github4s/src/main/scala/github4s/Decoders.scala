@@ -380,6 +380,15 @@ object Decoders {
     val issue = deriveDecoder[CreatePullRequestIssue]
     data.widen[CreatePullRequest] or issue.widen[CreatePullRequest]
   }
+  implicit val decoderPullRequestMergeMethod: Decoder[PullRequestMergeMethod] =
+    Decoder[String].emap {
+      case PRMergeMethodMerge.value  => PRMergeMethodMerge.asRight
+      case PRMergeMethodRebase.value => PRMergeMethodRebase.asRight
+      case PRMergeMethodSquash.value => PRMergeMethodSquash.asRight
+      case other                     => s"Unknown pull request merge method: $other".asLeft
+    }
+  implicit val decoderPullRequestMergeResponse: Decoder[PullRequestMergeResponse] =
+    deriveDecoder[PullRequestMergeResponse]
   implicit val decoderCreateReferenceRequest: Decoder[CreateReferenceRequest] =
     deriveDecoder[CreateReferenceRequest]
   implicit val decoderDeleteFileRequest: Decoder[DeleteFileRequest] =

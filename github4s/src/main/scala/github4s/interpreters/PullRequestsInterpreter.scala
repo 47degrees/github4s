@@ -81,6 +81,30 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F]) extends Pull
       .post[CreatePullRequest, PullRequest](s"repos/$owner/$repo/pulls", headers, data)
   }
 
+  override def mergePullRequest(
+      owner: String,
+      repo: String,
+      number: Long,
+      commitTitle: Option[String],
+      commitMessage: Option[String],
+      sha: Option[String],
+      mergeMethod: Option[PullRequestMergeMethod],
+      headers: Map[String, String]
+  ) = {
+    val request = PullRequestMergeRequest(
+      commitTitle,
+      commitMessage,
+      sha,
+      mergeMethod
+    )
+    client
+      .put[PullRequestMergeRequest, PullRequestMergeResponse](
+        s"/repos/$owner/$repo/pulls/$number/merge",
+        headers,
+        request
+      )
+  }
+
   override def listReviews(
       owner: String,
       repo: String,

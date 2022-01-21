@@ -42,10 +42,16 @@ object Encoders {
     }
   }
 
+  implicit val encoderPullRequestMergeRequest: Encoder[PullRequestMergeRequest] =
+    deriveEncoder[PullRequestMergeRequest]
+
   implicit val encodePrrStatus: Encoder[PullRequestReviewState] =
     Encoder.encodeString.contramap(_.value)
 
   implicit val encodePrrEvent: Encoder[PullRequestReviewEvent] =
+    Encoder.encodeString.contramap(_.value)
+
+  implicit val encodePrMergeMethod: Encoder[PullRequestMergeMethod] =
     Encoder.encodeString.contramap(_.value)
 
   implicit val encodeEditGistFile: Encoder[EditGistFile] = {
