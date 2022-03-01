@@ -7,6 +7,10 @@ permalink: changelog
 ---
 # Changelog
 
+## [v0.28.1](https://github.com/47degrees/github4s/tree/v0.28.1) (2021-01-28)
+
+[Full Changelog](https://github.com/47degrees/github4s/compare/v0.28.0...v0.28.1)
+
 ## [v0.28.0](https://github.com/47degrees/github4s/tree/v0.28.0) (2021-01-27)
 
 [Full Changelog](https://github.com/47degrees/github4s/compare/v0.27.1...v0.28.0)
@@ -344,7 +348,6 @@ permalink: changelog
 - Update sbt to 1.3.7 [\#325](https://github.com/47degrees/github4s/pull/325) ([scala-steward](https://github.com/scala-steward))
 - Update sbt-microsites to 1.1.0 [\#324](https://github.com/47degrees/github4s/pull/324) ([scala-steward](https://github.com/scala-steward))
 - Update sbt to 1.3.6 [\#322](https://github.com/47degrees/github4s/pull/322) ([scala-steward](https://github.com/scala-steward))
-- Update mockserver-netty to 5.8.1 [\#321](https://github.com/47degrees/github4s/pull/321) ([scala-steward](https://github.com/scala-steward))
 - Update cats-core, cats-free to 2.1.0 [\#320](https://github.com/47degrees/github4s/pull/320) ([BenFradet](https://github.com/BenFradet))
 - Active sidebar items [\#319](https://github.com/47degrees/github4s/pull/319) ([AntonioMateoGomez](https://github.com/AntonioMateoGomez))
 - Sbt microsite adaptation [\#317](https://github.com/47degrees/github4s/pull/317) ([AntonioMateoGomez](https://github.com/AntonioMateoGomez))
