@@ -454,7 +454,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   }
 
   "Repos >> Search" should "return at least one repository for a valid query" taggedAs Integration in {
-    val params = List(LanguageParam("scala"), TopicParam("jekyll"))
+    val params = List(LanguageParam("scss"), TopicParam("jekyll"))
     val response = clientResource
       .use { client =>
         Github[IO](client, accessToken).repos
