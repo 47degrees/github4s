@@ -252,8 +252,8 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F]) extends Issues[F] 
       headers,
       pagination = pagination,
       params = List(
-        state.map("state"         -> _),
-        sort.map("sort"           -> _),
+        state.map("state" -> _),
+        sort.map("sort" -> _),
         direction.map("direction" -> _)
       ).flatten.toMap
     )
