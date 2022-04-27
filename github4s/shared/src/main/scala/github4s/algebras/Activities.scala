@@ -76,4 +76,18 @@ trait Activities[F[_]] {
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[StarredRepository]]]
 
+  /**
+   * List the events of a particular public organization
+   *
+   * @param org Organization for which we wish to retrieve the events
+   * @param pagination Limit and Offset for pagination
+   * @param headers Optional user headers to include in the request
+   * @return GHResponse with the list of events for this public organization
+   */
+  def listPublicOrganizationEvents(
+      org: String,
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[PublicOrganizationEvent]]]
+
 }

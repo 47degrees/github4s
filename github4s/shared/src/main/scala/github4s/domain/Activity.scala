@@ -39,3 +39,12 @@ final case class StarredRepository(
     repo: Repository,
     starred_at: Option[String] = None
 )
+
+final case class PublicOrganizationEvent(
+    id: Long,
+    `type`: String,
+    actor_login: String,
+    repo_full_name: String,
+    public: Boolean,
+    created_at: String
+)

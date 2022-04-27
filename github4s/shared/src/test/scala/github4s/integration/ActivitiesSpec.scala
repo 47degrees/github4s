@@ -143,4 +143,37 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
     testIsLeft[NotFoundError, List[StarredRepository]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
+
+  "Activity >> PublicOrganizationEvents" should "return the expected list of events" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listPublicOrganizationEvents(validOrganizationName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsRight[List[PublicOrganizationEvent]](
+      response,
+      { r =>
+        r.nonEmpty shouldBe true
+        forAll(r)(s => s.public shouldBe true)
+        forAll(r)(s => s.actor_login.nonEmpty shouldBe true)
+        forAll(r)(s => s.repo_full_name.nonEmpty shouldBe true)
+      }
+    )
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return error for invalid organization" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listPublicOrganizationEvents(invalidOrganizationName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsLeft[NotFoundError, List[PublicOrganizationEvent]](response)
+    response.statusCode shouldBe notFoundStatusCode
+  }
+
 }

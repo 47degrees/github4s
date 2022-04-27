@@ -28,4 +28,4 @@ If you wish to add your library here please consider a PR to include it in the l
 
 Github4s is designed and developed by 47 Degrees
 
-Copyright (C) 2016-2020 47 Degrees. <http://47deg.com>
+Copyright (C) 2016-2022 47 Degrees. <http://47deg.com>
