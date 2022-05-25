@@ -20,8 +20,7 @@ import cats.effect.IO
 import cats.effect.unsafe.implicits.global
 import fs2.Stream
 import github4s.GHError._
-import io.circe.{DecodingFailure, Encoder, Json}
-import io.circe.CursorOp.DownField
+import io.circe.{Encoder, Json}
 import io.circe.syntax._
 import io.circe.generic.auto._
 import org.http4s.{EntityEncoder, Response, Status}
@@ -103,26 +102,14 @@ class HttpClientSpec extends AnyFlatSpec with Matchers {
     val rlee     = RateLimitExceededError("msg", "")
     val response = Response[IO](body = createBody(rlee.asJson))
     val res      = HttpClient.buildResponse[IO, Foo](response)
-    res.unsafeRunSync() shouldBe Left(
-      JsonParsingError(
-        s"Invalid message body: Could not decode JSON: ${rlee.asJson.spaces2}",
-        Some(DecodingFailure("Attempt to decode value on failed cursor", List(DownField("a"))))
-      )
-    )
+    res.unsafeRunSync().swap.getOrElse(fail()) shouldBe a[JsonParsingError]
   }
 
   it should "build a left if it couldn't decode a GHError" in {
     val foo      = Foo(3)
     val response = Response[IO](status = Status.Unauthorized, body = createBody(foo.asJson))
     val res      = HttpClient.buildResponse[IO, Foo](response)
-    res.unsafeRunSync() shouldBe Left(
-      JsonParsingError(
-        s"Invalid message body: Could not decode JSON: ${foo.asJson.spaces2}",
-        Some(
-          DecodingFailure("Attempt to decode value on failed cursor", List(DownField("message")))
-        )
-      )
-    )
+    res.unsafeRunSync().swap.getOrElse(fail()) shouldBe a[JsonParsingError]
   }
 
   def createBody[F[_]](js: Json): Stream[F, Byte] =
