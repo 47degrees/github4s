@@ -90,4 +90,20 @@ trait Activities[F[_]] {
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[PublicOrganizationEvent]]]
 
+  /**
+   * List the events of a particular repository
+   *
+   * @param owner The account owner of the repository. The name is not case sensitive.
+   * @param repo  The name of the repository. The name is not case sensitive.
+   * @param pagination Limit and Offset for pagination
+   * @param headers Optional user headers to include in the request
+   * @return GHResponse with the list of events for this public repository
+   */
+  def listPublicRepositoryEvents(
+      owner: String,
+      repo: String,
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[PublicRepositoryEvent]]]
+
 }

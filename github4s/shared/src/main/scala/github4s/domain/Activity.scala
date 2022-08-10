@@ -48,3 +48,12 @@ final case class PublicOrganizationEvent(
     public: Boolean,
     created_at: String
 )
+
+final case class PublicRepositoryEvent(
+    id: Long,
+    `type`: String,
+    actor_login: String,
+    repo_full_name: String,
+    public: Boolean,
+    created_at: String
+)

@@ -84,4 +84,18 @@ class ActivitiesSpec extends BaseSpec {
       .shouldNotFail
   }
 
+  "Activity.listPublicRepositoryEvents" should "call to httpClient.get with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[PublicRepositoryEvent]](
+      url = s"orgs/$validRepoOwner/$validRepoName/events",
+      response = IO.pure(List(publicRepositoryEvent))
+    )
+
+    val activities = new ActivitiesInterpreter[IO]
+
+    activities
+      .listPublicRepositoryEvents(validRepoOwner, validRepoName, None, headerUserAgent)
+      .shouldNotFail
+  }
+
 }
