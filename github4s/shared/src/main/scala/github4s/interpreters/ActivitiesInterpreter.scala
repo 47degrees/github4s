@@ -85,10 +85,10 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F]) extends Activi
     )
 
   override def listPublicRepositoryEvents(
-       owner: String,
-       repo: String,
-       pagination: Option[Pagination],
-       headers: Map[String, String]
+      owner: String,
+      repo: String,
+      pagination: Option[Pagination],
+      headers: Map[String, String]
   ): F[GHResponse[List[PublicRepositoryEvent]]] =
     client.get[List[PublicRepositoryEvent]](
       method = s"orgs/$owner/$repo/events",
