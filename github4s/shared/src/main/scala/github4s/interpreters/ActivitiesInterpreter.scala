@@ -91,7 +91,7 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F]) extends Activi
       headers: Map[String, String]
   ): F[GHResponse[List[PublicRepositoryEvent]]] =
     client.get[List[PublicRepositoryEvent]](
-      method = s"orgs/$owner/$repo/events",
+      method = s"repos/$owner/$repo/events",
       headers + eventsRecommendedHeader,
       Map.empty,
       pagination = pagination
