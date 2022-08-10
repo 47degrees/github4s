@@ -126,7 +126,7 @@ listPublicOrganizationEvents.flatMap(_.result match {
 })
 ```
 
-The `result` on the right is the corresponding [List[PublicOrganizationEvent]][activity-scala].
+The `result` on the right is the corresponding [List[PublicGitHubEvent]][activity-scala].
 
 See [the API doc](https://docs.github.com/en/rest/activity/events#list-public-organization-events)
 for full reference.
@@ -150,7 +150,7 @@ listPublicRepositoryEvents.flatMap(_.result match {
 })
 ```
 
-The `result` on the right is the corresponding [List[PublicRepositoryEvent]][activity-scala].
+The `result` on the right is the corresponding [List[PublicGitHubEvent]][activity-scala].
 
 See [the API doc](https://docs.github.com/en/rest/activity/events#list-repository-events)
 for full reference.
