@@ -88,7 +88,7 @@ trait Activities[F[_]] {
       org: String,
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
-  ): F[GHResponse[List[PublicOrganizationEvent]]]
+  ): F[GHResponse[List[PublicGitHubEvent]]]
 
   /**
    * List the events of a particular repository
@@ -104,6 +104,6 @@ trait Activities[F[_]] {
       repo: String,
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
-  ): F[GHResponse[List[PublicRepositoryEvent]]]
+  ): F[GHResponse[List[PublicGitHubEvent]]]
 
 }

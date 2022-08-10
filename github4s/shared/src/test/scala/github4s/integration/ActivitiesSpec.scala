@@ -152,7 +152,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[List[PublicOrganizationEvent]](
+    testIsRight[List[PublicGitHubEvent]](
       response,
       { r =>
         r.nonEmpty shouldBe true
@@ -172,7 +172,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft[NotFoundError, List[PublicOrganizationEvent]](response)
+    testIsLeft[NotFoundError, List[PublicGitHubEvent]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -184,7 +184,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[List[PublicRepositoryEvent]](
+    testIsRight[List[PublicGitHubEvent]](
       response,
       { r =>
         r.nonEmpty shouldBe true
@@ -204,7 +204,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft[NotFoundError, List[PublicRepositoryEvent]](response)
+    testIsLeft[NotFoundError, List[PublicGitHubEvent]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 
@@ -216,7 +216,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsLeft[NotFoundError, List[PublicRepositoryEvent]](response)
+    testIsLeft[NotFoundError, List[PublicGitHubEvent]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
 

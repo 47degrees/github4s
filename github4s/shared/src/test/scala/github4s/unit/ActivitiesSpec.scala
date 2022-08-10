@@ -72,9 +72,9 @@ class ActivitiesSpec extends BaseSpec {
 
   "Activity.listPublicOrganizationEvents" should "call to httpClient.get with the right parameters" in {
 
-    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[PublicOrganizationEvent]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[PublicGitHubEvent]](
       url = s"orgs/$validOrganizationName/events",
-      response = IO.pure(List(publicOrganizationEvent))
+      response = IO.pure(List(publicGitHubEvent))
     )
 
     val activities = new ActivitiesInterpreter[IO]
@@ -86,9 +86,9 @@ class ActivitiesSpec extends BaseSpec {
 
   "Activity.listPublicRepositoryEvents" should "call to httpClient.get with the right parameters" in {
 
-    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[PublicRepositoryEvent]](
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[PublicGitHubEvent]](
       url = s"orgs/$validRepoOwner/$validRepoName/events",
-      response = IO.pure(List(publicRepositoryEvent))
+      response = IO.pure(List(publicGitHubEvent))
     )
 
     val activities = new ActivitiesInterpreter[IO]

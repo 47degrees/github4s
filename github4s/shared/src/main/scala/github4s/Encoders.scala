@@ -239,23 +239,7 @@ object Encoders {
       }
     }
 
-  implicit val encoderPublicOrganizationEvents: Encoder[PublicOrganizationEvent] =
-    Encoder.instance { e =>
-      Json.obj(
-        "id"         -> e.id.asJson,
-        "type"       -> e.`type`.asJson,
-        "public"     -> e.public.asJson,
-        "created_at" -> e.created_at.asJson,
-        "actor" -> Json.obj(
-          "login" -> e.actor_login.asJson
-        ),
-        "repo" -> Json.obj(
-          "full_name" -> e.repo_full_name.asJson
-        )
-      )
-    }
-
-  implicit val encoderPublicRepositoryEvents: Encoder[PublicRepositoryEvent] =
+  implicit val encoderPublicGitHubEvents: Encoder[PublicGitHubEvent] =
     Encoder.instance { e =>
       Json.obj(
         "id"         -> e.id.asJson,
