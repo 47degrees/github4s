@@ -176,7 +176,6 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
-
   "Activity >> PublicRepositoryEvents" should "return the expected list of events" taggedAs Integration in {
     val response = clientResource
       .use { client =>

@@ -258,9 +258,9 @@ object Encoders {
   implicit val encoderPublicRepositoryEvents: Encoder[PublicRepositoryEvent] =
     Encoder.instance { e =>
       Json.obj(
-        "id" -> e.id.asJson,
-        "type" -> e.`type`.asJson,
-        "public" -> e.public.asJson,
+        "id"         -> e.id.asJson,
+        "type"       -> e.`type`.asJson,
+        "public"     -> e.public.asJson,
         "created_at" -> e.created_at.asJson,
         "actor" -> Json.obj(
           "login" -> e.actor_login.asJson

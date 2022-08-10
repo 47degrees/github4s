@@ -14,6 +14,9 @@ with Github4s, you can interact with:
 - [Starring](#starring)
   - [List stargazers](#list-stargazers)
   - [List starred repositories](#list-starred-repositories)
+  - [List public organization events](#list-public-organization-events)
+  - [List public repository events](#list-public-repository-events)
+
 
 The following examples assume the following code:
 
