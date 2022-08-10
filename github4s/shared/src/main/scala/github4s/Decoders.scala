@@ -265,7 +265,7 @@ object Decoders {
       )
     )
 
-  implicit val decodePublicOrganizationEvent: Decoder[PublicRepositoryEvent] =
+  implicit val decodePublicRepositoryEvent: Decoder[PublicRepositoryEvent] =
     Decoder.instance(c =>
       for {
         id             <- c.downField("id").as[Long]

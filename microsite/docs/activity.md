@@ -144,7 +144,7 @@ To list the events from the `github4s` repository owned by `47degrees`:
 
 ```scala mdoc:compile-only
 val listPublicRepositoryEvents = gh.activities.listPublicRepositoryEvents("47degrees", "github4s")
-listPublicOrganizationEvents.flatMap(_.result match {
+listPublicRepositoryEvents.flatMap(_.result match {
   case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
   case Right(r) => IO.println(r)
 })
