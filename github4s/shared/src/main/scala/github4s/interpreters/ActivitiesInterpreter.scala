@@ -27,6 +27,8 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F]) extends Activi
 
   private val timelineHeader = ("Accept" -> "application/vnd.github.v3.star+json")
 
+  private val eventsRecommendedHeader = ("Accept" -> "application/vnd.github.v3+json")
+
   override def setThreadSub(
       id: Long,
       subscribed: Boolean,
@@ -67,6 +69,31 @@ class ActivitiesInterpreter[F[_]](implicit client: HttpClient[F]) extends Activi
         "sort"      -> sort,
         "direction" -> direction
       ).collect { case (key, Some(value)) => key -> value },
+      pagination = pagination
+    )
+
+  override def listPublicOrganizationEvents(
+      org: String,
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[PublicGitHubEvent]]] =
+    client.get[List[PublicGitHubEvent]](
+      method = s"orgs/$org/events",
+      headers + eventsRecommendedHeader,
+      Map.empty,
+      pagination = pagination
+    )
+
+  override def listPublicRepositoryEvents(
+      owner: String,
+      repo: String,
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[PublicGitHubEvent]]] =
+    client.get[List[PublicGitHubEvent]](
+      method = s"repos/$owner/$repo/events",
+      headers + eventsRecommendedHeader,
+      Map.empty,
       pagination = pagination
     )
 }

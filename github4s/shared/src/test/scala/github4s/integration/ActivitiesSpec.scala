@@ -143,4 +143,81 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
     testIsLeft[NotFoundError, List[StarredRepository]](response)
     response.statusCode shouldBe notFoundStatusCode
   }
+
+  "Activity >> PublicOrganizationEvents" should "return the expected list of events" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listPublicOrganizationEvents(validOrganizationName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsRight[List[PublicGitHubEvent]](
+      response,
+      { r =>
+        r.nonEmpty shouldBe true
+        forAll(r)(s => s.public shouldBe true)
+        forAll(r)(s => s.actor_login.nonEmpty shouldBe true)
+        forAll(r)(s => s.repo_full_name.nonEmpty shouldBe true)
+      }
+    )
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return error for invalid organization" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listPublicOrganizationEvents(invalidOrganizationName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsLeft[NotFoundError, List[PublicGitHubEvent]](response)
+    response.statusCode shouldBe notFoundStatusCode
+  }
+
+  "Activity >> PublicRepositoryEvents" should "return the expected list of events" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listPublicRepositoryEvents(validRepoOwner, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsRight[List[PublicGitHubEvent]](
+      response,
+      { r =>
+        r.nonEmpty shouldBe true
+        forAll(r)(s => s.public shouldBe true)
+        forAll(r)(s => s.actor_login.nonEmpty shouldBe true)
+        forAll(r)(s => s.repo_full_name.nonEmpty shouldBe true)
+      }
+    )
+    response.statusCode shouldBe okStatusCode
+  }
+
+  it should "return error for invalid repository owner" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listPublicRepositoryEvents(invalidRepoOwner, validRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsLeft[NotFoundError, List[PublicGitHubEvent]](response)
+    response.statusCode shouldBe notFoundStatusCode
+  }
+
+  it should "return error for invalid repository name" taggedAs Integration in {
+    val response = clientResource
+      .use { client =>
+        Github[IO](client, accessToken).activities
+          .listPublicRepositoryEvents(validRepoOwner, invalidRepoName, headers = headerUserAgent)
+      }
+      .unsafeRunSync()
+
+    testIsLeft[NotFoundError, List[PublicGitHubEvent]](response)
+    response.statusCode shouldBe notFoundStatusCode
+  }
+
 }

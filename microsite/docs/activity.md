@@ -14,6 +14,8 @@ with Github4s, you can interact with:
 - [Starring](#starring)
   - [List stargazers](#list-stargazers)
   - [List starred repositories](#list-starred-repositories)
+  - [List public organization events](#list-public-organization-events)
+  - [List public repository events](#list-public-repository-events)
 
 The following examples assume the following code:
 
@@ -104,6 +106,53 @@ listStarredRepositories.flatMap(_.result match {
 The `result` on the right is the corresponding [List[StarredRepository]][activity-scala].
 
 See [the API doc](https://developer.github.com/v3/activity/starring/#list-repositories-being-starred)
+for full reference.
+
+### List public organization events
+
+You can list the events of a particular public organization with `listPublicOrganizationEvents`; it takes
+as arguments:
+
+- `org`: name of the organization for which we want to retrieve the events.
+- `pagination`: Limit and Offset for pagination, optional.
+
+To list the events for org `47degrees`:
+
+```scala mdoc:compile-only
+val listPublicOrganizationEvents = gh.activities.listPublicOrganizationEvents("47degrees")
+listPublicOrganizationEvents.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
+```
+
+The `result` on the right is the corresponding [List[PublicGitHubEvent]][activity-scala].
+
+See [the API doc](https://docs.github.com/en/rest/activity/events#list-public-organization-events)
+for full reference.
+
+### List public repository events
+
+You can list the events of a particular repository with `listPublicRepositoryEvents`; it takes
+as arguments:
+
+- `owner`: The account owner of the repository. The name is not case sensitive.
+- `repo`: The name of the repository. The name is not case sensitive.
+- `pagination`: Limit and Offset for pagination, optional.
+
+To list the events from the `github4s` repository owned by `47degrees`:
+
+```scala mdoc:compile-only
+val listPublicRepositoryEvents = gh.activities.listPublicRepositoryEvents("47degrees", "github4s")
+listPublicRepositoryEvents.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
+```
+
+The `result` on the right is the corresponding [List[PublicGitHubEvent]][activity-scala].
+
+See [the API doc](https://docs.github.com/en/rest/activity/events#list-repository-events)
 for full reference.
 
 As you can see, a few features of the activity endpoint are missing.

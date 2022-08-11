@@ -70,4 +70,32 @@ class ActivitiesSpec extends BaseSpec {
       .shouldNotFail
   }
 
+  "Activity.listPublicOrganizationEvents" should "call to httpClient.get with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[PublicGitHubEvent]](
+      url = s"orgs/$validOrganizationName/events",
+      response = IO.pure(List(publicGitHubEvent))
+    )
+
+    val activities = new ActivitiesInterpreter[IO]
+
+    activities
+      .listPublicOrganizationEvents(validUsername, None, headerUserAgent)
+      .shouldNotFail
+  }
+
+  "Activity.listPublicRepositoryEvents" should "call to httpClient.get with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[PublicGitHubEvent]](
+      url = s"orgs/$validRepoOwner/$validRepoName/events",
+      response = IO.pure(List(publicGitHubEvent))
+    )
+
+    val activities = new ActivitiesInterpreter[IO]
+
+    activities
+      .listPublicRepositoryEvents(validRepoOwner, validRepoName, None, headerUserAgent)
+      .shouldNotFail
+  }
+
 }
