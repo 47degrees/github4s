@@ -13,6 +13,8 @@ with Github4s, you can interact with:</p>
     <ul>
       <li><a href="#list-stargazers">List stargazers</a></li>
       <li><a href="#list-starred-repositories">List starred repositories</a></li>
+      <li><a href="#list-public-organization-events">List public organization events</a></li>
+      <li><a href="#list-public-repository-events">List public repository events</a></li>
     </ul>
   </li>
 </ul>
@@ -108,6 +110,55 @@ the repo was last pushed to), optional.</li>
 <p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/Activity.scala">List[StarredRepository]</a>.</p>
 
 <p>See <a href="https://developer.github.com/v3/activity/starring/#list-repositories-being-starred">the API doc</a>
+for full reference.</p>
+
+<h3 id="list-public-organization-events">List public organization events</h3>
+
+<p>You can list the events of a particular public organization with <code class="highlighter-rouge">listPublicOrganizationEvents</code>; it takes
+as arguments:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">org</code>: name of the organization for which we want to retrieve the events.</li>
+  <li><code class="highlighter-rouge">pagination</code>: Limit and Offset for pagination, optional.</li>
+</ul>
+
+<p>To list the events for org <code class="highlighter-rouge">47degrees</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">listPublicOrganizationEvents</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">activities</span><span class="o">.</span><span class="py">listPublicOrganizationEvents</span><span class="o">(</span><span class="s">"47degrees"</span><span class="o">)</span>
+<span class="nv">listPublicOrganizationEvents</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/Activity.scala">List[PublicGitHubEvent]</a>.</p>
+
+<p>See <a href="https://docs.github.com/en/rest/activity/events#list-public-organization-events">the API doc</a>
+for full reference.</p>
+
+<h3 id="list-public-repository-events">List public repository events</h3>
+
+<p>You can list the events of a particular repository with <code class="highlighter-rouge">listPublicRepositoryEvents</code>; it takes
+as arguments:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">owner</code>: The account owner of the repository. The name is not case sensitive.</li>
+  <li><code class="highlighter-rouge">repo</code>: The name of the repository. The name is not case sensitive.</li>
+  <li><code class="highlighter-rouge">pagination</code>: Limit and Offset for pagination, optional.</li>
+</ul>
+
+<p>To list the events from the <code class="highlighter-rouge">github4s</code> repository owned by <code class="highlighter-rouge">47degrees</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">listPublicRepositoryEvents</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">activities</span><span class="o">.</span><span class="py">listPublicRepositoryEvents</span><span class="o">(</span><span class="s">"47degrees"</span><span class="o">,</span> <span class="s">"github4s"</span><span class="o">)</span>
+<span class="nv">listPublicRepositoryEvents</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/Activity.scala">List[PublicGitHubEvent]</a>.</p>
+
+<p>See <a href="https://docs.github.com/en/rest/activity/events#list-repository-events">the API doc</a>
 for full reference.</p>
 
 <p>As you can see, a few features of the activity endpoint are missing.</p>
