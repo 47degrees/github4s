@@ -18,13 +18,13 @@ object ProjectPlugin extends AutoPlugin {
       val cats: String              = "2.8.0"
       val circe: String             = "0.14.2"
       val expecty                   = "0.15.4"
-      val http4s: String            = "0.23.13"
+      val http4s: String            = "0.23.15"
       val http4sBlazeClient: String = "0.23.12"
       val paradise: String          = "2.1.1"
       val scalacheck                = "1.16.0"
       val scalacheckShapeless       = "1.3.0"
       val scalacheckPlusScalatest   = "3.2.11.0"
-      val scalatest: String         = "3.2.12"
+      val scalatest: String         = "3.2.13"
       val shapeless3                = "3.1.0"
     }
 
