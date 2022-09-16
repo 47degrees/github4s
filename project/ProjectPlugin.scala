@@ -21,7 +21,7 @@ object ProjectPlugin extends AutoPlugin {
       val http4s: String            = "0.23.15"
       val http4sBlazeClient: String = "0.23.12"
       val paradise: String          = "2.1.1"
-      val scalacheck                = "1.16.0"
+      val scalacheck                = "1.17.0"
       val scalacheckShapeless       = "1.3.0"
       val scalacheckPlusScalatest   = "3.2.11.0"
       val scalatest: String         = "3.2.13"
