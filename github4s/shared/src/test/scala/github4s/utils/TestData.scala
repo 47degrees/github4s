@@ -443,7 +443,7 @@ trait TestData {
     id = 21492285567L,
     `type` = "PushEvent",
     actor_login = "47erbot",
-    repo_full_name = "47degrees/github4s",
+    repo_name = "47degrees/github4s",
     public = true,
     created_at = "2022-04-27T05:29:31Z"
   )
