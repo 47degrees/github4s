@@ -44,7 +44,7 @@ final case class PublicGitHubEvent(
     id: Long,
     `type`: String,
     actor_login: String,
-    repo_full_name: String,
+    repo_name: String,
     public: Boolean,
     created_at: String
 )

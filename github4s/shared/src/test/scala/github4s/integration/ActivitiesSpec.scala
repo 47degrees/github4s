@@ -158,7 +158,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
         r.nonEmpty shouldBe true
         forAll(r)(s => s.public shouldBe true)
         forAll(r)(s => s.actor_login.nonEmpty shouldBe true)
-        forAll(r)(s => s.repo_full_name.nonEmpty shouldBe true)
+        forAll(r)(s => s.repo_name.nonEmpty shouldBe true)
       }
     )
     response.statusCode shouldBe okStatusCode
@@ -190,7 +190,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
         r.nonEmpty shouldBe true
         forAll(r)(s => s.public shouldBe true)
         forAll(r)(s => s.actor_login.nonEmpty shouldBe true)
-        forAll(r)(s => s.repo_full_name.nonEmpty shouldBe true)
+        forAll(r)(s => s.repo_name.nonEmpty shouldBe true)
       }
     )
     response.statusCode shouldBe okStatusCode
