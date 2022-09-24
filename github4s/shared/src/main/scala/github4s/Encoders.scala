@@ -252,7 +252,7 @@ object Encoders {
           "login" -> e.actor_login.asJson
         ),
         "repo" -> Json.obj(
-          "full_name" -> e.repo_full_name.asJson
+          "name" -> e.repo_name.asJson
         )
       )
     }
