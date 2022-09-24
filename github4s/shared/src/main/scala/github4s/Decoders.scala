@@ -252,17 +252,17 @@ object Decoders {
   implicit val decodePublicGitHubEvent: Decoder[PublicGitHubEvent] =
     Decoder.instance(c =>
       for {
-        id             <- c.downField("id").as[Long]
-        event_type     <- c.downField("type").as[String]
-        actor_login    <- c.downField("actor").downField("login").as[String]
-        repo_full_name <- c.downField("repo").downField("full_name").as[String]
-        public         <- c.downField("public").as[Boolean]
-        created_at     <- c.downField("created_at").as[String]
+        id          <- c.downField("id").as[Long]
+        event_type  <- c.downField("type").as[String]
+        actor_login <- c.downField("actor").downField("login").as[String]
+        repo_name   <- c.downField("repo").downField("name").as[String]
+        public      <- c.downField("public").as[Boolean]
+        created_at  <- c.downField("created_at").as[String]
       } yield PublicGitHubEvent(
         id,
         event_type,
         actor_login,
-        repo_full_name,
+        repo_name,
         public,
         created_at
       )
