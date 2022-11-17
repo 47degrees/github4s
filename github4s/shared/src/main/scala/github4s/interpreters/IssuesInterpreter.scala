@@ -32,10 +32,11 @@ class IssuesInterpreter[F[_]](implicit client: HttpClient[F]) extends Issues[F] 
       owner: String,
       repo: String,
       pagination: Option[Pagination],
-      headers: Map[String, String]
+      headers: Map[String, String],
+      params: Map[String, String]
   ): F[GHResponse[List[Issue]]] =
     client
-      .get[List[Issue]](s"repos/$owner/$repo/issues", headers, pagination = pagination)
+      .get[List[Issue]](s"repos/$owner/$repo/issues", headers, pagination = pagination, params = params)
 
   override def getIssue(
       owner: String,
