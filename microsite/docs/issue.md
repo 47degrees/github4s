@@ -113,6 +113,7 @@ You can also list issues for a repository through `listIssues`; it takes as argu
 
 - the repository coordinates (`owner` and `name` of the repository).
 - `pagination`: Limit and Offset for pagination, optional.
+- `params`: Optional query parameters. See [the API doc](https://developer.github.com/v3/issues/#list-issues-for-a-repository) for a full list of valid query parameters.
 
 To list the issues for a repository:
 

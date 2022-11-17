@@ -36,6 +36,8 @@ final case class Issue(
     body: Option[String] = None,
     user: Option[User] = None,
     assignee: Option[User] = None,
+    assignees: List[User] = List.empty,
+    milestone: Option[Milestone] = None,
     locked: Option[Boolean] = None,
     pull_request: Option[IssuePullRequest] = None,
     closed_at: Option[String] = None

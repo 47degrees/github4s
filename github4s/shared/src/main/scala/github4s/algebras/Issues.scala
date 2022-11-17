@@ -36,13 +36,15 @@ trait Issues[F[_]] {
    * @param repo name of the repo
    * @param pagination Limit and Offset for pagination
    * @param headers optional user headers to include in the request
+   * @param params optional additional query parameters
    * @return a GHResponse with the issue list.
    */
   def listIssues(
       owner: String,
       repo: String,
       pagination: Option[Pagination] = None,
-      headers: Map[String, String] = Map()
+      headers: Map[String, String] = Map(),
+      params: Map[String, String] = Map()
   ): F[GHResponse[List[Issue]]]
 
   /**
