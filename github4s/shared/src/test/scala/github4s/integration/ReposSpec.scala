@@ -429,6 +429,10 @@ trait ReposSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
+  // All the responses in the API returns an empty list of statuses, so we're not checking the content
+  // For example
+  // * https://github.com/typelevel/cats/commit/b036fb47196d1a788db09eb2bc262071fa3cb928
+  // * https://api.github.com/repos/typelevel/cats/commits/b036fb47196d1a788db09eb2bc262071fa3cb928/status
   "Repos >> ListStatus" should "return a non empty list when a valid ref is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
@@ -437,7 +441,7 @@ trait ReposSpec extends BaseIntegrationSpec {
       }
       .unsafeRunSync()
 
-    testIsRight[List[Status]](response, r => r.nonEmpty shouldBe true)
+    testIsRight[List[Status]](response)
     response.statusCode shouldBe okStatusCode
   }
 
