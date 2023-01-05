@@ -15,17 +15,17 @@ object ProjectPlugin extends AutoPlugin {
 
     lazy val V = new {
       val bm4                       = "0.3.1"
-      val cats: String              = "2.8.0"
+      val cats: String              = "2.9.0"
       val circe: String             = "0.14.3"
       val expecty                   = "0.16.0"
       val http4s: String            = "0.23.16"
-      val http4sBlazeClient: String = "0.23.12"
+      val http4sBlazeClient: String = "0.23.13"
       val paradise: String          = "2.1.1"
       val scalacheck                = "1.17.0"
       val scalacheckShapeless       = "1.3.0"
       val scalacheckPlusScalatest   = "3.2.11.0"
       val scalatest: String         = "3.2.14"
-      val shapeless3                = "3.2.0"
+      val shapeless3                = "3.3.0"
     }
 
     lazy val docsMappingsAPIDir: SettingKey[String] =
