@@ -29,7 +29,7 @@ class GithubAPIsV3[F[_]: Concurrent](
     accessHeader: AccessHeader[F]
 ) extends GithubAPIs[F] {
 
-  implicit val httpClient: HttpClient[F] = new HttpClient[F](client, config, accessHeader)
+  implicit val httpClient: HttpClient[F] = HttpClient[F](client, config, accessHeader)
 
   override val users: Users[F]                 = new UsersInterpreter[F]
   override val repos: Repositories[F]          = new RepositoriesInterpreter[F]

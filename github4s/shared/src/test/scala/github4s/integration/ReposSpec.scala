@@ -19,18 +19,19 @@ package github4s.integration
 import cats.data.NonEmptyList
 import cats.effect.{IO, Resource}
 import cats.implicits._
+import github4s.{GHResponse, GithubClient}
 import github4s.GHError.{NotFoundError, UnauthorizedError}
+import github4s.algebras.GithubAPIs
 import github4s.domain.RepoUrlKeys.CommitComparisonResponse
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
-import github4s.{GHResponse, Github}
 
 trait ReposSpec extends BaseIntegrationSpec {
 
   "Repos >> Get" should "return the expected name when a valid repo is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .get(validRepoOwner, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -42,7 +43,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .get(validRepoOwner, invalidRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -54,7 +55,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> ListReleases" should "return the expected repos when a valid org is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listReleases(validRepoOwner, validRepoName, None, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -66,7 +67,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> getRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {
 
     val test = clientResource.use { client =>
-      val gh: Github[IO] = Github[IO](client, accessToken)
+      val gh: GithubAPIs[IO] = GithubClient[IO](client, accessToken)
 
       for {
 
@@ -97,7 +98,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> LatestRelease" should "return the expected repos when a valid org is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .latestRelease(validRepoOwner, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -109,7 +110,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> ListOrgRepos" should "return the expected repos when a valid org is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listOrgRepos(validRepoOwner, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -121,7 +122,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error when an invalid org is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listOrgRepos(invalidRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -133,7 +134,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> ListUserRepos" should "return the expected repos when a valid user is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listUserRepos(validUsername, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -145,7 +146,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error when an invalid user is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listUserRepos(invalidUsername, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -157,7 +158,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> GetContents" should "return the expected contents when valid path is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .getContents(validRepoOwner, validRepoName, validFilePath, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -170,7 +171,7 @@ trait ReposSpec extends BaseIntegrationSpec {
 
     val blobResponseFileContent = for {
       client <- clientResource
-      res = Github[IO](client, accessToken)
+      res = GithubClient[IO](client, accessToken)
 
       fileContentsIO = res.repos.getContents(
         owner = validRepoOwner,
@@ -207,7 +208,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error when an invalid path is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .getContents(validRepoOwner, validRepoName, invalidFilePath, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -219,7 +220,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> ListCommits" should "return the expected list of commits for valid data" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listCommits(validRepoOwner, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -231,7 +232,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error for invalid repo name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listCommits(invalidRepoName, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -243,7 +244,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> ListBranches" should "return the expected list of branches for valid data" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listBranches(validRepoOwner, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -255,7 +256,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error for invalid repo name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listBranches(invalidRepoName, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -267,7 +268,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> ListContributors" should "return the expected list of contributors for valid data" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listContributors(validRepoOwner, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -279,7 +280,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error for invalid repo name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listContributors(invalidRepoName, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -291,7 +292,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> ListCollaborators" should "return the expected list of collaborators for valid data" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listCollaborators(validRepoOwner, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -303,7 +304,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error for invalid repo name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listCollaborators(invalidRepoName, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -315,7 +316,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> UserIsCollaborator" should "return true when the user is a collaborator" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .userIsCollaborator(
             validRepoOwner,
             validRepoName,
@@ -332,7 +333,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return false when the user is not a collaborator" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .userIsCollaborator(
             validRepoOwner,
             validRepoName,
@@ -349,7 +350,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error when other errors occur" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, "invalid-access-token".some).repos
+        GithubClient[IO](client, "invalid-access-token".some).repos
           .userIsCollaborator(
             validRepoOwner,
             validRepoName,
@@ -366,7 +367,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> GetRepoPermissionForUser" should "return user repo permission" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .getRepoPermissionForUser(
             validRepoOwner,
             validRepoName,
@@ -383,7 +384,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return error when invalid username is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .getRepoPermissionForUser(
             validRepoOwner,
             validRepoName,
@@ -400,7 +401,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> GetStatus" should "return a combined status" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .getCombinedStatus(
             validRepoOwner,
             validRepoName,
@@ -420,7 +421,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return an error when an invalid ref is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .getCombinedStatus(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -436,7 +437,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> ListStatus" should "return a non empty list when a valid ref is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listStatuses(validRepoOwner, validRepoName, validCommitSha, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -448,7 +449,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return an error when an invalid ref is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .listStatuses(validRepoOwner, validRepoName, invalidRef, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -461,7 +462,7 @@ trait ReposSpec extends BaseIntegrationSpec {
     val params = List(LanguageParam("scss"), TopicParam("jekyll"))
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .searchRepos("sbt-microsites", params, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -479,7 +480,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   "Repos >> Compare" should "compare against the base" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .compareCommits(validRepoOwner, validRepoName, validCommitSha, validBase)
       }
       .unsafeRunSync()
@@ -497,7 +498,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "successfully return results when a valid repo is provided using <owner>/<name> syntax" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .searchRepos(s"$validRepoOwner/$validRepoName", Nil)
       }
       .unsafeRunSync()
@@ -514,7 +515,7 @@ trait ReposSpec extends BaseIntegrationSpec {
   it should "return an empty result for a non existent query string" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).repos
+        GithubClient[IO](client, accessToken).repos
           .searchRepos(nonExistentSearchQuery, validSearchParams, None, headerUserAgent)
       }
       .unsafeRunSync()

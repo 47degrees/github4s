@@ -18,7 +18,7 @@ package github4s.integration
 
 import cats.effect.IO
 import github4s.GHError.NotFoundError
-import github4s.Github
+import github4s.GithubClient
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -27,7 +27,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> List" should "return a list of issues" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listIssues(validRepoOwner, validRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -39,7 +39,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> Get" should "return an issue which is a PR" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .getIssue(validRepoOwner, validRepoName, validPullRequestNumber, headerUserAgent)
       }
       .unsafeRunSync()
@@ -51,7 +51,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> Search" should "return at least one issue for a valid query" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .searchIssues(validSearchQuery, validSearchParams, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -69,7 +69,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "not regress github #569" taggedAs Integration in {
     clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues.searchIssues(
+        GithubClient[IO](client, accessToken).issues.searchIssues(
           "",
           List(
             OwnerParamInRepository("47degrees/github4s"),
@@ -87,7 +87,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "return an empty result for a non existent query string" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .searchIssues(nonExistentSearchQuery, validSearchParams, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -105,7 +105,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> Edit" should "edit the specified issue" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .editIssue(
             validRepoOwner,
             validRepoName,
@@ -134,7 +134,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> ListLabels" should "return a list of labels" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listLabels(validRepoOwner, validRepoName, validIssueNumber, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -146,7 +146,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> listLabelsRepository" should "return a list of labels" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listLabelsRepository(validRepoOwner, validRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -158,7 +158,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "return error for an invalid repo owner" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listLabelsRepository(invalidRepoOwner, validRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -170,7 +170,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "return error for an invalid repo name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listLabelsRepository(validRepoOwner, invalidRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -182,7 +182,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> RemoveLabel" should "return a list of removed labels" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .removeLabel(
             validRepoOwner,
             validRepoName,
@@ -200,7 +200,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> CreateLabel" should "return a created label" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .createLabel(
             validRepoOwner,
             validRepoName,
@@ -217,7 +217,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> UpdateLabel" should "return a updated label" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .updateLabel(
             validRepoOwner,
             validRepoName,
@@ -234,7 +234,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> DeleteLabel" should "return a valid status code" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .deleteLabel(
             validRepoOwner,
             validRepoName,
@@ -250,7 +250,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "Issues >> AddLabels" should "return a list of labels" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .addLabels(
             validRepoOwner,
             validRepoName,
@@ -268,7 +268,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "GHIssues >> ListAvailableAssignees" should "return a list of users" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listAvailableAssignees(validRepoOwner, validRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -280,7 +280,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "return error for an invalid repo owner" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listAvailableAssignees(invalidRepoOwner, validRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -292,7 +292,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "return error for an invalid repo name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listAvailableAssignees(validRepoOwner, invalidRepoName, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -304,7 +304,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "GHIssues >> ListMilestones" should "return a list of milestones" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listMilestones(
             validRepoOwner,
             validRepoName,
@@ -324,7 +324,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "return error for an invalid repo owner" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listMilestones(
             invalidRepoOwner,
             validRepoName,
@@ -344,7 +344,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "return error for an invalid repo name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .listMilestones(validRepoOwner, invalidRepoName, None, None, None, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -356,7 +356,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   "GHIssues >> GetMilestone" should "return a milestone for a valid number" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .getMilestone(
             validRepoOwner,
             validRepoName,
@@ -373,7 +373,7 @@ trait IssuesSpec extends BaseIntegrationSpec {
   it should "return error for an invalid number" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).issues
+        GithubClient[IO](client, accessToken).issues
           .getMilestone(
             validRepoOwner,
             validRepoName,

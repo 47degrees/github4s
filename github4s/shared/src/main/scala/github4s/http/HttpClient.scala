@@ -22,7 +22,7 @@ import cats.effect.kernel.Concurrent
 import cats.syntax.all._
 import github4s.GHError._
 import github4s._
-import github4s.algebras.AccessHeader
+import github4s.algebras.{AccessHeader, AccessToken}
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
 import io.circe.{Decoder, Encoder}
@@ -31,7 +31,7 @@ import org.http4s.circe.jsonOf
 import org.http4s.client.Client
 import org.http4s._
 
-class HttpClient[F[_]: Concurrent](
+class HttpClient[F[_]: Concurrent] private (
     client: Client[F],
     val config: GithubConfig,
     accessHeader: AccessHeader[F]
@@ -231,4 +231,18 @@ object HttpClient {
 
   private def responseBody[F[_]: Concurrent](response: Response[F]): F[String] =
     response.bodyText.compile.foldMonoid
+
+  def apply[F[_]: Concurrent](
+      client: Client[F],
+      config: GithubConfig,
+      accessToken: AccessToken[F]
+  ): HttpClient[F] =
+    new HttpClient[F](client, config, AccessHeader.from(accessToken))
+
+  def apply[F[_]: Concurrent](
+      client: Client[F],
+      config: GithubConfig,
+      accessHeader: AccessHeader[F]
+  ): HttpClient[F] =
+    new HttpClient[F](client, config, accessHeader)
 }

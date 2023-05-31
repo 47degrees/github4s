@@ -52,7 +52,7 @@ object GithubClient {
   )(implicit config: GithubConfig): GithubAPIs[F] =
     new GithubClient[F](client, AccessHeader.from(new StaticAccessToken(accessToken)))
 
-  def withAuthHeader[F[_]: Concurrent](
+  def apply[F[_]: Concurrent](
       client: Client[F],
       authHeader: AccessHeader[F]
   )(implicit config: GithubConfig): GithubAPIs[F] =

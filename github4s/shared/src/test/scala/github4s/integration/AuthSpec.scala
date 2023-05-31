@@ -17,7 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.{GHError, Github}
+import github4s.{GHError, GithubClient}
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -26,7 +26,7 @@ trait AuthSpec extends BaseIntegrationSpec {
   "Auth >> AuthorizeUrl" should "return the expected URL for valid username" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client).auth
+        GithubClient[IO](client).auth
           .authorizeUrl(validClientId, validRedirectUri, validScopes)
       }
       .unsafeRunSync()
@@ -38,7 +38,7 @@ trait AuthSpec extends BaseIntegrationSpec {
   "Auth >> GetAccessToken" should "return error on Left for invalid code value" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client).auth
+        GithubClient[IO](client).auth
           .getAccessToken(
             validClientId,
             invalidClientSecret,

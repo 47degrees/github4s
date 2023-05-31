@@ -18,7 +18,7 @@ package github4s.integration
 
 import cats.effect.IO
 import github4s.GHError.NotFoundError
-import github4s.Github
+import github4s.GithubClient
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -27,7 +27,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   "Activity >> Set a thread subscription" should "return expected response when a valid thread id is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .setThreadSub(validThreadId, true, false, headerUserAgent)
       }
       .unsafeRunSync()
@@ -39,7 +39,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   it should "return error when an invalid thread id is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .setThreadSub(invalidThreadId, true, false, headerUserAgent)
       }
       .unsafeRunSync()
@@ -51,7 +51,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   "Activity >> ListStargazers" should "return the expected list of starrers for valid data" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listStargazers(validRepoOwner, validRepoName, false, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -69,7 +69,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   it should "return the expected list of starrers for valid data with dates if timeline" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listStargazers(validRepoOwner, validRepoName, true, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -87,7 +87,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   it should "return error for invalid repo name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listStargazers(invalidRepoName, validRepoName, false, None, headerUserAgent)
       }
       .unsafeRunSync()
@@ -99,7 +99,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   "Activity >> ListStarredRepositories" should "return the expected list of starred repos" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listStarredRepositories(validUsername, false, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -117,7 +117,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   it should "return the expected list of starred repos with dates if timeline" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listStarredRepositories(validUsername, true, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -135,7 +135,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   it should "return error for invalid username" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listStarredRepositories(invalidUsername, false, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -147,7 +147,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   "Activity >> PublicOrganizationEvents" should "return the expected list of events" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listPublicOrganizationEvents(validOrganizationName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -167,7 +167,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   it should "return error for invalid organization" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listPublicOrganizationEvents(invalidOrganizationName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -179,7 +179,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   "Activity >> PublicRepositoryEvents" should "return the expected list of events" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listPublicRepositoryEvents(validRepoOwner, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -199,7 +199,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   it should "return error for invalid repository owner" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listPublicRepositoryEvents(invalidRepoOwner, validRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -211,7 +211,7 @@ trait ActivitiesSpec extends BaseIntegrationSpec {
   it should "return error for invalid repository name" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).activities
+        GithubClient[IO](client, accessToken).activities
           .listPublicRepositoryEvents(validRepoOwner, invalidRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()

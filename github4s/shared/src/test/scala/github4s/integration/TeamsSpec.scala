@@ -18,7 +18,7 @@ package github4s.integration
 
 import cats.effect.IO
 import github4s.GHError.NotFoundError
-import github4s.Github
+import github4s.GithubClient
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -26,7 +26,7 @@ trait TeamsSpec extends BaseIntegrationSpec {
   "Team >> ListTeams" should "return the expected teams when a valid org is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).teams
+        GithubClient[IO](client, accessToken).teams
           .listTeams(validRepoOwner, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -38,7 +38,7 @@ trait TeamsSpec extends BaseIntegrationSpec {
   it should "return error when an invalid org is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).teams
+        GithubClient[IO](client, accessToken).teams
           .listTeams(invalidRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()

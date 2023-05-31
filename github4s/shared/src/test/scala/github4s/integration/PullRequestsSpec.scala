@@ -18,7 +18,7 @@ package github4s.integration
 
 import cats.effect.IO
 import github4s.GHError.{JsonParsingError, NotFoundError}
-import github4s.Github
+import github4s.GithubClient
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -27,7 +27,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> Get" should "return a right response when a valid pr number is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .getPullRequest(
             validRepoOwner,
             validRepoName,
@@ -44,7 +44,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return an error when a valid issue number is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .getPullRequest(
             validRepoOwner,
             validRepoName,
@@ -61,7 +61,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return an error when an invalid repo name is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .getPullRequest(
             validRepoOwner,
             invalidRepoName,
@@ -78,7 +78,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> List" should "return a right response when valid repo is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listPullRequests(
             validRepoOwner,
             validRepoName,
@@ -95,7 +95,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return a right response when a valid repo is provided but not all pull requests have body" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listPullRequests(
             "lloydmeta",
             "gh-test-repo",
@@ -112,7 +112,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return a non empty list when valid repo and some filters are provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listPullRequests(
             validRepoOwner,
             validRepoName,
@@ -129,7 +129,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listPullRequests(validRepoOwner, invalidRepoName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -141,7 +141,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> ListFiles" should "return a right response when a valid repo is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listFiles(
             validRepoOwner,
             validRepoName,
@@ -158,7 +158,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return a right response when a valid repo is provided and not all files have 'patch'" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listFiles("scala", "scala", 4877, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -170,7 +170,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listFiles(
             validRepoOwner,
             invalidRepoName,
@@ -187,7 +187,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> ListReviews" should "return a right response when a valid pr is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listReviews(
             validRepoOwner,
             validRepoName,
@@ -204,7 +204,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listReviews(
             validRepoOwner,
             invalidRepoName,
@@ -221,7 +221,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> GetReview" should "return a right response when a valid pr review is provided" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .getReview(
             validRepoOwner,
             validRepoName,
@@ -239,7 +239,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return error when an invalid repo name is passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .getReview(
             validRepoOwner,
             invalidRepoName,
@@ -257,7 +257,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> CreateReview" should "return a created review" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .createReview(
             validRepoOwner,
             validRepoName,
@@ -281,7 +281,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   it should "return an error when invalid review data was passed" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .createReview(
             validRepoOwner,
             validRepoName,
@@ -299,7 +299,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> Add/List/Remove Reviewers" should "return the proper reviewers" taggedAs Integration ignore {
     val addReviewersResponse = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .addReviewers(
             validRepoOwner,
             validRepoName,
@@ -318,7 +318,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
 
     val getReviewersResponse = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .listReviewers(
             validRepoOwner,
             validRepoName,
@@ -339,7 +339,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
 
     val removeReviewersResponse = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .removeReviewers(
             validRepoOwner,
             validRepoName,
@@ -360,7 +360,7 @@ trait PullRequestsSpec extends BaseIntegrationSpec {
   "PullRequests >> Update Branch" should "merge target branch's head into selected" taggedAs Integration ignore {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).pullRequests
+        GithubClient[IO](client, accessToken).pullRequests
           .updateBranch(
             validRepoOwner,
             validRepoName,
