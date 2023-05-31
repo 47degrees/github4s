@@ -43,4 +43,10 @@ case class RequestBuilder[Res](
 
   def withAuthHeader(authHeader: Map[String, String]): RequestBuilder[Res] =
     this.copy(authHeader = authHeader)
+
+  def withAuth(accessToken: Option[String] = None): RequestBuilder[Res] =
+    this.copy(authHeader = accessToken match {
+      case Some(token) => Map("Authorization" -> s"token $token")
+      case _           => Map.empty[String, String]
+    })
 }

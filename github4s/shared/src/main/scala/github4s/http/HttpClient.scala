@@ -22,7 +22,7 @@ import cats.effect.kernel.Concurrent
 import cats.syntax.all._
 import github4s.GHError._
 import github4s._
-import github4s.algebras.AuthHeader
+import github4s.algebras.AccessHeader
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
 import io.circe.{Decoder, Encoder}
@@ -34,12 +34,10 @@ import org.http4s._
 class HttpClient[F[_]: Concurrent](
     client: Client[F],
     val config: GithubConfig,
-    authHeader: AuthHeader[F]
+    accessHeader: AccessHeader[F]
 ) {
   import HttpClient._
-
-  def withAuthHeader[T](f: Map[String, String] => F[GHResponse[T]]): F[GHResponse[T]] =
-    authHeader.header.flatMap(f)
+  import accessHeader._
 
   def get[Res: Decoder](
       method: String,
@@ -47,7 +45,7 @@ class HttpClient[F[_]: Concurrent](
       params: Map[String, String] = Map.empty,
       pagination: Option[Pagination] = None
   ): F[GHResponse[Res]] =
-    withAuthHeader { authHeader =>
+    withAccessHeader { authHeader =>
       run[Unit, Res](
         RequestBuilder(url = buildURL(method))
           .withAuthHeader(authHeader)
@@ -64,7 +62,7 @@ class HttpClient[F[_]: Concurrent](
       url: String,
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Unit]] =
-    withAuthHeader(authHeader =>
+    withAccessHeader(authHeader =>
       runWithoutResponse[Unit](
         RequestBuilder(buildURL(url)).withHeaders(headers).withAuthHeader(authHeader)
       )
@@ -75,7 +73,7 @@ class HttpClient[F[_]: Concurrent](
       headers: Map[String, String] = Map.empty,
       data: Req
   ): F[GHResponse[Res]] =
-    withAuthHeader(authHeader =>
+    withAccessHeader(authHeader =>
       run[Req, Res](
         RequestBuilder(buildURL(method)).patchMethod
           .withAuthHeader(authHeader)
@@ -89,7 +87,7 @@ class HttpClient[F[_]: Concurrent](
       headers: Map[String, String] = Map(),
       data: Req
   ): F[GHResponse[Res]] =
-    withAuthHeader(authHeader =>
+    withAccessHeader(authHeader =>
       run[Req, Res](
         RequestBuilder(buildURL(url)).putMethod
           .withAuthHeader(authHeader)
@@ -103,7 +101,7 @@ class HttpClient[F[_]: Concurrent](
       headers: Map[String, String] = Map.empty,
       data: Req
   ): F[GHResponse[Res]] =
-    withAuthHeader(authHeader =>
+    withAccessHeader(authHeader =>
       run[Req, Res](
         RequestBuilder(buildURL(url)).postMethod
           .withAuthHeader(authHeader)
@@ -111,6 +109,13 @@ class HttpClient[F[_]: Concurrent](
           .withData(data)
       )
     )
+
+  def postAuth[Req: Encoder, Res: Decoder](
+      method: String,
+      headers: Map[String, String] = Map.empty,
+      data: Req
+  ): F[GHResponse[Res]] =
+    run[Req, Res](RequestBuilder(buildURL(method)).postMethod.withHeaders(headers).withData(data))
 
   def postOAuth[Res: Decoder](
       url: String,
@@ -127,7 +132,7 @@ class HttpClient[F[_]: Concurrent](
       url: String,
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Unit]] =
-    withAuthHeader(authHeader =>
+    withAccessHeader(authHeader =>
       run[Unit, Unit](
         RequestBuilder(buildURL(url)).deleteMethod.withHeaders(headers).withAuthHeader(authHeader)
       )
@@ -137,7 +142,7 @@ class HttpClient[F[_]: Concurrent](
       url: String,
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Res]] =
-    withAuthHeader(authHeader =>
+    withAccessHeader(authHeader =>
       run[Unit, Res](
         RequestBuilder(buildURL(url)).deleteMethod
           .withAuthHeader(authHeader)
@@ -150,7 +155,7 @@ class HttpClient[F[_]: Concurrent](
       headers: Map[String, String] = Map.empty,
       data: Req
   ): F[GHResponse[Res]] =
-    withAuthHeader(authHeader =>
+    withAccessHeader(authHeader =>
       run[Req, Res](
         RequestBuilder(buildURL(url)).deleteMethod
           .withAuthHeader(authHeader)

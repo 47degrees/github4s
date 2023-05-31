@@ -19,35 +19,18 @@ package github4s.modules
 import cats.effect.kernel.Concurrent
 import github4s.GithubConfig
 import github4s.algebras._
-import github4s.http.HttpClient
 import github4s.interpreters._
 import org.http4s.client.Client
 
+@deprecated("Use github4s.modules.GithubAPIsV3 instead", "0.33.0")
 class GithubAPIv3[F[_]: Concurrent](
     client: Client[F],
     config: GithubConfig,
-    authHeader: AuthHeader[F]
-) extends GithubAPIs[F] {
-
-  implicit val httpClient: HttpClient[F] = new HttpClient[F](client, config, authHeader)
-
-  override val users: Users[F]                 = new UsersInterpreter[F]
-  override val repos: Repositories[F]          = new RepositoriesInterpreter[F]
-  override val auth: Auth[F]                   = new AuthInterpreter[F]
-  override val gists: Gists[F]                 = new GistsInterpreter[F]
-  override val issues: Issues[F]               = new IssuesInterpreter[F]
-  override val activities: Activities[F]       = new ActivitiesInterpreter[F]
-  override val gitData: GitData[F]             = new GitDataInterpreter[F]
-  override val pullRequests: PullRequests[F]   = new PullRequestsInterpreter[F]
-  override val organizations: Organizations[F] = new OrganizationsInterpreter[F]
-  override val teams: Teams[F]                 = new TeamsInterpreter[F]
-  override val projects: Projects[F]           = new ProjectsInterpreter[F]
-  override val search: Search[F]               = new SearchInterpreter[F]
-
-}
+    accessToken: AccessToken[F]
+) extends GithubAPIsV3[F](client, config, AccessHeader.from(accessToken))
 
 object GithubAPIv3 {
-
+  @deprecated("Use github4s.modules.GithubAPIsV3.noAuth instead", "0.33.0")
   def noAuth[F[_]: Concurrent](client: Client[F], config: GithubConfig): GithubAPIv3[F] =
-    new GithubAPIv3[F](client, config, StaticTokenAuthHeader.noToken)
+    new GithubAPIv3[F](client, config, StaticAccessToken.noToken)
 }

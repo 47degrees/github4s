@@ -1,4 +1,8 @@
 import ProjectPlugin.on
+//import com.typesafe.tools.mima.MimaPlugin
+import com.typesafe.tools.mima.core._
+
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / organization := "com.47deg"
 
@@ -10,7 +14,12 @@ val allScalaVersions = scala2Versions :+ scala3Version
 ThisBuild / scalaVersion       := scala213
 ThisBuild / crossScalaVersions := allScalaVersions
 
-addCommandAlias("ci-test", "scalafmtCheckAll; scalafmtSbtCheck; mdoc; ++test")
+disablePlugins(MimaPlugin)
+
+addCommandAlias(
+  "ci-test",
+  "scalafmtCheckAll; scalafmtSbtCheck; mimaReportBinaryIssues; mdoc; ++test"
+)
 addCommandAlias("ci-docs", "github; mdoc; headerCreateAll; publishMicrosite")
 addCommandAlias("ci-publish", "github; ci-release")
 
@@ -19,6 +28,7 @@ publish / skip := true
 lazy val github4s = (crossProject(JSPlatform, JVMPlatform))
   .crossType(CrossType.Full)
   .withoutSuffixFor(JVMPlatform)
+  .enablePlugins(MimaPlugin)
   .settings(coreDeps: _*)
   .settings(
     // Increase number of inlines, needed for circe semiauto derivation
@@ -26,7 +36,11 @@ lazy val github4s = (crossProject(JSPlatform, JVMPlatform))
     // See the README for why this is necessary
     // https://github.com/scala-js/scala-js-macrotask-executor/tree/v1.0.0
     // tl;dr: without it, performance problems and concurrency bugs abound
-    libraryDependencies += "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0" % Test
+    libraryDependencies += "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0" % Test,
+    mimaPreviousArtifacts                  := Set("com.47deg" %% "github4s" % "0.32.0"),
+    mimaBinaryIssueFilters ++= Seq(
+      ProblemFilters.exclude[IncompatibleMethTypeProblem]("github4s.http.HttpClient.this")
+    )
   )
 
 //////////
@@ -37,11 +51,13 @@ lazy val microsite: Project = project
   .dependsOn(github4s.jvm)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(ScalaUnidocPlugin)
+  .disablePlugins(MimaPlugin)
   .settings(micrositeSettings: _*)
   .settings(publish / skip := true)
   .settings(ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(github4s.jvm, microsite))
 
 lazy val documentation = project
   .enablePlugins(MdocPlugin)
+  .disablePlugins(MimaPlugin)
   .settings(mdocOut := file("."))
   .settings(publish / skip := true)
