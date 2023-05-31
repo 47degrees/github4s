@@ -26,10 +26,10 @@ import org.http4s.client.Client
 class GithubAPIv3[F[_]: Concurrent](
     client: Client[F],
     config: GithubConfig,
-    accessToken: AccessToken[F]
+    authHeader: AuthHeader[F]
 ) extends GithubAPIs[F] {
 
-  implicit val httpClient: HttpClient[F] = new HttpClient[F](client, config, accessToken)
+  implicit val httpClient: HttpClient[F] = new HttpClient[F](client, config, authHeader)
 
   override val users: Users[F]                 = new UsersInterpreter[F]
   override val repos: Repositories[F]          = new RepositoriesInterpreter[F]
@@ -49,5 +49,5 @@ class GithubAPIv3[F[_]: Concurrent](
 object GithubAPIv3 {
 
   def noAuth[F[_]: Concurrent](client: Client[F], config: GithubConfig): GithubAPIv3[F] =
-    new GithubAPIv3[F](client, config, StaticAccessToken.noToken)
+    new GithubAPIv3[F](client, config, StaticTokenAuthHeader.noToken)
 }

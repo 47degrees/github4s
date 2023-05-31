@@ -16,19 +16,19 @@
 
 package github4s
 
-import cats.effect.kernel.Concurrent
+import cats.effect.Concurrent
 import github4s.algebras._
-import github4s.interpreters.StaticAccessToken
+import github4s.interpreters.StaticTokenAuthHeader
 import github4s.modules._
 import org.http4s.client.Client
 
 class Github[F[_]: Concurrent](
     client: Client[F],
-    accessToken: AccessToken[F]
+    authHeader: AuthHeader[F]
 )(implicit config: GithubConfig)
     extends GithubAPIs[F] {
 
-  private lazy val module: GithubAPIs[F] = new GithubAPIv3[F](client, config, accessToken)
+  private lazy val module: GithubAPIs[F] = new GithubAPIv3[F](client, config, authHeader)
 
   lazy val users: Users[F]                 = module.users
   lazy val repos: Repositories[F]          = module.repos
@@ -50,5 +50,11 @@ object Github {
       client: Client[F],
       accessToken: Option[String] = None
   )(implicit config: GithubConfig): Github[F] =
-    new Github[F](client, new StaticAccessToken(accessToken))
+    new Github[F](client, StaticTokenAuthHeader(accessToken))
+
+  def withAuthHeader[F[_]: Concurrent](
+      client: Client[F],
+      authHeader: AuthHeader[F]
+  )(implicit config: GithubConfig): Github[F] =
+    new Github[F](client, authHeader)
 }
