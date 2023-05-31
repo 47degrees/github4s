@@ -1,5 +1,4 @@
 import ProjectPlugin.on
-//import com.typesafe.tools.mima.MimaPlugin
 import com.typesafe.tools.mima.core._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
