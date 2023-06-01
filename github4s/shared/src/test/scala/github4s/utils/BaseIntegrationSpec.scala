@@ -28,7 +28,9 @@ import org.scalatest.{Assertion, Ignore, Inspectors, Tag}
 import scala.concurrent.ExecutionContext
 import scala.reflect.ClassTag
 
-class IntegrationSpec extends BaseIntegrationSpec with ActivitiesSpec
+class IntegrationSpec
+    extends BaseIntegrationSpec
+    with ActivitiesSpec
     with AuthSpec
     with GitDataSpec
     with IssuesSpec
