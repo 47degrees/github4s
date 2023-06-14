@@ -3,7 +3,7 @@ import ProjectPlugin.on
 ThisBuild / organization := "com.47deg"
 
 val scala212         = "2.12.18"
-val scala213         = "2.13.10"
+val scala213         = "2.13.11"
 val scala3Version    = "3.2.2"
 val scala2Versions   = Seq(scala212, scala213)
 val allScalaVersions = scala2Versions :+ scala3Version
