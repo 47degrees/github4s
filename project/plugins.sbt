@@ -4,7 +4,7 @@ ThisBuild / libraryDependencySchemes ++= Seq(
 addSbtPlugin("com.github.sbt"            % "sbt-ci-release"           % "1.5.12")
 addSbtPlugin("com.47deg"                 % "sbt-microsites"           % "1.4.3")
 addSbtPlugin("org.scoverage"             % "sbt-scoverage"            % "2.0.8")
-addSbtPlugin("org.scalameta"             % "sbt-scalafmt"             % "2.5.0")
+addSbtPlugin("org.scalameta"             % "sbt-scalafmt"             % "2.5.1")
 addSbtPlugin("org.scalameta"             % "sbt-mdoc"                 % "2.3.7")
 addSbtPlugin("com.github.sbt"            % "sbt-unidoc"               % "0.5.0")
 addSbtPlugin("de.heikoseeberger"         % "sbt-header"               % "5.9.0")
