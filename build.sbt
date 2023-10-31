@@ -26,7 +26,9 @@ lazy val github4s = (crossProject(JSPlatform, JVMPlatform))
     // See the README for why this is necessary
     // https://github.com/scala-js/scala-js-macrotask-executor/tree/v1.0.0
     // tl;dr: without it, performance problems and concurrency bugs abound
-    libraryDependencies += "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0" % Test
+    libraryDependencies += "org.scala-js" %%% "scala-js-macrotask-executor" % "1.0.0" % Test,
+    // Disable nonunit warning on tests
+    Test / scalacOptions -= "-Wnonunit-statement"
   )
 
 //////////
