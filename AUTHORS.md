@@ -8,7 +8,6 @@
 
 The maintainers of the project are:
 
-- [![BenFradet](https://avatars.githubusercontent.com/u/1737211?v=4&s=20) **Ben Fradet (BenFradet)**](https://github.com/BenFradet)
 - [![cb372](https://avatars.githubusercontent.com/u/106760?v=4&s=20) **Chris Birchall (cb372)**](https://github.com/cb372)
 - [![franciscodr](https://avatars.githubusercontent.com/u/1200151?v=4&s=20) **Francisco Diaz (franciscodr)**](https://github.com/franciscodr)
 - [![juanpedromoreno](https://avatars.githubusercontent.com/u/4879373?v=4&s=20) **Juan Pedro Moreno (juanpedromoreno)**](https://github.com/juanpedromoreno)
@@ -27,6 +26,7 @@ These are the people that have contributed to the _github4s_ project:
 - [![jdesiloniz](https://avatars.githubusercontent.com/u/2835739?v=4&s=20) **jdesiloniz**](https://github.com/jdesiloniz)
 - [![reimai](https://avatars.githubusercontent.com/u/1123908?v=4&s=20) **reimai**](https://github.com/reimai)
 - [![anamariamv](https://avatars.githubusercontent.com/u/2183589?v=4&s=20) **anamariamv**](https://github.com/anamariamv)
+- [![nicoulaj](https://avatars.githubusercontent.com/u/3162?v=4&s=20) **nicoulaj**](https://github.com/nicoulaj)
 - [![calvellido](https://avatars.githubusercontent.com/u/7753447?v=4&s=20) **calvellido**](https://github.com/calvellido)
 - [![AdrianRaFo](https://avatars.githubusercontent.com/u/15971742?v=4&s=20) **AdrianRaFo**](https://github.com/AdrianRaFo)
 - [![Daenyth](https://avatars.githubusercontent.com/u/14644?v=4&s=20) **Daenyth**](https://github.com/Daenyth)
@@ -52,6 +52,8 @@ These are the people that have contributed to the _github4s_ project:
 - [![chalenge](https://avatars.githubusercontent.com/u/5385518?v=4&s=20) **chalenge**](https://github.com/chalenge)
 - [![dcsobral](https://avatars.githubusercontent.com/u/141079?v=4&s=20) **dcsobral**](https://github.com/dcsobral)
 - [![drwlrsn](https://avatars.githubusercontent.com/u/981387?v=4&s=20) **drwlrsn**](https://github.com/drwlrsn)
+- [![israelpzglez](https://avatars.githubusercontent.com/u/646886?v=4&s=20) **israelpzglez**](https://github.com/israelpzglez)
+- [![javimartinez](https://avatars.githubusercontent.com/u/9149487?v=4&s=20) **javimartinez**](https://github.com/javimartinez)
 - [![guersam](https://avatars.githubusercontent.com/u/969120?v=4&s=20) **guersam**](https://github.com/guersam)
 - [![josevi96](https://avatars.githubusercontent.com/u/22874841?v=4&s=20) **josevi96**](https://github.com/josevi96)
 - [![josiah14](https://avatars.githubusercontent.com/u/1489462?v=4&s=20) **josiah14**](https://github.com/josiah14)
