@@ -15,16 +15,16 @@ object ProjectPlugin extends AutoPlugin {
 
     lazy val V = new {
       val bm4                       = "0.3.1"
-      val cats: String              = "2.9.0"
-      val circe: String             = "0.14.3"
+      val cats: String              = "2.10.0"
+      val circe: String             = "0.14.6"
       val expecty                   = "0.16.0"
-      val http4s: String            = "0.23.16"
-      val http4sBlazeClient: String = "0.23.13"
+      val http4s: String            = "0.23.24"
+      val http4sBlazeClient: String = "0.23.15"
       val paradise: String          = "2.1.1"
       val scalacheck                = "1.17.0"
       val scalacheckShapeless       = "1.3.0"
-      val scalacheckPlusScalatest   = "3.2.11.0"
-      val scalatest: String         = "3.2.16"
+      val scalacheckPlusScalatest   = "3.2.14.0"
+      val scalatest: String         = "3.2.17"
       val shapeless3                = "3.3.0"
     }
 
@@ -85,7 +85,7 @@ object ProjectPlugin extends AutoPlugin {
         "org.http4s"           %% "http4s-dsl"          % V.http4s                  % Test,
         "org.http4s"           %% "http4s-server"       % V.http4s                  % Test,
         "org.scalacheck"       %% "scalacheck"          % V.scalacheck              % Test,
-        "org.scalatestplus"    %% "scalacheck-1-15"     % V.scalacheckPlusScalatest % Test
+        "org.scalatestplus"    %% "scalacheck-1-16"     % V.scalacheckPlusScalatest % Test
       ),
       libraryDependencies ++= on(2, 12)(
         compilerPlugin("org.scalamacros" %% "paradise" % V.paradise cross CrossVersion.full)
