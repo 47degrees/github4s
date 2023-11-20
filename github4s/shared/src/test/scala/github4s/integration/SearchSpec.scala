@@ -17,7 +17,7 @@
 package github4s.integration
 
 import cats.effect.IO
-import github4s.Github
+import github4s.GithubClient
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -28,7 +28,7 @@ trait SearchSpec extends BaseIntegrationSpec {
   it should "return zero match for a non existent search query" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).search
+        GithubClient[IO](client, accessToken).search
           .searchCode(
             query = nonExistentSearchQuery,
             searchParams = List(
@@ -53,7 +53,7 @@ trait SearchSpec extends BaseIntegrationSpec {
   it should "return at least one match for a valid query" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).search
+        GithubClient[IO](client, accessToken).search
           .searchCode(
             query = "github",
             searchParams = List(
@@ -78,7 +78,7 @@ trait SearchSpec extends BaseIntegrationSpec {
   it should "return at least one match for a valid query with text matches enabled" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).search
+        GithubClient[IO](client, accessToken).search
           .searchCode(
             query = "github",
             searchParams = List(

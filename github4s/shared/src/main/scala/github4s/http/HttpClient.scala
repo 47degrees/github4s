@@ -22,7 +22,7 @@ import cats.effect.kernel.Concurrent
 import cats.syntax.all._
 import github4s.GHError._
 import github4s._
-import github4s.algebras.AccessToken
+import github4s.algebras.{AccessHeader, AccessToken}
 import github4s.domain.Pagination
 import github4s.http.Http4sSyntax._
 import io.circe.{Decoder, Encoder}
@@ -31,13 +31,13 @@ import org.http4s.circe.jsonOf
 import org.http4s.client.Client
 import org.http4s._
 
-class HttpClient[F[_]: Concurrent](
+class HttpClient[F[_]: Concurrent] private (
     client: Client[F],
     val config: GithubConfig,
-    accessTokens: AccessToken[F]
+    accessHeader: AccessHeader[F]
 ) {
   import HttpClient._
-  import accessTokens._
+  import accessHeader._
 
   def get[Res: Decoder](
       method: String,
@@ -45,10 +45,10 @@ class HttpClient[F[_]: Concurrent](
       params: Map[String, String] = Map.empty,
       pagination: Option[Pagination] = None
   ): F[GHResponse[Res]] =
-    withAccessToken { accessToken =>
+    withAccessHeader { authHeader =>
       run[Unit, Res](
         RequestBuilder(url = buildURL(method))
-          .withAuth(accessToken)
+          .withAuthHeader(authHeader)
           .withHeaders(headers)
           .withParams(
             params ++ pagination.fold(Map.empty[String, String])(p =>
@@ -62,9 +62,9 @@ class HttpClient[F[_]: Concurrent](
       url: String,
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Unit]] =
-    withAccessToken(accessToken =>
+    withAccessHeader(authHeader =>
       runWithoutResponse[Unit](
-        RequestBuilder(buildURL(url)).withHeaders(headers).withAuth(accessToken)
+        RequestBuilder(buildURL(url)).withHeaders(headers).withAuthHeader(authHeader)
       )
     )
 
@@ -73,10 +73,10 @@ class HttpClient[F[_]: Concurrent](
       headers: Map[String, String] = Map.empty,
       data: Req
   ): F[GHResponse[Res]] =
-    withAccessToken(accessToken =>
+    withAccessHeader(authHeader =>
       run[Req, Res](
         RequestBuilder(buildURL(method)).patchMethod
-          .withAuth(accessToken)
+          .withAuthHeader(authHeader)
           .withHeaders(headers)
           .withData(data)
       )
@@ -87,10 +87,10 @@ class HttpClient[F[_]: Concurrent](
       headers: Map[String, String] = Map(),
       data: Req
   ): F[GHResponse[Res]] =
-    withAccessToken(accessToken =>
+    withAccessHeader(authHeader =>
       run[Req, Res](
         RequestBuilder(buildURL(url)).putMethod
-          .withAuth(accessToken)
+          .withAuthHeader(authHeader)
           .withHeaders(headers)
           .withData(data)
       )
@@ -101,10 +101,10 @@ class HttpClient[F[_]: Concurrent](
       headers: Map[String, String] = Map.empty,
       data: Req
   ): F[GHResponse[Res]] =
-    withAccessToken(accessToken =>
+    withAccessHeader(authHeader =>
       run[Req, Res](
         RequestBuilder(buildURL(url)).postMethod
-          .withAuth(accessToken)
+          .withAuthHeader(authHeader)
           .withHeaders(headers)
           .withData(data)
       )
@@ -132,9 +132,9 @@ class HttpClient[F[_]: Concurrent](
       url: String,
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Unit]] =
-    withAccessToken(accessToken =>
+    withAccessHeader(authHeader =>
       run[Unit, Unit](
-        RequestBuilder(buildURL(url)).deleteMethod.withHeaders(headers).withAuth(accessToken)
+        RequestBuilder(buildURL(url)).deleteMethod.withHeaders(headers).withAuthHeader(authHeader)
       )
     )
 
@@ -142,10 +142,10 @@ class HttpClient[F[_]: Concurrent](
       url: String,
       headers: Map[String, String] = Map.empty
   ): F[GHResponse[Res]] =
-    withAccessToken(accessToken =>
+    withAccessHeader(authHeader =>
       run[Unit, Res](
         RequestBuilder(buildURL(url)).deleteMethod
-          .withAuth(accessToken)
+          .withAuthHeader(authHeader)
           .withHeaders(headers)
       )
     )
@@ -155,10 +155,10 @@ class HttpClient[F[_]: Concurrent](
       headers: Map[String, String] = Map.empty,
       data: Req
   ): F[GHResponse[Res]] =
-    withAccessToken(accessToken =>
+    withAccessHeader(authHeader =>
       run[Req, Res](
         RequestBuilder(buildURL(url)).deleteMethod
-          .withAuth(accessToken)
+          .withAuthHeader(authHeader)
           .withHeaders(headers)
           .withData(data)
       )
@@ -231,4 +231,18 @@ object HttpClient {
 
   private def responseBody[F[_]: Concurrent](response: Response[F]): F[String] =
     response.bodyText.compile.foldMonoid
+
+  def apply[F[_]: Concurrent](
+      client: Client[F],
+      config: GithubConfig,
+      accessToken: AccessToken[F]
+  ): HttpClient[F] =
+    new HttpClient[F](client, config, AccessHeader.from(accessToken))
+
+  def apply[F[_]: Concurrent](
+      client: Client[F],
+      config: GithubConfig,
+      accessHeader: AccessHeader[F]
+  ): HttpClient[F] =
+    new HttpClient[F](client, config, accessHeader)
 }

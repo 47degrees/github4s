@@ -18,7 +18,7 @@ package github4s.integration
 
 import cats.effect.IO
 import github4s.GHError.NotFoundError
-import github4s.Github
+import github4s.GithubClient
 import github4s.domain._
 import github4s.utils.{BaseIntegrationSpec, Integration}
 
@@ -27,7 +27,7 @@ trait OrganizationsSpec extends BaseIntegrationSpec {
   "Organization >> ListMembers" should "return the expected list of users" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).organizations
+        GithubClient[IO](client, accessToken).organizations
           .listMembers(validRepoOwner, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -39,7 +39,7 @@ trait OrganizationsSpec extends BaseIntegrationSpec {
   it should "return error for an invalid org" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).organizations
+        GithubClient[IO](client, accessToken).organizations
           .listMembers(invalidUsername, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -51,7 +51,7 @@ trait OrganizationsSpec extends BaseIntegrationSpec {
   "Organization >> ListOutsideCollaborators" should "return expected list of users" ignore {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).organizations
+        GithubClient[IO](client, accessToken).organizations
           .listOutsideCollaborators(validOrganizationName, headers = headerUserAgent)
       }
       .unsafeRunSync()
@@ -63,7 +63,7 @@ trait OrganizationsSpec extends BaseIntegrationSpec {
   it should "return error for an invalid org" taggedAs Integration in {
     val response = clientResource
       .use { client =>
-        Github[IO](client, accessToken).organizations
+        GithubClient[IO](client, accessToken).organizations
           .listOutsideCollaborators(invalidOrganizationName, headers = headerUserAgent)
       }
       .unsafeRunSync()

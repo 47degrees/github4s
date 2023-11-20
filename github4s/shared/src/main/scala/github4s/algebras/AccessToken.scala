@@ -29,6 +29,5 @@ import github4s.GHResponse
  *   https://docs.github.com/en/free-pro-team@latest/developers/apps/authenticating-with-github-apps
  */
 trait AccessToken[F[_]] {
-
   def withAccessToken[T](f: Option[String] => F[GHResponse[T]]): F[GHResponse[T]]
 }

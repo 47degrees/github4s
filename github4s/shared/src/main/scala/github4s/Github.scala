@@ -16,36 +16,21 @@
 
 package github4s
 
-import cats.effect.kernel.Concurrent
+import cats.effect.Concurrent
 import github4s.algebras._
 import github4s.interpreters.StaticAccessToken
-import github4s.modules._
 import org.http4s.client.Client
 
+@deprecated("Use github4s.GithubClient instead", "0.33.0")
 class Github[F[_]: Concurrent](
     client: Client[F],
     accessToken: AccessToken[F]
 )(implicit config: GithubConfig)
-    extends GithubAPIs[F] {
-
-  private lazy val module: GithubAPIs[F] = new GithubAPIv3[F](client, config, accessToken)
-
-  lazy val users: Users[F]                 = module.users
-  lazy val repos: Repositories[F]          = module.repos
-  lazy val auth: Auth[F]                   = module.auth
-  lazy val gists: Gists[F]                 = module.gists
-  lazy val issues: Issues[F]               = module.issues
-  lazy val activities: Activities[F]       = module.activities
-  lazy val gitData: GitData[F]             = module.gitData
-  lazy val pullRequests: PullRequests[F]   = module.pullRequests
-  lazy val organizations: Organizations[F] = module.organizations
-  lazy val teams: Teams[F]                 = module.teams
-  lazy val projects: Projects[F]           = module.projects
-  lazy val search: Search[F]               = module.search
-}
+    extends GithubClient[F](client, AccessHeader.from(accessToken))
 
 object Github {
 
+  @deprecated("Use github4s.GithubClient instead", "0.33.0")
   def apply[F[_]: Concurrent](
       client: Client[F],
       accessToken: Option[String] = None

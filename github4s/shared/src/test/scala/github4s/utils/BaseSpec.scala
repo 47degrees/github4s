@@ -61,7 +61,7 @@ trait BaseSpec extends AsyncFlatSpec with Matchers with TestData with IOAssertio
             req.params == params =>
         response.map(body => Response[IO](responseStatus).withEntity(body).putHeaders(respHeaders))
     }
-    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
+    HttpClient(httpClientMock, dummyConfig, new StaticAccessToken[IO](sampleToken))
   }
 
   protected def httpClientMockGetWithoutResponse(
@@ -76,7 +76,7 @@ trait BaseSpec extends AsyncFlatSpec with Matchers with TestData with IOAssertio
             req.headers == Headers(userAgent) =>
         response.map(_ => Response[IO](responseStatus).putHeaders(respHeaders))
     }
-    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
+    HttpClient(httpClientMock, dummyConfig, new StaticAccessToken[IO](sampleToken))
   }
 
   protected def httpClientMockPost[In: Decoder, Out: Encoder](
@@ -101,7 +101,7 @@ trait BaseSpec extends AsyncFlatSpec with Matchers with TestData with IOAssertio
         response.map(body => Response[IO](responseStatus).withEntity(body).putHeaders(respHeaders))
     }
 
-    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
+    HttpClient(httpClientMock, dummyConfig, new StaticAccessToken[IO](sampleToken))
   }
 
   protected def httpClientMockPatch[In: Decoder, Out: Encoder](
@@ -135,7 +135,7 @@ trait BaseSpec extends AsyncFlatSpec with Matchers with TestData with IOAssertio
             req.headers == Headers(userAgent) =>
         response.as(Response[IO](responseStatus).putHeaders(respHeaders))
     }
-    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
+    HttpClient(httpClientMock, dummyConfig, new StaticAccessToken[IO](sampleToken))
   }
 
   protected def httpClientMockDeleteWithResponse[Out: Encoder](
@@ -150,7 +150,7 @@ trait BaseSpec extends AsyncFlatSpec with Matchers with TestData with IOAssertio
             req.headers == Headers(userAgent) =>
         response.map(body => Response[IO](responseStatus).withEntity(body).putHeaders(respHeaders))
     }
-    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
+    HttpClient(httpClientMock, dummyConfig, new StaticAccessToken[IO](sampleToken))
   }
 
   protected def httpClientMockDeleteWithBody[In: Decoder, Out: Encoder](
@@ -187,7 +187,7 @@ trait BaseSpec extends AsyncFlatSpec with Matchers with TestData with IOAssertio
           Response[IO](responseStatus).withEntity(body).putHeaders(respHeaders)
         )
     }
-    new HttpClient(httpClientMock, dummyConfig, new StaticAccessToken(sampleToken))
+    HttpClient(httpClientMock, dummyConfig, new StaticAccessToken[IO](sampleToken))
   }
 
   private def httpMock(pf: PartialFunction[Request[IO], IO[Response[IO]]]) =
