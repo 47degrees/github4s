@@ -112,4 +112,23 @@ The `result` on the right is the corresponding [List[User]][user-scala].
 
 See [the API doc](https://developer.github.com/v3/users/followers/#list-users-followed-by-another-use) for full reference.
 
+### List email addresses for the authenticated user
+
+You can get a list of emails associated with the authenticated user using `getEmails`, it takes as argument:
+
+- `pagination`: Limit and Offset for pagination, optional.
+
+```scala mdoc:compile-only
+val getEmails = gh.users.getEmails()
+getEmails.flatMap(_.result match {
+  case Left(e)  => IO.println(s"Something went wrong: ${e.getMessage}")
+  case Right(r) => IO.println(r)
+})
+```
+
+The `result` on the right is the corresponding [List[Email]][email-scala].
+
+See [the API doc](https://developer.github.com/v3/users/emails/#list-email-addresses-for-the-authenticated-user) for full reference.
+
 [user-scala]: https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/User.scala
+[email-scala]: https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/Email.scala

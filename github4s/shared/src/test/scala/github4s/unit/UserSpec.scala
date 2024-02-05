@@ -72,4 +72,15 @@ class UserSpec extends BaseSpec {
     users.getFollowing(validUsername, None, headerUserAgent).shouldNotFail
   }
 
+  "User.getEmails" should "call to httpClient.get with the right parameters" in {
+
+    implicit val httpClientMock: HttpClient[IO] = httpClientMockGet[List[Email]](
+      url = s"user/emails",
+      response = IO.pure(List(email))
+    )
+
+    val users = new UsersInterpreter[IO]
+    users.getEmails(None, headerUserAgent).shouldNotFail
+  }
+
 }

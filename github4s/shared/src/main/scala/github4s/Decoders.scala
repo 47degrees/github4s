@@ -424,4 +424,6 @@ object Decoders {
     deriveDecoder[SearchCodeResult]
   implicit val decodeSearchCodeResultItem: Decoder[SearchCodeResultItem] =
     deriveDecoder[SearchCodeResultItem]
+
+  implicit val decoderEmail: Decoder[Email] = deriveDecoder[Email]
 }

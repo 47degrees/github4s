@@ -637,4 +637,7 @@ trait TestData {
 
   val validReviewers: ReviewersRequest =
     ReviewersRequest(List(validUsername), List(validSlug))
+
+  val email: Email =
+    Email("developer@47deg.com", primary = true, verified = true, Some("public"))
 }

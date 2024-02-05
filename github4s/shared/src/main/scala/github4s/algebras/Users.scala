@@ -64,4 +64,16 @@ trait Users[F[_]] {
       pagination: Option[Pagination] = None,
       headers: Map[String, String] = Map()
   ): F[GHResponse[List[User]]]
+
+  /**
+   * Get information for an authenticated user's associated email addresses
+   *
+   * @param pagination Limit and Offset for pagination
+   * @param headers optional user headers to include in the request
+   * @return GHResponse[Email] Email details
+   */
+  def getEmails(
+      pagination: Option[Pagination] = None,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[Email]]]
 }

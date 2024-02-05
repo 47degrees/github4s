@@ -293,4 +293,6 @@ object Encoders {
     deriveEncoder[SearchCodeResult]
   implicit val encodeSearchCodeResultItem: Encoder[SearchCodeResultItem] =
     deriveEncoder[SearchCodeResultItem]
+
+  implicit val encoderEmail: Encoder[Email] = deriveEncoder[Email]
 }
