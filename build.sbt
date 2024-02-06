@@ -42,7 +42,8 @@ lazy val github4s = (crossProject(JSPlatform, JVMPlatform))
     Test / scalacOptions -= "-Wnonunit-statement",
     mimaPreviousArtifacts := Set("com.47deg" %% "github4s" % "0.32.1"),
     mimaBinaryIssueFilters ++= Seq(
-      ProblemFilters.exclude[IncompatibleMethTypeProblem]("github4s.http.HttpClient.this")
+      ProblemFilters.exclude[IncompatibleMethTypeProblem]("github4s.http.HttpClient.this"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("github4s.algebras.Users.getEmails")
     )
   )
 
