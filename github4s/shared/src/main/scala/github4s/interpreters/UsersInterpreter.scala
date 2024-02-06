@@ -45,4 +45,11 @@ class UsersInterpreter[F[_]](implicit client: HttpClient[F]) extends Users[F] {
   ): F[GHResponse[List[User]]] =
     client
       .get[List[User]](s"users/$username/following", headers, pagination = pagination)
+
+  override def getEmails(
+      pagination: Option[Pagination],
+      headers: Map[String, String]
+  ): F[GHResponse[List[Email]]] =
+    client
+      .get[List[Email]]("user/emails", headers, pagination = pagination)
 }

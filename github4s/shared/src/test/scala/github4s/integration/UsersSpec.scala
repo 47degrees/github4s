@@ -106,4 +106,14 @@ trait UsersSpec extends BaseIntegrationSpec {
     response.statusCode shouldBe notFoundStatusCode
   }
 
+  "Users >> GetEmails" should "return error on Left when no accessToken is provided" taggedAs Integration in {
+    val response =
+      clientResource
+        .use(client => GithubClient[IO](client).users.getEmails(None, headerUserAgent))
+        .unsafeRunSync()
+
+    testIsLeft[GHError.UnauthorizedError, List[Email]](response)
+    response.statusCode shouldBe unauthorizedStatusCode
+  }
+
 }
