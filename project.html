@@ -1,1 +1,174 @@
+<!DOCTYPE html><html><head><title>Github4s: Project API</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Github4s contributors" /><meta name="description" content="Github API wrapper written in Scala" /><meta name="og:image" content="/github4s/img/poster.png" /><meta name="image" property="og:image" content="/github4s/img/poster.png" /><meta name="og:title" content="Github4s: Project API" /><meta name="title" property="og:title" content="Github4s: Project API" /><meta name="og:site_name" content="Github4s" /><meta name="og:url" content="https://github.com/47degrees/github4s" /><meta name="og:type" content="website" /><meta name="og:description" content="Github API wrapper written in Scala" /><link rel="icon" type="image/png" href="/github4s/img/favicon.png" /><meta name="twitter:title" content="Github4s: Project API" /><meta name="twitter:image" content="/github4s/img/poster.png" /><meta name="twitter:description" content="Github API wrapper written in Scala" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/github4s/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/github4s/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/github4s/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/github4s/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/github4s/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/github4s/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/github4s/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/github4s/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/github4s/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/github4s/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/github4s/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/github4s/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/github4s/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/github4s/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/github4s/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/github4s/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/github4s/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/github4s/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/github4s/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/github4s/img/favicon310x150.png" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/github4s/highlight/styles/vs.css" /><link rel="stylesheet" href="/github4s/css/light-style.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><div id="sidebar-brand"><a href="/github4s/" class="brand"><div class="brand-wrapper"></div><span>Github4s</span></a><button id="main-toggle" class="sidebar-toggle"><span class="close"></span></button></div><div class="sidebar-nav"> <div class="sidebar-nav-item  "><a href="/github4s/docs" title="Getting Started" class="">Getting Started</a></div> <div class="sidebar-nav-item  "><a href="/github4s/api/github4s" title="Scaladoc" class="">Scaladoc</a></div> <div class="sidebar-nav-item  "><a href="/github4s/auth" title="Authorization API" class="">Authorization API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/gist" title="Gist API" class="">Gist API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/git_data" title="Git Data API" class="">Git Data API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/issue" title="Issue API" class="">Issue API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/pull_request" title="Pull Request API" class="">Pull Request API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/user" title="User API" class="">User API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/repository" title="Repository API" class="">Repository API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/activity" title="Activity API" class="">Activity API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/organization" title="Organization API" class="">Organization API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/team" title="Team API" class="">Team API</a></div> <div class="sidebar-nav-item active "><a href="/github4s/project" title="Project API" class="active">Project API</a></div></div></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li class="search-nav"><div id="search-dropdown"><label><i class="fa fa-search"></i>Search</label><input id="search-bar" type="text" placeholder="Enter keywords here..." onclick="displayToggleSearch(event)" /><ul id="search-dropdown-content" class="dropdown dropdown-content"></ul></div></li><li id="gh-eyes-item" class="hidden-xs to-uppercase"><a href="https://github.com/47degrees/github4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i><span>Watchers<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs to-uppercase"><a href="https://github.com/47degrees/github4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-star-o"></i><span>Stars<span id="stars" class="label label-default">--</span></span></a></li></ul></div></div></div></div><div id="content" data-github-owner="47degrees" data-github-repo="github4s"><div class="content-wrapper"><section><h1 id="project-api">Project API</h1>
 
+<p>Note: The Projects API is currently available for developers to preview. During the preview period,
+the API may change without advance notice. Please see the blog post for full details. To access the
+API during the preview period, you must provide a custom media type in the <code class="highlighter-rouge">Accept</code> header:
+ <code class="highlighter-rouge">application/vnd.github.inertia-preview+json</code></p>
+
+<p>Github4s supports the <a href="https://developer.github.com/v3/projects/">Project API</a>. As a result,
+with Github4s, you can interact with:</p>
+
+<ul>
+  <li><a href="#project">Project</a>
+    <ul>
+      <li><a href="#list-repository-projects">List repository projects</a></li>
+      <li><a href="#list-projects">List projects</a></li>
+      <li><a href="#columns">Columns</a>
+        <ul>
+          <li><a href="#list-project-columns">List project columns</a></li>
+        </ul>
+      </li>
+      <li><a href="#cards">Cards</a>
+        <ul>
+          <li><a href="#list-project-cards-by-column">List project cards</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>The following examples assume the following code:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nn">cats.effect.IO</span>
+<span class="k">import</span> <span class="nn">github4s.Github</span>
+<span class="k">import</span> <span class="nn">org.http4s.client.</span><span class="o">{</span><span class="nc">Client</span><span class="o">,</span> <span class="nc">JavaNetClientBuilder</span><span class="o">}</span>
+
+
+<span class="k">val</span> <span class="nv">httpClient</span><span class="k">:</span> <span class="kt">Client</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span> <span class="k">=</span> <span class="nc">JavaNetClientBuilder</span><span class="o">[</span><span class="kt">IO</span><span class="o">].</span><span class="py">create</span> <span class="c1">// You can use any http4s backend</span>
+
+<span class="k">val</span> <span class="nv">accessToken</span> <span class="k">=</span> <span class="nv">sys</span><span class="o">.</span><span class="py">env</span><span class="o">.</span><span class="py">get</span><span class="o">(</span><span class="s">"GITHUB_TOKEN"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">gh</span> <span class="k">=</span> <span class="nc">Github</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">httpClient</span><span class="o">,</span> <span class="n">accessToken</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h2 id="project">Project</h2>
+
+<h3 id="list-repository-projects">List repository projects</h3>
+
+<p>You can list the projects for a particular repository with <code class="highlighter-rouge">listProjectsRepository</code>; it takes as arguments:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">owner</code>: name of the owner for which we want to retrieve the projects.</li>
+  <li><code class="highlighter-rouge">repo</code>: name of the repository for which we want to retrieve the projects.</li>
+  <li><code class="highlighter-rouge">state</code>: filter projects returned by their state. Can be either <code class="highlighter-rouge">open</code>, <code class="highlighter-rouge">closed</code>, <code class="highlighter-rouge">all</code>. Default: <code class="highlighter-rouge">open</code>, optional</li>
+  <li><code class="highlighter-rouge">pagination</code>: Limit and Offset for pagination, optional.</li>
+  <li><code class="highlighter-rouge">header</code>: headers to include in the request, optional.</li>
+</ul>
+
+<p>To list the projects for owner <code class="highlighter-rouge">47deg</code> and repository <code class="highlighter-rouge">github4s</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">listProjectsRepository</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">projects</span><span class="o">.</span><span class="py">listProjectsRepository</span><span class="o">(</span>
+    <span class="n">owner</span> <span class="k">=</span> <span class="s">"47deg"</span><span class="o">,</span>
+    <span class="n">repo</span> <span class="k">=</span> <span class="s">"github4s"</span><span class="o">,</span>
+    <span class="n">headers</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="s">"Accept"</span> <span class="o">-&gt;</span> <span class="s">"application/vnd.github.inertia-preview+json"</span><span class="o">))</span>
+<span class="nv">listProjectsRepository</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/Project.scala">List[Project]</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/projects/#list-repository-projects">the API doc</a> for full reference.</p>
+
+<h3 id="list-projects">List projects</h3>
+
+<p>You can list the project for a particular organization with <code class="highlighter-rouge">listProjects</code>; it takes as arguments:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">org</code>: name of the organization for which we want to retrieve the projects.</li>
+  <li><code class="highlighter-rouge">state</code>: filter projects returned by their state. Can be either <code class="highlighter-rouge">open</code>, <code class="highlighter-rouge">closed</code>, <code class="highlighter-rouge">all</code>. Default: <code class="highlighter-rouge">open</code>, optional</li>
+  <li><code class="highlighter-rouge">pagination</code>: Limit and Offset for pagination, optional.</li>
+  <li><code class="highlighter-rouge">header</code>: headers to include in the request, optional.</li>
+</ul>
+
+<p>To list the projects for organization <code class="highlighter-rouge">47deg</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">listProjects</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">projects</span><span class="o">.</span><span class="py">listProjects</span><span class="o">(</span>
+    <span class="n">org</span> <span class="k">=</span> <span class="s">"47deg"</span><span class="o">,</span>
+    <span class="n">headers</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="s">"Accept"</span> <span class="o">-&gt;</span> <span class="s">"application/vnd.github.inertia-preview+json"</span><span class="o">))</span>
+<span class="nv">listProjects</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/src/main/scala/github4s/domain/Project.scala">List[Project]</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/projects/#list-organization-projects">the API doc</a> for full reference.</p>
+
+<h3 id="columns">Columns</h3>
+
+<h4 id="list-project-columns">List project columns</h4>
+
+<p>You can list the columns for a particular project with <code class="highlighter-rouge">listColumns</code>; it takes as arguments:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">project_id</code>: project id for which we want to retrieve the columns.</li>
+  <li><code class="highlighter-rouge">pagination</code>: Limit and Offset for pagination, optional.</li>
+  <li><code class="highlighter-rouge">header</code>: headers to include in the request, optional.</li>
+</ul>
+
+<p>To list the columns for project_id <code class="highlighter-rouge">1910444</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">listColumns</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">projects</span><span class="o">.</span><span class="py">listColumns</span><span class="o">(</span>
+    <span class="n">project_id</span> <span class="k">=</span> <span class="mi">1910444</span><span class="o">,</span>
+    <span class="n">headers</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="s">"Accept"</span> <span class="o">-&gt;</span> <span class="s">"application/vnd.github.inertia-preview+json"</span><span class="o">))</span>
+<span class="nv">listColumns</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/Project.scala">List[Column]</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/projects/columns/#list-project-columns">the API doc</a> for full reference.</p>
+
+<h3 id="cards">Cards</h3>
+
+<h4 id="list-project-cards-by-column">List project cards by column</h4>
+
+<p>You can list the cards for a particular column with <code class="highlighter-rouge">listCards</code>; it takes as arguments:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">column_id</code>: column id for which we want to retrieve the cards.</li>
+  <li><code class="highlighter-rouge">archived_state</code>: filters the project cards that are returned by the card’s state.
+Can be one of <code class="highlighter-rouge">all</code>,<code class="highlighter-rouge">archived</code>, or <code class="highlighter-rouge">not_archived</code>. Default: <code class="highlighter-rouge">not_archived</code>, optional.</li>
+  <li><code class="highlighter-rouge">pagination</code>: Limit and Offset for pagination, optional.</li>
+  <li><code class="highlighter-rouge">header</code>: headers to include in the request, optional.</li>
+</ul>
+
+<p>To list the columns for project_id <code class="highlighter-rouge">8271018</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">listCards</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">projects</span><span class="o">.</span><span class="py">listCards</span><span class="o">(</span>
+    <span class="n">column_id</span> <span class="k">=</span> <span class="mi">8271018</span><span class="o">,</span>
+    <span class="n">headers</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="s">"Accept"</span> <span class="o">-&gt;</span> <span class="s">"application/vnd.github.inertia-preview+json"</span><span class="o">))</span>
+<span class="nv">listCards</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/Project.scala">List[Card]</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/projects/cards/#list-project-cards">the API doc</a> for full reference.</p>
+
+</section></div></div></div></div><script src="/github4s/highlight/highlight.pack.js"></script><script src="/github4s/lunr/lunr.js"></script><script>
+// For all code blocks, copy the language from the containing div
+// to the inner code tag (where hljs expects it to be)
+const langPrefix = 'language-';
+document.querySelectorAll(`div[class^='${langPrefix}']`).forEach(function(div) {
+  div.classList.forEach(function(cssClass) {
+    if (cssClass.startsWith(langPrefix)) {
+      const lang = cssClass.substring(langPrefix.length);
+      div.querySelectorAll('pre code').forEach(function(code) {
+        code.classList.add(lang);
+      });
+    }
+  });
+});
+
+hljs.configure({languages:['scala','java','bash']});
+hljs.initHighlightingOnLoad();
+      </script><script>console.info('\x57\x65\x62\x73\x69\x74\x65\x20\x62\x75\x69\x6c\x74\x20\x77\x69\x74\x68\x3a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x5f\x5f\x0a\x20\x20\x20\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x5f\x20\x20\x2f\x20\x2f\x5f\x20\x20\x20\x20\x20\x20\x5f\x5f\x5f\x5f\x20\x5f\x5f\x5f\x20\x20\x28\x5f\x29\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x28\x5f\x29\x20\x2f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x0a\x20\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x60\x5f\x5f\x20\x5c\x2f\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x20\x2f\x20\x5f\x5f\x2f\x20\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x0a\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x5f\x2f\x20\x2f\x20\x2f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x5f\x5f\x2f\x20\x2f\x20\x20\x2f\x20\x2f\x5f\x2f\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x20\x2f\x5f\x2f\x20\x20\x5f\x5f\x28\x5f\x5f\x20\x20\x29\x0a\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2e\x5f\x5f\x5f\x2f\x5c\x5f\x5f\x2f\x20\x20\x20\x20\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x2f\x20\x20\x20\x5c\x5f\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x0a\x0a\x68\x74\x74\x70\x73\x3a\x2f\x2f\x34\x37\x64\x65\x67\x2e\x67\x69\x74\x68\x75\x62\x2e\x69\x6f\x2f\x73\x62\x74\x2d\x6d\x69\x63\x72\x6f\x73\x69\x74\x65\x73')</script><script>((window.gitter = {}).chat = {}).options = {
+room: '47degrees/github4s'};</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script><script src="/github4s/js/search.js"></script><script src="/github4s/js/docs.js"></script></body></html>

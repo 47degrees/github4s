@@ -1,1 +1,351 @@
+<!DOCTYPE html><html><head><title>Github4s: Git Data API</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Github4s contributors" /><meta name="description" content="Github API wrapper written in Scala" /><meta name="og:image" content="/github4s/img/poster.png" /><meta name="image" property="og:image" content="/github4s/img/poster.png" /><meta name="og:title" content="Github4s: Git Data API" /><meta name="title" property="og:title" content="Github4s: Git Data API" /><meta name="og:site_name" content="Github4s" /><meta name="og:url" content="https://github.com/47degrees/github4s" /><meta name="og:type" content="website" /><meta name="og:description" content="Github API wrapper written in Scala" /><link rel="icon" type="image/png" href="/github4s/img/favicon.png" /><meta name="twitter:title" content="Github4s: Git Data API" /><meta name="twitter:image" content="/github4s/img/poster.png" /><meta name="twitter:description" content="Github API wrapper written in Scala" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/github4s/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/github4s/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/github4s/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/github4s/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/github4s/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/github4s/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/github4s/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/github4s/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/github4s/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/github4s/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/github4s/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/github4s/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/github4s/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/github4s/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/github4s/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/github4s/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/github4s/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/github4s/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/github4s/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/github4s/img/favicon310x150.png" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/github4s/highlight/styles/vs.css" /><link rel="stylesheet" href="/github4s/css/light-style.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><div id="sidebar-brand"><a href="/github4s/" class="brand"><div class="brand-wrapper"></div><span>Github4s</span></a><button id="main-toggle" class="sidebar-toggle"><span class="close"></span></button></div><div class="sidebar-nav"> <div class="sidebar-nav-item  "><a href="/github4s/docs" title="Getting Started" class="">Getting Started</a></div> <div class="sidebar-nav-item  "><a href="/github4s/api/github4s" title="Scaladoc" class="">Scaladoc</a></div> <div class="sidebar-nav-item  "><a href="/github4s/auth" title="Authorization API" class="">Authorization API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/gist" title="Gist API" class="">Gist API</a></div> <div class="sidebar-nav-item active "><a href="/github4s/git_data" title="Git Data API" class="active">Git Data API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/issue" title="Issue API" class="">Issue API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/pull_request" title="Pull Request API" class="">Pull Request API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/user" title="User API" class="">User API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/repository" title="Repository API" class="">Repository API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/activity" title="Activity API" class="">Activity API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/organization" title="Organization API" class="">Organization API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/team" title="Team API" class="">Team API</a></div> <div class="sidebar-nav-item  "><a href="/github4s/project" title="Project API" class="">Project API</a></div></div></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li class="search-nav"><div id="search-dropdown"><label><i class="fa fa-search"></i>Search</label><input id="search-bar" type="text" placeholder="Enter keywords here..." onclick="displayToggleSearch(event)" /><ul id="search-dropdown-content" class="dropdown dropdown-content"></ul></div></li><li id="gh-eyes-item" class="hidden-xs to-uppercase"><a href="https://github.com/47degrees/github4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i><span>Watchers<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs to-uppercase"><a href="https://github.com/47degrees/github4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-star-o"></i><span>Stars<span id="stars" class="label label-default">--</span></span></a></li></ul></div></div></div></div><div id="content" data-github-owner="47degrees" data-github-repo="github4s"><div class="content-wrapper"><section><h1 id="git-data-api">Git Data API</h1>
 
+<p>Github4s supports the <a href="https://developer.github.com/v3/git/">Git Data API</a>. As a result,
+with Github4s, you can:</p>
+
+<ul>
+  <li><a href="#get-a-reference">Get a Reference</a></li>
+  <li><a href="#create-a-reference">Create a Reference</a></li>
+  <li><a href="#update-a-reference">Update a Reference</a></li>
+  <li><a href="#get-a-commit">Get a Commit</a></li>
+  <li><a href="#create-a-commit">Create a Commit</a></li>
+  <li><a href="#get-a-blob">Get a Blob</a></li>
+  <li><a href="#create-a-blob">Create a Blob</a></li>
+  <li><a href="#get-a-tree">Get a Tree</a></li>
+  <li><a href="#create-a-tree">Create a Tree</a></li>
+  <li><a href="#create-a-tag">Create a Tag</a></li>
+</ul>
+
+<p>For more information on the Git object database,
+please read the <a href="https://git-scm.com/book/en/v1/Git-Internals">Git Internals</a> chapter of the Pro Git book.</p>
+
+<p>The following examples assume the following code:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.effect.IO</span>
+<span class="k">import</span> <span class="nn">github4s.Github</span>
+<span class="k">import</span> <span class="nn">org.http4s.client.</span><span class="o">{</span><span class="nc">Client</span><span class="o">,</span> <span class="nc">JavaNetClientBuilder</span><span class="o">}</span>
+
+<span class="k">val</span> <span class="nv">httpClient</span><span class="k">:</span> <span class="kt">Client</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span> <span class="k">=</span> <span class="nc">JavaNetClientBuilder</span><span class="o">[</span><span class="kt">IO</span><span class="o">].</span><span class="py">create</span> <span class="c1">// You can use any http4s backend</span>
+
+<span class="k">val</span> <span class="nv">accessToken</span> <span class="k">=</span> <span class="nv">sys</span><span class="o">.</span><span class="py">env</span><span class="o">.</span><span class="py">get</span><span class="o">(</span><span class="s">"GITHUB_TOKEN"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">gh</span> <span class="k">=</span> <span class="nc">Github</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">httpClient</span><span class="o">,</span> <span class="n">accessToken</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h2 id="git-data">Git Data</h2>
+
+<h2 id="references">References</h2>
+
+<h3 id="get-a-reference">Get a Reference</h3>
+
+<p>The ref must be formatted as <code class="highlighter-rouge">heads/branch</code>, not just <code class="highlighter-rouge">branch</code>.
+For example, the call to get the data, the <code class="highlighter-rouge">main</code> branch will be <code class="highlighter-rouge">heads/main</code>.</p>
+
+<p>If the <code class="highlighter-rouge">ref</code> doesn’t exist in the repository, but existing <code class="highlighter-rouge">refs</code> start with <code class="highlighter-rouge">ref</code> they will be
+returned as an array. For example, a call to get the data for a branch named <code class="highlighter-rouge">feature</code>,
+which doesn’t exist, would return head refs including <code class="highlighter-rouge">featureA</code> and <code class="highlighter-rouge">featureB</code> which do.</p>
+
+<p>You can get a reference using <code class="highlighter-rouge">getReference</code>, it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">ref</code>: ref formatted as <code class="highlighter-rouge">heads/branch</code>.</li>
+  <li><code class="highlighter-rouge">pagination</code>: Limit and Offset for pagination, optional.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">getReference</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">getReference</span><span class="o">(</span><span class="s">"47degrees"</span><span class="o">,</span> <span class="s">"github4s"</span><span class="o">,</span> <span class="s">"heads/main"</span><span class="o">)</span>
+<span class="nv">getReference</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">List[Ref]</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/refs/#get-a-reference">the API doc</a> for full reference.</p>
+
+<h3 id="create-a-reference">Create a Reference</h3>
+
+<p>The ref must be formatted as <code class="highlighter-rouge">heads/branch</code>, not just <code class="highlighter-rouge">branch</code>.
+For example, the call to get the data, the <code class="highlighter-rouge">main</code> branch will be <code class="highlighter-rouge">heads/main</code>.</p>
+
+<p>You can create a reference using <code class="highlighter-rouge">createReference</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">ref</code>: The name of the fully qualified reference (e.g.: <code class="highlighter-rouge">refs/heads/main</code>).
+If it doesn’t start with ‘refs’ and has at least two slashes, it will be rejected.</li>
+  <li><code class="highlighter-rouge">sha</code>: the SHA1 value to set this reference.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">createReference</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">createReference</span><span class="o">(</span>
+  <span class="s">"47deg"</span><span class="o">,</span>
+  <span class="s">"github4s"</span><span class="o">,</span>
+  <span class="s">"refs/heads/main"</span><span class="o">,</span>
+  <span class="s">"d3b048c1f500ee5450e5d7b3d1921ed3e7645891"</span><span class="o">)</span>
+<span class="nv">createReference</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the created <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">Ref</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/refs/#create-a-reference">the API doc</a> for full reference.</p>
+
+<h3 id="update-a-reference">Update a Reference</h3>
+
+<p>You can update a reference using <code class="highlighter-rouge">updateReference</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">ref</code>: ref formatted as heads/branch.</li>
+  <li><code class="highlighter-rouge">sha</code>: the SHA1 value to set this reference.</li>
+  <li><code class="highlighter-rouge">force</code>: Indicates whether to force the update or to make sure the update is a fast-forward update.
+Setting it to <code class="highlighter-rouge">false</code> will make sure you’re not overwriting work. Default: <code class="highlighter-rouge">false</code>.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">updateReference</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">updateReference</span><span class="o">(</span>
+  <span class="s">"47deg"</span><span class="o">,</span>
+  <span class="s">"github4s"</span><span class="o">,</span>
+  <span class="s">"heads/main"</span><span class="o">,</span>
+  <span class="s">"d3b048c1f500ee5450e5d7b3d1921ed3e7645891"</span><span class="o">,</span>
+  <span class="kc">false</span><span class="o">)</span>
+<span class="nv">updateReference</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the updated <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">Ref</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/refs/#update-a-reference">the API doc</a> for full reference.</p>
+
+<h2 id="commits">Commits</h2>
+
+<h3 id="get-a-commit">Get a Commit</h3>
+
+<p>You can get a commit using <code class="highlighter-rouge">getCommit</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">sha</code>: the sha of the commit.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">getCommit</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">getCommit</span><span class="o">(</span><span class="s">"47degrees"</span><span class="o">,</span> <span class="s">"github4s"</span><span class="o">,</span> <span class="s">"d3b048c1f500ee5450e5d7b3d1921ed3e7645891"</span><span class="o">)</span>
+<span class="nv">getCommit</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">RefCommit</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/commits/#get-a-commit">the API doc</a> for full reference.</p>
+
+<h3 id="create-a-commit">Create a Commit</h3>
+
+<p>You can create a commit using <code class="highlighter-rouge">createCommit</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">message</code>: the new commit’s message.</li>
+  <li><code class="highlighter-rouge">tree</code>: the SHA of the tree object this commit points to.</li>
+  <li><code class="highlighter-rouge">parents</code>: the SHAs of the commits that are the parents of this commit. If omitted or empty,
+the commit will be written as a root commit. For a single parent, an array of one SHA should be provided;
+for a merge commit, an array of more than one should be provided.</li>
+  <li><code class="highlighter-rouge">author</code>: object containing information about the author.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">createCommit</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">createCommit</span><span class="o">(</span>
+  <span class="s">"47deg"</span><span class="o">,</span>
+  <span class="s">"github4s"</span><span class="o">,</span>
+  <span class="s">"New access token"</span><span class="o">,</span>
+  <span class="s">"827efc6d56897b048c772eb4087f854f46256132"</span><span class="o">,</span>
+  <span class="nc">List</span><span class="o">(</span><span class="s">"d3b048c1f500ee5450e5d7b3d1921ed3e7645891"</span><span class="o">),</span>
+  <span class="nc">None</span><span class="o">)</span>
+<span class="nv">createCommit</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the created <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">RefCommit</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/commits/#create-a-commit">the API doc</a> for full reference.</p>
+
+<h2 id="blobs">Blobs</h2>
+
+<h3 id="get-a-blob">Get a Blob</h3>
+
+<p>You can get a blob using <code class="highlighter-rouge">getBlob</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">sha</code>: the sha of the blob.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">getBlob</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">getBlob</span><span class="o">(</span><span class="s">"47degrees"</span><span class="o">,</span> <span class="s">"github4s"</span><span class="o">,</span> <span class="s">"d3b048c1f500ee5450e5d7b3d1921ed3e7645891"</span><span class="o">)</span>
+<span class="nv">getBlob</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">BlobContent</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/blobs/#get-a-blob">the API doc</a> for full reference.</p>
+
+<h3 id="create-a-blob">Create a Blob</h3>
+
+<p>You can create a blob using <code class="highlighter-rouge">createBlob</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">content</code>: the new blob’s content.</li>
+  <li><code class="highlighter-rouge">encoding</code>: the encoding used for content. Currently, “utf-8” and “base64” are supported. Default: “utf-8”.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">createBlob</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">createBlob</span><span class="o">(</span><span class="s">"47degrees"</span><span class="o">,</span> <span class="s">"github4s"</span><span class="o">,</span> <span class="s">"New access token"</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="s">"utf-8"</span><span class="o">))</span>
+<span class="nv">createBlob</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the created <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">RefObject</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/blobs/#create-a-blob">the API doc</a> for full reference.</p>
+
+<h2 id="trees">Trees</h2>
+
+<p>As you probably know, Git can be considered as a tree structure.
+Each commit creates a new node in that tree.
+We can even assume that all the Git commands or methods provided by the API
+are just tools to navigate this tree and to manipulate it.</p>
+
+<p>In the following sections, we’ll see how Github4s provides methods to wrap the Git API.</p>
+
+<h3 id="get-a-tree">Get a Tree</h3>
+
+<p>You can get a tree using <code class="highlighter-rouge">getTree</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">sha</code>: the sha of the commit.</li>
+  <li><code class="highlighter-rouge">recursive</code>: flag whether to get the tree recursively.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">getTree</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">getTree</span><span class="o">(</span><span class="s">"47degrees"</span><span class="o">,</span> <span class="s">"github4s"</span><span class="o">,</span> <span class="s">"d3b048c1f500ee5450e5d7b3d1921ed3e7645891"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+<span class="nv">getTree</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the corresponding <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">TreeResult</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/trees/#get-a-tree">the API doc</a> for full reference.</p>
+
+<h3 id="create-a-tree">Create a Tree</h3>
+
+<p>The tree creation API will take nested entries as well. If both a tree and a nested entries modifying
+that tree are specified, it will overwrite the contents of that tree with the new path contents
+write out a new tree.</p>
+
+<p>IMPORTANT: If you don’t set ´baseTree´, the commit will be created on top of everything;
+however, it will only contain your changes, the rest of your files will show up as deleted.</p>
+
+<p>You can create a tree using <code class="highlighter-rouge">createTree</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">baseTree</code>: the SHA1 of the tree you want to update with new data.</li>
+  <li><code class="highlighter-rouge">treeDataList</code>: list (of path, mode, type, and sha/blob) specifying a tree structure.</li>
+  <li><code class="highlighter-rouge">path</code>: The file referenced in the tree.</li>
+  <li><code class="highlighter-rouge">mode</code>: The file mode; one of 100644 for file (blob), 100755 for executable (blob),
+ 040000 for subdirectory (tree), 160000 for submodule (commit),
+ or 120000 for a blob that specifies the path of a symlink.</li>
+  <li><code class="highlighter-rouge">type</code>: Either blob, tree, or commit.</li>
+  <li><code class="highlighter-rouge">sha</code>: The SHA1 checksum ID of the object in the tree.</li>
+  <li><code class="highlighter-rouge">content</code>: The content you want this file to have.
+ GitHub will write this blob out and use that SHA for this entry. Use either this or <code class="highlighter-rouge">tree.sha</code>.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">github4s.domain.TreeDataSha</span>
+<span class="k">val</span> <span class="nv">createTree</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">createTree</span><span class="o">(</span>
+  <span class="s">"47deg"</span><span class="o">,</span>
+  <span class="s">"github4s"</span><span class="o">,</span>
+  <span class="nc">Some</span><span class="o">(</span><span class="s">"827efc6d56897b048c772eb4087f854f46256132"</span><span class="o">),</span>
+  <span class="nc">List</span><span class="o">(</span><span class="nc">TreeDataSha</span><span class="o">(</span>
+    <span class="s">"project/plugins.sbt"</span><span class="o">,</span>
+    <span class="s">"100644"</span><span class="o">,</span>
+    <span class="s">"blob"</span><span class="o">,</span>
+    <span class="s">"827efc6d56897b048c772eb4087f854f46256132"</span><span class="o">)))</span>
+<span class="nv">createTree</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the created <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">TreeResult</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/trees/#create-a-tree">the API doc</a> for full reference.</p>
+
+<h2 id="tag">Tag</h2>
+
+<h3 id="create-a-tag">Create a Tag</h3>
+
+<p>You can create a tag using <code class="highlighter-rouge">createTag</code>; it takes as arguments:</p>
+
+<ul>
+  <li>the repository coordinates (<code class="highlighter-rouge">owner</code> and <code class="highlighter-rouge">name</code> of the repository).</li>
+  <li><code class="highlighter-rouge">tag</code>: the tag.</li>
+  <li><code class="highlighter-rouge">message</code>: the new tag message.</li>
+  <li><code class="highlighter-rouge">objectSha</code>: the SHA of the git object this is tagging.</li>
+  <li><code class="highlighter-rouge">objectType</code>: the type of the object we’re tagging.
+Normally this is a <code class="highlighter-rouge">commit</code>, but it can also be a <code class="highlighter-rouge">tree</code> or a <code class="highlighter-rouge">blob</code>.</li>
+  <li><code class="highlighter-rouge">tagger</code>: Optional object containing information about the individual creating the tag.</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">github4s.domain.RefAuthor</span>
+<span class="k">val</span> <span class="nv">createTag</span> <span class="k">=</span> <span class="nv">gh</span><span class="o">.</span><span class="py">gitData</span><span class="o">.</span><span class="py">createTag</span><span class="o">(</span>
+  <span class="s">"47deg"</span><span class="o">,</span>
+  <span class="s">"github4s"</span><span class="o">,</span>
+  <span class="s">"v0.1.1"</span><span class="o">,</span>
+  <span class="s">"New access token"</span><span class="o">,</span>
+  <span class="s">"d3b048c1f500ee5450e5d7b3d1921ed3e7645891"</span><span class="o">,</span>
+  <span class="s">"commit"</span><span class="o">,</span>
+  <span class="nc">Some</span><span class="o">(</span><span class="nc">RefAuthor</span><span class="o">(</span><span class="s">"2014-11-07T22:01:45Z"</span><span class="o">,</span> <span class="s">"rafaparadela"</span><span class="o">,</span> <span class="s">"developer@47deg.com"</span><span class="o">)))</span>
+<span class="nv">createTag</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">result</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Left</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Something went wrong: ${e.getMessage}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Right</span><span class="o">(</span><span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">IO</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">result</code> on the right is the created <a href="https://github.com/47degrees/github4s/blob/main/github4s/shared/src/main/scala/github4s/domain/GitData.scala">Tag</a>.</p>
+
+<p>See <a href="https://developer.github.com/v3/git/tags/#create-a-tag-object">the API doc</a> for full reference.</p>
+
+<p>As you can see, a few features of the git data endpoint are missing.</p>
+
+<p>As a result, if you’d like to see a feature supported, feel free to create an issue and/or a pull request!</p>
+
+</section></div></div></div></div><script src="/github4s/highlight/highlight.pack.js"></script><script src="/github4s/lunr/lunr.js"></script><script>
+// For all code blocks, copy the language from the containing div
+// to the inner code tag (where hljs expects it to be)
+const langPrefix = 'language-';
+document.querySelectorAll(`div[class^='${langPrefix}']`).forEach(function(div) {
+  div.classList.forEach(function(cssClass) {
+    if (cssClass.startsWith(langPrefix)) {
+      const lang = cssClass.substring(langPrefix.length);
+      div.querySelectorAll('pre code').forEach(function(code) {
+        code.classList.add(lang);
+      });
+    }
+  });
+});
+
+hljs.configure({languages:['scala','java','bash']});
+hljs.initHighlightingOnLoad();
+      </script><script>console.info('\x57\x65\x62\x73\x69\x74\x65\x20\x62\x75\x69\x6c\x74\x20\x77\x69\x74\x68\x3a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x5f\x5f\x0a\x20\x20\x20\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x5f\x20\x20\x2f\x20\x2f\x5f\x20\x20\x20\x20\x20\x20\x5f\x5f\x5f\x5f\x20\x5f\x5f\x5f\x20\x20\x28\x5f\x29\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x28\x5f\x29\x20\x2f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x0a\x20\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x60\x5f\x5f\x20\x5c\x2f\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x20\x2f\x20\x5f\x5f\x2f\x20\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x0a\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x5f\x2f\x20\x2f\x20\x2f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x5f\x5f\x2f\x20\x2f\x20\x20\x2f\x20\x2f\x5f\x2f\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x20\x2f\x5f\x2f\x20\x20\x5f\x5f\x28\x5f\x5f\x20\x20\x29\x0a\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2e\x5f\x5f\x5f\x2f\x5c\x5f\x5f\x2f\x20\x20\x20\x20\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x2f\x20\x20\x20\x5c\x5f\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x0a\x0a\x68\x74\x74\x70\x73\x3a\x2f\x2f\x34\x37\x64\x65\x67\x2e\x67\x69\x74\x68\x75\x62\x2e\x69\x6f\x2f\x73\x62\x74\x2d\x6d\x69\x63\x72\x6f\x73\x69\x74\x65\x73')</script><script>((window.gitter = {}).chat = {}).options = {
+room: '47degrees/github4s'};</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script><script src="/github4s/js/search.js"></script><script src="/github4s/js/docs.js"></script></body></html>
