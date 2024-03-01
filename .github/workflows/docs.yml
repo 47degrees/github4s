@@ -9,6 +9,7 @@ on:
     types: [published]
   repository_dispatch:
     types: [docs]
+  workflow_dispatch:
 
 jobs:
   documentation:
@@ -30,8 +31,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
-      - name: Setup faraday-net_http
-        run: gem install faraday-net_http -v 3.0.2
+      - name: Setup faraday
+        run: |
+          gem install faraday -v 2.8.1
+          gem install faraday-net_http -v 3.0.2
       - name: Setup github-changelog-generator
         run: gem install github_changelog_generator -v 1.15.0
       - name: Setup yq
