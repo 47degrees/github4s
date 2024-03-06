@@ -18,7 +18,7 @@ object ProjectPlugin extends AutoPlugin {
       val cats: String              = "2.10.0"
       val circe: String             = "0.14.6"
       val expecty                   = "0.16.0"
-      val http4s: String            = "0.23.25"
+      val http4s: String            = "0.23.26"
       val http4sBlazeClient: String = "0.23.16"
       val paradise: String          = "2.1.1"
       val scalacheck                = "1.17.0"
